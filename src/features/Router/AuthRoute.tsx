@@ -3,7 +3,6 @@ import {
   Redirect,
   Route, RouteProps,
 } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import { useIsLoggedIn } from '../../hooks/auth';
 
 /**
@@ -13,7 +12,6 @@ import { useIsLoggedIn } from '../../hooks/auth';
  */
 export default function AuthRoute(props: RouteProps) {
   const isLoggedIn = useIsLoggedIn();
-  const dispatch = useDispatch();
   const { children, ...rest } = props;
   return (
     <>
@@ -21,7 +19,7 @@ export default function AuthRoute(props: RouteProps) {
       <Route
         {...rest}
         render={({ location }) => (
-          isLoggedIn ? children : <Redirect to={{ pathname: '/sign-in', state: { from: location } }} />
+          isLoggedIn ? children : <Redirect to={{ pathname: '/initial', state: { from: location } }} />
         )}
       />
     </>
