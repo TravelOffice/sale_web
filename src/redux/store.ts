@@ -4,6 +4,8 @@ import rootSaga from '@redux/rootSaga';
 import { authReducers } from '@redux/slices/authSlice';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
+import { layoutReducers } from '@redux/slices/layoutSlice';
+import { navbarReducers } from '@redux/slices/navbarSlice';
 
 const sageMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -11,6 +13,8 @@ export const history = createBrowserHistory();
 const rootReducers = combineReducers({
   router: connectRouter(history),
   auth: authReducers,
+  layout: layoutReducers,
+  navbar: navbarReducers,
 });
 
 export const store = configureStore({

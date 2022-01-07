@@ -197,7 +197,7 @@ export default class AuthProviderImpl implements AuthProvider {
           reject(error);
         } else {
           // TODO: Get user attributes then fill out AdminUser properties
-          resolve({ username: cognitoUser.getUsername() });
+          resolve({ username: cognitoUser.getUsername(), role: '' });
         }
       });
     }

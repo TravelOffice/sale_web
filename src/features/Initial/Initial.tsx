@@ -4,6 +4,7 @@ import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { useDispatch } from 'react-redux';
 import { authActions } from '@redux/slices/authSlice';
 import { getSSOPage } from '@utils/EnvUtils';
+import { useHistory } from 'react-router-dom';
 
 const SSO_PAGE = getSSOPage();
 
@@ -17,6 +18,7 @@ interface MessageData {
 
 export default function Initial() {
   const dispatch = useDispatch();
+  const history = useHistory();
   useEffect(() => {
     const listener = (event: MessageEvent) => {
       // Skip event from other origin
@@ -30,6 +32,7 @@ export default function Initial() {
       }
       const { session } = message;
       dispatch(authActions.attachSession(session));
+      history.push('/');
     };
     window.addEventListener('message', listener);
     return () => {
