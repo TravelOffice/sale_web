@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import { ApiRequestConfig } from '../adapters/infrastructures/interfaces/ApiRequestConfig';
+import { ApiRequestConfig } from '@adapter/infrastructures/interfaces/ApiRequestConfig';
 
 export const toAxiosRequestConfig = (apiRequestConfig?: ApiRequestConfig) => {
   const axiosRequestConfig : AxiosRequestConfig = {

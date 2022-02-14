@@ -3,8 +3,9 @@ import './Initial.scss';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { useDispatch } from 'react-redux';
 import { authActions } from '@redux/slices/authSlice';
+import { getSSOPage } from '@utils/EnvUtils';
 
-const SSO_PAGE = process.env.REACT_APP_SSO_PAGE;
+const SSO_PAGE = getSSOPage();
 
 /**
  * Define interface of message
