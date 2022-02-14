@@ -5,11 +5,15 @@ import FallbackSpinner from '@components/FallbackSpinner/FallbackSpinner';
 import { store } from '@redux/store';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
+import '@config/i18n';
 
 // ** PrismJS
 import 'prismjs';
 import 'prismjs/themes/prism-tomorrow.css';
 import 'prismjs/components/prism-jsx.min';
+
+import '@styles/core.scss';
+import '@styles/base/components.scss';
 
 const LazyApp = lazy(() => import('./features/App/App'));
 

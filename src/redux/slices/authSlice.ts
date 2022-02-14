@@ -24,6 +24,10 @@ const authSlice = createSlice({
     attachSession: (state, action : PayloadAction<CognitoUserSession>) => {
       state.session = action.payload;
     },
+    detachSession: (state) => {
+      state.session = undefined;
+      state.currentUser = undefined;
+    },
   },
 });
 

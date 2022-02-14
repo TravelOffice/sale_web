@@ -5,8 +5,12 @@
       "@assets/*": ["assets/*"],
       "@adapter/*": ["adapters/*"],
       "@components/*": ["components/*"],
+      "@config/*": ["config/*"],
       "@domain/*": ["domains/*"],
+      "@features/*": ["features/*"],
+      "@hooks/*": ["hooks/*"],
       "@redux/*": ["redux/*"],
+      "@styles/*": ["assets/scss/*"],
       "@themes/*": ["themes/*"],
       "@utils/*": ["utils/*"]
     }
