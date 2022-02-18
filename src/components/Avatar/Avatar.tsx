@@ -118,7 +118,7 @@ Avatar.defaultProps = {
   badgeColor: 'primary',
   contentStyles: undefined,
   imgHeight: 10,
-  size: 'sm',
+  size: undefined,
   status: 'online',
 };
 

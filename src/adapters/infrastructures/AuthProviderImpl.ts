@@ -3,7 +3,8 @@ import {
 } from 'amazon-cognito-identity-js';
 import AuthorizationError, { AuthorizationErrorCode } from '@adapter/infrastructures/http/AuthorizationError';
 import AuthProvider from '@adapter/infrastructures/interfaces/AuthProvider';
-import AdminUser from '@domain/entities/AdminUser';
+import AdminUser, { UserStatus } from '@domain/entities/AdminUser';
+import { toAdminUser } from '@utils/CommonUtils';
 
 export default class AuthProviderImpl implements AuthProvider {
   /**
@@ -192,12 +193,11 @@ export default class AuthProviderImpl implements AuthProvider {
     if (!cognitoUser) {
       resolve(undefined);
     } else {
-      cognitoUser.getSession((error: Error | undefined) => {
+      cognitoUser.getSession((error: Error | undefined, session: CognitoUserSession | null) => {
         if (error) {
           reject(error);
         } else {
-          // TODO: Get user attributes then fill out AdminUser properties
-          resolve({ username: cognitoUser.getUsername(), role: '' });
+          resolve(toAdminUser(session!.getIdToken().payload));
         }
       });
     }

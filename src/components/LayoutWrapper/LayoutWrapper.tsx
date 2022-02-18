@@ -21,7 +21,7 @@ interface RouteMeta {
 }
 
 interface LayoutWrapperProps extends React.HTMLAttributes<any>{
-  appLayout?: string,
+  appLayout?: boolean,
   wrapperClass?: string,
   transition: string,
   routeMeta?: RouteMeta,

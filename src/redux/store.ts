@@ -6,6 +6,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { layoutReducers } from '@redux/slices/layoutSlice';
 import { navbarReducers } from '@redux/slices/navbarSlice';
+import { chatReducers } from '@redux/slices/chatSlice';
 
 const sageMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -15,6 +16,7 @@ const rootReducers = combineReducers({
   auth: authReducers,
   layout: layoutReducers,
   navbar: navbarReducers,
+  chat: chatReducers,
 });
 
 export const store = configureStore({

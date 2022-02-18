@@ -1,9 +1,9 @@
 import React from 'react';
 import {
   Switch,
-  Route, BrowserRouter, Redirect,
+  Route, BrowserRouter,
 } from 'react-router-dom';
-import appConfig from '@config/AppConfig';
+import AuthRoute from '@features/Router/AuthRoute';
 import Home from '../Home/Home';
 import Initial from '../Initial/Initial';
 
@@ -14,10 +14,9 @@ export default function Router() {
         <Route path="/initial">
           <Initial />
         </Route>
-
-        <Route path="/">
+        <AuthRoute path="/">
           <Home />
-        </Route>
+        </AuthRoute>
       </Switch>
     </BrowserRouter>
   );

@@ -8,6 +8,7 @@
       "@config/*": ["config/*"],
       "@domain/*": ["domains/*"],
       "@features/*": ["features/*"],
+      "@graphql/*": ["graphql/*"],
       "@hooks/*": ["hooks/*"],
       "@redux/*": ["redux/*"],
       "@styles/*": ["assets/scss/*"],
