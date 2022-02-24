@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AdminUser from '@domain/entities/AdminUser';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
+import { toAdminUser } from '@utils/CommonUtils';
 
 interface AuthState {
   session?: CognitoUserSession,
   currentUser?: AdminUser,
+  idToken?: string,
 }
 
 const initialState : AuthState = {
@@ -21,12 +23,15 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    attachSession: (state, action : PayloadAction<CognitoUserSession>) => {
+    attachSession: (state, action : PayloadAction<any>) => {
+      state.idToken = action.payload.idToken.jwtToken;
       state.session = action.payload;
+      state.currentUser = toAdminUser(action.payload.idToken.payload);
     },
     detachSession: (state) => {
       state.session = undefined;
       state.currentUser = undefined;
+      state.idToken = undefined;
     },
   },
 });

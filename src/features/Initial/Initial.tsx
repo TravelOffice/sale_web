@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import './Initial.scss';
-import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { useDispatch } from 'react-redux';
 import { authActions } from '@redux/slices/authSlice';
 import { getSSOPage } from '@utils/EnvUtils';
@@ -13,7 +12,7 @@ const SSO_PAGE = getSSOPage();
  */
 interface MessageData {
   type: string,
-  session: CognitoUserSession,
+  session: any,
 }
 
 export default function Initial() {
@@ -31,8 +30,10 @@ export default function Initial() {
         return;
       }
       const { session } = message;
+
       dispatch(authActions.attachSession(session));
-      history.push('/');
+      const locationState : any = history.location.state;
+      history.push(locationState.from.pathname);
     };
     window.addEventListener('message', listener);
     return () => {

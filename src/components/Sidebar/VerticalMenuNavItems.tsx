@@ -30,7 +30,7 @@ export default function VerticalMenuNavItems(props: VerticalMenuNavItemsProps) {
         const menuHeader = item as MenuHeader;
         // Render if the item is a header
         if (menuHeader.header) {
-          return <VerticalNavMenuSectionHeader item={menuHeader} />;
+          return <VerticalNavMenuSectionHeader key={menuHeader.header} item={menuHeader} />;
         }
 
         // Render if the item is a group item

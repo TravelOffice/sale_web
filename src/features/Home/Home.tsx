@@ -15,7 +15,11 @@ export default function Home() {
         {
           Routes.map((route) => (
             <Route path={route.path} exact={route.exact} key={route.path}>
-              <LayoutWrapper transition={transition}>
+              <LayoutWrapper
+                transition={transition}
+                wrapperClass={route.className}
+                appLayout={route.appLayout}
+              >
                 {route.component}
               </LayoutWrapper>
             </Route>

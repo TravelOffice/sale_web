@@ -3,7 +3,7 @@ import {
   Redirect,
   Route, RouteProps,
 } from 'react-router-dom';
-import { useIsLoggedIn } from '../../hooks/auth';
+import { useIsLoggedIn } from '@hooks/auth';
 
 /**
  * A route component extended from default Route (react-Router-dom). This component
@@ -15,7 +15,6 @@ export default function AuthRoute(props: RouteProps) {
   const { children, ...rest } = props;
   return (
     <>
-      <div>hha</div>
       <Route
         {...rest}
         render={({ location }) => (

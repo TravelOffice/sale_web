@@ -8,3 +8,7 @@ export function useIsLoggedIn() {
 export function useCurrentUser() {
   return useSelector((state: RootState) => state.auth.currentUser);
 }
+
+export function useIdToken() {
+  return useSelector((state: RootState) => state.auth.idToken);
+}

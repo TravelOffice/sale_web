@@ -1,4 +1,4 @@
-import { authActions, LoginPayload } from '@redux/slices/authSlice';
+import { authActions } from '@redux/slices/authSlice';
 import {
   all, takeLatest, put,
 } from 'redux-saga/effects';
