@@ -2,7 +2,7 @@ variable "TF_BUCKET" {}
 locals {
   remote_feature_name = "base_infrastructure"
   iam_roles = {
-    standard_lambda_role = module.REMOTE_STATE.STATE.COMMON_CONFIG.iam.roles.standard_lambda_iam_role
+    standard_lambda_role = module.REMOTE_STATE.STATE.COMMON_CONFIG.iam.roles.standard_lambda_role
   }
 
   tags = {
