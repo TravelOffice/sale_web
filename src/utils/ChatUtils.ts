@@ -4,7 +4,6 @@ import { Message } from '@domain/entities/Message';
 /**
  * Formats chat data based on sender
  */
-// eslint-disable-next-line import/prefer-default-export
 export const formatChatData = (messages: Array<Message>) : Array<MessageGroup> => {
   const formattedChatLog : Array<MessageGroup> = [];
   let chatMessageSenderId = messages[0] ? messages[0].sender : undefined;
@@ -30,3 +29,7 @@ export const formatChatData = (messages: Array<Message>) : Array<MessageGroup> =
   });
   return formattedChatLog;
 };
+
+export const sortMessages = (
+  messages: Message[],
+) : Message[] => [...messages].sort((m1, m2) => m1.timestamp.getTime() - m2.timestamp.getTime());

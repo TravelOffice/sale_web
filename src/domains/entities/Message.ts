@@ -3,6 +3,7 @@ export interface MessageData {
 }
 
 export interface Message {
+  id: string,
   customerId: string,
   messageData: MessageData,
   recipient: string,

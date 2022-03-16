@@ -3,16 +3,17 @@ import gql from 'graphql-tag';
 // eslint-disable-next-line import/prefer-default-export
 export const onNewMessage = gql`
   subscription OnNewMessage {
-    onNewMessage {
-      message
+    onNewMessageReceived {
       data {
+        chatPlatform
         customerId
-        id
         messageData
         recipient
         sender
         timestamp
+        id
       }
+      message
     }
   }
 `;

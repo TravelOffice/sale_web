@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useRef, FormEvent,
+  useState, useEffect, useRef, FormEvent, useMemo,
 } from 'react';
 import Avatar from '@components/Avatar/Avatar';
 import { useSelector } from 'react-redux';
@@ -21,12 +21,12 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
-import { Message } from '@domain/entities/Message';
+import { Message, MessageData } from '@domain/entities/Message';
 import { Conversation } from '@domain/entities/Conversation';
-import { SendMessageRequestParams } from '@domain/entities/SendMessageRequestParams';
-import { formatChatData } from '@utils/ChatUtils';
+import { formatChatData, sortMessages } from '@utils/ChatUtils';
 import { Contact } from '@domain/entities/Contact';
 import AdminUser from '@domain/entities/AdminUser';
+import Spinner from '@components/Spinner/Spinner';
 
 export interface ChatLogProps {
   handleUserSidebarRight: () => void,
@@ -34,7 +34,8 @@ export interface ChatLogProps {
   userSidebarLeft: boolean,
   selectedConversation?: Conversation,
   messages: Message[],
-  onSendMessage: (params: SendMessageRequestParams) => void,
+  fetching: boolean,
+  onSendMessage: (params: MessageData) => void,
 }
 
 export interface MessageGroup {
@@ -43,10 +44,10 @@ export interface MessageGroup {
 }
 
 function renderChats(messages: Message[], currentUser: AdminUser, contact: Contact) {
-  const isMe = (sender: string) => sender === currentUser.id;
+  const isMe = (sender: string) => sender !== contact.id;
   return formatChatData(messages).map((item) => (
     <div
-      key={item.messages[0].timestamp.getTime()}
+      key={item.messages[0].id}
       className={classnames('chat', {
         'chat-left': !isMe(item.senderId),
       })}
@@ -61,9 +62,9 @@ function renderChats(messages: Message[], currentUser: AdminUser, contact: Conta
       </div>
 
       <div className="chat-body">
-        {item.messages.map((chat) => (
-          <div key={chat.timestamp.getTime()} className="chat-content">
-            <p>{chat.messageData.text}</p>
+        {item.messages.map((message) => (
+          <div key={message.id} className="chat-content">
+            <p>{message.messageData.text}</p>
           </div>
         ))}
       </div>
@@ -74,7 +75,7 @@ function renderChats(messages: Message[], currentUser: AdminUser, contact: Conta
 const ChatLog = (props: ChatLogProps) => {
   const {
     handleUserSidebarRight, handleSidebar, userSidebarLeft, selectedConversation,
-    messages, onSendMessage,
+    messages, onSendMessage, fetching,
   } = props;
   const authState = useSelector((state: RootState) => state.auth);
   const currentUser = authState.currentUser!;
@@ -121,19 +122,14 @@ const ChatLog = (props: ChatLogProps) => {
     e.preventDefault();
     if (messageText.length && customerId) {
       setMessageText('');
-      const params : SendMessageRequestParams = {
-        customerId,
-        recipient: customerId,
-        sender: currentUserId,
-        messageData: JSON.stringify({ text: messageText }),
+      const messageData : MessageData = {
+        text: messageText,
       };
-      onSendMessage(params);
+      onSendMessage(messageData);
     }
   };
 
-  // ChatWrapper tag based on chat's length
-  // const ChatWrapper = selectedConversation && messages.length ? PerfectScrollbar : 'div';
-
+  const sortedMessages = useMemo(() => sortMessages(messages), [messages]);
   return (
     <div className="chat-app-window">
       <div className={classnames('start-chat-area', { 'd-none': selectedConversation })}>
@@ -194,8 +190,11 @@ const ChatLog = (props: ChatLogProps) => {
           <PerfectScrollbar containerRef={(ref) => setScrollViewRef(ref)} ref={chatArea} className="user-chats" options={{ wheelPropagation: false }}>
             {
               messages.length > 0 && (
-                <div className="chats">{renderChats(messages, currentUser, selectedConversation.contact)}</div>
+                <div className="chats">{renderChats(sortedMessages, currentUser, selectedConversation.contact)}</div>
               )
+            }
+            {
+              fetching && <Spinner className="loading-spinner" />
             }
           </PerfectScrollbar>
 

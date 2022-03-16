@@ -6,6 +6,7 @@ import {
   X, Mail, PhoneCall, Clock, Tag, Star, Image, Trash, Slash,
 } from 'react-feather';
 import { Contact } from '@domain/entities/Contact';
+import Images from '@themes/Images';
 
 export interface UserProfileSidebarProps {
   contact?: Contact,
@@ -26,7 +27,7 @@ const UserProfileSidebar = (props: UserProfileSidebarProps) => {
           <Avatar
             className="box-shadow-1 avatar-border"
             size="xl"
-            img={contact?.avatar}
+            img={contact?.avatar || Images.defaultAvatar}
             imgHeight="70"
             imgWidth="70"
           />

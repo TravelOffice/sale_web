@@ -1,19 +1,19 @@
 import UserRepository from '@adapter/repositories/interfaces/UserRepository';
 import UserRepositoryImpl from '@adapter/repositories/UserRepositoryImpl';
-import AuthRepository from '@adapter/repositories/interfaces/AuthRepository';
-import AuthRepositoryImpl from '@adapter/repositories/AuthRepositoryImpl';
+import { ChatRepository } from './interfaces/ChatRepository';
+import ChatRepositoryImpl from './ChatRepositoryImpl';
 
 interface Repositories {
   userRepository: UserRepository,
-  authRepository: AuthRepository,
+  chatRepository: ChatRepository,
 }
 
 const repositories : Repositories = {
   userRepository: new UserRepositoryImpl(),
-  authRepository: new AuthRepositoryImpl(),
+  chatRepository: new ChatRepositoryImpl(),
 };
 
 export const {
   userRepository,
-  authRepository,
+  chatRepository,
 } = repositories;

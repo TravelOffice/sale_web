@@ -21,7 +21,7 @@ const auth : AuthOptions = {
 };
 
 const linkArgs = {
-  url: config.aws_appsync_graphqlEndpoint,
+  url: config.aws_appsync_realtimeEndpoint,
   region: config.aws_appsync_region,
   auth,
 };
