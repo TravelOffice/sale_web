@@ -1,6 +1,18 @@
 import gql from 'graphql-tag';
 
-// eslint-disable-next-line import/prefer-default-export
+export const allConversations = gql`
+  query GetConversations($fbPageId: String!, $zaloPageId: String!) {
+    allFbConversations(pageId: $fbPageId) {
+      data
+      message
+    }
+    allZaloConversations(pageId: $zaloPageId) {
+      data
+      message
+    }
+  }
+`;
+
 export const allMessages = gql`
   query GetMessages($customerId: String!) {
     allMessages(customerId: $customerId) {
@@ -13,6 +25,24 @@ export const allMessages = gql`
         sender
         timestamp
       }
+    }
+  }
+`;
+
+export const allFbMessages = gql`
+  query GetFbMessages($conversationId: String!, $fbPageId: String!) {
+    allFbMessages(conversationId: $conversationId, pageId: $fbPageId) {
+      data
+      message
+    }
+  }
+`;
+
+export const allZaloMessages = gql`
+  query GetZaloMessages($zaloPageId: String!, $userId: String!) {
+    allZaloMessages(pageId: $zaloPageId, userId: $userId) {
+      message
+      data
     }
   }
 `;

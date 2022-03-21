@@ -1,121 +1,84 @@
-import { useEffect, useState } from 'react';
-import { Message } from '@domain/entities/Message';
+import { chatPresenter } from '@adapter/presenters';
 import { Conversation } from '@domain/entities/Conversation';
-import { SendMessageRequestParams } from '@domain/entities/SendMessageRequestParams';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@redux/store';
+import { Message, MessageData } from '@domain/entities/Message';
 import { chatActions } from '@redux/slices/chatSlice';
-import { FetchResult, useLazyQuery, useMutation } from '@apollo/client';
-import { MessageResponse } from '@domain/entities/MessageResponse';
-import { toMessage } from '@utils/mapper/MessageMapper';
-import { sendMessage } from '@graphql/mutations';
-import { onNewMessage } from '@graphql/subscriptions';
-import { allMessages } from '@graphql/queries';
-import client from '../graphql/client';
+import { RootState } from '@redux/store';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const useConversations = () : [Conversation[], boolean] => {
   const conversations = useSelector((state: RootState) => state.chat.conversations);
-  const dispatch = useDispatch();
   const [fetching, setFetching] = useState(false);
+  const dispatch = useDispatch();
   useEffect(() => {
     setFetching(true);
-    setTimeout(() => {
-      const list = [{
-        id: '2222',
-        unseenMessages: 1,
-        contact: {
-          id: 'contact1',
-          avatar: 'https://thumbs.dreamstime.com/b/male-avatar-icon-flat-style-male-user-icon-cartoon-man-avatar-hipster-vector-stock-91462914.jpg',
-          fullName: 'Felecia Rower',
-          about: 'Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing',
-        },
-        lastMessage: {
-          customerId: '2222',
-          sender: 'customer1',
-          messageData: { text: 'Hi' },
-          recipient: '1111',
-          timestamp: new Date(),
-        },
-      }, {
-        id: 'cus2',
-        unseenMessages: 1,
-        contact: {
-          id: 'contact1',
-          avatar: 'https://thumbs.dreamstime.com/b/male-avatar-icon-flat-style-male-user-icon-cartoon-man-avatar-hipster-vector-stock-91462914.jpg',
-          fullName: 'Felecia Rower 2',
-          about: 'Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing',
-        },
-        lastMessage: {
-          customerId: '2222',
-          sender: 'customer1',
-          messageData: { text: 'Hi' },
-          recipient: '1111',
-          timestamp: new Date(),
-        },
-      }];
-      dispatch(chatActions.onConversationsRetrieved(list));
+    chatPresenter.getConversations().then((data) => {
+      dispatch(chatActions.onConversationsRetrieved(data));
+    }).finally(() => {
       setFetching(false);
-    }, 100);
+    });
   }, []);
   return [conversations, fetching];
 };
 
-export type SendMessageRequest = (params: SendMessageRequestParams) => void;
-
-export const useMessages = (
-  customerId?: string,
-) : [Message[], SendMessageRequest] => {
-  const [messages, setMessages] = useState<Array<Message>>([]);
-  const [getMessagesQuery] = useLazyQuery(allMessages);
-  const [sendMessageMutation] = useMutation(sendMessage);
+export const useMessages = (conversation?: Conversation) : [Message[], boolean] => {
+  // const [messages, setMessages] = useState<Array<Message>>([]);
+  const messages = useSelector((state: RootState) => state.chat.messages);
+  const [fetching, setFetching] = useState(false);
   const dispatch = useDispatch();
 
-  // Query to get all messages by customerId
+  // Fetch previous messages
   useEffect(() => {
-    if (customerId) {
-      getMessagesQuery({ variables: { customerId } }).then((value) => {
-        const messageResponses : MessageResponse[] = value.data.allMessages.data;
-        const list : Message[] = messageResponses.map((response) => toMessage(response));
-        setMessages(list);
-      });
-    }
-  }, [customerId]);
+    dispatch(chatActions.onMessagesRetrieved([]));
+    setFetching(true);
+    chatPresenter.getMessages(conversation).then((data) => {
+      dispatch(chatActions.onMessagesRetrieved(data));
+    }).finally(() => {
+      setFetching(false);
+    });
+  }, [conversation]);
 
-  // Subscribe onNewMessage event to update conversation list / chat log
+  // Subscribe to new message
   useEffect(() => {
-    const obs = client.subscribe({ query: onNewMessage }).subscribe({
-      next(value: FetchResult<any>) {
-        const response : MessageResponse = value.data.onNewMessage.data;
-        const message = toMessage(response);
-        if (message.customerId === customerId) {
-          setMessages(messages.concat(message));
-        } else {
-          dispatch(chatActions.onNewConversation({
-            id: message.customerId,
-            unseenMessages: 1,
-            contact: {
-              id: `${message.customerId}`,
-              avatar: 'https://thumbs.dreamstime.com/b/male-avatar-icon-flat-style-male-user-icon-cartoon-man-avatar-hipster-vector-stock-91462914.jpg',
-              fullName: 'Felecia Rower',
-              about: 'Cake pie jelly jelly beans. Marzipan lemon drops halvah cake. Pudding cookie lemon drops icing',
-            },
-            lastMessage: message,
-          }));
+    const subscription = chatPresenter.subscribeNewMessage().subscribe({
+      next: (value) => {
+        if (value.data) {
+          const rawMsg = value.data.onNewMessageReceived.data;
+          const newMsg = {
+            ...rawMsg,
+            messageData: JSON.parse(rawMsg.messageData),
+            timestamp: new Date(rawMsg.timestamp),
+          } as Message;
+          dispatch(chatActions.onNewMessage(newMsg));
         }
       },
     });
     return () => {
-      obs.unsubscribe();
+      subscription?.unsubscribe();
     };
-  }, [messages, customerId]);
+  }, [messages]);
+  return [messages, fetching];
+};
 
-  // Send a message
-  const dispatchSendMessage = (params: SendMessageRequestParams) => {
-    sendMessageMutation({ variables: params }).then((value) => {
-      const response : MessageResponse = value.data.sendMessage.data;
-      const message = toMessage(response);
-      setMessages(messages.concat(message));
-    });
-  };
-  return [messages, dispatchSendMessage];
+export const useSendMessage = (messages: Message[], conversation?: Conversation) => {
+  const auth = useSelector((state: RootState) => state.auth);
+  const sendMessage = useCallback((messageData: MessageData) => {
+    if (!conversation) {
+      return;
+    }
+    const sender = conversation.type === 'facebook' ? auth.facebookPage?.id : auth.zaloPage?.id;
+    if (!sender) {
+      return;
+    }
+    const newMessage : Message = {
+      id: '',
+      customerId: conversation.contact.id,
+      messageData,
+      recipient: conversation.contact.id,
+      sender,
+      timestamp: new Date(),
+    };
+    chatPresenter.sendMessage(newMessage, conversation);
+  }, [messages, conversation]);
+  return sendMessage;
 };

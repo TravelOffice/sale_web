@@ -1,19 +1,30 @@
-import SignInUseCase from '@domain/useCases/interfaces/auth/SignInUseCase';
-import SignInUseCaseImpl from '@domain/useCases/auth/SignInUseCaseImpl';
-import { GetCurrentUserUseCase } from '@domain/useCases/interfaces/auth/GetCurrentUserUseCase';
-import GetCurrentUserUseCaseImpl from '@domain/useCases/auth/GetCurrentUserUseCaseImpl';
+import { GetConversationsUseCase } from './interfaces/chat/GetConversationsUseCase';
+import GetConversationsUseCaseImpl from './chat/GetConversationsUseCaseImpl';
+import { GetMessagesUseCase } from './interfaces/chat/GetMessagesUseCase';
+import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
+import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
+import SendMessageUseCaseImpl from './chat/SendMessageUseCaseImpl';
+import { SubscribeNewMessageUseCase } from './interfaces/chat/SubscribeNewMessageUseCase';
+import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImpl';
 
 interface UseCases {
-  signInUseCase: SignInUseCase,
-  getCurrentUserUseCase: GetCurrentUserUseCase,
+  // Chat
+  getConversationsUseCase: GetConversationsUseCase,
+  getMessagesUseCase: GetMessagesUseCase,
+  sendMessageUseCase: SendMessageUseCase,
+  subscribeNewMessageUseCase: SubscribeNewMessageUseCase
 }
 
 const useCases : UseCases = {
-  signInUseCase: new SignInUseCaseImpl(),
-  getCurrentUserUseCase: new GetCurrentUserUseCaseImpl(),
+  getConversationsUseCase: new GetConversationsUseCaseImpl(),
+  getMessagesUseCase: new GetMessagesUseCaseImpl(),
+  sendMessageUseCase: new SendMessageUseCaseImpl(),
+  subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
 };
 
 export const {
-  signInUseCase,
-  getCurrentUserUseCase,
+  getConversationsUseCase,
+  getMessagesUseCase,
+  sendMessageUseCase,
+  subscribeNewMessageUseCase,
 } = useCases;

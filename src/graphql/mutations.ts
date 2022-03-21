@@ -2,10 +2,10 @@ import gql from 'graphql-tag';
 
 // eslint-disable-next-line import/prefer-default-export
 export const sendMessage = gql`
-  mutation SendMessage($customerId: String!, $recipient: String!, $sender: String!, $messageData: AWSJSON!) {
-    sendMessage(customerId: $customerId, recipient: $recipient, sender: $sender, messageData: $messageData) {
-      message
+  mutation SendMessage($chatPlatform: String!, $customerId: String!, $recipient: String!, $sender: String!, $messageData: AWSJSON!) {
+    sendMessage(chatPlatform: $chatPlatform, customerId: $customerId, recipient: $recipient, sender: $sender, messageData: $messageData) {
       data {
+        chatPlatform
         customerId
         id
         messageData
@@ -13,6 +13,7 @@ export const sendMessage = gql`
         sender
         timestamp
       }
+      message
     }
   }
 `;

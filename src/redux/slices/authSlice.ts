@@ -2,16 +2,21 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import AdminUser from '@domain/entities/AdminUser';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { toAdminUser } from '@utils/CommonUtils';
+import { Page } from '@domain/entities/Page';
 
 interface AuthState {
   session?: CognitoUserSession,
   currentUser?: AdminUser,
   idToken?: string,
+  facebookPage?: Page,
+  zaloPage?: Page
 }
 
 const initialState : AuthState = {
   session: undefined,
   currentUser: undefined,
+  facebookPage: { id: '100945222539258', name: 'ABAT Travel Company' },
+  zaloPage: { id: '652598983976304792', name: 'PYS Travel' },
 };
 
 export interface LoginPayload {

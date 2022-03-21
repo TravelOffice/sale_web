@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 import { Conversation } from '@domain/entities/Conversation';
-import { useConversations, useMessages } from '@hooks/chat';
-import { SendMessageRequestParams } from '@domain/entities/SendMessageRequestParams';
-import { useDispatch } from 'react-redux';
+import { useConversations, useMessages, useSendMessage } from '@hooks/chat';
+import { useDispatch, useSelector } from 'react-redux';
 import { chatActions } from '@redux/slices/chatSlice';
+import { MessageData } from '@domain/entities/Message';
+import { RootState } from '@redux/store';
 import ChatLog from './ChatLog';
 import Sidebar from './SidebarLeft';
 import UserProfileSidebar from './UserProfileSidebar';
@@ -13,12 +14,13 @@ import '@styles/base/pages/app-chat-list.scss';
 
 const AppChat = () => {
   // ** States
-  const [conversation, setConversation] = useState<Conversation | undefined>(undefined);
+  const conversation = useSelector((state: RootState) => state.chat.selectedConversation);
   const [sidebar, setSidebar] = useState(false);
   const [userSidebarRight, setUserSidebarRight] = useState(false);
   const [userSidebarLeft, setUserSidebarLeft] = useState(false);
   const [conversations, fetchingConversations] = useConversations();
-  const [messages, dispatchSendMessage] = useMessages(conversation?.id);
+  const [messages, fetchingMessages] = useMessages(conversation);
+  const dispatchSendMessage = useSendMessage(messages, conversation);
   const dispatch = useDispatch();
 
   // ** Sidebar & overlay toggle functions
@@ -32,13 +34,12 @@ const AppChat = () => {
   };
 
   const onConversationSelected = (item: Conversation) => {
-    setConversation(item);
-    dispatch(chatActions.onMessageRead(item));
+    dispatch(chatActions.onConversationSeletected(item));
   };
 
-  const sendMessage = useCallback((params: SendMessageRequestParams) => {
-    dispatchSendMessage(params);
-  }, [messages]);
+  const onSendMessage = (messageData: MessageData) => {
+    dispatchSendMessage(messageData);
+  };
   return (
     <>
       <Sidebar
@@ -60,12 +61,13 @@ const AppChat = () => {
               onClick={handleOverlayClick}
             />
             <ChatLog
+              fetching={fetchingMessages}
               messages={messages}
               handleSidebar={handleSidebar}
               userSidebarLeft={userSidebarLeft}
               selectedConversation={conversation}
               handleUserSidebarRight={handleUserSidebarRight}
-              onSendMessage={sendMessage}
+              onSendMessage={onSendMessage}
             />
             <UserProfileSidebar
               contact={conversation?.contact}

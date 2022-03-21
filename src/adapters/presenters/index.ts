@@ -1,19 +1,19 @@
-import { AuthPresenter } from '@adapter/presenters/interfaces/AuthPresenter';
-import AuthPresenterImpl from '@adapter/presenters/AuthPresenterImpl';
 import { UserPresenter } from '@adapter/presenters/interfaces/UserPresenter';
 import UserPresenterImpl from '@adapter/presenters/UserPresenterImpl';
+import ChatPresenterImpl from './ChatPresenterImpl';
+import { ChatPresenter } from './interfaces/ChatPresenter';
 
 interface Presenters {
-  authPresenter: AuthPresenter,
   userPresenter: UserPresenter,
+  chatPresenter: ChatPresenter,
 }
 
 const presenters: Presenters = {
-  authPresenter: new AuthPresenterImpl(),
   userPresenter: new UserPresenterImpl(),
+  chatPresenter: new ChatPresenterImpl(),
 };
 
 export const {
-  authPresenter,
   userPresenter,
+  chatPresenter,
 } = presenters;

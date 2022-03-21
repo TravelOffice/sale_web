@@ -15,6 +15,7 @@ import { RootState } from '@redux/store';
 import { Conversation } from '@domain/entities/Conversation';
 import { UserStatus } from '@domain/entities/AdminUser';
 import Spinner from '@components/Spinner/Spinner';
+import Images from '@themes/Images';
 
 export interface SidebarLeftProps {
   sidebar: boolean,
@@ -82,7 +83,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
               active: active?.id === item.id,
             })}
           >
-            <Avatar img={contact.avatar} imgHeight="42" imgWidth="42" />
+            <Avatar img={contact.avatar || Images.defaultAvatar} imgHeight="42" imgWidth="42" />
             <div className="chat-info flex-grow-1">
               <h5 className="mb-0">{contact.fullName}</h5>
               <CardText className="text-truncate">
@@ -277,7 +278,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                   <Search className="text-muted" size={14} />
                 </InputGroupText>
                 <Input
-                  value={query}
+                  defaultValue={query}
                   className="round"
                   placeholder="Search or start a new chat"
                 />
