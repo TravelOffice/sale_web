@@ -5,12 +5,14 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface ChatState {
   conversations: Conversation[],
   messages: Message[],
-  selectedConversation?: Conversation
+  selectedConversation?: Conversation,
+  canLoadMore: boolean
 }
 
 const initialState : ChatState = {
   conversations: [],
   messages: [],
+  canLoadMore: true,
 };
 
 const chatSlice = createSlice({
@@ -30,6 +32,12 @@ const chatSlice = createSlice({
     },
     onMessagesRetrieved: (state, action: PayloadAction<Message[]>) => {
       state.messages = action.payload;
+      state.canLoadMore = action.payload.length >= 10;
+    },
+    onMoreMessagesLoaded: (state, action: PayloadAction<Message[]>) => {
+      const newMessages = action.payload;
+      state.canLoadMore = newMessages.length >= 10;
+      state.messages.push(...newMessages);
     },
     onNewMessage: (state, action: PayloadAction<Message>) => {
       // Update conversation list
@@ -55,7 +63,7 @@ const chatSlice = createSlice({
         state.messages.push(message);
       }
     },
-    onConversationSeletected: (state, action: PayloadAction<Conversation>) => {
+    onConversationSelected: (state, action: PayloadAction<Conversation>) => {
       const conversation = state.conversations.find((item) => item.id === action.payload.id);
       if (conversation) {
         conversation.unseenMessages = 0;

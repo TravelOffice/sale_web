@@ -30,8 +30,8 @@ export const allMessages = gql`
 `;
 
 export const allFbMessages = gql`
-  query GetFbMessages($conversationId: String!, $fbPageId: String!) {
-    allFbMessages(conversationId: $conversationId, pageId: $fbPageId) {
+  query GetFbMessages($conversationId: String!, $fbPageId: String!, $after: String) {
+    allFbMessages(conversationId: $conversationId, pageId: $fbPageId, after: $after) {
       data
       message
     }

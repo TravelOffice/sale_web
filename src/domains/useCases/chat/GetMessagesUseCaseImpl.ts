@@ -6,24 +6,34 @@ import { store } from '@redux/store';
 import { GetMessagesUseCase } from '../interfaces/chat/GetMessagesUseCase';
 
 export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
-  invoke = async (conversation: Conversation) : Promise<Message[]> => {
+  invoke = async (
+    conversation: Conversation, nextToken?: string,
+  ) : Promise<[Message[], string]> => {
     const { facebookPage, zaloPage } = store.getState().auth;
     if (conversation.type === 'facebook') {
-      return this.getFbMessages(facebookPage?.id || '', conversation);
+      return this.getFbMessages(facebookPage?.id || '', conversation, nextToken);
     }
     if (conversation.type === 'zalo') {
       return this.getZaloMessages(zaloPage?.id || '', conversation);
     }
-    return [];
+    return [[], ''];
   };
 
-  private getFbMessages = async (fbPageId: string, conversation: Conversation) => {
-    const fbMessages = await chatRepository.getFbMessages(conversation.id, fbPageId);
-    return fbMessages.map((fbMessage) => messageMapper.fromFacebookMessage(fbMessage));
+  private getFbMessages = async (
+    fbPageId: string, conversation: Conversation, after?: string,
+  ) : Promise<[Message[], string]> => {
+    const [fbMessages, fbNextToken] = await chatRepository.getFbMessages(
+      conversation.id, fbPageId, after,
+    );
+    const messages = fbMessages.map((fbMessage) => messageMapper.fromFacebookMessage(fbMessage));
+    return [messages, fbNextToken];
   }
 
-  private getZaloMessages = async (zaloPageId: string, conversation: Conversation) => {
+  private getZaloMessages = async (
+    zaloPageId: string, conversation: Conversation, offset: number = 0,
+  ) : Promise<[Message[], string]> => {
     const zaloMessages = await chatRepository.getZaloMessages(conversation.contact.id, zaloPageId);
-    return zaloMessages.map((zaloMessage) => messageMapper.fromZaloMessage(zaloMessage));
+    const messages = zaloMessages.map((zaloMessage) => messageMapper.fromZaloMessage(zaloMessage));
+    return [messages, `${offset}`];
   };
 }

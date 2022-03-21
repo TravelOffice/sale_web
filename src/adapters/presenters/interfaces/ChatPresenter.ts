@@ -6,6 +6,7 @@ import { Observable } from 'subscriptions-transport-ws';
 export interface ChatPresenter {
   getConversations: () => Promise<Conversation[]>
   getMessages: (conversation?: Conversation) => Promise<Message[]>
+  loadMoreMessage: (conversation?: Conversation) => Promise<Message[]>
   sendMessage: (message: Message, conversation?: Conversation) => Promise<void>
   subscribeNewMessage: () => Observable<FetchResult>
 }

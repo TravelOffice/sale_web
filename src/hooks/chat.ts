@@ -22,7 +22,6 @@ export const useConversations = () : [Conversation[], boolean] => {
 };
 
 export const useMessages = (conversation?: Conversation) : [Message[], boolean] => {
-  // const [messages, setMessages] = useState<Array<Message>>([]);
   const messages = useSelector((state: RootState) => state.chat.messages);
   const [fetching, setFetching] = useState(false);
   const dispatch = useDispatch();
@@ -62,7 +61,7 @@ export const useMessages = (conversation?: Conversation) : [Message[], boolean] 
 
 export const useSendMessage = (messages: Message[], conversation?: Conversation) => {
   const auth = useSelector((state: RootState) => state.auth);
-  const sendMessage = useCallback((messageData: MessageData) => {
+  return useCallback((messageData: MessageData) => {
     if (!conversation) {
       return;
     }
@@ -70,7 +69,7 @@ export const useSendMessage = (messages: Message[], conversation?: Conversation)
     if (!sender) {
       return;
     }
-    const newMessage : Message = {
+    const newMessage: Message = {
       id: '',
       customerId: conversation.contact.id,
       messageData,
@@ -78,7 +77,22 @@ export const useSendMessage = (messages: Message[], conversation?: Conversation)
       sender,
       timestamp: new Date(),
     };
-    chatPresenter.sendMessage(newMessage, conversation);
+    chatPresenter.sendMessage(newMessage, conversation).then(() => {
+    });
   }, [messages, conversation]);
-  return sendMessage;
+};
+
+export const useLoadMore = (conversation?: Conversation) : [Function, boolean] => {
+  const [loadingMore, setLoadingMore] = useState(false);
+  const dispatch = useDispatch();
+  const loadMore = useCallback(() => {
+    if (!conversation) {
+      return;
+    }
+    setLoadingMore(true);
+    chatPresenter.loadMoreMessage(conversation).then((result) => {
+      dispatch(chatActions.onMoreMessagesLoaded(result));
+    }).finally(() => setLoadingMore(false));
+  }, [conversation]);
+  return [loadMore, loadingMore];
 };
