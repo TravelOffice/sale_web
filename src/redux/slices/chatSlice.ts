@@ -1,25 +1,38 @@
 import { Conversation } from '@domain/entities/Conversation';
-import { Message } from '@domain/entities/Message';
+import { Message, MessageData } from '@domain/entities/Message';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PAGE_SIZE } from '@utils/ChatUtils';
 
 interface ChatState {
   conversations: Conversation[],
   messages: Message[],
   selectedConversation?: Conversation,
-  canLoadMore: boolean
+  canLoadMore: boolean,
+  fetchingConversations: boolean,
+  fetchingMessages: boolean,
+  loadingMoreMessages: boolean,
+  firstLoad: boolean,
 }
 
 const initialState : ChatState = {
   conversations: [],
   messages: [],
   canLoadMore: true,
+  fetchingConversations: false,
+  fetchingMessages: false,
+  loadingMoreMessages: false,
+  firstLoad: true,
 };
 
 const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
+    getConversations: (state) => {
+      state.fetchingConversations = true;
+    },
     onConversationsRetrieved: (state, action: PayloadAction<Conversation[]>) => {
+      state.fetchingConversations = false;
       state.conversations = action.payload;
     },
     onNewConversation: (state, action: PayloadAction<Conversation>) => {
@@ -30,45 +43,45 @@ const chatSlice = createSlice({
         state.conversations[index] = action.payload;
       }
     },
+    onConversationSelected: (state, action: PayloadAction<Conversation>) => {
+      const conversation = state.conversations.find((item) => item.id === action.payload.id);
+      if (conversation) {
+        // Change unseenMessages to zero to mark this conversation as read
+        conversation.unseenMessages = 0;
+        state.firstLoad = true;
+      }
+      if (conversation?.id !== state.selectedConversation?.id) {
+        // Whenever the user select another conversation, clear messages which are showing
+        state.messages = [];
+      }
+      state.selectedConversation = action.payload;
+    },
+    getMessages: (state, action: PayloadAction<Conversation | undefined>) => {
+      state.fetchingMessages = true;
+    },
+    subscribeNewMessage: (state) => {},
+    sendMessage: (state, action: PayloadAction<[MessageData, Conversation?]>) => {},
+    loadMoreMessages: (state, action: PayloadAction<Conversation | undefined>) => {
+      state.loadingMoreMessages = true;
+      state.firstLoad = false;
+    },
     onMessagesRetrieved: (state, action: PayloadAction<Message[]>) => {
       state.messages = action.payload;
-      state.canLoadMore = action.payload.length >= 10;
+      state.canLoadMore = action.payload.length >= PAGE_SIZE;
+      state.fetchingMessages = false;
     },
     onMoreMessagesLoaded: (state, action: PayloadAction<Message[]>) => {
       const newMessages = action.payload;
-      state.canLoadMore = newMessages.length >= 10;
+      state.canLoadMore = newMessages.length >= PAGE_SIZE;
       state.messages.push(...newMessages);
+      state.loadingMoreMessages = false;
     },
     onNewMessage: (state, action: PayloadAction<Message>) => {
-      // Update conversation list
       const message = action.payload;
-      const predicate = (item: Conversation) => item.contact.id === message.customerId;
-      const conversationIndex = state.conversations.findIndex(predicate);
-      if (conversationIndex < 0) {
-        // const newConv = {};
-        // state.conversations = state.conversations.concat(action.payload);
-        // TODO: saga fetchs conversation info by new customerid
-      } else {
-        // state.conversations[conversationIndex].lastMessage
-      }
-      // const index = state.conversations.findIndex((item) => item.id === action.payload.id);
-      // if (index < 0) {
-      //   state.conversations = state.conversations.concat(action.payload);
-      // } else {
-      //   state.conversations[index] = action.payload;
-      // }
-      // Update message list
       const { selectedConversation } = state;
       if (selectedConversation && selectedConversation.contact.id === message.customerId) {
         state.messages.push(message);
       }
-    },
-    onConversationSelected: (state, action: PayloadAction<Conversation>) => {
-      const conversation = state.conversations.find((item) => item.id === action.payload.id);
-      if (conversation) {
-        conversation.unseenMessages = 0;
-      }
-      state.selectedConversation = action.payload;
     },
   },
 });

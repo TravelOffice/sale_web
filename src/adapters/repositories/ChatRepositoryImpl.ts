@@ -5,8 +5,11 @@ import { ZaloMessage } from '@domain/entities/ZaloMessage';
 import conversationMapper from '@domain/mappers/ConversationMapper';
 import gqlClient from '@graphql/client';
 import { sendMessage } from '@graphql/mutations';
-import { allConversations, allFbMessages, allZaloMessages } from '@graphql/queries';
+import {
+  allConversations, allFbMessages, allZaloMessages, userProfile,
+} from '@graphql/queries';
 import { onNewMessage } from '@graphql/subscriptions';
+import { FacebookUserInfo } from '@domain/entities/FacebookUserInfo';
 import { ChatRepository } from './interfaces/ChatRepository';
 
 export default class ChatRepositoryImpl implements ChatRepository {
@@ -51,4 +54,21 @@ export default class ChatRepositoryImpl implements ChatRepository {
   };
 
   subscribeToNewMessage = () => gqlClient.subscribe({ query: onNewMessage });
+
+  /**
+   * Get Facebook user profile by id
+   * @param pageId the Facebook page id
+   * @param userId the Facebook user who had sent messages to the page
+   * @return FacebookUserInfo
+   */
+  getFbUserInfo = async (pageId: string, userId: string) => {
+    const variables = {
+      pageId,
+      pageUserId: userId,
+      platform: 'facebook',
+    };
+    const options = { query: userProfile, variables };
+    const result = await gqlClient.query(options);
+    return JSON.parse(result.data.userProfile.data) as FacebookUserInfo;
+  }
 }

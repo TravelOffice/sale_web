@@ -10,10 +10,10 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
     conversation: Conversation, nextToken?: string,
   ) : Promise<[Message[], string]> => {
     const { facebookPage, zaloPage } = store.getState().auth;
-    if (conversation.type === 'facebook') {
+    if (conversation.chatPlatform === 'facebook') {
       return this.getFbMessages(facebookPage?.id || '', conversation, nextToken);
     }
-    if (conversation.type === 'zalo') {
+    if (conversation.chatPlatform === 'zalo') {
       return this.getZaloMessages(zaloPage?.id || '', conversation);
     }
     return [[], ''];

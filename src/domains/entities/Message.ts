@@ -1,5 +1,22 @@
+import { ChatPlatform } from '@domain/entities/ChatPlatform';
+
+export interface MessageAttachment {
+  mimeType: string,
+  previewUrl?: string,
+  url?: string,
+  fileSize: number,
+  name: string,
+  width?: number,
+  height?: number,
+}
+
 export interface MessageData {
   text: string,
+  attachments?: MessageAttachment[],
+  sticker?: {
+    id: string,
+    link: string,
+  }
 }
 
 export interface Message {
@@ -9,4 +26,5 @@ export interface Message {
   recipient: string,
   sender: string,
   timestamp: Date,
+  chatPlatform: ChatPlatform
 }

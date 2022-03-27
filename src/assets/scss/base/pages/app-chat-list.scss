@@ -69,6 +69,33 @@ $chat-widget-height: 390px;
         p {
           margin: 0;
         }
+        a {
+          color: $white;
+          word-break: break-word;
+          text-decoration: underline;
+        }
+        video {
+          max-width: 100%;
+          border-radius: $border-radius;
+        }
+        audio::-webkit-media-controls-panel {
+          background-color: white;
+        }
+      }
+      img.chat-content {
+        padding: 0;
+        max-width: 40%;
+        background: transparent;
+        box-shadow: none;
+      }
+      .audio.chat-content {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0;
+      }
+      .video.chat-content {
+        padding: 0;
       }
     }
     // Chat area left css
@@ -83,6 +110,17 @@ $chat-widget-height: 390px;
           color: $body-color;
           background: none;
           background-color: lighten($white, 18%);
+
+          a {
+            color: map-get($primary-color, 'base');
+            word-break: break-word;
+            text-decoration: underline;
+          }
+        }
+        img.chat-content {
+          max-width: 40%;
+          background: transparent;
+          box-shadow: none;
         }
       }
     }

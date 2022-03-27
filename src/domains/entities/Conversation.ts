@@ -7,5 +7,5 @@ export interface Conversation {
   contact: Contact,
   unseenMessages: number,
   lastMessage?: Message,
-  type: ChatPlatform
+  chatPlatform: ChatPlatform
 }

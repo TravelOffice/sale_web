@@ -4,6 +4,7 @@ import { Conversation } from '@domain/entities/Conversation';
 import { FacebookMessage } from '@domain/entities/FacebookMessage';
 import { Message } from '@domain/entities/Message';
 import { ZaloMessage } from '@domain/entities/ZaloMessage';
+import { FacebookUserInfo } from '@domain/entities/FacebookUserInfo';
 
 export interface ChatRepository {
   getConversations: (fbPageid: string, zaloPageId: string) => Promise<Conversation[]>
@@ -13,4 +14,5 @@ export interface ChatRepository {
   getZaloMessages: (conversationId: string, zaloPageId: string) => Promise<ZaloMessage[]>
   sendMessage: (platform: ChatPlatform, message: Message) => Promise<void>
   subscribeToNewMessage: () => Observable<FetchResult>
+  getFbUserInfo: (pageId: string, userId: string) => Promise<FacebookUserInfo>
 }

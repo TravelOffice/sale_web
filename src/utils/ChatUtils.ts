@@ -1,6 +1,17 @@
 import { MessageGroup } from '@features/Chat/ChatLog';
 import { Message } from '@domain/entities/Message';
 
+export const PAGE_SIZE = 10;
+
+export const SUPPORTED_DOCUMENT_FILE_TYPES = [
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
+  'application/vnd.ms-excel', // xls
+  'application/msword', // doc
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+  'application/vnd.ms-powerpoint', // ppt
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation', // pptx
+];
+
 /**
  * Formats chat data based on sender
  */
@@ -33,3 +44,7 @@ export const formatChatData = (messages: Array<Message>) : Array<MessageGroup> =
 export const sortMessages = (
   messages: Message[],
 ) : Message[] => [...messages].sort((m1, m2) => m1.timestamp.getTime() - m2.timestamp.getTime());
+
+export const isDocumentFile = (
+  mimeType: string,
+) => SUPPORTED_DOCUMENT_FILE_TYPES.includes(mimeType);
