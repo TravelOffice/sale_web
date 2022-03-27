@@ -20,7 +20,7 @@ const rootReducers = combineReducers({
 });
 
 export const store = configureStore({
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(
     sageMiddleware,
     routerMiddleware(history),
   ),

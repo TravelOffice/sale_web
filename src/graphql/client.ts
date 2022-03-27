@@ -1,5 +1,5 @@
 import {
-  ApolloClient, ApolloLink, createHttpLink, InMemoryCache,
+  ApolloClient, ApolloLink, createHttpLink, InMemoryCache, split,
 } from '@apollo/client';
 import { AUTH_TYPE, AuthOptions, createAuthLink } from 'aws-appsync-auth-link';
 import { createSubscriptionHandshakeLink } from 'aws-appsync-subscription-link';

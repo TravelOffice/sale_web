@@ -36,6 +36,8 @@ export interface ChatLogProps {
   messages: Message[],
   fetching: boolean,
   onSendMessage: (params: MessageData) => void,
+  onLoadMore: () => void,
+  loadingMore: boolean,
 }
 
 export interface MessageGroup {
@@ -72,17 +74,34 @@ function renderChats(messages: Message[], currentUser: AdminUser, contact: Conta
   ));
 }
 
+function renderLoadMore(canLoadMore: boolean, loadingMore: boolean, onClick: Function) {
+  if (loadingMore) {
+    return (
+      <div className="loading-more">
+        <span>Loading more...</span>
+      </div>
+    );
+  }
+  if (canLoadMore) {
+    return (
+      <button className="load-more-btn" type="button" onClick={() => onClick()}>
+        Click to load previous messages
+      </button>
+    );
+  }
+  return <></>;
+}
+
 const ChatLog = (props: ChatLogProps) => {
   const {
     handleUserSidebarRight, handleSidebar, userSidebarLeft, selectedConversation,
-    messages, onSendMessage, fetching,
+    messages, onSendMessage, fetching, onLoadMore, loadingMore,
   } = props;
   const authState = useSelector((state: RootState) => state.auth);
   const currentUser = authState.currentUser!;
-  const currentUserId = currentUser.id;
   const customerId = selectedConversation?.id;
   const contact = selectedConversation?.contact;
-
+  const canLoadMore = useSelector((state: RootState) => state.chat.canLoadMore);
   // State
   // const [messages, dispatchSendMessage] = useMessages(selectedConversation?.id);
   const [messageText, setMessageText] = useState('');
@@ -100,7 +119,7 @@ const ChatLog = (props: ChatLogProps) => {
   useEffect(() => {
     const selectedUserLen = messages.length;
 
-    if (selectedUserLen) {
+    if (selectedUserLen && !loadingMore) {
       scrollToBottom();
     }
   }, [selectedConversation, messages]);
@@ -188,6 +207,9 @@ const ChatLog = (props: ChatLogProps) => {
           </div>
 
           <PerfectScrollbar containerRef={(ref) => setScrollViewRef(ref)} ref={chatArea} className="user-chats" options={{ wheelPropagation: false }}>
+            {
+              renderLoadMore(canLoadMore, loadingMore, onLoadMore)
+            }
             {
               messages.length > 0 && (
                 <div className="chats">{renderChats(sortedMessages, currentUser, selectedConversation.contact)}</div>
