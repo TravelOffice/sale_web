@@ -8,6 +8,8 @@ import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
 import SendMessageUseCaseImpl from './chat/SendMessageUseCaseImpl';
 import { SubscribeNewMessageUseCase } from './interfaces/chat/SubscribeNewMessageUseCase';
 import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImpl';
+import { GetAllLeadsUseCase } from './interfaces/lead/GetAllLeadsUseCase';
+import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -16,6 +18,7 @@ interface UseCases {
   sendMessageUseCase: SendMessageUseCase,
   subscribeNewMessageUseCase: SubscribeNewMessageUseCase,
   getFacebookPagesUseCase: GetFacebookPagesUseCase,
+  getAllLeadsUseCase: GetAllLeadsUseCase
 }
 
 const useCases : UseCases = {
@@ -24,6 +27,7 @@ const useCases : UseCases = {
   sendMessageUseCase: new SendMessageUseCaseImpl(),
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
+  getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -33,4 +37,5 @@ export const {
   sendMessageUseCase,
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
+  getAllLeadsUseCase,
 } = useCases;

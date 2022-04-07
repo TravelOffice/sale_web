@@ -168,6 +168,25 @@ const Navigation : MenuItem[] = [
     icon: <Settings size={12} />,
     navLink: '/settings',
   },
+  {
+    id: 'leads',
+    title: 'Lead',
+    icon: <User size={20} />,
+    children: [
+      {
+        id: 'list',
+        title: 'List',
+        icon: <Circle size={12} />,
+        navLink: '/apps/lead/list',
+      },
+      {
+        id: 'view',
+        title: 'View',
+        icon: <Circle size={12} />,
+        navLink: '/apps/lead/view',
+      },
+    ],
+  },
 ];
 
 export default Navigation;
