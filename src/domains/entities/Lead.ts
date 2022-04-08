@@ -36,7 +36,7 @@ export enum SourceEnum {
 export type SexType = keyof typeof SexEnum;
 export type VocativeType = keyof typeof VocativeEnum;
 export type StatusType = keyof typeof StatusEnum;
-export type MaritalStatus = keyof typeof MaritalEnum;
+export type MaritalStatusType = keyof typeof MaritalEnum;
 export type LeadType = keyof typeof LeadEnum;
 export type SourceType = keyof typeof SourceEnum;
 
@@ -47,8 +47,8 @@ export interface Lead {
   birthday?: string,
   nationality: string,
   sex: SexType,
-  maritalStatus?: MaritalStatus,
-  phoneNumbers: Array<string>,
+  maritalStatus?: MaritalStatusType,
+  otherPhoneNumbers: Array<string>,
   email?: string,
   country: string,
   province?: string,
@@ -56,14 +56,27 @@ export interface Lead {
   ward?: string,
   address?: string,
   status: StatusType,
-  createAt?: string,
-  updateAt?: string,
+  createdAt?: string,
+  updatedAt?: string,
   tags?: Array<string>,
-  createrId?: string,
-  createrName?: string,
+  creatorId?: string,
+  creatorName?: string,
   assigneeId?: string,
   assigneeName?: string,
   source: SourceType,
   enabled: boolean,
   type: LeadType,
 }
+
+export interface CreateUpdateLeadResponse {
+  lead?: Lead,
+  errorMsg?: string
+}
+
+export const leadSexes : SexType[] = Object.keys(SexEnum) as Array<SexType>;
+export const leadVocatives : VocativeType[] = Object.keys(VocativeEnum) as Array<VocativeType>;
+export const leadStatuses : StatusType[] = Object.keys(StatusEnum) as Array<StatusType>;
+export const leadTypes : LeadType[] = Object.keys(LeadEnum) as Array<LeadType>;
+export const leadMaritals : MaritalStatusType[] = Object.keys(MaritalEnum) as
+  Array<MaritalStatusType>;
+export const leadSources : SourceType[] = Object.keys(SourceEnum) as Array<SourceType>;

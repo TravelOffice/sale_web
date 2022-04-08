@@ -12,7 +12,7 @@ export interface RightSideBarProps {
   size: 'lg' | 'sm',
   title: string,
   width?: number,
-  children: ReactNode,
+  children?: ReactNode,
   closeBtn?: ReactNode,
   className?: string,
   toggleSidebar: () => void,
@@ -42,7 +42,7 @@ const RightSideBar = (props: RightSideBarProps) => {
   } = props;
 
   // ** If user passes custom close btn render that else default close btn
-  const renderCloseBtn = closeBtn || <X className="cursor-pointer" size={15} onClick={toggleSidebar} />;
+  const renderCloseBtn = closeBtn || <X className="cursor-pointer" size={16} onClick={toggleSidebar} />;
 
   return (
     <Modal

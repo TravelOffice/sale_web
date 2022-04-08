@@ -1,119 +1,27 @@
+import { apiProvider } from '@adapter/infrastructures';
 import { Lead } from '@domain/entities/Lead';
-import Images from '@themes/Images';
+import { ResponseType } from '@utils/ApiUtils';
 import { LeadRepository } from './interfaces/LeadRepository';
 
 export default class LeadRepositoryImpl implements LeadRepository {
   getAllLeads = async () => {
-    const leads: Lead[] = [
-      {
-        name: 'Nguyen TUn aNH',
-        primaryPhoneNumber: 'sadhsadjej',
-        createrName: 'w',
-        vocative: 'MR_YOUNG',
-        nationality: 'VietNam',
-        status: 'NEW',
-        createrId: 'e',
-        sex: 'MALE',
-        assigneeId: 'dsf',
-        phoneNumbers: [
-          '0348529905',
-          '0348529902',
-        ],
-        assigneeName: 'ds',
-        source: 'SOCIAL',
-        email: '1@gmail.com',
-        country: 'AB',
-        enabled: true,
-        maritalStatus: 'MARRIED',
-        province: 'df',
-        tags: [
-          '65',
-        ],
-        birthday: '1999-11-31',
-        type: 'LEAD',
-      },
-      {
-        name: 'Nguyen TUn aNH',
-        primaryPhoneNumber: 'sadhsadjej',
-        createrName: 'w',
-        vocative: 'MR_YOUNG',
-        nationality: 'VietNam',
-        status: 'NEW',
-        createrId: 'e',
-        sex: 'MALE',
-        assigneeId: 'dsf',
-        phoneNumbers: [
-          '0348529905',
-          '0348529902',
-        ],
-        assigneeName: 'ds',
-        source: 'SOCIAL',
-        email: '1@gmail.com',
-        country: 'AB',
-        enabled: true,
-        maritalStatus: 'MARRIED',
-        province: 'df',
-        tags: [
-          '65',
-        ],
-        birthday: '1999-11-31',
-        type: 'LEAD',
-      },
-      {
-        name: 'Nguyen TUn aNH',
-        primaryPhoneNumber: 'sadhsadjej',
-        createrName: 'w',
-        vocative: 'MR_YOUNG',
-        nationality: 'VietNam',
-        status: 'NEW',
-        createrId: 'e',
-        sex: 'MALE',
-        assigneeId: 'dsf',
-        phoneNumbers: [
-          '0348529905',
-          '0348529902',
-        ],
-        assigneeName: 'ds',
-        source: 'SOCIAL',
-        email: '1@gmail.com',
-        country: 'AB',
-        enabled: true,
-        maritalStatus: 'MARRIED',
-        province: 'df',
-        tags: [
-          '65',
-        ],
-        birthday: '1999-11-31',
-        type: 'LEAD',
-      },
-      {
-        name: 'Nguyen TUn aNH',
-        primaryPhoneNumber: 'sadhsadjej',
-        createrName: 'w',
-        vocative: 'MR_YOUNG',
-        nationality: 'VietNam',
-        status: 'NEW',
-        createrId: 'e',
-        sex: 'MALE',
-        assigneeId: 'dsf',
-        phoneNumbers: [
-          '0348529905',
-          '0348529902',
-        ],
-        assigneeName: 'ds',
-        source: 'SOCIAL',
-        email: '1@gmail.com',
-        country: 'AB',
-        enabled: true,
-        maritalStatus: 'MARRIED',
-        province: 'df',
-        tags: [
-          '65',
-        ],
-        birthday: '1999-11-31',
-        type: 'LEAD',
-      },
-    ];
+    const leads: Lead[] = [];
     return leads;
+  }
+
+  addLead = async (lead: Lead) => {
+    const response = await apiProvider.authorizedRequest.post('/leads', lead);
+    if (response.message !== ResponseType.SUCCESS) {
+      throw Error('Create Lead error');
+    }
+    return lead;
+  }
+
+  updateLead = async (lead: Lead) => {
+    const response = await apiProvider.authorizedRequest.put('/leads', lead);
+    if (response.message !== ResponseType.SUCCESS) {
+      throw Error('Update Lead error');
+    }
+    return lead;
   }
 }

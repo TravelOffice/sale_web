@@ -5,6 +5,7 @@
     "dependencies": {
         "@apollo/client": "^3.5.9",
         "@craco/craco": "^6.4.3",
+        "@hookform/resolvers": "^2.8.8",
         "@popperjs/core": "^2.11.2",
         "@reduxjs/toolkit": "^1.7.1",
         "@testing-library/jest-dom": "^5.16.1",
@@ -12,7 +13,7 @@
         "@testing-library/user-event": "^13.5.0",
         "@types/jest": "^27.0.3",
         "@types/node": "^16.11.14",
-        "@types/react": "^17.0.37",
+        "@types/react": "^17.0.44",
         "@types/react-dom": "^17.0.11",
         "amazon-cognito-identity-js": "^5.2.3",
         "animate.css": "^4.1.1",
@@ -23,6 +24,7 @@
         "classnames": "^2.3.1",
         "connected-react-router": "^6.9.1",
         "dompurify": "^2.3.6",
+        "flatpickr": "^4.6.11",
         "graphql": "^16.3.0",
         "graphql-tag": "^2.12.6",
         "graphql-ws": "^5.6.3",
@@ -30,6 +32,7 @@
         "i18next": "^21.6.5",
         "i18next-browser-languagedetector": "^6.1.2",
         "i18next-xhr-backend": "^3.2.2",
+        "moment": "^2.29.3",
         "prismjs": "^1.25.0",
         "prop-types": "^15.8.1",
         "react": "^17.0.2",
@@ -38,7 +41,8 @@
         "react-dom": "^17.0.2",
         "react-facebook-login": "^4.1.1",
         "react-feather": "^2.0.9",
-        "react-hook-form": "^7.29.0",
+        "react-flatpickr": "^3.10.11",
+        "react-hook-form": "7.27.1",
         "react-i18next": "^11.15.3",
         "react-paginate": "^8.1.2",
         "react-perfect-scrollbar": "^1.5.8",
@@ -55,7 +59,8 @@
         "typescript": "^4.5.4",
         "uuid": "^8.3.2",
         "web-vitals": "^2.1.2",
-        "utility-types": "^3.10.0"
+        "utility-types": "^3.10.0",
+        "yup": "^0.32.11"
     },
     "scripts": {
         "start": "craco start",
@@ -87,8 +92,10 @@
     "devDependencies": {
         "@types/dompurify": "^2.3.3",
         "@types/react-facebook-login": "^4.1.4",
+        "@types/react-flatpickr": "^3.8.6",
         "@types/react-router-dom": "^5.3.2",
         "@types/uuid": "^8.3.4",
+        "@types/yup": "^0.29.13",
         "@typescript-eslint/eslint-plugin": "^5.9.0",
         "craco-alias": "^3.0.1",
         "eslint": "^7.31.1",

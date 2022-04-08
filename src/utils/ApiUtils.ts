@@ -15,3 +15,8 @@ export const appendAxiosConfig = (
   ...axiosConfig,
   headers: apiRequestConfig.headers,
 });
+
+export enum ResponseType {
+  SUCCESS = 'Successfully!',
+  ERROR = 'Failed!',
+}

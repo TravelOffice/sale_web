@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEventHandler } from 'react';
 import {
   Share, Printer, FileText, Grid, Copy, File,
 } from 'react-feather';
@@ -15,6 +15,11 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 
+import { leadActions } from '@redux/slices/leadSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+const { initAddLeadForm } = leadActions;
+
 export interface CustomHeaderProps {
   toggleSidebar: () => void,
   handlePerPage: (e: any) => void,
@@ -27,6 +32,13 @@ export default function CustomHeader(props: CustomHeaderProps) {
   const {
     handleFilter, handlePerPage, rowsPerPage, searchTerm, toggleSidebar,
   } = props;
+
+  const dispatch = useDispatch();
+
+  const handleToggleSidebar = () => {
+    dispatch(initAddLeadForm());
+    toggleSidebar();
+  };
   // ** Converts table to CSV
   // function convertArrayOfObjectsToCSV(array) {
   //   let result
@@ -141,8 +153,8 @@ export default function CustomHeader(props: CustomHeaderProps) {
               </DropdownMenu>
             </UncontrolledDropdown>
 
-            <Button className="add-new-user" color="primary" onClick={toggleSidebar}>
-              Add New User
+            <Button className="add-new-user" color="primary" onClick={handleToggleSidebar}>
+              Add New Lead
             </Button>
           </div>
         </Col>

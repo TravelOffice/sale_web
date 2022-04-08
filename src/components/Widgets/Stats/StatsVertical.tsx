@@ -1,9 +1,9 @@
 // ** Third Party Components
-import PropTypes from 'prop-types'
-import { ReactNode } from 'react'
+import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
 
 // ** Reactstrap Imports
-import { Card, CardBody } from 'reactstrap'
+import { Card, CardBody } from 'reactstrap';
 
 export interface StatsVerticalProps {
   icon?: ReactNode,
@@ -15,28 +15,19 @@ export interface StatsVerticalProps {
 
 const StatsVertical = (props: StatsVerticalProps) => {
   const {
-    icon, color, stats, statTitle, className
-  } = props
+    icon, color, stats, statTitle, className,
+  } = props;
   return (
-    <Card className='text-center'>
+    <Card className="text-center">
       <CardBody className={className}>
         <div className={`avatar p-50 m-0 mb-1 ${color ? `bg-light-${color}` : 'bg-light-primary'}`}>
-          <div className='avatar-content'>{icon}</div>
+          <div className="avatar-content">{icon}</div>
         </div>
-        <h2 className='fw-bolder'>{stats}</h2>
-        <p className='card-text line-ellipsis'>{statTitle}</p>
+        <h2 className="fw-bolder">{stats}</h2>
+        <p className="card-text line-ellipsis">{statTitle}</p>
       </CardBody>
     </Card>
-  )
-}
+  );
+};
 
-export default StatsVertical
-
-// ** PropTypes
-StatsVertical.propTypes = {
-  className: PropTypes.string,
-  icon: PropTypes.element.isRequired,
-  color: PropTypes.string.isRequired,
-  stats: PropTypes.string.isRequired,
-  statTitle: PropTypes.string.isRequired
-}
+export default StatsVertical;

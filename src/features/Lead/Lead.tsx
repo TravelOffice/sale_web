@@ -16,7 +16,7 @@ import Table from './Table';
 // ** Styles
 import '@styles/react/apps/app-users.scss';
 
-const UsersList = () => (
+const LeadsList = () => (
   <div className="app-user-list">
     <Row>
       <Col lg="3" sm="6">
@@ -56,4 +56,4 @@ const UsersList = () => (
   </div>
 );
 
-export default UsersList;
+export default LeadsList;

@@ -1,10 +1,6 @@
 // ** React Imports
 import React, { Fragment, useState, useEffect } from 'react';
 
-// ** Invoice List Sidebar
-
-// ** Table Columns
-
 // ** Store & Actions
 import { leadActions } from '@redux/slices/leadSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // ** Third Party Components
 import Select from 'react-select';
 import ReactPaginate from 'react-paginate';
-import DataTable from 'react-data-table-component';
+import DataTable, { TableColumn } from 'react-data-table-component';
 import { ChevronDown } from 'react-feather';
 
 // ** Reactstrap Imports
@@ -30,12 +26,13 @@ import {
 import '@styles/react/libs/react-select/_react-select.scss';
 import '@styles/react/libs/tables/react-dataTable-component.scss';
 import { RootState } from '@redux/store';
-import Sidebar from './Sidebar';
+import { Lead } from '@domain/entities/Lead';
+import LeadSideBar from './CreateUpdateLeadSidebar';
 import CustomHeader from './CustomHeader';
 import { columns } from './columns';
 import LeadExpandable from './LeadExpandable';
 
-const UsersList = () => {
+const LeadsList = () => {
   // ** Store Vars
   const dispatch = useDispatch();
   const store = useSelector((state: RootState) => state.lead);
@@ -44,15 +41,17 @@ const UsersList = () => {
   const [sort, setSort] = useState('desc');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortColumn, setSortColumn] = useState('id');
+  const [sortColumn, setSortColumn] = useState<string | undefined>('id');
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [addLeadSidebarOpen, setAddLeadSidebarOpen] = useState(false);
   const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' });
   const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' });
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 });
+  const selectedLead = useSelector((state: RootState) => state.lead.selectedLead);
 
   // ** Function to toggle sidebar
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleAddLeadSidebar = () => setAddLeadSidebarOpen(!addLeadSidebarOpen);
+  const toggleUpdateLeadSidebar = () => dispatch(leadActions.unSelectLead());
 
   const { getAllLeads, getLead } = leadActions;
 
@@ -193,9 +192,9 @@ const UsersList = () => {
     return store.allLeads.slice(0, rowsPerPage);
   };
 
-  const handleSort = (column: any, sortDirection: string) => {
+  const handleSort = (selectedColumn: TableColumn<Lead>, sortDirection: string) => {
     setSort(sortDirection);
-    setSortColumn(column.sortField);
+    setSortColumn(selectedColumn.sortField);
     dispatch(
       getLead({
         sort,
@@ -320,16 +319,20 @@ const UsersList = () => {
                 rowsPerPage={rowsPerPage}
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
-                toggleSidebar={toggleSidebar}
+                toggleSidebar={toggleAddLeadSidebar}
               />
             )}
           />
         </div>
       </Card>
 
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <LeadSideBar.SidebarNewLead open={addLeadSidebarOpen} toggleSidebar={toggleAddLeadSidebar} />
+      <LeadSideBar.SidebarUpdateLead
+        open={!!selectedLead}
+        toggleSidebar={toggleUpdateLeadSidebar}
+      />
     </>
   );
 };
 
-export default UsersList;
+export default LeadsList;
