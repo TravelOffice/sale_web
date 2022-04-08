@@ -12,7 +12,7 @@ export interface RightSideBarProps {
   size: 'lg' | 'sm',
   title: string,
   width?: number,
-  children: ReactNode,
+  children?: ReactNode,
   closeBtn?: ReactNode,
   className?: string,
   toggleSidebar: () => void,

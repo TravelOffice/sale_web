@@ -14,6 +14,10 @@ import 'prismjs/components/prism-jsx.min';
 
 import '@styles/core.scss';
 import '@styles/base/components.scss';
+// ** Styles
+// import '@styles/react/libs/flatpickr/flatpickr.scss';
+import '@styles/react/libs/flatpickr/flatpickr.scss';
+// import 'flatpickr/dist/themes/material_green.css';
 
 const LazyApp = lazy(() => import('./features/App/App'));
 

@@ -1,4 +1,4 @@
-import { Lead } from '@domain/entities/Lead';
+import { CreateUpdateLeadResponse, Lead } from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface LeadState {
@@ -6,7 +6,11 @@ interface LeadState {
   total: number,
   params: any,
   allLeads: Lead[],
-  selectedLead?: any
+  selectedLead?: Lead,
+  addedLeadResponse: CreateUpdateLeadResponse | null,
+  updatedLeadResponse: CreateUpdateLeadResponse | null,
+  addLeadState: 'init' | 'loading' | 'finished' | 'error',
+  updateLeadState: 'init' | 'loading' | 'finished' | 'error',
 }
 
 const initialState : LeadState = {
@@ -14,7 +18,11 @@ const initialState : LeadState = {
   total: 1,
   params: {},
   allLeads: [],
-  selectedLead: null,
+  selectedLead: undefined,
+  addedLeadResponse: null,
+  updatedLeadResponse: null,
+  addLeadState: 'init',
+  updateLeadState: 'init',
 };
 
 const leadSlice = createSlice({
@@ -29,11 +37,43 @@ const leadSlice = createSlice({
     setAllLeads: (state, action: PayloadAction<any>) => {
       state.allLeads = action.payload;
     },
+    initAddLeadForm: (state) => {
+      state.addLeadState = 'init';
+    },
     addLead: (state, action: PayloadAction<any>) => {
-
+      state.addLeadState = 'loading';
+    },
+    setAddedLead: (state, action: PayloadAction<any>) => {
+      state.addLeadState = 'finished';
+      state.addedLeadResponse = { lead: action.payload };
+    },
+    setAddedLeadError: (state, action: PayloadAction<any>) => {
+      state.addLeadState = 'error';
+      state.addedLeadResponse = { errorMsg: action.payload };
+    },
+    initUpdateLeadForm: (state) => {
+      state.updateLeadState = 'init';
+    },
+    updateLead: (state, action: PayloadAction<any>) => {
+      state.updateLeadState = 'loading';
+    },
+    setUpdatedLead: (state, action: PayloadAction<any>) => {
+      state.updateLeadState = 'finished';
+      state.updatedLeadResponse = { lead: action.payload };
+    },
+    setUpdatedLeadError: (state, action: PayloadAction<any>) => {
+      state.updateLeadState = 'error';
+      state.updatedLeadResponse = { errorMsg: action.payload };
     },
     deleteLead: (state, action: PayloadAction<any>) => {
 
+    },
+    selectLead: (state, action: PayloadAction<any>) => {
+      state.selectedLead = action.payload;
+      state.updateLeadState = 'loading';
+    },
+    unSelectLead: (state) => {
+      state.selectedLead = undefined;
     },
   },
 });

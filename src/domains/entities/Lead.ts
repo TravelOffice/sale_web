@@ -48,7 +48,7 @@ export interface Lead {
   nationality: string,
   sex: SexType,
   maritalStatus?: MaritalStatus,
-  phoneNumbers: Array<string>,
+  otherPhoneNumbers: Array<string>,
   email?: string,
   country: string,
   province?: string,
@@ -59,11 +59,16 @@ export interface Lead {
   createAt?: string,
   updateAt?: string,
   tags?: Array<string>,
-  createrId?: string,
-  createrName?: string,
+  creatorId?: string,
+  creatorName?: string,
   assigneeId?: string,
   assigneeName?: string,
   source: SourceType,
   enabled: boolean,
   type: LeadType,
+}
+
+export interface CreateUpdateLeadResponse {
+  lead?: Lead,
+  errorMsg?: string
 }

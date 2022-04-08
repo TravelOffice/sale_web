@@ -1,5 +1,5 @@
+import { apiProvider } from '@adapter/infrastructures';
 import { Lead } from '@domain/entities/Lead';
-import Images from '@themes/Images';
 import { LeadRepository } from './interfaces/LeadRepository';
 
 export default class LeadRepositoryImpl implements LeadRepository {
@@ -7,22 +7,22 @@ export default class LeadRepositoryImpl implements LeadRepository {
     const leads: Lead[] = [
       {
         name: 'Nguyen TUn aNH',
-        primaryPhoneNumber: 'sadhsadjej',
-        createrName: 'w',
+        primaryPhoneNumber: '0348529905',
+        creatorName: 'w',
         vocative: 'MR_YOUNG',
-        nationality: 'VietNam',
+        nationality: 'Vietnamese',
         status: 'NEW',
-        createrId: 'e',
-        sex: 'MALE',
+        creatorId: 'e',
+        sex: 'FEMALE',
         assigneeId: 'dsf',
-        phoneNumbers: [
+        otherPhoneNumbers: [
           '0348529905',
           '0348529902',
         ],
         assigneeName: 'ds',
         source: 'SOCIAL',
         email: '1@gmail.com',
-        country: 'AB',
+        country: 'VN',
         enabled: true,
         maritalStatus: 'MARRIED',
         province: 'df',
@@ -34,22 +34,22 @@ export default class LeadRepositoryImpl implements LeadRepository {
       },
       {
         name: 'Nguyen TUn aNH',
-        primaryPhoneNumber: 'sadhsadjej',
-        createrName: 'w',
+        primaryPhoneNumber: '0348529905',
+        creatorName: 'w',
         vocative: 'MR_YOUNG',
-        nationality: 'VietNam',
+        nationality: 'Vietnamese',
         status: 'NEW',
-        createrId: 'e',
+        creatorId: 'e',
         sex: 'MALE',
         assigneeId: 'dsf',
-        phoneNumbers: [
+        otherPhoneNumbers: [
           '0348529905',
           '0348529902',
         ],
         assigneeName: 'ds',
         source: 'SOCIAL',
         email: '1@gmail.com',
-        country: 'AB',
+        country: 'VN',
         enabled: true,
         maritalStatus: 'MARRIED',
         province: 'df',
@@ -61,22 +61,22 @@ export default class LeadRepositoryImpl implements LeadRepository {
       },
       {
         name: 'Nguyen TUn aNH',
-        primaryPhoneNumber: 'sadhsadjej',
-        createrName: 'w',
+        primaryPhoneNumber: '0348529905',
+        creatorName: 'w',
         vocative: 'MR_YOUNG',
-        nationality: 'VietNam',
+        nationality: 'Vietnamese',
         status: 'NEW',
-        createrId: 'e',
+        creatorId: 'e',
         sex: 'MALE',
         assigneeId: 'dsf',
-        phoneNumbers: [
+        otherPhoneNumbers: [
           '0348529905',
           '0348529902',
         ],
         assigneeName: 'ds',
         source: 'SOCIAL',
         email: '1@gmail.com',
-        country: 'AB',
+        country: 'VN',
         enabled: true,
         maritalStatus: 'MARRIED',
         province: 'df',
@@ -88,22 +88,22 @@ export default class LeadRepositoryImpl implements LeadRepository {
       },
       {
         name: 'Nguyen TUn aNH',
-        primaryPhoneNumber: 'sadhsadjej',
-        createrName: 'w',
+        primaryPhoneNumber: '0348529905',
+        creatorName: 'w',
         vocative: 'MR_YOUNG',
-        nationality: 'VietNam',
+        nationality: 'Vietnamese',
         status: 'NEW',
-        createrId: 'e',
+        creatorId: 'e',
         sex: 'MALE',
         assigneeId: 'dsf',
-        phoneNumbers: [
+        otherPhoneNumbers: [
           '0348529905',
           '0348529902',
         ],
         assigneeName: 'ds',
         source: 'SOCIAL',
         email: '1@gmail.com',
-        country: 'AB',
+        country: 'VN',
         enabled: true,
         maritalStatus: 'MARRIED',
         province: 'df',
@@ -115,5 +115,21 @@ export default class LeadRepositoryImpl implements LeadRepository {
       },
     ];
     return leads;
+  }
+
+  addLead = async (lead: Lead) => {
+    const response = await apiProvider.authorizedRequest.post('/leads', lead);
+    if (response.message !== 'Successfully!') {
+      throw Error('Create Lead error');
+    }
+    return lead;
+  }
+
+  updateLead = async (lead: Lead) => {
+    const response = await apiProvider.authorizedRequest.put('/leads', lead);
+    if (response.message !== 'Successfully!') {
+      throw Error('Update Lead error');
+    }
+    return lead;
   }
 }

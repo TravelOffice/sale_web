@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import { toAxiosRequestConfig } from '@utils/ApiUtils';
+import { store } from '@redux/store';
 import { HTTPRequest } from '../interfaces/HTTPRequest';
 import { ApiRequestConfig } from '../interfaces/ApiRequestConfig';
 
@@ -17,7 +18,7 @@ export default class AuthorizedRequest implements HTTPRequest {
   ) : Promise<ApiRequestConfig> => ({
     ...config,
     headers: {
-      Authorization: '',
+      Authorization: store.getState().auth?.idToken,
     },
   });
 

@@ -20,6 +20,7 @@ import {
 } from 'reactstrap';
 import { Lead } from '@domain/entities/Lead';
 import { TableColumn } from 'react-data-table-component';
+import { useDispatch } from 'react-redux';
 // import { useDispatch } from 'react-redux';
 
 const { getLead, deleteLead } = leadActions;
@@ -72,7 +73,7 @@ export const columns : TableColumn<Lead>[] = [
         {renderClient(row)}
         <div className="d-flex flex-column">
           <Link
-            to={`/apps/user/view/${row.phoneNumbers[0]}`}
+            to={`/apps/user/view/${row.otherPhoneNumbers[0]}`}
             className="user_name text-truncate text-body"
             // onClick={() => dispatch(getLead(row.id))}
           >
@@ -114,41 +115,43 @@ export const columns : TableColumn<Lead>[] = [
   {
     name: 'Actions',
     minWidth: '100px',
-    cell: (row: Lead) => (
-      <div className="column-action">
-        <UncontrolledDropdown>
-          <DropdownToggle tag="div" className="btn btn-sm">
-            <MoreVertical size={14} className="cursor-pointer" />
-          </DropdownToggle>
-          <DropdownMenu>
-            <DropdownItem
-              tag={Link}
-              className="w-100"
-              to={`/apps/user/view/${row.phoneNumbers[0]}`}
-              // onClick={() => dispatch(getLead(row.id))}
-            >
-              <FileText size={14} className="me-50" />
-              <span className="align-middle">Details</span>
-            </DropdownItem>
-            <DropdownItem tag="a" href="/" className="w-100" onClick={(e) => e.preventDefault()}>
-              <Archive size={14} className="me-50" />
-              <span className="align-middle">Edit</span>
-            </DropdownItem>
-            <DropdownItem
-              tag="a"
-              href="/"
-              className="w-100"
-              onClick={(e) => {
-                e.preventDefault();
+    cell: (row: Lead) => {
+      const dispatch = useDispatch();
+      return (
+        <div className="column-action">
+          <UncontrolledDropdown>
+            <DropdownToggle tag="div" className="btn btn-sm">
+              <MoreVertical size={14} className="cursor-pointer" />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem
+                tag={Link}
+                className="w-100"
+                to={`/apps/user/view/${row.primaryPhoneNumber}`}
+              >
+                <FileText size={14} className="me-50" />
+                <span className="align-middle">Details</span>
+              </DropdownItem>
+              <DropdownItem tag="a" href="/" className="w-100" onClick={(e) => { e.preventDefault(); dispatch(leadActions.selectLead(row)); }}>
+                <Archive size={14} className="me-50" />
+                <span className="align-middle">Edit</span>
+              </DropdownItem>
+              <DropdownItem
+                tag="a"
+                href="/"
+                className="w-100"
+                onClick={(e) => {
+                  e.preventDefault();
                 // dispatch(deleteLead(row.id));
-              }}
-            >
-              <Trash2 size={14} className="me-50" />
-              <span className="align-middle">Delete</span>
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      </div>
-    ),
+                }}
+              >
+                <Trash2 size={14} className="me-50" />
+                <span className="align-middle">Delete</span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
+      );
+    },
   },
 ];

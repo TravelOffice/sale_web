@@ -10,6 +10,10 @@ import { SubscribeNewMessageUseCase } from './interfaces/chat/SubscribeNewMessag
 import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImpl';
 import { GetAllLeadsUseCase } from './interfaces/lead/GetAllLeadsUseCase';
 import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
+import { AddLeadUseCase } from './interfaces/lead/AddLeadUseCase';
+import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
+import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
+import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
 
 interface UseCases {
   // Chat
@@ -19,6 +23,8 @@ interface UseCases {
   subscribeNewMessageUseCase: SubscribeNewMessageUseCase,
   getFacebookPagesUseCase: GetFacebookPagesUseCase,
   getAllLeadsUseCase: GetAllLeadsUseCase
+  addLeadUseCase: AddLeadUseCase
+  updateLeadUseCase: UpdateLeadUseCase
 }
 
 const useCases : UseCases = {
@@ -28,6 +34,8 @@ const useCases : UseCases = {
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
   getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
+  addLeadUseCase: new AddLeadUseCaseImpl(),
+  updateLeadUseCase: new UpdateLeadUseCaseImpl(),
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -38,4 +46,6 @@ export const {
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
   getAllLeadsUseCase,
+  addLeadUseCase,
+  updateLeadUseCase,
 } = useCases;

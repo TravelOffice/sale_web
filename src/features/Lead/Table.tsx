@@ -30,7 +30,7 @@ import {
 import '@styles/react/libs/react-select/_react-select.scss';
 import '@styles/react/libs/tables/react-dataTable-component.scss';
 import { RootState } from '@redux/store';
-import Sidebar from './Sidebar';
+import LeadSideBar from './CreateUpdateLeadSidebar';
 import CustomHeader from './CustomHeader';
 import { columns } from './columns';
 import LeadExpandable from './LeadExpandable';
@@ -46,13 +46,15 @@ const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState('id');
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [addLeadSidebarOpen, setAddLeadSidebarOpen] = useState(false);
   const [currentRole, setCurrentRole] = useState({ value: '', label: 'Select Role' });
   const [currentPlan, setCurrentPlan] = useState({ value: '', label: 'Select Plan' });
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: 'Select Status', number: 0 });
+  const selectedLead = useSelector((state: RootState) => state.lead.selectedLead);
 
   // ** Function to toggle sidebar
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleAddLeadSidebar = () => setAddLeadSidebarOpen(!addLeadSidebarOpen);
+  const toggleUpdateLeadSidebar = () => dispatch(leadActions.unSelectLead());
 
   const { getAllLeads, getLead } = leadActions;
 
@@ -320,14 +322,18 @@ const UsersList = () => {
                 rowsPerPage={rowsPerPage}
                 handleFilter={handleFilter}
                 handlePerPage={handlePerPage}
-                toggleSidebar={toggleSidebar}
+                toggleSidebar={toggleAddLeadSidebar}
               />
             )}
           />
         </div>
       </Card>
 
-      <Sidebar open={sidebarOpen} toggleSidebar={toggleSidebar} />
+      <LeadSideBar.SidebarNewLead open={addLeadSidebarOpen} toggleSidebar={toggleAddLeadSidebar} />
+      <LeadSideBar.SidebarUpdateLead
+        open={!!selectedLead}
+        toggleSidebar={toggleUpdateLeadSidebar}
+      />
     </>
   );
 };
