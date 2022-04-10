@@ -8,78 +8,27 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export const useConversations = () : [Conversation[], boolean] => {
   const conversations = useSelector((state: RootState) => state.chat.conversations);
-  const [fetching, setFetching] = useState(false);
+  const fetching = useSelector((state: RootState) => state.chat.fetchingConversations);
   const dispatch = useDispatch();
   useEffect(() => {
-    setFetching(true);
-    chatPresenter.getConversations().then((data) => {
-      dispatch(chatActions.onConversationsRetrieved(data));
-    }).finally(() => {
-      setFetching(false);
-    });
+    dispatch(chatActions.getConversations());
   }, []);
   return [conversations, fetching];
 };
 
 export const useMessages = (conversation?: Conversation) : [Message[], boolean] => {
   const messages = useSelector((state: RootState) => state.chat.messages);
-  const [fetching, setFetching] = useState(false);
+  const fetching = useSelector((state: RootState) => state.chat.fetchingMessages);
   const dispatch = useDispatch();
-
-  // Fetch previous messages
   useEffect(() => {
-    dispatch(chatActions.onMessagesRetrieved([]));
-    setFetching(true);
-    chatPresenter.getMessages(conversation).then((data) => {
-      dispatch(chatActions.onMessagesRetrieved(data));
-    }).finally(() => {
-      setFetching(false);
-    });
+    dispatch(chatActions.getMessages(conversation));
   }, [conversation]);
 
   // Subscribe to new message
   useEffect(() => {
-    const subscription = chatPresenter.subscribeNewMessage().subscribe({
-      next: (value) => {
-        if (value.data) {
-          const rawMsg = value.data.onNewMessageReceived.data;
-          const newMsg = {
-            ...rawMsg,
-            messageData: JSON.parse(rawMsg.messageData),
-            timestamp: new Date(rawMsg.timestamp),
-          } as Message;
-          dispatch(chatActions.onNewMessage(newMsg));
-        }
-      },
-    });
-    return () => {
-      subscription?.unsubscribe();
-    };
-  }, [messages]);
+    dispatch(chatActions.subscribeNewMessage());
+  }, []);
   return [messages, fetching];
-};
-
-export const useSendMessage = (messages: Message[], conversation?: Conversation) => {
-  const auth = useSelector((state: RootState) => state.auth);
-  return useCallback((messageData: MessageData) => {
-    if (!conversation) {
-      return;
-    }
-    const sender = conversation.type === 'facebook' ? auth.facebookPage?.id : auth.zaloPage?.id;
-    if (!sender) {
-      return;
-    }
-    const newMessage: Message = {
-      id: '',
-      customerId: conversation.contact.id,
-      messageData,
-      recipient: conversation.contact.id,
-      sender,
-      timestamp: new Date(),
-    };
-    chatPresenter.sendMessage(newMessage, conversation).then(() => {
-    });
-  }, [messages, conversation]);
 };
 
 export const useLoadMore = (conversation?: Conversation) : [Function, boolean] => {

@@ -46,3 +46,12 @@ export const allZaloMessages = gql`
     }
   }
 `;
+
+export const userProfile = gql`
+  query GetUserProfile($pageId: String!, $pageUserId: String!, $platform: String!) {
+    userProfile(pageId: $pageId, pageUserId: $pageUserId, platform: $platform) {
+      message
+      data
+    }
+  }
+`;

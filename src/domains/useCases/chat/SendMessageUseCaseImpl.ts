@@ -5,6 +5,6 @@ import { SendMessageUseCase } from '../interfaces/chat/SendMessageUseCase';
 
 export default class SendMessageUseCaseImpl implements SendMessageUseCase {
   invoke = async (message: Message, conversation: Conversation) => {
-    await chatRepository.sendMessage(conversation.type, message);
+    await chatRepository.sendMessage(conversation.chatPlatform, message);
   };
 }

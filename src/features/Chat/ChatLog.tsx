@@ -27,6 +27,7 @@ import { formatChatData, sortMessages } from '@utils/ChatUtils';
 import { Contact } from '@domain/entities/Contact';
 import AdminUser from '@domain/entities/AdminUser';
 import Spinner from '@components/Spinner/Spinner';
+import ChatMessage from '@features/Chat/components/ChatMessage';
 
 export interface ChatLogProps {
   handleUserSidebarRight: () => void,
@@ -38,6 +39,7 @@ export interface ChatLogProps {
   onSendMessage: (params: MessageData) => void,
   onLoadMore: () => void,
   loadingMore: boolean,
+  firstLoad: boolean,
 }
 
 export interface MessageGroup {
@@ -65,9 +67,7 @@ function renderChats(messages: Message[], currentUser: AdminUser, contact: Conta
 
       <div className="chat-body">
         {item.messages.map((message) => (
-          <div key={message.id} className="chat-content">
-            <p>{message.messageData.text}</p>
-          </div>
+          <ChatMessage message={message} key={message.id} />
         ))}
       </div>
     </div>
@@ -95,7 +95,7 @@ function renderLoadMore(canLoadMore: boolean, loadingMore: boolean, onClick: Fun
 const ChatLog = (props: ChatLogProps) => {
   const {
     handleUserSidebarRight, handleSidebar, userSidebarLeft, selectedConversation,
-    messages, onSendMessage, fetching, onLoadMore, loadingMore,
+    messages, onSendMessage, fetching, onLoadMore, loadingMore, firstLoad,
   } = props;
   const authState = useSelector((state: RootState) => state.auth);
   const currentUser = authState.currentUser!;
@@ -109,20 +109,14 @@ const ChatLog = (props: ChatLogProps) => {
 
   const chatArea = useRef(null);
 
-  const scrollToBottom = () => {
-    if (scrollViewRef) {
-      scrollViewRef.scrollTop = Number.MAX_SAFE_INTEGER;
-    }
-  };
-
   // If user chat is not empty scrollToBottom
   useEffect(() => {
-    const selectedUserLen = messages.length;
-
-    if (selectedUserLen && !loadingMore) {
-      scrollToBottom();
+    if (messages.length && firstLoad && scrollViewRef) {
+      setTimeout(() => {
+        scrollViewRef.scrollTop = Number.MAX_SAFE_INTEGER;
+      }, 100);
     }
-  }, [selectedConversation, messages]);
+  }, [selectedConversation, messages, scrollViewRef, firstLoad]);
 
   // Opens right sidebar & handles its data
   const handleAvatarClick = () => {

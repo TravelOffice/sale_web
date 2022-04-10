@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classnames from 'classnames';
 import { Conversation } from '@domain/entities/Conversation';
 import {
-  useConversations, useLoadMore, useMessages, useSendMessage,
+  useConversations, useLoadMore, useMessages,
 } from '@hooks/chat';
 import { useDispatch, useSelector } from 'react-redux';
 import { chatActions } from '@redux/slices/chatSlice';
@@ -17,13 +17,13 @@ import '@styles/base/pages/app-chat-list.scss';
 const AppChat = () => {
   // ** States
   const conversation = useSelector((state: RootState) => state.chat.selectedConversation);
+  const loadingMore = useSelector((state: RootState) => state.chat.loadingMoreMessages);
+  const firstLoad = useSelector((state: RootState) => state.chat.firstLoad);
   const [sidebar, setSidebar] = useState(false);
   const [userSidebarRight, setUserSidebarRight] = useState(false);
   const [userSidebarLeft, setUserSidebarLeft] = useState(false);
   const [conversations, fetchingConversations] = useConversations();
   const [messages, fetchingMessages] = useMessages(conversation);
-  const dispatchSendMessage = useSendMessage(messages, conversation);
-  const [dispatchLoadMore, loadingMore] = useLoadMore(conversation);
   const dispatch = useDispatch();
 
   // ** Sidebar & overlay toggle functions
@@ -41,11 +41,11 @@ const AppChat = () => {
   };
 
   const onSendMessage = (messageData: MessageData) => {
-    dispatchSendMessage(messageData);
+    dispatch(chatActions.sendMessage([messageData, conversation]));
   };
 
   const onLoadMore = () => {
-    dispatchLoadMore();
+    dispatch(chatActions.loadMoreMessages(conversation));
   };
   return (
     <>
@@ -77,6 +77,7 @@ const AppChat = () => {
               onSendMessage={onSendMessage}
               onLoadMore={onLoadMore}
               loadingMore={loadingMore}
+              firstLoad={firstLoad}
             />
             <UserProfileSidebar
               contact={conversation?.contact}

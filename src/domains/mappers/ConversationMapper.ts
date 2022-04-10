@@ -2,7 +2,6 @@ import { Contact } from '@domain/entities/Contact';
 import { Conversation } from '@domain/entities/Conversation';
 import { FacebookConversation } from '@domain/entities/FacebookConversation';
 import { ZaloConversation } from '@domain/entities/ZaloConversation';
-import { store } from '@redux/store';
 
 class ConversationMapper {
   fromFb = (conversation: FacebookConversation, pageId: string) : Conversation => {
@@ -25,9 +24,10 @@ class ConversationMapper {
         messageData: {
           text: conversation.snippet,
         },
+        chatPlatform: 'facebook',
       },
       unseenMessages: 0,
-      type: 'facebook',
+      chatPlatform: 'facebook',
     };
   }
 
@@ -54,9 +54,10 @@ class ConversationMapper {
         messageData: {
           text: conversation.message || `${contact.fullName} has sent a message.`,
         },
+        chatPlatform: 'zalo',
       },
       unseenMessages: 0,
-      type: 'zalo',
+      chatPlatform: 'zalo',
     };
   }
 }
