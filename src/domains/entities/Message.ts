@@ -4,7 +4,7 @@ export interface MessageAttachment {
   mimeType: string,
   previewUrl?: string,
   url?: string,
-  fileSize: number,
+  fileSize?: number,
   name: string,
   width?: number,
   height?: number,

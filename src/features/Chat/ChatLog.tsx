@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  MessageSquare, Menu, PhoneCall, Video, Search, MoreVertical, Mic, Image, Send,
+  MessageSquare, Menu, PhoneCall, Video, Search, MoreVertical, Mic, Send, FilePlus,
 } from 'react-feather';
 import {
   Form,
@@ -19,6 +19,7 @@ import {
   DropdownToggle,
   InputGroupText,
   UncontrolledDropdown,
+  Spinner as ReactSpinner,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Message, MessageData } from '@domain/entities/Message';
@@ -37,6 +38,7 @@ export interface ChatLogProps {
   messages: Message[],
   fetching: boolean,
   onSendMessage: (params: MessageData) => void,
+  onSendAttachmentMessage: (attachment: File) => void,
   onLoadMore: () => void,
   loadingMore: boolean,
   firstLoad: boolean,
@@ -95,13 +97,14 @@ function renderLoadMore(canLoadMore: boolean, loadingMore: boolean, onClick: Fun
 const ChatLog = (props: ChatLogProps) => {
   const {
     handleUserSidebarRight, handleSidebar, userSidebarLeft, selectedConversation,
-    messages, onSendMessage, fetching, onLoadMore, loadingMore, firstLoad,
+    messages, onSendMessage, onSendAttachmentMessage, fetching, onLoadMore, loadingMore, firstLoad,
   } = props;
   const authState = useSelector((state: RootState) => state.auth);
   const currentUser = authState.currentUser!;
   const customerId = selectedConversation?.id;
   const contact = selectedConversation?.contact;
   const canLoadMore = useSelector((state: RootState) => state.chat.canLoadMore);
+  const isSendingAttachment = useSelector((state: RootState) => state.chat.sendingAttachmentMessage);
   // State
   // const [messages, dispatchSendMessage] = useMessages(selectedConversation?.id);
   const [messageText, setMessageText] = useState('');
@@ -135,10 +138,19 @@ const ChatLog = (props: ChatLogProps) => {
     e.preventDefault();
     if (messageText.length && customerId) {
       setMessageText('');
-      const messageData : MessageData = {
+      const messageData: MessageData = {
         text: messageText,
       };
       onSendMessage(messageData);
+    }
+  };
+
+  const handleFileChange = (e: FormEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const target = e.target as HTMLInputElement;
+    if (target.files && target.files.length > 0 && customerId) {
+      const attachment = target.files[0];
+      onSendAttachmentMessage(attachment);
     }
   };
 
@@ -217,7 +229,7 @@ const ChatLog = (props: ChatLogProps) => {
           <Form className="chat-app-form" onSubmit={(e) => handleSendMessage(e)}>
             <InputGroup className="input-group-merge me-1 form-send-message">
               <InputGroupText>
-                <Mic className="cursor-pointer" size={14} />
+                <Mic className="cursor-pointer" size={16} />
               </InputGroupText>
               <Input
                 value={messageText}
@@ -226,12 +238,14 @@ const ChatLog = (props: ChatLogProps) => {
               />
               <InputGroupText>
                 <Label className="attachment-icon mb-0" for="attach-doc">
-                  <Image className="cursor-pointer text-secondary" size={14} />
-                  <input type="file" id="attach-doc" hidden />
+                  {
+                    isSendingAttachment ? <ReactSpinner className="me-25" color="primary" size="sm" /> : <FilePlus className="cursor-pointer text-secondary" size={16} />
+                  }
+                  <input type="file" id="attach-doc" hidden onChange={(e) => handleFileChange(e)} />
                 </Label>
               </InputGroupText>
             </InputGroup>
-            <Button className="send" color="primary">
+            <Button className="send" color="primary" disabled={isSendingAttachment}>
               <Send size={14} className="d-lg-none" />
               <span className="d-none d-lg-block">Send</span>
             </Button>

@@ -44,6 +44,10 @@ const AppChat = () => {
     dispatch(chatActions.sendMessage([messageData, conversation]));
   };
 
+  const onSendAttachmentMessage = (attachment: File) => {
+    dispatch(chatActions.sendAttachmentMessage([attachment, conversation]));
+  };
+
   const onLoadMore = () => {
     dispatch(chatActions.loadMoreMessages(conversation));
   };
@@ -75,6 +79,7 @@ const AppChat = () => {
               selectedConversation={conversation}
               handleUserSidebarRight={handleUserSidebarRight}
               onSendMessage={onSendMessage}
+              onSendAttachmentMessage={onSendAttachmentMessage}
               onLoadMore={onLoadMore}
               loadingMore={loadingMore}
               firstLoad={firstLoad}

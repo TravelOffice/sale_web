@@ -6,6 +6,8 @@ import { GetMessagesUseCase } from './interfaces/chat/GetMessagesUseCase';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
 import SendMessageUseCaseImpl from './chat/SendMessageUseCaseImpl';
+import { SendAttachmentMessageUseCase } from './interfaces/chat/SendAttachmentMessageUseCase';
+import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
 import { SubscribeNewMessageUseCase } from './interfaces/chat/SubscribeNewMessageUseCase';
 import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImpl';
 
@@ -16,12 +18,14 @@ interface UseCases {
   sendMessageUseCase: SendMessageUseCase,
   subscribeNewMessageUseCase: SubscribeNewMessageUseCase,
   getFacebookPagesUseCase: GetFacebookPagesUseCase,
+  sendAttachmentMessageUseCase: SendAttachmentMessageUseCase,
 }
 
 const useCases : UseCases = {
   getConversationsUseCase: new GetConversationsUseCaseImpl(),
   getMessagesUseCase: new GetMessagesUseCaseImpl(),
   sendMessageUseCase: new SendMessageUseCaseImpl(),
+  sendAttachmentMessageUseCase: new SendAttachmentMessageUseCaseImpl(),
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
 };
@@ -31,6 +35,7 @@ export const {
   getConversationsUseCase,
   getMessagesUseCase,
   sendMessageUseCase,
+  sendAttachmentMessageUseCase,
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
 } = useCases;

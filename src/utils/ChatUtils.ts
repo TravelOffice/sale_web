@@ -15,13 +15,13 @@ export const SUPPORTED_DOCUMENT_FILE_TYPES = [
 /**
  * Formats chat data based on sender
  */
-export const formatChatData = (messages: Array<Message>) : Array<MessageGroup> => {
-  const formattedChatLog : Array<MessageGroup> = [];
+export const formatChatData = (messages: Array<Message>): Array<MessageGroup> => {
+  const formattedChatLog: Array<MessageGroup> = [];
   let chatMessageSenderId = messages[0] ? messages[0].sender : undefined;
   if (!chatMessageSenderId) {
     return [];
   }
-  let msgGroup : MessageGroup = {
+  let msgGroup: MessageGroup = {
     senderId: chatMessageSenderId,
     messages: [],
   };
@@ -43,8 +43,9 @@ export const formatChatData = (messages: Array<Message>) : Array<MessageGroup> =
 
 export const sortMessages = (
   messages: Message[],
-) : Message[] => [...messages].sort((m1, m2) => m1.timestamp.getTime() - m2.timestamp.getTime());
+): Message[] => [...messages].sort((m1, m2) => m1.timestamp.getTime() - m2.timestamp.getTime()); // ([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$
 
-export const isDocumentFile = (
-  mimeType: string,
-) => SUPPORTED_DOCUMENT_FILE_TYPES.includes(mimeType);
+export const isDocumentFile = (mimeType: string, fileName: string) => {
+  const regEx = /([a-zA-Z0-9\s_\\.\-:])+\.+(?:doc|docx|ppt|pptx|xls|xlsx|txt|rtf|pdf)$/;
+  return SUPPORTED_DOCUMENT_FILE_TYPES.includes(mimeType) || regEx.test(fileName);
+};

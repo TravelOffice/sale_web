@@ -1,6 +1,5 @@
 import { ChatPlatform } from '@domain/entities/ChatPlatform';
 import { FacebookMessage } from '@domain/entities/FacebookMessage';
-import { Message } from '@domain/entities/Message';
 import { ZaloMessage } from '@domain/entities/ZaloMessage';
 import conversationMapper from '@domain/mappers/ConversationMapper';
 import gqlClient from '@graphql/client';
@@ -10,6 +9,7 @@ import {
 } from '@graphql/queries';
 import { onNewMessage } from '@graphql/subscriptions';
 import { FacebookUserInfo } from '@domain/entities/FacebookUserInfo';
+import { ChatPlatformSendMessage } from '@domain/entities/message-platforms/ChatPlatformSendMessage';
 import { ChatRepository } from './interfaces/ChatRepository';
 
 export default class ChatRepositoryImpl implements ChatRepository {
@@ -41,7 +41,7 @@ export default class ChatRepositoryImpl implements ChatRepository {
     return JSON.parse(result.data.allZaloMessages.data).data as ZaloMessage[];
   };
 
-  sendMessage = async (platform: ChatPlatform, message: Message) => {
+  sendMessage = async (platform: ChatPlatform, message: ChatPlatformSendMessage) => {
     const variables = {
       chatPlatform: platform,
       customerId: message.customerId,
