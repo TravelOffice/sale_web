@@ -10,7 +10,7 @@ import {
   Calendar,
   CheckSquare,
   MessageSquare,
-  Mail,
+  Mail, Settings,
 } from 'react-feather';
 import { MenuItem } from '@domain/entities/MenuLinkItem';
 
@@ -161,6 +161,12 @@ const Navigation : MenuItem[] = [
         navLink: '/apps/user/view',
       },
     ],
+  },
+  {
+    id: 'settings',
+    title: 'Settings',
+    icon: <Settings size={12} />,
+    navLink: '/settings',
   },
 ];
 
