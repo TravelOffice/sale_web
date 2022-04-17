@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button, Card, CardBody, CardHeader, CardTitle, Col, Input,
-  ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader,
+  ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader, Spinner,
 } from 'reactstrap';
 import Images from '@themes/Images';
 import {
@@ -11,13 +11,22 @@ import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props
 import { ReactFacebookLoginInfo } from 'react-facebook-login';
 import { accountConnectionPresenter } from '@adapter/presenters';
 import { FacebookPage } from '@domain/entities/FacebookPage';
-import toasty from '@components/Toasty/Toasty';
+import { useDispatch, useSelector } from 'react-redux';
+import { pageConnectionActions } from '@redux/slices/pageConnectionSlice';
+import { RootState } from '@redux/store';
+import { useTranslation } from 'react-i18next';
 
 export default function ConnectionsTabContent() {
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState<FacebookPage[]>([]);
   const [selectedPage, setSelectedPage] = useState<FacebookPage | undefined>();
   const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
+  const currentFacebookPage = useSelector((state: RootState) => state.pageConnection.facebookPage);
+  const connectingFacebookPage = useSelector((
+    state: RootState,
+  ) => state.pageConnection.connectingFacebookPage);
+  const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   // Handle event that the user grants permission to the web app. After
   // granting, the app can use the user's access token to access resources
@@ -38,25 +47,44 @@ export default function ConnectionsTabContent() {
 
   // Handle event that the user confirms to link their page
   const onSubmit = () => {
-    setShowModal(false);
-    // TODO: dispatch an action to link the Facebook page, using selectedPage and user access token
-    console.log('userAccessToken', userAccessToken);
-    toasty.show({ title: 'Success', type: 'success', message: `Link ${selectedPage?.name} successfully` });
+    dispatch(pageConnectionActions.connectFacebookPage({
+      userAccessToken: userAccessToken!,
+      page: selectedPage!,
+    }));
   };
+
+  // Status of Facebook page
+  const facebookPageStatus = () => {
+    if (connectingFacebookPage) {
+      return t('PAGE.CONNECTING');
+    }
+    if (!currentFacebookPage) {
+      return t('PAGE.NOT_CONNECTED');
+    }
+    return currentFacebookPage.name;
+  };
+
+  useEffect(() => {
+    // Dismiss modal whenever linking completely
+    if (!connectingFacebookPage) {
+      setShowModal(false);
+    }
+  }, [connectingFacebookPage]);
+
   return (
     <Card>
       <CardHeader className="border-bottom">
-        <CardTitle tag="h4">Connected accounts</CardTitle>
+        <CardTitle tag="h4">{t('PAGE.CONNECTED_PAGES')}</CardTitle>
       </CardHeader>
       <CardBody className="pt-2">
         <div className="d-flex mt-2">
           <div className="flex-shrink-0">
-            <img className="me-1" src={Images.facebookLogo} alt="" height="38" width="38" />
+            <img className="me-1" src={currentFacebookPage?.picture || Images.facebookLogo} alt="" height="38" width="38" />
           </div>
           <div className="d-flex align-item-center justify-content-between flex-grow-1">
             <div className="me-1">
               <p className="fw-bolder mb-0">Facebook</p>
-              <span>Not Connected</span>
+              <span>{facebookPageStatus()}</span>
             </div>
             <div className="mt-50 mt-sm-0">
               <FacebookLogin
@@ -77,13 +105,13 @@ export default function ConnectionsTabContent() {
       <Modal isOpen={showModal} toggle={() => setShowModal(!showModal)} className="modal-dialog-centered modal-lg">
         <ModalHeader className="bg-transparent" toggle={() => setShowModal(!showModal)} />
         <ModalBody className="pb-3 px-sm-3">
-          <h1 className="text-center mb-1">Link your page</h1>
-          <p className="text-center mb-2">Select which one you want to link</p>
+          <h1 className="text-center mb-1">{t('PAGE.LINK_PAGE_TITLE')}</h1>
+          <p className="text-center mb-2">{t('PAGE.LINK_PAGE_SUBTITLE')}</p>
           <ListGroup flush>
             {
               pages.map((page) => (
                 <ListGroupItem key={page.id} className="border-0 px-0" onClick={() => setSelectedPage(page)}>
-                  <label htmlFor="crmRadio" className="d-flex cursor-pointer">
+                  <label htmlFor={`page_${page.id}`} className="d-flex cursor-pointer">
                     <span className="avatar-tag me-1">
                       <img className="me-1" src={page.picture} alt="" height="38" width="38" />
                     </span>
@@ -93,7 +121,7 @@ export default function ConnectionsTabContent() {
                         <span>{page.category}</span>
                       </div>
                       <span>
-                        <Input type="radio" id="crmRadio" name="categoryRadio" />
+                        <Input type="radio" id={`page_${page.id}`} name="categoryRadio" />
                       </span>
                     </span>
                   </label>
@@ -102,11 +130,13 @@ export default function ConnectionsTabContent() {
             }
           </ListGroup>
           <Col className="text-center mt-1" xs={12}>
-            <Button type="submit" className="me-1" color="primary" onClick={onSubmit}>
-              Link
+            <Button type="submit" className="me-1" color="primary" onClick={onSubmit} disabled={connectingFacebookPage}>
+              {
+                connectingFacebookPage ? <Spinner size="sm" /> : t('PAGE.LINK')
+              }
             </Button>
-            <Button color="secondary" outline onClick={() => setShowModal(!showModal)}>
-              Cancel
+            <Button color="secondary" outline onClick={() => setShowModal(!showModal)} disabled={connectingFacebookPage}>
+              {t('PAGE.CANCEL')}
             </Button>
           </Col>
         </ModalBody>

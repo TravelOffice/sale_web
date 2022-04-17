@@ -1,5 +1,7 @@
 import GetFacebookPagesUseCaseImpl from '@domain/useCases/facebook/GetFacebookPagesUseCaseImpl';
 import { GetFacebookPagesUseCase } from '@domain/useCases/interfaces/facebook/GetFacebookPagesUseCase';
+import { ConnectFacebookPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectFacebookPageUseCase';
+import ConnectFacebookPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectFacebookPageUseCaseImpl';
 import { GetConversationsUseCase } from './interfaces/chat/GetConversationsUseCase';
 import GetConversationsUseCaseImpl from './chat/GetConversationsUseCaseImpl';
 import { GetMessagesUseCase } from './interfaces/chat/GetMessagesUseCase';
@@ -28,6 +30,7 @@ interface UseCases {
   getAllLeadsUseCase: GetAllLeadsUseCase
   addLeadUseCase: AddLeadUseCase
   updateLeadUseCase: UpdateLeadUseCase
+  connectFacebookPageUseCase: ConnectFacebookPageUseCase,
 }
 
 const useCases : UseCases = {
@@ -40,9 +43,9 @@ const useCases : UseCases = {
   getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
   addLeadUseCase: new AddLeadUseCaseImpl(),
   updateLeadUseCase: new UpdateLeadUseCaseImpl(),
+  connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const {
   getConversationsUseCase,
   getMessagesUseCase,
@@ -53,4 +56,5 @@ export const {
   getAllLeadsUseCase,
   addLeadUseCase,
   updateLeadUseCase,
+  connectFacebookPageUseCase,
 } = useCases;

@@ -18,17 +18,20 @@ const pageConnectionSlice = createSlice({
   reducers: {
     connectFacebookPage: (
       state,
-      _action: PayloadAction<{ userAccessToken: string, page: FacebookPage }>,
+      _action: PayloadAction<ConnectFacebookPageRequest>,
     ) => {
       state.connectingFacebookPage = true;
     },
     onFacebookPageConnected: (state, action: PayloadAction<FacebookPage>) => {
-      const { payload } = action;
-      state.facebookPage = payload;
+      state.facebookPage = action.payload;
+    },
+    onFacebookPageConnectCompleted: (state) => {
       state.connectingFacebookPage = false;
     },
   },
 });
+
+export type ConnectFacebookPageRequest = { userAccessToken: string, page: FacebookPage };
 
 // Actions
 export const pageConnectionActions = pageConnectionSlice.actions;
