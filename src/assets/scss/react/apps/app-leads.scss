@@ -10,10 +10,23 @@
   border-bottom-right-radius: $border-radius;
 }
 
-.app-user-list {
+.app-lead-list {
   @media (max-width: 647px) {
     .table-header-actions {
       margin-top: 1rem;
     }
   }
 }
+
+.rdt_TableCell:first-child {
+  min-width: auto;
+}
+
+.spin-animated {
+  -webkit-animation:spin 2s linear infinite;
+  -moz-animation:spin 2s linear infinite;
+  animation:spin 2s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }

@@ -1,0 +1,41 @@
+{
+    "COMMON": {
+        "TOTAL": "Tổng số",
+        "SHOW": "Hiển thị",
+        "SEARCH": "Tìm kiếm",
+        "ADD":"Thêm",
+        "EDIT": "Sửa",
+        "FILTERS": "Lọc",
+        "SELECT": "Chọn...",
+        "DETAILS": "Chi tiết",
+        "DELETE": "Xóa",
+        "PREVIOUS": "Trước",
+        "NEXT": "Sau",
+        "ACTIONS": "Tùy chọn",
+        "STATUS": "Trạng thái",
+        "CREATED_AT": "Ngày tạo",
+        "SUCCESS": "Success",
+        "ERROR": "Error"    
+    },
+    "LEAD": {
+        "NAME": "Họ tên",
+        "PHONE": "SĐT chính",
+        "BIRTHDAY": "Ngày sinh",
+        "NEW": "Mới",
+        "QUALIFYING": "Đang duyệt",
+        "QUALIFIED": "Đã duyệt",
+        "TAKING_CARE": "Đang chăm sóc",
+        "MR_YOUNG": "Anh",
+        "MRS_YOUNG": "Chị",
+        "MR_OLD": "Ông",
+        "MRS_OLD": "Bà",
+        "MALE": "Nam",
+        "FEMALE": "Nữ",
+        "SOCIAL": "Mạng xã hội",
+        "WEBSITE": "Website",
+        "MARRIED": "Đã kết hôn",
+        "SINGLE": "Độc thân",
+        "FETCH_ALL_SUCCESS": "Lấy danh sách LEAD thành công",
+        "FETCH_ALL_ERROR": "Lấy danh sách LEAD bị lỗi"
+    }
+}

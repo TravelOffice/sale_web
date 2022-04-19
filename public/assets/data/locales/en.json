@@ -1,0 +1,41 @@
+{
+    "COMMON": {
+        "TOTAL": "Total",
+        "SHOW": "Show",
+        "SEARCH": "Search",
+        "ADD":"Add",
+        "EDIT": "Edit",
+        "FILTERS": "Filters",
+        "SELECT": "Select",
+        "DETAILS": "Details",
+        "DELETE": "Delete",
+        "PREVIOUS": "Previous",
+        "NEXT": "Next",
+        "ACTIONS": "Actions",
+        "STATUS": "Status",
+        "CREATED_AT": "Created at",
+        "SUCCESS": "Success",
+        "ERROR": "Error"    
+    },
+    "LEAD": {
+        "NAME": "Name",
+        "PHONE": "Phone",
+        "BIRTHDAY": "Birthday",
+        "NEW": "New",
+        "QUALIFYING": "Qualifying",
+        "QUALIFIED": "Qualified",
+        "TAKING_CARE": "Taking care",
+        "MR_YOUNG": "Mr",
+        "MRS_YOUNG": "Mrs",
+        "MR_OLD": "Mr",
+        "MRS_OLD": "Mrs",
+        "MALE": "Male",
+        "FEMALE": "Female",
+        "SOCIAL": "Social",
+        "WEBSITE": "Website",
+        "MARRIED": "Married",
+        "SINGLE": "Single",
+        "FETCH_ALL_SUCCESS": "Fetch assigned leads successfully",
+        "FETCH_ALL_ERROR": "Failed to fetch assigned leads"
+    }
+}

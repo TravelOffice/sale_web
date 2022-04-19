@@ -1,101 +1,100 @@
-import React, { MouseEventHandler } from 'react';
-
-// ** React Imports
-import { Link } from 'react-router-dom';
-
 // ** Custom Components
 import Avatar, { AvatarColor } from '@components/Avatar/Avatar';
-
+// ** i18n import
+import i18n from '@config/i18n';
+import { Lead } from '@domain/entities/Lead';
 // ** Store & Actions
 import { leadActions } from '@redux/slices/leadSlice';
-
+import React, { MouseEventHandler } from 'react';
+import { TableColumn } from 'react-data-table-component';
 // ** Icons Imports
 import {
-  Slack, User, Settings, Database, Edit2, MoreVertical, FileText, Trash2, Archive,
+  Archive, FileText, MoreVertical, Trash2,
 } from 'react-feather';
-
+import { useDispatch } from 'react-redux';
+// ** React Imports
+import { Link } from 'react-router-dom';
 // ** Reactstrap Imports
 import {
-  Badge, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem,
+  Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
-import { Lead } from '@domain/entities/Lead';
-import { TableColumn } from 'react-data-table-component';
-import { useDispatch } from 'react-redux';
-import { AnySchema } from 'yup';
 
 // ** Renders Client Columns
 const renderClient = (row: Lead) => {
-  const stateNum = Math.floor(Math.random() * 6);
-  const states : AvatarColor[] = ['light-success', 'light-danger', 'light-warning', 'light-info', 'light-primary', 'light-secondary'];
-  const color : AvatarColor = states[stateNum] || 'primary';
+  const states : { [key: string] : AvatarColor } = {
+    NEW: 'light-primary',
+    QUALIFYING: 'light-warning',
+    QUALIFIED: 'light-success',
+    TAKING_CARE: 'light-info',
+  };
+  const color : AvatarColor = states[row.status];
 
-  return <Avatar color={color} className="me-1" content={row.name || 'John Doe'} />;
+  return <Avatar color={color || 'primary'} className="me-1" content={row.name} />;
 };
 
-const statusObjs = {
-  NEW: 'light-warning',
-  QUALIFYING: 'light-success',
-  QUALIFIED: 'light-secondary',
-  TAKING_CARE: 'light-secondary',
-  TRADING: 'light-secondary',
+const statusObj = {
+  NEW: 'light-primary',
+  QUALIFYING: 'light-warning',
+  QUALIFIED: 'light-success',
+  TAKING_CARE: 'light-info',
+  TRADING: 'light-danger',
   TRADED: 'light-secondary',
 };
 
 // eslint-disable-next-line import/prefer-default-export
 export const columns : TableColumn<Lead>[] = [
   {
-    name: 'User',
+    name: i18n.t('LEAD.NAME'),
     sortable: true,
-    minWidth: '300px',
-    sortField: 'fullName',
+    minWidth: '250px',
+    sortField: 'name',
     selector: (row: Lead) => row.name,
     cell: (row: Lead) => (
       <div className="d-flex justify-content-left align-items-center">
         {renderClient(row)}
         <div className="d-flex flex-column">
           <Link
-            to={`/apps/user/view/${row.otherPhoneNumbers[0]}`}
+            to={`/apps/user/view/${row.primaryPhoneNumber}`}
             className="user_name text-truncate text-body"
-            // onClick={() => dispatch(getLead(row.id))}
           >
             <span className="fw-bolder">{row.name}</span>
           </Link>
-          <small className="text-truncate text-muted mb-0">{row.email}</small>
+          <small className="text-truncate text-muted mb-0">{i18n.t(row.vocative)}</small>
         </div>
       </div>
     ),
   },
   {
-    name: 'address',
-    minWidth: '138px',
+    name: i18n.t('LEAD.PHONE'),
+    minWidth: '150px',
     sortable: true,
-    sortField: 'address',
-    selector: (row: Lead) => row.address || '',
-    cell: (row: Lead) => <span className="text-capitalize">{row.address}</span>,
+    sortField: 'phone',
+    selector: (row: Lead) => row.primaryPhoneNumber || '',
+    cell: (row: Lead) => <span className="text-capitalize">{row.primaryPhoneNumber}</span>,
   },
   {
-    name: 'Email',
-    minWidth: '230px',
+    name: i18n.t('LEAD.BIRTHDAY'),
+    minWidth: '150px',
     sortable: true,
-    sortField: 'email',
-    selector: (row: Lead) => row.email || '',
-    cell: (row: Lead) => <span className="text-capitalize">{row.email}</span>,
+    sortField: 'birthday',
+    selector: (row: Lead) => row.birthday || '',
+    cell: (row: Lead) => <span className="text-capitalize">{row.birthday}</span>,
   },
   {
-    name: 'Status',
-    minWidth: '138px',
+    name: i18n.t('COMMON.STATUS'),
+    minWidth: '150px',
     sortable: true,
     sortField: 'status',
     selector: (row: Lead) => row.status,
     cell: (row: Lead) => (
-      <Badge className="text-capitalize" color={statusObjs[row.status]} pill>
-        {row.status}
+      <Badge className="text-capitalize" color={statusObj[row.status]} pill>
+        {i18n.t(row.status)}
       </Badge>
     ),
   },
   {
-    name: 'Actions',
-    minWidth: '100px',
+    name: i18n.t('COMMON.ACTIONS'),
+    minWidth: '50px',
     cell: (row: Lead) => {
       const dispatch = useDispatch();
       const selectRow: MouseEventHandler = (e) => {
@@ -106,7 +105,7 @@ export const columns : TableColumn<Lead>[] = [
         <div className="column-action">
           <UncontrolledDropdown>
             <DropdownToggle tag="div" className="btn btn-sm">
-              <MoreVertical size={16} className="cursor-pointer" />
+              <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem
@@ -114,12 +113,12 @@ export const columns : TableColumn<Lead>[] = [
                 className="w-100"
                 to={`/apps/user/view/${row.primaryPhoneNumber}`}
               >
-                <FileText size={16} className="me-50" />
-                <span className="align-middle">Details</span>
+                <FileText size={14} className="me-50" />
+                <span className="align-middle">{i18n.t('COMMON.DETAILS')}</span>
               </DropdownItem>
               <DropdownItem tag="a" href="/" className="w-100" onClick={selectRow}>
-                <Archive size={16} className="me-50" />
-                <span className="align-middle">Edit</span>
+                <Archive size={14} className="me-50" />
+                <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
               </DropdownItem>
               <DropdownItem
                 tag="a"
@@ -129,8 +128,8 @@ export const columns : TableColumn<Lead>[] = [
                   e.preventDefault();
                 }}
               >
-                <Trash2 size={16} className="me-50" />
-                <span className="align-middle">Delete</span>
+                <Trash2 size={14} className="me-50" />
+                <span className="align-middle">{i18n.t('COMMON.DELETE')}</span>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
