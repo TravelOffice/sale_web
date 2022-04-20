@@ -51,7 +51,7 @@ declare module 'react-facebook-login/dist/facebook-login-render-props' {
     isProcessing?: boolean;
   }
 
-  export default class ReactFacebookLogin extends React.Component<
+  export default class ReactFacebookLogin extends React.PureComponent<
   ReactFacebookLoginProps,
   ReactFacebookLoginState
   > {}

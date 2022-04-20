@@ -38,12 +38,11 @@ const SidebarLeft = (props: SidebarLeftProps) => {
   const userProfile = authState.currentUser;
 
   // ** State
-  const [query, setQuery] = useState('');
+  const [query] = useState('');
   const [about, setAbout] = useState('');
   const [active, setActive] = useState<Conversation>();
   const [status, setStatus] = useState<UserStatus>('online');
-  const [filteredChat, setFilteredChat] = useState([]);
-  const [filteredContacts, setFilteredContacts] = useState([]);
+  const [filteredChat] = useState([]);
 
   // ** Handles User Chat Click
   const handleUserClick = (item: Conversation) => {

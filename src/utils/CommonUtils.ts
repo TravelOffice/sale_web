@@ -1,5 +1,5 @@
 // ** Checks if an object is empty (returns boolean)
-import AdminUser, { UserStatus } from '@domain/entities/AdminUser';
+import AdminUser from '@domain/entities/AdminUser';
 
 export const isObjEmpty = (obj: Object) => Object.keys(obj).length === 0;
 

@@ -7,7 +7,7 @@ import { Navbar, Button } from 'reactstrap';
 import ScrollToTop from '@components/ScrollToTop/ScrollToTop';
 import FooterComponent from '@components/FooterComponent/FooterComponent';
 import {
-  useFooterType, useNavbarColor, useNavbarType, useRTL, useSkin,
+  useFooterType, useNavbarColor, useNavbarType, useSkin,
 } from '@hooks/layout';
 import '@styles/base/core/menu/menu-types/vertical-menu.scss';
 import '@styles/base/core/menu/menu-types/vertical-overlay-menu.scss';
@@ -16,7 +16,7 @@ import { layoutActions } from '@redux/slices/layoutSlice';
 import Sidebar from '@components/Sidebar/Sidebar';
 import NavbarComponent from '@components/NavBarComponent/NavBarComponent';
 import { MenuItem } from '@domain/entities/MenuLinkItem';
-import defaultLayoutConfig, { LayoutContentWidth } from '../../config/LayoutConfig';
+import defaultLayoutConfig from '../../config/LayoutConfig';
 
 interface VerticalLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   navbar?: ReactNode,
@@ -54,10 +54,10 @@ function VerticalLayout(props: VerticalLayoutProps) {
   const { menuCollapsed } = layoutStore;
   const isHidden = layoutStore.menuHidden;
   const setMenuCollapsed = (val: boolean) => dispatch(layoutActions.handleMenuCollapsed(val));
-  const setContentWidth = (
-    val: LayoutContentWidth,
-  ) => dispatch(layoutActions.handleContentWidth(val));
-  const setIsHidden = (val: boolean) => dispatch(layoutActions.handleMenuHidden(val));
+  // const setContentWidth = (
+  //   val: LayoutContentWidth,
+  // ) => dispatch(layoutActions.handleContentWidth(val));
+  // const setIsHidden = (val: boolean) => dispatch(layoutActions.handleMenuHidden(val));
   useEffect(() => {
     if (menuVisibility && windowWidth < 1200) {
       setMenuVisibility(false);

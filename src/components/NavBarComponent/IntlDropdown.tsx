@@ -31,19 +31,19 @@ const IntlDropdown = () => {
         <span className="selected-language">{languages.get(i18n.language)}</span>
       </DropdownToggle>
       <DropdownMenu className="mt-0" end>
-        <DropdownItem href="/" tag="a" onClick={(e) => handleLangUpdate('en')}>
+        <DropdownItem href="/" tag="a" onClick={() => handleLangUpdate('en')}>
           <ReactCountryFlag className="country-flag" countryCode="us" svg />
           <span className="ms-1">English</span>
         </DropdownItem>
-        <DropdownItem href="/" tag="a" onClick={(e) => handleLangUpdate('fr')}>
+        <DropdownItem href="/" tag="a" onClick={() => handleLangUpdate('fr')}>
           <ReactCountryFlag className="country-flag" countryCode="fr" svg />
           <span className="ms-1">French</span>
         </DropdownItem>
-        <DropdownItem href="/" tag="a" onClick={(e) => handleLangUpdate('de')}>
+        <DropdownItem href="/" tag="a" onClick={() => handleLangUpdate('de')}>
           <ReactCountryFlag className="country-flag" countryCode="de" svg />
           <span className="ms-1">German</span>
         </DropdownItem>
-        <DropdownItem href="/" tag="a" onClick={(e) => handleLangUpdate('pt')}>
+        <DropdownItem href="/" tag="a" onClick={() => handleLangUpdate('pt')}>
           <ReactCountryFlag className="country-flag" countryCode="pt" svg />
           <span className="ms-1">Portuguese</span>
         </DropdownItem>

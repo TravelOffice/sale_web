@@ -58,15 +58,12 @@ const chatSlice = createSlice({
       }
       state.selectedConversation = action.payload;
     },
-    getMessages: (state, action: PayloadAction<Conversation | undefined>) => {
+    getMessages: (state, _action: PayloadAction<Conversation | undefined>) => {
       state.fetchingMessages = true;
     },
-    subscribeNewMessage: (state) => {},
-    sendMessage: (state, action: PayloadAction<[MessageData, Conversation?]>) => {},
-    sendAttachmentMessage: (state, action: PayloadAction<[File, Conversation?]>) => {
-      state.sendingAttachmentMessage = true;
-    },
-    loadMoreMessages: (state, action: PayloadAction<Conversation | undefined>) => {
+    subscribeNewMessage: (_state) => {},
+    sendMessage: (_state, _action: PayloadAction<[MessageData, Conversation?]>) => {},
+    loadMoreMessages: (state, _action: PayloadAction<Conversation | undefined>) => {
       state.loadingMoreMessages = true;
       state.firstLoad = false;
     },

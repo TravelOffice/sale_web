@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { Fragment, useEffect, ComponentType } from 'react';
+import React, { useEffect } from 'react';
 
 // ** Third Party Components
 import classnames from 'classnames';
