@@ -1,5 +1,8 @@
-import { CreateUpdateLeadResponse, Lead } from '@domain/entities/Lead';
+/* eslint-disable no-unused-vars */
+import { FetchAssignedLeadResponse as FetchLeadsResponse, CreateUpdateLeadResponse, Lead } from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+type HandleDataState = 'init' | 'loading' | 'finished' | 'error';
 
 interface LeadState {
   data: Lead[]
@@ -8,8 +11,10 @@ interface LeadState {
   selectedLead?: Lead,
   addedLeadResponse: CreateUpdateLeadResponse | null,
   updatedLeadResponse: CreateUpdateLeadResponse | null,
-  addLeadState: 'init' | 'loading' | 'finished' | 'error',
-  updateLeadState: 'init' | 'loading' | 'finished' | 'error',
+  addLeadState: HandleDataState,
+  updateLeadState: HandleDataState,
+  fetchAllLeadsError?: FetchLeadsResponse,
+  fetchAllLeadsState: HandleDataState,
 }
 
 const initialState : LeadState = {
@@ -21,15 +26,20 @@ const initialState : LeadState = {
   updatedLeadResponse: null,
   addLeadState: 'init',
   updateLeadState: 'init',
+  fetchAllLeadsState: 'init',
 };
 
 const leadSlice = createSlice({
   name: 'lead',
   initialState,
   reducers: {
-    getAllLeads: (state) => {},
+    getAllLeads: (state) => {
+      state.fetchAllLeadsState = 'loading';
+      state.fetchAllLeadsError = undefined;
+    },
     getLead: (state, action: PayloadAction<any>) => {},
     setAllLeads: (state, action: PayloadAction<Lead[]>) => {
+      state.fetchAllLeadsState = 'finished';
       state.allLeads = action.payload;
     },
     initAddLeadForm: (state) => {
@@ -37,6 +47,10 @@ const leadSlice = createSlice({
     },
     addLead: (state, action: PayloadAction<Lead>) => {
       state.addLeadState = 'loading';
+    },
+    setFetchAllLeadError: (state, action: PayloadAction<string>) => {
+      state.fetchAllLeadsState = 'error';
+      state.fetchAllLeadsError = { errorMsg: action.payload };
     },
     setAddedLead: (state, action: PayloadAction<Lead>) => {
       state.addLeadState = 'finished';

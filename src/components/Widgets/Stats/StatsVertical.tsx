@@ -1,5 +1,4 @@
 // ** Third Party Components
-import PropTypes from 'prop-types';
 import React, { ReactNode } from 'react';
 
 // ** Reactstrap Imports
@@ -17,10 +16,11 @@ const StatsVertical = (props: StatsVerticalProps) => {
   const {
     icon, color, stats, statTitle, className,
   } = props;
+  const bgColor = `bg-light-${color}`;
   return (
     <Card className="text-center">
       <CardBody className={className}>
-        <div className={`avatar p-50 m-0 mb-1 ${color ? `bg-light-${color}` : 'bg-light-primary'}`}>
+        <div className={`avatar p-50 m-0 mb-1 ${color ? bgColor : 'bg-light-primary'}`}>
           <div className="avatar-content">{icon}</div>
         </div>
         <h2 className="fw-bolder">{stats}</h2>

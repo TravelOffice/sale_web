@@ -14,8 +14,11 @@ function* getAllLeads() {
 function* addLead(action: PayloadAction<Lead>) {
   try {
     const lead: Lead = action.payload;
-    const leadAdded : Lead = yield call(leadPresenter.addLead, lead);
-    yield put(leadActions.setAddedLead(leadAdded));
+    const addedLead : Lead = yield call(leadPresenter.addLead, lead);
+    yield put(leadActions.setAddedLead(addedLead));
+    // Re-fetch all leads
+    const leads : Lead[] = yield call(leadPresenter.getAllLeads);
+    yield put(leadActions.setAllLeads(leads));
   } catch (error: any) {
     yield put(leadActions.setAddedLeadError(error.message));
   }
@@ -24,21 +27,19 @@ function* addLead(action: PayloadAction<Lead>) {
 function* updateLead(action: PayloadAction<Lead>) {
   try {
     const lead: Lead = action.payload;
-    const leadAdded : Lead = yield call(leadPresenter.updateLead, lead);
-    yield put(leadActions.setUpdatedLead(leadAdded));
+    const updatedLead : Lead = yield call(leadPresenter.updateLead, lead);
+    yield put(leadActions.setUpdatedLead(updatedLead));
+    // Re-fetch all leads
+    const leads : Lead[] = yield call(leadPresenter.getAllLeads);
+    yield put(leadActions.setAllLeads(leads));
   } catch (error: any) {
     yield put(leadActions.setUpdatedLeadError(error.message));
   }
 }
 
-function* getLead(action: PayloadAction<any>) {
-  const { payload } = action;
-}
-
 export default function* leadSaga() {
   yield all([
     takeLatest(leadActions.getAllLeads, getAllLeads),
-    takeLatest(leadActions.getLead, getLead),
     takeLatest(leadActions.addLead, addLead),
     takeLatest(leadActions.updateLead, updateLead),
   ]);

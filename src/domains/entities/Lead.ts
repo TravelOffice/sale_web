@@ -56,8 +56,8 @@ export interface Lead {
   ward?: string,
   address?: string,
   status: StatusType,
-  createdAt?: string,
-  updatedAt?: string,
+  createdAt?: number,
+  updatedAt?: number,
   tags?: Array<string>,
   creatorId?: string,
   creatorName?: string,
@@ -69,6 +69,11 @@ export interface Lead {
 }
 
 export interface CreateUpdateLeadResponse {
+  lead?: Lead,
+  errorMsg?: string
+}
+
+export interface FetchAssignedLeadResponse {
   lead?: Lead,
   errorMsg?: string
 }

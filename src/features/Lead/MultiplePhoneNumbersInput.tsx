@@ -10,6 +10,7 @@ import {
 import {
   Button, Col, FormFeedback, Row,
 } from 'reactstrap';
+import i18n from '@config/i18n';
 
 export interface MultiplePhoneNumbersInputProps {
   fieldName: string,
@@ -45,7 +46,7 @@ const MultiplePhoneNumbersInput = (props: MultiplePhoneNumbersInputProps) => {
             <Col md={4}>
               <Button color="danger" className="text-nowrap px-1" onClick={() => deletePhoneNumber(index)} outline>
                 <X size={16} className="me-50" />
-                <span>Delete</span>
+                <span>{i18n.t('COMMON.DELETE')}</span>
               </Button>
             </Col>
             {errors[fieldName]
@@ -59,7 +60,7 @@ const MultiplePhoneNumbersInput = (props: MultiplePhoneNumbersInputProps) => {
       }
       <Button className="btn-icon" color="primary" onClick={() => append({ value: '' })}>
         <Plus size={16} />
-        <span className="align-middle ms-25">Add New Phone Number</span>
+        <span className="align-middle ms-25">{i18n.t('COMMON.ADD')}</span>
       </Button>
     </>
   );

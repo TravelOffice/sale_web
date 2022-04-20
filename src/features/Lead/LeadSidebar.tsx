@@ -1,30 +1,13 @@
+/* eslint-disable no-unused-vars */
 // ** React Import
-import React, { useState } from 'react';
-
-// ** Custom Components
-import RightSideBar from '@components/RightSideBar/RightSideBar';
-
-// ** Utils
-import { selectThemeColors } from '@utils/Utils';
-
-// ** Third Party Components
-import classnames from 'classnames';
-import {
-  Control, Controller, FieldErrors, UseFormRegister,
-} from 'react-hook-form';
-import Select, { SingleValue } from 'react-select';
-import CreatableSelect from 'react-select/creatable';
-
-// ** Reactstrap Imports
-import Input from '@components/Input/Input';
-import {
-  Button, Form, FormFeedback, Label, Spinner,
-} from 'reactstrap';
-
 // ** Store & Actions
 import nationalities from '@assets/json/countries.json';
 import provinces from '@assets/json/provinces.json';
-import Flatpickr, { DateTimePickerProps } from 'react-flatpickr';
+// ** Reactstrap Imports
+import Input from '@components/Input/Input';
+// ** Custom Components
+import RightSideBar from '@components/RightSideBar/RightSideBar';
+import i18n from '@config/i18n';
 import {
   leadMaritals,
   leadSexes,
@@ -34,8 +17,21 @@ import {
   leadVocatives,
   MaritalStatusType, SexType, SourceType, StatusType, VocativeType,
 } from '@domain/entities/Lead';
-import MultiplePhoneNumbersInput from './MultiplePhoneNumbersInput';
+// ** Utils
+import { selectThemeColors } from '@utils/Utils';
 // ** Third Party Components
+import classnames from 'classnames';
+import React, { useState } from 'react';
+import Flatpickr from 'react-flatpickr';
+import {
+  Control, Controller, FieldErrors, UseFormRegister,
+} from 'react-hook-form';
+import Select, { SingleValue } from 'react-select';
+import CreatableSelect from 'react-select/creatable';
+import {
+  Button, Form, FormFeedback, Label, Spinner,
+} from 'reactstrap';
+import MultiplePhoneNumbersInput from './MultiplePhoneNumbersInput';
 
 export interface Country {
   name: string,
@@ -148,7 +144,6 @@ const LeadSidebar = (props: LeadSidebarProps) => {
     toggleSidebar,
   } = props;
 
-  const [data, setData] = useState<any>(null);
   // Save the country to state to get the province
   const [country, setCountry] = useState<Country>(getCountry('VN'));
   const [province, setProvince] = useState<Province | null>(null);
@@ -166,7 +161,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
       <Form onSubmit={handleSubmit}>
         <div className="mb-1">
           <Label className="form-label" for="name">
-            Full Name
+            {i18n.t('LEAD.NAME')}
             {' '}
             <span className="text-danger">*</span>
           </Label>
@@ -181,7 +176,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="vocative">
-            Vocative Type
+            {i18n.t('LEAD.VOCATIVE')}
             {' '}
             <span className="text-danger">*</span>
           </Label>
@@ -192,7 +187,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
               <Select
                 isClearable={false}
                 classNamePrefix="select"
-                options={leadVocatives.map((item) => ({ label: item, value: item }))}
+                options={leadVocatives.map((item: VocativeType) => ({ label: i18n.t(`LEAD.${item}`) ?? item, value: item }))}
                 theme={selectThemeColors}
                 className={classnames('react-select', { 'is-invalid': errors.vocative })}
                 {...field}
@@ -203,7 +198,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="primaryPhoneNumber">
-            Primary Phone Number
+            {i18n.t('LEAD.PHONE')}
             {' '}
             <span className="text-danger">*</span>
           </Label>
@@ -222,7 +217,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="email">
-            Email
+            {i18n.t('LEAD.EMAIL')}
           </Label>
           <Controller
             name="email"
@@ -241,7 +236,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="birthday">
-            Birthday
+            {i18n.t('LEAD.BIRTHDAY')}
           </Label>
           <Controller
             name="birthday"
@@ -254,7 +249,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="nationality">
-            Select Nationality
+            {i18n.t('LEAD.NATIONALITY')}
             {' '}
             <span className="text-danger">*</span>
           </Label>
@@ -279,7 +274,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="country">
-            Country
+            {i18n.t('LEAD.COUNTRY')}
             {' '}
             <span className="text-danger">*</span>
           </Label>
@@ -290,6 +285,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
               const { onChange, value, ...rest } = field;
               return (
                 <Select
+                  placeholder={i18n.t('COMMON.SELECT')}
                   isClearable={false}
                   classNamePrefix="select"
                   defaultValue={defaultValues.country}
@@ -311,13 +307,14 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="province">
-            Province
+            {i18n.t('LEAD.PROVINCE')}
           </Label>
           <Controller
             name="province"
             control={control}
             render={({ field: { onChange, ...rest } }) => (
               <CreatableSelect
+                placeholder={i18n.t('COMMON.SELECT')}
                 formatCreateLabel={(userInput) => `Create province: ${userInput}`}
                 isClearable={false}
                 classNamePrefix="select"
@@ -341,52 +338,53 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="district">
-            District
+            {i18n.t('LEAD.DISTRICT')}
           </Label>
           <Controller
             name="district"
             control={control}
             render={({ field }) => (
-              <Input id="district" placeholder="Your district" invalid={errors.district && true} {...field} />
+              <Input id="district" invalid={errors.district && true} {...field} />
             )}
           />
         </div>
         <div className="mb-1">
           <Label className="form-label" for="ward">
-            Ward
+            {i18n.t('LEAD.WARD')}
           </Label>
           <Controller
             name="ward"
             control={control}
             render={({ field }) => (
-              <Input id="ward" placeholder="Your ward" invalid={errors.ward && true} {...field} />
+              <Input id="ward" invalid={errors.ward && true} {...field} />
             )}
           />
         </div>
         <div className="mb-1">
           <Label className="form-label" for="address">
-            Address
+            {i18n.t('LEAD.ADDRESS')}
           </Label>
           <Controller
             name="address"
             control={control}
             render={({ field }) => (
-              <Input id="address" placeholder="Your address" invalid={errors.address && true} {...field} />
+              <Input id="address" invalid={errors.address && true} {...field} />
             )}
           />
         </div>
         <div className="mb-1">
           <Label className="form-label" for="status">
-            Status Type
+            {i18n.t('COMMON.STATUS')}
           </Label>
           <Controller
             name="status"
             control={control}
             render={({ field }) => (
               <Select
+                placeholder={i18n.t('COMMON.SELECT')}
                 isClearable={false}
                 classNamePrefix="select"
-                options={leadStatuses.map((item) => ({ label: item, value: item }))}
+                options={leadStatuses.map((item) => ({ label: i18n.t(`LEAD.${item}`) ?? item, value: item }))}
                 theme={selectThemeColors}
                 className={classnames('react-select', { 'is-invalid': errors.status })}
                 {...field}
@@ -397,7 +395,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="sex">
-            Sex Type
+            {i18n.t('LEAD.SEX')}
           </Label>
           <Controller
             name="sex"
@@ -406,7 +404,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
               <Select
                 isClearable={false}
                 classNamePrefix="select"
-                options={leadSexes.map((item) => ({ label: item, value: item }))}
+                options={leadSexes.map((item) => ({ label: i18n.t(`LEAD.${item}`) ?? item, value: item }))}
                 theme={selectThemeColors}
                 className={classnames('react-select', { 'is-invalid': errors.sex })}
                 {...field}
@@ -417,7 +415,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="source">
-            Source Type
+            {i18n.t('LEAD.SOURCE')}
           </Label>
           <Controller
             name="source"
@@ -426,7 +424,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
               <Select
                 isClearable={false}
                 classNamePrefix="select"
-                options={leadSources.map((item) => ({ label: item, value: item }))}
+                options={leadSources.map((item) => ({ label: i18n.t(`LEAD.${item}`) ?? item, value: item }))}
                 theme={selectThemeColors}
                 className={classnames('react-select', { 'is-invalid': errors.source })}
                 {...field}
@@ -437,7 +435,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="maritalStatus">
-            Marital Type
+            {i18n.t('LEAD.MARITAL')}
           </Label>
           <Controller
             name="maritalStatus"
@@ -446,7 +444,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
               <Select
                 isClearable={false}
                 classNamePrefix="select"
-                options={leadMaritals.map((item) => ({ label: item, value: item }))}
+                options={leadMaritals.map((item) => ({ label: i18n.t(`LEAD.${item}`) ?? 'SINGLE', value: item }))}
                 theme={selectThemeColors}
                 className={classnames('react-select', { 'is-invalid': errors.maritalStatus })}
                 {...field}
@@ -457,13 +455,14 @@ const LeadSidebar = (props: LeadSidebarProps) => {
         </div>
         <div className="mb-1">
           <Label className="form-label" for="tags">
-            Tags
+            {i18n.t('LEAD.TAGS')}
           </Label>
           <Controller
             name="tags"
             control={control}
             render={({ field }) => (
               <CreatableSelect
+                placeholder={i18n.t('COMMON.SELECT')}
                 isMulti
                 formatCreateLabel={(userInput) => `Create new tag: ${userInput}`}
                 isClearable={false}
@@ -476,31 +475,8 @@ const LeadSidebar = (props: LeadSidebarProps) => {
           />
           {errors.tags && <FormFeedback>{(errors.tags as any).message}</FormFeedback>}
         </div>
-        <div className="mb-1">
-          <Label className="form-label" for="enabled">
-            Lead Enabled
-          </Label>
-          <Controller
-            name="enabled"
-            control={control}
-            render={({ field }) => (
-              <Select
-                isClearable={false}
-                classNamePrefix="select"
-                options={[
-                  { label: 'TRUE', value: true },
-                  { label: 'FALSE', value: false },
-                ]}
-                theme={selectThemeColors}
-                className={classnames('react-select', { 'is-invalid': errors.enabled })}
-                {...field}
-              />
-            )}
-          />
-          {errors.enabled && <FormFeedback>{errors.enabled.message}</FormFeedback>}
-        </div>
         <Button type="submit" className="me-1" color="primary">
-          {loadingState !== 'loading' ? 'Submit ' : 'Loading '}
+          {loadingState !== 'loading' ? i18n.t('COMMON.SUBMIT') : i18n.t('COMMON.LOADING')}
           {loadingState === 'loading' ? (
             <Spinner
               style={{ width: '0.7rem', height: '0.7rem' }}
@@ -510,7 +486,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
           ) : null }
         </Button>
         <Button type="reset" color="secondary" outline onClick={toggleSidebar}>
-          Cancel
+          {i18n.t('COMMON.CANCEL')}
         </Button>
       </Form>
     </RightSideBar>

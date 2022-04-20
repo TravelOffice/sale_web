@@ -176,7 +176,7 @@ const Navigation : MenuItem[] = [
       {
         id: 'list',
         title: 'List',
-        icon: <Circle size={12} />,
+        icon: <Circle size={16} />,
         navLink: '/apps/lead/list',
       },
       {

@@ -46,7 +46,6 @@ function Toasty(props: ToastyProps) {
       </div>
       <div className="toastify-body">
         <span role="img" aria-label="toast-text">
-          👋
           {' '}
           {message}
         </span>

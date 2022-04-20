@@ -5,8 +5,11 @@ import { LeadRepository } from './interfaces/LeadRepository';
 
 export default class LeadRepositoryImpl implements LeadRepository {
   getAllLeads = async () => {
-    const leads: Lead[] = [];
-    return leads;
+    const response = await apiProvider.authorizedRequest.get('/leads');
+    if (response.message !== ResponseType.SUCCESS) {
+      throw Error('Get Assigned Lead error');
+    }
+    return response.data;
   }
 
   addLead = async (lead: Lead) => {

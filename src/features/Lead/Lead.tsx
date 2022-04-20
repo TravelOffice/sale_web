@@ -1,53 +1,49 @@
-import React from 'react';
-// ** User List Component
-
-// ** Reactstrap Imports
-import { Row, Col } from 'reactstrap';
-
 // ** Custom Components
 import StatsHorizontal from '@components/Widgets/Stats/StatsHorizontal';
-
+import i18n from '@config/i18n';
+// ** Styles
+import '@styles/react/apps/app-leads.scss';
+import React from 'react';
 // ** Icons Imports
 import {
-  User, UserPlus, UserCheck, UserX,
+  User, UserCheck, UserPlus,
 } from 'react-feather';
+// ** Reactstrap Imports
+import { Col, Row } from 'reactstrap';
 import Table from './Table';
 
-// ** Styles
-import '@styles/react/apps/app-users.scss';
-
 const LeadsList = () => (
-  <div className="app-user-list">
+  <div className="app-lead-list">
     <Row>
       <Col lg="3" sm="6">
         <StatsHorizontal
           color="primary"
-          statTitle="Total Users"
+          statTitle={i18n.t('COMMON.TOTAL')}
           icon={<User size={20} />}
           renderStats={<h3 className="fw-bolder mb-75">21,459</h3>}
         />
       </Col>
       <Col lg="3" sm="6">
         <StatsHorizontal
-          color="danger"
-          statTitle="Paid Users"
+          color="info"
+          statTitle={i18n.t('LEAD.NEW')}
           icon={<UserPlus size={20} />}
           renderStats={<h3 className="fw-bolder mb-75">4,567</h3>}
         />
       </Col>
       <Col lg="3" sm="6">
         <StatsHorizontal
-          color="success"
-          statTitle="Active Users"
-          icon={<UserCheck size={20} />}
+          color="warning"
+          statTitle={i18n.t('LEAD.QUALIFYING')}
+          icon={<UserPlus size={20} />}
           renderStats={<h3 className="fw-bolder mb-75">19,860</h3>}
         />
       </Col>
       <Col lg="3" sm="6">
         <StatsHorizontal
-          color="warning"
-          statTitle="Pending Users"
-          icon={<UserX size={20} />}
+          color="success"
+          statTitle={i18n.t('LEAD.QUALIFIED')}
+          icon={<UserCheck size={20} />}
           renderStats={<h3 className="fw-bolder mb-75">237</h3>}
         />
       </Col>
