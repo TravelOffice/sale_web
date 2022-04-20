@@ -1,16 +1,16 @@
-import {
-  all, call, cancelled, put, take, takeEvery, takeLatest, select,
-} from 'redux-saga/effects';
-import { chatActions } from '@redux/slices/chatSlice';
 import { chatPresenter } from '@adapter/presenters';
 import { Conversation } from '@domain/entities/Conversation';
-import { PayloadAction } from '@reduxjs/toolkit';
 import { Message, MessageData } from '@domain/entities/Message';
-import { END, EventChannel, eventChannel } from 'redux-saga';
+import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';
+import { PayloadAction } from '@reduxjs/toolkit';
+import { END, EventChannel, eventChannel } from 'redux-saga';
+import {
+  all, call, cancelled, put, select, take, takeEvery, takeLatest,
+} from 'redux-saga/effects';
 
 function* getConversation() {
-  const data : Conversation[] = yield call(chatPresenter.getConversations);
+  const data: Conversation[] = yield call(chatPresenter.getConversations);
   yield put({ type: chatActions.onConversationsRetrieved.type, payload: data });
 }
 
@@ -19,8 +19,8 @@ function* getConversationMessages(action: PayloadAction<Conversation | undefined
   if (!conversation) {
     yield put({ type: chatActions.onMessagesRetrieved.type, payload: [] });
   } else {
-    const data : Message[] = yield call(chatPresenter.getMessages, conversation);
-    yield put({ type: chatActions.onMessagesRetrieved.type, payload: data });
+    const messages: Message[] = yield call(chatPresenter.getMessages, conversation);
+    yield put({ type: chatActions.onMessagesRetrieved.type, payload: messages });
   }
 }
 
@@ -28,15 +28,31 @@ function* getConversationMessages(action: PayloadAction<Conversation | undefined
  * Create redux-saga event channel to listen to new message. Whenever receiving a message,
  * this channel should emit it. By using this event in infinite loop, the app
  */
-function createSubscriptionChannel() : EventChannel<Message> {
+function createSubscriptionChannel(): EventChannel<Message> {
   return eventChannel((emit) => {
     const obs = chatPresenter.subscribeNewMessage().subscribe({
       next: (value) => {
         if (value.data) {
           const rawMsg = value.data.onNewMessageReceived.data;
+          const messageData = JSON.parse(rawMsg.messageData);
+          if (messageData.attachments && messageData.attachments.length > 0) {
+            messageData.attachments = messageData.attachments.map((attachment: any) => {
+              // Tranform original data
+              const {type, payload, ...modifiedAttachment} = attachment;
+              const [fileUri] = attachment.payload.url.split('?');
+              const { length, [length - 1]: fileName } = fileUri.split('/');
+              modifiedAttachment.mimeType = `${attachment.type}/*`;
+              modifiedAttachment.url = attachment.payload.url;
+              modifiedAttachment.name = fileName;
+
+              return modifiedAttachment;
+            });
+          }
+
+          // TODO: Support Zalo webhook event later
           const newMsg = {
             ...rawMsg,
-            messageData: JSON.parse(rawMsg.messageData),
+            messageData,
             timestamp: new Date(rawMsg.timestamp),
           } as Message;
           emit(newMsg);
@@ -64,7 +80,7 @@ function* subscribeNewMessageEvent() {
       yield put({ type: chatActions.onNewMessage.type, payload: message });
       // Notify to update conversations list
       const selector = (state: RootState) => state.chat.conversations;
-      const conversations : Conversation[] = yield select(selector);
+      const conversations: Conversation[] = yield select(selector);
       const conversation = conversations.find(
         (item: Conversation) => item.contact.id === message.customerId,
       );
@@ -75,7 +91,7 @@ function* subscribeNewMessageEvent() {
         // TODO: dispatch action to reload conversations
       }
     } finally {
-      const isCancelled : boolean = yield cancelled();
+      const isCancelled: boolean = yield cancelled();
       if (isCancelled) {
         subscriptionChannel.close();
       }
@@ -105,12 +121,27 @@ function* sendMessage(action: PayloadAction<[MessageData, Conversation?]>) {
   yield call(chatPresenter.sendMessage, newMessage, conversation);
 }
 
-function* loadMoreConversationMessages(action: PayloadAction<Conversation | undefined>) {
-  const conversation = action.payload;
+function* sendAttachmentMessage(action: PayloadAction<[File, Conversation?]>) {
+  const [attachment, conversation] = action.payload;
   if (!conversation) {
     return;
   }
-  const messages : Message[] = yield call(chatPresenter.loadMoreMessage, conversation);
+  const { facebookPage, zaloPage } = yield select((state: RootState) => state.auth);
+  const sender = conversation.chatPlatform === 'facebook' ? facebookPage?.id : zaloPage?.id;
+  if (!sender) {
+    return;
+  }
+  yield call(chatPresenter.sendAttachmentMessage, sender, attachment, conversation);
+  yield put({ type: chatActions.onAttachmentMessageSent.type });
+}
+
+function* loadMoreConversationMessages(action: PayloadAction<Conversation | undefined>) {
+  const conversation = action.payload;
+  let messages: Message[] = [];
+  if (conversation) {
+    messages = yield call(chatPresenter.loadMoreMessage, conversation);
+  }
+
   yield put({ type: chatActions.onMoreMessagesLoaded.type, payload: messages });
 }
 
@@ -119,6 +150,7 @@ export default function* chatSaga() {
     takeLatest(chatActions.getConversations, getConversation),
     takeLatest(chatActions.getMessages, getConversationMessages),
     takeEvery(chatActions.sendMessage, sendMessage),
+    takeLatest(chatActions.sendAttachmentMessage, sendAttachmentMessage),
     takeLatest(chatActions.subscribeNewMessage, subscribeNewMessageEvent),
     takeLatest(chatActions.loadMoreMessages, loadMoreConversationMessages),
   ]);

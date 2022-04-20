@@ -3,6 +3,7 @@ import { RoutePathConfig } from '@features/Router/RouteConfig';
 import NotFound from '@features/NotFound/NotFound';
 import Chat from '@features/Chat/AppChat';
 import Settings from '@features/Settings/Settings';
+import Lead from '@features/Lead/Lead';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -25,6 +26,11 @@ const Routes : RoutePathConfig[] = [
   {
     path: '/settings',
     component: <Settings />,
+  },
+  {
+    path: '/apps/lead/list',
+    exact: true,
+    component: <Lead />,
   },
   {
     path: '*',

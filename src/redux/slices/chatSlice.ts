@@ -12,6 +12,7 @@ interface ChatState {
   fetchingMessages: boolean,
   loadingMoreMessages: boolean,
   firstLoad: boolean,
+  sendingAttachmentMessage: boolean,
 }
 
 const initialState : ChatState = {
@@ -22,6 +23,7 @@ const initialState : ChatState = {
   fetchingMessages: false,
   loadingMoreMessages: false,
   firstLoad: true,
+  sendingAttachmentMessage: false,
 };
 
 const chatSlice = createSlice({
@@ -61,6 +63,9 @@ const chatSlice = createSlice({
     },
     subscribeNewMessage: (state) => {},
     sendMessage: (state, action: PayloadAction<[MessageData, Conversation?]>) => {},
+    sendAttachmentMessage: (state, action: PayloadAction<[File, Conversation?]>) => {
+      state.sendingAttachmentMessage = true;
+    },
     loadMoreMessages: (state, action: PayloadAction<Conversation | undefined>) => {
       state.loadingMoreMessages = true;
       state.firstLoad = false;
@@ -82,6 +87,9 @@ const chatSlice = createSlice({
       if (selectedConversation && selectedConversation.contact.id === message.customerId) {
         state.messages.push(message);
       }
+    },
+    onAttachmentMessageSent: (state) => {
+      state.sendingAttachmentMessage = false;
     },
   },
 });
