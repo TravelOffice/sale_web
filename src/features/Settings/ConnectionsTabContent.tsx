@@ -17,7 +17,7 @@ export default function ConnectionsTabContent() {
   const [showModal, setShowModal] = useState(false);
   const [pages, setPages] = useState<FacebookPage[]>([]);
   const [selectedPage, setSelectedPage] = useState<FacebookPage | undefined>();
-  const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
+  // const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
 
   // Handle event that the user grants permission to the web app. After
   // granting, the app can use the user's access token to access resources
