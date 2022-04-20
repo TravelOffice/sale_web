@@ -14,6 +14,8 @@ import 'prismjs/components/prism-jsx.min';
 
 import '@styles/core.scss';
 import '@styles/base/components.scss';
+// ** Styles
+import '@styles/react/libs/flatpickr/flatpickr.scss';
 
 const LazyApp = lazy(() => import('./features/App/App'));
 

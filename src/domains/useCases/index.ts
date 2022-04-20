@@ -10,6 +10,12 @@ import { SendAttachmentMessageUseCase } from './interfaces/chat/SendAttachmentMe
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
 import { SubscribeNewMessageUseCase } from './interfaces/chat/SubscribeNewMessageUseCase';
 import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImpl';
+import { GetAllLeadsUseCase } from './interfaces/lead/GetAllLeadsUseCase';
+import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
+import { AddLeadUseCase } from './interfaces/lead/AddLeadUseCase';
+import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
+import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
+import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
 
 interface UseCases {
   // Chat
@@ -19,6 +25,9 @@ interface UseCases {
   subscribeNewMessageUseCase: SubscribeNewMessageUseCase,
   getFacebookPagesUseCase: GetFacebookPagesUseCase,
   sendAttachmentMessageUseCase: SendAttachmentMessageUseCase,
+  getAllLeadsUseCase: GetAllLeadsUseCase
+  addLeadUseCase: AddLeadUseCase
+  updateLeadUseCase: UpdateLeadUseCase
 }
 
 const useCases : UseCases = {
@@ -28,6 +37,9 @@ const useCases : UseCases = {
   sendAttachmentMessageUseCase: new SendAttachmentMessageUseCaseImpl(),
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
+  getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
+  addLeadUseCase: new AddLeadUseCaseImpl(),
+  updateLeadUseCase: new UpdateLeadUseCaseImpl(),
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -38,4 +50,7 @@ export const {
   sendAttachmentMessageUseCase,
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
+  getAllLeadsUseCase,
+  addLeadUseCase,
+  updateLeadUseCase,
 } = useCases;

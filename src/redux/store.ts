@@ -7,6 +7,7 @@ import { createBrowserHistory } from 'history';
 import { layoutReducers } from '@redux/slices/layoutSlice';
 import { navbarReducers } from '@redux/slices/navbarSlice';
 import { chatReducers } from '@redux/slices/chatSlice';
+import { leadReducers } from './slices/leadSlice';
 
 const sageMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -17,6 +18,7 @@ const rootReducers = combineReducers({
   layout: layoutReducers,
   navbar: navbarReducers,
   chat: chatReducers,
+  lead: leadReducers,
 });
 
 export const store = configureStore({
