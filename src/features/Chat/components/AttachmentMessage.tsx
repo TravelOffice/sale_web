@@ -18,7 +18,7 @@ export default function AttachmentMessage(props: AttachmentMessageProps) {
   if (attachment.mimeType.startsWith('video/')) {
     return <VideoMessage attachment={attachment} message={message} />;
   }
-  if (isDocumentFile(attachment.mimeType)) {
+  if (isDocumentFile(attachment.mimeType, attachment.name)) {
     return <DocumentMessage attachment={attachment} message={message} />;
   }
   return <FileMessage attachment={attachment} message={message} />;
