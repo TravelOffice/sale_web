@@ -1,20 +1,8 @@
 // ** React Import
-import React, { useEffect, useState } from 'react';
-
-// ** Third Party Components
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
-
 // ** Store & Actions
 import nationalities from '@assets/json/countries.json';
 import toasty from '@components/Toasty/Toasty';
-import { leadActions } from '@redux/slices/leadSlice';
-import { RootState } from '@redux/store';
-import { Maybe } from 'graphql/jsutils/Maybe';
-import { useDispatch, useSelector } from 'react-redux';
-import { AssertsShape, ObjectShape, TypeOfShape } from 'yup/lib/object';
-import { AnyObject, Optionals } from 'yup/lib/types';
-import moment from 'moment';
+import i18n from '@config/i18n';
 import {
   LeadEnum,
   leadMaritals,
@@ -23,22 +11,25 @@ import {
   leadStatuses,
   leadVocatives,
 } from '@domain/entities/Lead';
+// ** Third Party Components
+import { yupResolver } from '@hookform/resolvers/yup';
+import { leadActions } from '@redux/slices/leadSlice';
+import { RootState } from '@redux/store';
 import {
   BIRTHDAYFORMAT, ErrorMessage, PHONE_NUMBER_VALIDATION_REGEX,
 } from '@utils/Constants';
+import moment from 'moment';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 import LeadSidebar, { Country, LeadFormData } from './LeadSidebar';
+
 // ** Third Party Components
 
 const {
   addLead, initAddLeadForm, updateLead, initUpdateLeadForm,
 } = leadActions;
-
-const countries : Country[] = nationalities.map((item) => ({
-  name: item.en_short_name,
-  nationality: item.nationality,
-  countryCode: item.alpha_2_code,
-}));
 
 const getCountry = (countryCode: string): Country => {
   const country = nationalities.find((item) => item.alpha_2_code === countryCode)!;
@@ -76,7 +67,8 @@ function isValidSelect(array: string[], message: string) {
 
     if (!value || !value.value) {
       return createError({ path, message: message ?? ErrorMessage.SELECT_FIELD_INVALID_MESSAGE });
-    } if (!array.includes(value.value)) {
+    }
+    if (!array.includes(value.value)) {
       return createError({ path, message: message ?? ErrorMessage.SELECT_FIELD_INVALID_MESSAGE });
     }
 
@@ -124,7 +116,7 @@ const leadDefaultValues : LeadFormData = {
   birthday: new Date(),
   nationality: { label: getNationality('Vietnamese').name, value: getNationality('Vietnamese') },
   sex: { label: leadSexes[0], value: leadSexes[0] },
-  maritalStatus: { label: leadMaritals[0], value: leadMaritals[0] },
+  maritalStatus: { label: i18n.t(leadMaritals[0]), value: leadMaritals[0] },
   otherPhoneNumbers: [],
   email: undefined,
   country: { label: getCountry('VN').name, value: getCountry('VN') },
@@ -150,7 +142,6 @@ const SidebarNewLead = (props: SidebarNewLeadProps) => {
   // ** States
   const addedLeadResponse = useSelector((state: RootState) => state.lead.addedLeadResponse);
   const addLeadState = useSelector((state: RootState) => state.lead.addLeadState);
-  const [data, setData] = useState<any>(null);
   const dispatch = useDispatch();
 
   //  Yup schema for validate create lead
@@ -173,7 +164,6 @@ const SidebarNewLead = (props: SidebarNewLeadProps) => {
   } = useForm({ defaultValues, resolver: yupResolver(validationSchema) });
   // ** Function to handle form submit
   const onSubmit = async (formData : LeadFormData) => {
-    setData(formData);
     dispatch(
       addLead({
         primaryPhoneNumber: formData.primaryPhoneNumber!,
@@ -253,7 +243,6 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
   const updatedLeadResponse = useSelector((state: RootState) => state.lead.updatedLeadResponse);
   const updateLeadState = useSelector((state: RootState) => state.lead.updateLeadState);
   const lead = useSelector((state: RootState) => state.lead.selectedLead);
-  const [data, setData] = useState<any>(null);
 
   const defaultValues: LeadFormData = leadDefaultValues;
   // ** Store Vars
@@ -278,25 +267,25 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
     if (lead) {
       reset({
         ...lead,
-        vocative: { label: lead.vocative!, value: lead.vocative! },
+        vocative: { label: i18n.t(`LEAD.${lead.vocative!}`), value: lead.vocative! },
         birthday: lead.birthday ? new Date(lead.birthday) : undefined,
         nationality: {
           label: getNationality(lead.nationality).nationality,
           value: getNationality(lead.nationality),
         },
-        sex: { label: lead.sex!, value: lead.sex! },
-        maritalStatus: { label: lead.maritalStatus!, value: lead.maritalStatus! },
+        sex: { label: i18n.t(`LEAD.${lead.sex!}`), value: lead.sex! },
+        maritalStatus: { label: i18n.t(`LEAD.${lead.maritalStatus!}`), value: lead.maritalStatus! },
         otherPhoneNumbers: lead.otherPhoneNumbers.map((item) => ({
           value: item,
         })),
         country: { label: getCountry(lead.country).name, value: getCountry(lead.country) },
         province: lead.province
-          ? { label: lead.province, value: { name: lead.province } } : undefined,
-        status: { label: lead.status, value: lead.status },
+          ? { label: i18n.t(`LEAD.${lead.province}`), value: { name: lead.province } } : undefined,
+        status: { label: i18n.t(`LEAD.${lead.status}`), value: lead.status },
         tags: lead.tags ? lead.tags.map((item) => ({ label: item, value: item })) : [],
-        source: { label: lead.source, value: lead.source },
+        source: { label: i18n.t(`LEAD.${lead.source}`), value: lead.source },
         enabled: lead.enabled ? { label: 'TRUE', value: true } : { label: 'FALSE', value: false },
-        type: lead.type ? { label: lead.type, value: lead.type } : undefined,
+        type: lead.type ? { label: i18n.t(`LEAD.${lead.type}`), value: lead.type } : undefined,
       });
     } else {
       reset(leadDefaultValues);
@@ -305,7 +294,6 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
 
   // ** Function to handle form submit
   const onSubmit = async (formData : LeadFormData) => {
-    setData(formData);
     dispatch(
       updateLead({
         ...lead!,
@@ -360,7 +348,7 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
       defaultValues={defaultValues}
       isUpdate
       loadingState={updateLeadState}
-      title={`Update Lead: ${lead?.name}`}
+      title={lead?.name!}
       toggleSidebar={toggleSidebar}
       handleSidebarClosed={handleSidebarClosed}
       handleSubmit={handleSubmit(onSubmit)}

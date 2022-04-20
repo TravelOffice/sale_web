@@ -5,13 +5,14 @@ import ReactCountryFlag from 'react-country-flag';
 import {
   UncontrolledDropdown, DropdownMenu, DropdownItem, DropdownToggle,
 } from 'reactstrap';
+import { Languages } from '@utils/Constants';
 
 const IntlDropdown = () => {
   const { i18n } = useTranslation();
 
   const languages = new Map();
-  languages.set('vi', 'Việt Nam');
-  languages.set('en', 'English');
+  languages.set('vi', Languages.VIETNAMESE);
+  languages.set('en', Languages.ENGLISH);
 
   // ** Function to switch Language
   const handleLangUpdate = (lang: string) => {

@@ -63,6 +63,10 @@ const chatSlice = createSlice({
     },
     subscribeNewMessage: (_state) => {},
     sendMessage: (_state, _action: PayloadAction<[MessageData, Conversation?]>) => {},
+    // eslint-disable-next-line no-unused-vars
+    sendAttachmentMessage: (state, action: PayloadAction<[File, Conversation?]>) => {
+      state.sendingAttachmentMessage = true;
+    },
     loadMoreMessages: (state, _action: PayloadAction<Conversation | undefined>) => {
       state.loadingMoreMessages = true;
       state.firstLoad = false;

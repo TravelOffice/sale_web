@@ -59,7 +59,7 @@ export const columns : TableColumn<Lead>[] = [
           >
             <span className="fw-bolder">{row.name}</span>
           </Link>
-          <small className="text-truncate text-muted mb-0">{i18n.t(row.vocative)}</small>
+          <small className="text-truncate text-muted mb-0">{i18n.t(`LEAD.${row.vocative}`)}</small>
         </div>
       </div>
     ),
@@ -88,7 +88,7 @@ export const columns : TableColumn<Lead>[] = [
     selector: (row: Lead) => row.status,
     cell: (row: Lead) => (
       <Badge className="text-capitalize" color={statusObj[row.status]} pill>
-        {i18n.t(row.status)}
+        {i18n.t(`LEAD.${row.status}`)}
       </Badge>
     ),
   },

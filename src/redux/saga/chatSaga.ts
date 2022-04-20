@@ -38,7 +38,8 @@ function createSubscriptionChannel(): EventChannel<Message> {
           if (messageData.attachments && messageData.attachments.length > 0) {
             messageData.attachments = messageData.attachments.map((attachment: any) => {
               // Tranform original data
-              const {type, payload, ...modifiedAttachment} = attachment;
+              // eslint-disable-next-line no-unused-vars
+              const { type, payload, ...modifiedAttachment } = attachment;
               const [fileUri] = attachment.payload.url.split('?');
               const { length, [length - 1]: fileName } = fileUri.split('/');
               modifiedAttachment.mimeType = `${attachment.type}/*`;

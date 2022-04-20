@@ -56,8 +56,6 @@ const LeadsList = () => {
   useEffect(() => {
     if (fetchLeadsState === 'error') {
       toasty.show({ title: i18n.t('COMMON.ERROR'), type: 'error', message: `${fetchLeadsError?.errorMsg}` });
-    } else if (fetchLeadsState === 'finished') {
-      toasty.show({ title: i18n.t('COMMON.SUCCESS'), type: 'success', message: i18n.t('LEAD.FETCH_ALL_SUCCESS') });
     }
   }, [fetchLeadsState]);
 

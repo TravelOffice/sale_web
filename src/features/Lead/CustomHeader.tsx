@@ -41,12 +41,11 @@ export default function CustomHeader(props: CustomHeaderProps) {
               {i18n.t('COMMON.SHOW')}
             </label>
             <Input
-              className="mx-50"
+              className="mx-50 per-page-input"
               type="select"
               id="rows-per-page"
               value={rowsPerPage}
               onChange={handlePerPage}
-              style={{ width: '5rem' }}
             >
               <option value="10">10</option>
               <option value="20">20</option>

@@ -1,5 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { FetchAssignedLeadResponse as FetchLeadsResponse, CreateUpdateLeadResponse, Lead } from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+type HandleDataState = 'init' | 'loading' | 'finished' | 'error';
 
 interface LeadState {
   data: Lead[]
@@ -8,10 +11,10 @@ interface LeadState {
   selectedLead?: Lead,
   addedLeadResponse: CreateUpdateLeadResponse | null,
   updatedLeadResponse: CreateUpdateLeadResponse | null,
-  addLeadState: 'init' | 'loading' | 'finished' | 'error',
-  updateLeadState: 'init' | 'loading' | 'finished' | 'error',
+  addLeadState: HandleDataState,
+  updateLeadState: HandleDataState,
   fetchAllLeadsError?: FetchLeadsResponse,
-  fetchAllLeadsState: 'init' | 'loading' | 'finished' | 'error',
+  fetchAllLeadsState: HandleDataState,
 }
 
 const initialState : LeadState = {

@@ -15,7 +15,10 @@
         "STATUS": "Status",
         "CREATED_AT": "Created at",
         "SUCCESS": "Success",
-        "ERROR": "Error"    
+        "ERROR": "Error",
+        "SUBMIT": "Submit",
+        "LOADING": "Loading",
+        "CANCEL": "Cancel"
     },
     "LEAD": {
         "NAME": "Name",
@@ -33,9 +36,22 @@
         "FEMALE": "Female",
         "SOCIAL": "Social",
         "WEBSITE": "Website",
+        "ADVERTISEMENT": "Quảng cáo",
+        "EVENT": "Sự kiện",
+        "OTHER": "Khác",
         "MARRIED": "Married",
         "SINGLE": "Single",
-        "FETCH_ALL_SUCCESS": "Fetch assigned leads successfully",
-        "FETCH_ALL_ERROR": "Failed to fetch assigned leads"
+        "VOCATIVE": "Vocative",
+        "EMAIL": "Email",
+        "NATIONALITY": "Nationality",
+        "COUNTRY": "Country",
+        "PROVINCE": "Province",
+        "DISTRICT": "District",
+        "WARD": "Ward",
+        "ADDRESS": "Address",
+        "MARITAL": "Marital",
+        "SEX": "Sex",
+        "TAGS": "Tags",
+        "SOURCE": "Source"
     }
 }
