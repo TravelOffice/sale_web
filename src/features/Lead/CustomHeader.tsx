@@ -7,7 +7,7 @@ import {
 } from 'reactstrap';
 
 import { leadActions } from '@redux/slices/leadSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 const { initAddLeadForm } = leadActions;
 
