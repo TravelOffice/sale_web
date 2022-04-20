@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { MenuLinkItem } from '@domain/entities/MenuLinkItem';
-import { useTranslation } from 'react-i18next';
 import { useLocation, Link } from 'react-router-dom';
 import { hasActiveChild, removeChildren } from '@utils/MenuItemUtils';
 import classnames from 'classnames';
@@ -29,20 +28,14 @@ function VerticalNavMenuGroup(props: VerticalNavMenuGroupProps) {
     item,
     groupOpen,
     menuHover,
-    activeItem,
     parentItem,
-    routerProps,
     groupActive,
     currentActiveGroup,
     setGroupOpen,
-    setActiveItem,
     menuCollapsed,
     setGroupActive,
     setCurrentActiveGroup,
-    currentActiveItem,
-    ...rest
   } = props;
-  const { t } = useTranslation();
   const location = useLocation();
   const currentURL = location.pathname;
   const toggleOpenGroup = (menuItem: MenuLinkItem, parent?: MenuLinkItem) => {

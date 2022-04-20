@@ -2,12 +2,9 @@ import { authActions } from '@redux/slices/authSlice';
 import {
   all, takeLatest, put,
 } from 'redux-saga/effects';
-import { PayloadAction } from '@reduxjs/toolkit';
 import { push } from 'connected-react-router';
-import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
-function* attachSession(action: PayloadAction<CognitoUserSession>) {
-  const { payload } = action;
+function* attachSession() {
   yield put(push(('/')));
 }
 

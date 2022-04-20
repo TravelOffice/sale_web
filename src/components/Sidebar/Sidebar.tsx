@@ -1,5 +1,5 @@
 import React, { ReactNode, useRef, useState } from 'react';
-import { MenuItem, MenuLinkItem } from '@domain/entities/MenuLinkItem';
+import { MenuItem } from '@domain/entities/MenuLinkItem';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import VerticalMenuHeader from '@components/Sidebar/VerticalMenuHeader';

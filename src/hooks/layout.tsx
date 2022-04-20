@@ -86,15 +86,15 @@ export const useSkin = () => {
   };
 
   useEffect(() => {
-    // ** Get Body Tag
-    const element = window.document.body;
-
-    // ** Define classnames for skins
-    const classNames = {
-      dark: 'dark-layout',
-      bordered: 'bordered-layout',
-      'semi-dark': 'semi-dark-layout',
-    };
+    // // ** Get Body Tag
+    // const element = window.document.body;
+    //
+    // // ** Define classnames for skins
+    // const classNames = {
+    //   dark: 'dark-layout',
+    //   bordered: 'bordered-layout',
+    //   'semi-dark': 'semi-dark-layout',
+    // };
 
     // ** Remove all classes from Body on mount
     // element.classList.remove(...element.classList);

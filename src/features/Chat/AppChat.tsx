@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import classnames from 'classnames';
 import { Conversation } from '@domain/entities/Conversation';
 import {
-  useConversations, useLoadMore, useMessages,
+  useConversations, useMessages,
 } from '@hooks/chat';
 import { useDispatch, useSelector } from 'react-redux';
 import { chatActions } from '@redux/slices/chatSlice';

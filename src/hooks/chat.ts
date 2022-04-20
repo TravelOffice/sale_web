@@ -1,6 +1,6 @@
 import { chatPresenter } from '@adapter/presenters';
 import { Conversation } from '@domain/entities/Conversation';
-import { Message, MessageData } from '@domain/entities/Message';
+import { Message } from '@domain/entities/Message';
 import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';
 import { useCallback, useEffect, useState } from 'react';
