@@ -40,6 +40,7 @@ export default function ConnectionsTabContent() {
   const onSubmit = () => {
     setShowModal(false);
     // TODO: dispatch an action to link the Facebook page, using selectedPage and user access token
+    console.log('userAccessToken', userAccessToken);
     toasty.show({ title: 'Success', type: 'success', message: `Link ${selectedPage?.name} successfully` });
   };
   return (
