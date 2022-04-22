@@ -32,3 +32,5 @@ jobs:
         run: npm run lint
       - name: Run build
         run: npm run build
+        env:
+          CI: false
