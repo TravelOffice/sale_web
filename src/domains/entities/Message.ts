@@ -26,5 +26,6 @@ export interface Message {
   recipient: string,
   sender: string,
   timestamp: Date,
-  chatPlatform: ChatPlatform
+  chatPlatform: ChatPlatform,
+  isUnsupported?: boolean,
 }

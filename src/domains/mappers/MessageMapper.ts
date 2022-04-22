@@ -41,6 +41,7 @@ class MessageMapper {
         text: zaloMessage.message,
       },
       chatPlatform: 'zalo',
+      isUnsupported: zaloMessage.type === 'nosupport', // Zalo unsupported message
     };
   }
 }

@@ -66,5 +66,9 @@
         "LINK": "Link",
         "CANCEL": "Cancel",
         "CONNECTED_PAGES": "Connected pages"
+    },
+    "CHAT": {
+        "SEND_MESAGE": "Send",
+        "UNSUPPORTED_MESSAGE": "Message is not supported yet. Go to chat platform official page at"
     }
 }

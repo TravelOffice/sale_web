@@ -37,8 +37,8 @@ export type ZaloSendGIFMessage = {
     elements: [{
       media_type: 'gif',
       attachment_id: string, // ID returned from upload image api
-      width: number, // Width of image
-      height: number // Heigh of image
+      width?: number, // Width of image
+      height?: number // Heigh of image
     }]
   }
   type: 'template'
@@ -54,7 +54,7 @@ export type ZaloSendFileMessage = {
 export type ZaloSendAttachment = ZaloSendImageMessage | ZaloSendGIFMessage | ZaloSendFileMessage;
 export type ZaloSendAttachmentMessage = {
   text?: string,
-  attachments: ZaloSendAttachment
+  attachment: ZaloSendAttachment
 };
 
 export type ZaloSendMessageContent = ZaloSendTextMessage | ZaloReplyTextMessage | ZaloSendAttachmentMessage;

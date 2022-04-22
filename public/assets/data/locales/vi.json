@@ -66,5 +66,9 @@
         "LINK": "Liên kết",
         "CANCEL": "Hủy",
         "CONNECTED_PAGES": "Trang đã liên kết"
+    },
+    "CHAT": {
+        "SEND_MESAGE": "Gửi",
+        "UNSUPPORTED_MESSAGE": "Tin nhắn hiện chưa được hỗ trợ. Xem chi tiết tại"
     }
 }
