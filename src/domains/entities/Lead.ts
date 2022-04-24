@@ -18,8 +18,8 @@ export enum StatusEnum {
   TRADED = 'TRADED',
 }
 export enum MaritalEnum {
-  MARRIED = 'MARRIED',
   SINGLE = 'SINGLE',
+  MARRIED = 'MARRIED',
 }
 export enum LeadEnum {
   LEAD = 'LEAD',

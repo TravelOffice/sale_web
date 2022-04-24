@@ -1,3 +1,5 @@
 export interface S3Repository {
-  uploadChatAttachmentViaPresignedURL: (pageId: string, customerId: string, file: File) => Promise<string>
+  uploadChatAttachmentViaPresignedURL: (
+    pageId: string, customerId: string, file: File
+  ) => Promise<string>
 }

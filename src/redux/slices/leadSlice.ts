@@ -2,7 +2,7 @@
 import { FetchAssignedLeadResponse as FetchLeadsResponse, CreateUpdateLeadResponse, Lead } from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type HandleDataState = 'init' | 'loading' | 'finished' | 'error';
+export type HandleDataState = 'init' | 'loading' | 'finished' | 'error';
 
 interface LeadState {
   data: Lead[]

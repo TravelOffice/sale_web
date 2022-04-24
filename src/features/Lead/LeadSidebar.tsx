@@ -31,7 +31,7 @@ import CreatableSelect from 'react-select/creatable';
 import {
   Button, Form, FormFeedback, Label, Spinner,
 } from 'reactstrap';
-import MultiplePhoneNumbersInput from './MultiplePhoneNumbersInput';
+import MultiplePhoneNumbersInput from '@components/MultiplePhoneNumbersInput/MultiplePhoneNumbersInput';
 
 export interface Country {
   name: string,
@@ -169,7 +169,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
             name="name"
             control={control}
             render={({ field }) => (
-              <input className={classnames('form-control', { 'is-invalid': errors.name })} id="name" placeholder="Your full name" {...field} />
+              <input className={classnames('form-control', { 'is-invalid': errors.name })} id="name" {...field} />
             )}
           />
           {errors.name && <FormFeedback>{errors.name.message}</FormFeedback>}
@@ -206,7 +206,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
             name="primaryPhoneNumber"
             control={control}
             render={({ field }) => (
-              <Input id="primaryPhoneNumber" disabled={isUpdate} placeholder="Your primary phone number" invalid={errors.primaryPhoneNumber} {...field} />
+              <Input id="primaryPhoneNumber" disabled={isUpdate} invalid={errors.primaryPhoneNumber} {...field} />
             )}
           />
           {errors.primaryPhoneNumber
@@ -226,7 +226,6 @@ const LeadSidebar = (props: LeadSidebarProps) => {
               <Input
                 type="email"
                 id="email"
-                placeholder="youremail@domain.com"
                 invalid={errors && errors.email}
                 {...field}
               />
