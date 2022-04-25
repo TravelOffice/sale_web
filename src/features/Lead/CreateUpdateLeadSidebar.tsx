@@ -112,11 +112,11 @@ export interface SidebarNewLeadProps {
 const leadDefaultValues : LeadFormData = {
   primaryPhoneNumber: '',
   name: undefined,
-  vocative: { label: leadVocatives[0], value: leadVocatives[0] },
+  vocative: { label: i18n.t(`LEAD.${leadVocatives[0]}`), value: leadVocatives[0] },
   birthday: new Date(),
   nationality: { label: getNationality('Vietnamese').name, value: getNationality('Vietnamese') },
-  sex: { label: leadSexes[0], value: leadSexes[0] },
-  maritalStatus: { label: i18n.t(leadMaritals[0]), value: leadMaritals[0] },
+  sex: { label: i18n.t(`LEAD.${leadSexes[0]}`), value: leadSexes[0] },
+  maritalStatus: { label: i18n.t(`LEAD.${leadMaritals[0]}`), value: leadMaritals[0] },
   otherPhoneNumbers: [],
   email: undefined,
   country: { label: getCountry('VN').name, value: getCountry('VN') },
@@ -124,13 +124,13 @@ const leadDefaultValues : LeadFormData = {
   district: undefined,
   ward: undefined,
   address: undefined,
-  status: { label: leadStatuses[0], value: leadStatuses[0] },
+  status: { label: i18n.t(`LEAD.${leadStatuses[0]}`), value: leadStatuses[0] },
   tags: [],
   creatorId: undefined,
   creatorName: undefined,
   assigneeId: undefined,
   assigneeName: undefined,
-  source: { label: leadSources[0], value: leadSources[0] },
+  source: { label: i18n.t(`LEAD.${leadSources[0]}`), value: leadSources[0] },
   enabled: { label: 'TRUE', value: true },
 };
 
@@ -348,7 +348,7 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
       defaultValues={defaultValues}
       isUpdate
       loadingState={updateLeadState}
-      title={lead?.name!}
+      title={`Lead: ${lead?.name!}`}
       toggleSidebar={toggleSidebar}
       handleSidebarClosed={handleSidebarClosed}
       handleSubmit={handleSubmit(onSubmit)}

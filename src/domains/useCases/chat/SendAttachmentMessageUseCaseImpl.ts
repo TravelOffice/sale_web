@@ -18,7 +18,9 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
   invoke = async (sender: string, file: File, conversation: Conversation) => {
     if (conversation.chatPlatform === 'facebook') {
       // Get new presign url
-      const presignedUrl = await s3Repository.uploadChatAttachmentViaPresignedURL(sender, conversation.contact.id, file);
+      const presignedUrl = await s3Repository.uploadChatAttachmentViaPresignedURL(
+        sender, conversation.contact.id, file,
+      );
 
       // Send message
       const messageData: FacebookSendAttachmentMessageContent = {

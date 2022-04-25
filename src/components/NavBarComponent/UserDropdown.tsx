@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import Avatar from '@components/Avatar/Avatar';
-import { useDispatch } from 'react-redux';
-import {
-  User, Mail, CheckSquare, MessageSquare, Settings, CreditCard, HelpCircle, Power,
-} from 'react-feather';
-import {
-  UncontrolledDropdown, DropdownMenu, DropdownToggle, DropdownItem,
-} from 'reactstrap';
-import Images from '@themes/Images';
 import AdminUser from '@domain/entities/AdminUser';
 import { authActions } from '@redux/slices/authSlice';
+import Images from '@themes/Images';
+import React, { useState } from 'react';
+import {
+  MessageSquare, Power, Settings, User,
+} from 'react-feather';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import {
+  DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
+} from 'reactstrap';
 
 const UserDropdown = () => {
   const dispatch = useDispatch();
@@ -40,30 +40,14 @@ const UserDropdown = () => {
           <User size={14} className="me-75" />
           <span className="align-middle">Profile</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to="/apps/email">
-          <Mail size={14} className="me-75" />
-          <span className="align-middle">Inbox</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/apps/todo">
-          <CheckSquare size={14} className="me-75" />
-          <span className="align-middle">Tasks</span>
-        </DropdownItem>
         <DropdownItem tag={Link} to="/apps/chat">
           <MessageSquare size={14} className="me-75" />
-          <span className="align-middle">Chats</span>
+          <span className="align-middle">Chat</span>
         </DropdownItem>
         <DropdownItem divider />
         <DropdownItem tag={Link} to="/pages/account-settings">
           <Settings size={14} className="me-75" />
-          <span className="align-middle">Settings</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/pages/pricing">
-          <CreditCard size={14} className="me-75" />
-          <span className="align-middle">Pricing</span>
-        </DropdownItem>
-        <DropdownItem tag={Link} to="/pages/faq">
-          <HelpCircle size={14} className="me-75" />
-          <span className="align-middle">FAQ</span>
+          <span className="align-middle">Setting</span>
         </DropdownItem>
         <DropdownItem tag={Link} to="/login" onClick={() => dispatch(authActions.detachSession())}>
           <Power size={14} className="me-75" />

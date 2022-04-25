@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /**
  * Definitions for received text message type
  * - ZaloReceivedTextMessage

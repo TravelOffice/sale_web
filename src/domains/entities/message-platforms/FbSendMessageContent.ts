@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 export interface BasedFacebookSendMessageContent {
   metadata?: string, // Custom string that is delivered as a message echo. 1000 character limit.
   quick_replies?: Array<any>, // https://developers.facebook.com/docs/messenger-platform/send-messages/quick-replies

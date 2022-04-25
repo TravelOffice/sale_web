@@ -104,7 +104,9 @@ const ChatLog = (props: ChatLogProps) => {
   const customerId = selectedConversation?.id;
   const contact = selectedConversation?.contact;
   const canLoadMore = useSelector((state: RootState) => state.chat.canLoadMore);
-  const isSendingAttachment = useSelector((state: RootState) => state.chat.sendingAttachmentMessage);
+  const isSendingAttachment = useSelector(
+    (state: RootState) => state.chat.sendingAttachmentMessage,
+  );
   // State
   // const [messages, dispatchSendMessage] = useMessages(selectedConversation?.id);
   const [messageText, setMessageText] = useState('');

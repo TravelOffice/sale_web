@@ -43,7 +43,9 @@ export const formatChatData = (messages: Array<Message>): Array<MessageGroup> =>
 
 export const sortMessages = (
   messages: Message[],
-): Message[] => [...messages].sort((m1, m2) => m1.timestamp.getTime() - m2.timestamp.getTime()); // ([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$
+): Message[] => [...messages].sort(
+  (m1, m2) => m1.timestamp.getTime() - m2.timestamp.getTime(),
+); // ([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$
 
 export const isDocumentFile = (mimeType: string, fileName: string) => {
   const regEx = /([a-zA-Z0-9\s_\\.\-:])+\.+(?:doc|docx|ppt|pptx|xls|xlsx|txt|rtf|pdf)$/;

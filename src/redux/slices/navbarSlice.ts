@@ -15,40 +15,7 @@ interface NavbarState {
   suggestions: any[]
 }
 
-const bookmarks : Bookmark[] = [
-  {
-    id: 3,
-    target: 'email',
-    isBookmarked: true,
-    title: 'Email',
-    icon: 'Mail',
-    link: '/apps/email',
-  },
-  {
-    id: 4,
-    target: 'chat',
-    isBookmarked: true,
-    title: 'Chat',
-    icon: 'MessageSquare',
-    link: '/apps/chat',
-  },
-  {
-    id: 5,
-    target: 'todo',
-    isBookmarked: true,
-    title: 'Todo',
-    icon: 'CheckSquare',
-    link: '/apps/todo',
-  },
-  {
-    id: 6,
-    target: 'calendar',
-    isBookmarked: true,
-    title: 'Calendar',
-    icon: 'Calendar',
-    link: '/apps/calendar',
-  },
-];
+const bookmarks : Bookmark[] = [];
 
 const initialState : NavbarState = {
   query: '',

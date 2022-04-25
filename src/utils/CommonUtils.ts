@@ -15,3 +15,23 @@ export const toAdminUser = (cognitoPayload: any) : AdminUser => ({
   status: 'online',
   about: cognitoPayload.profile,
 });
+
+export const handleFilterColumns = (
+  row: any, columns: { key: string, value: string }[],
+): boolean => columns.every(
+  (column: { value: any; key: string }) => {
+    if (!column.value) {
+      return true;
+    }
+    return row[column.key] === column.value;
+  },
+);
+
+export const handleSearchColumns = (
+  row: any, searchTerm: string, columns: string[],
+): boolean => {
+  if (!searchTerm) {
+    return true;
+  }
+  return columns.some((column: string) => row[column].includes(searchTerm));
+};
