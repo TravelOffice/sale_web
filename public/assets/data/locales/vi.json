@@ -14,8 +14,8 @@
         "ACTIONS": "Tùy chọn",
         "STATUS": "Trạng thái",
         "CREATED_AT": "Ngày tạo",
-        "SUCCESS": "Success",
-        "ERROR": "Error",
+        "SUCCESS": "Thành công",
+        "ERROR": "Lỗi",
         "SUBMIT": "Xác nhận",
         "LOADING": "Loading",
         "CANCEL": "Hủy",
@@ -84,10 +84,31 @@
         "CUSTOMER": "Khách hàng",
         "SOURCE": "Nguồn",
         "POTENTIAL_RATE": "Đánh giá cơ hội",
-        "MARKETING" : "Marketing",
-        "CUSTOMER_REFERRALS" : "KH cũ giới thiệu",
-        "PROACTIVE_CUSTOMERS" : "KH liên hệ",
-        "SALESMAN" : "Tự phát triển",
-        "OTHERS" : "Khác"
+        "MARKETING": "Marketing",
+        "CUSTOMER_REFERRALS": "KH cũ giới thiệu",
+        "PROACTIVE_CUSTOMERS": "KH liên hệ",
+        "SALESMAN": "Tự phát triển",
+        "OTHERS": "Khác"
+    },
+    "CUSTOMER": {
+        "NEW": "Mới",
+        "TRADING": "Đang giao dịch",
+        "TRADED": "Đã ký hợp đồng",
+        "ADD_CUSTOMER": "Thêm khách hàng",
+        "EDIT_CUSTOMER": "Cập nhật khách hàng",
+        "ADD_CUSTOMER_SUCCESSFULLY": "Đã thêm mới khách hàng {{customerName}}",
+        "EDIT_CUSTOMER_SUCCESSFULLY": "Đã cập nhật khách hàng {{customerName}}"
+    },
+    "MESSAGE": {
+        "NAME_REQUIRE_MESSAGE": "Tên không được để trống",
+        "PRIMARY_PHONE_REQUIRE_MESSAGE": "SĐT chính không được để trống",
+        "SELECT_FIELD_INVALID_MESSAGE": "Field is invalid",
+        "COUNTRY_INVALID_MESSAGE": "Quốc gia không hợp lệ",
+        "PHONE_INVALID_MESSAGE": "SĐT không hợp lệ",
+        "NATIONALITY_INVALID_MESSAGE": "Quốc tịch không hợp lệ",
+        "SEX_INVALID_MESSAGE": "Giới tính không hợp lệ",
+        "MARITAL_INVALID_MESSAGE": "Tình trạng hôn nhân không hợp lệ",
+        "STATUS_INVALID_MESSAGE": "Trạng thái không hợp lệ",
+        "SOURCE_INVALID_MESSAGE": "Nguồn không hợp lệ"
     }
 }

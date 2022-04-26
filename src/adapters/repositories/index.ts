@@ -12,6 +12,8 @@ import { LeadRepository } from './interfaces/LeadRepository';
 import LeadRepositoryImpl from './LeadRepositoryImpl';
 import { OpportunityRepository } from './interfaces/OpportunityRepository';
 import OpportunityRepositoryImpl from './OpportunityRepositoryImpl';
+import { CustomerRepository } from './interfaces/CustomerRepository';
+import CustomerRepositoryImpl from './CustomerRepositoryImpl';
 
 interface Repositories {
   userRepository: UserRepository,
@@ -21,6 +23,7 @@ interface Repositories {
   leadRepository: LeadRepository,
   pageConnectionRepository: AccountConnectionRepository,
   opportunityRepository: OpportunityRepository,
+  customerRepository: CustomerRepository,
 }
 
 const repositories : Repositories = {
@@ -31,6 +34,7 @@ const repositories : Repositories = {
   leadRepository: new LeadRepositoryImpl(),
   pageConnectionRepository: new AccountConnectionRepositoryImpl(),
   opportunityRepository: new OpportunityRepositoryImpl(),
+  customerRepository: new CustomerRepositoryImpl(),
 };
 
 export const {
@@ -41,4 +45,5 @@ export const {
   leadRepository,
   pageConnectionRepository,
   opportunityRepository,
+  customerRepository,
 } = repositories;

@@ -1,5 +1,7 @@
 import { Lead } from '@domain/entities/Lead';
-import { addLeadUseCase, getAllLeadsUseCase, updateLeadUseCase } from '@domain/useCases';
+import {
+  addLeadUseCase, getAllLeadsUseCase, updateLeadUseCase,
+} from '@domain/useCases';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 
 export default class LeadPresenterImpl implements LeadPresenter {

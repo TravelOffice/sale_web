@@ -84,10 +84,31 @@
         "CUSTOMER": "Customer",
         "SOURCE": "Source",
         "POTENTIAL_RATE": "Potential Rate",
-        "MARKETING" : "Marketing",
-        "CUSTOMER_REFERRALS" : "Customer Referrals",
-        "PROACTIVE_CUSTOMERS" : "Proactive Customers",
-        "SALESMAN" : "Salesman",
-        "OTHERS" : "Others"
+        "MARKETING": "Marketing",
+        "CUSTOMER_REFERRALS": "Customer Referrals",
+        "PROACTIVE_CUSTOMERS": "Proactive Customers",
+        "SALESMAN": "Salesman",
+        "OTHERS": "Others"
+    },
+    "CUSTOMER": {
+        "NEW": "New",
+        "TRADING": "Trading",
+        "TRADED": "Traded",
+        "ADD_CUSTOMER": "Add customer",
+        "EDIT_CUSTOMER": "Edit customer",
+        "ADD_CUSTOMER_SUCCESSFULLY": "Add customer {{customerName}} successfully",
+        "EDIT_CUSTOMER_SUCCESSFULLY": "Edit customer {{customerName}} successfully"
+    },
+    "MESSAGE": {
+        "NAME_REQUIRE_MESSAGE": "Name is required",
+        "PRIMARY_PHONE_REQUIRE_MESSAGE": "Primary phone is required",
+        "SELECT_FIELD_INVALID_MESSAGE": "Field is invalid",
+        "COUNTRY_INVALID_MESSAGE": "Country is invalid",
+        "PHONE_INVALID_MESSAGE": "Phone number format is invalid.",
+        "NATIONALITY_INVALID_MESSAGE": "Nationality format is invalid.",
+        "SEX_INVALID_MESSAGE": "Sex format is invalid.",
+        "MARITAL_INVALID_MESSAGE": "Marital status is invalid",
+        "STATUS_INVALID_MESSAGE": "Status is invalid",
+        "SOURCE_INVALID_MESSAGE": "Source is invalid"
     }
 }

@@ -7,14 +7,17 @@ export interface FormInputProps<T> extends FormItemProps<T> {}
 
 export function FormInput<T>(props: FormInputProps<T>) {
   const {
-    fieldError, name, control, label, disabled,
+    fieldError, name, control, label, disabled, required,
   } = props;
   return (
     <div className="mb-1">
       <Label className="form-label" for="name">
         {label}
-        {' '}
-        <span className="text-danger">*</span>
+        {
+          required && (
+          <span className="text-danger">{' *'}</span>
+          )
+        }
       </Label>
       <input
         {...control.register(name)}

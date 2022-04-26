@@ -36,7 +36,7 @@ const renderClient = (row: Lead) => {
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const columns : TableColumn<Lead>[] = [
+export const leadColumns : TableColumn<Lead>[] = [
   {
     name: i18n.t('LEAD.NAME'),
     sortable: true,

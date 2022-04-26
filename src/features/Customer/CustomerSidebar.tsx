@@ -1,0 +1,295 @@
+import React, { useCallback, useEffect, useMemo } from 'react';
+import SidebarForm, { FormSchema } from '@components/SidebarForm/SidebarForm';
+import {
+  Customer,
+  customerStatuses,
+  LeadEnum,
+  leadMaritals,
+  leadSexes,
+  leadSources,
+  leadVocatives,
+} from '@domain/entities/Lead';
+import i18n from '@config/i18n';
+import MultiplePhoneNumbersInput from '@components/MultiplePhoneNumbersInput/MultiplePhoneNumbersInput';
+import * as yup from 'yup';
+import { BIRTHDAYFORMAT, PHONE_NUMBER_VALIDATION_REGEX } from '@utils/Constants';
+import {
+  getCountries, getCountry, getNationality, getProvinces,
+} from '@utils/LeadUtils';
+import { UnpackNestedValue } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { customerActions } from '@redux/slices/customerSlice';
+import toasty from '@components/Toasty/Toasty';
+import { RootState } from '@redux/store';
+import moment from 'moment';
+
+type OmitFields = 'createdAt' | 'updatedAt' | 'assigneeId' | 'assigneeName' | 'creatorId' | 'creatorName' | 'enabled' | 'type';
+type CustomerFormData = Omit<Customer, OmitFields>;
+
+const countries = getCountries();
+
+const schema : FormSchema<CustomerFormData> = {
+  name: {
+    type: 'text',
+    label: i18n.t('LEAD.NAME'),
+    required: true,
+    validator: yup.string().required(i18n.t('MESSAGE.NAME_REQUIRE_MESSAGE')),
+  },
+  vocative: {
+    type: 'select',
+    label: i18n.t('LEAD.VOCATIVE'),
+    required: true,
+    options: leadVocatives.map((option) => ({
+      label: i18n.t(`LEAD.${option}`),
+      value: option,
+    })),
+    validator: yup.string().required(),
+  },
+  primaryPhoneNumber: {
+    type: 'tel',
+    label: i18n.t('LEAD.PHONE'),
+    required: true,
+    validator: yup.string().required(i18n.t('MESSAGE.PRIMARY_PHONE_REQUIRE_MESSAGE')).matches(
+      PHONE_NUMBER_VALIDATION_REGEX, { message: i18n.t('MESSAGE.PHONE_INVALID_MESSAGE') },
+    ),
+  },
+  otherPhoneNumbers: {
+    type: 'tel',
+    label: '',
+    render: (field, inputSchema, control, errors) => (
+      <MultiplePhoneNumbersInput
+        fieldName={field.name}
+        control={control}
+        errors={errors}
+        register={control.register}
+      />
+    ),
+    required: false,
+    validator: yup.array().of(
+      yup.object().shape({
+        value: yup.string().matches(
+          PHONE_NUMBER_VALIDATION_REGEX, { message: i18n.t('MESSAGE.PHONE_INVALID_MESSAGE') },
+        ),
+      }),
+    ),
+  },
+  email: {
+    type: 'email',
+    label: 'Email',
+    required: false,
+    validator: yup.string().email(),
+  },
+  birthday: {
+    type: 'date',
+    label: 'Birthday',
+    required: false,
+    validator: yup.date(),
+  },
+  nationality: {
+    type: 'select',
+    label: i18n.t('LEAD.NATIONALITY'),
+    required: true,
+    options: countries.map((option) => ({
+      label: option.nationality,
+      value: option.nationality,
+    })),
+    validator: yup.string().nullable().oneOf(countries.map((item) => item.nationality), i18n.t('MESSAGE.NATIONALITY_INVALID_MESSAGE')),
+  },
+  country: {
+    type: 'select',
+    label: i18n.t('LEAD.COUNTRY'),
+    required: true,
+    options: countries.map((option) => ({
+      label: option.name,
+      value: option.countryCode,
+    })),
+    validator: yup.string().nullable().oneOf(countries.map((item) => item.countryCode), i18n.t('MESSAGE.COUNTRY_INVALID_MESSAGE')),
+  },
+  province: {
+    type: 'creatable-select',
+    label: i18n.t('LEAD.PROVINCE'),
+    required: false,
+    getOptions: (formData) => getProvinces(formData.country).map((province) => ({
+      label: province.name,
+      value: province.name,
+    })),
+  },
+  district: {
+    type: 'text',
+    label: i18n.t('LEAD.DISTRICT'),
+    required: false,
+  },
+  ward: {
+    type: 'text',
+    label: i18n.t('LEAD.WARD'),
+    required: false,
+  },
+  address: {
+    type: 'text',
+    label: i18n.t('LEAD.ADDRESS'),
+    required: false,
+  },
+  status: {
+    type: 'select',
+    label: i18n.t('COMMON.STATUS'),
+    required: true,
+    options: customerStatuses.map((status) => ({
+      label: i18n.t(`CUSTOMER.${status}`),
+      value: status,
+    })),
+    validator: yup.string().oneOf(customerStatuses, i18n.t('MESSAGE.LEAD_STATUS_INVALID_MESSAGE')),
+  },
+  sex: {
+    type: 'select',
+    label: i18n.t('LEAD.SEX'),
+    required: true,
+    options: leadSexes.map((option) => ({
+      label: i18n.t(`LEAD.${option}`),
+      value: option,
+    })),
+    validator: yup.string().oneOf(leadSexes, i18n.t('MESSAGE.SEX_INVALID_MESSAGE')),
+  },
+  source: {
+    type: 'select',
+    label: i18n.t('LEAD.SOURCE'),
+    required: false,
+    options: leadSources.map((option) => ({
+      label: i18n.t(`LEAD.${option}`),
+      value: option,
+    })),
+    validator: yup.string().oneOf(leadSources, i18n.t('MESSAGE.LEAD_SOURCE_INVALID_MESSAGE')),
+  },
+  maritalStatus: {
+    type: 'select',
+    label: i18n.t('LEAD.MARITAL'),
+    required: false,
+    options: leadMaritals.map((option) => ({
+      label: i18n.t(`LEAD.${option}`),
+      value: option,
+    })),
+    validator: yup.string().oneOf(leadMaritals, i18n.t('MESSAGE.MARITAL_INVALID_MESSAGE')),
+  },
+  tags: {
+    type: 'creatable-select',
+    label: i18n.t('LEAD.TAGS'),
+    required: false,
+    options: [],
+    isMulti: true,
+    validator: yup.array().of(yup.string()),
+  },
+};
+
+const defaultValues : CustomerFormData = {
+  primaryPhoneNumber: '',
+  name: '',
+  vocative: leadVocatives[0],
+  birthday: moment().format(BIRTHDAYFORMAT),
+  nationality: getNationality('Vietnamese').nationality,
+  otherPhoneNumbers: [],
+  sex: leadSexes[0],
+  maritalStatus: leadMaritals[0],
+  email: undefined,
+  country: getCountry('VN').countryCode,
+  province: undefined,
+  district: undefined,
+  ward: undefined,
+  address: undefined,
+  status: customerStatuses[0],
+  tags: [],
+  source: leadSources[0],
+};
+
+export interface CustomerSidebarProps {
+  toggleSidebar: () => void,
+  open: boolean,
+  customer?: Customer,
+  onClosed: () => void,
+}
+
+export default function CustomerSidebar(props: CustomerSidebarProps) {
+  const {
+    open, toggleSidebar, customer, onClosed,
+  } = props;
+  const customerFormData = useMemo(() => {
+    if (customer) {
+      return customer;
+    }
+    return defaultValues;
+  }, [customer]);
+  const dispatch = useDispatch();
+  const addCustomerState = useSelector((state: RootState) => state.customer.addCustomerState);
+  const addedCustomerResponse = useSelector(
+    (state: RootState) => state.customer.addedCustomerResponse,
+  );
+  const updateCustomerState = useSelector((state: RootState) => state.customer.updateCustomerState);
+  const updatedCustomerResponse = useSelector(
+    (state: RootState) => state.customer.updatedCustomerResponse,
+  );
+  const onSubmit = useCallback((formData: UnpackNestedValue<CustomerFormData>) => {
+    if (customer) {
+      // Edit customer
+      dispatch(customerActions.updateCustomer({
+        ...customer,
+        ...formData,
+        birthday: moment(formData.birthday).format(BIRTHDAYFORMAT),
+      }));
+    } else {
+      // Create customer
+      dispatch(customerActions.addCustomer({
+        ...formData,
+        enabled: true,
+        type: LeadEnum.CUSTOMER,
+        birthday: moment(formData.birthday).format(BIRTHDAYFORMAT),
+      }));
+    }
+  }, [customer]);
+
+  // Listen state changed effect when adding a customer
+  useEffect(() => {
+    if (addCustomerState === 'error') {
+      toasty.show({
+        title: i18n.t('COMMON.ERROR'),
+        type: 'error',
+        message: `${addedCustomerResponse?.errorMsg}`,
+      });
+    } else if (addCustomerState === 'finished') {
+      toasty.show({
+        title: i18n.t('COMMON.SUCCESS'),
+        type: 'success',
+        message: i18n.t('CUSTOMER.ADD_CUSTOMER_SUCCESSFULLY', { customerName: addedCustomerResponse?.customer?.name }),
+      });
+      toggleSidebar();
+    }
+  }, [addCustomerState]);
+
+  // Listen state changed effect when updating a customer
+  useEffect(() => {
+    if (updateCustomerState === 'error') {
+      toasty.show({
+        title: 'Error',
+        type: 'error',
+        message: `${updatedCustomerResponse?.errorMsg}`,
+      });
+    } else if (updateCustomerState === 'finished') {
+      toasty.show({
+        title: 'Success',
+        type: 'success',
+        message: i18n.t('CUSTOMER.EDIT_CUSTOMER_SUCCESSFULLY', { customerName: updatedCustomerResponse?.customer?.name }),
+      });
+      toggleSidebar();
+    }
+  }, [updateCustomerState]);
+  return (
+    <SidebarForm<CustomerFormData>
+      schema={schema}
+      defaultValues={customerFormData}
+      title={customer ? i18n.t('CUSTOMER.EDIT_CUSTOMER') : i18n.t('CUSTOMER.ADD_CUSTOMER')}
+      open={open}
+      size="lg"
+      onSubmit={onSubmit}
+      toggleSidebar={toggleSidebar}
+      submitting={addCustomerState === 'loading'}
+      onClosed={onClosed}
+    />
+  );
+}

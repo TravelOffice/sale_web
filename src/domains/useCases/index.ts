@@ -20,6 +20,12 @@ import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
 import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
 import GetAllOpportunitiesUseCaseImpl from './opportunity/GetAllOpportunitiesUseCaseImpl';
 import { GetAllOpportunitiesUseCase } from './interfaces/opportunity/GetAllOpportunitiesUseCase';
+import GetAllCustomersUseCaseImpl from './customer/GetAllCustomersUseCaseImpl';
+import { UpdateCustomerUseCase } from './interfaces/customer/UpdateCustomerUseCase';
+import { AddCustomerUseCase } from './interfaces/customer/AddCustomerUseCase';
+import AddCustomerUseCaseImpl from './customer/AddCustomerUseCaseImpl';
+import UpdateCustomerUseCaseImpl from './customer/UpdateCustomerUseCaseImpl';
+import { GetAllCustomersUseCase } from './interfaces/customer/GetAllCustomersUseCase';
 
 interface UseCases {
   // Chat
@@ -34,6 +40,9 @@ interface UseCases {
   updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
   getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
+  getAllCustomersUseCase: GetAllCustomersUseCase,
+  addCustomerUseCase: AddCustomerUseCase,
+  updateCustomerUseCase: UpdateCustomerUseCase,
 }
 
 const useCases : UseCases = {
@@ -48,6 +57,9 @@ const useCases : UseCases = {
   updateLeadUseCase: new UpdateLeadUseCaseImpl(),
   connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
   getAllOpportunitiesUseCase: new GetAllOpportunitiesUseCaseImpl(),
+  getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
+  addCustomerUseCase: new AddCustomerUseCaseImpl(),
+  updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
 };
 
 export const {
@@ -62,4 +74,7 @@ export const {
   updateLeadUseCase,
   connectFacebookPageUseCase,
   getAllOpportunitiesUseCase,
+  getAllCustomersUseCase,
+  addCustomerUseCase,
+  updateCustomerUseCase,
 } = useCases;

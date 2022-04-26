@@ -15,7 +15,14 @@ import {
   leadStatuses,
   LeadType,
   leadVocatives,
-  MaritalStatusType, SexType, SourceType, StatusType, VocativeType,
+  MaritalStatusType,
+  SexType,
+  SourceType,
+  LeadStatusType,
+  VocativeType,
+  CustomerStatusType,
+  LeadEnum,
+  customerStatuses,
 } from '@domain/entities/Lead';
 // ** Utils
 import { selectThemeColors } from '@utils/Utils';
@@ -79,7 +86,7 @@ export type LeadFormData =
 { district?: string } &
 { ward?: string } &
 { address?: string } &
-{ status: CommonSelectOption<StatusType> | undefined } &
+{ status: CommonSelectOption<LeadStatusType | CustomerStatusType> | undefined } &
 { tags?: Array<CommonSelectOption<string>> | undefined } &
 { creatorId?: string } &
 { creatorName?: string } &
@@ -126,6 +133,7 @@ export interface LeadSidebarProps {
   defaultValues : LeadFormData,
   loadingState: string,
   isUpdate: boolean,
+  leadType: LeadEnum,
 }
 
 const LeadSidebar = (props: LeadSidebarProps) => {
@@ -139,6 +147,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
     defaultValues,
     isUpdate,
     loadingState,
+    leadType,
     handleSubmit,
     handleSidebarClosed,
     toggleSidebar,
@@ -147,6 +156,14 @@ const LeadSidebar = (props: LeadSidebarProps) => {
   // Save the country to state to get the province
   const [country, setCountry] = useState<Country>(getCountry('VN'));
   const [province, setProvince] = useState<Province | null>(null);
+
+  const genderStatusSelect = ():
+  { label: string, value: LeadStatusType | CustomerStatusType }[] => {
+    if (leadType === LeadEnum.LEAD) {
+      return leadStatuses.map((item) => ({ label: i18n.t(`LEAD.${item}`) ?? item, value: item }));
+    }
+    return customerStatuses.map((item) => ({ label: i18n.t(`CUSTOMER.${item}`) ?? item, value: item }));
+  };
 
   return (
     <RightSideBar
@@ -383,7 +400,7 @@ const LeadSidebar = (props: LeadSidebarProps) => {
                 placeholder={i18n.t('COMMON.SELECT')}
                 isClearable={false}
                 classNamePrefix="select"
-                options={leadStatuses.map((item) => ({ label: i18n.t(`LEAD.${item}`) ?? item, value: item }))}
+                options={genderStatusSelect()}
                 theme={selectThemeColors}
                 className={classnames('react-select', { 'is-invalid': errors.status })}
                 {...field}
