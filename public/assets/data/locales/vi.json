@@ -53,5 +53,18 @@
         "SEX": "Giới tính",
         "TAGS": "Gắn thẻ",
         "SOURCE": "Nguồn"
+    },
+    "PAGE": {
+        "SUCCESS": "Hoàn thành",
+        "MESSAGE_LINK_SUCCESSFULLY": "Trang của bạn đã được liên kết!",
+        "ERROR": "Lỗi",
+        "MESSAGE_LINK_FAILED": "Đã có lỗi xảy ra khi liên kết trang!",
+        "CONNECTING": "Đang liên kết",
+        "NOT_CONNECTED": "Chưa liên kết",
+        "LINK_PAGE_TITLE": "Liên kết trang",
+        "LINK_PAGE_SUBTITLE": "Chọn một trang để liên kết",
+        "LINK": "Liên kết",
+        "CANCEL": "Hủy",
+        "CONNECTED_PAGES": "Trang đã liên kết"
     }
 }

@@ -53,5 +53,18 @@
         "SEX": "Sex",
         "TAGS": "Tags",
         "SOURCE": "Source"
+    },
+    "PAGE": {
+        "SUCCESS": "Success",
+        "MESSAGE_LINK_SUCCESSFULLY": "Link your page successfully",
+        "ERROR": "Error",
+        "MESSAGE_LINK_FAILED": "Failed to link your page",
+        "CONNECTING": "Connecting",
+        "NOT_CONNECTED": "Not connected",
+        "LINK_PAGE_TITLE": "Link your page",
+        "LINK_PAGE_SUBTITLE": "Select which one you want to link",
+        "LINK": "Link",
+        "CANCEL": "Cancel",
+        "CONNECTED_PAGES": "Connected pages"
     }
 }

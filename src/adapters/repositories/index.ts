@@ -2,6 +2,8 @@ import UserRepository from '@adapter/repositories/interfaces/UserRepository';
 import UserRepositoryImpl from '@adapter/repositories/UserRepositoryImpl';
 import { FacebookRepository } from '@adapter/repositories/interfaces/FacebookRepository';
 import FacebookPageRepositoryImpl from '@adapter/repositories/FacebookPageRepositoryImpl';
+import { AccountConnectionRepository } from '@adapter/repositories/interfaces/AccountConnectionRepository';
+import AccountConnectionRepositoryImpl from '@adapter/repositories/AccountConnectionRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
 import ChatRepositoryImpl from './ChatRepositoryImpl';
 import { S3Repository } from './interfaces/S3Repository';
@@ -15,6 +17,7 @@ interface Repositories {
   facebookRepository: FacebookRepository,
   s3Repository: S3Repository,
   leadRepository: LeadRepository,
+  pageConnectionRepository: AccountConnectionRepository,
 }
 
 const repositories : Repositories = {
@@ -23,6 +26,7 @@ const repositories : Repositories = {
   facebookRepository: new FacebookPageRepositoryImpl(),
   s3Repository: new S3RepositoryImpl(),
   leadRepository: new LeadRepositoryImpl(),
+  pageConnectionRepository: new AccountConnectionRepositoryImpl(),
 };
 
 export const {
@@ -31,4 +35,5 @@ export const {
   facebookRepository,
   s3Repository,
   leadRepository,
+  pageConnectionRepository,
 } = repositories;
