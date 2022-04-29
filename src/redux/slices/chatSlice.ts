@@ -1,3 +1,4 @@
+import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/Conversation';
 import { Message, MessageData } from '@domain/entities/Message';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -13,6 +14,9 @@ interface ChatState {
   loadingMoreMessages: boolean,
   firstLoad: boolean,
   sendingAttachmentMessage: boolean,
+  showingAttachmentMsgPreview: boolean,
+  isChatActionError: boolean,
+  chatActionErrorMessage: string,
 }
 
 const initialState : ChatState = {
@@ -24,6 +28,9 @@ const initialState : ChatState = {
   loadingMoreMessages: false,
   firstLoad: true,
   sendingAttachmentMessage: false,
+  showingAttachmentMsgPreview: false,
+  isChatActionError: false,
+  chatActionErrorMessage: '',
 };
 
 const chatSlice = createSlice({
@@ -63,8 +70,14 @@ const chatSlice = createSlice({
     },
     subscribeNewMessage: (_state) => {},
     sendMessage: (_state, _action: PayloadAction<[MessageData, Conversation?]>) => {},
-    // eslint-disable-next-line no-unused-vars
-    sendAttachmentMessage: (state, action: PayloadAction<[File, Conversation?]>) => {
+    toggleAttachmentMessagePreview: (state, action: PayloadAction<boolean>) => {
+      state.showingAttachmentMsgPreview = action.payload;
+    },
+    sendAttachmentMessage: (
+      state,
+      _action: PayloadAction<[File, AttachmentMessageType, Conversation?]>,
+    ) => {
+      state.showingAttachmentMsgPreview = false;
       state.sendingAttachmentMessage = true;
     },
     loadMoreMessages: (state, _action: PayloadAction<Conversation | undefined>) => {
@@ -91,6 +104,11 @@ const chatSlice = createSlice({
     },
     onAttachmentMessageSent: (state) => {
       state.sendingAttachmentMessage = false;
+    },
+    onSendMessageError: (state, action: PayloadAction<string>) => {
+      state.sendingAttachmentMessage = false;
+      state.isChatActionError = true;
+      state.chatActionErrorMessage = action.payload;
     },
   },
 });

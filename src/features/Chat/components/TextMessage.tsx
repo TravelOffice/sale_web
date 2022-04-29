@@ -7,7 +7,8 @@ export interface TextMessageProps extends MessageProps {
 
 export default function TextMessage(props: TextMessageProps) {
   const { message } = props;
-  const text = message.messageData.text.replace(
+  const textData = message.messageData.text || '';
+  const text = textData.replace(
     /((http|https|ftp|ftps):\/\/[a-zA-Z0-9\-.]+\.[a-zA-Z]{2,3}(\/\S*)?)/g,
     '<a href="$1" target="_blank">$1</a>',
   );

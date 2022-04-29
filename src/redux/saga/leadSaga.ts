@@ -7,8 +7,12 @@ import {
 } from 'redux-saga/effects';
 
 function* getAllLeads() {
-  const leads : Lead[] = yield call(leadPresenter.getAllLeads);
-  yield put(leadActions.setAllLeads(leads));
+  try {
+    const leads : Lead[] = yield call(leadPresenter.getAllLeads);
+    yield put(leadActions.setAllLeads(leads));
+  } catch (error: any) {
+    yield put(leadActions.setFetchAllLeadError(error.message));
+  }
 }
 
 function* addLead(action: PayloadAction<Lead>) {

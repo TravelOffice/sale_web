@@ -2,15 +2,24 @@ import React, {
   useState, useEffect, useRef, FormEvent, useMemo,
 } from 'react';
 import Avatar from '@components/Avatar/Avatar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  MessageSquare, Menu, PhoneCall, Video, Search, MoreVertical, Mic, Send, FilePlus,
+  MessageSquare,
+  Menu,
+  PhoneCall,
+  Video,
+  Search,
+  MoreVertical,
+  Mic, Send,
+  Volume2,
+  Image,
+  File,
+  Paperclip,
 } from 'react-feather';
 import {
   Form,
-  Label,
   Input,
   Button,
   InputGroup,
@@ -20,6 +29,7 @@ import {
   InputGroupText,
   UncontrolledDropdown,
   Spinner as ReactSpinner,
+  UncontrolledButtonDropdown,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Message, MessageData } from '@domain/entities/Message';
@@ -29,6 +39,40 @@ import { Contact } from '@domain/entities/Contact';
 import AdminUser from '@domain/entities/AdminUser';
 import Spinner from '@components/Spinner/Spinner';
 import ChatMessage from '@features/Chat/components/ChatMessage';
+import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import AttachmentMessagePreview from '@components/Chat/AttachmentMessagePreview';
+import { chatActions } from '@redux/slices/chatSlice';
+
+interface AttachmentMessageSetting {
+  id: number,
+  icon: JSX.Element,
+  fileType: AttachmentMessageType,
+  ignoreInZalo?: boolean,
+}
+const attachmentMessageSettings: AttachmentMessageSetting[] = [
+  {
+    id: 0,
+    icon: <Video size={15} />,
+    fileType: AttachmentMessageType.VIDEO,
+    ignoreInZalo: true,
+  },
+  {
+    id: 1,
+    icon: <Volume2 size={15} />,
+    fileType: AttachmentMessageType.AUDIO,
+    ignoreInZalo: true,
+  },
+  {
+    id: 2,
+    icon: <Image size={15} />,
+    fileType: AttachmentMessageType.IMAGE,
+  },
+  {
+    id: 3,
+    icon: <File size={15} />,
+    fileType: AttachmentMessageType.FILE,
+  },
+];
 
 export interface ChatLogProps {
   handleUserSidebarRight: () => void,
@@ -38,7 +82,7 @@ export interface ChatLogProps {
   messages: Message[],
   fetching: boolean,
   onSendMessage: (params: MessageData) => void,
-  onSendAttachmentMessage: (attachment: File) => void,
+  onSendAttachmentMessage: (attachment: File, attachmentType: AttachmentMessageType) => void,
   onLoadMore: () => void,
   loadingMore: boolean,
   firstLoad: boolean,
@@ -97,7 +141,7 @@ function renderLoadMore(canLoadMore: boolean, loadingMore: boolean, onClick: Fun
 const ChatLog = (props: ChatLogProps) => {
   const {
     handleUserSidebarRight, handleSidebar, userSidebarLeft, selectedConversation,
-    messages, onSendMessage, onSendAttachmentMessage, fetching, onLoadMore, loadingMore, firstLoad,
+    messages, onSendMessage, fetching, onLoadMore, loadingMore, firstLoad, onSendAttachmentMessage,
   } = props;
   const authState = useSelector((state: RootState) => state.auth);
   const currentUser = authState.currentUser!;
@@ -107,12 +151,19 @@ const ChatLog = (props: ChatLogProps) => {
   const isSendingAttachment = useSelector(
     (state: RootState) => state.chat.sendingAttachmentMessage,
   );
+  const attachmentRef = useRef<HTMLInputElement | null>(null);
+  const [attachment, setAttachment] = useState<File | null>(null);
+  const [
+    attachmentType,
+    setAttachmentType,
+  ] = useState<AttachmentMessageType>(AttachmentMessageType.FILE);
   // State
-  // const [messages, dispatchSendMessage] = useMessages(selectedConversation?.id);
   const [messageText, setMessageText] = useState('');
   const [scrollViewRef, setScrollViewRef] = useState<HTMLElement | null>(null);
 
   const chatArea = useRef(null);
+
+  const dispatch = useDispatch();
 
   // If user chat is not empty scrollToBottom
   useEffect(() => {
@@ -122,6 +173,30 @@ const ChatLog = (props: ChatLogProps) => {
       }, 100);
     }
   }, [selectedConversation, messages, scrollViewRef, firstLoad]);
+
+  /**
+   * Render dropdown items for sending attachment message
+   * When user click dropdown item, a file chooser window will be shown
+   * Then user can choose attachment file according to attachment type of given dropdown item
+   * Supported attachment types are `file`, `audio`, `video`, `image`
+   */
+  const renderAttachmentItems = attachmentMessageSettings
+    .filter((attachmentSetting) => (attachmentSetting.ignoreInZalo && selectedConversation?.chatPlatform === 'zalo') || selectedConversation?.chatPlatform === 'facebook')
+    .map((attachmentSetting) => (
+      <DropdownItem
+        tag="span"
+        key={attachmentSetting.id}
+        onClick={() => {
+          setAttachmentType(attachmentSetting.fileType);
+          if (attachmentRef.current) {
+            attachmentRef.current.accept = attachmentSetting.fileType === AttachmentMessageType.FILE ? '*/*' : `${attachmentSetting.fileType}/*`;
+          }
+          attachmentRef.current?.click();
+        }}
+      >
+        {attachmentSetting.icon}
+      </DropdownItem>
+    ));
 
   // Opens right sidebar & handles its data
   const handleAvatarClick = () => {
@@ -135,7 +210,10 @@ const ChatLog = (props: ChatLogProps) => {
     }
   };
 
-  // Send a message
+  /**
+   * Send text message to customer
+   * @param e Form event
+   */
   const handleSendMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (messageText.length && customerId) {
@@ -147,12 +225,20 @@ const ChatLog = (props: ChatLogProps) => {
     }
   };
 
-  const handleFileChange = (e: FormEvent<HTMLInputElement>) => {
+  /**
+   * Handle file change
+   * Attachment message will be delivered to customer
+   * @param e Form event
+   */
+  const handleAttachmentChange = (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     const target = e.target as HTMLInputElement;
     if (target.files && target.files.length > 0 && customerId) {
-      const attachment = target.files[0];
-      onSendAttachmentMessage(attachment);
+      // Set current attachment
+      const file = target.files[0];
+      setAttachment(file);
+      // Trigger action to show attachment message preview that contain attachment information
+      dispatch(chatActions.toggleAttachmentMessagePreview(true));
     }
   };
 
@@ -229,7 +315,7 @@ const ChatLog = (props: ChatLogProps) => {
           </PerfectScrollbar>
 
           <Form className="chat-app-form" onSubmit={(e) => handleSendMessage(e)}>
-            <InputGroup className="input-group-merge me-1 form-send-message">
+            <InputGroup className="input-group-merge form-send-message">
               <InputGroupText>
                 <Mic className="cursor-pointer" size={16} />
               </InputGroupText>
@@ -238,20 +324,36 @@ const ChatLog = (props: ChatLogProps) => {
                 onChange={(e) => setMessageText(e.target.value)}
                 placeholder="Type your message or use speech to text"
               />
-              <InputGroupText>
-                <Label className="attachment-icon mb-0" for="attach-doc">
-                  {
-                    isSendingAttachment ? <ReactSpinner className="me-25" color="primary" size="sm" /> : <FilePlus className="cursor-pointer text-secondary" size={16} />
-                  }
-                  <input type="file" id="attach-doc" hidden onChange={(e) => handleFileChange(e)} />
-                </Label>
-              </InputGroupText>
             </InputGroup>
+            <UncontrolledButtonDropdown className="dropdown-icon-wrapper" direction="up">
+              <DropdownToggle className="dropdown-toggle-split" color="fiat-primary" caret>
+                {
+                  isSendingAttachment ? <ReactSpinner className="me-25" color="primary" size="sm" /> : <Paperclip className="cursor-pointer text-secondary" size={16} />
+                }
+                <input ref={attachmentRef} type="file" id="attach-file" onChange={handleAttachmentChange} hidden />
+              </DropdownToggle>
+              <DropdownMenu hidden={isSendingAttachment} tag="div" end>
+                {renderAttachmentItems}
+              </DropdownMenu>
+            </UncontrolledButtonDropdown>
             <Button className="send" color="primary" disabled={isSendingAttachment}>
               <Send size={14} className="d-lg-none" />
               <span className="d-none d-lg-block">Send</span>
             </Button>
           </Form>
+          <AttachmentMessagePreview
+            attachment={attachment}
+            attachmentType={attachmentType}
+            onCancelSendingAttachment={
+              () => dispatch(chatActions.toggleAttachmentMessagePreview(false))
+            }
+            onSubmitSendingAttachment={() => {
+              if (attachment) {
+                dispatch(chatActions.toggleAttachmentMessagePreview(false));
+                onSendAttachmentMessage(attachment, attachmentType);
+              }
+            }}
+          />
         </div>
       )}
     </div>

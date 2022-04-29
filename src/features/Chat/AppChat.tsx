@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
-import classnames from 'classnames';
+import toasty from '@components/Toasty/Toasty';
+import i18n from '@config/i18n';
+import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/Conversation';
+import { MessageData } from '@domain/entities/Message';
 import {
   useConversations, useMessages,
 } from '@hooks/chat';
-import { useDispatch, useSelector } from 'react-redux';
 import { chatActions } from '@redux/slices/chatSlice';
-import { MessageData } from '@domain/entities/Message';
 import { RootState } from '@redux/store';
+import '@styles/base/pages/app-chat-list.scss';
+import '@styles/base/pages/app-chat.scss';
+import classnames from 'classnames';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ChatLog from './ChatLog';
 import Sidebar from './SidebarLeft';
 import UserProfileSidebar from './UserProfileSidebar';
-import '@styles/base/pages/app-chat.scss';
-import '@styles/base/pages/app-chat-list.scss';
 
 const AppChat = () => {
   // ** States
   const conversation = useSelector((state: RootState) => state.chat.selectedConversation);
   const loadingMore = useSelector((state: RootState) => state.chat.loadingMoreMessages);
   const firstLoad = useSelector((state: RootState) => state.chat.firstLoad);
+  const isChatActionError = useSelector((state: RootState) => state.chat.isChatActionError);
+  const chatActionErrorMessage = useSelector(
+    (state: RootState) => state.chat.chatActionErrorMessage,
+  );
   const [sidebar, setSidebar] = useState(false);
   const [userSidebarRight, setUserSidebarRight] = useState(false);
   const [userSidebarLeft, setUserSidebarLeft] = useState(false);
@@ -44,13 +51,21 @@ const AppChat = () => {
     dispatch(chatActions.sendMessage([messageData, conversation]));
   };
 
-  const onSendAttachmentMessage = (attachment: File) => {
-    dispatch(chatActions.sendAttachmentMessage([attachment, conversation]));
+  const onSendAttachmentMessage = (attachment: File, attachmentType: AttachmentMessageType) => {
+    dispatch(chatActions.sendAttachmentMessage([attachment, attachmentType, conversation]));
   };
 
   const onLoadMore = () => {
     dispatch(chatActions.loadMoreMessages(conversation));
   };
+
+  // Show error message when chat action failed
+  useEffect(() => {
+    if (isChatActionError) {
+      toasty.show({ title: i18n.t('COMMON.ERROR'), type: 'error', message: chatActionErrorMessage });
+    }
+  }, [isChatActionError]);
+
   return (
     <>
       <Sidebar

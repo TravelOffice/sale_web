@@ -1,6 +1,7 @@
 export interface ZaloMessage {
   src: number,
   time: number,
+  type: string,
   message_id: string,
   message: string,
   from_id: string,

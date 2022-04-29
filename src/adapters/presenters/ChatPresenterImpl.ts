@@ -1,3 +1,4 @@
+import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/Conversation';
 import { Message } from '@domain/entities/Message';
 import {
@@ -34,8 +35,10 @@ export default class ChatPresenterImpl implements ChatPresenter {
     await sendMessageUseCase.invoke(message, conversation);
   };
 
-  sendAttachmentMessage = async (sender: string, attachment: File, conversation: Conversation) => {
-    await sendAttachmentMessageUseCase.invoke(sender, attachment, conversation);
+  sendAttachmentMessage = async (
+    sender: string, attachment: File, fileType: AttachmentMessageType, conversation: Conversation,
+  ) => {
+    await sendAttachmentMessageUseCase.invoke(sender, attachment, fileType, conversation);
   }
 
   subscribeNewMessage = () => subscribeNewMessageUseCase.invoke();

@@ -1,4 +1,5 @@
 import { chatPresenter } from '@adapter/presenters';
+import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/Conversation';
 import { Message, MessageData } from '@domain/entities/Message';
 import { chatActions } from '@redux/slices/chatSlice';
@@ -10,17 +11,25 @@ import {
 } from 'redux-saga/effects';
 
 function* getConversation() {
-  const data: Conversation[] = yield call(chatPresenter.getConversations);
-  yield put({ type: chatActions.onConversationsRetrieved.type, payload: data });
+  try {
+    const data: Conversation[] = yield call(chatPresenter.getConversations);
+    yield put({ type: chatActions.onConversationsRetrieved.type, payload: data });
+  } catch (error) {
+    // Do nothing
+  }
 }
 
 function* getConversationMessages(action: PayloadAction<Conversation | undefined>) {
-  const conversation = action.payload;
-  if (!conversation) {
-    yield put({ type: chatActions.onMessagesRetrieved.type, payload: [] });
-  } else {
-    const messages: Message[] = yield call(chatPresenter.getMessages, conversation);
-    yield put({ type: chatActions.onMessagesRetrieved.type, payload: messages });
+  try {
+    const conversation = action.payload;
+    if (!conversation) {
+      yield put({ type: chatActions.onMessagesRetrieved.type, payload: [] });
+    } else {
+      const messages: Message[] = yield call(chatPresenter.getMessages, conversation);
+      yield put({ type: chatActions.onMessagesRetrieved.type, payload: messages });
+    }
+  } catch (error) {
+  // Do nothing
   }
 }
 
@@ -38,12 +47,11 @@ function createSubscriptionChannel(): EventChannel<Message> {
           if (messageData.attachments && messageData.attachments.length > 0) {
             messageData.attachments = messageData.attachments.map((attachment: any) => {
               // Tranform original data
-              // eslint-disable-next-line no-unused-vars
               const { type, payload, ...modifiedAttachment } = attachment;
-              const [fileUri] = attachment.payload.url.split('?');
+              const [fileUri] = payload.url.split('?');
               const { length, [length - 1]: fileName } = fileUri.split('/');
-              modifiedAttachment.mimeType = `${attachment.type}/*`;
-              modifiedAttachment.url = attachment.payload.url;
+              modifiedAttachment.mimeType = `${type}/*`;
+              modifiedAttachment.url = payload.url;
               modifiedAttachment.name = fileName;
 
               return modifiedAttachment;
@@ -101,49 +109,65 @@ function* subscribeNewMessageEvent() {
 }
 
 function* sendMessage(action: PayloadAction<[MessageData, Conversation?]>) {
-  const [messageData, conversation] = action.payload;
-  if (!conversation) {
-    return;
+  try {
+    const [messageData, conversation] = action.payload;
+    if (!conversation) {
+      return;
+    }
+    const { facebookPage, zaloPage } = yield select((state: RootState) => state.auth);
+    const sender = conversation.chatPlatform === 'facebook' ? facebookPage?.id : zaloPage?.id;
+    if (!sender) {
+      return;
+    }
+    const newMessage: Message = {
+      id: '',
+      customerId: conversation.contact.id,
+      messageData,
+      recipient: conversation.contact.id,
+      sender,
+      timestamp: new Date(),
+      chatPlatform: conversation.chatPlatform,
+    };
+    yield call(chatPresenter.sendMessage, newMessage, conversation);
+  } catch (error: any) {
+    yield put({ type: chatActions.onSendMessageError.type, payload: error.message });
   }
-  const { facebookPage, zaloPage } = yield select((state: RootState) => state.auth);
-  const sender = conversation.chatPlatform === 'facebook' ? facebookPage?.id : zaloPage?.id;
-  if (!sender) {
-    return;
-  }
-  const newMessage: Message = {
-    id: '',
-    customerId: conversation.contact.id,
-    messageData,
-    recipient: conversation.contact.id,
-    sender,
-    timestamp: new Date(),
-    chatPlatform: conversation.chatPlatform,
-  };
-  yield call(chatPresenter.sendMessage, newMessage, conversation);
 }
 
-function* sendAttachmentMessage(action: PayloadAction<[File, Conversation?]>) {
-  const [attachment, conversation] = action.payload;
-  if (!conversation) {
-    return;
+function* sendAttachmentMessage(
+  action: PayloadAction<[File, AttachmentMessageType, Conversation?]>,
+) {
+  try {
+    const [attachment, attachmentType, conversation] = action.payload;
+    if (!conversation) {
+      return;
+    }
+    const { facebookPage, zaloPage } = yield select((state: RootState) => state.auth);
+    const sender = conversation.chatPlatform === 'facebook' ? facebookPage?.id : zaloPage?.id;
+    if (!sender) {
+      return;
+    }
+    yield call(
+      chatPresenter.sendAttachmentMessage, sender, attachment, attachmentType, conversation,
+    );
+    yield put({ type: chatActions.onAttachmentMessageSent.type });
+  } catch (error: any) {
+    yield put({ type: chatActions.onSendMessageError.type, payload: error.message });
   }
-  const { facebookPage, zaloPage } = yield select((state: RootState) => state.auth);
-  const sender = conversation.chatPlatform === 'facebook' ? facebookPage?.id : zaloPage?.id;
-  if (!sender) {
-    return;
-  }
-  yield call(chatPresenter.sendAttachmentMessage, sender, attachment, conversation);
-  yield put({ type: chatActions.onAttachmentMessageSent.type });
 }
 
 function* loadMoreConversationMessages(action: PayloadAction<Conversation | undefined>) {
-  const conversation = action.payload;
-  let messages: Message[] = [];
-  if (conversation) {
-    messages = yield call(chatPresenter.loadMoreMessage, conversation);
-  }
+  try {
+    const conversation = action.payload;
+    let messages: Message[] = [];
+    if (conversation) {
+      messages = yield call(chatPresenter.loadMoreMessage, conversation);
+    }
 
-  yield put({ type: chatActions.onMoreMessagesLoaded.type, payload: messages });
+    yield put({ type: chatActions.onMoreMessagesLoaded.type, payload: messages });
+  } catch (error) {
+    // Do nothing
+  }
 }
 
 export default function* chatSaga() {
