@@ -28,25 +28,25 @@ const tabs : Tab[] = [
     id: 'security',
     icon: <Lock size={16} className="me-50" />,
     title: 'Security',
-    pane: <ConnectionsTabContent />,
+    pane: <div>Coming soon</div>,
   },
   {
     id: 'billing',
     icon: <Bookmark size={16} className="me-50" />,
     title: 'Billing & Plans',
-    pane: <ConnectionsTabContent />,
+    pane: <div>Coming soon</div>,
   },
   {
     id: 'notifications',
     icon: <Bell size={16} className="me-50" />,
     title: 'Notifications',
-    pane: <ConnectionsTabContent />,
+    pane: <div>Coming soon</div>,
   },
   {
     id: 'connections',
     icon: <Link2 size={16} className="me-50" />,
     title: 'Connections',
-    pane: <ConnectionsTabContent />,
+    pane: <div>Coming soon</div>,
   },
 ];
 
