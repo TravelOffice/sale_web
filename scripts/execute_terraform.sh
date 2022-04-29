@@ -23,7 +23,6 @@ fi
 cd ./infrastructures/environments/${ENV}
 ln -sf ../../main.tf .
 ln -sf ../../output.tf .
-ln -sf ../../serverless.conf serverless.auto.tfvars
 cd ${CUR_DIR}
 
 echo "Running terraform -chdir=./infrastructures/environments/${ENV} ${TF_COMAND}"

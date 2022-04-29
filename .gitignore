@@ -24,3 +24,15 @@ yarn-error.log*
 yarn.lock
 
 /.idea
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# lock file
+*.lock*
+infrastructures/environments/**/main.tf
+infrastructures/environments/**/output.tf
