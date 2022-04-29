@@ -21,7 +21,9 @@ export default function ConnectionsTabContent() {
   const [pages, setPages] = useState<FacebookPage[]>([]);
   const [selectedPage, setSelectedPage] = useState<FacebookPage | undefined>();
   const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
+  const pageConnectionState = useSelector((state: RootState) => state.pageConnection);
   const currentFacebookPage = useSelector((state: RootState) => state.pageConnection.facebookPage);
+  const [zaloCallbackUrl, setZaloCallbackUrl] = useState('');
   const connectingFacebookPage = useSelector((
     state: RootState,
   ) => state.pageConnection.connectingFacebookPage);
@@ -64,6 +66,13 @@ export default function ConnectionsTabContent() {
     return currentFacebookPage.name;
   };
 
+  const zaloPageStatus = () => {
+    if (!pageConnectionState.zaloPage) {
+      return 'Not connected';
+    }
+    return pageConnectionState.zaloPage.name;
+  };
+
   useEffect(() => {
     // Dismiss modal whenever linking completely
     if (!connectingFacebookPage) {
@@ -71,13 +80,54 @@ export default function ConnectionsTabContent() {
     }
   }, [connectingFacebookPage]);
 
+  const connectZaloPage = () => {
+    // TODO: Get Zalo OAuth URL before opening new window
+    const url = 'https://oauth.zaloapp.com/v4/oa/permission?app_id=1364765243717231492&redirect_uri=https%3A%2F%2Fwww.traveloffice.shop%2Fzalo%2Fcallback&code_challenge=48k9PVwWFqLQz7YlIco7D8H0wJuHloMb8krUM8XV8AU&state=LUa1z8Smgv9UkIqiR2txZTc333RzTFfMkztIeT3rPY2';
+
+    // Parse Zalo OAuth URL to retrieve the URL of SSO page which should be redirected after the
+    // user grant permissions. This URL should be used to listen permission granting event
+    const redirectUrl = new URL(decodeURI(new URLSearchParams(url).get('redirect_uri') || ''));
+    setZaloCallbackUrl(new URL(redirectUrl).origin);
+    window.open(
+      url,
+      '_blank',
+      'height=800,width=1000',
+    );
+  };
+
+  const onZaloConnected = (pageId: string, authorizationCode: string, state: string) => {
+    // TODO: Call an API to link zalo page withing these params
+    console.log('Link zalo with', pageId, 'code', authorizationCode, 'state', state);
+  };
+
+  useEffect(() => {
+    const listener = (ev: MessageEvent<any>) => {
+      if (ev.origin === zaloCallbackUrl) {
+        const { type, data } = ev.data as { type: string, data: any };
+        if (type === 'zaloCallback') {
+          const params = new URLSearchParams(data);
+          const pageId = params.get('oa_id');
+          const state = params.get('state');
+          const authorizationCode = params.get('code');
+          if (pageId && state && authorizationCode) {
+            onZaloConnected(pageId, authorizationCode, state);
+          }
+        }
+      }
+    };
+    window.addEventListener('message', listener);
+    return () => {
+      window.removeEventListener('message', listener);
+    };
+  }, [zaloCallbackUrl]);
+
   return (
     <Card>
       <CardHeader className="border-bottom">
         <CardTitle tag="h4">{t('PAGE.CONNECTED_PAGES')}</CardTitle>
       </CardHeader>
       <CardBody className="pt-2">
-        <div className="d-flex mt-2">
+        <div className="d-flex mt-2 pb-2 border-bottom">
           <div className="flex-shrink-0">
             <img className="me-1" src={currentFacebookPage?.picture || Images.facebookLogo} alt="" height="38" width="38" />
           </div>
@@ -98,6 +148,22 @@ export default function ConnectionsTabContent() {
                   </Button>
                 )}
               />
+            </div>
+          </div>
+        </div>
+        <div className="d-flex mt-2">
+          <div className="flex-shrink-0">
+            <img className="me-1" src={currentFacebookPage?.picture || Images.zaloLogo} alt="" height="38" width="38" />
+          </div>
+          <div className="d-flex align-item-center justify-content-between flex-grow-1">
+            <div className="me-1">
+              <p className="fw-bolder mb-0">Zalo</p>
+              <span>{zaloPageStatus()}</span>
+            </div>
+            <div className="mt-50 mt-sm-0">
+              <Button outline className="btn-icon" onClick={connectZaloPage}>
+                <LinkIcon className="font-medium-3" />
+              </Button>
             </div>
           </div>
         </div>
