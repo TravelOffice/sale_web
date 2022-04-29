@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
 import { FetchAssignedLeadResponse as FetchLeadsResponse, CreateUpdateLeadResponse, Lead } from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-export type HandleDataState = 'init' | 'loading' | 'finished' | 'error';
+import { HandleDataState } from './others/HandleDataState';
 
 interface LeadState {
-  data: Lead[]
+  data: Lead[],
   total: number,
   allLeads: Lead[],
   selectedLead?: Lead,

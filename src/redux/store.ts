@@ -8,7 +8,8 @@ import { layoutReducers } from '@redux/slices/layoutSlice';
 import { navbarReducers } from '@redux/slices/navbarSlice';
 import { chatReducers } from '@redux/slices/chatSlice';
 import { pageConnectionReducers } from '@redux/slices/pageConnectionSlice';
-import { leadReducers } from './slices/leadSlice';
+import { leadReducers } from '@redux/slices/leadSlice';
+import { opportunityReducers } from '@redux/slices/opportunitySlice';
 
 const sageMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -20,6 +21,7 @@ const rootReducers = combineReducers({
   navbar: navbarReducers,
   chat: chatReducers,
   lead: leadReducers,
+  opportunity: opportunityReducers,
   pageConnection: pageConnectionReducers,
 });
 

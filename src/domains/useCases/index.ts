@@ -18,6 +18,8 @@ import { AddLeadUseCase } from './interfaces/lead/AddLeadUseCase';
 import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
 import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
 import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
+import GetAllOpportunitiesUseCaseImpl from './opportunity/GetAllOpportunitiesUseCaseImpl';
+import { GetAllOpportunitiesUseCase } from './interfaces/opportunity/GetAllOpportunitiesUseCase';
 
 interface UseCases {
   // Chat
@@ -31,6 +33,7 @@ interface UseCases {
   addLeadUseCase: AddLeadUseCase
   updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
+  getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
 }
 
 const useCases : UseCases = {
@@ -44,6 +47,7 @@ const useCases : UseCases = {
   addLeadUseCase: new AddLeadUseCaseImpl(),
   updateLeadUseCase: new UpdateLeadUseCaseImpl(),
   connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
+  getAllOpportunitiesUseCase: new GetAllOpportunitiesUseCaseImpl(),
 };
 
 export const {
@@ -57,4 +61,5 @@ export const {
   addLeadUseCase,
   updateLeadUseCase,
   connectFacebookPageUseCase,
+  getAllOpportunitiesUseCase,
 } = useCases;

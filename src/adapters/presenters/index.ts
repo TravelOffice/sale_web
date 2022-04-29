@@ -6,12 +6,15 @@ import { ChatPresenter } from '@adapter/presenters/interfaces/ChatPresenter';
 import ChatPresenterImpl from '@adapter/presenters/ChatPresenterImpl';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 import LeadPresenterImpl from './LeadPresenterImpl';
+import { OpportunityPresenter } from './interfaces/OpportunityPresenter';
+import OpportunityPresenterImpl from './OpportunityPresenterImpl';
 
 interface Presenters {
   userPresenter: UserPresenter,
   chatPresenter: ChatPresenter,
   accountConnectionPresenter: AccountConnectionPresenter,
   leadPresenter: LeadPresenter,
+  opportunityPresenter: OpportunityPresenter,
 }
 
 const presenters: Presenters = {
@@ -19,6 +22,7 @@ const presenters: Presenters = {
   chatPresenter: new ChatPresenterImpl(),
   accountConnectionPresenter: new AccountConnectionPresenterImpl(),
   leadPresenter: new LeadPresenterImpl(),
+  opportunityPresenter: new OpportunityPresenterImpl(),
 };
 
 export const {
@@ -26,4 +30,5 @@ export const {
   chatPresenter,
   accountConnectionPresenter,
   leadPresenter,
+  opportunityPresenter,
 } = presenters;

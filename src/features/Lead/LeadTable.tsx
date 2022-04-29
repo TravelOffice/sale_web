@@ -28,7 +28,7 @@ const LeadTable = () => {
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
   const selectedLead = useSelector((state: RootState) => state.lead.selectedLead);
   const fetchLeadsState = useSelector((state: RootState) => state.lead.fetchAllLeadsState);
-  const fetchLeadsError = useSelector((state: RootState) => state.lead.fetchAllLeadsError);
+  const fetchLeadsError = useSelector((state: RootState) => state.lead.fetchAllLeadsError?.errorMsg || '');
 
   // ** Function to toggle sidebar
   const toggleAddLeadSidebar = () => setAddLeadSidebarOpen(!addLeadSidebarOpen);
@@ -37,7 +37,6 @@ const LeadTable = () => {
   const { getAllLeads } = leadActions;
 
   // ** User filter options
-
   const statusOptions = [
     { value: '', label: i18n.t('COMMON.SELECT'), number: 0 },
     { value: 'NEW', label: i18n.t('LEAD.NEW'), number: 1 },
@@ -90,7 +89,6 @@ const LeadTable = () => {
         toggleSidebar={toggleUpdateLeadSidebar}
       />
     </>
-
   );
 };
 

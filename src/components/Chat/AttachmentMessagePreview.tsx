@@ -87,7 +87,7 @@ export default function AttachmentMessagePreview(props: AttachmentMessagePreview
         </ModalBody>
         <ModalFooter>
           <Button onClick={onCancelSendingAttachment}>{i18n.t('COMMON.CANCEL')}</Button>
-          <Button color="primary" onClick={onSubmitSendingAttachment}>{i18n.t('CHAT.SEND_MESAGE')}</Button>
+          <Button color="primary" onClick={onSubmitSendingAttachment}>{i18n.t('CHAT.SEND_MESSAGE')}</Button>
         </ModalFooter>
       </Modal>
     </>
