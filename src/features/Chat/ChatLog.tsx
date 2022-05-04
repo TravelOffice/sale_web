@@ -181,7 +181,7 @@ const ChatLog = (props: ChatLogProps) => {
    * Supported attachment types are `file`, `audio`, `video`, `image`
    */
   const renderAttachmentItems = attachmentMessageSettings
-    .filter((attachmentSetting) => (attachmentSetting.ignoreInZalo && selectedConversation?.chatPlatform === 'zalo') || selectedConversation?.chatPlatform === 'facebook')
+    .filter((attachmentSetting) => (!attachmentSetting.ignoreInZalo && selectedConversation?.chatPlatform === 'zalo') || selectedConversation?.chatPlatform === 'facebook')
     .map((attachmentSetting) => (
       <DropdownItem
         tag="span"
