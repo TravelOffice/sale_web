@@ -6,9 +6,10 @@ import {
 import client from '@graphql/client';
 import { ToastContainer } from 'react-toastify';
 import '@styles/react/libs/toastify/toastify.scss';
+import { withTranslation } from 'react-i18next';
 import Router from '../Router/Router';
 
-function App() {
+function AppContent() {
   return (
     <ApolloProvider client={client}>
       <Router />
@@ -16,5 +17,7 @@ function App() {
     </ApolloProvider>
   );
 }
+
+const App = withTranslation()(AppContent);
 
 export default App;
