@@ -14,12 +14,17 @@ export default function FormDatePicker<T, TName extends Path<T> = Path<T>>(
   props: FormDatePickerProps<T, TName>,
 ) {
   const {
-    fieldError, name, control, label, defaultValue, disabled,
+    fieldError, name, control, label, defaultValue, disabled, required,
   } = props;
   return (
     <div className="mb-1">
       <Label className="form-label" for="birthday">
         {label}
+        {
+          required && (
+            <span className="text-danger">{' *'}</span>
+          )
+        }
       </Label>
       <Controller
         name={name}

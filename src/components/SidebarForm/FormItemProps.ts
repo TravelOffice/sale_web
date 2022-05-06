@@ -6,4 +6,5 @@ export interface FormItemProps<T, TName extends Path<T> = Path<T>> {
   control: Control<T>,
   fieldError?: FieldError,
   disabled?: boolean,
+  required?: boolean,
 }

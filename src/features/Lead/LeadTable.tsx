@@ -16,7 +16,7 @@ import {
   Card, CardBody, CardHeader, CardTitle, Col, Label, Row,
 } from 'reactstrap';
 import LeadSidebar from './CreateUpdateLeadSidebar';
-import { columns } from './LeadColumns';
+import { leadColumns } from './LeadColumns';
 
 const LeadTable = () => {
   // ** Store Vars
@@ -73,7 +73,7 @@ const LeadTable = () => {
         data={allLeads}
         fetchDataState={fetchLeadsState}
         fetchDataError={fetchLeadsError}
-        columns={columns}
+        columns={leadColumns}
         searchableColumns={['name', 'primaryPhoneNumber']}
         toggleAddDataSidebar={toggleAddLeadSidebar}
         sortColumnDefault="createdAt"

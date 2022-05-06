@@ -10,6 +10,7 @@ import { chatReducers } from '@redux/slices/chatSlice';
 import { pageConnectionReducers } from '@redux/slices/pageConnectionSlice';
 import { leadReducers } from '@redux/slices/leadSlice';
 import { opportunityReducers } from '@redux/slices/opportunitySlice';
+import { customerReducers } from './slices/customerSlice';
 
 const sageMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -23,6 +24,7 @@ const rootReducers = combineReducers({
   lead: leadReducers,
   opportunity: opportunityReducers,
   pageConnection: pageConnectionReducers,
+  customer: customerReducers,
 });
 
 export const store = configureStore({

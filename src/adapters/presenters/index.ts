@@ -8,6 +8,8 @@ import { LeadPresenter } from './interfaces/LeadPresenter';
 import LeadPresenterImpl from './LeadPresenterImpl';
 import { OpportunityPresenter } from './interfaces/OpportunityPresenter';
 import OpportunityPresenterImpl from './OpportunityPresenterImpl';
+import { CustomerPresenter } from './interfaces/CustomerPresenter';
+import CustomerPresenterImpl from './CustomerPresenterImpl';
 
 interface Presenters {
   userPresenter: UserPresenter,
@@ -15,6 +17,7 @@ interface Presenters {
   accountConnectionPresenter: AccountConnectionPresenter,
   leadPresenter: LeadPresenter,
   opportunityPresenter: OpportunityPresenter,
+  customerPresenter: CustomerPresenter,
 }
 
 const presenters: Presenters = {
@@ -23,6 +26,7 @@ const presenters: Presenters = {
   accountConnectionPresenter: new AccountConnectionPresenterImpl(),
   leadPresenter: new LeadPresenterImpl(),
   opportunityPresenter: new OpportunityPresenterImpl(),
+  customerPresenter: new CustomerPresenterImpl(),
 };
 
 export const {
@@ -31,4 +35,5 @@ export const {
   accountConnectionPresenter,
   leadPresenter,
   opportunityPresenter,
+  customerPresenter,
 } = presenters;

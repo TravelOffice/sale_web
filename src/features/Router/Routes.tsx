@@ -5,6 +5,7 @@ import OpportunitiesList from '@features/Opportunity/OpportunitiesList';
 import { RoutePathConfig } from '@features/Router/RouteConfig';
 import Settings from '@features/Settings/Settings';
 import React from 'react';
+import CustomerList from '@features/Customer/CustomerList';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -37,6 +38,11 @@ const Routes : RoutePathConfig[] = [
     path: '/apps/opp/list',
     exact: true,
     component: <OpportunitiesList />,
+  },
+  {
+    path: '/apps/customer/list',
+    exact: true,
+    component: <CustomerList />,
   },
   {
     path: '*',

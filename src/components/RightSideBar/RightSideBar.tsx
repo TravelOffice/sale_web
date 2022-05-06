@@ -16,9 +16,9 @@ export interface RightSideBarProps {
   className?: string,
   toggleSidebar: () => void,
   bodyClassName?: string,
-  contentClassName: string,
+  contentClassName?: string,
   wrapperClassName?: string,
-  headerClassName: string,
+  headerClassName?: string,
   onClosed: () => void,
 }
 
@@ -65,7 +65,7 @@ const RightSideBar = (props: RightSideBarProps) => {
     >
       <ModalHeader
         className={classnames({
-          [headerClassName]: headerClassName,
+          headerClassName,
         })}
         toggle={toggleSidebar}
         close={renderCloseBtn}

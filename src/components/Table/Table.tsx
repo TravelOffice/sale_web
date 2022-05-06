@@ -20,6 +20,7 @@ import {
 } from 'reactstrap';
 import { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 import { handleFilterColumns, handleSearchColumns } from '@utils/CommonUtils';
+import { DEFAULT_PAGE_SIZE } from '@utils/Constants';
 
 export interface TableProps<T> {
   data: T[],
@@ -31,6 +32,7 @@ export interface TableProps<T> {
   filterColumns: { key: string, value: string }[],
   getDataAction: ActionCreatorWithoutPayload<string>,
   toggleAddDataSidebar: () => void,
+  onRowClicked?: (row: T) => void,
 }
 
 type SortDirection = 'asc' | 'desc';
@@ -46,6 +48,7 @@ function Table<T>(props: TableProps<T>) {
     filterColumns,
     getDataAction,
     toggleAddDataSidebar,
+    onRowClicked,
   } = props;
   // ** Store Vars
   const dispatch = useDispatch();
@@ -55,7 +58,7 @@ function Table<T>(props: TableProps<T>) {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState(sortColumnDefault);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
 
   // ** Get data on mount
   useEffect(() => {
@@ -153,6 +156,7 @@ function Table<T>(props: TableProps<T>) {
           sortIcon={<ChevronDown />}
           className="react-dataTable"
           paginationComponent={CustomPagination}
+          onRowClicked={onRowClicked}
           data={dataCurrentPage}
           subHeaderComponent={(
             <CustomHeader

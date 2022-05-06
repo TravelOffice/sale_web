@@ -9,6 +9,7 @@ import {
   leadSexes,
   leadSources,
   leadStatuses,
+  LeadStatusType,
   leadVocatives,
 } from '@domain/entities/Lead';
 // ** Third Party Components
@@ -16,7 +17,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { leadActions } from '@redux/slices/leadSlice';
 import { RootState } from '@redux/store';
 import {
-  BIRTHDAYFORMAT, ErrorMessage, PHONE_NUMBER_VALIDATION_REGEX,
+  BIRTHDAYFORMAT, PHONE_NUMBER_VALIDATION_REGEX,
 } from '@utils/Constants';
 import moment from 'moment';
 import React, { useEffect } from 'react';
@@ -54,7 +55,7 @@ function isValidCountry(message: string) {
     const { path, createError } = context;
 
     if (!value || !value.value) {
-      return createError({ path, message: message ?? ErrorMessage.COUNTRY_INVALID_MESSAGE });
+      return createError({ path, message: message ?? i18n.t('MESSAGE.COUNTRY_INVALID_MESSAGE') });
     }
 
     return true;
@@ -66,10 +67,10 @@ function isValidSelect(array: string[], message: string) {
     const { path, createError } = context;
 
     if (!value || !value.value) {
-      return createError({ path, message: message ?? ErrorMessage.SELECT_FIELD_INVALID_MESSAGE });
+      return createError({ path, message: message ?? i18n.t('MESSAGE.SELECT_FIELD_INVALID_MESSAGE') });
     }
     if (!array.includes(value.value)) {
-      return createError({ path, message: message ?? ErrorMessage.SELECT_FIELD_INVALID_MESSAGE });
+      return createError({ path, message: message ?? i18n.t('MESSAGE.SELECT_FIELD_INVALID_MESSAGE') });
     }
 
     return true;
@@ -81,11 +82,11 @@ yup.addMethod(yup.object, 'isValidSelect', isValidSelect);
 
 //  Yup schema for validate create lead
 const LeadSchema = yup.object().shape({
-  name: yup.string().required(),
+  name: yup.string().required(i18n.t('MESSAGE.NAME_REQUIRE_MESSAGE')),
   otherPhoneNumbers: yup.array().of(
     yup.object().shape({
       value: yup.string().matches(
-        PHONE_NUMBER_VALIDATION_REGEX, { message: ErrorMessage.PHONE_INVALID_MESSAGE },
+        PHONE_NUMBER_VALIDATION_REGEX, { message: i18n.t('MESSAGE.PHONE_INVALID_MESSAGE') },
       ),
     }),
   ),
@@ -94,12 +95,12 @@ const LeadSchema = yup.object().shape({
   vocative: yup.object().shape({
     value: yup.string().required(),
   }).required(),
-  nationality: yup.object().nullable().isValidCountry(ErrorMessage.NATIONALITY_INVALID_MESSAGE),
-  country: yup.object().nullable().isValidCountry(ErrorMessage.COUNTRY_INVALID_MESSAGE),
-  sex: yup.object().isValidSelect(leadSexes, ErrorMessage.SEX_INVALID_MESSAGE),
-  maritalStatus: yup.object().isValidSelect(leadMaritals, ErrorMessage.MARITAL_INVALID_MESSAGE),
-  status: yup.object().isValidSelect(leadStatuses, ErrorMessage.LEAD_STATUS_INVALID_MESSAGE),
-  source: yup.object().isValidSelect(leadSources, ErrorMessage.LEAD_SOURCE_INVALID_MESSAGE),
+  nationality: yup.object().nullable().isValidCountry(i18n.t('MESSAGE.NATIONALITY_INVALID_MESSAGE')),
+  country: yup.object().nullable().isValidCountry(i18n.t('MESSAGE.COUNTRY_INVALID_MESSAGE')),
+  sex: yup.object().isValidSelect(leadSexes, i18n.t('MESSAGE.SEX_INVALID_MESSAGE')),
+  maritalStatus: yup.object().isValidSelect(leadMaritals, i18n.t('MESSAGE.MARITAL_INVALID_MESSAGE')),
+  status: yup.object().isValidSelect(leadStatuses, i18n.t('MESSAGE.LEAD_STATUS_INVALID_MESSAGE')),
+  source: yup.object().isValidSelect(leadSources, i18n.t('MESSAGE.LEAD_SOURCE_INVALID_MESSAGE')),
   tags: yup.array().of(yup.object()),
   enabled: yup.object().required(),
 });
@@ -146,8 +147,8 @@ const SidebarNewLead = (props: SidebarNewLeadProps) => {
 
   //  Yup schema for validate create lead
   const CreateLeadSchema = yup.object().shape({
-    primaryPhoneNumber: yup.string().required().matches(
-      PHONE_NUMBER_VALIDATION_REGEX, { message: ErrorMessage.PHONE_INVALID_MESSAGE },
+    primaryPhoneNumber: yup.string().required(i18n.t('MESSAGE.PRIMARY_PHONE_REQUIRE_MESSAGE')).matches(
+      PHONE_NUMBER_VALIDATION_REGEX, { message: i18n.t('MESSAGE.PHONE_INVALID_MESSAGE') },
     ),
   });
 
@@ -183,7 +184,7 @@ const SidebarNewLead = (props: SidebarNewLeadProps) => {
         district: formData.district && formData.district.length ? formData.district : undefined,
         ward: formData.ward && formData.ward.length ? formData.ward : undefined,
         address: formData.address && formData.address.length ? formData.address : undefined,
-        status: formData.status!.value,
+        status: formData.status!.value as LeadStatusType,
         tags: formData.tags && formData.tags.length ? formData.tags.map(
           (item: { value: string; }) => item.value,
         ) : undefined,
@@ -192,8 +193,8 @@ const SidebarNewLead = (props: SidebarNewLeadProps) => {
         assigneeId: undefined,
         assigneeName: undefined,
         source: formData.source!.value,
-        type: LeadEnum.LEAD,
         enabled: formData.enabled!.value,
+        type: LeadEnum.LEAD,
       }),
     );
   };
@@ -223,6 +224,7 @@ const SidebarNewLead = (props: SidebarNewLeadProps) => {
       isUpdate={false}
       title="New Lead"
       loadingState={addLeadState}
+      leadType={LeadEnum.LEAD}
       toggleSidebar={toggleSidebar}
       handleSidebarClosed={handleSidebarClosed}
       handleSubmit={handleSubmit(onSubmit)}
@@ -313,7 +315,7 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
         district: formData.district && formData.district.length ? formData.district : undefined,
         ward: formData.ward && formData.ward.length ? formData.ward : undefined,
         address: formData.address && formData.address.length ? formData.address : undefined,
-        status: formData.status!.value,
+        status: formData.status!.value as LeadStatusType,
         tags: formData.tags && formData.tags.length ? formData.tags.map(
           (item: { value: string; }) => item.value,
         ) : undefined,
@@ -349,6 +351,7 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
       isUpdate
       loadingState={updateLeadState}
       title={`Lead: ${lead?.name!}`}
+      leadType={LeadEnum.LEAD}
       toggleSidebar={toggleSidebar}
       handleSidebarClosed={handleSidebarClosed}
       handleSubmit={handleSubmit(onSubmit)}

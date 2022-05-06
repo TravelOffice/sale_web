@@ -1,0 +1,39 @@
+import countries from '@assets/json/countries.json';
+import { Country, Province } from '@features/Lead/LeadSidebar';
+import provinces from '@assets/json/provinces.json';
+
+export function getCountries() : Country[] {
+  return countries.map((country) => ({
+    name: country.en_short_name,
+    nationality: country.nationality,
+    countryCode: country.alpha_2_code,
+  }));
+}
+
+export function getNationality(nationalityCode: string): Country {
+  const nationality = countries.find((country) => country.nationality === nationalityCode)!;
+  return {
+    name: nationality.en_short_name,
+    nationality: nationality.nationality,
+    countryCode: nationality.alpha_2_code,
+  };
+}
+
+export function getCountry(countryCode: string) : Country {
+  const country = countries.find((item) => item.alpha_2_code === countryCode)!;
+  return {
+    name: country.en_short_name,
+    nationality: country.nationality,
+    countryCode: country.alpha_2_code,
+  };
+}
+
+export function getProvinces(countryCode?: string) : Province[] {
+  if (!countryCode) {
+    return [];
+  }
+  const country = getCountry(countryCode);
+  return provinces.filter((item) => item.country === country.countryCode).map((item) => ({
+    name: item.name,
+  }));
+}

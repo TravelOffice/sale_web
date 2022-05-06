@@ -38,9 +38,9 @@ import {
 } from 'reactstrap';
 import {
   Control,
-  FieldError,
+  FieldError, FieldErrors,
   Path, UnpackNestedValue,
-  useForm, UseFormSetValue,
+  useForm, UseFormGetValues, UseFormSetValue,
 } from 'react-hook-form';
 import FormSelect from '@components/SidebarForm/FormSelect';
 import { FormInput } from '@components/SidebarForm/FormInput';
@@ -50,8 +50,12 @@ import FormCustomInput from '@components/SidebarForm/FormCustomInput';
 import i18n from '@config/i18n';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import RightSideBar, { RightSideBarProps } from '@components/RightSideBar/RightSideBar';
+import FormCreatableSelect from '@components/SidebarForm/FormCreatableSelect';
 
-export type FormSchema<T> = Record<keyof T, InputSchema<T, Path<T>>>;
+export type FormSchema<T> = {
+  [K in Path<T>]: InputSchema<T, K>
+};
 
 export interface FormProps<T> {
   schema: FormSchema<T>,
@@ -67,7 +71,8 @@ function prop<T, K extends keyof T>(obj: T, key: K) {
 
 function renderInput<T, TName extends Path<T>>(
   name: TName, schema: InputSchema<T, TName>, control: Control<T>,
-  setValue: UseFormSetValue<T>, fieldError?: FieldError,
+  setValue: UseFormSetValue<T>, getValues: UseFormGetValues<T>,
+  errors: FieldErrors<T>, fieldError?: FieldError,
 ) {
   // Render custom component
   if (schema.render) {
@@ -77,6 +82,7 @@ function renderInput<T, TName extends Path<T>>(
         render={schema.render}
         name={name}
         control={control}
+        errors={errors}
         {...schema}
       />
     );
@@ -89,7 +95,23 @@ function renderInput<T, TName extends Path<T>>(
         key={name}
         name={name}
         setValue={setValue}
-        options={schema.options!}
+        options={schema.getOptions ? schema.getOptions(getValues()) : schema.options!}
+        getOptionLabel={schema.getOptionLabel!}
+        control={control}
+        fieldError={fieldError}
+        {...schema}
+      />
+    );
+  }
+
+  // Render creatable select component
+  if (schema.type === 'creatable-select') {
+    return (
+      <FormCreatableSelect<T, TName>
+        key={name}
+        name={name}
+        setValue={setValue}
+        options={schema.getOptions ? schema.getOptions(getValues()) : schema.options!}
         getOptionLabel={schema.getOptionLabel!}
         control={control}
         fieldError={fieldError}
@@ -122,9 +144,10 @@ function renderInput<T, TName extends Path<T>>(
   );
 }
 
-export default function SidebarForm<T>(props: FormProps<T>) {
+export default function SidebarForm<T>(props: FormProps<T> & RightSideBarProps) {
   const {
     schema, defaultValues, submitting, onSubmit, onCancel,
+    open, title, toggleSidebar, onClosed,
   } = props;
   const yupSchema = useMemo(() => {
     const entries = Object.entries(schema) as [keyof T, InputSchema<T, Path<T>>][];
@@ -132,40 +155,50 @@ export default function SidebarForm<T>(props: FormProps<T>) {
     return yup.object().shape({ ...validators });
   }, [schema]);
   const {
-    control, formState: { errors }, setValue, reset, handleSubmit,
+    control, formState: { errors }, setValue, reset, handleSubmit, getValues,
   } = useForm<T>({ resolver: yupResolver(yupSchema) });
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
 
   return (
-    <ReactstrapForm onSubmit={onSubmit && handleSubmit(onSubmit)}>
-      {
+    <RightSideBar
+      size="lg"
+      open={open}
+      title={title}
+      headerClassName="mb-1"
+      contentClassName="pt-0"
+      toggleSidebar={toggleSidebar}
+      onClosed={onClosed}
+    >
+      <ReactstrapForm onSubmit={onSubmit && handleSubmit(onSubmit)}>
+        {
         Object.keys(schema).map((item) => {
-          type TKeys = keyof T;
-          const fieldName = item as TKeys;
+          // type TKeys = keyof T;
+          // const fieldName = item as TKeys;
           const name = item as Path<T>;
-          const inputSchema = prop(schema, fieldName);
+          const inputSchema = prop(schema, name);
           const fieldError = prop(errors, item as any);
           return renderInput<T, Path<T>>(
-            name, inputSchema!, control, setValue, fieldError,
+            name, inputSchema!, control, setValue, getValues, errors, fieldError,
           );
         })
       }
-      <Button type="submit" className="me-1" color="primary">
-        { !submitting ? i18n.t('COMMON.SUBMIT') : i18n.t('COMMON.LOADING')}
-        { submitting ? (
-          <Spinner
-            style={{ width: '0.7rem', height: '0.7rem' }}
-            type="grow"
-            color="light"
-          />
-        ) : null }
-      </Button>
-      <Button type="reset" color="secondary" outline onClick={onCancel}>
-        {i18n.t('COMMON.CANCEL')}
-      </Button>
-    </ReactstrapForm>
+        <Button type="submit" className="me-1" color="primary">
+          { !submitting ? i18n.t('COMMON.SUBMIT') : i18n.t('COMMON.LOADING')}
+          { submitting ? (
+            <Spinner
+              style={{ width: '0.7rem', height: '0.7rem' }}
+              type="grow"
+              color="light"
+            />
+          ) : null }
+        </Button>
+        <Button type="reset" color="secondary" outline onClick={onCancel}>
+          {i18n.t('COMMON.CANCEL')}
+        </Button>
+      </ReactstrapForm>
+    </RightSideBar>
   );
 }
 
