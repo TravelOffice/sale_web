@@ -1,30 +1,24 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { Lead } from '@domain/entities/Lead';
-import { ResponseType } from '@utils/ApiUtils';
+import { Lead, LeadEnum } from '@domain/entities/Lead';
 import { LeadRepository } from './interfaces/LeadRepository';
 
 export default class LeadRepositoryImpl implements LeadRepository {
   getAllLeads = async () => {
-    const response = await apiProvider.authorizedRequest.get('/leads');
-    if (response.message !== ResponseType.SUCCESS) {
-      throw Error('Get Assigned Lead error');
-    }
+    const response = await apiProvider.authorizedRequest.get('/leads', {
+      queryParams: {
+        type: LeadEnum.LEAD,
+      },
+    });
     return response.data;
   }
 
   addLead = async (lead: Lead) => {
-    const response = await apiProvider.authorizedRequest.post('/leads', lead);
-    if (response.message !== ResponseType.SUCCESS) {
-      throw Error('Create Lead error');
-    }
+    await apiProvider.authorizedRequest.post('/leads', lead);
     return lead;
   }
 
   updateLead = async (lead: Lead) => {
-    const response = await apiProvider.authorizedRequest.put('/leads', lead);
-    if (response.message !== ResponseType.SUCCESS) {
-      throw Error('Update Lead error');
-    }
+    await apiProvider.authorizedRequest.put('/leads', lead);
     return lead;
   }
 }

@@ -3,7 +3,7 @@ import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import CustomHeader from '@components/Table/Header';
 // ** Store & Actions
-import { HandleDataState } from '@redux/slices/leadSlice';
+import { HandleDataState } from '@redux/slices/others/HandleDataState';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import '@styles/react/libs/tables/react-dataTable-component.scss';
@@ -24,7 +24,7 @@ import { handleFilterColumns, handleSearchColumns } from '@utils/CommonUtils';
 export interface TableProps<T> {
   data: T[],
   fetchDataState: HandleDataState,
-  fetchDataError: any,
+  fetchDataError?: string,
   columns: TableColumn<T>[],
   searchableColumns: string[],
   sortColumnDefault: string,
@@ -64,7 +64,7 @@ function Table<T>(props: TableProps<T>) {
 
   useEffect(() => {
     if (fetchDataState === 'error') {
-      toasty.show({ title: i18n.t('COMMON.ERROR'), type: 'error', message: `${fetchDataError?.errorMsg}` });
+      toasty.show({ title: i18n.t('COMMON.ERROR'), type: 'error', message: `${fetchDataError}` });
     }
   }, [fetchDataState]);
 

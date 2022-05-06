@@ -3,7 +3,8 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import authSaga from '@redux/saga/authSaga';
 import chatSaga from '@redux/saga/chatSaga';
 import pageConnectionSaga from '@redux/saga/pageConnectionSaga';
-import leadSaga from './saga/leadSaga';
+import leadSaga from '@redux/saga/leadSaga';
+import opportunitySaga from '@redux/saga/opportunitySaga';
 
 // eslint-disable-next-line require-yield
 function* log(action: PayloadAction) {
@@ -21,6 +22,7 @@ export default function* rootSaga() {
     authSaga(),
     chatSaga(),
     leadSaga(),
+    opportunitySaga(),
     pageConnectionSaga(),
   ]);
 }

@@ -10,6 +10,8 @@ import { S3Repository } from './interfaces/S3Repository';
 import S3RepositoryImpl from './S3RepositoryImpl';
 import { LeadRepository } from './interfaces/LeadRepository';
 import LeadRepositoryImpl from './LeadRepositoryImpl';
+import { OpportunityRepository } from './interfaces/OpportunityRepository';
+import OpportunityRepositoryImpl from './OpportunityRepositoryImpl';
 
 interface Repositories {
   userRepository: UserRepository,
@@ -18,6 +20,7 @@ interface Repositories {
   s3Repository: S3Repository,
   leadRepository: LeadRepository,
   pageConnectionRepository: AccountConnectionRepository,
+  opportunityRepository: OpportunityRepository,
 }
 
 const repositories : Repositories = {
@@ -27,6 +30,7 @@ const repositories : Repositories = {
   s3Repository: new S3RepositoryImpl(),
   leadRepository: new LeadRepositoryImpl(),
   pageConnectionRepository: new AccountConnectionRepositoryImpl(),
+  opportunityRepository: new OpportunityRepositoryImpl(),
 };
 
 export const {
@@ -36,4 +40,5 @@ export const {
   s3Repository,
   leadRepository,
   pageConnectionRepository,
+  opportunityRepository,
 } = repositories;

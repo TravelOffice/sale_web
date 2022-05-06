@@ -20,25 +20,19 @@ import {
 } from 'reactstrap';
 
 // ** Renders Client Columns
-const renderClient = (row: Lead) => {
-  const states : { [key: string] : AvatarColor } = {
-    NEW: 'light-primary',
-    QUALIFYING: 'light-warning',
-    QUALIFIED: 'light-success',
-    TAKING_CARE: 'light-info',
-  };
-  const color : AvatarColor = states[row.status];
 
-  return <Avatar color={color || 'primary'} className="me-1" content={row.name} />;
-};
-
-const statusObj = {
+const statusObj: { [key: string] : AvatarColor } = {
   NEW: 'light-primary',
   QUALIFYING: 'light-warning',
   QUALIFIED: 'light-success',
   TAKING_CARE: 'light-info',
   TRADING: 'light-danger',
   TRADED: 'light-secondary',
+};
+
+const renderClient = (row: Lead) => {
+  const color : AvatarColor = statusObj[row.status];
+  return <Avatar color={color || 'primary'} className="me-1" content={row.name} />;
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -48,7 +42,6 @@ export const columns : TableColumn<Lead>[] = [
     sortable: true,
     minWidth: '250px',
     sortField: 'name',
-    selector: (row: Lead) => row.name,
     cell: (row: Lead) => (
       <div className="d-flex justify-content-left align-items-center">
         {renderClient(row)}
@@ -69,7 +62,6 @@ export const columns : TableColumn<Lead>[] = [
     minWidth: '150px',
     sortable: true,
     sortField: 'phone',
-    selector: (row: Lead) => row.primaryPhoneNumber || '',
     cell: (row: Lead) => <span className="text-capitalize">{row.primaryPhoneNumber}</span>,
   },
   {
@@ -77,7 +69,6 @@ export const columns : TableColumn<Lead>[] = [
     minWidth: '150px',
     sortable: true,
     sortField: 'birthday',
-    selector: (row: Lead) => row.birthday || '',
     cell: (row: Lead) => <span className="text-capitalize">{row.birthday}</span>,
   },
   {
@@ -85,7 +76,6 @@ export const columns : TableColumn<Lead>[] = [
     minWidth: '150px',
     sortable: true,
     sortField: 'status',
-    selector: (row: Lead) => row.status,
     cell: (row: Lead) => (
       <Badge className="text-capitalize" color={statusObj[row.status]} pill>
         {i18n.t(`LEAD.${row.status}`)}

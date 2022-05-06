@@ -18,7 +18,10 @@
         "ERROR": "Error",
         "SUBMIT": "Xác nhận",
         "LOADING": "Loading",
-        "CANCEL": "Hủy"
+        "CANCEL": "Hủy",
+        "SEVERITY_HIGH": "Cao",
+        "SEVERITY_MEDIUM": "Trung bình",
+        "SEVERITY_LOW": "Thấp"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -68,7 +71,23 @@
         "CONNECTED_PAGES": "Trang đã liên kết"
     },
     "CHAT": {
-        "SEND_MESAGE": "Gửi",
+        "SEND_MESSAGE": "Gửi",
         "UNSUPPORTED_MESSAGE": "Tin nhắn hiện chưa được hỗ trợ. Xem chi tiết tại"
+    },
+    "OPP": {
+        "INITIALIZED": "Khởi tạo",
+        "ADVISORY": "Tư vấn chăm sóc",
+        "PRICE_QUOTE": "Đang báo giá",
+        "CLOSED_WON": "Thành công",
+        "CLOSED_LOST": "Thất bại",
+        "NAME": "Tên cơ hội",
+        "CUSTOMER": "Khách hàng",
+        "SOURCE": "Nguồn",
+        "POTENTIAL_RATE": "Đánh giá cơ hội",
+        "MARKETING" : "Marketing",
+        "CUSTOMER_REFERRALS" : "KH cũ giới thiệu",
+        "PROACTIVE_CUSTOMERS" : "KH liên hệ",
+        "SALESMAN" : "Tự phát triển",
+        "OTHERS" : "Khác"
     }
 }

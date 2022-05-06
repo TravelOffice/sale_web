@@ -1,7 +1,7 @@
 import { MenuItem } from '@domain/entities/MenuLinkItem';
 import React from 'react';
 import {
-  Activity, Home, MessageSquare, Settings, ShoppingCart, User,
+  Activity, Home, MessageSquare, Settings, ShoppingCart, Target, User,
 } from 'react-feather';
 
 const Navigation : MenuItem[] = [
@@ -44,6 +44,12 @@ const Navigation : MenuItem[] = [
     title: 'Lead',
     icon: <User size={12} />,
     navLink: '/apps/lead/list',
+  },
+  {
+    id: 'opps',
+    title: 'Opportunity',
+    icon: <Target size={12} />,
+    navLink: '/apps/opp/list',
   },
 ];
 

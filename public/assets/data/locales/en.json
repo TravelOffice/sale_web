@@ -18,7 +18,10 @@
         "ERROR": "Error",
         "SUBMIT": "Submit",
         "LOADING": "Loading",
-        "CANCEL": "Cancel"
+        "CANCEL": "Cancel",
+        "SEVERITY_HIGH": "High",
+        "SEVERITY_MEDIUM": "Medium",
+        "SEVERITY_LOW": "Low"
     },
     "LEAD": {
         "NAME": "Name",
@@ -68,7 +71,23 @@
         "CONNECTED_PAGES": "Connected pages"
     },
     "CHAT": {
-        "SEND_MESAGE": "Send",
+        "SEND_MESSAGE": "Send",
         "UNSUPPORTED_MESSAGE": "Message is not supported yet. Go to chat platform official page at"
+    },
+    "OPP": {
+        "INITIALIZED": "Initialized",
+        "ADVISORY": "Advisory",
+        "PRICE_QUOTE": "Price Quote",
+        "CLOSED_WON": "Closed Won",
+        "CLOSED_LOST": "Closed Lost",
+        "NAME": "Name",
+        "CUSTOMER": "Customer",
+        "SOURCE": "Source",
+        "POTENTIAL_RATE": "Potential Rate",
+        "MARKETING" : "Marketing",
+        "CUSTOMER_REFERRALS" : "Customer Referrals",
+        "PROACTIVE_CUSTOMERS" : "Proactive Customers",
+        "SALESMAN" : "Salesman",
+        "OTHERS" : "Others"
     }
 }
