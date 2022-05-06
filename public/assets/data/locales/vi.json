@@ -81,6 +81,14 @@
         "CLOSED_WON": "Thành công",
         "CLOSED_LOST": "Thất bại",
         "NAME": "Tên cơ hội",
+        "DESCRIPTION": "Mô tả",
+        "STATUS": "Trạng thái",
+        "ESTIMATED_REVENUE": "Doanh thu dự kiến",
+        "ESTIMATED_CONFIRM_DATE": "Ngày chốt dự kiến",
+        "OWNER": "Người sở hữu",
+        "HIGH": "Cao",
+        "MEDIUM": "Trung bình",
+        "LOW": "Thấp",
         "CUSTOMER": "Khách hàng",
         "SOURCE": "Nguồn",
         "POTENTIAL_RATE": "Đánh giá cơ hội",
@@ -88,7 +96,9 @@
         "CUSTOMER_REFERRALS": "KH cũ giới thiệu",
         "PROACTIVE_CUSTOMERS": "KH liên hệ",
         "SALESMAN": "Tự phát triển",
-        "OTHERS": "Khác"
+        "OTHERS": "Khác",
+        "CREATE_OPPORTUNITY": "Tạo cơ hội",
+        "UPDATE_OPPORTUNITY": "Cập nhật cơ hội"
     },
     "CUSTOMER": {
         "NEW": "Mới",

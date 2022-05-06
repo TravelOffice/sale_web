@@ -55,3 +55,9 @@ export interface FetchOpportunityResponse {
   lead?: Opportunity,
   errorMsg?: string,
 }
+
+export const opportunityStatuses = Object.keys(OpportunityStatusEnum) as Array<OpportunityStatus>;
+export const opportunitySources = Object.keys(OpportunitySourceEnum) as Array<OpportunitySource>;
+export const opportunityPotentials = Object.keys(
+  OpportunityPotentialTypeEnum,
+) as Array<OpportunityPotentialType>;

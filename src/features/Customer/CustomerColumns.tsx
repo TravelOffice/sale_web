@@ -106,7 +106,7 @@ export const customerColumns : TableColumn<Customer>[] = [
             <DropdownToggle tag="div" className="btn btn-sm">
               <MoreVertical size={14} className="cursor-pointer" />
             </DropdownToggle>
-            <DropdownMenu>
+            <DropdownMenu container="body">
               <DropdownItem
                 tag={Link}
                 className="w-100"
