@@ -86,23 +86,25 @@ export const useSkin = () => {
   };
 
   useEffect(() => {
-    // // ** Get Body Tag
-    // const element = window.document.body;
-    //
-    // // ** Define classnames for skins
-    // const classNames = {
-    //   dark: 'dark-layout',
-    //   bordered: 'bordered-layout',
-    //   'semi-dark': 'semi-dark-layout',
-    // };
+    // ** Get Body Tag
+    const element = window.document.body;
+
+    // ** Define classnames for skins
+    const classNames : { [key: string]: string } = {
+      dark: 'dark-layout',
+      bordered: 'bordered-layout',
+      'semi-dark': 'semi-dark-layout',
+    };
 
     // ** Remove all classes from Body on mount
-    // element.classList.remove(...element.classList);
+    const classList : string[] = [];
+    element.classList.forEach((classname) => classList.push(classname));
+    element.classList.remove(...classList);
 
     // ** If skin is not light add skin class
-    // if (store.skin !== 'light') {
-    //   element.classList.add(classNames[store.skin]);
-    // }
+    if (store.skin !== 'light') {
+      element.classList.add(classNames[store.skin]);
+    }
   }, [store.skin]);
 
   return { skin: store.skin, setSkin };
