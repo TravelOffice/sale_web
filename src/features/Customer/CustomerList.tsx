@@ -5,7 +5,7 @@ import i18n from '@config/i18n';
 import { Customer } from '@domain/entities/Lead';
 import { RootState } from '@redux/store';
 // ** Styles
-import '@styles/react/apps/app-leads.scss';
+import '@styles/react/apps/app-table.scss';
 import React from 'react';
 import {
   Check, Clock, UserPlus, Users,
@@ -18,7 +18,7 @@ import CustomerTable from './CustomerTable';
 const CustomerList = () => {
   const allCustomers = useSelector((state: RootState) => state.customer.allCustomers);
   return (
-    <div className="app-lead-list">
+    <div className="to-table-container">
       <Row>
         <Col lg="3" sm="6">
           <StatsHorizontal

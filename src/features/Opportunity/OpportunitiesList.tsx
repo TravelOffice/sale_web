@@ -14,7 +14,7 @@ const OpportunitiesList = () => {
   const allOpportunities = useSelector((state: RootState) => state.opportunity.allOpportunities);
 
   return (
-    <div className="app-opps-list">
+    <div className="to-table-container">
       <Row>
         <Col lg="3" sm="6">
           <StatsHorizontal
