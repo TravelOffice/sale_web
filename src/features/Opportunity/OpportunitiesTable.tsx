@@ -8,6 +8,7 @@ import {
   Card, CardBody, CardHeader, CardTitle, Col, Label, Row,
 } from 'reactstrap';
 import Table from '@components/Table/Table';
+import OpportunitySidebar from '@features/Opportunity/OpportunitySidebar';
 import { opportunityColumns } from './OpportunityColumns';
 
 const statusOptions = [
@@ -31,6 +32,9 @@ const OpportunitiesTable = () => {
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
 
   const { getAllOpportunities } = opportunityActions;
+
+  const [openSidebar, setOpenSidebar] = useState(false);
+  const toggleSidebar = () => setOpenSidebar(!openSidebar);
 
   return (
     <>
@@ -62,13 +66,18 @@ const OpportunitiesTable = () => {
         fetchDataError={actionErrorMessage}
         columns={opportunityColumns}
         searchableColumns={['name', 'status']}
-        toggleAddDataSidebar={() => {}}
+        toggleAddDataSidebar={toggleSidebar}
         sortColumnDefault="name"
         filterColumns={[{
           key: 'status',
           value: currentStatus.value,
         }]}
         getDataAction={getAllOpportunities}
+      />
+      <OpportunitySidebar
+        open={openSidebar}
+        toggleSidebar={toggleSidebar}
+        onClosed={() => {}}
       />
     </>
   );

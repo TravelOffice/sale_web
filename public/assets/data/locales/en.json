@@ -81,6 +81,14 @@
         "CLOSED_WON": "Closed Won",
         "CLOSED_LOST": "Closed Lost",
         "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "STATUS": "Status",
+        "ESTIMATED_REVENUE": "Estimated revenue",
+        "ESTIMATED_CONFIRM_DATE": "Estimated confirm date",
+        "OWNER": "Owner",
+        "HIGH": "High",
+        "MEDIUM": "Medium",
+        "LOW": "Low",
         "CUSTOMER": "Customer",
         "SOURCE": "Source",
         "POTENTIAL_RATE": "Potential Rate",
@@ -88,7 +96,9 @@
         "CUSTOMER_REFERRALS": "Customer Referrals",
         "PROACTIVE_CUSTOMERS": "Proactive Customers",
         "SALESMAN": "Salesman",
-        "OTHERS": "Others"
+        "OTHERS": "Others",
+        "CREATE_OPPORTUNITY": "Create opportunity",
+        "UPDATE_OPPORTUNITY": "Update opportunity"
     },
     "CUSTOMER": {
         "NEW": "New",
