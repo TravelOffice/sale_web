@@ -7,4 +7,5 @@ export interface OpportunityRepository {
   getOpportunitiesByLead(leadPhoneAsId: string): Promise<Opportunity[]>
   // Delete opportunity with given id
   deleteOpportunity(oppId: string): Promise<void>
+  createOpportunity: (opportunity: Opportunity) => Promise<Opportunity>
 }

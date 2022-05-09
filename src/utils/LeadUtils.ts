@@ -1,6 +1,7 @@
 import countries from '@assets/json/countries.json';
 import { Country, Province } from '@features/Lead/LeadSidebar';
 import provinces from '@assets/json/provinces.json';
+import { Customer, Lead } from '@domain/entities/Lead';
 
 export function getCountries() : Country[] {
   return countries.map((country) => ({
@@ -36,4 +37,8 @@ export function getProvinces(countryCode?: string) : Province[] {
   return provinces.filter((item) => item.country === country.countryCode).map((item) => ({
     name: item.name,
   }));
+}
+
+export function getLeadById(leads: Array<Lead | Customer>, id: string) {
+  return leads.find((lead) => lead.primaryPhoneNumber === id);
 }

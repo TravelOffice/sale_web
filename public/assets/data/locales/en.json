@@ -102,7 +102,9 @@
         "OTHERS": "Others",
         "CREATE_OPPORTUNITY": "Create opportunity",
         "UPDATE_OPPORTUNITY": "Update opportunity",
-        "DELETE_OPPORTUNITY_SUCCESS": "Delete opportunity successfully"
+        "CREATE_OPPORTUNITY_SUCCESSFULLY": "Create opportunity {{name}} successfully",
+        "DELETE_OPPORTUNITY_SUCCESS": "Delete opportunity successfully",
+        "FIELD_IS_REQUIRED": "{{field}} is a required field"
     },
     "CUSTOMER": {
         "NEW": "New",
