@@ -2,6 +2,10 @@ import GetFacebookPagesUseCaseImpl from '@domain/useCases/facebook/GetFacebookPa
 import { GetFacebookPagesUseCase } from '@domain/useCases/interfaces/facebook/GetFacebookPagesUseCase';
 import { ConnectFacebookPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectFacebookPageUseCase';
 import ConnectFacebookPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectFacebookPageUseCaseImpl';
+import { GetZaloOAuthLinkUseCase } from '@domain/useCases/interfaces/zalo/GetZaloOAuthLinkUseCase';
+import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkUseCaseImpl';
+import { ConnectZaloPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectZaloPageUseCase';
+import ConnectZaloPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectZaloPageUseCaseImpl';
 import { GetConversationsUseCase } from './interfaces/chat/GetConversationsUseCase';
 import GetConversationsUseCaseImpl from './chat/GetConversationsUseCaseImpl';
 import { GetMessagesUseCase } from './interfaces/chat/GetMessagesUseCase';
@@ -43,6 +47,9 @@ interface UseCases {
   getAllCustomersUseCase: GetAllCustomersUseCase,
   addCustomerUseCase: AddCustomerUseCase,
   updateCustomerUseCase: UpdateCustomerUseCase,
+  // Zalo page
+  getZaloOAuthLinkUseCase: GetZaloOAuthLinkUseCase,
+  connectZaloPageUseCase: ConnectZaloPageUseCase,
 }
 
 const useCases : UseCases = {
@@ -60,6 +67,8 @@ const useCases : UseCases = {
   getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
   addCustomerUseCase: new AddCustomerUseCaseImpl(),
   updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
+  getZaloOAuthLinkUseCase: new GetZaloOAuthLinkUseCaseImpl(),
+  connectZaloPageUseCase: new ConnectZaloPageUseCaseImpl(),
 };
 
 export const {
@@ -77,4 +86,6 @@ export const {
   getAllCustomersUseCase,
   addCustomerUseCase,
   updateCustomerUseCase,
+  getZaloOAuthLinkUseCase,
+  connectZaloPageUseCase,
 } = useCases;

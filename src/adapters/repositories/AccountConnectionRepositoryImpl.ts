@@ -1,5 +1,6 @@
 import { apiProvider } from '@adapter/infrastructures';
 import { FacebookPage } from '@domain/entities/FacebookPage';
+import { ZaloPage } from '@domain/entities/ZaloPage';
 import { AccountConnectionRepository } from './interfaces/AccountConnectionRepository';
 
 export default class AccountConnectionRepositoryImpl implements AccountConnectionRepository {
@@ -12,5 +13,10 @@ export default class AccountConnectionRepositoryImpl implements AccountConnectio
     const data = { userAccessToken, pageId: page.id };
     await apiProvider.authorizedRequest.post('/facebook/link', data);
     return page;
+  };
+
+  connectZaloPage = async (pageId: string, state: string, authorizationCode: string) => {
+    const result = await apiProvider.authorizedRequest.post('/zalo/link', { pageId, state, authorizationCode });
+    return result.data as ZaloPage;
   };
 }
