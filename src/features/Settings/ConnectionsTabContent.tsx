@@ -21,12 +21,17 @@ export default function ConnectionsTabContent() {
   const [pages, setPages] = useState<FacebookPage[]>([]);
   const [selectedPage, setSelectedPage] = useState<FacebookPage | undefined>();
   const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
+  const [getZaloLinkLoading, setGetZaloLinkLoading] = useState(false);
   const pageConnectionState = useSelector((state: RootState) => state.pageConnection);
   const currentFacebookPage = useSelector((state: RootState) => state.pageConnection.facebookPage);
+  const currentZaloPage = useSelector((state: RootState) => state.pageConnection.zaloPage);
   const [zaloCallbackUrl, setZaloCallbackUrl] = useState('');
   const connectingFacebookPage = useSelector((
     state: RootState,
   ) => state.pageConnection.connectingFacebookPage);
+  const connectingZaloPage = useSelector((
+    state: RootState,
+  ) => state.pageConnection.connectingZaloPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -66,9 +71,13 @@ export default function ConnectionsTabContent() {
     return currentFacebookPage.name;
   };
 
+  // Status of Zalo page
   const zaloPageStatus = () => {
+    if (connectingZaloPage) {
+      return t('PAGE.CONNECTING');
+    }
     if (!pageConnectionState.zaloPage) {
-      return 'Not connected';
+      return t('PAGE.NOT_CONNECTED');
     }
     return pageConnectionState.zaloPage.name;
   };
@@ -80,9 +89,10 @@ export default function ConnectionsTabContent() {
     }
   }, [connectingFacebookPage]);
 
-  const connectZaloPage = () => {
-    // TODO: Get Zalo OAuth URL before opening new window
-    const url = 'https://oauth.zaloapp.com/v4/oa/permission?app_id=1364765243717231492&redirect_uri=https%3A%2F%2Fwww.traveloffice.shop%2Fzalo%2Fcallback&code_challenge=48k9PVwWFqLQz7YlIco7D8H0wJuHloMb8krUM8XV8AU&state=LUa1z8Smgv9UkIqiR2txZTc333RzTFfMkztIeT3rPY2';
+  const connectZaloPage = async () => {
+    setGetZaloLinkLoading(true);
+    const url = await accountConnectionPresenter.getZaloOAuthLink();
+    setGetZaloLinkLoading(false);
 
     // Parse Zalo OAuth URL to retrieve the URL of SSO page which should be redirected after the
     // user grant permissions. This URL should be used to listen permission granting event
@@ -96,8 +106,7 @@ export default function ConnectionsTabContent() {
   };
 
   const onZaloConnected = (pageId: string, authorizationCode: string, state: string) => {
-    // TODO: Call an API to link zalo page withing these params
-    console.log('Link zalo with', pageId, 'code', authorizationCode, 'state', state);
+    dispatch(pageConnectionActions.connectZaloPage({ pageId, state, authorizationCode }));
   };
 
   useEffect(() => {
@@ -153,7 +162,7 @@ export default function ConnectionsTabContent() {
         </div>
         <div className="d-flex mt-2">
           <div className="flex-shrink-0">
-            <img className="me-1" src={currentFacebookPage?.picture || Images.zaloLogo} alt="" height="38" width="38" />
+            <img className="me-1" src={currentZaloPage?.picture || Images.zaloLogo} alt="" height="38" width="38" />
           </div>
           <div className="d-flex align-item-center justify-content-between flex-grow-1">
             <div className="me-1">
@@ -161,8 +170,14 @@ export default function ConnectionsTabContent() {
               <span>{zaloPageStatus()}</span>
             </div>
             <div className="mt-50 mt-sm-0">
-              <Button outline className="btn-icon" onClick={connectZaloPage}>
-                <LinkIcon className="font-medium-3" />
+              <Button outline className="btn-icon" disabled={getZaloLinkLoading} onClick={connectZaloPage}>
+                {
+                  getZaloLinkLoading ? (
+                    <Spinner style={{ width: '1.3rem', height: '1.3rem' }} />
+                  ) : (
+                    <LinkIcon className="font-medium-3" />
+                  )
+                }
               </Button>
             </div>
           </div>

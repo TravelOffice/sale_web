@@ -1,5 +1,10 @@
 import { AccountConnectionPresenter } from '@adapter/presenters/interfaces/AccountConnectionPresenter';
-import { connectFacebookPageUseCase, getFacebookPagesUseCase } from '@domain/useCases';
+import {
+  connectFacebookPageUseCase,
+  connectZaloPageUseCase,
+  getFacebookPagesUseCase,
+  getZaloOAuthLinkUseCase,
+} from '@domain/useCases';
 import { FacebookPage } from '@domain/entities/FacebookPage';
 
 export default class AccountConnectionPresenterImpl implements AccountConnectionPresenter {
@@ -11,4 +16,12 @@ export default class AccountConnectionPresenterImpl implements AccountConnection
     userAccessToken: string,
     page: FacebookPage,
   ) => connectFacebookPageUseCase.invoke(userAccessToken, page);
+
+  getZaloOAuthLink = async () => getZaloOAuthLinkUseCase.invoke()
+
+  connectZaloPage = async (
+    pageId: string,
+    state: string,
+    authorizationCode: string,
+  ) => connectZaloPageUseCase.invoke(pageId, state, authorizationCode);
 }
