@@ -55,7 +55,8 @@
         "MARITAL": "Tình trạng hôn nhân",
         "SEX": "Giới tính",
         "TAGS": "Gắn thẻ",
-        "SOURCE": "Nguồn"
+        "SOURCE": "Nguồn",
+        "OPPS_OF_LEAD": "Danh sách cơ hội"
     },
     "PAGE": {
         "SUCCESS": "Hoàn thành",

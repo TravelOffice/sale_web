@@ -55,7 +55,8 @@
         "MARITAL": "Marital",
         "SEX": "Sex",
         "TAGS": "Tags",
-        "SOURCE": "Source"
+        "SOURCE": "Source",
+        "OPPS_OF_LEAD": "Opportunities"
     },
     "PAGE": {
         "SUCCESS": "Success",

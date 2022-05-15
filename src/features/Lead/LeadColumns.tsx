@@ -9,11 +9,11 @@ import React, { MouseEventHandler } from 'react';
 import { TableColumn } from 'react-data-table-component';
 // ** Icons Imports
 import {
-  Archive, FileText, MoreVertical, Trash2,
+  Archive, FileText, MoreVertical, Target, Trash2,
 } from 'react-feather';
 import { useDispatch } from 'react-redux';
 // ** React Imports
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 // ** Reactstrap Imports
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
@@ -21,7 +21,7 @@ import {
 
 // ** Renders Client Columns
 
-const statusObj: { [key: string] : AvatarColor } = {
+const statusObj: { [key: string]: AvatarColor } = {
   NEW: 'light-primary',
   QUALIFYING: 'light-warning',
   QUALIFIED: 'light-success',
@@ -31,12 +31,12 @@ const statusObj: { [key: string] : AvatarColor } = {
 };
 
 const renderClient = (row: Lead) => {
-  const color : AvatarColor = statusObj[row.status];
+  const color: AvatarColor = statusObj[row.status];
   return <Avatar color={color || 'primary'} className="me-1" content={row.name} />;
 };
 
 // eslint-disable-next-line import/prefer-default-export
-export const leadColumns : TableColumn<Lead>[] = [
+export const leadColumns: TableColumn<Lead>[] = [
   {
     name: i18n.t('LEAD.NAME'),
     sortable: true,
@@ -85,12 +85,14 @@ export const leadColumns : TableColumn<Lead>[] = [
   {
     name: i18n.t('COMMON.ACTIONS'),
     minWidth: '50px',
-    cell: (row: Lead) => {
+    cell: (lead: Lead) => {
       const dispatch = useDispatch();
+      const history = useHistory();
       const selectRow: MouseEventHandler = (e) => {
         e.preventDefault();
-        dispatch(leadActions.selectLead(row));
+        dispatch(leadActions.selectLead(lead));
       };
+
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -101,7 +103,7 @@ export const leadColumns : TableColumn<Lead>[] = [
               <DropdownItem
                 tag={Link}
                 className="w-100"
-                to={`/apps/user/view/${row.primaryPhoneNumber}`}
+                to={`/apps/user/view/${lead.primaryPhoneNumber}`}
               >
                 <FileText size={14} className="me-50" />
                 <span className="align-middle">{i18n.t('COMMON.DETAILS')}</span>
@@ -109,6 +111,17 @@ export const leadColumns : TableColumn<Lead>[] = [
               <DropdownItem tag="a" href="/" className="w-100" onClick={selectRow}>
                 <Archive size={14} className="me-50" />
                 <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
+              </DropdownItem>
+              <DropdownItem
+                tag="a"
+                className="w-100"
+                onClick={(e) => {
+                  e.preventDefault();
+                  history.push(`/apps/opp/list?leadId=${lead.primaryPhoneNumber}`);
+                }}
+              >
+                <Target size={14} className="me-50" />
+                <span className="align-middle">{i18n.t('LEAD.OPPS_OF_LEAD')}</span>
               </DropdownItem>
               <DropdownItem
                 tag="a"

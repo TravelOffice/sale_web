@@ -6,31 +6,24 @@ import {
   Button, Col, Input, Row,
 } from 'reactstrap';
 
-import { leadActions } from '@redux/slices/leadSlice';
-import { useDispatch } from 'react-redux';
-
-const { initAddLeadForm } = leadActions;
-
 export interface CustomHeaderProps {
-  toggleSidebar: () => void,
+  onToggleSidebar: () => void,
   handlePerPage: (e: ChangeEvent<HTMLInputElement>) => void,
   handleFilter: (e: string) => void,
   handleRefresh: () => void,
   searchTerm: string,
   rowsPerPage: number,
   loading: boolean,
+
 }
 
 export default function CustomHeader(props: CustomHeaderProps) {
   const {
-    handleFilter, handlePerPage, rowsPerPage, searchTerm, loading, toggleSidebar, handleRefresh,
+    handleFilter, handlePerPage, rowsPerPage, searchTerm, loading, onToggleSidebar, handleRefresh,
   } = props;
 
-  const dispatch = useDispatch();
-
   const handleToggleSidebar = () => {
-    dispatch(initAddLeadForm());
-    toggleSidebar();
+    onToggleSidebar();
   };
   return (
     <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">

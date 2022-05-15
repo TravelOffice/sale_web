@@ -23,7 +23,7 @@ function FormCustomInput<T, TName extends Path<T>>(props: FormCustomInputProps<T
     fieldError, name, control, label, render, schema, required, errors,
   } = props;
   return (
-    <div className="mb-1">
+    <div className="mb-1" key={name}>
       <Label className="form-label" for="name">
         {label}
         {

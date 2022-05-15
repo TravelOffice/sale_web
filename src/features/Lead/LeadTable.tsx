@@ -7,7 +7,7 @@ import { RootState } from '@redux/store';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import '@styles/react/libs/tables/react-dataTable-component.scss';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // ** Third Party Components
 import Select from 'react-select';
@@ -45,6 +45,14 @@ const LeadTable = () => {
     { value: 'TAKING_CARE', label: i18n.t('LEAD.TAKING_CARE'), number: 4 },
   ];
 
+  const onRefresh = useCallback(() => {
+    dispatch(getAllLeads());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getAllLeads());
+  }, []);
+
   return (
     <>
       <Card>
@@ -81,7 +89,8 @@ const LeadTable = () => {
           key: 'status',
           value: currentStatus.value,
         }]}
-        getDataAction={getAllLeads}
+        onPageChange={() => {}}
+        onRefresh={onRefresh}
       />
       <LeadSidebar.SidebarNewLead open={addLeadSidebarOpen} toggleSidebar={toggleAddLeadSidebar} />
       <LeadSidebar.SidebarUpdateLead

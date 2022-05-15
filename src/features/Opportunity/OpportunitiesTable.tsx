@@ -1,14 +1,15 @@
 import i18n from '@config/i18n';
 import { opportunityActions } from '@redux/slices/opportunitySlice';
 import { RootState } from '@redux/store';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import {
   Card, CardBody, CardHeader, CardTitle, Col, Label, Row,
 } from 'reactstrap';
 import Table from '@components/Table/Table';
 import OpportunitySidebar from '@features/Opportunity/OpportunitySidebar';
+import useQueryParams from '@hooks/useQueryParams';
 import { opportunityColumns } from './OpportunityColumns';
 
 const statusOptions = [
@@ -29,12 +30,33 @@ const OpportunitiesTable = () => {
   const actionErrorMessage = useSelector(
     (state: RootState) => state.opportunity.actionErrorMessage,
   );
+  const params = useQueryParams();
+
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
-
-  const { getAllOpportunities } = opportunityActions;
-
   const [openSidebar, setOpenSidebar] = useState(false);
-  const toggleSidebar = () => setOpenSidebar(!openSidebar);
+
+  const dispatch = useDispatch();
+
+  const toggleSidebar = () => {
+    setOpenSidebar(!openSidebar);
+  };
+
+  const getOpportunities = () => {
+    const leadId = params.get('leadId');
+    if (leadId) {
+      dispatch(opportunityActions.getOpportunitiesByLead(leadId));
+    } else {
+      dispatch(opportunityActions.getAllOpportunities());
+    }
+  };
+
+  const onRefresh = useCallback(() => {
+    getOpportunities();
+  }, [dispatch, params]);
+
+  useEffect(() => {
+    getOpportunities();
+  }, [params]);
 
   return (
     <>
@@ -72,12 +94,13 @@ const OpportunitiesTable = () => {
           key: 'status',
           value: currentStatus.value,
         }]}
-        getDataAction={getAllOpportunities}
+        onPageChange={() => {}}
+        onRefresh={onRefresh}
       />
       <OpportunitySidebar
         open={openSidebar}
         toggleSidebar={toggleSidebar}
-        onClosed={() => {}}
+        onClosed={() => { }}
       />
     </>
   );
