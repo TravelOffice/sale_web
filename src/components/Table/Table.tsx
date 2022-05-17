@@ -13,12 +13,10 @@ import React, {
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { ChevronDown } from 'react-feather';
 import ReactPaginate from 'react-paginate';
-import { useDispatch } from 'react-redux';
 // ** Reactstrap Imports
 import {
   Card,
 } from 'reactstrap';
-import { ActionCreatorWithoutPayload } from '@reduxjs/toolkit';
 import { handleFilterColumns, handleSearchColumns } from '@utils/CommonUtils';
 import { DEFAULT_PAGE_SIZE } from '@utils/Constants';
 
@@ -30,9 +28,10 @@ export interface TableProps<T> {
   searchableColumns: string[],
   sortColumnDefault: string,
   filterColumns: { key: string, value: string }[],
-  getDataAction: ActionCreatorWithoutPayload<string>,
   toggleAddDataSidebar: () => void,
   onRowClicked?: (row: T) => void,
+  onPageChange?: (pageNumber: number) => void,
+  onRefresh?: () => void,
 }
 
 type SortDirection = 'asc' | 'desc';
@@ -46,12 +45,10 @@ function Table<T>(props: TableProps<T>) {
     sortColumnDefault,
     searchableColumns,
     filterColumns,
-    getDataAction,
     toggleAddDataSidebar,
     onRowClicked,
+    onRefresh,
   } = props;
-  // ** Store Vars
-  const dispatch = useDispatch();
 
   // ** States
   const [sort, setSort] = useState<SortDirection>('desc');
@@ -59,11 +56,6 @@ function Table<T>(props: TableProps<T>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortColumn, setSortColumn] = useState(sortColumnDefault);
   const [rowsPerPage, setRowsPerPage] = useState(DEFAULT_PAGE_SIZE);
-
-  // ** Get data on mount
-  useEffect(() => {
-    dispatch(getDataAction());
-  }, [dispatch]);
 
   useEffect(() => {
     if (fetchDataState === 'error') {
@@ -92,7 +84,9 @@ function Table<T>(props: TableProps<T>) {
 
   // ** Function to re-fetching data
   const handleRefresh = () => {
-    dispatch(getDataAction());
+    if (onRefresh) {
+      onRefresh();
+    }
     setCurrentPage(1);
   };
 
@@ -165,7 +159,7 @@ function Table<T>(props: TableProps<T>) {
               loading={fetchDataState === 'loading'}
               handleFilter={handleFilter}
               handlePerPage={handlePerPage}
-              toggleSidebar={toggleAddDataSidebar}
+              onToggleSidebar={toggleAddDataSidebar}
               handleRefresh={handleRefresh}
             />
           )}

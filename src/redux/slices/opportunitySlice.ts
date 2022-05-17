@@ -14,7 +14,7 @@ interface Opportunitiestate {
   actionErrorMessage?: string,
 }
 
-const initialState : Opportunitiestate = {
+const initialState: Opportunitiestate = {
   data: [],
   total: 1,
   allOpportunities: [],
@@ -33,11 +33,15 @@ const opportunitySlice = createSlice({
       state.actionState = 'loading';
       state.actionErrorMessage = undefined;
     },
-    getOpportunity: (state, action: PayloadAction<any>) => {},
+    getOpportunitiesByLead: (state, action: PayloadAction<string>) => {
+      state.actionState = 'loading';
+      state.actionErrorMessage = undefined;
+    },
+    getOpportunity: (state, action: PayloadAction<any>) => { },
     selectOpportunity: (state, action: PayloadAction<Opportunity>) => {
       state.selectedOpportunity = action.payload;
     },
-    onGetAllAllOpportunitiesFinished: (state, action: PayloadAction<Opportunity[]>) => {
+    onGetAllOpportunitiesFinished: (state, action: PayloadAction<Opportunity[]>) => {
       state.actionState = 'finished';
       state.allOpportunities = action.payload;
     },

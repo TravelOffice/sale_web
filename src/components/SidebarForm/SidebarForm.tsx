@@ -78,6 +78,7 @@ function renderInput<T, TName extends Path<T>>(
   if (schema.render) {
     return (
       <FormCustomInput
+        key={name}
         schema={schema}
         render={schema.render}
         name={name}

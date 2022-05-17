@@ -6,7 +6,7 @@ import { RootState } from '@redux/store';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
 import '@styles/react/libs/tables/react-dataTable-component.scss';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // ** Third Party Components
 import Select from 'react-select';
@@ -49,6 +49,14 @@ const CustomerTable = () => {
     { value: 'TRADED', label: i18n.t('CUSTOMER.TRADED'), number: 3 },
   ];
 
+  const onRefresh = useCallback(() => {
+    dispatch(getAllCustomers());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getAllCustomers());
+  }, []);
+
   return (
     <>
       <Card>
@@ -85,11 +93,12 @@ const CustomerTable = () => {
           key: 'status',
           value: currentStatus.value,
         }]}
-        getDataAction={getAllCustomers}
         onRowClicked={(customer) => {
           setOpenSidebar(true);
           dispatch(customerActions.selectCustomer(customer));
         }}
+        onPageChange={() => {}}
+        onRefresh={onRefresh}
       />
       <CustomerSidebar
         open={openSidebar}
