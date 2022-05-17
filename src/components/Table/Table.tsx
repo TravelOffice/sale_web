@@ -17,7 +17,7 @@ import ReactPaginate from 'react-paginate';
 import {
   Card,
 } from 'reactstrap';
-import { handleFilterColumns, handleSearchColumns } from '@utils/CommonUtils';
+import { handleSearchColumns } from '@utils/CommonUtils';
 import { DEFAULT_PAGE_SIZE } from '@utils/Constants';
 
 export interface TableProps<T> {
@@ -27,7 +27,6 @@ export interface TableProps<T> {
   columns: TableColumn<T>[],
   searchableColumns: string[],
   sortColumnDefault: string,
-  filterColumns: { key: string, value: string }[],
   toggleAddDataSidebar: () => void,
   onRowClicked?: (row: T) => void,
   onPageChange?: (pageNumber: number) => void,
@@ -44,7 +43,6 @@ function Table<T>(props: TableProps<T>) {
     columns,
     sortColumnDefault,
     searchableColumns,
-    filterColumns,
     toggleAddDataSidebar,
     onRowClicked,
     onRefresh,
@@ -99,8 +97,7 @@ function Table<T>(props: TableProps<T>) {
   const { dataCurrentPage, totalRows } = useMemo(() => {
     let filteredData = [...data];
     filteredData = filteredData.filter(
-      (item: any) => handleFilterColumns(item, filterColumns)
-      && handleSearchColumns(item, searchTerm, searchableColumns),
+      (item: any) => handleSearchColumns(item, searchTerm, searchableColumns),
     );
     // Sort data by columns
     filteredData = filteredData.sort(
@@ -110,7 +107,7 @@ function Table<T>(props: TableProps<T>) {
     // Get leads of current page
     filteredData = filteredData.slice((currentPage - 1) * rowsPerPage, rowsPerPage * currentPage);
     return { dataCurrentPage: filteredData, totalRows: total };
-  }, [data, filterColumns, searchTerm, sortColumn, sort, rowsPerPage, currentPage]);
+  }, [data, searchTerm, sortColumn, sort, rowsPerPage, currentPage]);
 
   // ** Custom Pagination
   const CustomPagination = () => {

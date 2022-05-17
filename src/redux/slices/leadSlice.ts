@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { FetchAssignedLeadResponse as FetchLeadsResponse, CreateUpdateLeadResponse, Lead } from '@domain/entities/Lead';
+import {
+  FetchAssignedLeadResponse as FetchLeadsResponse, CreateUpdateLeadResponse, Lead, LeadStatusType,
+} from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HandleDataState } from './others/HandleDataState';
 
@@ -32,7 +34,7 @@ const leadSlice = createSlice({
   name: 'lead',
   initialState,
   reducers: {
-    getAllLeads: (state) => {
+    getAllLeads: (state, action: PayloadAction<LeadStatusType>) => {
       state.fetchAllLeadsState = 'loading';
       state.fetchAllLeadsError = undefined;
     },

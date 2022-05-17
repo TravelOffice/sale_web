@@ -15,7 +15,7 @@ import {
   Card, CardBody, CardHeader, CardTitle, Col, Label, Row,
 } from 'reactstrap';
 import { customerActions } from '@redux/slices/customerSlice';
-import { Customer } from '@domain/entities/Lead';
+import { Customer, CustomerStatusType } from '@domain/entities/Lead';
 import { customerColumns } from './CustomerColumns';
 
 import CustomerSidebar from './CustomerSidebar';
@@ -50,12 +50,12 @@ const CustomerTable = () => {
   ];
 
   const onRefresh = useCallback(() => {
-    dispatch(getAllCustomers());
-  }, [dispatch]);
+    dispatch(getAllCustomers(currentStatus.value as CustomerStatusType));
+  }, []);
 
   useEffect(() => {
-    dispatch(getAllCustomers());
-  }, []);
+    dispatch(getAllCustomers(currentStatus.value as CustomerStatusType));
+  }, [currentStatus]);
 
   return (
     <>
@@ -89,10 +89,6 @@ const CustomerTable = () => {
         searchableColumns={['name', 'primaryPhoneNumber']}
         toggleAddDataSidebar={toggleCustomerLeadSidebar}
         sortColumnDefault="createdAt"
-        filterColumns={[{
-          key: 'status',
-          value: currentStatus.value,
-        }]}
         onRowClicked={(customer) => {
           setOpenSidebar(true);
           dispatch(customerActions.selectCustomer(customer));

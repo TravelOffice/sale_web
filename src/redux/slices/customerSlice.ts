@@ -1,5 +1,7 @@
 /* eslint-disable no-unused-vars */
-import { CreateUpdateCustomerResponse, Customer, FetchAssignedCustomerResponse } from '@domain/entities/Lead';
+import {
+  CreateUpdateCustomerResponse, Customer, CustomerStatusType, FetchAssignedCustomerResponse,
+} from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type HandleDataState = 'init' | 'loading' | 'finished' | 'error';
@@ -17,7 +19,7 @@ interface CustomerState {
   fetchAllCustomersState: HandleDataState,
 }
 
-const initialState : CustomerState = {
+const initialState: CustomerState = {
   data: [],
   total: 1,
   allCustomers: [],
@@ -33,11 +35,11 @@ const customerSlice = createSlice({
   name: 'customer',
   initialState,
   reducers: {
-    getAllCustomers: (state) => {
+    getAllCustomers: (state, action: PayloadAction<CustomerStatusType>) => {
       state.fetchAllCustomersState = 'loading';
       state.fetchAllCustomersError = undefined;
     },
-    getCustomer: (state, action: PayloadAction<any>) => {},
+    getCustomer: (state, action: PayloadAction<any>) => { },
     setAllCustomers: (state, action: PayloadAction<Customer[]>) => {
       state.fetchAllCustomersState = 'finished';
       state.allCustomers = action.payload;
@@ -74,7 +76,7 @@ const customerSlice = createSlice({
       state.updateCustomerState = 'error';
       state.updatedCustomerResponse = { errorMsg: action.payload };
     },
-    deleteCustomer: (state, action: PayloadAction<Customer>) => {},
+    deleteCustomer: (state, action: PayloadAction<Customer>) => { },
     selectCustomer: (state, action: PayloadAction<Customer>) => {
       state.selectedCustomer = action.payload;
     },
