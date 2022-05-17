@@ -51,7 +51,7 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
         {renderOpportunity(opp)}
         <div className="d-flex flex-column">
           <Link
-            to={`/apps/opp/view/${opp.customer.primaryPhoneNumber}`}
+            to={`/apps/opp/view/${opp.id}`}
             className="user_name text-truncate text-body"
           >
             <span className="fw-bolder">{opp.name}</span>
@@ -65,7 +65,7 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
     minWidth: '150px',
     sortable: true,
     sortField: 'customerName',
-    cell: (opp: Opportunity) => <span className="text-capitalize">{opp.customer.name}</span>,
+    cell: (opp: Opportunity) => <span className="text-capitalize">{opp.leadName}</span>,
   },
   {
     name: i18n.t('OPP.SOURCE'),
@@ -102,10 +102,19 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
     minWidth: '50px',
     cell: (opp: Opportunity) => {
       const dispatch = useDispatch();
+
+      // Select opportunity row
       const selectRow: MouseEventHandler = (e) => {
         e.preventDefault();
         dispatch(opportunityActions.selectOpportunity(opp));
       };
+
+      // Dispatch action to delete opportunity from server
+      const handleDeleteOpportunities: MouseEventHandler = (e) => {
+        e.preventDefault();
+        dispatch(opportunityActions.deleteOpportunity(opp));
+      };
+
       return (
         <div className="column-action">
           <UncontrolledDropdown>
@@ -116,7 +125,7 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
               <DropdownItem
                 tag={Link}
                 className="w-100"
-                to={`/apps/opp/view/${opp.customer.primaryPhoneNumber}`}
+                to={`/apps/opp/view/${opp.id}`}
               >
                 <FileText size={14} className="me-50" />
                 <span className="align-middle">{i18n.t('COMMON.DETAILS')}</span>
@@ -129,9 +138,7 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
                 tag="a"
                 href="/"
                 className="w-100"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
+                onClick={handleDeleteOpportunities}
               >
                 <Trash2 size={14} className="me-50" />
                 <span className="align-middle">{i18n.t('COMMON.DELETE')}</span>
