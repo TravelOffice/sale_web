@@ -76,22 +76,18 @@ export type Customer = Omit<Lead, 'status' | 'type'> & { status: CustomerStatusT
 
 export interface CreateUpdateLeadResponse {
   lead?: Lead,
-  errorMsg?: string
 }
 
 export interface FetchAssignedLeadResponse {
   leads?: Lead[],
-  errorMsg?: string
 }
 
 export interface CreateUpdateCustomerResponse {
   customer?: Customer,
-  errorMsg?: string,
 }
 
 export interface FetchAssignedCustomerResponse {
   customers?: Customer[],
-  errorMsg?: string,
 }
 
 export const leadSexes : SexType[] = Object.keys(SexEnum) as Array<SexType>;
