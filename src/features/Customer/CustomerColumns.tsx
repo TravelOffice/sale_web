@@ -87,7 +87,7 @@ export const customerColumns : TableColumn<Customer>[] = [
     selector: (row: Customer) => row.status,
     cell: (row: Customer) => (
       <Badge className="text-capitalize" color={statusObj[row.status]} pill>
-        {i18n.t(`LEAD.${row.status}`)}
+        {i18n.t(`CUSTOMER.${row.status}`)}
       </Badge>
     ),
   },

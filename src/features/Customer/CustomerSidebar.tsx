@@ -19,7 +19,6 @@ import {
 import { UnpackNestedValue } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { customerActions } from '@redux/slices/customerSlice';
-import toasty from '@components/Toasty/Toasty';
 import { RootState } from '@redux/store';
 import moment from 'moment';
 
@@ -218,13 +217,7 @@ export default function CustomerSidebar(props: CustomerSidebarProps) {
   }, [customer]);
   const dispatch = useDispatch();
   const addCustomerState = useSelector((state: RootState) => state.customer.addCustomerState);
-  const addedCustomerResponse = useSelector(
-    (state: RootState) => state.customer.addedCustomerResponse,
-  );
   const updateCustomerState = useSelector((state: RootState) => state.customer.updateCustomerState);
-  const updatedCustomerResponse = useSelector(
-    (state: RootState) => state.customer.updatedCustomerResponse,
-  );
   const onSubmit = useCallback((formData: UnpackNestedValue<CustomerFormData>) => {
     if (customer) {
       // Edit customer
@@ -246,36 +239,14 @@ export default function CustomerSidebar(props: CustomerSidebarProps) {
 
   // Listen state changed effect when adding a customer
   useEffect(() => {
-    if (addCustomerState === 'error') {
-      toasty.show({
-        title: i18n.t('COMMON.ERROR'),
-        type: 'error',
-        message: `${addedCustomerResponse?.errorMsg}`,
-      });
-    } else if (addCustomerState === 'finished') {
-      toasty.show({
-        title: i18n.t('COMMON.SUCCESS'),
-        type: 'success',
-        message: i18n.t('CUSTOMER.ADD_CUSTOMER_SUCCESSFULLY', { customerName: addedCustomerResponse?.customer?.name }),
-      });
+    if (addCustomerState === 'finished') {
       toggleSidebar();
     }
   }, [addCustomerState]);
 
   // Listen state changed effect when updating a customer
   useEffect(() => {
-    if (updateCustomerState === 'error') {
-      toasty.show({
-        title: 'Error',
-        type: 'error',
-        message: `${updatedCustomerResponse?.errorMsg}`,
-      });
-    } else if (updateCustomerState === 'finished') {
-      toasty.show({
-        title: 'Success',
-        type: 'success',
-        message: i18n.t('CUSTOMER.EDIT_CUSTOMER_SUCCESSFULLY', { customerName: updatedCustomerResponse?.customer?.name }),
-      });
+    if (updateCustomerState === 'finished') {
       toggleSidebar();
     }
   }, [updateCustomerState]);

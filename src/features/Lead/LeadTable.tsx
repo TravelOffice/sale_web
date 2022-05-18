@@ -29,7 +29,6 @@ const LeadTable = () => {
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
   const selectedLead = useSelector((state: RootState) => state.lead.selectedLead);
   const fetchLeadsState = useSelector((state: RootState) => state.lead.fetchAllLeadsState);
-  const fetchLeadsError = useSelector((state: RootState) => state.lead.fetchAllLeadsError?.errorMsg || '');
 
   // ** Function to toggle sidebar
   const toggleAddLeadSidebar = () => setAddLeadSidebarOpen(!addLeadSidebarOpen);
@@ -81,7 +80,6 @@ const LeadTable = () => {
       <Table
         data={allLeads}
         fetchDataState={fetchLeadsState}
-        fetchDataError={fetchLeadsError}
         columns={leadColumns}
         searchableColumns={['name', 'primaryPhoneNumber']}
         toggleAddDataSidebar={toggleAddLeadSidebar}

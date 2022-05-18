@@ -17,6 +17,7 @@ interface CustomerState {
   updateCustomerState: HandleDataState,
   fetchAllCustomersError?: FetchAssignedCustomerResponse,
   fetchAllCustomersState: HandleDataState,
+  openSidebar: boolean,
 }
 
 const initialState: CustomerState = {
@@ -29,6 +30,7 @@ const initialState: CustomerState = {
   addCustomerState: 'init',
   updateCustomerState: 'init',
   fetchAllCustomersState: 'init',
+  openSidebar: false,
 };
 
 const customerSlice = createSlice({
@@ -44,26 +46,18 @@ const customerSlice = createSlice({
       state.fetchAllCustomersState = 'finished';
       state.allCustomers = action.payload;
     },
-    initAddCustomerForm: (state) => {
-      state.addCustomerState = 'init';
-    },
     addCustomer: (state, action: PayloadAction<Customer>) => {
       state.addCustomerState = 'loading';
     },
     setFetchAllCustomerError: (state, action: PayloadAction<string>) => {
       state.fetchAllCustomersState = 'error';
-      state.fetchAllCustomersError = { errorMsg: action.payload };
     },
     setAddedCustomer: (state, action: PayloadAction<Customer>) => {
       state.addCustomerState = 'finished';
       state.addedCustomerResponse = { customer: action.payload };
     },
-    setAddedCustomerError: (state, action: PayloadAction<string>) => {
+    setAddedCustomerError: (state) => {
       state.addCustomerState = 'error';
-      state.addedCustomerResponse = { errorMsg: action.payload };
-    },
-    initUpdateCustomerForm: (state) => {
-      state.updateCustomerState = 'init';
     },
     updateCustomer: (state, action: PayloadAction<Customer>) => {
       state.updateCustomerState = 'loading';
@@ -72,16 +66,20 @@ const customerSlice = createSlice({
       state.updateCustomerState = 'finished';
       state.updatedCustomerResponse = { customer: action.payload };
     },
-    setUpdatedCustomerError: (state, action: PayloadAction<string>) => {
+    setUpdatedCustomerError: (state) => {
       state.updateCustomerState = 'error';
-      state.updatedCustomerResponse = { errorMsg: action.payload };
     },
     deleteCustomer: (state, action: PayloadAction<Customer>) => { },
     selectCustomer: (state, action: PayloadAction<Customer>) => {
       state.selectedCustomer = action.payload;
+      state.openSidebar = true;
     },
     unSelectCustomer: (state) => {
+      state.updateCustomerState = 'init';
       state.selectedCustomer = undefined;
+    },
+    setOpenSidebar: (state, action: PayloadAction<boolean>) => {
+      state.openSidebar = action.payload;
     },
   },
 });
