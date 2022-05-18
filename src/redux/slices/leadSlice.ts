@@ -49,17 +49,15 @@ const leadSlice = createSlice({
     addLead: (state, action: PayloadAction<Lead>) => {
       state.addLeadState = 'loading';
     },
-    setFetchAllLeadError: (state, action: PayloadAction<string>) => {
+    setFetchAllLeadError: (state) => {
       state.fetchAllLeadsState = 'error';
-      state.fetchAllLeadsError = { errorMsg: action.payload };
     },
     setAddedLead: (state, action: PayloadAction<Lead>) => {
       state.addLeadState = 'finished';
       state.addedLeadResponse = { lead: action.payload };
     },
-    setAddedLeadError: (state, action: PayloadAction<string>) => {
+    setAddedLeadError: (state) => {
       state.addLeadState = 'error';
-      state.addedLeadResponse = { errorMsg: action.payload };
     },
     initUpdateLeadForm: (state) => {
       state.updateLeadState = 'init';
@@ -71,9 +69,8 @@ const leadSlice = createSlice({
       state.updateLeadState = 'finished';
       state.updatedLeadResponse = { lead: action.payload };
     },
-    setUpdatedLeadError: (state, action: PayloadAction<string>) => {
+    setUpdatedLeadError: (state) => {
       state.updateLeadState = 'error';
-      state.updatedLeadResponse = { errorMsg: action.payload };
     },
     deleteLead: (state, action: PayloadAction<Lead>) => {},
     selectLead: (state, action: PayloadAction<Lead>) => {

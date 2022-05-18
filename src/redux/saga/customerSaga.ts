@@ -1,4 +1,6 @@
 import { customerPresenter } from '@adapter/presenters';
+import toasty from '@components/Toasty/Toasty';
+import i18n from '@config/i18n';
 import { Customer, CustomerStatusType } from '@domain/entities/Lead';
 import { customerActions } from '@redux/slices/customerSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -16,11 +18,21 @@ function* addCustomer(action: PayloadAction<Customer>) {
     const customer: Customer = action.payload;
     const addedCustomer: Customer = yield call(customerPresenter.addCustomer, customer);
     yield put(customerActions.setAddedCustomer(addedCustomer));
+    toasty.show({
+      title: i18n.t('COMMON.SUCCESS'),
+      type: 'success',
+      message: i18n.t('CUSTOMER.ADD_CUSTOMER_SUCCESSFULLY', { customerName: addedCustomer.name }),
+    });
     // Re-fetch all customers
     const customers: Customer[] = yield call(customerPresenter.getAllCustomers);
     yield put(customerActions.setAllCustomers(customers));
   } catch (error: any) {
-    yield put(customerActions.setAddedCustomerError(error.message));
+    toasty.show({
+      title: i18n.t('COMMON.ERROR'),
+      type: 'error',
+      message: `${error.message}`,
+    });
+    yield put(customerActions.setAddedCustomerError());
   }
 }
 
@@ -29,11 +41,21 @@ function* updateCustomer(action: PayloadAction<Customer>) {
     const customer: Customer = action.payload;
     const updatedCustomer: Customer = yield call(customerPresenter.updateCustomer, customer);
     yield put(customerActions.setUpdatedCustomer(updatedCustomer));
+    toasty.show({
+      title: i18n.t('COMMON.SUCCESS'),
+      type: 'success',
+      message: i18n.t('CUSTOMER.EDIT_CUSTOMER_SUCCESSFULLY', { customerName: updatedCustomer.name }),
+    });
     // Re-fetch all customers
     const customers: Customer[] = yield call(customerPresenter.getAllCustomers);
     yield put(customerActions.setAllCustomers(customers));
   } catch (error: any) {
-    yield put(customerActions.setUpdatedCustomerError(error.message));
+    toasty.show({
+      title: i18n.t('COMMON.ERROR'),
+      type: 'error',
+      message: `${error.message}`,
+    });
+    yield put(customerActions.setUpdatedCustomerError());
   }
 }
 

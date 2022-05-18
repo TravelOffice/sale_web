@@ -26,19 +26,17 @@ const CustomerTable = () => {
   const selectedCustomer = useSelector((state: RootState) => state.customer.selectedCustomer);
   const dispatch = useDispatch();
   // ** States
-  const [openSidebar, setOpenSidebar] = useState(false);
+  const openSidebar = useSelector((state: RootState) => state.customer.openSidebar);
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
   const fetchCustomersState = useSelector(
     (state: RootState) => state.customer.fetchAllCustomersState,
   );
-  const fetchCustomersError = useSelector(
-    (state: RootState) => state.customer.fetchAllCustomersError,
-  );
+
+  const { getAllCustomers, setOpenSidebar: setOpenSidebarAction } = customerActions;
 
   // ** Function to toggle sidebar
+  const setOpenSidebar = (open: boolean) => dispatch(setOpenSidebarAction(open));
   const toggleCustomerLeadSidebar = () => setOpenSidebar(!openSidebar);
-
-  const { getAllCustomers } = customerActions;
 
   // ** User filter options
 
@@ -84,7 +82,6 @@ const CustomerTable = () => {
       <Table<Customer>
         data={allCustomers}
         fetchDataState={fetchCustomersState}
-        fetchDataError={fetchCustomersError?.errorMsg}
         columns={customerColumns}
         searchableColumns={['name', 'primaryPhoneNumber']}
         toggleAddDataSidebar={toggleCustomerLeadSidebar}

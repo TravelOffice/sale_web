@@ -1,7 +1,6 @@
 // ** React Import
 // ** Store & Actions
 import nationalities from '@assets/json/countries.json';
-import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import {
   LeadEnum,
@@ -141,7 +140,6 @@ const SidebarNewLead = (props: SidebarNewLeadProps) => {
     toggleSidebar,
   } = props;
   // ** States
-  const addedLeadResponse = useSelector((state: RootState) => state.lead.addedLeadResponse);
   const addLeadState = useSelector((state: RootState) => state.lead.addLeadState);
   const dispatch = useDispatch();
 
@@ -200,10 +198,7 @@ const SidebarNewLead = (props: SidebarNewLeadProps) => {
   };
 
   useEffect(() => {
-    if (addLeadState === 'error') {
-      toasty.show({ title: 'Error', type: 'error', message: `${addedLeadResponse?.errorMsg}` });
-    } else if (addLeadState === 'finished') {
-      toasty.show({ title: 'Success', type: 'success', message: `Create Lead ${addedLeadResponse?.lead?.name} successfully` });
+    if (addLeadState === 'finished') {
       toggleSidebar();
     }
   }, [addLeadState]);
@@ -242,7 +237,6 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
     toggleSidebar,
   } = props;
   // ** States
-  const updatedLeadResponse = useSelector((state: RootState) => state.lead.updatedLeadResponse);
   const updateLeadState = useSelector((state: RootState) => state.lead.updateLeadState);
   const lead = useSelector((state: RootState) => state.lead.selectedLead);
 
@@ -327,10 +321,7 @@ const SidebarUpdateLead = (props: SidebarUpdateLeadProps) => {
   };
 
   useEffect(() => {
-    if (updateLeadState === 'error') {
-      toasty.show({ title: 'Error', type: 'error', message: `${updatedLeadResponse?.errorMsg}` });
-    } else if (updateLeadState === 'finished') {
-      toasty.show({ title: 'Success', type: 'success', message: `Update Lead ${updatedLeadResponse?.lead?.name} successfully` });
+    if (updateLeadState === 'finished') {
       toggleSidebar();
     }
   }, [updateLeadState]);

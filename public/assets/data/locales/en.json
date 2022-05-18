@@ -56,6 +56,8 @@
         "SEX": "Sex",
         "TAGS": "Tags",
         "SOURCE": "Source",
+        "ADD_LEAD_SUCCESSFULLY": "Add lead {{leadName}} successfully",
+        "EDIT_LEAD_SUCCESSFULLY": "Edit lead {{leadName}} successfully",
         "OPPS_OF_LEAD": "Opportunities"
     },
     "PAGE": {
