@@ -90,10 +90,6 @@ const OpportunitiesTable = () => {
         searchableColumns={['name', 'status']}
         toggleAddDataSidebar={toggleSidebar}
         sortColumnDefault="name"
-        filterColumns={[{
-          key: 'status',
-          value: currentStatus.value,
-        }]}
         onPageChange={() => {}}
         onRefresh={onRefresh}
       />

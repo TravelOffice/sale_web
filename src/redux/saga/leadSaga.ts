@@ -1,14 +1,14 @@
 import { leadPresenter } from '@adapter/presenters';
-import { Lead } from '@domain/entities/Lead';
+import { Lead, LeadStatusType } from '@domain/entities/Lead';
 import { leadActions } from '@redux/slices/leadSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
   all, call, put, takeLatest,
 } from 'redux-saga/effects';
 
-function* getAllLeads() {
+function* getAllLeads(action: PayloadAction<LeadStatusType>) {
   try {
-    const leads : Lead[] = yield call(leadPresenter.getAllLeads);
+    const leads : Lead[] = yield call(leadPresenter.getAllLeads, action.payload);
     yield put(leadActions.setAllLeads(leads));
   } catch (error: any) {
     yield put(leadActions.setFetchAllLeadError(error.message));

@@ -1,13 +1,14 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { Customer, LeadEnum } from '@domain/entities/Lead';
+import { Customer, CustomerStatusType, LeadEnum } from '@domain/entities/Lead';
 import { ResponseType } from '@utils/ApiUtils';
 import { CustomerRepository } from './interfaces/CustomerRepository';
 
 export default class CustomerRepositoryImpl implements CustomerRepository {
-  getAllCustomers = async () => {
+  getAllCustomers = async (status?: CustomerStatusType) => {
     const response = await apiProvider.authorizedRequest.get('/leads', {
       queryParams: {
         type: LeadEnum.CUSTOMER,
+        status,
       },
     });
     if (response.message !== ResponseType.SUCCESS) {

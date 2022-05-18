@@ -1,5 +1,5 @@
-import { Customer } from '@domain/entities/Lead';
+import { Customer, CustomerStatusType } from '@domain/entities/Lead';
 
 export interface GetAllCustomersUseCase {
-  invoke: () => Promise<Customer[]>
+  invoke: (status?: CustomerStatusType) => Promise<Customer[]>
 }

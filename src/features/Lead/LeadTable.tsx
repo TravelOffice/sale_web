@@ -1,6 +1,7 @@
 // ** React Imports
 import Table from '@components/Table/Table';
 import i18n from '@config/i18n';
+import { LeadStatusType } from '@domain/entities/Lead';
 // ** Store & Actions
 import { leadActions } from '@redux/slices/leadSlice';
 import { RootState } from '@redux/store';
@@ -46,12 +47,12 @@ const LeadTable = () => {
   ];
 
   const onRefresh = useCallback(() => {
-    dispatch(getAllLeads());
-  }, [dispatch]);
+    dispatch(getAllLeads(currentStatus.value as LeadStatusType));
+  }, []);
 
   useEffect(() => {
-    dispatch(getAllLeads());
-  }, []);
+    dispatch(getAllLeads(currentStatus.value as LeadStatusType));
+  }, [currentStatus]);
 
   return (
     <>
@@ -85,10 +86,6 @@ const LeadTable = () => {
         searchableColumns={['name', 'primaryPhoneNumber']}
         toggleAddDataSidebar={toggleAddLeadSidebar}
         sortColumnDefault="createdAt"
-        filterColumns={[{
-          key: 'status',
-          value: currentStatus.value,
-        }]}
         onPageChange={() => {}}
         onRefresh={onRefresh}
       />
