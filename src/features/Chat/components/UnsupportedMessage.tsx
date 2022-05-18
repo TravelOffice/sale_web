@@ -1,0 +1,30 @@
+import React from 'react';
+import { MessageProps } from '@features/Chat/components/MessageProps';
+import { ChatPlatform } from '@domain/entities/ChatPlatform';
+import i18n from '@config/i18n';
+
+export interface UnsupportedMessageProps extends MessageProps {
+}
+
+export default function UnsupportedMessage(props: UnsupportedMessageProps) {
+  const { message } = props;
+
+  const getChartPlatformUrl = (chatPlatform: ChatPlatform): string => {
+    if (chatPlatform === 'facebook') {
+      return 'https://messenger.com/';
+    }
+    return 'https://oa.zalo.me/chatv2/';
+  };
+
+  return (
+    <>
+      <div key={message.id} className="chat-content">
+        {i18n.t('CHAT.UNSUPPORTED_MESSAGE')}
+        {' '}
+        <a href={getChartPlatformUrl(message.chatPlatform)} target="_blank" rel="noreferrer">
+          {getChartPlatformUrl(message.chatPlatform)}
+        </a>
+      </div>
+    </>
+  );
+}
