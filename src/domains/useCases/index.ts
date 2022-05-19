@@ -1,14 +1,13 @@
 import GetFacebookPagesUseCaseImpl from '@domain/useCases/facebook/GetFacebookPagesUseCaseImpl';
 import { GetFacebookPagesUseCase } from '@domain/useCases/interfaces/facebook/GetFacebookPagesUseCase';
+import { CreateOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/CreateOpportunityUseCase';
 import { ConnectFacebookPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectFacebookPageUseCase';
 import { ConnectZaloPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectZaloPageUseCase';
 import { GetZaloOAuthLinkUseCase } from '@domain/useCases/interfaces/zalo/GetZaloOAuthLinkUseCase';
+import CreateOpportunityUseCaseImpl from '@domain/useCases/opportunity/CreateOpportunityUseCaseImpl';
 import ConnectFacebookPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectFacebookPageUseCaseImpl';
 import ConnectZaloPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectZaloPageUseCaseImpl';
 import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkUseCaseImpl';
-import { CreateOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/CreateOpportunityUseCase';
-import CreateOpportunityUseCaseImpl from '@domain/useCases/opportunity/CreateOpportunityUseCaseImpl';
-import { GetConversationsUseCase } from './interfaces/chat/GetConversationsUseCase';
 import GetConversationsUseCaseImpl from './chat/GetConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
@@ -17,6 +16,7 @@ import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImp
 import AddCustomerUseCaseImpl from './customer/AddCustomerUseCaseImpl';
 import GetAllCustomersUseCaseImpl from './customer/GetAllCustomersUseCaseImpl';
 import UpdateCustomerUseCaseImpl from './customer/UpdateCustomerUseCaseImpl';
+import { GetConversationsUseCase } from './interfaces/chat/GetConversationsUseCase';
 import { GetMessagesUseCase } from './interfaces/chat/GetMessagesUseCase';
 import { SendAttachmentMessageUseCase } from './interfaces/chat/SendAttachmentMessageUseCase';
 import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
@@ -26,12 +26,14 @@ import { GetAllCustomersUseCase } from './interfaces/customer/GetAllCustomersUse
 import { UpdateCustomerUseCase } from './interfaces/customer/UpdateCustomerUseCase';
 import { AddLeadUseCase } from './interfaces/lead/AddLeadUseCase';
 import { GetAllLeadsUseCase } from './interfaces/lead/GetAllLeadsUseCase';
+import { GetLeadUseCase } from './interfaces/lead/GetLeadUseCase';
 import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
 import { DeleteOpportunityUseCase } from './interfaces/opportunity/DeleteOpportunityUseCase';
 import { GetAllOpportunitiesUseCase } from './interfaces/opportunity/GetAllOpportunitiesUseCase';
 import { GetOpportunitiesByLeadUseCase } from './interfaces/opportunity/GetOpportunitiesByLeadUseCase';
 import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
 import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
+import GetLeadUseCaseImpl from './lead/GetLeadUseCaseImpl';
 import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
 import DeleteOpportunityUseCaseImpl from './opportunity/DeleteOpportunityUseCaseImpl';
 import GetAllOpportunitiesUseCaseImpl from './opportunity/GetAllOpportunitiesUseCaseImpl';
@@ -46,6 +48,7 @@ interface UseCases {
   getFacebookPagesUseCase: GetFacebookPagesUseCase,
   sendAttachmentMessageUseCase: SendAttachmentMessageUseCase,
   getAllLeadsUseCase: GetAllLeadsUseCase
+  getLeadUseCase: GetLeadUseCase
   addLeadUseCase: AddLeadUseCase
   updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
@@ -71,6 +74,7 @@ const useCases: UseCases = {
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
   getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
+  getLeadUseCase: new GetLeadUseCaseImpl(),
   addLeadUseCase: new AddLeadUseCaseImpl(),
   updateLeadUseCase: new UpdateLeadUseCaseImpl(),
   connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
@@ -93,6 +97,7 @@ export const {
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
   getAllLeadsUseCase,
+  getLeadUseCase,
   addLeadUseCase,
   updateLeadUseCase,
   connectFacebookPageUseCase,
