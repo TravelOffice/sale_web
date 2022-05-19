@@ -1,6 +1,9 @@
 /* eslint-disable no-unused-vars */
+import toasty from '@components/Toasty/Toasty';
+import i18n from '@config/i18n';
 import { CreateUpdateOpportunityResponse, FetchOpportunityResponse, Opportunity } from '@domain/entities/opportunity/Opportunity';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import removeElement from '@utils/ArrayUtils';
 import { HandleDataState } from './others/HandleDataState';
 
 interface Opportunitiestate {
@@ -41,9 +44,21 @@ const opportunitySlice = createSlice({
     selectOpportunity: (state, action: PayloadAction<Opportunity>) => {
       state.selectedOpportunity = action.payload;
     },
+    deleteOpportunity: (state, action: PayloadAction<Opportunity>) => { },
     onGetAllOpportunitiesFinished: (state, action: PayloadAction<Opportunity[]>) => {
       state.actionState = 'finished';
       state.allOpportunities = action.payload;
+    },
+    onDeleteOpportunityFinished: (state, action: PayloadAction<Opportunity>) => {
+      const oppId = action.payload.id;
+      state.allOpportunities = removeElement<Opportunity>(
+        state.allOpportunities, (opp) => opp.id !== oppId,
+      );
+      toasty.show({
+        type: 'success',
+        title: i18n.t('COMMON.SUCCESS'),
+        message: i18n.t('OPP.DELETE_OPPORTUNITY_SUCCESS'),
+      });
     },
     onActionError: (state, action: PayloadAction<string>) => {
       state.actionState = 'error';

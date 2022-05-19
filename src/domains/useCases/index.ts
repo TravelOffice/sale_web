@@ -25,11 +25,13 @@ import { UpdateCustomerUseCase } from './interfaces/customer/UpdateCustomerUseCa
 import { AddLeadUseCase } from './interfaces/lead/AddLeadUseCase';
 import { GetAllLeadsUseCase } from './interfaces/lead/GetAllLeadsUseCase';
 import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
+import { DeleteOpportunityUseCase } from './interfaces/opportunity/DeleteOpportunityUseCase';
 import { GetAllOpportunitiesUseCase } from './interfaces/opportunity/GetAllOpportunitiesUseCase';
 import { GetOpportunitiesByLeadUseCase } from './interfaces/opportunity/GetOpportunitiesByLeadUseCase';
 import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
 import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
 import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
+import DeleteOpportunityUseCaseImpl from './opportunity/DeleteOpportunityUseCaseImpl';
 import GetAllOpportunitiesUseCaseImpl from './opportunity/GetAllOpportunitiesUseCaseImpl';
 import GetOpportunitiesByLeadUseCaseImpl from './opportunity/GetOpportunitiesByLeadUseCaseImpl';
 
@@ -45,8 +47,11 @@ interface UseCases {
   addLeadUseCase: AddLeadUseCase
   updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
+  // Opportunity
   getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
   getOpportunitiesByLeadUseCase: GetOpportunitiesByLeadUseCase,
+  deleteOpportunityUseCase: DeleteOpportunityUseCase,
+  // Customer
   getAllCustomersUseCase: GetAllCustomersUseCase,
   addCustomerUseCase: AddCustomerUseCase,
   updateCustomerUseCase: UpdateCustomerUseCase,
@@ -68,6 +73,7 @@ const useCases: UseCases = {
   connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
   getAllOpportunitiesUseCase: new GetAllOpportunitiesUseCaseImpl(),
   getOpportunitiesByLeadUseCase: new GetOpportunitiesByLeadUseCaseImpl(),
+  deleteOpportunityUseCase: new DeleteOpportunityUseCaseImpl(),
   getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
   addCustomerUseCase: new AddCustomerUseCaseImpl(),
   updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
@@ -88,6 +94,7 @@ export const {
   connectFacebookPageUseCase,
   getAllOpportunitiesUseCase,
   getOpportunitiesByLeadUseCase,
+  deleteOpportunityUseCase,
   getAllCustomersUseCase,
   addCustomerUseCase,
   updateCustomerUseCase,

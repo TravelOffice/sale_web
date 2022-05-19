@@ -30,9 +30,23 @@ function* getOpportunitiesByLead(action: PayloadAction<string>) {
   }
 }
 
+function* deleteOpportunity(action: PayloadAction<Opportunity>) {
+  try {
+    const oppId = action.payload.id;
+    yield call(
+      opportunityPresenter.deleteOpportunity,
+      oppId,
+    );
+    yield put(opportunityActions.onDeleteOpportunityFinished(action.payload));
+  } catch (error: any) {
+    yield put(opportunityActions.onActionError(error.message));
+  }
+}
+
 export default function* opportunitySaga() {
   yield all([
     takeLatest(opportunityActions.getAllOpportunities, getAllOpportunities),
     takeLatest(opportunityActions.getOpportunitiesByLead, getOpportunitiesByLead),
+    takeLatest(opportunityActions.deleteOpportunity, deleteOpportunity),
   ]);
 }
