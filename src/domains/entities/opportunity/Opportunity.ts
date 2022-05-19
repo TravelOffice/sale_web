@@ -1,5 +1,4 @@
 import { Task } from 'redux-saga';
-import { Lead } from '../Lead';
 import { Note } from '../note/Note';
 
 export enum OpportunityStatusEnum {
@@ -29,17 +28,19 @@ export type OpportunitySource = keyof typeof OpportunitySourceEnum;
 export type OpportunityPotentialType = keyof typeof OpportunityPotentialTypeEnum;
 
 export interface Opportunity {
-  customer: Lead,
+  readonly id: string,
+  readonly leadId: string,
+  readonly leadName: string,
   name: string,
   source: OpportunitySource,
   description: string,
   status: OpportunityStatus,
   closedLostReason: string,
   estimatedRevenue: number,
-  estimatedConfirmDate: Date,
-  actualCloseDate: Date,
-  createdDate: Date,
-  updatedDate: Date,
+  estimatedConfirmDate: string,
+  actualCloseDate: string,
+  readonly createdAt: number,
+  updatedAt: number,
   potential: OpportunityPotentialType,
   owner?: string, // TODO: Owner is sale person. Integrate sale management in the near future
   notes?: Note[],

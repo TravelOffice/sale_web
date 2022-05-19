@@ -101,7 +101,8 @@
         "SALESMAN": "Tự phát triển",
         "OTHERS": "Khác",
         "CREATE_OPPORTUNITY": "Tạo cơ hội",
-        "UPDATE_OPPORTUNITY": "Cập nhật cơ hội"
+        "UPDATE_OPPORTUNITY": "Cập nhật cơ hội",
+        "DELETE_OPPORTUNITY_SUCCESS": "Xóa cơ hội thành công"
     },
     "CUSTOMER": {
         "NEW": "Mới",

@@ -13,7 +13,7 @@ import moment from 'moment';
 import { DATE_FORMAT } from '@utils/Constants';
 import { UnpackNestedValue } from 'react-hook-form';
 
-type OmitFields = 'customer' | 'closedLostReason' | 'actualCloseDate' | 'createdDate' | 'updatedDate' | 'notes' | 'task';
+type OmitFields = 'customer' | 'closedLostReason' | 'actualCloseDate' | 'createdAt' | 'updatedAt' | 'notes' | 'task' | 'id' | 'leadId' | 'leadName';
 type CustomerId = { customer: string };
 type OmittedOpportunityFormData = Omit<Opportunity, OmitFields> & CustomerId;
 type FormData<T> = {
@@ -49,7 +49,7 @@ export default function OpportunitySidebar(props: OpportunitySidebarProps) {
       // Edit opportunity
       return ({
         ...opportunity,
-        customer: opportunity.customer.primaryPhoneNumber,
+        customer: opportunity.leadId,
         estimatedConfirmDate: moment(opportunity.estimatedConfirmDate).format(DATE_FORMAT),
       });
     }

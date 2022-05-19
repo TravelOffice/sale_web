@@ -101,7 +101,8 @@
         "SALESMAN": "Salesman",
         "OTHERS": "Others",
         "CREATE_OPPORTUNITY": "Create opportunity",
-        "UPDATE_OPPORTUNITY": "Update opportunity"
+        "UPDATE_OPPORTUNITY": "Update opportunity",
+        "DELETE_OPPORTUNITY_SUCCESS": "Delete opportunity successfully"
     },
     "CUSTOMER": {
         "NEW": "New",
