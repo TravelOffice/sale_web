@@ -18,6 +18,7 @@
         "ERROR": "Lỗi",
         "SUBMIT": "Xác nhận",
         "LOADING": "Loading",
+        "YES": "Có",
         "CANCEL": "Hủy",
         "SEVERITY_HIGH": "Cao",
         "SEVERITY_MEDIUM": "Trung bình",
@@ -103,8 +104,10 @@
         "CREATE_OPPORTUNITY": "Tạo cơ hội",
         "UPDATE_OPPORTUNITY": "Cập nhật cơ hội",
         "CREATE_OPPORTUNITY_SUCCESSFULLY": "Đã thêm mới cơ hội {{name}}",
+        "FIELD_IS_REQUIRED": "{{field}} là trường bắt buộc",
         "DELETE_OPPORTUNITY_SUCCESS": "Xóa cơ hội thành công",
-        "FIELD_IS_REQUIRED": "{{field}} là trường bắt buộc"
+        "OPP_DELETION_WARNING_TITLE": "Xóa cơ hội {{opportunityName}}",
+        "DELETION_WARNING_MESSAGE": "Cơ hội sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa cơ hội?"
     },
     "CUSTOMER": {
         "NEW": "Mới",
