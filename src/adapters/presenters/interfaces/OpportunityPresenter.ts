@@ -4,4 +4,5 @@ export interface OpportunityPresenter {
   getAllOpportunities: () => Promise<Opportunity[]>
   getOpportunitiesByLead: (leadPhoneAsId: string) => Promise<Opportunity[]>
   deleteOpportunity: (oppId: string) => Promise<void>
+  createOpportunity: (opportunity: Opportunity) => Promise<Opportunity>
 }
