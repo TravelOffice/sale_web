@@ -6,7 +6,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import removeElement from '@utils/ArrayUtils';
 import { HandleDataState } from './others/HandleDataState';
 
-interface Opportunitiestate {
+interface OpportunityState {
   data: Opportunity[],
   total: number,
   allOpportunities: Opportunity[],
@@ -15,9 +15,11 @@ interface Opportunitiestate {
   updatedOpportunityResponse: CreateUpdateOpportunityResponse | null,
   actionState: HandleDataState,
   actionErrorMessage?: string,
+  createOrUpdateOpportunityLoading: boolean,
+  openSidebar: boolean,
 }
 
-const initialState: Opportunitiestate = {
+const initialState: OpportunityState = {
   data: [],
   total: 1,
   allOpportunities: [],
@@ -26,6 +28,8 @@ const initialState: Opportunitiestate = {
   updatedOpportunityResponse: null,
   actionState: 'init',
   actionErrorMessage: undefined,
+  createOrUpdateOpportunityLoading: false,
+  openSidebar: false,
 };
 
 const opportunitySlice = createSlice({
@@ -63,6 +67,20 @@ const opportunitySlice = createSlice({
     onActionError: (state, action: PayloadAction<string>) => {
       state.actionState = 'error';
       state.actionErrorMessage = action.payload;
+    },
+    createOpportunity: (state, _action: PayloadAction<Partial<Opportunity>>) => {
+      state.createOrUpdateOpportunityLoading = true;
+    },
+    onOpportunityCreated: (state, action: PayloadAction<Opportunity>) => {
+      state.createOrUpdateOpportunityLoading = false;
+      state.openSidebar = false;
+      state.allOpportunities.push(action.payload);
+    },
+    onCreateOpportunityError: (state, action: PayloadAction<string>) => {
+      state.createOrUpdateOpportunityLoading = false;
+    },
+    setOpenSidebar: (state, action: PayloadAction<boolean>) => {
+      state.openSidebar = action.payload;
     },
   },
 });

@@ -35,14 +35,13 @@ export interface Opportunity {
   source: OpportunitySource,
   description: string,
   status: OpportunityStatus,
-  closedLostReason: string,
+  closedLostReason?: string,
   estimatedRevenue: number,
   estimatedConfirmDate: string,
   actualCloseDate: string,
   readonly createdAt: number,
   updatedAt: number,
   potential: OpportunityPotentialType,
-  owner?: string, // TODO: Owner is sale person. Integrate sale management in the near future
   notes?: Note[],
   task?: Task[],
 }

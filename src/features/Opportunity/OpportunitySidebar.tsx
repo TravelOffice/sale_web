@@ -6,16 +6,20 @@ import {
   opportunitySources,
   opportunityStatuses,
 } from '@domain/entities/opportunity/Opportunity';
-import { useCustomers } from '@hooks/customer';
+import { useLeadAndCustomers } from '@hooks/customer';
 import * as yup from 'yup';
 import i18n from '@config/i18n';
 import moment from 'moment';
 import { DATE_FORMAT } from '@utils/Constants';
 import { UnpackNestedValue } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { opportunityActions } from '@redux/slices/opportunitySlice';
+import { getLeadById } from '@utils/LeadUtils';
+import { RootState } from '@redux/store';
+import { Customer, Lead } from '@domain/entities/Lead';
 
-type OmitFields = 'customer' | 'closedLostReason' | 'actualCloseDate' | 'createdAt' | 'updatedAt' | 'notes' | 'task' | 'id' | 'leadId' | 'leadName';
-type CustomerId = { customer: string };
-type OmittedOpportunityFormData = Omit<Opportunity, OmitFields> & CustomerId;
+type OmitFields = 'customer' | 'closedLostReason' | 'actualCloseDate' | 'createdAt' | 'updatedAt' | 'notes' | 'task' | 'id' | 'leadName';
+type OmittedOpportunityFormData = Omit<Opportunity, OmitFields>;
 type FormData<T> = {
   [K in keyof T]: T[K] extends Date ? string : T[K]
 };
@@ -30,7 +34,7 @@ export interface OpportunitySidebarProps {
 
 const defaultValues : OpportunityFormData = {
   name: '',
-  customer: '',
+  leadId: '',
   description: '',
   estimatedConfirmDate: moment().format(DATE_FORMAT),
   source: 'MARKETING',
@@ -39,36 +43,18 @@ const defaultValues : OpportunityFormData = {
   estimatedRevenue: 0,
 };
 
-export default function OpportunitySidebar(props: OpportunitySidebarProps) {
-  const {
-    toggleSidebar, onClosed, open, opportunity,
-  } = props;
-  const [customers] = useCustomers();
-  const opportunityFormData : OpportunityFormData = useMemo(() => {
-    if (opportunity) {
-      // Edit opportunity
-      return ({
-        ...opportunity,
-        customer: opportunity.leadId,
-        estimatedConfirmDate: moment(opportunity.estimatedConfirmDate).format(DATE_FORMAT),
-      });
-    }
-    return ({
-      ...defaultValues,
-      name: '',
-    });
-  }, [opportunity]);
+function useSchema(leadsAndCustomers: Array<Lead | Customer>) {
   const schema : FormSchema<OpportunityFormData> = useMemo(() => ({
-    customer: {
+    leadId: {
       type: 'select',
       label: i18n.t('OPP.CUSTOMER'),
       required: true,
-      options: customers.map((customer) => ({
-        label: `${customer.name} ${customer.primaryPhoneNumber}`,
-        value: customer.primaryPhoneNumber,
+      options: leadsAndCustomers.map((lead) => ({
+        label: `${lead.name} ${lead.primaryPhoneNumber}`,
+        value: lead.primaryPhoneNumber,
       })),
-      validator: yup.string().required().oneOf(
-        customers.map((customer) => customer.primaryPhoneNumber),
+      validator: yup.string().required(i18n.t('OPP.FIELD_IS_REQUIRED', { field: i18n.t('OPP.CUSTOMER') })).oneOf(
+        leadsAndCustomers.map((lead) => lead.primaryPhoneNumber),
       ),
     },
     name: {
@@ -124,19 +110,42 @@ export default function OpportunitySidebar(props: OpportunitySidebarProps) {
       })),
       validator: yup.string().oneOf(opportunityPotentials),
     },
-    owner: {
-      type: 'text',
-      label: i18n.t('OPP.OWNER'),
-      required: true,
-      validator: yup.string().required(),
-    },
-  }), [customers]);
+  }), [leadsAndCustomers]);
+  return schema;
+}
+
+export default function OpportunitySidebar(props: OpportunitySidebarProps) {
+  const {
+    toggleSidebar, onClosed, open, opportunity,
+  } = props;
+  const leadsAndCustomers = useLeadAndCustomers();
+  const createOrUpdateOpportunityLoading = useSelector((
+    state: RootState,
+  ) => state.opportunity.createOrUpdateOpportunityLoading);
+  const schema = useSchema(leadsAndCustomers);
+  const dispatch = useDispatch();
+  const opportunityFormData : OpportunityFormData = useMemo(() => {
+    if (opportunity) {
+      // Edit opportunity
+      return ({
+        ...opportunity,
+        estimatedConfirmDate: moment(opportunity.estimatedConfirmDate).format(DATE_FORMAT),
+      });
+    }
+    // Create new opportunity
+    return ({
+      ...defaultValues,
+    });
+  }, [opportunity]);
   const onSubmit = useCallback((formData: UnpackNestedValue<OpportunityFormData>) => {
-    console.log('formData', formData);
     if (opportunity) {
       // TODO: Update opportunity
     } else {
-      // TODO: Create new opportunity
+      // Submit form to create a new opportunity
+      dispatch(opportunityActions.createOpportunity({
+        ...formData,
+        leadName: getLeadById(leadsAndCustomers, formData.leadId)?.name!,
+      }));
     }
   }, [opportunity]);
   return (
@@ -149,6 +158,7 @@ export default function OpportunitySidebar(props: OpportunitySidebarProps) {
       toggleSidebar={toggleSidebar}
       onClosed={onClosed}
       onSubmit={onSubmit}
+      submitting={createOrUpdateOpportunityLoading}
     />
   );
 }

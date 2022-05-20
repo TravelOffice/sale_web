@@ -22,6 +22,8 @@ const statusOptions = [
 ];
 
 const OpportunitiesTable = () => {
+  const dispatch = useDispatch();
+
   // ** Store Vars
   const allOpportunities = useSelector((state: RootState) => state.opportunity.allOpportunities);
 
@@ -30,12 +32,13 @@ const OpportunitiesTable = () => {
   const actionErrorMessage = useSelector(
     (state: RootState) => state.opportunity.actionErrorMessage,
   );
+  const openSidebar = useSelector((state: RootState) => state.opportunity.openSidebar);
+  const setOpenSidebar = useCallback((open: boolean) => {
+    dispatch(opportunityActions.setOpenSidebar(open));
+  }, [openSidebar]);
   const params = useQueryParams();
 
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
-  const [openSidebar, setOpenSidebar] = useState(false);
-
-  const dispatch = useDispatch();
 
   const toggleSidebar = () => {
     setOpenSidebar(!openSidebar);

@@ -1,4 +1,10 @@
-import { getAllOpportunitiesUseCase, getOpportunitiesByLeadUseCase, deleteOpportunityUseCase } from '@domain/useCases';
+import {
+  getAllOpportunitiesUseCase,
+  getOpportunitiesByLeadUseCase,
+  deleteOpportunityUseCase,
+  createOpportunityUseCase,
+} from '@domain/useCases';
+import { Opportunity } from '@domain/entities/opportunity/Opportunity';
 import { OpportunityPresenter } from './interfaces/OpportunityPresenter';
 
 export default class OpportunityPresenterImpl implements OpportunityPresenter {
@@ -9,4 +15,8 @@ export default class OpportunityPresenterImpl implements OpportunityPresenter {
   ) => getOpportunitiesByLeadUseCase.invoke(leadPhoneAsId);
 
   deleteOpportunity = async (oppId: string) => deleteOpportunityUseCase.invoke(oppId);
+
+  createOpportunity = async (
+    opportunity: Opportunity,
+  ) => createOpportunityUseCase.invoke(opportunity);
 }

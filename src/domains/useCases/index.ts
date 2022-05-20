@@ -6,6 +6,9 @@ import { GetZaloOAuthLinkUseCase } from '@domain/useCases/interfaces/zalo/GetZal
 import ConnectFacebookPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectFacebookPageUseCaseImpl';
 import ConnectZaloPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectZaloPageUseCaseImpl';
 import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkUseCaseImpl';
+import { CreateOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/CreateOpportunityUseCase';
+import CreateOpportunityUseCaseImpl from '@domain/useCases/opportunity/CreateOpportunityUseCaseImpl';
+import { GetConversationsUseCase } from './interfaces/chat/GetConversationsUseCase';
 import GetConversationsUseCaseImpl from './chat/GetConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
@@ -14,7 +17,6 @@ import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImp
 import AddCustomerUseCaseImpl from './customer/AddCustomerUseCaseImpl';
 import GetAllCustomersUseCaseImpl from './customer/GetAllCustomersUseCaseImpl';
 import UpdateCustomerUseCaseImpl from './customer/UpdateCustomerUseCaseImpl';
-import { GetConversationsUseCase } from './interfaces/chat/GetConversationsUseCase';
 import { GetMessagesUseCase } from './interfaces/chat/GetMessagesUseCase';
 import { SendAttachmentMessageUseCase } from './interfaces/chat/SendAttachmentMessageUseCase';
 import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
@@ -51,6 +53,7 @@ interface UseCases {
   getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
   getOpportunitiesByLeadUseCase: GetOpportunitiesByLeadUseCase,
   deleteOpportunityUseCase: DeleteOpportunityUseCase,
+  createOpportunityUseCase: CreateOpportunityUseCase,
   // Customer
   getAllCustomersUseCase: GetAllCustomersUseCase,
   addCustomerUseCase: AddCustomerUseCase,
@@ -79,6 +82,7 @@ const useCases: UseCases = {
   updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
   getZaloOAuthLinkUseCase: new GetZaloOAuthLinkUseCaseImpl(),
   connectZaloPageUseCase: new ConnectZaloPageUseCaseImpl(),
+  createOpportunityUseCase: new CreateOpportunityUseCaseImpl(),
 };
 
 export const {
@@ -100,4 +104,5 @@ export const {
   updateCustomerUseCase,
   getZaloOAuthLinkUseCase,
   connectZaloPageUseCase,
+  createOpportunityUseCase,
 } = useCases;
