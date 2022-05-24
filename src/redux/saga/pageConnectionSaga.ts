@@ -10,6 +10,7 @@ import { accountConnectionPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import { ZaloPage } from '@domain/entities/ZaloPage';
+import { Page } from '@domain/entities/Page';
 
 function* connectFacebookPage({ payload }: PayloadAction<ConnectFacebookPageRequest>) {
   try {
@@ -58,9 +59,19 @@ function* connectZaloPage({ payload }: PayloadAction<ConnectZaloPageRequest>) {
   }
 }
 
+function* getLinkedFacebookPage() {
+  try {
+    const linkedPage : Page = yield call(accountConnectionPresenter.getLinkedFacebookPage);
+    put(pageConnectionActions.onLinkedFacebookPageRetrieved(linkedPage));
+  } catch {
+    // Do nothing
+  }
+}
+
 export default function* pageConnectionSaga() {
   yield all([
     takeLatest(pageConnectionActions.connectFacebookPage, connectFacebookPage),
     takeLatest(pageConnectionActions.connectZaloPage, connectZaloPage),
+    takeLatest(pageConnectionActions.getLinkedFacebookPage, getLinkedFacebookPage),
   ]);
 }

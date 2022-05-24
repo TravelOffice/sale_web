@@ -19,6 +19,10 @@ const pageConnectionSlice = createSlice({
   name: 'page',
   initialState,
   reducers: {
+    getLinkedFacebookPage: (_state) => {},
+    onLinkedFacebookPageRetrieved: (state, action: PayloadAction<Page>) => {
+      state.facebookPage = action.payload;
+    },
     connectFacebookPage: (
       state,
       _action: PayloadAction<ConnectFacebookPageRequest>,
