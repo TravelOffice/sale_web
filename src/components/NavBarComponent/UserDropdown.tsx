@@ -1,19 +1,16 @@
 import Avatar from '@components/Avatar/Avatar';
 import AdminUser from '@domain/entities/AdminUser';
-import { authActions } from '@redux/slices/authSlice';
 import Images from '@themes/Images';
 import React, { useState } from 'react';
 import {
   MessageSquare, Power, Settings, User,
 } from 'react-feather';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
 
 const UserDropdown = () => {
-  const dispatch = useDispatch();
   const [userData] = useState<AdminUser | null>(null);
 
   // TODO: Get from redux
@@ -49,7 +46,7 @@ const UserDropdown = () => {
           <Settings size={14} className="me-75" />
           <span className="align-middle">Setting</span>
         </DropdownItem>
-        <DropdownItem tag={Link} to="/login" onClick={() => dispatch(authActions.detachSession())}>
+        <DropdownItem tag={Link} to="/sign-out">
           <Power size={14} className="me-75" />
           <span className="align-middle">Logout</span>
         </DropdownItem>
