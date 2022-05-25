@@ -4,6 +4,7 @@ import {
   deleteOpportunityUseCase,
   createOpportunityUseCase,
   updateOpportunityUseCase,
+  getOpportunityUseCase,
 } from '@domain/useCases';
 import { FilterAttributesOpportunity, Opportunity } from '@domain/entities/opportunity/Opportunity';
 import { OpportunityPresenter } from './interfaces/OpportunityPresenter';
@@ -26,4 +27,8 @@ export default class OpportunityPresenterImpl implements OpportunityPresenter {
   updateOpportunity = async (
     opportunity: Opportunity,
   ) => updateOpportunityUseCase.invoke(opportunity);
+
+  getOpportunity = async (
+    leadId: string, opportunityId: string,
+  ) => getOpportunityUseCase.invoke(leadId, opportunityId);
 }

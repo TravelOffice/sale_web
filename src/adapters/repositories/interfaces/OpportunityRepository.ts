@@ -7,7 +7,10 @@ export interface OpportunityRepository {
   getOpportunitiesByLead(filterAttributes: FilterAttributesOpportunity): Promise<Opportunity[]>
   // Delete opportunity with given id
   deleteOpportunity(oppId: string): Promise<void>
+  // Create a new opportunity
   createOpportunity: (opportunity: Opportunity) => Promise<Opportunity>
   // Update opportunity with given id
   updateOpportunity: (opportunity: Opportunity) => Promise<Opportunity>
+  // Get opp by id
+  getOpportunity: (leadId: string, opportunityId: string,) => Promise<Opportunity>
 }

@@ -17,6 +17,8 @@
         "SUCCESS": "Success",
         "ERROR": "Error",
         "SUBMIT": "Submit",
+        "SAVE_CHANGES": "Save changes",
+        "RESET": "Reset",
         "LOADING": "Loading",
         "YES": "Yes",
         "CANCEL": "Cancel",
@@ -122,6 +124,8 @@
         "PROACTIVE_CUSTOMERS": "Proactive Customers",
         "SALESMAN": "Salesman",
         "OTHERS": "Others",
+        "POTENTIAL": "Potential",
+        "CLOSED_LOST_REASON": "Closed lost reason",
         "CREATE_OPPORTUNITY": "Create opportunity",
         "UPDATE_OPPORTUNITY": "Update opportunity",
         "CREATE_OPPORTUNITY_SUCCESSFULLY": "Create opportunity {{name}} successfully",
@@ -129,7 +133,17 @@
         "FIELD_IS_REQUIRED": "{{field}} is a required field",
         "DELETE_OPPORTUNITY_SUCCESS": "Delete opportunity successfully",
         "OPP_DELETION_WARNING_TITLE": "Delete opportunity {{opportunityName}}",
-        "DELETION_WARNING_MESSAGE": "Opportunity will be deleted from TravelOffice system. Do you want to delete?"
+        "DELETION_WARNING_MESSAGE": "Opportunity will be deleted from TravelOffice system. Do you want to delete?",
+        "OPPORTUNITY_DETAILS": "Opportunity Details",
+        "CREATED_AT_INFORMATION": "Created at {{createdAt}}",
+        "OWNED_BY_LEAD": "Owned by",
+        "VALIDATOR_NAME_ERROR_TEXT": "Please enter a name",
+        "VALIDATOR_ESTIMATED_REVENUE_ERROR_TEXT": "Please enter a valid number for estimated revenue",
+        "VALIDATOR_ESTIMATED_CONFIRM_DATE_ERROR_TEXT": "Please enter a estimated confirm date",
+        "VALIDATOR_CLOSED_LOST_REASON_TEXT": "Please enter a closed lost reason",
+        "VALIDATOR_SOURCE_TEXT": "Please choose a source",
+        "VALIDATOR_POTENTIAL_TEXT": "Please choose a potential",
+        "VALIDATOR_STATUS_TEXT": "Please choose a status"
     },
     "CUSTOMER": {
         "NEW": "New",
@@ -151,5 +165,11 @@
         "MARITAL_INVALID_MESSAGE": "Marital status is invalid",
         "STATUS_INVALID_MESSAGE": "Status is invalid",
         "SOURCE_INVALID_MESSAGE": "Source is invalid"
+    },
+    "TASK": {
+        "TASKS_LIST": "Tasks",
+        "TASKS_EMPTY_TITLE": "Tasks not found. \uD83D\uDD75\uD83C\uDFFB\u200D♀️",
+        "TASKS_EMPTY_SUB_TITLE": "The opportunity does not have any tasks.",
+        "ADD_NEW_TASK": "Add new task"
     }
 }

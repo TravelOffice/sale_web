@@ -18,6 +18,8 @@
         "ERROR": "Lỗi",
         "SUBMIT": "Xác nhận",
         "LOADING": "Đang tải",
+        "SAVE_CHANGES": "Lưu thay đổi",
+        "RESET": "Xoá thay đổi",
         "YES": "Có",
         "CANCEL": "Hủy",
         "SEVERITY_HIGH": "Cao",
@@ -25,7 +27,6 @@
         "SEVERITY_LOW": "Thấp",
         "INFORMATION": "Thông tin",
         "TASK": "Công việc",
-        "SAVE_CHANGES": "Lưu thay đổi",
         "DISCARD": "Huỷ bỏ thay đổi",
         "SORT": "Sắp xếp theo",
         "RESET_SORT": "Huỷ bỏ sắp xếp",
@@ -122,6 +123,8 @@
         "PROACTIVE_CUSTOMERS": "KH liên hệ",
         "SALESMAN": "Tự phát triển",
         "OTHERS": "Khác",
+        "POTENTIAL": "Tiềm năng",
+        "CLOSED_LOST_REASON": "Nguyên nhân thất bại",
         "CREATE_OPPORTUNITY": "Tạo cơ hội",
         "UPDATE_OPPORTUNITY": "Cập nhật cơ hội",
         "CREATE_OPPORTUNITY_SUCCESSFULLY": "Đã thêm mới cơ hội {{name}}",
@@ -129,7 +132,17 @@
         "FIELD_IS_REQUIRED": "{{field}} là trường bắt buộc",
         "DELETE_OPPORTUNITY_SUCCESS": "Xóa cơ hội thành công",
         "OPP_DELETION_WARNING_TITLE": "Xóa cơ hội {{opportunityName}}",
-        "DELETION_WARNING_MESSAGE": "Cơ hội sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa cơ hội?"
+        "DELETION_WARNING_MESSAGE": "Cơ hội sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa cơ hội?",
+        "OPPORTUNITY_DETAILS": "Chi tiết cơ hội",
+        "CREATED_AT_INFORMATION": "Tạo ngày {{createdAt}}",
+        "OWNED_BY_LEAD": "Thuộc về khách hàng",
+        "VALIDATOR_NAME_ERROR_TEXT": "Vui lòng nhập tên cơ hội",
+        "VALIDATOR_ESTIMATED_REVENUE_ERROR_TEXT": "Vui lòng hập đúng dạng số cho doanh thu dự tính",
+        "VALIDATOR_ESTIMATED_CONFIRM_DATE_ERROR_TEXT": "Vui lòng chọn ngày xác nhận dự kiến",
+        "VALIDATOR_CLOSED_LOST_REASON_TEXT": "Vui lòng nhập nguyên nhân thất bại",
+        "VALIDATOR_SOURCE_TEXT": "Vui lòng chọn nguồn",
+        "VALIDATOR_POTENTIAL_TEXT": "Vui lòng chọn tiềm năng thành công",
+        "VALIDATOR_STATUS_TEXT": "Vui lòng chọn trạng thái"
     },
     "CUSTOMER": {
         "NEW": "Mới",
@@ -151,5 +164,11 @@
         "MARITAL_INVALID_MESSAGE": "Tình trạng hôn nhân không hợp lệ",
         "STATUS_INVALID_MESSAGE": "Trạng thái không hợp lệ",
         "SOURCE_INVALID_MESSAGE": "Nguồn không hợp lệ"
+    },
+    "TASK": {
+        "LIST_TASKS": "Danh sách công việc",
+        "TASKS_EMPTY_TITLE": "Không có công việc. \uD83D\uDD75\uD83C\uDFFB\u200D♀️",
+        "TASKS_EMPTY_SUB_TITLE": "Cơ hội không bao gồm bất kì công việc nào.",
+        "ADD_NEW_TASK": "Thêm công việc mới"
     }
 }

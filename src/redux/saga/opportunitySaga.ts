@@ -24,11 +24,11 @@ function* getOpportunitiesByLead(
   action: PayloadAction<FilterAttributesOpportunity>,
 ) {
   try {
-    const opps: Opportunity[] = yield call(
+    const opportunities: Opportunity[] = yield call(
       opportunityPresenter.getOpportunitiesByLead,
       action.payload,
     );
-    yield put(opportunityActions.onGetAllOpportunitiesFinished(opps));
+    yield put(opportunityActions.onGetAllOpportunitiesFinished(opportunities));
   } catch (error: any) {
     yield put(opportunityActions.onActionError(error.message));
   }
@@ -87,11 +87,28 @@ function* updateOpportunity(action: PayloadAction<Opportunity>) {
   }
 }
 
+function* selectOpportunity(action: PayloadAction<Opportunity | [string, string]>) {
+  try {
+    const { payload } = action;
+    if (!Array.isArray(payload)) return;
+    const [leadId, oppId] = payload;
+    const opportunity: Opportunity = yield call(opportunityPresenter.getOpportunity, leadId, oppId);
+    yield put(opportunityActions.onOpportunitySelected(opportunity));
+  } catch (error: any) {
+    toasty.show({
+      type: 'error',
+      title: i18n.t('COMMON.ERROR'),
+      message: `${error.message}`,
+    });
+  }
+}
+
 export default function* opportunitySaga() {
   yield all([
     takeLatest(opportunityActions.getAllOpportunities, getAllOpportunities),
     takeLatest(opportunityActions.getOpportunitiesByLead, getOpportunitiesByLead),
     takeLatest(opportunityActions.deleteOpportunity, deleteOpportunity),
+    takeLatest(opportunityActions.selectOpportunity, selectOpportunity),
     takeEvery(opportunityActions.createOpportunity, createOpportunity),
     takeEvery(opportunityActions.updateOpportunity, updateOpportunity),
   ]);
