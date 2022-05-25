@@ -5,7 +5,7 @@ import i18n from '@config/i18n';
 import { Opportunity } from '@domain/entities/opportunity/Opportunity';
 // ** Store & Actions
 import { opportunityActions } from '@redux/slices/opportunitySlice';
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import { TableColumn } from 'react-data-table-component';
 // ** Icons Imports
 import {
@@ -16,7 +16,13 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 // ** Reactstrap Imports
 import {
-  Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
+  Badge,
+  Button,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+  Modal, ModalBody, ModalFooter, ModalHeader,
 } from 'reactstrap';
 
 // ** Renders Client Columns
@@ -103,15 +109,27 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
     cell: (opp: Opportunity) => {
       const dispatch = useDispatch();
 
+      const [openDeletionWarning, setOpenDeletionWarning] = useState(false);
+
       // Select opportunity row
       const selectRow: MouseEventHandler = (e) => {
         e.preventDefault();
         dispatch(opportunityActions.selectOpportunity(opp));
       };
 
+      // Toggle deletion warning dialog
+      const toggleDeletionWarningDialog = () => {
+        setOpenDeletionWarning(!openDeletionWarning);
+      };
+
       // Dispatch action to delete opportunity from server
       const handleDeleteOpportunities: MouseEventHandler = (e) => {
         e.preventDefault();
+        toggleDeletionWarningDialog();
+      };
+
+      const onDeleteOpportunity = () => {
+        toggleDeletionWarningDialog();
         dispatch(opportunityActions.deleteOpportunity(opp));
       };
 
@@ -145,6 +163,25 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
+          <Modal
+            isOpen={openDeletionWarning}
+            toggle={toggleDeletionWarningDialog}
+            className="modal-dialog-centered"
+            modalClassName="modal-warning"
+          >
+            <ModalHeader toggle={toggleDeletionWarningDialog}>{i18n.t('OPP.OPP_DELETION_WARNING_TITLE', { opportunityName: opp.name })}</ModalHeader>
+            <ModalBody>
+              {i18n.t('OPP.DELETION_WARNING_MESSAGE')}
+            </ModalBody>
+            <ModalFooter>
+              <Button outline color="secondary" onClick={() => setOpenDeletionWarning(!openDeletionWarning)}>
+                {i18n.t('COMMON.CANCEL')}
+              </Button>
+              <Button color="warning" onClick={onDeleteOpportunity}>
+                {i18n.t('COMMON.YES')}
+              </Button>
+            </ModalFooter>
+          </Modal>
         </div>
       );
     },

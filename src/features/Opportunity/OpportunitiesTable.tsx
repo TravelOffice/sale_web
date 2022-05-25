@@ -5,7 +5,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import {
-  Card, CardBody, CardHeader, CardTitle, Col, Label, Row,
+  Card, CardBody, CardHeader,
+  CardTitle, Col, Label, Row,
 } from 'reactstrap';
 import Table from '@components/Table/Table';
 import OpportunitySidebar from '@features/Opportunity/OpportunitySidebar';
@@ -44,6 +45,7 @@ const OpportunitiesTable = () => {
     setOpenSidebar(!openSidebar);
   };
 
+  // Get all the opportunities based on path parameters
   const getOpportunities = () => {
     const leadId = params.get('leadId');
     if (leadId) {
@@ -53,6 +55,7 @@ const OpportunitiesTable = () => {
     }
   };
 
+  // On refresh the table values, opportunities will be reloaded from server
   const onRefresh = useCallback(() => {
     getOpportunities();
   }, [dispatch, params]);
