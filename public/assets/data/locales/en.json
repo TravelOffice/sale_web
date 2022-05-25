@@ -18,6 +18,7 @@
         "ERROR": "Error",
         "SUBMIT": "Submit",
         "LOADING": "Loading",
+        "YES": "Yes",
         "CANCEL": "Cancel",
         "SEVERITY_HIGH": "High",
         "SEVERITY_MEDIUM": "Medium",
@@ -103,8 +104,10 @@
         "CREATE_OPPORTUNITY": "Create opportunity",
         "UPDATE_OPPORTUNITY": "Update opportunity",
         "CREATE_OPPORTUNITY_SUCCESSFULLY": "Create opportunity {{name}} successfully",
+        "FIELD_IS_REQUIRED": "{{field}} is a required field",
         "DELETE_OPPORTUNITY_SUCCESS": "Delete opportunity successfully",
-        "FIELD_IS_REQUIRED": "{{field}} is a required field"
+        "OPP_DELETION_WARNING_TITLE": "Delete opportunity {{opportunityName}}",
+        "DELETION_WARNING_MESSAGE": "Opportunity will be deleted from TravelOffice system. Do you want to delete?"
     },
     "CUSTOMER": {
         "NEW": "New",
