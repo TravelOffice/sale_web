@@ -34,4 +34,9 @@ export default class OpportunityRepositoryImpl implements OpportunityRepository 
     const result = await apiProvider.authorizedRequest.put(`/leads/${opportunity.leadId}/opportunities/${opportunity.id}`, opportunity);
     return result.data;
   }
+
+  getOpportunity = async (leadId: string, opportunityId: string) => {
+    const result = await apiProvider.authorizedRequest.get(`/leads/${leadId}/opportunities/${opportunityId}`);
+    return result.data;
+  }
 }

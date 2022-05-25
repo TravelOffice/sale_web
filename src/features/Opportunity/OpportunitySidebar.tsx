@@ -146,12 +146,14 @@ export default function OpportunitySidebar(props: OpportunitySidebarProps) {
       dispatch(opportunityActions.updateOpportunity({
         ...opportunity,
         ...formData,
+        estimatedConfirmDate: moment(formData.estimatedConfirmDate).format(DATE_FORMAT),
       }));
     } else {
       // Submit form to create a new opportunity
       dispatch(opportunityActions.createOpportunity({
         ...formData,
         leadName: getLeadById(leadsAndCustomers, formData.leadId)?.name!,
+        estimatedConfirmDate: moment(formData.estimatedConfirmDate).format(DATE_FORMAT),
       }));
     }
   }, [opportunity]);

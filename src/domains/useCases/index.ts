@@ -8,6 +8,8 @@ import CreateOpportunityUseCaseImpl from '@domain/useCases/opportunity/CreateOpp
 import ConnectFacebookPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectFacebookPageUseCaseImpl';
 import ConnectZaloPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectZaloPageUseCaseImpl';
 import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkUseCaseImpl';
+import GetOpportunityUseCaseImpl from '@domain/useCases/opportunity/GetOpportunityUseCaseImpl';
+import { GetOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/GetOpportunityUseCase';
 import GetConversationsUseCaseImpl from './chat/GetConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
@@ -60,6 +62,7 @@ interface UseCases {
   deleteOpportunityUseCase: DeleteOpportunityUseCase,
   createOpportunityUseCase: CreateOpportunityUseCase,
   updateOpportunityUseCase: UpdateOpportunityUseCase,
+  getOpportunityUseCase: GetOpportunityUseCase,
   // Customer
   getAllCustomersUseCase: GetAllCustomersUseCase,
   addCustomerUseCase: AddCustomerUseCase,
@@ -70,27 +73,32 @@ interface UseCases {
 }
 
 const useCases: UseCases = {
+  // Chat platform use cases
+  getZaloOAuthLinkUseCase: new GetZaloOAuthLinkUseCaseImpl(),
+  connectZaloPageUseCase: new ConnectZaloPageUseCaseImpl(),
+  connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
   getConversationsUseCase: new GetConversationsUseCaseImpl(),
   getMessagesUseCase: new GetMessagesUseCaseImpl(),
   sendMessageUseCase: new SendMessageUseCaseImpl(),
   sendAttachmentMessageUseCase: new SendAttachmentMessageUseCaseImpl(),
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
+  // Lead use cases
   getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
   getLeadUseCase: new GetLeadUseCaseImpl(),
   addLeadUseCase: new AddLeadUseCaseImpl(),
   updateLeadUseCase: new UpdateLeadUseCaseImpl(),
-  connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
+  // Opportunity use cases
   getAllOpportunitiesUseCase: new GetAllOpportunitiesUseCaseImpl(),
   getOpportunitiesByLeadUseCase: new GetOpportunitiesByLeadUseCaseImpl(),
   deleteOpportunityUseCase: new DeleteOpportunityUseCaseImpl(),
   updateOpportunityUseCase: new UpdateOpportunityUseCaseImpl(),
+  createOpportunityUseCase: new CreateOpportunityUseCaseImpl(),
+  getOpportunityUseCase: new GetOpportunityUseCaseImpl(),
+  // Customer use cases
   getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
   addCustomerUseCase: new AddCustomerUseCaseImpl(),
   updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
-  getZaloOAuthLinkUseCase: new GetZaloOAuthLinkUseCaseImpl(),
-  connectZaloPageUseCase: new ConnectZaloPageUseCaseImpl(),
-  createOpportunityUseCase: new CreateOpportunityUseCaseImpl(),
 };
 
 export const {
@@ -115,4 +123,5 @@ export const {
   getZaloOAuthLinkUseCase,
   connectZaloPageUseCase,
   createOpportunityUseCase,
+  getOpportunityUseCase,
 } = useCases;

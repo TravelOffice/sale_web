@@ -13,7 +13,7 @@ import {
 } from 'react-feather';
 import { useDispatch } from 'react-redux';
 // ** React Imports
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 // ** Reactstrap Imports
 import {
   Badge,
@@ -21,8 +21,11 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   UncontrolledDropdown,
-  Modal, ModalBody, ModalFooter, ModalHeader,
 } from 'reactstrap';
 
 // ** Renders Client Columns
@@ -52,19 +55,28 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
     sortable: true,
     minWidth: '250px',
     sortField: 'name',
-    cell: (opp: Opportunity) => (
-      <div className="d-flex justify-content-left align-items-center">
-        {renderOpportunity(opp)}
-        <div className="d-flex flex-column">
-          <Link
-            to={`/apps/opp/view/${opp.id}`}
-            className="user_name text-truncate text-body"
-          >
-            <span className="fw-bolder">{opp.name}</span>
-          </Link>
+    cell: (opp: Opportunity) => {
+      const dispatch = useDispatch();
+      const history = useHistory();
+      return (
+        <div className="d-flex justify-content-left align-items-center">
+          {renderOpportunity(opp)}
+          <div className="d-flex flex-column">
+            <Link
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(opportunityActions.selectOpportunity(opp));
+                history.push(`/apps/lead/${opp.leadId}/opp/${opp.id}`);
+              }}
+              className="user_name text-truncate text-body"
+            >
+              <span className="fw-bolder">{opp.name}</span>
+            </Link>
+          </div>
         </div>
-      </div>
-    ),
+      );
+    },
   },
   {
     name: i18n.t('OPP.CUSTOMER'),
@@ -108,6 +120,7 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
     minWidth: '50px',
     cell: (opp: Opportunity) => {
       const dispatch = useDispatch();
+      const history = useHistory();
 
       const [openDeletionWarning, setOpenDeletionWarning] = useState(false);
 
@@ -141,9 +154,12 @@ export const opportunityColumns : TableColumn<Opportunity>[] = [
             </DropdownToggle>
             <DropdownMenu container="body">
               <DropdownItem
-                tag={Link}
-                className="w-100"
-                to={`/apps/opp/view/${opp.id}`}
+                tag="a"
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(opportunityActions.selectOpportunity(opp));
+                  history.push(`/apps/lead/${opp.leadId}/opp/${opp.id}`);
+                }}
               >
                 <FileText size={14} className="me-50" />
                 <span className="align-middle">{i18n.t('COMMON.DETAILS')}</span>

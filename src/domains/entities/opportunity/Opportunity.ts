@@ -18,9 +18,9 @@ export enum OpportunitySourceEnum {
 }
 
 export enum OpportunityPotentialTypeEnum {
-  HIGH = 'HIGH',
-  MEDIUM = 'MEDIUM',
   LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',
 }
 
 export type OpportunityStatus = keyof typeof OpportunityStatusEnum;
@@ -31,16 +31,16 @@ export interface Opportunity {
   readonly id: string,
   readonly leadId: string,
   readonly leadName: string,
+  readonly createdAt: number,
+  readonly updatedAt: number,
   name: string,
   source: OpportunitySource,
-  description: string,
+  description?: string,
   status: OpportunityStatus,
   closedLostReason?: string,
   estimatedRevenue: number,
   estimatedConfirmDate: string,
-  actualCloseDate: string,
-  readonly createdAt: number,
-  updatedAt: number,
+  actualCloseDate?: string,
   potential: OpportunityPotentialType,
   notes?: Note[],
   task?: Task[],
@@ -66,3 +66,26 @@ export const opportunitySources = Object.keys(OpportunitySourceEnum) as Array<Op
 export const opportunityPotentials = Object.keys(
   OpportunityPotentialTypeEnum,
 ) as Array<OpportunityPotentialType>;
+
+export interface OpportunityTask {
+  id: number,
+  title: string,
+  dueDate: string,
+  description: string,
+  tags: string[],
+  isCompleted: boolean,
+  isDeleted: boolean,
+}
+
+export interface OpportunityTaskSearchParams {
+  oppId: string,
+  filter?: string,
+  query?: string,
+  sortBy: string,
+  tag?: string,
+}
+
+export interface SelectOpportunityParams {
+  leadId: string,
+  oppId: string,
+}
