@@ -1,5 +1,5 @@
-import { Opportunity } from '@domain/entities/opportunity/Opportunity';
+import { FilterAttributesOpportunity, Opportunity } from '@domain/entities/opportunity/Opportunity';
 
 export interface GetAllOpportunitiesUseCase {
-  invoke: () => Promise<Opportunity[]>
+  invoke: (filterAttributes: FilterAttributesOpportunity) => Promise<Opportunity[]>
 }
