@@ -7,6 +7,7 @@ import Settings from '@features/Settings/Settings';
 import React from 'react';
 import CustomerList from '@features/Customer/CustomerList';
 import LeadDetail from '@features/Lead/LeadDetail/LeadDetail';
+import OpportunityDetail from '@features/Opportunity/OpportunityDetail/OpportunityDetail';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -44,6 +45,11 @@ const Routes : RoutePathConfig[] = [
     path: '/apps/opp/list',
     exact: true,
     component: <OpportunitiesList />,
+  },
+  {
+    path: '/apps/lead/:leadId/opp/:oppId',
+    exact: true,
+    component: <OpportunityDetail />,
   },
   {
     path: '/apps/customer/list',

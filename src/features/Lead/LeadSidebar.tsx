@@ -12,7 +12,7 @@ import {
 import i18n from '@config/i18n';
 import MultiplePhoneNumbersInput from '@components/MultiplePhoneNumbersInput/MultiplePhoneNumbersInput';
 import * as yup from 'yup';
-import { BIRTHDAYFORMAT, PHONE_NUMBER_VALIDATION_REGEX } from '@utils/Constants';
+import { BIRTHDAY_FORMAT, PHONE_NUMBER_VALIDATION_REGEX } from '@utils/Constants';
 import {
   getCountries,
   getCountry,
@@ -28,15 +28,16 @@ import moment from 'moment';
 
 type OmitFields = 'createdAt' | 'updatedAt' | 'assigneeId' | 'assigneeName' | 'creatorId' | 'creatorName' | 'enabled' | 'type' | 'tasks' | 'otherPhoneNumbers';
 type LeadFormData = Omit<Lead, OmitFields> & {
-  otherPhoneNumbers: OtherPhoneNumbersOption[] };
+  otherPhoneNumbers: OtherPhoneNumbersOption[]
+};
 
 const countries = getCountries();
 
-const defaultValues : LeadFormData = {
+const defaultValues: LeadFormData = {
   primaryPhoneNumber: '',
   name: '',
   vocative: leadVocatives[0],
-  birthday: moment().format(BIRTHDAYFORMAT),
+  birthday: moment().format(BIRTHDAY_FORMAT),
   nationality: getNationality('Vietnamese').nationality,
   otherPhoneNumbers: [],
   sex: leadSexes[0],
@@ -242,7 +243,7 @@ export default function LeadSidebar(props: LeadSidebarProps) {
         ...formData,
         primaryPhoneNumber: lead.primaryPhoneNumber,
         otherPhoneNumbers: (formData.otherPhoneNumbers).map((phone) => phone.value),
-        birthday: moment(formData.birthday).format(BIRTHDAYFORMAT),
+        birthday: moment(formData.birthday).format(BIRTHDAY_FORMAT),
       }));
     } else {
       // Create lead
@@ -250,7 +251,7 @@ export default function LeadSidebar(props: LeadSidebarProps) {
         ...formData,
         enabled: true,
         type: LeadEnum.LEAD,
-        birthday: moment(formData.birthday).format(BIRTHDAYFORMAT),
+        birthday: moment(formData.birthday).format(BIRTHDAY_FORMAT),
         otherPhoneNumbers: (formData.otherPhoneNumbers).map((phone) => phone.value),
       }));
     }

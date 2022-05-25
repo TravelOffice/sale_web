@@ -7,8 +7,7 @@ import React, {
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import {
-  Card, CardBody, CardHeader,
-  CardTitle, Col, Label, Row,
+  Card, CardBody, CardHeader, CardTitle, Col, Label, Row,
 } from 'reactstrap';
 import Table from '@components/Table/Table';
 import OpportunitySidebar from '@features/Opportunity/OpportunitySidebar';

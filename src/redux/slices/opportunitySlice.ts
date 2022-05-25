@@ -5,7 +5,8 @@ import {
   CreateUpdateOpportunityResponse,
   FilterAttributesOpportunity,
   Opportunity,
-  OpportunityStatus,
+  OpportunityTask,
+  OpportunityTaskSearchParams,
 } from '@domain/entities/opportunity/Opportunity';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import removeElement from '@utils/ArrayUtils';
@@ -16,8 +17,11 @@ interface OpportunityState {
   total: number,
   allOpportunities: Opportunity[],
   selectedOpportunity?: Opportunity,
+  allTasks: OpportunityTask[],
+  selectedTask?: OpportunityTask,
   actionState: HandleDataState,
   actionErrorMessage?: string,
+  getOpportunityLoading: boolean,
   createOrUpdateOpportunityLoading: boolean,
   openSidebar: boolean,
 }
@@ -27,8 +31,11 @@ const initialState: OpportunityState = {
   total: 1,
   allOpportunities: [],
   selectedOpportunity: undefined,
+  allTasks: [],
+  selectedTask: undefined,
   actionState: 'init',
   actionErrorMessage: undefined,
+  getOpportunityLoading: false,
   createOrUpdateOpportunityLoading: false,
   openSidebar: false,
 };
@@ -48,9 +55,13 @@ const opportunitySlice = createSlice({
       state.actionErrorMessage = undefined;
     },
     getOpportunity: (state, action: PayloadAction<any>) => { },
-    selectOpportunity: (state, action: PayloadAction<Opportunity>) => {
-      state.selectedOpportunity = action.payload;
-      state.openSidebar = true;
+    selectOpportunity: (state, action: PayloadAction<Opportunity | [string, string]>) => {
+      if (Array.isArray(action.payload)) {
+        state.getOpportunityLoading = true;
+      } else {
+        state.selectedOpportunity = action.payload;
+        state.openSidebar = true;
+      }
     },
     deleteOpportunity: (state, action: PayloadAction<Opportunity>) => { },
     onGetAllOpportunitiesFinished: (state, action: PayloadAction<Opportunity[]>) => {
@@ -88,6 +99,7 @@ const opportunitySlice = createSlice({
     },
     onOpportunityUpdated: (state, action: PayloadAction<Opportunity>) => {
       state.createOrUpdateOpportunityLoading = false;
+      state.openSidebar = false;
       const index = state.allOpportunities.findIndex((opp) => opp.id === action.payload.id);
       if (index >= 0) {
         state.allOpportunities[index] = action.payload;
@@ -96,10 +108,23 @@ const opportunitySlice = createSlice({
     onUpdateOpportunityError: (state, action: PayloadAction<string>) => {
       state.createOrUpdateOpportunityLoading = false;
     },
+    onOpportunitySelected: (state, action: PayloadAction<Opportunity>) => {
+      state.selectedOpportunity = action.payload;
+      state.getOpportunityLoading = false;
+    },
     setOpenSidebar: (state, action: PayloadAction<boolean>) => {
       state.selectedOpportunity = undefined;
       state.openSidebar = action.payload;
     },
+    getAllTasks: (state, action: PayloadAction<OpportunityTaskSearchParams>) => {
+    },
+    setAllTasks: (state, action: PayloadAction<OpportunityTask[]>) => {
+      state.allTasks = action.payload;
+    },
+    selectTask: (state, action: PayloadAction<OpportunityTask>) => {
+      state.selectedTask = action.payload;
+    },
+    updateTask: (state, action: PayloadAction<OpportunityTask>) => { },
   },
 });
 
