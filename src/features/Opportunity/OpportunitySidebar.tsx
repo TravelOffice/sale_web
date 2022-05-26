@@ -136,7 +136,7 @@ export default function OpportunitySidebar(props: OpportunitySidebarProps) {
     return ({
       ...defaultValues,
     });
-  }, [opportunity]);
+  }, [opportunity, open]);
   const onSubmit = useCallback((formData: UnpackNestedValue<OpportunityFormData>) => {
     if (opportunity) {
       // TODO: Update opportunity

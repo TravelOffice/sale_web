@@ -102,7 +102,7 @@ const OpportunitiesTable = () => {
       <OpportunitySidebar
         open={openSidebar}
         toggleSidebar={toggleSidebar}
-        onClosed={() => { }}
+        onClosed={() => setOpenSidebar(false)}
       />
     </>
   );

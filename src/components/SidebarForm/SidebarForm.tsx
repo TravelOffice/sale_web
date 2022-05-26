@@ -147,7 +147,7 @@ function renderInput<T, TName extends Path<T>>(
 
 export default function SidebarForm<T>(props: FormProps<T> & RightSideBarProps) {
   const {
-    schema, defaultValues, submitting, onSubmit, onCancel,
+    schema, defaultValues, submitting, onSubmit,
     open, title, toggleSidebar, onClosed,
   } = props;
   const yupSchema = useMemo(() => {
@@ -195,7 +195,7 @@ export default function SidebarForm<T>(props: FormProps<T> & RightSideBarProps) 
             />
           ) : null }
         </Button>
-        <Button type="reset" color="secondary" outline onClick={onCancel}>
+        <Button type="reset" color="secondary" outline onClick={toggleSidebar}>
           {i18n.t('COMMON.CANCEL')}
         </Button>
       </ReactstrapForm>
