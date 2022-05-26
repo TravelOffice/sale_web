@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import {
-  FetchAssignedLeadResponse as FetchLeadsResponse, CreateUpdateLeadResponse, Lead, LeadStatusType,
+  FetchAssignedLeadResponse as FetchLeadsResponse,
+  CreateUpdateLeadResponse, Lead, LeadStatusType, Task, TaskSearchParams,
 } from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HandleDataState } from './others/HandleDataState';
@@ -9,7 +10,9 @@ interface LeadState {
   data: Lead[],
   total: number,
   allLeads: Lead[],
+  allTasks: Task[],
   selectedLead?: Lead,
+  selectedTask?: Task,
   addedLeadResponse: CreateUpdateLeadResponse | null,
   updatedLeadResponse: CreateUpdateLeadResponse | null,
   addLeadState: HandleDataState,
@@ -22,7 +25,9 @@ const initialState : LeadState = {
   data: [],
   total: 1,
   allLeads: [],
+  allTasks: [],
   selectedLead: undefined,
+  selectedTask: undefined,
   addedLeadResponse: null,
   updatedLeadResponse: null,
   addLeadState: 'init',
@@ -38,7 +43,8 @@ const leadSlice = createSlice({
       state.fetchAllLeadsState = 'loading';
       state.fetchAllLeadsError = undefined;
     },
-    getLead: (state, action: PayloadAction<any>) => {},
+    getLead: (state, action: PayloadAction<string>) => {
+    },
     setAllLeads: (state, action: PayloadAction<Lead[]>) => {
       state.fetchAllLeadsState = 'finished';
       state.allLeads = action.payload;
@@ -79,6 +85,15 @@ const leadSlice = createSlice({
     unSelectLead: (state) => {
       state.selectedLead = undefined;
     },
+    getAllTasks: (state, action: PayloadAction<TaskSearchParams>) => {
+    },
+    setAllTasks: (state, action: PayloadAction<Task[]>) => {
+      state.allTasks = action.payload;
+    },
+    selectTask: (state, action: PayloadAction<Task>) => {
+      state.selectedTask = action.payload;
+    },
+    updateTask: (state, action: PayloadAction<Task>) => {},
   },
 });
 

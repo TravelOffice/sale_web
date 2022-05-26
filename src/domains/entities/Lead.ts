@@ -99,3 +99,21 @@ export const leadMaritals : MaritalStatusType[] = Object.keys(MaritalEnum) as
 export const leadSources : SourceType[] = Object.keys(SourceEnum) as Array<SourceType>;
 export const customerStatuses :
 CustomerStatusType[] = Object.keys(CustomerStatusEnum) as Array<CustomerStatusType>;
+
+export interface Task {
+  id: number,
+  title: string,
+  dueDate: string,
+  description: string,
+  tags: string[],
+  isCompleted: boolean,
+  isDeleted: boolean,
+}
+
+export interface TaskSearchParams {
+  leadId: string,
+  filter?: string,
+  query?: string,
+  sortBy: string,
+  tag?: string
+}
