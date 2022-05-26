@@ -1,15 +1,23 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { Opportunity } from '@domain/entities/opportunity/Opportunity';
+import { FilterAttributesOpportunity, Opportunity } from '@domain/entities/opportunity/Opportunity';
 import { OpportunityRepository } from './interfaces/OpportunityRepository';
 
 export default class OpportunityRepositoryImpl implements OpportunityRepository {
-  getAllOpportunities = async () => {
-    const result = await apiProvider.authorizedRequest.get('/opportunities');
+  getAllOpportunities = async (filterAttributes: FilterAttributesOpportunity) => {
+    const result = await apiProvider.authorizedRequest.get('/opportunities', {
+      queryParams: {
+        status: filterAttributes.status,
+      },
+    });
     return result.data;
   }
 
-  getOpportunitiesByLead = async (leadPhoneAsId: string) => {
-    const result = await apiProvider.authorizedRequest.get(`/leads/${leadPhoneAsId}/opportunities`);
+  getOpportunitiesByLead = async (filterAttributes: FilterAttributesOpportunity) => {
+    const result = await apiProvider.authorizedRequest.get(`/leads/${filterAttributes.leadId}/opportunities`, {
+      queryParams: {
+        status: filterAttributes.status,
+      },
+    });
     return result.data;
   }
 

@@ -1,5 +1,5 @@
-import { Opportunity } from '@domain/entities/opportunity/Opportunity';
+import { FilterAttributesOpportunity, Opportunity } from '@domain/entities/opportunity/Opportunity';
 
 export interface GetOpportunitiesByLeadUseCase {
-  invoke: (leadPhoneAsId: string) => Promise<Opportunity[]>
+  invoke: (filterAttributes: FilterAttributesOpportunity) => Promise<Opportunity[]>
 }

@@ -11,6 +11,7 @@ import {
 import Table from '@components/Table/Table';
 import OpportunitySidebar from '@features/Opportunity/OpportunitySidebar';
 import useQueryParams from '@hooks/useQueryParams';
+import { FilterAttributesOpportunity, OpportunityStatus } from '@domain/entities/opportunity/Opportunity';
 import { opportunityColumns } from './OpportunityColumns';
 
 const statusOptions = [
@@ -49,9 +50,18 @@ const OpportunitiesTable = () => {
   const getOpportunities = () => {
     const leadId = params.get('leadId');
     if (leadId) {
-      dispatch(opportunityActions.getOpportunitiesByLead(leadId));
+      const filterAttributes: FilterAttributesOpportunity = {
+        leadId,
+        status: currentStatus.value as OpportunityStatus,
+      };
+      dispatch(
+        opportunityActions.getOpportunitiesByLead(filterAttributes),
+      );
     } else {
-      dispatch(opportunityActions.getAllOpportunities());
+      const filterAttributes: FilterAttributesOpportunity = {
+        status: currentStatus.value as OpportunityStatus,
+      };
+      dispatch(opportunityActions.getAllOpportunities(filterAttributes));
     }
   };
 
@@ -62,7 +72,7 @@ const OpportunitiesTable = () => {
 
   useEffect(() => {
     getOpportunities();
-  }, [params]);
+  }, [params, currentStatus]);
 
   return (
     <>
@@ -96,7 +106,7 @@ const OpportunitiesTable = () => {
         searchableColumns={['name', 'status']}
         toggleAddDataSidebar={toggleSidebar}
         sortColumnDefault="name"
-        onPageChange={() => {}}
+        onPageChange={() => { }}
         onRefresh={onRefresh}
       />
       <OpportunitySidebar
