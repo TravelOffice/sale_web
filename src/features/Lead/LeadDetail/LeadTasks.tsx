@@ -28,12 +28,12 @@ export interface TasksProps {
   tasks: Task[],
   setSort: (sort: string) => void,
   setQuery: (query: string) => void,
-  updateTask: (task: Task) => {},
+  updateTask: (task: Task) => void,
   selectTask: (task: Task) => void,
   handleTaskSidebar: () => void,
 }
 
-const Tasks = (props: TasksProps) => {
+const LeadTasks = (props: TasksProps) => {
   const dispatch = useDispatch();
   // ** Props
   const {
@@ -49,7 +49,7 @@ const Tasks = (props: TasksProps) => {
 
   // ** Function to selectTask on click
   const handleTaskClick = (task: Task) => {
-    dispatch(selectTask(task));
+    selectTask(task);
     handleTaskSidebar();
   };
 
@@ -187,4 +187,4 @@ const Tasks = (props: TasksProps) => {
   );
 };
 
-export default Tasks;
+export default LeadTasks;

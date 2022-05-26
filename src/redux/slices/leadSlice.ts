@@ -90,10 +90,12 @@ const leadSlice = createSlice({
     setAllTasks: (state, action: PayloadAction<Task[]>) => {
       state.allTasks = action.payload;
     },
-    selectTask: (state, action: PayloadAction<Task>) => {
+    selectTask: (state, action: PayloadAction<Task | undefined>) => {
       state.selectedTask = action.payload;
     },
     updateTask: (state, action: PayloadAction<Task>) => {},
+    addTask: (state, action: PayloadAction<Task>) => {},
+    deleteTask: (state, action: PayloadAction<Task>) => {},
   },
 });
 

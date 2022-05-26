@@ -17,7 +17,8 @@ import {
 import { RootState } from '@redux/store';
 import { Task, TaskSearchParams } from '@domain/entities/Lead';
 import { Plus } from 'react-feather';
-import LeadTask from './LeadTask';
+import LeadTasks from './LeadTasks';
+import LeadTaskSidebar from './LeadTaskSidebar';
 
 // ** Utils
 // import { selectThemeColors } from '@utils/Utils';
@@ -34,6 +35,8 @@ const {
   getAllTasks,
   selectTask,
   updateTask,
+  addTask,
+  deleteTask,
 } = leadActions;
 
 const InformationTabContent = () => {
@@ -82,10 +85,9 @@ const InformationTabContent = () => {
   const handleAddClick = () => {
     console.log('handleAddClick');
     handleTaskSidebar();
-    // setMainSidebar();
   };
 
-  const handleSelectTask = (task: Task) => {
+  const handleSelectTask = (task: Task | undefined) => {
     dispatch(selectTask(task));
   };
 
@@ -95,6 +97,18 @@ const InformationTabContent = () => {
 
   const handleSetQuery = (queryString: string) => {
     setQuery(queryString);
+  };
+
+  const handleAddTask = (task: Task) => {
+    dispatch(addTask(task));
+  };
+
+  const handleUpdateTask = (task: Task) => {
+    dispatch(updateTask(task));
+  };
+
+  const handleDeleteTask = (task: Task) => {
+    dispatch(deleteTask(task));
   };
 
   return (
@@ -186,17 +200,25 @@ const InformationTabContent = () => {
             </CardHeader>
             <CardBody className="py-2 my-25">
               {tasks ? (
-                <LeadTask
+                <LeadTasks
                   tasks={tasks}
                   query={query}
                   params={params}
                   setSort={handleSetSort}
                   setQuery={handleSetQuery}
-                  updateTask={updateTask}
+                  updateTask={handleUpdateTask}
                   selectTask={handleSelectTask}
                   handleTaskSidebar={handleTaskSidebar}
                 />
               ) : null}
+              <LeadTaskSidebar
+                addTask={handleAddTask}
+                open={openTaskSidebar}
+                updateTask={handleUpdateTask}
+                selectTask={handleSelectTask}
+                deleteTask={handleDeleteTask}
+                handleTaskSidebar={handleTaskSidebar}
+              />
             </CardBody>
           </Card>
         </Col>

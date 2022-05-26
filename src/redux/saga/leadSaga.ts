@@ -82,7 +82,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
   // const tasks : Task[] = yield call(leadPresenter.getLead, leadId);
   const tasks: Task[] = [
     {
-      id: 1,
+      id: '1',
       title: 'Entire change break our wife wide it daughter mention member.',
       dueDate: '2020-11-25',
       description:
@@ -92,7 +92,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 2,
+      id: '2',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -102,7 +102,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 3,
+      id: '3',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -112,7 +112,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 4,
+      id: '4',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -122,7 +122,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 5,
+      id: '5',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -132,7 +132,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 6,
+      id: '6',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -142,7 +142,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 7,
+      id: '7',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -152,7 +152,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 8,
+      id: '8',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -162,7 +162,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 9,
+      id: '9',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -172,7 +172,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 10,
+      id: '10',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -182,7 +182,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 11,
+      id: '11',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -192,7 +192,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 12,
+      id: '12',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -202,7 +202,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 13,
+      id: '13',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -212,7 +212,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 14,
+      id: '14',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:
@@ -222,7 +222,7 @@ function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
       isDeleted: false,
     },
     {
-      id: 15,
+      id: '15',
       title: 'Citizen stand administration step agency century.',
       dueDate: '2020-12-14',
       description:

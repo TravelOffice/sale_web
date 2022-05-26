@@ -101,7 +101,7 @@ export const customerStatuses :
 CustomerStatusType[] = Object.keys(CustomerStatusEnum) as Array<CustomerStatusType>;
 
 export interface Task {
-  id: number,
+  id: string | number;
   title: string,
   dueDate: string,
   description: string,

@@ -9,11 +9,21 @@ import { useForm, Controller } from 'react-hook-form';
 
 // ** Reactstrap Imports
 import {
-  Modal, ModalBody, Button, Form, Input, Label, FormFeedback,
+  Modal,
+  ModalBody,
+  Button,
+  Form,
+  Input,
+  Label,
+  FormFeedback,
 } from 'reactstrap';
 
 // ** Utils
-import { isObjEmpty, selectThemeColors } from '@utils/Utils';
+import {
+  capitalize,
+  isObjEmpty,
+  selectThemeColors,
+} from '@utils/Utils';
 
 // ** Styles Imports
 import '@styles/react/libs/editor/editor.scss';
@@ -24,24 +34,30 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
 import moment from 'moment';
 
-// ** Function to capitalize the first letter of string
-// const capitalize = (words: string) => words.charAt(0).toUpperCase() + words.slice(1);
-
 interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  handleTaskSidebar: () => {},
-  // setDeleted: () => {},
-  // deleted: boolean,
-  // deleteTask: () => {},
+  handleTaskSidebar: () => void,
+  setDeleted: (isDeleted: boolean) => void,
+  deleted: boolean,
+  deleteTask: (task: Task) => void,
 }
 
 interface TaskSidebarProps {
   open: boolean,
-  handleTaskSidebar: () => {},
-  updateTask: (task: Task) => {},
-  selectTask: (task: Task) => {},
-  addTask: (task: Task) => {},
-  deleteTask: (task: Task) => {},
+  handleTaskSidebar: () => void,
+  updateTask: (task: Task) => void,
+  selectTask: (task: Task | undefined) => void,
+  addTask: (task: Task) => void,
+  deleteTask: (task: Task) => void,
 }
+
+interface TagOption {
+  label: string,
+  value: string,
+}
+
+export type TaskFormData =
+{ title: string } &
+{ description: string };
 
 // ** Modal Header
 const ModalHeader = (props: ModalHeaderProps) => {
@@ -49,25 +65,27 @@ const ModalHeader = (props: ModalHeaderProps) => {
   const {
     children,
     handleTaskSidebar,
-    // setDeleted,
-    // deleted,
-    // deleteTask,
+    setDeleted,
+    deleted,
+    deleteTask,
   } = props;
 
   const selectedTask = useSelector((state: RootState) => state.lead.selectedTask);
 
   // ** Function to delete task
   const handleDeleteTask = () => {
-    // setDeleted(!deleted);
-    // dispatch(deleteTask(store.selectedTask.id));
-    handleTaskSidebar();
+    if (selectedTask) {
+      setDeleted(!deleted);
+      deleteTask(selectedTask);
+      handleTaskSidebar();
+    }
   };
 
   return (
     <div className="modal-header d-flex align-items-center justify-content-between mb-1">
       <h5 className="modal-title">{children}</h5>
       <div className="todo-item-action d-flex align-items-center">
-        {!isObjEmpty(selectedTask) ? (
+        {!selectedTask ? (
           <Trash className="cursor-pointer mt-25" size={16} onClick={() => handleDeleteTask()} />
         ) : null}
         <X className="fw-normal mt-25" size={16} onClick={handleTaskSidebar} />
@@ -76,50 +94,46 @@ const ModalHeader = (props: ModalHeaderProps) => {
   );
 };
 
-const TaskSidebar = (props: TaskSidebarProps) => {
+const LeadTaskSidebar = (props: TaskSidebarProps) => {
   // ** Props
   const {
     open,
     handleTaskSidebar,
-    // updateTask,
-    // addTask,
-    // selectTask,
-    // deleteTask,
+    updateTask,
+    addTask,
+    selectTask,
+    deleteTask,
   } = props;
 
   const selectedTask = useSelector((state: RootState) => state.lead.selectedTask);
 
   // ** States
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState<TagOption[]>([]);
   const [desc, setDesc] = useState('');
   const [completed, setCompleted] = useState(false);
-  // const [deleted, setDeleted] = useState(false);
+  const [deleted, setDeleted] = useState(false);
   const [dueDate, setDueDate] = useState('');
-
-  console.log(desc);
 
   const {
     control,
-    // setError,
+    setError,
     setValue,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: { title: '' },
+    defaultValues: { title: '', description: '' },
   });
 
   // ** Tag Select Options
-  // const tagOptions = [
-  //   { value: 'team', label: 'Team' },
-  //   { value: 'low', label: 'Low' },
-  //   { value: 'medium', label: 'Medium' },
-  //   { value: 'high', label: 'High' },
-  //   { value: 'update', label: 'Update' },
-  // ];
+  const tagOptions: TagOption[] = [
+    { value: 'low', label: 'Low' },
+    { value: 'medium', label: 'Medium' },
+    { value: 'high', label: 'High' },
+  ];
 
   // ** Returns sidebar title
   const handleSidebarTitle = () => {
-    if (!isObjEmpty(selectedTask)) {
+    if (selectedTask) {
       return (
         <Button
           outline
@@ -142,13 +156,12 @@ const TaskSidebar = (props: TaskSidebarProps) => {
       setDueDate(selectedTask.dueDate);
       setDesc(selectedTask.description);
 
-      // if (selectedTask.tags.length) {
-      //   const tags = [];
-      //   selectedTask.tags.map((tag) => {
-      //     tags.push({ value: tag, label: capitalize(tag) });
-      //   });
-      //   setTags(tags);
-      // }
+      if (selectedTask.tags.length) {
+        const newTags: TagOption[] = selectedTask.tags.map(
+          (tag) => ({ value: tag, label: capitalize(tag) }),
+        );
+        setTags(newTags);
+      }
     }
   };
 
@@ -159,7 +172,7 @@ const TaskSidebar = (props: TaskSidebarProps) => {
     setValue('title', '');
     setCompleted(false);
     setDueDate(moment().format('Y-m-d'));
-    // dispatch(selectTask({}));
+    selectTask(undefined);
   };
 
   // ** Function to reset fileds
@@ -170,15 +183,14 @@ const TaskSidebar = (props: TaskSidebarProps) => {
       setValue('title', selectedTask.title);
       setDesc(descValue);
       setCompleted(selectedTask.isCompleted);
-      // setDeleted(selectedTask.isDeleted);
+      setDeleted(selectedTask.isDeleted);
       setDueDate(selectedTask.dueDate);
-      // if (selectedTask.tags.length) {
-      //   const tags = [];
-      //   selectedTask.tags.map((tag) => {
-      //     tags.push({ value: tag, label: capitalize(tag) });
-      //   });
-      //   setTags(tags);
-      // }
+      if (selectedTask.tags.length) {
+        const newTags: TagOption[] = selectedTask.tags.map(
+          (tag) => ({ value: tag, label: capitalize(tag) }),
+        );
+        setTags(newTags);
+      }
     }
   };
 
@@ -208,7 +220,37 @@ const TaskSidebar = (props: TaskSidebarProps) => {
     );
   };
 
-  const onSubmit = () => {
+  const onSubmit = (data: TaskFormData) => {
+    const newTaskTag: string[] = [];
+
+    if (tags.length) {
+      tags.map((tag) => newTaskTag.push(tag.value));
+    }
+
+    const state: Task = {
+      id: '',
+      dueDate,
+      title: data.title,
+      tags: newTaskTag,
+      description: desc,
+      isCompleted: completed,
+      isDeleted: deleted,
+    };
+
+    if (selectedTask && data.title.length) {
+      if (isObjEmpty(errors)) {
+        if (selectedTask.title) {
+          addTask(state);
+        } else {
+          updateTask({ ...state, id: selectedTask.id });
+        }
+        handleTaskSidebar();
+      }
+    } else {
+      setError('title', {
+        type: 'manual',
+      });
+    }
   };
   return (
     <Modal
@@ -222,9 +264,9 @@ const TaskSidebar = (props: TaskSidebarProps) => {
     >
       <Form id="form-modal-todo" className="todo-modal" onSubmit={handleSubmit(onSubmit)}>
         <ModalHeader
-          // deleted={deleted}
-          // deleteTask={deleteTask}
-          // setDeleted={setDeleted}
+          deleted={deleted}
+          deleteTask={deleteTask}
+          setDeleted={setDeleted}
           handleTaskSidebar={handleTaskSidebar}
         >
           {handleSidebarTitle()}
@@ -274,7 +316,7 @@ const TaskSidebar = (props: TaskSidebarProps) => {
               className="react-select"
               classNamePrefix="select"
               isClearable={false}
-              // options={tagOptions}
+              options={tagOptions}
               theme={selectThemeColors}
               value={tags}
               onChange={(data) => {
@@ -287,7 +329,7 @@ const TaskSidebar = (props: TaskSidebarProps) => {
               Description
             </Label>
             <Controller
-              name="title"
+              name="description"
               control={control}
               render={({ field }) => (
                 <Input
@@ -307,4 +349,4 @@ const TaskSidebar = (props: TaskSidebarProps) => {
   );
 };
 
-export default TaskSidebar;
+export default LeadTaskSidebar;
