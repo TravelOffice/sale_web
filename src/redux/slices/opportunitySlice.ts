@@ -1,7 +1,12 @@
 /* eslint-disable no-unused-vars */
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
-import { CreateUpdateOpportunityResponse, FetchOpportunityResponse, Opportunity } from '@domain/entities/opportunity/Opportunity';
+import {
+  CreateUpdateOpportunityResponse,
+  FilterAttributesOpportunity,
+  Opportunity,
+  OpportunityStatus,
+} from '@domain/entities/opportunity/Opportunity';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import removeElement from '@utils/ArrayUtils';
 import { HandleDataState } from './others/HandleDataState';
@@ -36,11 +41,13 @@ const opportunitySlice = createSlice({
   name: 'Opportunity',
   initialState,
   reducers: {
-    getAllOpportunities: (state) => {
+    getAllOpportunities: (state, action: PayloadAction<FilterAttributesOpportunity>) => {
       state.actionState = 'loading';
       state.actionErrorMessage = undefined;
     },
-    getOpportunitiesByLead: (state, action: PayloadAction<string>) => {
+    getOpportunitiesByLead: (
+      state, action: PayloadAction<FilterAttributesOpportunity>,
+    ) => {
       state.actionState = 'loading';
       state.actionErrorMessage = undefined;
     },

@@ -1,5 +1,5 @@
 import { opportunityPresenter } from '@adapter/presenters';
-import { Opportunity } from '@domain/entities/opportunity/Opportunity';
+import { FilterAttributesOpportunity, Opportunity } from '@domain/entities/opportunity/Opportunity';
 import { opportunityActions } from '@redux/slices/opportunitySlice';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
@@ -8,10 +8,11 @@ import {
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 
-function* getAllOpportunities() {
+function* getAllOpportunities(action: PayloadAction<FilterAttributesOpportunity>) {
   try {
     const opps: Opportunity[] = yield call(
       opportunityPresenter.getAllOpportunities,
+      action.payload,
     );
     yield put(opportunityActions.onGetAllOpportunitiesFinished(opps));
   } catch (error: any) {
@@ -19,12 +20,13 @@ function* getAllOpportunities() {
   }
 }
 
-function* getOpportunitiesByLead(action: PayloadAction<string>) {
+function* getOpportunitiesByLead(
+  action: PayloadAction<FilterAttributesOpportunity>,
+) {
   try {
-    const leadPhoneAsId = action.payload;
     const opps: Opportunity[] = yield call(
       opportunityPresenter.getOpportunitiesByLead,
-      leadPhoneAsId,
+      action.payload,
     );
     yield put(opportunityActions.onGetAllOpportunitiesFinished(opps));
   } catch (error: any) {
@@ -48,7 +50,7 @@ function* deleteOpportunity(action: PayloadAction<Opportunity>) {
 function* createOpportunity(action: PayloadAction<Opportunity>) {
   try {
     const { payload } = action;
-    const opportunity : Opportunity = yield call(opportunityPresenter.createOpportunity, payload);
+    const opportunity: Opportunity = yield call(opportunityPresenter.createOpportunity, payload);
     yield put(opportunityActions.onOpportunityCreated(opportunity));
     toasty.show({
       type: 'success',

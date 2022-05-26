@@ -46,6 +46,11 @@ export interface Opportunity {
   task?: Task[],
 }
 
+export interface FilterAttributesOpportunity {
+  leadId?: string,
+  status?: OpportunityStatus,
+}
+
 export interface CreateUpdateOpportunityResponse {
   opportunity?: Opportunity,
   errorMsg?: string,
