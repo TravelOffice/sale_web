@@ -6,6 +6,7 @@ import { RoutePathConfig } from '@features/Router/RouteConfig';
 import Settings from '@features/Settings/Settings';
 import React from 'react';
 import CustomerList from '@features/Customer/CustomerList';
+import LeadDetail from '@features/Lead/LeadDetail/LeadDetail';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -33,6 +34,11 @@ const Routes : RoutePathConfig[] = [
     path: '/apps/lead/list',
     exact: true,
     component: <LeadList />,
+  },
+  {
+    path: '/apps/lead/detail/:id',
+    exact: true,
+    component: <LeadDetail />,
   },
   {
     path: '/apps/opp/list',
