@@ -10,6 +10,7 @@ import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/pages/page-account-settings.scss';
 import '@styles/react/apps/app-todo.scss';
 import InformationTabContent from '@features/Lead/LeadDetail/InformationTabContent';
+import OpportunitiesTable from '@features/Opportunity/OpportunitiesTable';
 
 export interface Tab {
   id: string,
@@ -29,7 +30,7 @@ const tabs : Tab[] = [
     id: 'opportunity',
     icon: <Lock size={16} className="me-50" />,
     title: 'Opportunity',
-    pane: <div>Coming soon</div>,
+    pane: <OpportunitiesTable />,
   },
   {
     id: 'booking',
@@ -58,7 +59,7 @@ export default function LeadDetail() {
       <Row>
         <Col xs={12} className="d-flex flex-column">
           <LeadDetailTabs tabs={tabs} activeTab={activeTab} toggleTab={setActiveTab} />
-          <TabContent className="h-100 content-area-wrapper" activeTab={activeTab}>
+          <TabContent className="h-100" activeTab={activeTab}>
             {
               tabs.map((tab) => (
                 <TabPane className="h-100" key={tab.id} tabId={tab.id}>
