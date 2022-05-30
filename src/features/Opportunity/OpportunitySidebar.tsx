@@ -142,7 +142,11 @@ export default function OpportunitySidebar(props: OpportunitySidebarProps) {
   }, [opportunity, open]);
   const onSubmit = useCallback((formData: UnpackNestedValue<OpportunityFormData>) => {
     if (opportunity) {
-      // TODO: Update opportunity
+      // Submit form to update the opportunity
+      dispatch(opportunityActions.updateOpportunity({
+        ...opportunity,
+        ...formData,
+      }));
     } else {
       // Submit form to create a new opportunity
       dispatch(opportunityActions.createOpportunity({

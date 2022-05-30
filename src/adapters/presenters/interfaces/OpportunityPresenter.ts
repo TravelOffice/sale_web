@@ -5,4 +5,5 @@ export interface OpportunityPresenter {
   getOpportunitiesByLead: (filterAttributes: FilterAttributesOpportunity) => Promise<Opportunity[]>
   deleteOpportunity: (oppId: string) => Promise<void>
   createOpportunity: (opportunity: Opportunity) => Promise<Opportunity>
+  updateOpportunity: (opportunity: Opportunity) => Promise<Opportunity>
 }
