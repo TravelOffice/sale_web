@@ -39,6 +39,9 @@ const OpportunitiesTable = () => {
 
   // ** Store Vars
   const allOpportunities = useSelector((state: RootState) => state.opportunity.allOpportunities);
+  const selectedOpportunity = useSelector(
+    (state: RootState) => state.opportunity.selectedOpportunity,
+  );
 
   // ** States
   const actionState = useSelector((state: RootState) => state.opportunity.actionState);
@@ -155,6 +158,7 @@ const OpportunitiesTable = () => {
       <OpportunitySidebar
         open={openSidebar}
         toggleSidebar={toggleSidebar}
+        opportunity={selectedOpportunity}
         onClosed={() => { }}
         leadDetailId={leadDetailId}
       />

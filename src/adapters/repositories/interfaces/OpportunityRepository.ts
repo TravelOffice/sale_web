@@ -8,4 +8,6 @@ export interface OpportunityRepository {
   // Delete opportunity with given id
   deleteOpportunity(oppId: string): Promise<void>
   createOpportunity: (opportunity: Opportunity) => Promise<Opportunity>
+  // Update opportunity with given id
+  updateOpportunity: (opportunity: Opportunity) => Promise<Opportunity>
 }

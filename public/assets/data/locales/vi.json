@@ -106,6 +106,7 @@
         "CREATE_OPPORTUNITY": "Tạo cơ hội",
         "UPDATE_OPPORTUNITY": "Cập nhật cơ hội",
         "CREATE_OPPORTUNITY_SUCCESSFULLY": "Đã thêm mới cơ hội {{name}}",
+        "UPDATE_OPPORTUNITY_SUCCESSFULLY": "Cập nhật cơ hội {{name}} thành công",
         "FIELD_IS_REQUIRED": "{{field}} là trường bắt buộc",
         "DELETE_OPPORTUNITY_SUCCESS": "Xóa cơ hội thành công",
         "OPP_DELETION_WARNING_TITLE": "Xóa cơ hội {{opportunityName}}",
