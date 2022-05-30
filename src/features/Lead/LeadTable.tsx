@@ -1,9 +1,7 @@
 // ** React Imports
 import Table from '@components/Table/Table';
 import i18n from '@config/i18n';
-import { LeadStatusType } from '@domain/entities/Lead';
 // ** Store & Actions
-import { leadActions } from '@redux/slices/leadSlice';
 import { RootState } from '@redux/store';
 // ** Styles
 import '@styles/react/libs/react-select/_react-select.scss';
@@ -16,27 +14,32 @@ import Select from 'react-select';
 import {
   Card, CardBody, CardHeader, CardTitle, Col, Label, Row,
 } from 'reactstrap';
-import LeadSidebar from './CreateUpdateLeadSidebar';
+import { leadActions } from '@redux/slices/leadSlice';
+import { Lead, LeadStatusType } from '@domain/entities/Lead';
 import { leadColumns } from './LeadColumns';
+
+import LeadSidebar from './LeadSidebar';
 
 const LeadTable = () => {
   // ** Store Vars
-  const dispatch = useDispatch();
   const allLeads = useSelector((state: RootState) => state.lead.allLeads);
-
-  // ** States
-  const [addLeadSidebarOpen, setAddLeadSidebarOpen] = useState(false);
-  const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
   const selectedLead = useSelector((state: RootState) => state.lead.selectedLead);
-  const fetchLeadsState = useSelector((state: RootState) => state.lead.fetchAllLeadsState);
+  const dispatch = useDispatch();
+  // ** States
+  const openSidebar = useSelector((state: RootState) => state.lead.openSidebar);
+  const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
+  const fetchLeadsState = useSelector(
+    (state: RootState) => state.lead.fetchAllLeadsState,
+  );
+
+  const { getAllLeads, setOpenSidebar: setOpenSidebarAction } = leadActions;
 
   // ** Function to toggle sidebar
-  const toggleAddLeadSidebar = () => setAddLeadSidebarOpen(!addLeadSidebarOpen);
-  const toggleUpdateLeadSidebar = () => dispatch(leadActions.unSelectLead());
-
-  const { getAllLeads } = leadActions;
+  const setOpenSidebar = (open: boolean) => dispatch(setOpenSidebarAction(open));
+  const toggleLeadSidebar = () => setOpenSidebar(!openSidebar);
 
   // ** User filter options
+
   const statusOptions = [
     { value: '', label: i18n.t('COMMON.SELECT'), number: 0 },
     { value: 'NEW', label: i18n.t('LEAD.NEW'), number: 1 },
@@ -77,22 +80,28 @@ const LeadTable = () => {
           </Row>
         </CardBody>
       </Card>
-      <Table
+      <Table<Lead>
         data={allLeads}
         fetchDataState={fetchLeadsState}
         columns={leadColumns}
         searchableColumns={['name', 'primaryPhoneNumber']}
-        toggleAddDataSidebar={toggleAddLeadSidebar}
+        toggleAddDataSidebar={toggleLeadSidebar}
         sortColumnDefault="createdAt"
+        onRowClicked={(lead) => {
+          setOpenSidebar(true);
+          dispatch(leadActions.selectLead(lead));
+        }}
         onPageChange={() => {}}
         onRefresh={onRefresh}
       />
-      <LeadSidebar.SidebarNewLead open={addLeadSidebarOpen} toggleSidebar={toggleAddLeadSidebar} />
-      <LeadSidebar.SidebarUpdateLead
-        open={!!selectedLead}
-        toggleSidebar={toggleUpdateLeadSidebar}
+      <LeadSidebar
+        open={openSidebar}
+        toggleSidebar={toggleLeadSidebar}
+        lead={selectedLead}
+        onClosed={() => dispatch(leadActions.unSelectLead())}
       />
     </>
+
   );
 };
 

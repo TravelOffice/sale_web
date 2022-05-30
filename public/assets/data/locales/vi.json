@@ -59,7 +59,9 @@
         "SOURCE": "Nguồn",
         "ADD_LEAD_SUCCESSFULLY": "Đã thêm mới lead {{leadName}}",
         "EDIT_LEAD_SUCCESSFULLY": "Đã cập nhật lead {{leadName}}",
-        "OPPS_OF_LEAD": "Danh sách cơ hội"
+        "OPPS_OF_LEAD": "Danh sách cơ hội",
+        "ADD_LEAD": "Thêm khách hàng",
+        "EDIT_LEAD": "Cập nhật khách hàng"
     },
     "PAGE": {
         "SUCCESS": "Hoàn thành",

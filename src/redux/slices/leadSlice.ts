@@ -19,6 +19,7 @@ interface LeadState {
   updateLeadState: HandleDataState,
   fetchAllLeadsError?: FetchLeadsResponse,
   fetchAllLeadsState: HandleDataState,
+  openSidebar: boolean,
 }
 
 const initialState : LeadState = {
@@ -33,6 +34,7 @@ const initialState : LeadState = {
   addLeadState: 'init',
   updateLeadState: 'init',
   fetchAllLeadsState: 'init',
+  openSidebar: false,
 };
 
 const leadSlice = createSlice({
@@ -81,6 +83,7 @@ const leadSlice = createSlice({
     deleteLead: (state, action: PayloadAction<Lead>) => {},
     selectLead: (state, action: PayloadAction<Lead>) => {
       state.selectedLead = action.payload;
+      state.openSidebar = true;
     },
     unSelectLead: (state) => {
       state.selectedLead = undefined;
@@ -94,6 +97,9 @@ const leadSlice = createSlice({
       state.selectedTask = action.payload;
     },
     updateTask: (state, action: PayloadAction<Task>) => {},
+    setOpenSidebar: (state, action: PayloadAction<boolean>) => {
+      state.openSidebar = action.payload;
+    },
   },
 });
 
