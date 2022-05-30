@@ -36,7 +36,7 @@ const Routes : RoutePathConfig[] = [
     component: <LeadList />,
   },
   {
-    path: '/apps/lead/detail/:id',
+    path: '/apps/lead/:id/detail',
     exact: true,
     component: <LeadDetail />,
   },

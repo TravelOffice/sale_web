@@ -47,7 +47,7 @@ export const leadColumns: TableColumn<Lead>[] = [
         {renderClient(row)}
         <div className="d-flex flex-column">
           <Link
-            to={`/apps/user/view/${row.primaryPhoneNumber}`}
+            to={`/apps/lead/${row.primaryPhoneNumber}/detail`}
             className="user_name text-truncate text-body"
           >
             <span className="fw-bolder">{row.name}</span>
@@ -103,7 +103,7 @@ export const leadColumns: TableColumn<Lead>[] = [
               <DropdownItem
                 tag={Link}
                 className="w-100"
-                to={`/apps/user/view/${lead.primaryPhoneNumber}`}
+                to={`/apps/lead/${lead.primaryPhoneNumber}/detail`}
               >
                 <FileText size={14} className="me-50" />
                 <span className="align-middle">{i18n.t('COMMON.DETAILS')}</span>

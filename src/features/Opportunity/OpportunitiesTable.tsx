@@ -16,6 +16,7 @@ import useQueryParams from '@hooks/useQueryParams';
 import { FilterAttributesOpportunity, OpportunityStatus } from '@domain/entities/opportunity/Opportunity';
 import { useLeadAndCustomers } from '@hooks/customer';
 import { Customer, Lead } from '@domain/entities/Lead';
+import { useParams } from 'react-router-dom';
 import { opportunityColumns } from './OpportunityColumns';
 
 const statusOptions = [
@@ -34,6 +35,7 @@ function getLeadLabel(leads: Array<Lead | Customer>, leadId?: string | null) {
 
 const OpportunitiesTable = () => {
   const dispatch = useDispatch();
+  const leadDetailId = useParams<{ id: string }>().id;
 
   // ** Store Vars
   const allOpportunities = useSelector((state: RootState) => state.opportunity.allOpportunities);
@@ -62,7 +64,7 @@ const OpportunitiesTable = () => {
       value: item.primaryPhoneNumber,
     }))];
   }, [leadsAndCustomers]);
-  const [currentLeadId, setCurrentLeadId] = useState<string | null>(params.get('leadId'));
+  const [currentLeadId, setCurrentLeadId] = useState<string | null>(leadDetailId || params.get('leadId'));
 
   const toggleSidebar = () => {
     setOpenSidebar(!openSidebar);
@@ -103,22 +105,26 @@ const OpportunitiesTable = () => {
         </CardHeader>
         <CardBody>
           <Row>
-            <Col md="4">
-              <Label for="status-select">{i18n.t('OPP.CUSTOMER')}</Label>
-              <Select
-                isClearable={false}
-                className="react-select"
-                classNamePrefix="select"
-                options={leadsAndCustomersOptions}
-                value={{
-                  label: getLeadLabel(leadsAndCustomers, currentLeadId),
-                  value: currentLeadId,
-                }}
-                onChange={(data) => {
-                  setCurrentLeadId(data?.value!);
-                }}
-              />
-            </Col>
+            {
+              !leadDetailId ? (
+                <Col md="4">
+                  <Label for="status-select">{i18n.t('OPP.CUSTOMER')}</Label>
+                  <Select
+                    isClearable={false}
+                    className="react-select"
+                    classNamePrefix="select"
+                    options={leadsAndCustomersOptions}
+                    value={{
+                      label: getLeadLabel(leadsAndCustomers, currentLeadId),
+                      value: currentLeadId,
+                    }}
+                    onChange={(data) => {
+                      setCurrentLeadId(data?.value!);
+                    }}
+                  />
+                </Col>
+              ) : null
+            }
             <Col md="4">
               <Label for="status-select">{i18n.t('COMMON.STATUS')}</Label>
               <Select
@@ -149,7 +155,8 @@ const OpportunitiesTable = () => {
       <OpportunitySidebar
         open={openSidebar}
         toggleSidebar={toggleSidebar}
-        onClosed={() => setOpenSidebar(false)}
+        onClosed={() => { }}
+        leadDetailId={leadDetailId}
       />
     </>
   );
