@@ -106,6 +106,7 @@
         "CREATE_OPPORTUNITY": "Create opportunity",
         "UPDATE_OPPORTUNITY": "Update opportunity",
         "CREATE_OPPORTUNITY_SUCCESSFULLY": "Create opportunity {{name}} successfully",
+        "UPDATE_OPPORTUNITY_SUCCESSFULLY": "Update opportunity {{name}} successfully",
         "FIELD_IS_REQUIRED": "{{field}} is a required field",
         "DELETE_OPPORTUNITY_SUCCESS": "Delete opportunity successfully",
         "OPP_DELETION_WARNING_TITLE": "Delete opportunity {{opportunityName}}",

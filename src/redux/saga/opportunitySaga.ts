@@ -67,11 +67,32 @@ function* createOpportunity(action: PayloadAction<Opportunity>) {
   }
 }
 
+function* updateOpportunity(action: PayloadAction<Opportunity>) {
+  try {
+    const { payload } = action;
+    const opportunity: Opportunity = yield call(opportunityPresenter.updateOpportunity, payload);
+    yield put(opportunityActions.onOpportunityUpdated(opportunity));
+    toasty.show({
+      type: 'success',
+      title: i18n.t('COMMON.SUCCESS'),
+      message: i18n.t('OPP.UPDATE_OPPORTUNITY_SUCCESSFULLY', { name: opportunity.name }),
+    });
+  } catch (error: any) {
+    yield put(opportunityActions.onUpdateOpportunityError(error.message));
+    toasty.show({
+      type: 'error',
+      title: i18n.t('COMMON.ERROR'),
+      message: `${error.message}`,
+    });
+  }
+}
+
 export default function* opportunitySaga() {
   yield all([
     takeLatest(opportunityActions.getAllOpportunities, getAllOpportunities),
     takeLatest(opportunityActions.getOpportunitiesByLead, getOpportunitiesByLead),
     takeLatest(opportunityActions.deleteOpportunity, deleteOpportunity),
     takeEvery(opportunityActions.createOpportunity, createOpportunity),
+    takeEvery(opportunityActions.updateOpportunity, updateOpportunity),
   ]);
 }

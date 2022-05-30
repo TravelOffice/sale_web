@@ -16,8 +16,6 @@ interface OpportunityState {
   total: number,
   allOpportunities: Opportunity[],
   selectedOpportunity?: Opportunity,
-  addedOpportunityResponse: CreateUpdateOpportunityResponse | null,
-  updatedOpportunityResponse: CreateUpdateOpportunityResponse | null,
   actionState: HandleDataState,
   actionErrorMessage?: string,
   createOrUpdateOpportunityLoading: boolean,
@@ -29,8 +27,6 @@ const initialState: OpportunityState = {
   total: 1,
   allOpportunities: [],
   selectedOpportunity: undefined,
-  addedOpportunityResponse: null,
-  updatedOpportunityResponse: null,
   actionState: 'init',
   actionErrorMessage: undefined,
   createOrUpdateOpportunityLoading: false,
@@ -54,6 +50,7 @@ const opportunitySlice = createSlice({
     getOpportunity: (state, action: PayloadAction<any>) => { },
     selectOpportunity: (state, action: PayloadAction<Opportunity>) => {
       state.selectedOpportunity = action.payload;
+      state.openSidebar = true;
     },
     deleteOpportunity: (state, action: PayloadAction<Opportunity>) => { },
     onGetAllOpportunitiesFinished: (state, action: PayloadAction<Opportunity[]>) => {
@@ -86,7 +83,21 @@ const opportunitySlice = createSlice({
     onCreateOpportunityError: (state, action: PayloadAction<string>) => {
       state.createOrUpdateOpportunityLoading = false;
     },
+    updateOpportunity: (state, action: PayloadAction<Opportunity>) => {
+      state.createOrUpdateOpportunityLoading = true;
+    },
+    onOpportunityUpdated: (state, action: PayloadAction<Opportunity>) => {
+      state.createOrUpdateOpportunityLoading = false;
+      const index = state.allOpportunities.findIndex((opp) => opp.id === action.payload.id);
+      if (index >= 0) {
+        state.allOpportunities[index] = action.payload;
+      }
+    },
+    onUpdateOpportunityError: (state, action: PayloadAction<string>) => {
+      state.createOrUpdateOpportunityLoading = false;
+    },
     setOpenSidebar: (state, action: PayloadAction<boolean>) => {
+      state.selectedOpportunity = undefined;
       state.openSidebar = action.payload;
     },
   },
