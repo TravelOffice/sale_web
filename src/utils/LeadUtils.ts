@@ -1,7 +1,16 @@
 import countries from '@assets/json/countries.json';
-import { Country, Province } from '@features/Lead/LeadSidebar';
 import provinces from '@assets/json/provinces.json';
 import { Customer, Lead } from '@domain/entities/Lead';
+
+export interface Country {
+  name: string,
+  nationality: string,
+  countryCode: string,
+}
+
+export interface Province {
+  name: string,
+}
 
 export function getCountries() : Country[] {
   return countries.map((country) => ({
