@@ -39,17 +39,25 @@ const LeadList = () => {
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="warning"
-            statTitle={i18n.t('LEAD.QUALIFYING')}
+            statTitle={i18n.t('LEAD.QUALIFIED')}
             icon={<Clock size={20} />}
+            renderStats={<h3 className="fw-bolder mb-75">{allLeads.filter((lead: Lead) => lead.status === 'QUALIFIED').length}</h3>}
+          />
+        </Col>
+        <Col lg="3" sm="6">
+          <StatsHorizontal
+            color="success"
+            statTitle={i18n.t('LEAD.QUALIFYING')}
+            icon={<Check size={20} />}
             renderStats={<h3 className="fw-bolder mb-75">{allLeads.filter((lead: Lead) => lead.status === 'QUALIFYING').length}</h3>}
           />
         </Col>
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="success"
-            statTitle={i18n.t('LEAD.QUALIFIED')}
+            statTitle={i18n.t('LEAD.TAKING_CARE')}
             icon={<Check size={20} />}
-            renderStats={<h3 className="fw-bolder mb-75">{allLeads.filter((lead: Lead) => lead.status === 'QUALIFIED').length}</h3>}
+            renderStats={<h3 className="fw-bolder mb-75">{allLeads.filter((lead: Lead) => lead.status === 'TAKING_CARE').length}</h3>}
           />
         </Col>
       </Row>
