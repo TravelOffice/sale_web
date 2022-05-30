@@ -30,9 +30,10 @@ export interface OpportunitySidebarProps {
   open: boolean,
   opportunity?: Opportunity,
   onClosed: () => void,
+  leadDetailId?: string,
 }
 
-const defaultValues : OpportunityFormData = {
+const defaultValues: OpportunityFormData = {
   name: '',
   leadId: '',
   description: '',
@@ -43,8 +44,8 @@ const defaultValues : OpportunityFormData = {
   estimatedRevenue: 0,
 };
 
-function useSchema(leadsAndCustomers: Array<Lead | Customer>) {
-  const schema : FormSchema<OpportunityFormData> = useMemo(() => ({
+function useSchema(leadsAndCustomers: Array<Lead | Customer>, leadDetailId: string | undefined) {
+  const schema: FormSchema<OpportunityFormData> = useMemo(() => ({
     leadId: {
       type: 'select',
       label: i18n.t('OPP.CUSTOMER'),
@@ -56,6 +57,7 @@ function useSchema(leadsAndCustomers: Array<Lead | Customer>) {
       validator: yup.string().required(i18n.t('OPP.FIELD_IS_REQUIRED', { field: i18n.t('OPP.CUSTOMER') })).oneOf(
         leadsAndCustomers.map((lead) => lead.primaryPhoneNumber),
       ),
+      disabled: leadDetailId,
     },
     name: {
       type: 'text',
@@ -116,15 +118,15 @@ function useSchema(leadsAndCustomers: Array<Lead | Customer>) {
 
 export default function OpportunitySidebar(props: OpportunitySidebarProps) {
   const {
-    toggleSidebar, onClosed, open, opportunity,
+    toggleSidebar, onClosed, open, opportunity, leadDetailId,
   } = props;
   const leadsAndCustomers = useLeadAndCustomers();
   const createOrUpdateOpportunityLoading = useSelector((
     state: RootState,
   ) => state.opportunity.createOrUpdateOpportunityLoading);
-  const schema = useSchema(leadsAndCustomers);
+  const schema = useSchema(leadsAndCustomers, leadDetailId);
   const dispatch = useDispatch();
-  const opportunityFormData : OpportunityFormData = useMemo(() => {
+  const opportunityFormData: OpportunityFormData = useMemo(() => {
     if (opportunity) {
       // Edit opportunity
       return ({
@@ -135,6 +137,7 @@ export default function OpportunitySidebar(props: OpportunitySidebarProps) {
     // Create new opportunity
     return ({
       ...defaultValues,
+      leadId: leadDetailId || '',
     });
   }, [opportunity, open]);
   const onSubmit = useCallback((formData: UnpackNestedValue<OpportunityFormData>) => {
