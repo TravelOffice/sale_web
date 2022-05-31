@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import SidebarForm, { FormSchema } from '@components/SidebarForm/SidebarForm';
 import {
   Lead,
@@ -216,8 +216,7 @@ export default function LeadSidebar(props: LeadSidebarProps) {
     return defaultValues;
   }, [lead]);
   const dispatch = useDispatch();
-  const addLeadState = useSelector((state: RootState) => state.lead.addLeadState);
-  const updateLeadState = useSelector((state: RootState) => state.lead.updateLeadState);
+  const loading = useSelector((state: RootState) => state.lead.createOrUpdateLeadLoading);
   const onSubmit = useCallback((formData: UnpackNestedValue<LeadFormData>) => {
     if (lead) {
       // Edit lead
@@ -236,20 +235,6 @@ export default function LeadSidebar(props: LeadSidebarProps) {
       }));
     }
   }, [lead]);
-
-  // Listen state changed effect when adding a lead
-  useEffect(() => {
-    if (addLeadState === 'finished') {
-      toggleSidebar();
-    }
-  }, [addLeadState]);
-
-  // Listen state changed effect when updating a lead
-  useEffect(() => {
-    if (updateLeadState === 'finished') {
-      toggleSidebar();
-    }
-  }, [updateLeadState]);
   return (
     <SidebarForm<LeadFormData>
       schema={schema}
@@ -259,7 +244,7 @@ export default function LeadSidebar(props: LeadSidebarProps) {
       size="lg"
       onSubmit={onSubmit}
       toggleSidebar={toggleSidebar}
-      submitting={addLeadState === 'loading'}
+      submitting={loading}
       onClosed={onClosed}
     />
   );

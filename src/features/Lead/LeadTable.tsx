@@ -56,6 +56,10 @@ const LeadTable = () => {
     dispatch(getAllLeads(currentStatus.value as LeadStatusType));
   }, [currentStatus]);
 
+  useEffect(() => () => {
+    dispatch(leadActions.resetSidebar());
+  }, []);
+
   return (
     <>
       <Card>
