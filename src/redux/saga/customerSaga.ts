@@ -17,7 +17,7 @@ function* addCustomer(action: PayloadAction<Customer>) {
   try {
     const customer: Customer = action.payload;
     const addedCustomer: Customer = yield call(customerPresenter.addCustomer, customer);
-    yield put(customerActions.setAddedCustomer(addedCustomer));
+    yield put(customerActions.onCustomerAdded(addedCustomer));
     toasty.show({
       title: i18n.t('COMMON.SUCCESS'),
       type: 'success',
@@ -32,7 +32,6 @@ function* addCustomer(action: PayloadAction<Customer>) {
       type: 'error',
       message: `${error.message}`,
     });
-    yield put(customerActions.setAddedCustomerError());
   }
 }
 
@@ -40,7 +39,7 @@ function* updateCustomer(action: PayloadAction<Customer>) {
   try {
     const customer: Customer = action.payload;
     const updatedCustomer: Customer = yield call(customerPresenter.updateCustomer, customer);
-    yield put(customerActions.setUpdatedCustomer(updatedCustomer));
+    yield put(customerActions.onCustomerUpdated(updatedCustomer));
     toasty.show({
       title: i18n.t('COMMON.SUCCESS'),
       type: 'success',
@@ -55,7 +54,6 @@ function* updateCustomer(action: PayloadAction<Customer>) {
       type: 'error',
       message: `${error.message}`,
     });
-    yield put(customerActions.setUpdatedCustomerError());
   }
 }
 
