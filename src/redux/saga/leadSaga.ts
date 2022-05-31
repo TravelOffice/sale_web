@@ -34,7 +34,7 @@ function* addLead(action: PayloadAction<Lead>) {
   try {
     const lead: Lead = action.payload;
     const addedLead : Lead = yield call(leadPresenter.addLead, lead);
-    yield put(leadActions.setAddedLead(addedLead));
+    yield put(leadActions.onLeadAdded(addedLead));
     toasty.show({
       title: i18n.t('COMMON.SUCCESS'),
       type: 'success',
@@ -49,7 +49,6 @@ function* addLead(action: PayloadAction<Lead>) {
       type: 'error',
       message: `${error.message}`,
     });
-    yield put(leadActions.setAddedLeadError());
   }
 }
 
@@ -57,7 +56,7 @@ function* updateLead(action: PayloadAction<Lead>) {
   try {
     const lead: Lead = action.payload;
     const updatedLead : Lead = yield call(leadPresenter.updateLead, lead);
-    yield put(leadActions.setUpdatedLead(updatedLead));
+    yield put(leadActions.onLeadUpdated(updatedLead));
     toasty.show({
       title: i18n.t('COMMON.SUCCESS'),
       type: 'success',
@@ -72,7 +71,6 @@ function* updateLead(action: PayloadAction<Lead>) {
       type: 'error',
       message: `${error.message}`,
     });
-    yield put(leadActions.setUpdatedLeadError());
   }
 }
 

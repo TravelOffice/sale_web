@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import {
   FetchAssignedLeadResponse as FetchLeadsResponse,
-  CreateUpdateLeadResponse, Lead, LeadStatusType, Task, TaskSearchParams,
+  Lead, LeadStatusType, Task, TaskSearchParams,
 } from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HandleDataState } from './others/HandleDataState';
@@ -13,13 +13,10 @@ interface LeadState {
   allTasks: Task[],
   selectedLead?: Lead,
   selectedTask?: Task,
-  addedLeadResponse: CreateUpdateLeadResponse | null,
-  updatedLeadResponse: CreateUpdateLeadResponse | null,
-  addLeadState: HandleDataState,
-  updateLeadState: HandleDataState,
   fetchAllLeadsError?: FetchLeadsResponse,
   fetchAllLeadsState: HandleDataState,
   openSidebar: boolean,
+  createOrUpdateLeadLoading: boolean,
 }
 
 const initialState : LeadState = {
@@ -29,66 +26,54 @@ const initialState : LeadState = {
   allTasks: [],
   selectedLead: undefined,
   selectedTask: undefined,
-  addedLeadResponse: null,
-  updatedLeadResponse: null,
-  addLeadState: 'init',
-  updateLeadState: 'init',
   fetchAllLeadsState: 'init',
   openSidebar: false,
+  createOrUpdateLeadLoading: false,
 };
 
 const leadSlice = createSlice({
   name: 'lead',
   initialState,
   reducers: {
-    getAllLeads: (state, action: PayloadAction<LeadStatusType>) => {
+    // Get all Leads and related actions
+    getAllLeads: (state, _action: PayloadAction<LeadStatusType>) => {
       state.fetchAllLeadsState = 'loading';
       state.fetchAllLeadsError = undefined;
-    },
-    getLead: (state, action: PayloadAction<string>) => {
     },
     setAllLeads: (state, action: PayloadAction<Lead[]>) => {
       state.fetchAllLeadsState = 'finished';
       state.allLeads = action.payload;
     },
-    initAddLeadForm: (state) => {
-      state.addLeadState = 'init';
-    },
-    addLead: (state, action: PayloadAction<Lead>) => {
-      state.addLeadState = 'loading';
-    },
     setFetchAllLeadError: (state) => {
       state.fetchAllLeadsState = 'error';
     },
-    setAddedLead: (state, action: PayloadAction<Lead>) => {
-      state.addLeadState = 'finished';
-      state.addedLeadResponse = { lead: action.payload };
+    getLead: (state, _action: PayloadAction<string>) => {
     },
-    setAddedLeadError: (state) => {
-      state.addLeadState = 'error';
+    addLead: (state, _action: PayloadAction<Lead>) => {
+      state.createOrUpdateLeadLoading = true;
     },
-    initUpdateLeadForm: (state) => {
-      state.updateLeadState = 'init';
+    onLeadAdded: (state, _action: PayloadAction<Lead>) => {
+      state.createOrUpdateLeadLoading = false;
+      state.openSidebar = false;
     },
-    updateLead: (state, action: PayloadAction<Lead>) => {
-      state.updateLeadState = 'loading';
+    updateLead: (state, _action: PayloadAction<Lead>) => {
+      state.createOrUpdateLeadLoading = true;
     },
-    setUpdatedLead: (state, action: PayloadAction<Lead>) => {
-      state.updateLeadState = 'finished';
-      state.updatedLeadResponse = { lead: action.payload };
+    onLeadUpdated: (state, _action: PayloadAction<Lead>) => {
+      state.createOrUpdateLeadLoading = false;
+      state.openSidebar = false;
     },
-    setUpdatedLeadError: (state) => {
-      state.updateLeadState = 'error';
-    },
-    deleteLead: (state, action: PayloadAction<Lead>) => {},
+    deleteLead: (state, _action: PayloadAction<Lead>) => {},
     selectLead: (state, action: PayloadAction<Lead>) => {
       state.selectedLead = action.payload;
       state.openSidebar = true;
+      state.createOrUpdateLeadLoading = false;
     },
     unSelectLead: (state) => {
       state.selectedLead = undefined;
+      state.openSidebar = false;
     },
-    getAllTasks: (state, action: PayloadAction<TaskSearchParams>) => {
+    getAllTasks: (state, _action: PayloadAction<TaskSearchParams>) => {
     },
     setAllTasks: (state, action: PayloadAction<Task[]>) => {
       state.allTasks = action.payload;
@@ -96,9 +81,14 @@ const leadSlice = createSlice({
     selectTask: (state, action: PayloadAction<Task>) => {
       state.selectedTask = action.payload;
     },
-    updateTask: (state, action: PayloadAction<Task>) => {},
+    updateTask: (state, _action: PayloadAction<Task>) => {},
     setOpenSidebar: (state, action: PayloadAction<boolean>) => {
       state.openSidebar = action.payload;
+    },
+    resetSidebar: (state) => {
+      state.openSidebar = false;
+      state.createOrUpdateLeadLoading = false;
+      state.selectedLead = undefined;
     },
   },
 });

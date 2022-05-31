@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import SidebarForm, { FormSchema } from '@components/SidebarForm/SidebarForm';
 import {
   Customer,
@@ -216,8 +216,7 @@ export default function CustomerSidebar(props: CustomerSidebarProps) {
     return defaultValues;
   }, [customer]);
   const dispatch = useDispatch();
-  const addCustomerState = useSelector((state: RootState) => state.customer.addCustomerState);
-  const updateCustomerState = useSelector((state: RootState) => state.customer.updateCustomerState);
+  const loading = useSelector((state: RootState) => state.customer.createOrUpdateCustomerLoading);
   const onSubmit = useCallback((formData: UnpackNestedValue<CustomerFormData>) => {
     if (customer) {
       // Edit customer
@@ -236,20 +235,6 @@ export default function CustomerSidebar(props: CustomerSidebarProps) {
       }));
     }
   }, [customer]);
-
-  // Listen state changed effect when adding a customer
-  useEffect(() => {
-    if (addCustomerState === 'finished') {
-      toggleSidebar();
-    }
-  }, [addCustomerState]);
-
-  // Listen state changed effect when updating a customer
-  useEffect(() => {
-    if (updateCustomerState === 'finished') {
-      toggleSidebar();
-    }
-  }, [updateCustomerState]);
   return (
     <SidebarForm<CustomerFormData>
       schema={schema}
@@ -259,7 +244,7 @@ export default function CustomerSidebar(props: CustomerSidebarProps) {
       size="lg"
       onSubmit={onSubmit}
       toggleSidebar={toggleSidebar}
-      submitting={addCustomerState === 'loading'}
+      submitting={loading}
       onClosed={onClosed}
     />
   );

@@ -55,6 +55,10 @@ const CustomerTable = () => {
     dispatch(getAllCustomers(currentStatus.value as CustomerStatusType));
   }, [currentStatus]);
 
+  useEffect(() => () => {
+    dispatch(customerActions.resetSidebar());
+  }, []);
+
   return (
     <>
       <Card>
