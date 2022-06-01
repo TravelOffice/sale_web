@@ -1,3 +1,5 @@
+import { ItemInterface } from 'react-sortablejs';
+
 export enum SexEnum {
   MALE = 'MALE',
   FEMALE = 'FEMALE',
@@ -70,6 +72,7 @@ export interface Lead {
   source: SourceType,
   enabled: boolean,
   type: LeadEnum.LEAD,
+  tasks?: TaskWithoutId[],
 }
 
 export type Customer = Omit<Lead, 'status' | 'type'> & { status: CustomerStatusType, type: LeadEnum.CUSTOMER };
@@ -100,20 +103,28 @@ export const leadSources : SourceType[] = Object.keys(SourceEnum) as Array<Sourc
 export const customerStatuses :
 CustomerStatusType[] = Object.keys(CustomerStatusEnum) as Array<CustomerStatusType>;
 
-export interface Task {
-  id: number,
+export interface TaskWithoutId {
   title: string,
   dueDate: string,
   description: string,
-  tags: string[],
+  creatorID?: string,
+  creatorName?: string,
+  priority: string,
   isCompleted: boolean,
-  isDeleted: boolean,
 }
 
-export interface TaskSearchParams {
-  leadId: string,
-  filter?: string,
-  query?: string,
-  sortBy: string,
-  tag?: string
+export type Task = TaskWithoutId & ItemInterface;
+
+export enum TaskSortEnum {
+  TITLE_ASC,
+  TITLE_DESC,
+  DUE_DATE,
 }
+export interface TaskSearchParams {
+  query: string,
+  sortBy?: TaskSortEnum,
+}
+
+export type TaskSortType = keyof typeof TaskSortEnum;
+
+export const taskSortType : TaskSortType[] = Object.keys(LeadEnum) as Array<TaskSortType>;

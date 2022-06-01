@@ -99,6 +99,7 @@ const CustomerTable = () => {
       />
       <CustomerSidebar
         open={openSidebar}
+        setOpenSidebar={setOpenSidebar}
         toggleSidebar={toggleCustomerLeadSidebar}
         customer={selectedCustomer}
         onClosed={() => dispatch(customerActions.unSelectCustomer())}

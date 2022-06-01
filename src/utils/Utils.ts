@@ -1,6 +1,3 @@
-// ** Checks if an object is empty (returns boolean)
-export const isObjEmpty = (obj: any) => Object.keys(obj).length === 0;
-
 // ** React Select Theme Colors
 // eslint-disable-next-line import/prefer-default-export
 export const selectThemeColors = (theme: any) => ({

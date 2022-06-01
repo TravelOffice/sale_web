@@ -119,7 +119,7 @@ Avatar.defaultProps = {
   contentStyles: undefined,
   imgHeight: 10,
   size: undefined,
-  status: 'online',
+  status: undefined,
 };
 
 export default Avatar;
