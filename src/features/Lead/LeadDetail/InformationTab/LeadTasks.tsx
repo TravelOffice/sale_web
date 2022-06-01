@@ -4,7 +4,7 @@ import React, { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { ReactSortable } from 'react-sortablejs';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { Menu, MoreVertical, Search } from 'react-feather';
+import { MoreVertical, Search } from 'react-feather';
 
 // ** Reactstrap Imports
 import {
@@ -17,72 +17,74 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import { useDispatch } from 'react-redux';
-import { Task, TaskSearchParams } from '@domain/entities/Lead';
+import {
+  Task, TaskSearchParams, TaskSortEnum,
+} from '@domain/entities/Lead';
 import '@styles/react/apps/app-todo.scss';
 import '@styles/base/pages/lead-todo.scss';
+import i18n from '@config/i18n';
+import Avatar from '@components/Avatar/Avatar';
 
 export interface TasksProps {
   query: string,
   params: TaskSearchParams,
   tasks: Task[],
-  setSort: (sort: string) => void,
+  setSort: (sort?: TaskSortEnum) => void,
   setQuery: (query: string) => void,
-  updateTask: (task: Task) => {},
+  updateTask: (task: Task) => void,
   selectTask: (task: Task) => void,
+  reOrderTasks: (task: Task[]) => void,
   handleTaskSidebar: () => void,
 }
 
-const Tasks = (props: TasksProps) => {
-  const dispatch = useDispatch();
+const LeadTasks = (props: TasksProps) => {
   // ** Props
   const {
     query,
-    params,
     tasks,
     setSort,
     setQuery,
     updateTask,
     selectTask,
+    reOrderTasks,
     handleTaskSidebar,
   } = props;
 
   // ** Function to selectTask on click
   const handleTaskClick = (task: Task) => {
-    dispatch(selectTask(task));
+    selectTask(task);
     handleTaskSidebar();
   };
 
   // ** Function to getTasks based on search query
   const handleFilter = (e: any) => {
-    console.log(e, params);
     setQuery(e.target.value);
-    // dispatch(getTasks(params));
   };
 
   // ** Function to getTasks based on sort
-  const handleSort = (e: any, val: string) => {
+  const handleSort = (e: any, val?: TaskSortEnum) => {
     e.preventDefault();
     setSort(val);
-    // dispatch(getTasks({ ...params }));
   };
 
-  // ** Renders task tags
-  const renderTags = (arr: string[]) => {
+  // ** Renders task priority
+  const renderPriority = (priority: string) => {
     const badgeColor:{ [key: string]: string } = {
-      team: 'light-primary',
       low: 'light-success',
       medium: 'light-warning',
       high: 'light-danger',
       update: 'light-info',
     };
 
-    return arr.map((item) => (
-      <Badge className="text-capitalize" key={item} color={badgeColor[item]} pill>
-        {item}
+    return (
+      <Badge className="text-capitalize" key={priority} color={badgeColor[priority]} pill>
+        {i18n.t(`COMMON.SEVERITY_${priority.toUpperCase()}`)}
       </Badge>
-    ));
+    );
   };
+
+  // ** Renders Avatar
+  const renderAvatar = (task: Task) => <Avatar color="light-primary" content={task.creatorName} />;
 
   const renderTasks = () => (
     <PerfectScrollbar
@@ -95,7 +97,7 @@ const Tasks = (props: TasksProps) => {
           list={tasks}
           handle=".drag-icon"
           className="todo-task-list media-list"
-          setList={() => {}}
+          setList={(newState) => reOrderTasks(newState)}
         >
           {tasks.map((item) => (
             <li
@@ -116,14 +118,14 @@ const Tasks = (props: TasksProps) => {
                       onClick={(e) => e.stopPropagation()}
                       onChange={(e) => {
                         e.stopPropagation();
-                        dispatch(updateTask({ ...item, isCompleted: e.target.checked }));
+                        updateTask({ ...item, isCompleted: e.target.checked });
                       }}
                     />
                   </div>
                   <span className="todo-title">{item.title}</span>
                 </div>
                 <div className="todo-item-action mt-lg-0 mt-50">
-                  {item.tags.length ? <div className="badge-wrapper me-1">{renderTags(item.tags)}</div> : null}
+                  {item.priority ? <div className="badge-wrapper me-1">{renderPriority(item.priority)}</div> : null}
                   {item.dueDate ? (
                     <small className="text-nowrap text-muted me-1">
                       {new Date(item.dueDate).toLocaleString('default', { month: 'short' })}
@@ -131,6 +133,7 @@ const Tasks = (props: TasksProps) => {
                       {new Date(item.dueDate).getDate().toString().padStart(2, '0')}
                     </small>
                   ) : null}
+                  {item.creatorId && renderAvatar(item)}
                 </div>
               </div>
             </li>
@@ -149,9 +152,6 @@ const Tasks = (props: TasksProps) => {
       <div className="content-wrapper">
         <div className="todo-app-list">
           <div className="app-fixed-search d-flex align-items-center">
-            <div className="sidebar-toggle cursor-pointer d-block d-lg-none ms-1">
-              <Menu size={21} />
-            </div>
             <div className="d-flex align-content-center justify-content-between w-100">
               <InputGroup className="input-group-merge">
                 <InputGroupText>
@@ -165,17 +165,23 @@ const Tasks = (props: TasksProps) => {
                 <MoreVertical className="text-body" size={16} />
               </DropdownToggle>
               <DropdownMenu end>
-                <DropdownItem tag={Link} to="/" onClick={(e) => handleSort(e, 'title-asc')}>
-                  Sort A-Z
+                <DropdownItem tag={Link} to="/" onClick={(e) => handleSort(e, TaskSortEnum.TITLE_ASC)}>
+                  {i18n.t('COMMON.SORT')}
+                  {' '}
+                  A-Z
                 </DropdownItem>
-                <DropdownItem tag={Link} to="/" onClick={(e) => handleSort(e, 'title-desc')}>
-                  Sort Z-A
+                <DropdownItem tag={Link} to="/" onClick={(e) => handleSort(e, TaskSortEnum.TITLE_DESC)}>
+                  {i18n.t('COMMON.SORT')}
+                  {' '}
+                  Z-A
                 </DropdownItem>
-                <DropdownItem tag={Link} to="/" onClick={(e) => handleSort(e, 'due-date')}>
-                  Sort Due Date
+                <DropdownItem tag={Link} to="/" onClick={(e) => handleSort(e, TaskSortEnum.DUE_DATE)}>
+                  {i18n.t('COMMON.SORT')}
+                  {' '}
+                  Due Date
                 </DropdownItem>
-                <DropdownItem tag={Link} to="/" onClick={(e) => handleSort(e, '')}>
-                  Reset Sort
+                <DropdownItem tag={Link} to="/" onClick={(e) => handleSort(e, undefined)}>
+                  {i18n.t('COMMON.RESET_SORT')}
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -187,4 +193,4 @@ const Tasks = (props: TasksProps) => {
   );
 };
 
-export default Tasks;
+export default LeadTasks;

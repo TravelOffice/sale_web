@@ -2,7 +2,7 @@ import { leadPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import {
-  Lead, LeadStatusType, Task, TaskSearchParams,
+  Lead, LeadStatusType,
 } from '@domain/entities/Lead';
 import { leadActions } from '@redux/slices/leadSlice';
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -26,8 +26,12 @@ function* getAllLeads(action: PayloadAction<LeadStatusType>) {
 
 function* getLead(action: PayloadAction<string>) {
   const leadId: string = action.payload;
-  const lead : Lead = yield call(leadPresenter.getLead, leadId);
-  yield put(leadActions.selectLead(lead));
+  try {
+    const lead : Lead = yield call(leadPresenter.getLead, leadId);
+    yield put(leadActions.selectLead(lead));
+  } catch (error: any) {
+    yield put(leadActions.selectLead(undefined));
+  }
 }
 
 function* addLead(action: PayloadAction<Lead>) {
@@ -57,6 +61,7 @@ function* updateLead(action: PayloadAction<Lead>) {
     const lead: Lead = action.payload;
     const updatedLead : Lead = yield call(leadPresenter.updateLead, lead);
     yield put(leadActions.onLeadUpdated(updatedLead));
+    yield put(leadActions.setSelectedLead(updatedLead));
     toasty.show({
       title: i18n.t('COMMON.SUCCESS'),
       type: 'success',
@@ -74,169 +79,9 @@ function* updateLead(action: PayloadAction<Lead>) {
   }
 }
 
-function* getAllTasks(action: PayloadAction<TaskSearchParams>) {
-  const param: TaskSearchParams = action.payload;
-  console.log('getAllTasks ', param);
-  // const tasks : Task[] = yield call(leadPresenter.getLead, leadId);
-  const tasks: Task[] = [
-    {
-      id: 1,
-      title: 'Entire change break our wife wide it daughter mention member.',
-      dueDate: '2020-11-25',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['update'],
-      isCompleted: false,
-      isDeleted: false,
-    },
-    {
-      id: 2,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 3,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 4,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 5,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 6,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 7,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 8,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 9,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 10,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 11,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 12,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 13,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 14,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-    {
-      id: 15,
-      title: 'Citizen stand administration step agency century.',
-      dueDate: '2020-12-14',
-      description:
-        'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.',
-      tags: ['team', 'medium'],
-      isCompleted: true,
-      isDeleted: false,
-    },
-  ];
-  yield put(leadActions.setAllTasks(tasks));
-}
-
 export default function* leadSaga() {
   yield all([
     takeLatest(leadActions.getAllLeads, getAllLeads),
-    takeLatest(leadActions.getAllTasks, getAllTasks),
     takeLatest(leadActions.getLead, getLead),
     takeLatest(leadActions.addLead, addLead),
     takeLatest(leadActions.updateLead, updateLead),
