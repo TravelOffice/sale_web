@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import {
   FetchAssignedLeadResponse as FetchLeadsResponse,
-  Lead, LeadStatusType, Task, TaskSearchParams,
+  Lead, LeadStatusType, Task, TaskSearchParams, TaskSortEnum,
 } from '@domain/entities/Lead';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HandleDataState } from './others/HandleDataState';
@@ -10,9 +10,7 @@ interface LeadState {
   data: Lead[],
   total: number,
   allLeads: Lead[],
-  allTasks: Task[],
   selectedLead?: Lead,
-  selectedTask?: Task,
   fetchAllLeadsError?: FetchLeadsResponse,
   fetchAllLeadsState: HandleDataState,
   openSidebar: boolean,
@@ -23,9 +21,7 @@ const initialState : LeadState = {
   data: [],
   total: 1,
   allLeads: [],
-  allTasks: [],
   selectedLead: undefined,
-  selectedTask: undefined,
   fetchAllLeadsState: 'init',
   openSidebar: false,
   createOrUpdateLeadLoading: false,
@@ -64,24 +60,19 @@ const leadSlice = createSlice({
       state.openSidebar = false;
     },
     deleteLead: (state, _action: PayloadAction<Lead>) => {},
-    selectLead: (state, action: PayloadAction<Lead>) => {
+    selectLead: (state, action: PayloadAction<Lead | undefined>) => {
       state.selectedLead = action.payload;
-      state.openSidebar = true;
-      state.createOrUpdateLeadLoading = false;
+    },
+    setSelectedLead: (state, action: PayloadAction<Lead>) => {
+      state.selectedLead = action.payload;
     },
     unSelectLead: (state) => {
       state.selectedLead = undefined;
       state.openSidebar = false;
     },
-    getAllTasks: (state, _action: PayloadAction<TaskSearchParams>) => {
+    setOpenLeadSidebar: (state, action: PayloadAction<boolean>) => {
+      state.openSidebar = action.payload;
     },
-    setAllTasks: (state, action: PayloadAction<Task[]>) => {
-      state.allTasks = action.payload;
-    },
-    selectTask: (state, action: PayloadAction<Task>) => {
-      state.selectedTask = action.payload;
-    },
-    updateTask: (state, _action: PayloadAction<Task>) => {},
     setOpenSidebar: (state, action: PayloadAction<boolean>) => {
       state.openSidebar = action.payload;
     },

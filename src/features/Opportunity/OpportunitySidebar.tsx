@@ -57,7 +57,7 @@ function useSchema(leadsAndCustomers: Array<Lead | Customer>, leadDetailId: stri
       validator: yup.string().required(i18n.t('OPP.FIELD_IS_REQUIRED', { field: i18n.t('OPP.CUSTOMER') })).oneOf(
         leadsAndCustomers.map((lead) => lead.primaryPhoneNumber),
       ),
-      disabled: leadDetailId,
+      disabled: !!leadDetailId,
     },
     name: {
       type: 'text',

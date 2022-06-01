@@ -32,7 +32,7 @@ const LeadTable = () => {
     (state: RootState) => state.lead.fetchAllLeadsState,
   );
 
-  const { getAllLeads, setOpenSidebar: setOpenSidebarAction } = leadActions;
+  const { getAllLeads, setOpenLeadSidebar: setOpenSidebarAction } = leadActions;
 
   // ** Function to toggle sidebar
   const setOpenSidebar = (open: boolean) => dispatch(setOpenSidebarAction(open));
@@ -100,6 +100,7 @@ const LeadTable = () => {
       />
       <LeadSidebar
         open={openSidebar}
+        setOpenSidebar={setOpenSidebar}
         toggleSidebar={toggleLeadSidebar}
         lead={selectedLead}
         onClosed={() => dispatch(leadActions.unSelectLead())}

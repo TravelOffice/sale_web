@@ -1876,6 +1876,54 @@
       }
     }
   }
+  .lead-tasks {
+    background-color: $theme-dark-card-bg !important;
+    .todo-app-list {
+      border-color: $theme-dark-border-color !important;
+    }
+    .content-wrapper {
+      border-color: $theme-dark-border-color !important;
+      // Todo Fixed search
+      .app-fixed-search {
+        background-color: $theme-dark-card-bg !important;
+        border-color: $theme-dark-border-color !important;
+      }
+      .completed {
+        .todo-title {
+          color: $theme-dark-body-color;
+        }
+      }
+      // ToDo task list area
+      .todo-task-list-wrapper {
+        background-color: $theme-dark-card-bg !important;
+        border-color: $theme-dark-border-color;
+        .todo-task-list {
+          .todo-item {
+            &:not(:first-child) {
+              border-color: $theme-dark-border-color;
+            }
+            &.completed {
+              .todo-title {
+                color: $theme-dark-text-muted-color;
+              }
+            }
+            &:hover {
+              box-shadow: $theme-dark-box-shadow;
+            }
+
+            .todo-item-action {
+              .todo-item-favorite:not(.text-warning) {
+                i,
+                svg {
+                  color: $theme-dark-body-color;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
   .todo-item.gu-mirror {
     background-color: $theme-dark-card-bg;
     border-color: $theme-dark-border-color;

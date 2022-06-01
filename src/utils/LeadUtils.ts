@@ -1,5 +1,6 @@
 import countries from '@assets/json/countries.json';
 import provinces from '@assets/json/provinces.json';
+import i18n from '@config/i18n';
 import { Customer, Lead } from '@domain/entities/Lead';
 
 export interface Country {
@@ -10,6 +11,10 @@ export interface Country {
 
 export interface Province {
   name: string,
+}
+
+export interface OtherPhoneNumbersOption {
+  value: string
 }
 
 export function getCountries() : Country[] {
@@ -50,4 +55,26 @@ export function getProvinces(countryCode?: string) : Province[] {
 
 export function getLeadById(leads: Array<Lead | Customer>, id: string) {
   return leads.find((lead) => lead.primaryPhoneNumber === id);
+}
+
+export function getAddress(lead: Lead) {
+  const address = [];
+
+  if (lead.address) {
+    address.push(lead.address);
+  }
+  if (lead.ward) {
+    address.push(`${i18n.t('LEAD.WARD')} ${lead.ward}`);
+  }
+  if (lead.district) {
+    address.push(`${i18n.t('LEAD.DISTRICT')} ${lead.district}`);
+  }
+  if (lead.province) {
+    address.push(lead.province);
+  }
+  if (lead.country) {
+    address.push(getCountry(lead.country).name);
+  }
+
+  return address.join(', ');
 }
