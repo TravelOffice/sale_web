@@ -179,8 +179,8 @@ const LeadInformation = (props: LeadInformationProps) => {
                   {': '}
                 </span>
                 <span>
-                  {lead.tags?.map((tag) => (
-                    <Badge color="light-info" className="text-capitalize">
+                  {lead.tags?.map((key, tag) => (
+                    <Badge key={key} color="light-info" className="text-capitalize">
                       {`#${tag} `}
                     </Badge>
                   ))}
