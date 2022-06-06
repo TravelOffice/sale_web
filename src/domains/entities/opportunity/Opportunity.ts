@@ -1,4 +1,4 @@
-import { Task } from 'redux-saga';
+import { ItemInterface } from 'react-sortablejs';
 import { Note } from '../note/Note';
 
 export enum OpportunityStatusEnum {
@@ -23,6 +23,12 @@ export enum OpportunityPotentialTypeEnum {
   HIGH = 'HIGH',
 }
 
+export enum OppTaskSortEnum {
+  TITLE_ASC = 'TITLE_ASC',
+  TITLE_DESC = 'TITLE_DESC',
+  DUE_DATE = 'DUE_DATE',
+}
+
 export type OpportunityStatus = keyof typeof OpportunityStatusEnum;
 export type OpportunitySource = keyof typeof OpportunitySourceEnum;
 export type OpportunityPotentialType = keyof typeof OpportunityPotentialTypeEnum;
@@ -43,7 +49,7 @@ export interface Opportunity {
   actualCloseDate?: string,
   potential: OpportunityPotentialType,
   notes?: Note[],
-  task?: Task[],
+  tasks?: OpportunityTask[],
 }
 
 export interface FilterAttributesOpportunity {
@@ -67,25 +73,24 @@ export const opportunityPotentials = Object.keys(
   OpportunityPotentialTypeEnum,
 ) as Array<OpportunityPotentialType>;
 
-export interface OpportunityTask {
-  id: number,
+export interface OpportunityTaskWithoutId {
   title: string,
   dueDate: string,
   description: string,
-  tags: string[],
+  creatorID?: string,
+  creatorName?: string,
+  priority: string,
   isCompleted: boolean,
-  isDeleted: boolean,
 }
 
-export interface OpportunityTaskSearchParams {
-  oppId: string,
-  filter?: string,
-  query?: string,
-  sortBy: string,
-  tag?: string,
-}
+export type OpportunityTask = OpportunityTaskWithoutId & ItemInterface;
 
 export interface SelectOpportunityParams {
   leadId: string,
   oppId: string,
+}
+
+export interface OpportunityTaskSearchParams {
+  query: string,
+  sortBy?: OppTaskSortEnum,
 }

@@ -19,28 +19,43 @@ import { selectThemeColors } from '@utils/Utils';
 import '@styles/react/libs/editor/editor.scss';
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/libs/react-select/_react-select.scss';
-import { useSelector } from 'react-redux';
-import { RootState } from '@redux/store';
 import moment from 'moment';
 import { OpportunityTask } from '@domain/entities/opportunity/Opportunity';
+import i18n from '@config/i18n';
+import classNames from 'classnames';
+import { DATE_FORMAT } from '@utils/Constants';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 // ** Function to capitalize the first letter of string
 // const capitalize = (words: string) => words.charAt(0).toUpperCase() + words.slice(1);
 
+interface PriorityOptions {
+  label: string,
+  value: string,
+}
+
+type DataForm = {
+  title: string,
+  dueDate: string,
+  description: string,
+  priority: PriorityOptions,
+};
+
 interface ModalHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  handleTaskSidebar: () => {},
-  // setDeleted: () => {},
-  // deleted: boolean,
-  // deleteTask: () => {},
+  selectedTask: OpportunityTask | undefined,
+  handleTaskSidebar: () => void,
+  deleteTask: (task: OpportunityTask) => void,
 }
 
 interface TaskSidebarProps {
   open: boolean,
-  handleTaskSidebar: () => {},
-  updateTask: (task: OpportunityTask) => {},
-  selectTask: (task: OpportunityTask) => {},
-  addTask: (task: OpportunityTask) => {},
-  deleteTask: (task: OpportunityTask) => {},
+  selectedTask: OpportunityTask | undefined,
+  handleTaskSidebar: () => void,
+  updateTask: (task: OpportunityTask) => void,
+  selectTask: (task?: OpportunityTask) => void,
+  addTask: (task: OpportunityTask) => void,
+  deleteTask: (task: OpportunityTask) => void,
 }
 
 // ** Modal Header
@@ -48,30 +63,27 @@ const ModalHeader = (props: ModalHeaderProps) => {
   // ** Props
   const {
     children,
+    selectedTask = undefined,
     handleTaskSidebar,
-    // setDeleted,
-    // deleted,
-    // deleted,
-    // deleteTask,
+    deleteTask,
   } = props;
-
-  const selectedTask = useSelector((state: RootState) => state.opportunity.selectedTask);
 
   // ** Function to delete task
   const handleDeleteTask = () => {
-    // setDeleted(!deleted);
-    // dispatch(deleteTask(store.selectedTask.id));
-    handleTaskSidebar();
+    if (selectedTask) {
+      deleteTask(selectedTask);
+      handleTaskSidebar();
+    }
   };
 
   return (
     <div className="modal-header d-flex align-items-center justify-content-between mb-1">
       <h5 className="modal-title">{children}</h5>
       <div className="todo-item-action d-flex align-items-center">
-        {
-          selectedTask && <Trash className="cursor-pointer mt-25" size={16} onClick={() => handleDeleteTask()} />
-        }
-        <X className="fw-normal mt-25" size={16} onClick={handleTaskSidebar} />
+        {selectedTask ? (
+          <Trash className="cursor-pointer mt-25" size={16} onClick={() => handleDeleteTask()} />
+        ) : null}
+        <X className="cursor-pointer fw-normal mt-25" size={16} onClick={handleTaskSidebar} />
       </div>
     </div>
   );
@@ -82,45 +94,53 @@ const OpportunityTaskSidebar = (props: TaskSidebarProps) => {
   const {
     open,
     handleTaskSidebar,
-    // updateTask,
-    // addTask,
-    // selectTask,
-    // deleteTask,
+    updateTask,
+    addTask,
+    selectTask,
+    selectedTask,
+    deleteTask,
   } = props;
 
-  const selectedTask = useSelector((state: RootState) => state.opportunity.selectedTask);
-
   // ** States
-  const [tags, setTags] = useState([]);
-  const [desc, setDesc] = useState('');
   const [completed, setCompleted] = useState(false);
-  // const [deleted, setDeleted] = useState(false);
-  const [dueDate, setDueDate] = useState('');
+  const [dueDate, setDueDate] = useState(moment().format(DATE_FORMAT));
 
-  console.log(desc);
-
-  const {
-    control,
-    // setError,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: { title: '' },
+  //  Yup schema for validate create/update lead task
+  const TaskSchema = yup.object().shape({
+    title: yup.string().required(),
+    description: yup.string().required(),
+    dueDate: yup.date().required(),
+    priority: yup.object().shape({
+      value: yup.string().required(),
+    }).required(),
   });
 
   // ** Tag Select Options
-  // const tagOptions = [
-  //   { value: 'team', label: 'Team' },
-  //   { value: 'low', label: 'Low' },
-  //   { value: 'medium', label: 'Medium' },
-  //   { value: 'high', label: 'High' },
-  //   { value: 'update', label: 'Update' },
-  // ];
+  const priorityOptions: PriorityOptions[] = [
+    { value: 'low', label: i18n.t('COMMON.SEVERITY_LOW') },
+    { value: 'medium', label: i18n.t('COMMON.SEVERITY_MEDIUM') },
+    { value: 'high', label: i18n.t('COMMON.SEVERITY_HIGH') },
+  ];
+
+  const {
+    control,
+    setValue,
+    handleSubmit,
+    clearErrors,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      title: '',
+      dueDate: moment().format(DATE_FORMAT),
+      description: '',
+      priority: priorityOptions[0],
+    },
+    resolver: yupResolver(TaskSchema),
+  });
 
   // ** Returns sidebar title
   const handleSidebarTitle = () => {
-    if (!selectedTask) {
+    if (selectedTask) {
       return (
         <Button
           outline
@@ -139,47 +159,32 @@ const OpportunityTaskSidebar = (props: TaskSidebarProps) => {
   const handleSidebarOpened = () => {
     if (selectedTask) {
       setValue('title', selectedTask.title);
+      setValue('description', selectedTask.description);
+      setValue('priority', priorityOptions.find(
+        (priority) => priority.value === selectedTask.priority,
+      ) as PriorityOptions);
       setCompleted(selectedTask.isCompleted);
       setDueDate(selectedTask.dueDate);
-      setDesc(selectedTask.description);
-
-      // if (selectedTask.tags.length) {
-      //   const tags = [];
-      //   selectedTask.tags.map((tag) => {
-      //     tags.push({ value: tag, label: capitalize(tag) });
-      //   });
-      //   setTags(tags);
-      // }
     }
   };
 
   // ** Function to run when sidebar closes
   const handleSidebarClosed = () => {
-    setTags([]);
-    setDesc('');
     setValue('title', '');
+    setValue('description', '');
+    setValue('priority', priorityOptions[0]);
     setCompleted(false);
-    setDueDate(moment().format('Y-m-d'));
-    // dispatch(selectTask({}));
+    setDueDate(moment().format(DATE_FORMAT));
+    selectTask(undefined);
+    clearErrors();
   };
 
   // ** Function to reset fileds
   const handleResetFields = () => {
     if (selectedTask) {
-      const descValue = selectedTask.description;
-
       setValue('title', selectedTask.title);
-      setDesc(descValue);
       setCompleted(selectedTask.isCompleted);
-      // setDeleted(selectedTask.isDeleted);
       setDueDate(selectedTask.dueDate);
-      // if (selectedTask.tags.length) {
-      //   const tags = [];
-      //   selectedTask.tags.map((tag) => {
-      //     tags.push({ value: tag, label: capitalize(tag) });
-      //   });
-      //   setTags(tags);
-      // }
     }
   };
 
@@ -189,10 +194,10 @@ const OpportunityTaskSidebar = (props: TaskSidebarProps) => {
       return (
         <>
           <Button color="primary" className="update-btn update-todo-item me-1">
-            Update
+            {i18n.t('COMMON.UPDATE')}
           </Button>
           <Button color="secondary" onClick={handleResetFields} outline>
-            Reset
+            {i18n.t('COMMON.CANCEL')}
           </Button>
         </>
       );
@@ -200,17 +205,39 @@ const OpportunityTaskSidebar = (props: TaskSidebarProps) => {
     return (
       <>
         <Button color="primary" className="add-todo-item me-1">
-          Add
+          {i18n.t('COMMON.ADD')}
         </Button>
         <Button color="secondary" onClick={handleTaskSidebar} outline>
-          Cancel
+          {i18n.t('COMMON.CANCEL')}
         </Button>
       </>
     );
   };
 
-  const onSubmit = () => {
+  const onSubmit = (data: DataForm) => {
+    const state: OpportunityTask = {
+      id: new Date().getTime(),
+      dueDate,
+      title: data.title,
+      priority: data.priority.value,
+      description: data.description,
+      isCompleted: completed,
+      creatorID: undefined,
+      creatorName: undefined,
+    };
+    if (!selectedTask) {
+      addTask(state);
+    } else {
+      updateTask({
+        ...state,
+        id: selectedTask.id,
+        creatorId: selectedTask.creatorId,
+        creatorName: selectedTask.creatorName,
+      });
+    }
+    handleTaskSidebar();
   };
+
   return (
     <Modal
       isOpen={open}
@@ -223,9 +250,8 @@ const OpportunityTaskSidebar = (props: TaskSidebarProps) => {
     >
       <Form id="form-modal-todo" className="todo-modal" onSubmit={handleSubmit(onSubmit)}>
         <ModalHeader
-          // deleted={deleted}
-          // deleteTask={deleteTask}
-          // setDeleted={setDeleted}
+          selectedTask={selectedTask}
+          deleteTask={deleteTask}
           handleTaskSidebar={handleTaskSidebar}
         >
           {handleSidebarTitle()}
@@ -233,7 +259,7 @@ const OpportunityTaskSidebar = (props: TaskSidebarProps) => {
         <ModalBody className="flex-grow-1 pb-sm-0 pb-3">
           <div className="mb-1">
             <Label className="form-label" for="task-title">
-              Title
+              {i18n.t('OPP.TITLE')}
               {' '}
               <span className="text-danger">*</span>
             </Label>
@@ -250,56 +276,61 @@ const OpportunityTaskSidebar = (props: TaskSidebarProps) => {
                 />
               )}
             />
-            {errors.title && <FormFeedback>Please enter a valid task title</FormFeedback>}
+            {errors.title && <FormFeedback>{i18n.t('OPP.FIELD_IS_INVALID', { field: i18n.t('OPP.TITLE') })}</FormFeedback>}
           </div>
           <div className="mb-1">
-            <Label className="form-label" for="due-date">
-              Due Date
+            <Label className="form-label" for="dueDate">
+              {i18n.t('OPP.DUE_DATE')}
             </Label>
             <Flatpickr
-              id="due-date"
-              name="due-date"
+              id="dueDate"
+              name="dueDate"
               className="form-control"
-              onChange={(date) => setDueDate(moment(date[0]).format('Y-m-d'))}
+              onChange={(date) => setDueDate(moment(date[0]).format(DATE_FORMAT))}
               value={dueDate}
-              options={{ dateFormat: 'Y-m-d' }}
             />
           </div>
           <div className="mb-1">
-            <Label className="form-label" for="task-tags">
-              Tags
+            <Label className="form-label" for="priority">
+              {i18n.t('OPP.PRIORITY')}
             </Label>
-            <Select
-              isMulti
-              id="task-tags"
-              className="react-select"
-              classNamePrefix="select"
-              isClearable={false}
-              // options={tagOptions}
-              theme={selectThemeColors}
-              value={tags}
-              onChange={(data) => {
-                setTags(data !== null ? [...data] : []);
-              }}
+            <Controller
+              name="priority"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  className={classNames('react-select', { 'is-invalid': errors.priority })}
+                  classNamePrefix="select"
+                  isClearable={false}
+                  options={priorityOptions}
+                  getOptionLabel={(option) => {
+                    const tag = priorityOptions.find((e) => e.value === option.value);
+                    return tag?.label || '';
+                  }}
+                  theme={selectThemeColors}
+                  {...field}
+                />
+              )}
             />
           </div>
           <div className="mb-1">
             <Label for="task-desc" className="form-label">
-              Description
+              {i18n.t('OPP.DESCRIPTION')}
             </Label>
             <Controller
-              name="title"
+              name="description"
               control={control}
               render={({ field }) => (
                 <Input
                   id="description"
                   placeholder="Description"
                   className="new-todo-item-title"
-                  invalid={errors.title && true}
+                  invalid={errors.description && true}
                   {...field}
                 />
               )}
             />
+            {errors.title && <FormFeedback>{i18n.t('OPP.FIELD_IS_INVALID', { field: i18n.t('OPP.DESCRIPTION') })}</FormFeedback>}
           </div>
           <div>{renderFooterButtons()}</div>
         </ModalBody>
