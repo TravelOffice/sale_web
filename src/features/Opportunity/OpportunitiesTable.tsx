@@ -16,7 +16,7 @@ import { FilterAttributesOpportunity, OpportunityStatus } from '@domain/entities
 import { useLeadAndCustomers } from '@hooks/customer';
 import { Customer, Lead } from '@domain/entities/Lead';
 import { useParams } from 'react-router-dom';
-import { opportunityColumns } from './OpportunityColumns';
+import { allOpportunitiesColumns, opportunitiesOfLeadColumns } from './OpportunityColumns';
 
 const statusOptions = [
   { value: '', label: i18n.t('COMMON.SELECT'), number: 0 },
@@ -34,7 +34,7 @@ function getLeadLabel(leads: Array<Lead | Customer>, leadId?: string | null) {
 
 const OpportunitiesTable = () => {
   const dispatch = useDispatch();
-  const leadDetailId = useParams<{ id: string }>().id;
+  const leadDetailId = useParams<{ leadId: string }>().leadId;
 
   // ** Store Vars
   const allOpportunities = useSelector((state: RootState) => state.opportunity.allOpportunities);
@@ -147,7 +147,7 @@ const OpportunitiesTable = () => {
         data={allOpportunities}
         fetchDataState={actionState}
         fetchDataError={actionErrorMessage}
-        columns={opportunityColumns}
+        columns={leadDetailId ? opportunitiesOfLeadColumns : allOpportunitiesColumns}
         searchableColumns={['name', 'status']}
         toggleAddDataSidebar={toggleSidebar}
         sortColumnDefault="name"
