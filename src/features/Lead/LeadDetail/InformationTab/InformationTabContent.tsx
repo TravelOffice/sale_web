@@ -80,6 +80,7 @@ const InformationTabContent = () => {
   const [openTaskSidebar, setOpenTaskSidebar] = useState(false);
   const [openDiscardWarning, setOpenDiscardWarning] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [areTasksChanged, setTasksChanged] = useState(false);
 
   // ** Hooks
   const { leadId } = useParams<ParamTypes>();
@@ -141,8 +142,10 @@ const InformationTabContent = () => {
   };
 
   const handleAddTask = (task: Task) => {
-    tasks.push(task);
-    setTasks(tasks);
+    const newTasks = [...tasks];
+    newTasks.push(task);
+    setTasks(newTasks);
+    setTasksChanged(true);
   };
 
   const handleUpdateTask = (updateTask: Task) => {
@@ -153,6 +156,7 @@ const InformationTabContent = () => {
       return task;
     });
     setTasks(newTasks);
+    setTasksChanged(true);
   };
 
   const handleDeleteTask = (deleteTask: Task) => {
@@ -165,7 +169,7 @@ const InformationTabContent = () => {
   };
 
   const handleSaveAllTasks = async () => {
-    const newTasks = tasksFiltered.map((task) => {
+    const newTasks = tasks.map((task) => {
       const {
         // eslint-disable-next-line no-unused-vars
         id, selected, chosen, filtered, ...newTask
@@ -213,6 +217,7 @@ const InformationTabContent = () => {
       id: index,
     })) : [];
     setTasks(tasksWithId);
+    setTasksChanged(false);
   };
 
   return (
@@ -253,7 +258,7 @@ const InformationTabContent = () => {
                 handleTaskSidebar={handleTaskSidebar}
               />
             </CardBody>
-            { tasksFiltered && !!tasksFiltered.length && (
+            { areTasksChanged && (
               <CardFooter>
                 <Row>
                   <Col className="mt-2" sm="12">
