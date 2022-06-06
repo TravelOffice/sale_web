@@ -18,7 +18,7 @@ import { getLeadById } from '@utils/LeadUtils';
 import { RootState } from '@redux/store';
 import { Customer, Lead } from '@domain/entities/Lead';
 
-type OmitFields = 'customer' | 'closedLostReason' | 'actualCloseDate' | 'createdAt' | 'updatedAt' | 'notes' | 'task' | 'id' | 'leadName';
+type OmitFields = 'customer' | 'closedLostReason' | 'actualCloseDate' | 'createdAt' | 'updatedAt' | 'notes' | 'tasks' | 'id' | 'leadName';
 type OmittedOpportunityFormData = Omit<Opportunity, OmitFields>;
 type FormData<T> = {
   [K in keyof T]: T[K] extends Date ? string : T[K]
