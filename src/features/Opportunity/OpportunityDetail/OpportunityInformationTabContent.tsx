@@ -45,14 +45,19 @@ import {
   opportunityPotentials,
   opportunitySources,
   opportunityStatuses,
+  OpportunityNoteSearchParams,
   OpportunityTask,
   OppTaskSortEnum,
+  OppNoteSortEnum,
   OpportunityTaskSearchParams,
+  OpportunityNote,
 } from '@domain/entities/opportunity/Opportunity';
 import { selectThemeColors } from '@utils/Utils';
 import { DATE_FORMAT, FLATPICKR_DATE_FORMAT } from '@utils/Constants';
 import OpportunityTasks from './OpportunityTasks';
+import OpportunityNotes from './OpportunityNotes';
 import OpportunityTaskSidebar from './OpportunityTaskSidebar';
+import OpportunityNoteSidebar from './OpportunityNoteSidebar';
 
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -62,6 +67,7 @@ interface ParamTypes {
 }
 
 const {
+// getOpportunity,  //selectNote,  //getAllNotes,
   // getOpportunity,
   // getAllTasks,
   // selectTask,
@@ -106,6 +112,42 @@ const filterTaskByParams = (tasks: OpportunityTask[], params: OpportunityTaskSea
   return tasksFilter;
 };
 
+const filterNoteByParams = (notes: OpportunityNote[], params: OpportunityNoteSearchParams) => {
+  let notesFilter: OpportunityNote[] = [...notes];
+
+  // Filter by query
+  if (params.query && params.query.length) {
+    notesFilter = notesFilter.filter(
+      (note: OpportunityTask) => {
+        const regex = new RegExp(params.query, 'gi');
+        return regex.test(note.title);
+      },
+    );
+  }
+
+  // Sort the note
+  switch (params.sortBy) {
+    case OppNoteSortEnum.TITLE_ASC:
+      notesFilter = notesFilter.sort(
+        (a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
+      );
+      break;
+    case OppNoteSortEnum.TITLE_DESC:
+      notesFilter = notesFilter.sort(
+        (a, b) => b.title.toLowerCase().localeCompare(a.title.toLowerCase()),
+      );
+      break;
+    case OppNoteSortEnum.DUE_DATE:
+      notesFilter = notesFilter.sort(
+        (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate),
+      );
+      break;
+    default:
+      break;
+  }
+  return notesFilter;
+};
+
 const opportunityFormSchema = yup.object().shape({
   name: yup.string().required(),
   estimatedConfirmDate: yup.string().required(),
@@ -129,18 +171,25 @@ const OpportunityInformationTabContent = () => {
 
   // ** States
   const [openTaskSidebar, setOpenTaskSidebar] = useState(false);
+  const [openNoteSidebar, setOpenNoteSidebar] = useState(false);
   const [selectedTask, setSelectedTask] = useState<OpportunityTask | undefined>();
+  const [selectedNote, setSelectedNote] = useState<OpportunityTask | undefined>();
   const [taskSearchParams, setTaskSearchParams] = useState<OpportunityTaskSearchParams>({ query: '' });
+  const [noteSearchParams, setNoteSearchParams] = useState<OpportunityNoteSearchParams>({ query: '' });
   const [areTasksChanged, setTasksChanged] = useState(false);
+  const [areNotesChanged, setNotesChanged] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [tasks, setTasks] = useState<OpportunityTask[]>([]);
+  const [notes, setNotes] = useState<OpportunityNote[]>([]);
   const [tasksFiltered, setTasksFiltered] = useState<OpportunityTask[]>([]);
+  const [notesFiltered, setNotesFiltered] = useState<OpportunityTask[]>([]);
   const [openDiscardWarning, setOpenDiscardWarning] = useState(false);
 
   // ** Selectors
   const opportunity = useSelector((
     state: RootState,
   ) => state.opportunity.selectedOpportunity);
+
   const isUpdating = useSelector((
     state: RootState,
   ) => state.opportunity.createOrUpdateOpportunityLoading);
@@ -208,6 +257,12 @@ const OpportunityInformationTabContent = () => {
     setTasksFiltered(tasksFilter);
   }, [tasks, taskSearchParams]);
 
+    // Update the filtered note when tasks or search param updated
+    useEffect(() => {
+      const notesFilter: OpportunityTask[] = filterNoteByParams(notes, noteSearchParams);
+      setNotesFiltered(notesFilter);
+    }, [notes, noteSearchParams]);
+
   const onSubmit = useCallback((formData) => {
     // Submit form to update the opportunity
     const updatedOpportunity = {
@@ -217,8 +272,7 @@ const OpportunityInformationTabContent = () => {
     };
     dispatch(opportunityActions.updateOpportunity(updatedOpportunity));
   }, [opportunity]);
-
-  // ** Function to handle save new change to BE and store
+// ** Function to handle save new change to BE and store
   const handleSaveAllTasks = async () => {
     const newTasks = tasks.map((task) => {
       const {
@@ -251,6 +305,40 @@ const OpportunityInformationTabContent = () => {
     }
   };
 
+// ** Function to handle save new change to BE and store
+  const handleSaveAllNotes = async () => {
+    const newNotes = notes.map((note) => {
+      const {
+        // eslint-disable-next-line no-unused-vars
+        id, ...newNote
+      } = note;
+      return newNote;
+    });
+    if (opportunity) {
+      const newOpp: Opportunity = { ...opportunity, tasks: newNotes as OpportunityNote[] };
+      try {
+        setSubmitting(true);
+        await opportunityPresenter.updateOpportunity(newOpp);
+        dispatch(selectOpportunity(newOpp));
+        toasty.show({
+          title: i18n.t('COMMON.SUCCESS'),
+          type: 'success',
+          message: i18n.t('OPP.UPDATE_TASKS_SUCCESSFULLY'),
+        });
+        setNotesChanged(false);
+      } catch (e: any) {
+        toasty.show({
+          title: i18n.t('COMMON.ERROR'),
+          type: 'error',
+          message: `${e.message}`,
+        });
+      } finally {
+        setSubmitting(false);
+      }
+    }
+  };
+
+
   // ** Toggle discard warning dialog
   const toggleDiscardWarningDialog = () => {
     setOpenDiscardWarning(!openDiscardWarning);
@@ -258,6 +346,12 @@ const OpportunityInformationTabContent = () => {
 
   // ** Dispatch action to delete opportunity from server
   const handleDiscardTasks: MouseEventHandler = (e) => {
+    e.preventDefault();
+    toggleDiscardWarningDialog();
+  };
+
+  // ** Dispatch action to delete opportunity from server
+  const handleDiscardNotes: MouseEventHandler = (e) => {
     e.preventDefault();
     toggleDiscardWarningDialog();
   };
@@ -275,12 +369,33 @@ const OpportunityInformationTabContent = () => {
     setTasksChanged(false);
   };
 
+  // ** Function to handle discard the change of note list
+  const onDiscardNotes = () => {
+    toggleDiscardWarningDialog();
+    const notesWithId: OpportunityNote[] = opportunity?.notes
+      ? opportunity.notes.map((note, index) => ({
+        ...note,
+        id: index,
+      }))
+      : [];
+    setNotes(notesWithId);
+    setNotesChanged(false);
+  };
+
   // ** Function to handle Task sidebar
   const handleTaskSidebar = () => setOpenTaskSidebar(!openTaskSidebar);
 
+  // ** Function to handle Note sidebar
+  const handleNoteSidebar = () => setOpenNoteSidebar(!openNoteSidebar);
+
   // ** Function To Handle Add Task Click
-  const handleAddClick = () => {
+  const handleAddTaskClick = () => {
     handleTaskSidebar();
+  };
+
+  // ** Function To Handle Add Task Click
+  const handleAddNoteClick = () => {
+    handleNoteSidebar();
   };
 
   // ** Function to handle adding new task
@@ -289,6 +404,14 @@ const OpportunityInformationTabContent = () => {
     newTasks.push(task);
     setTasks(newTasks);
     setTasksChanged(true);
+  };
+
+  // ** Function to handle adding new note
+  const handleAddNote = (note: OpportunityNote) => {
+    const newNotes = [...notes];
+    newNotes.push(note);
+    setNotes(newNotes);
+    setNotesChanged(true);
   };
 
   // ** Function to handle task updated
@@ -303,6 +426,18 @@ const OpportunityInformationTabContent = () => {
     setTasksChanged(true);
   };
 
+    // ** Function to handle task updated
+    const handleUpdateNote = (updateTask: OpportunityTask) => {
+      const newTasks: OpportunityTask[] = tasks.map((task: OpportunityTask) => {
+        if (task.id === updateTask.id) {
+          return updateTask;
+        }
+        return task;
+      });
+      setNotes(newTasks);
+      setNotesChanged(true);
+    };
+
   // ** Function to handle task deleted
   const handleDeleteTask = (deleteTask: OpportunityTask) => {
     const newTasks = tasks.filter((task: OpportunityTask) => task.id !== deleteTask.id);
@@ -310,15 +445,35 @@ const OpportunityInformationTabContent = () => {
     setTasksChanged(true);
   };
 
+  // ** Function to handle note deleted
+  const handleDeleteNote = (deleteNote: OpportunityNote) => {
+    const newNotes = notes.filter((note: OpportunityTask) => note.id !== deleteNote.id);
+    setNotes(newNotes);
+    setNotesChanged(true);
+  };
+
   // ** Function to handle select task
   const handleSelectTask = (task?: OpportunityTask) => {
     setSelectedTask(task);
   };
 
+  // ** Function to handle select task
+  const handleSelectNote = (note?: OpportunityNote) => {
+    setSelectedNote(note);
+  };
+
   // ** Function to handle task sorting
-  const handleSetSort = (sortType?: OppTaskSortEnum) => {
+  const handleSetSortTask = (sortType?: OppTaskSortEnum) => {
     setTaskSearchParams({
       ...taskSearchParams,
+      sortBy: sortType,
+    });
+  };
+
+  // ** Function to handle note sorting
+  const handleSetSortNote = (sortType?: OppNoteSortEnum) => {
+    setNoteSearchParams({
+      ...noteSearchParams,
       sortBy: sortType,
     });
   };
@@ -335,14 +490,33 @@ const OpportunityInformationTabContent = () => {
     setTasks(newTasks);
   };
 
+  // ** Function to handle re-order task list
+  const handleReOrderNotes = (newTasks: OpportunityNote[]) => {
+    setNotes(newTasks);
+  };
+
   const renderEmptyTasksContent = () => (
     <div className="misc-wrapper">
       <div className="misc-inner p-2 p-sm-3">
         <div className="w-100 text-center">
           <h2 className="mb-1">{i18n.t('TASK.TASKS_EMPTY_TITLE')}</h2>
           <p className="mb-2">{i18n.t('TASK.TASKS_EMPTY_SUB_TITLE')}</p>
-          <Button onClick={handleAddClick} color="primary" className="btn-sm-block mb-2">
+          <Button onClick={handleAddTaskClick} color="primary" className="btn-sm-block mb-2">
             {i18n.t('TASK.ADD_NEW_TASK')}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderEmptyNotesContent = () => (
+    <div className="misc-wrapper">
+      <div className="misc-inner p-2 p-sm-3">
+        <div className="w-100 text-center">
+          <h2 className="mb-1">{i18n.t('NOTE.NOTES_EMPTY_TITLE')}</h2>
+          <p className="mb-2">{i18n.t('NOTE.NOTES_EMPTY_SUB_TITLE')}</p>
+          <Button onClick={handleAddNoteClick} color="primary" className="btn-sm-block mb-2">
+            {i18n.t('NOTE.ADD_NEW_NOTE')}
           </Button>
         </div>
       </div>
@@ -703,6 +877,52 @@ const OpportunityInformationTabContent = () => {
     </CardFooter>
   );
 
+  const renderChangedConfirmationNotes = () => (
+    <CardFooter>
+      <Row>
+        <Col className="mt-2" sm="12">
+          <Button type="submit" className="me-1" color="primary" onClick={handleSaveAllNotes}>
+            { !submitting ? i18n.t('COMMON.SAVE_CHANGES') : i18n.t('COMMON.LOADING')}
+            {' '}
+            { submitting ? (
+              <Spinner
+                style={{ width: '0.7rem', height: '0.7rem' }}
+                type="grow"
+                color="light"
+              />
+            ) : null }
+          </Button>
+          <Button color="secondary" outline onClick={handleDiscardNotes}>
+            {i18n.t('COMMON.DISCARD')}
+          </Button>
+          <Modal
+            isOpen={openDiscardWarning}
+            toggle={toggleDiscardWarningDialog}
+            className="modal-dialog-centered"
+            modalClassName="modal-warning"
+          >
+            <ModalHeader
+              toggle={toggleDiscardWarningDialog}
+            >
+              {i18n.t('OPP.DISCARD_NOTE_WARNING_TITLE')}
+            </ModalHeader>
+            <ModalBody>
+              {i18n.t('OPP.DISCARD_NOTE_WARNING_MESSAGE')}
+            </ModalBody>
+            <ModalFooter>
+              <Button outline color="secondary" onClick={() => setOpenDiscardWarning(!openDiscardWarning)}>
+                {i18n.t('COMMON.CANCEL')}
+              </Button>
+              <Button color="warning" onClick={onDiscardNotes}>
+                {i18n.t('COMMON.YES')}
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </Col>
+      </Row>
+    </CardFooter>
+  );
+
   return (
     <>
       <Row className="h-100">
@@ -733,6 +953,15 @@ const OpportunityInformationTabContent = () => {
                 updateTask={handleUpdateTask}
                 deleteTask={handleDeleteTask}
               />
+              <OpportunityNoteSidebar
+                open={openNoteSidebar}
+                handleNoteSidebar={handleNoteSidebar}
+                addNote={handleAddNote}
+                selectedNote={selectedNote}
+                selectNote={handleSelectNote}
+                updateNote={handleUpdateNote}
+                deleteNote={handleDeleteNote}
+              />
             </CardBody>
           </Card>
         </Col>
@@ -741,7 +970,7 @@ const OpportunityInformationTabContent = () => {
             <CardHeader className="border-bottom">
               <CardTitle tag="h4">{i18n.t('TASK.TASKS_LIST')}</CardTitle>
               <CardTitle tag="h4">
-                <Plus className="cursor-pointer" size={16} onClick={handleAddClick} />
+                <Plus className="cursor-pointer" size={16} onClick={handleAddTaskClick} />
               </CardTitle>
             </CardHeader>
             <CardBody className="py-2 my-25">
@@ -750,17 +979,43 @@ const OpportunityInformationTabContent = () => {
                   tasks={tasksFiltered}
                   query={taskSearchParams.query}
                   params={taskSearchParams}
-                  setSort={handleSetSort}
+                  setSort={handleSetSortTask}
                   setQuery={handleSetQuery}
                   updateTask={handleUpdateTask}
                   selectTask={handleSelectTask}
                   handleTaskSidebar={handleTaskSidebar}
-                  handleAddTaskClick={handleAddClick}
+                  handleAddTaskClick={handleAddTaskClick}
                   reOrderTasks={handleReOrderTasks}
                 />
               ) : renderEmptyTasksContent()}
             </CardBody>
             {areTasksChanged && renderChangedConfirmationTasks()}
+          </Card>
+
+          <Card>
+            <CardHeader className="border-bottom">
+              <CardTitle tag="h4">{i18n.t('NOTE.NOTES_LIST')}</CardTitle>
+              <CardTitle tag="h4">
+                <Plus className="cursor-pointer" size={16} onClick={handleAddNoteClick} />
+              </CardTitle>
+            </CardHeader>
+            <CardBody className="py-2 my-25">
+              {notes.length > 0 ? (
+                <OpportunityNotes
+                  notes={notesFiltered}
+                  query={noteSearchParams.query}
+                  params={noteSearchParams}
+                  setSort={handleSetSortNote}
+                  setQuery={handleSetQuery}
+                  updateNote={handleUpdateNote}
+                  selectNote={handleSelectNote}
+                  handleNoteSidebar={handleTaskSidebar}
+                  handleAddNoteClick={handleAddNoteClick}
+                  reOrderNotes={handleReOrderNotes}
+                />
+              ) : renderEmptyNotesContent()}
+            </CardBody>
+            {areNotesChanged && renderChangedConfirmationNotes()}
           </Card>
         </Col>
       </Row>

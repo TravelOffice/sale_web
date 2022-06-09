@@ -29,6 +29,12 @@ export enum OppTaskSortEnum {
   DUE_DATE = 'DUE_DATE',
 }
 
+export enum OppNoteSortEnum {
+  TITLE_ASC = 'TITLE_ASC',
+  TITLE_DESC = 'TITLE_DESC',
+  DUE_DATE = 'DUE_DATE',
+}
+
 export type OpportunityStatus = keyof typeof OpportunityStatusEnum;
 export type OpportunitySource = keyof typeof OpportunitySourceEnum;
 export type OpportunityPotentialType = keyof typeof OpportunityPotentialTypeEnum;
@@ -48,7 +54,7 @@ export interface Opportunity {
   estimatedConfirmDate: string,
   actualCloseDate?: string,
   potential: OpportunityPotentialType,
-  notes?: Note[],
+  notes?: OpportunityNote[],
   tasks?: OpportunityTask[],
 }
 
@@ -89,7 +95,20 @@ export interface OpportunityTaskWithoutId {
   isCompleted: boolean,
 }
 
+export interface OpportunityNoteWithoutId {
+  title: string,
+  dueDate: string,
+  description: string,
+  creatorId?: string,
+  creatorName?: string,
+  priority: PriorityOption,
+  isCompleted: boolean,
+}
+
 export type OpportunityTask = OpportunityTaskWithoutId & ItemInterface;
+
+export type OpportunityNote = OpportunityNoteWithoutId & ItemInterface;
+
 
 export interface SelectOpportunityParams {
   leadId: string,
@@ -99,4 +118,9 @@ export interface SelectOpportunityParams {
 export interface OpportunityTaskSearchParams {
   query: string,
   sortBy?: OppTaskSortEnum,
+}
+
+export interface OpportunityNoteSearchParams {
+  query: string,
+  sortBy?: OppNoteSortEnum,
 }

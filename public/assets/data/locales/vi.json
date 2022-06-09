@@ -177,6 +177,8 @@
         "UPDATE_TASKS_SUCCESSFULLY": "Nhiệm vụ cập nhập thành công",
         "DISCARD_TASK_WARNING_TITLE": "Bỏ tất cả các thay đổi về nhiệm vụ?",
         "DISCARD_TASK_WARNING_MESSAGE": "Tất cả các thay đổi của nhiệm vụ sẽ bị loại bỏ. Bạn có muốn tiếp tục?",
+        "DISCARD_NOTE_WARNING_TITLE": "Bỏ tất cả các thay đổi về ghi chú?",
+        "DISCARD_NOTE_WARNING_MESSAGE": "Tất cả các thay đổi của ghi chú sẽ bị loại bỏ. Bạn có muốn tiếp tục?",
         "SORT_A_TO_Z": "Sắp xếp theo A-Z",
         "SORT_Z_TO_A": "Sắp xếp theo Z-A",
         "SORT_DUE_DATE": "Sắp xếp theo ngày",
@@ -215,5 +217,11 @@
         "TASKS_EMPTY_TITLE": "Không có công việc. \uD83D\uDD75\uD83C\uDFFB\u200D♀️",
         "TASKS_EMPTY_SUB_TITLE": "Cơ hội không bao gồm bất kì công việc nào.",
         "ADD_NEW_TASK": "Thêm công việc mới"
+    },
+    "NOTE": {
+        "LIST_NOTES": "Danh sách ghi chú",
+        "TASKS_EMPTY_TITLE": "Không có ghi chú. \uD83D\uDD75\uD83C\uDFFB\u200D♀️",
+        "TASKS_EMPTY_SUB_TITLE": "Cơ hội không bao gồm bất kì ghi chú nào.",
+        "ADD_NEW_TASK": "Thêm ghi chú mới"
     }
 }

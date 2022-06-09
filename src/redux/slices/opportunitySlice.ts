@@ -6,7 +6,9 @@ import {
   FilterAttributesOpportunity,
   Opportunity,
   OpportunityTask,
+  OpportunityNote,
   OpportunityTaskSearchParams,
+  OpportunityNoteSearchParams,
 } from '@domain/entities/opportunity/Opportunity';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import removeElement from '@utils/ArrayUtils';
@@ -18,7 +20,9 @@ interface OpportunityState {
   allOpportunities: Opportunity[],
   selectedOpportunity?: Opportunity,
   allTasks: OpportunityTask[],
+  allNotes: OpportunityNote[],
   selectedTask?: OpportunityTask,
+  selectedNote?: OpportunityNote,
   actionState: HandleDataState,
   actionErrorMessage?: string,
   getOpportunityLoading: boolean,
@@ -32,6 +36,7 @@ const initialState: OpportunityState = {
   allOpportunities: [],
   selectedOpportunity: undefined,
   allTasks: [],
+  allNotes: [],
   selectedTask: undefined,
   actionState: 'init',
   actionErrorMessage: undefined,
@@ -118,17 +123,23 @@ const opportunitySlice = createSlice({
     },
     getAllTasks: (state, action: PayloadAction<OpportunityTaskSearchParams>) => {
     },
+    getAllNotes: (state, action: PayloadAction<OpportunityNoteSearchParams>) => {
+    },
     setAllTasks: (state, action: PayloadAction<OpportunityTask[]>) => {
       state.allTasks = action.payload;
     },
     selectTask: (state, action: PayloadAction<OpportunityTask>) => {
       state.selectedTask = action.payload;
     },
+    selectNote: (state, action: PayloadAction<OpportunityNote>) => {
+      state.selectedNote = action.payload;
+    },
     updateTask: (state, action: PayloadAction<OpportunityTask>) => { },
     unSelectOpportunity: (state) => {
       state.selectedOpportunity = undefined;
       state.openSidebar = false;
     },
+   updateNote: (state, action: PayloadAction<OpportunityNote>) => { },
   },
 });
 

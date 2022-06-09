@@ -177,6 +177,8 @@
         "UPDATE_TASKS_SUCCESSFULLY": "Tasks updated successfully",
         "DISCARD_TASK_WARNING_TITLE": "Discard all tasks changes?",
         "DISCARD_TASK_WARNING_MESSAGE": "All changes of the tasks will be discard. Do you want to continue?",
+        "DISCARD_NOTE_WARNING_TITLE": "Discard all notes changes?",
+        "DISCARD_NOTE_WARNING_MESSAGE": "All changes of the notes will be discard. Do you want to continue?",
         "SORT_A_TO_Z": "Sort A-Z",
         "SORT_Z_TO_A": "Sort Z-A",
         "SORT_DUE_DATE": "Sort due date",
@@ -215,5 +217,11 @@
         "TASKS_EMPTY_TITLE": "Tasks not found. \uD83D\uDD75\uD83C\uDFFB\u200D♀️",
         "TASKS_EMPTY_SUB_TITLE": "The opportunity does not have any tasks.",
         "ADD_NEW_TASK": "Add new task"
+    },
+    "NOTE": {
+        "NOTES_LIST": "Notes",
+        "NOTES_EMPTY_TITLE": "Notes not found. \uD83D\uDD75\uD83C\uDFFB\u200D♀️",
+        "NOTES_EMPTY_SUB_TITLE": "The opportunity does not have any notes.",
+        "ADD_NEW_NOTE": "Add new notes"
     }
 }

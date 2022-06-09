@@ -20,7 +20,7 @@ import '@styles/react/libs/editor/editor.scss';
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/libs/react-select/_react-select.scss';
 import moment from 'moment';
-import { OpportunityTask, PriorityOption } from '@domain/entities/opportunity/Opportunity';
+import { OpportunityTask, OpportunityNote, PriorityOption } from '@domain/entities/opportunity/Opportunity';
 import i18n from '@config/i18n';
 import classNames from 'classnames';
 import { DATE_FORMAT } from '@utils/Constants';
@@ -56,6 +56,16 @@ interface TaskSidebarProps {
   selectTask: (task?: OpportunityTask) => void,
   addTask: (task: OpportunityTask) => void,
   deleteTask: (task: OpportunityTask) => void,
+}
+
+interface NoteSidebarProps {
+  open: boolean,
+  selectedNote: OpportunityNote | undefined,
+  handleNoteSidebar: () => void,
+  updateNote: (task: OpportunityTask) => void,
+  selectNote: (task?: OpportunityTask) => void,
+  addNote: (task: OpportunityTask) => void,
+  deleteNote: (task: OpportunityTask) => void,
 }
 
 // ** Modal Header
@@ -100,6 +110,18 @@ const OpportunityTaskSidebar = (props: TaskSidebarProps) => {
     selectedTask,
     deleteTask,
   } = props;
+
+  // const OpportunityNoteSidebar = (props: NoteSidebarProps) => {
+  //   // ** Props
+  //   const {
+  //     open,
+  //     handleNoteSidebar,
+  //     updateNote,
+  //     addNote,
+  //     selectNote,
+  //     selectedNote,
+  //     deleteNote,
+  //   } = props;
 
   // ** States
   const [completed, setCompleted] = useState(false);
