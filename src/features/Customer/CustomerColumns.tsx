@@ -53,7 +53,7 @@ export const customerColumns : TableColumn<Customer>[] = [
         {renderClient(row)}
         <div className="d-flex flex-column">
           <Link
-            to={`/apps/user/view/${row.primaryPhoneNumber}`}
+            to={`/apps/lead/${row.primaryPhoneNumber}`}
             className="user_name text-truncate text-body"
           >
             <span className="fw-bolder">{row.name}</span>
