@@ -64,7 +64,7 @@ const nameColumn = {
             to="/"
             onClick={(e) => {
               e.preventDefault();
-              dispatch(opportunityActions.selectOpportunity(opp));
+              dispatch(opportunityActions.onGoToOpportunityDetail(opp));
               history.push(`/apps/lead/${opp.leadId}/opp/${opp.id}`);
             }}
             className="user_name text-truncate text-body"
@@ -160,7 +160,7 @@ const actionsColumn = {
               tag="a"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(opportunityActions.selectOpportunity(opp));
+                dispatch(opportunityActions.onGoToOpportunityDetail(opp));
                 history.push(`/apps/lead/${opp.leadId}/opp/${opp.id}`);
               }}
             >

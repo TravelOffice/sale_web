@@ -142,7 +142,12 @@
         "VALIDATOR_CLOSED_LOST_REASON_TEXT": "Vui lòng nhập nguyên nhân thất bại",
         "VALIDATOR_SOURCE_TEXT": "Vui lòng chọn nguồn",
         "VALIDATOR_POTENTIAL_TEXT": "Vui lòng chọn tiềm năng thành công",
-        "VALIDATOR_STATUS_TEXT": "Vui lòng chọn trạng thái"
+        "VALIDATOR_STATUS_TEXT": "Vui lòng chọn trạng thái",
+        "INFORMATION_TAB_TITLE": "Thông tin",
+        "QUOTES_TAB_TITLE": "Báo giá",
+        "BOOKING_TAB_TITLE": "Đặt hàng",
+        "QUOTE_DETAIL_CARD_TITLE": "Chi tiết báo giá",
+        "QUOTES_LIST_CARD_TITLE": "Báo giá theo thời gian"
     },
     "CUSTOMER": {
         "NEW": "Mới",

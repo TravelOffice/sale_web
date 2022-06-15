@@ -55,12 +55,15 @@ const opportunitySlice = createSlice({
       state.actionErrorMessage = undefined;
     },
     getOpportunity: (state, action: PayloadAction<any>) => { },
-    selectOpportunity: (state, action: PayloadAction<Opportunity | [string, string]>) => {
+    selectOpportunity: (state, action: PayloadAction<Opportunity>) => {
+      state.selectedOpportunity = action.payload;
+      state.openSidebar = true;
+    },
+    onGoToOpportunityDetail: (state, action: PayloadAction<Opportunity | [string, string]>) => {
       if (Array.isArray(action.payload)) {
         state.getOpportunityLoading = true;
       } else {
         state.selectedOpportunity = action.payload;
-        state.openSidebar = true;
       }
     },
     deleteOpportunity: (state, action: PayloadAction<Opportunity>) => { },

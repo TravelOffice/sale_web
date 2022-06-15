@@ -181,12 +181,13 @@ const LeadTaskSidebar = (props: TaskSidebarProps) => {
     clearErrors();
   };
 
-  // ** Function to reset fileds
+  // ** Function to reset fields
   const handleResetFields = () => {
     if (selectedTask) {
       setValue('title', selectedTask.title);
       setCompleted(selectedTask.isCompleted);
       setDueDate(selectedTask.dueDate);
+      handleTaskSidebar();
     }
   };
 
@@ -195,7 +196,7 @@ const LeadTaskSidebar = (props: TaskSidebarProps) => {
     if (selectedTask) {
       return (
         <>
-          <Button color="primary" className="update-btn update-todo-item me-1">
+          <Button color="primary" className="update-btn update-fields-todo-item me-1">
             {i18n.t('COMMON.UPDATE')}
           </Button>
           <Button color="secondary" onClick={handleResetFields} outline>

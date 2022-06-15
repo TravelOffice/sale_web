@@ -53,7 +53,7 @@ const {
   getAllTasks,
   selectTask,
   updateTask,
-  selectOpportunity,
+  onGoToOpportunityDetail,
 } = opportunityActions;
 
 const opportunityFormSchema = yup.object().shape({
@@ -105,7 +105,7 @@ const OpportunityInformationTabContent = () => {
     // Prevent refreshing browser or opening opp detail directly
     // Opportunity need to be fetched and set as selected opportunity in opp state
     if (!opportunity) {
-      dispatch(selectOpportunity([leadId, oppId]));
+      dispatch(onGoToOpportunityDetail([leadId, oppId]));
     }
   }, [opportunity]);
 

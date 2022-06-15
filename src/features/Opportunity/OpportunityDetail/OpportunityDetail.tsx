@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { Bookmark, Info, Link2 } from 'react-feather';
+import { Bookmark, FileText, Info } from 'react-feather';
 import {
   Col, Row, TabContent, TabPane,
 } from 'reactstrap';
@@ -7,6 +7,8 @@ import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/pages/page-account-settings.scss';
 import '@styles/react/apps/app-todo.scss';
 import OpportunityInformationTabContent from '@features/Opportunity/OpportunityDetail/OpportunityInformationTabContent';
+import i18n from '@config/i18n';
+import QuotesTabContent from '@features/Opportunity/QuotesList/QuotesTabContent';
 import OpportunityDetailTabs from './OpportunityDetailTabs';
 
 export interface OpportunityTab {
@@ -16,28 +18,27 @@ export interface OpportunityTab {
   pane: ReactNode,
 }
 
-const tabs : OpportunityTab[] = [
-  {
-    id: 'information',
-    icon: <Info size={16} className="me-50" />,
-    title: 'Information',
-    pane: <OpportunityInformationTabContent />,
-  },
-  {
-    id: 'booking',
-    icon: <Bookmark size={16} className="me-50" />,
-    title: 'Booking',
-    pane: <div>Coming soon</div>,
-  },
-  {
-    id: 'notes',
-    icon: <Link2 size={16} className="me-50" />,
-    title: 'Notes',
-    pane: <div>Coming soon</div>,
-  },
-];
-
 export default function OpportunityDetail() {
+  const tabs : OpportunityTab[] = [
+    {
+      id: 'information',
+      icon: <Info size={16} className="me-50" />,
+      title: i18n.t('OPP.INFORMATION_TAB_TITLE'),
+      pane: <OpportunityInformationTabContent />,
+    },
+    {
+      id: 'quotes',
+      icon: <FileText size={16} className="me-50" />,
+      title: i18n.t('OPP.QUOTES_TAB_TITLE'),
+      pane: <QuotesTabContent />,
+    },
+    {
+      id: 'booking',
+      icon: <Bookmark size={16} className="me-50" />,
+      title: i18n.t('OPP.BOOKING_TAB_TITLE'),
+      pane: <div>Coming soon</div>,
+    },
+  ];
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   return (
     <>

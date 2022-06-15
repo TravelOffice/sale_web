@@ -27,7 +27,6 @@
         "SEVERITY_LOW": "Low",
         "INFORMATION": "Information",
         "TASK": "Task",
-        "SAVE_CHANGES": "Save Changes",
         "DISCARD": "Discard",
         "SORT": "Sort",
         "RESET_SORT": "Reset sort",
@@ -143,7 +142,12 @@
         "VALIDATOR_CLOSED_LOST_REASON_TEXT": "Please enter a closed lost reason",
         "VALIDATOR_SOURCE_TEXT": "Please choose a source",
         "VALIDATOR_POTENTIAL_TEXT": "Please choose a potential",
-        "VALIDATOR_STATUS_TEXT": "Please choose a status"
+        "VALIDATOR_STATUS_TEXT": "Please choose a status",
+        "INFORMATION_TAB_TITLE": "Information",
+        "QUOTES_TAB_TITLE": "Quotes",
+        "BOOKING_TAB_TITLE": "Booking",
+        "QUOTE_DETAIL_CARD_TITLE": "Quote Detail",
+        "QUOTES_LIST_CARD_TITLE": "Quotes by time"
     },
     "CUSTOMER": {
         "NEW": "New",

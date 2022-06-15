@@ -87,7 +87,7 @@ function* updateOpportunity(action: PayloadAction<Opportunity>) {
   }
 }
 
-function* selectOpportunity(action: PayloadAction<Opportunity | [string, string]>) {
+function* onGoToOpportunityDetail(action: PayloadAction<Opportunity | [string, string]>) {
   try {
     const { payload } = action;
     if (!Array.isArray(payload)) return;
@@ -108,7 +108,7 @@ export default function* opportunitySaga() {
     takeLatest(opportunityActions.getAllOpportunities, getAllOpportunities),
     takeLatest(opportunityActions.getOpportunitiesByLead, getOpportunitiesByLead),
     takeLatest(opportunityActions.deleteOpportunity, deleteOpportunity),
-    takeLatest(opportunityActions.selectOpportunity, selectOpportunity),
+    takeLatest(opportunityActions.onGoToOpportunityDetail, onGoToOpportunityDetail),
     takeEvery(opportunityActions.createOpportunity, createOpportunity),
     takeEvery(opportunityActions.updateOpportunity, updateOpportunity),
   ]);
