@@ -1,0 +1,113 @@
+import { Conversation } from '@domain/entities/Conversation';
+import React, { useCallback, useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import { Badge, CardText } from 'reactstrap';
+import { formatDateToMonthShort } from '@utils/DateUtils';
+import classnames from 'classnames';
+import CustomerAvatar from '@features/Chat/components/CustomerAvatar';
+import i18n from '@config/i18n';
+
+export interface ConversationListProps {
+  title: string,
+  conversations: Conversation[],
+  fetching: boolean,
+  onConversationSelected: (conversation: Conversation) => void,
+  selectedConversation?: Conversation,
+}
+
+const EmptyChats = React.memo(() => (
+  <li className="no-results show">
+    <h6 className="mb-0">{i18n.t('CHAT.NO_CHAT_FOUND')}</h6>
+  </li>
+));
+
+/**
+ * Skeleton to display when loading conversations. Each skeleton contains 5 row
+ * represents 5 chats.
+ */
+const ConversationSkeleton = React.memo(() => (
+  <>
+    {
+        [1, 2, 3, 4, 5].map((item) => (
+          <li key={item}>
+            <Skeleton circle width={42} height={42} />
+            <div className="chat-info flex-grow-1">
+              <Skeleton count={2} width="100%" />
+            </div>
+          </li>
+        ))
+      }
+  </>
+));
+
+function Conversations(props: ConversationListProps) {
+  const { conversations, onConversationSelected, selectedConversation } = props;
+  const [active, setActive] = useState<Conversation>();
+
+  const handleConversationClicked = useCallback((conversation: Conversation) => {
+    setActive(conversation);
+    onConversationSelected(conversation);
+  }, [active]);
+
+  useEffect(() => {
+    setActive(selectedConversation);
+  }, [selectedConversation]);
+
+  return (
+    <>
+      {
+        conversations.map((conversation) => {
+          const timestamp = conversation.lastMessage?.timestamp || new Date();
+          const datetime = formatDateToMonthShort(timestamp);
+          const { contact } = conversation;
+          return (
+            <li
+              key={conversation.id}
+              onClick={() => handleConversationClicked(conversation)}
+              className={classnames({ active: active?.id === conversation.id })}
+            >
+              <CustomerAvatar conversation={conversation} />
+              <div className="chat-info flex-grow-1">
+                <h5 className="mb-0">{contact.fullName}</h5>
+                <CardText className="text-truncate">
+                  {conversation.lastMessage ? conversation.lastMessage.messageData.text : ''}
+                </CardText>
+              </div>
+              <div className="chat-meta text-nowrap">
+                <small className="float-end mb-25 chat-time ms-25">{datetime}</small>
+                {conversation.unseenMessages >= 1 && (
+                  <Badge className="float-end" color="danger" pill>
+                    {conversation.unseenMessages}
+                  </Badge>
+                )}
+              </div>
+            </li>
+          );
+        })
+      }
+    </>
+  );
+}
+
+function renderConversations(props: ConversationListProps) {
+  const { conversations, fetching } = props;
+  if (fetching) {
+    return <ConversationSkeleton />;
+  }
+  if (conversations.length === 0) {
+    return <EmptyChats />;
+  }
+  return <Conversations {...props} />;
+}
+
+export default function ConversationList(props: ConversationListProps) {
+  const { title } = props;
+  return (
+    <>
+      <h4 className="chat-list-title">{title}</h4>
+      <ul className="chat-users-list chat-list media-list">
+        {renderConversations(props)}
+      </ul>
+    </>
+  );
+}

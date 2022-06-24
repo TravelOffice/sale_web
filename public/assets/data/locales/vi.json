@@ -110,7 +110,8 @@
         "MUTE_NOTIFICATIONS": "Tắt thông báo",
         "CLEAR_CHAT_MESSAGES": "Xóa tin nhắn",
         "SEARCH_INPUT_PLACE_HOLDER": "Tìm kiếm hội thoại",
-        "MESSAGE_INPUT_PLACEHOLDER": "Nhập tin nhắn hoặc gửi tệp đính kèm"
+        "MESSAGE_INPUT_PLACEHOLDER": "Nhập tin nhắn hoặc gửi tệp đính kèm",
+        "NO_CHAT_FOUND": "Chưa có tin nhắn"
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "Mô tả",

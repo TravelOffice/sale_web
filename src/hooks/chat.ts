@@ -6,14 +6,17 @@ import { RootState } from '@redux/store';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-export const useConversations = () : [Conversation[], boolean] => {
-  const conversations = useSelector((state: RootState) => state.chat.conversations);
-  const fetching = useSelector((state: RootState) => state.chat.fetchingConversations);
+export const useConversations = () => {
+  const fbConversationsState = useSelector((state: RootState) => state.chat.fbConversations);
+  const zaloConversationsState = useSelector((state: RootState) => state.chat.zaloConversations);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(chatActions.getConversations());
   }, []);
-  return [conversations, fetching];
+  return {
+    fbConversationsState,
+    zaloConversationsState,
+  };
 };
 
 export const useMessages = (conversation?: Conversation) : [Message[], boolean] => {
