@@ -98,8 +98,35 @@
         "CONNECTED_PAGES": "Connected pages"
     },
     "CHAT": {
+        "CONVERSATIONS_TITLE": "Conversations",
         "SEND_MESSAGE": "Send",
-        "UNSUPPORTED_MESSAGE": "Message is not supported yet. Go to chat platform official page at"
+        "UNSUPPORTED_MESSAGE": "Message is not supported yet. Go to chat platform official page at",
+        "LOADING_MORE": "Loading more...",
+        "LOAD_MORE_BUTTON_TITLE": "Load more messages",
+        "START_CONVERSATION": "Start conversation",
+        "VIEW_CONTACT": "View contact",
+        "MUTE_NOTIFICATIONS": "Mute notifications",
+        "CLEAR_CHAT_MESSAGES": "Clear messages",
+        "SEARCH_INPUT_PLACE_HOLDER": "Search chat conversations",
+        "MESSAGE_INPUT_PLACEHOLDER": "Type your message or send file, media attachments"
+    },
+    "CHAT_USER_PROFILE": {
+        "ABOUT": "About",
+        "PERSONAL_INFORMATION": "Personal information",
+        "ADD_TAG": "Add tag",
+        "IMPORTANT_CONTACT": "Important contact",
+        "SHARED_ATTACHMENTS": "Shared attachments",
+        "OPTIONS": "Options"
+    },
+    "CHAT_USER_SETTING": {
+        "ABOUT": "About",
+        "SETTINGS_TITLE": "Settings",
+        "NOTIFICATION_TITLE": "Notification",
+        "STATUS_TITLE": "Status",
+        "STATUS_ONLINE": "Online",
+        "STATUS_BUSY": "Busy",
+        "STATUS_AWAY": "Away",
+        "STATUS_OFFLINE": "Offline"
     },
     "OPP": {
         "INITIALIZED": "Initialized",

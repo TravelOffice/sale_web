@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@components/Avatar/Avatar';
 import { useSelector } from 'react-redux';
 import { formatDateToMonthShort } from '@utils/DateUtils';
 import { isObjEmpty } from '@utils/CommonUtils';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Bell, Search, X } from 'react-feather';
 import {
-  X, Search, CheckSquare, Bell, User, Trash,
-} from 'react-feather';
-import {
-  CardText, InputGroup, InputGroupText, Badge, Input, Button, Label,
+  Badge, CardText, Input, InputGroup, InputGroupText, Label,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Conversation } from '@domain/entities/Conversation';
 import { UserStatus } from '@domain/entities/AdminUser';
 import Spinner from '@components/Spinner/Spinner';
 import Images from '@themes/Images';
+import i18n from '@config/i18n';
 
 export interface SidebarLeftProps {
   sidebar: boolean,
@@ -110,9 +109,9 @@ const SidebarLeft = (props: SidebarLeftProps) => {
   //   const searchFilterFunction = (contact) => contact.fullName.toLowerCase().
   //   includes(e.target.value.toLowerCase());
   //   const filteredChatsArr = chats.filter(searchFilterFunction);
-  //   const filteredContactssArr = contacts.filter(searchFilterFunction);
+  //   const filteredContactsArr = contacts.filter(searchFilterFunction);
   //   setFilteredChat([...filteredChatsArr]);
-  //   setFilteredContacts([...filteredContactssArr]);
+  //   setFilteredContacts([...filteredContactsArr]);
   // };
 
   const renderAboutCount = () => {
@@ -141,7 +140,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
             </div>
           </header>
           <PerfectScrollbar className="profile-sidebar-area" options={{ wheelPropagation: false }}>
-            <h6 className="section-label mb-1">About</h6>
+            <h6 className="section-label mb-1">{i18n.t('CHAT_USER_SETTING.ABOUT')}</h6>
             <div className="about-user">
               <Input
                 rows="5"
@@ -158,7 +157,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                 / 120
               </small>
             </div>
-            <h6 className="section-label mb-1 mt-3">Status</h6>
+            <h6 className="section-label mb-1 mt-3">{i18n.t('CHAT_USER_SETTING.STATUS_TITLE')}</h6>
             <ul className="list-unstyled user-status">
               <li className="pb-1">
                 <div className="form-check form-check-success">
@@ -170,7 +169,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                     onChange={() => setStatus('online')}
                   />
                   <Label className="form-check-label" for="user-online">
-                    Online
+                    {i18n.t('CHAT_USER_SETTING.STATUS_ONLINE')}
                   </Label>
                 </div>
               </li>
@@ -184,7 +183,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                     onChange={() => setStatus('busy')}
                   />
                   <Label className="form-check-label" for="user-busy">
-                    Busy
+                    {i18n.t('CHAT_USER_SETTING.STATUS_BUSY')}
                   </Label>
                 </div>
               </li>
@@ -198,7 +197,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                     onChange={() => setStatus('away')}
                   />
                   <Label className="form-check-label" for="user-away">
-                    Away
+                    {i18n.t('CHAT_USER_SETTING.STATUS_AWAY')}
                   </Label>
                 </div>
               </li>
@@ -212,43 +211,23 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                     onChange={() => setStatus('offline')}
                   />
                   <Label className="form-check-label" for="user-offline">
-                    Offline
+                    {i18n.t('CHAT_USER_SETTING.STATUS_OFFLINE')}
                   </Label>
                 </div>
               </li>
             </ul>
-            <h6 className="section-label mb-1 mt-2">Settings</h6>
+            <h6 className="section-label mb-1 mt-2">{i18n.t('CHAT_USER_SETTING.SETTINGS_TITLE')}</h6>
             <ul className="list-unstyled">
               <li className="d-flex justify-content-between align-items-center mb-1">
                 <div className="d-flex align-items-center">
-                  <CheckSquare className="me-75" size="18" />
-                  <span className="align-middle">Two-step Verification</span>
-                </div>
-                <div className="form-switch">
-                  <Input type="switch" id="verification" name="verification" defaultChecked />
-                </div>
-              </li>
-              <li className="d-flex justify-content-between align-items-center mb-1">
-                <div className="d-flex align-items-center">
                   <Bell className="me-75" size="18" />
-                  <span className="align-middle">Notification</span>
+                  <span className="align-middle">{i18n.t('CHAT_USER_SETTING.NOTIFICATION_TITLE')}</span>
                 </div>
                 <div className="form-switch">
                   <Input type="switch" id="notifications" name="notifications" />
                 </div>
               </li>
-              <li className="d-flex align-items-center cursor-pointer mb-1">
-                <User className="me-75" size="18" />
-                <span className="align-middle">Invite Friends</span>
-              </li>
-              <li className="d-flex align-items-center cursor-pointer">
-                <Trash className="me-75" size="18" />
-                <span className="align-middle">Delete Account</span>
-              </li>
             </ul>
-            <div className="mt-3">
-              <Button color="primary">Logout</Button>
-            </div>
           </PerfectScrollbar>
         </div>
         <div
@@ -279,7 +258,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                 <Input
                   defaultValue={query}
                   className="round"
-                  placeholder="Search or start a new chat"
+                  placeholder={i18n.t('CHAT.SEARCH_INPUT_PLACE_HOLDER')}
                 />
               </InputGroup>
             </div>
@@ -288,7 +267,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
             {
               fetching && <Spinner className="loading-spinner" />
             }
-            <h4 className="chat-list-title">Chats</h4>
+            <h4 className="chat-list-title">{i18n.t('CHAT.CONVERSATIONS_TITLE')}</h4>
             <ul className="chat-users-list chat-list media-list">{renderChats()}</ul>
             {/* <h4 className="chat-list-title">Contacts</h4> */}
             {/* <ul className="chat-users-list contact-list media-list">{renderContacts()}</ul> */}

@@ -1,35 +1,34 @@
 import React, {
-  useState, useEffect, useRef, FormEvent, useMemo,
+  FormEvent, useEffect, useMemo, useRef, useState,
 } from 'react';
+import i18n from '@config/i18n';
 import Avatar from '@components/Avatar/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  MessageSquare,
-  Menu,
-  PhoneCall,
-  Video,
-  Search,
-  MoreVertical,
-  Mic, Send,
-  Volume2,
-  Image,
   File,
+  Image,
+  Menu,
+  MessageSquare,
+  MoreVertical,
   Paperclip,
+  Search,
+  Send,
+  Video,
+  Volume2,
 } from 'react-feather';
 import {
-  Form,
-  Input,
   Button,
-  InputGroup,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
-  InputGroupText,
-  UncontrolledDropdown,
+  Form,
+  Input,
+  InputGroup,
   Spinner as ReactSpinner,
   UncontrolledButtonDropdown,
+  UncontrolledDropdown,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Message, MessageData } from '@domain/entities/Message';
@@ -52,24 +51,24 @@ interface AttachmentMessageSetting {
 const attachmentMessageSettings: AttachmentMessageSetting[] = [
   {
     id: 0,
-    icon: <Video size={15} />,
+    icon: <Video size={16} />,
     fileType: AttachmentMessageType.VIDEO,
     ignoreInZalo: true,
   },
   {
     id: 1,
-    icon: <Volume2 size={15} />,
+    icon: <Volume2 size={16} />,
     fileType: AttachmentMessageType.AUDIO,
     ignoreInZalo: true,
   },
   {
     id: 2,
-    icon: <Image size={15} />,
+    icon: <Image size={16} />,
     fileType: AttachmentMessageType.IMAGE,
   },
   {
     id: 3,
-    icon: <File size={15} />,
+    icon: <File size={16} />,
     fileType: AttachmentMessageType.FILE,
   },
 ];
@@ -124,14 +123,14 @@ function renderLoadMore(canLoadMore: boolean, loadingMore: boolean, onClick: Fun
   if (loadingMore) {
     return (
       <div className="loading-more">
-        <span>Loading more...</span>
+        <span>{i18n.t('CHAT.LOADING_MORE')}</span>
       </div>
     );
   }
   if (canLoadMore) {
     return (
       <button className="load-more-btn" type="button" onClick={() => onClick()}>
-        Click to load previous messages
+        {i18n.t('CHAT.LOAD_MORE_BUTTON_TITLE')}
       </button>
     );
   }
@@ -250,7 +249,7 @@ const ChatLog = (props: ChatLogProps) => {
           <MessageSquare />
         </div>
         <h4 className="sidebar-toggle start-chat-text" onClick={handleStartConversation}>
-          Start Conversation
+          {i18n.t('CHAT.START_CONVERSATION')}
         </h4>
       </div>
       {selectedConversation && (
@@ -271,8 +270,6 @@ const ChatLog = (props: ChatLogProps) => {
                 <h6 className="mb-0">{contact?.fullName}</h6>
               </div>
               <div className="d-flex align-items-center">
-                <PhoneCall size={18} className="cursor-pointer d-sm-block d-none me-1" />
-                <Video size={18} className="cursor-pointer d-sm-block d-none me-1" />
                 <Search size={18} className="cursor-pointer d-sm-block d-none" />
                 <UncontrolledDropdown className="more-options-dropdown">
                   <DropdownToggle className="btn-icon" color="transparent" size="sm">
@@ -280,19 +277,13 @@ const ChatLog = (props: ChatLogProps) => {
                   </DropdownToggle>
                   <DropdownMenu end>
                     <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      View Contact
+                      {i18n.t('CHAT.VIEW_CONTACT')}
                     </DropdownItem>
                     <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      Mute Notifications
+                      {i18n.t('CHAT.MUTE_NOTIFICATIONS')}
                     </DropdownItem>
                     <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      Block Contact
-                    </DropdownItem>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      Clear Chat
-                    </DropdownItem>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      Report
+                      {i18n.t('CHAT.CLEAR_CHAT_MESSAGES')}
                     </DropdownItem>
                   </DropdownMenu>
                 </UncontrolledDropdown>
@@ -316,13 +307,14 @@ const ChatLog = (props: ChatLogProps) => {
 
           <Form className="chat-app-form" onSubmit={(e) => handleSendMessage(e)}>
             <InputGroup className="input-group-merge form-send-message">
-              <InputGroupText>
-                <Mic className="cursor-pointer" size={16} />
-              </InputGroupText>
+              {/* TODO: Implement sending audio record file in the future */}
+              {/* <InputGroupText> */}
+              {/*  <Mic className="cursor-pointer" size={16} /> */}
+              {/* </InputGroupText> */}
               <Input
                 value={messageText}
                 onChange={(e) => setMessageText(e.target.value)}
-                placeholder="Type your message or use speech to text"
+                placeholder={i18n.t('CHAT.MESSAGE_INPUT_PLACEHOLDER')}
               />
             </InputGroup>
             <UncontrolledButtonDropdown className="dropdown-icon-wrapper" direction="up">
@@ -338,7 +330,7 @@ const ChatLog = (props: ChatLogProps) => {
             </UncontrolledButtonDropdown>
             <Button className="send" color="primary" disabled={isSendingAttachment}>
               <Send size={14} className="d-lg-none" />
-              <span className="d-none d-lg-block">Send</span>
+              <span className="d-none d-lg-block">{i18n.t('CHAT.SEND_MESSAGE')}</span>
             </Button>
           </Form>
           <AttachmentMessagePreview

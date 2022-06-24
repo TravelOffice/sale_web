@@ -1,12 +1,8 @@
 import gql from 'graphql-tag';
 
 export const allConversations = gql`
-  query GetConversations($fbPageId: String!, $zaloPageId: String!) {
+  query GetConversations($fbPageId: String!) {
     allFbConversations(pageId: $fbPageId) {
-      data
-      message
-    }
-    allZaloConversations(pageId: $zaloPageId) {
       data
       message
     }

@@ -3,10 +3,11 @@ import Avatar from '@components/Avatar/Avatar';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  X, Mail, PhoneCall, Clock, Tag, Star, Image, Trash, Slash,
+  X, Mail, PhoneCall, Clock, Tag, Star, Image,
 } from 'react-feather';
 import { Contact } from '@domain/entities/Contact';
 import Images from '@themes/Images';
+import i18n from '@config/i18n';
 
 export interface UserProfileSidebarProps {
   contact?: Contact,
@@ -35,14 +36,14 @@ const UserProfileSidebar = (props: UserProfileSidebarProps) => {
         </div>
       </header>
       <PerfectScrollbar className="user-profile-sidebar-area" options={{ wheelPropagation: false }}>
-        <h6 className="section-label mb-1">About</h6>
+        <h6 className="section-label mb-1">{i18n.t('CHAT_USER_PROFILE.ABOUT')}</h6>
         <p>{contact?.about}</p>
         <div className="personal-info">
-          <h6 className="section-label mb-1 mt-3">Personal Information</h6>
+          <h6 className="section-label mb-1 mt-3">{i18n.t('CHAT_USER_PROFILE.PERSONAL_INFORMATION')}</h6>
           <ul className="list-unstyled">
             <li className="mb-1">
               <Mail className="me-75" size={17} />
-              <span className="align-middle">lucifer@email.com</span>
+              <span className="align-middle">email@email.com</span>
             </li>
             <li className="mb-1">
               <PhoneCall className="me-50" size={17} />
@@ -55,27 +56,19 @@ const UserProfileSidebar = (props: UserProfileSidebarProps) => {
           </ul>
         </div>
         <div className="more-options">
-          <h6 className="section-label mb-1 mt-3">Options</h6>
+          <h6 className="section-label mb-1 mt-3">{i18n.t('CHAT_USER_PROFILE.OPTIONS')}</h6>
           <ul className="list-unstyled">
             <li className="cursor-pointer mb-1">
               <Tag className="me-50" size={17} />
-              <span className="align-middle"> Add Tag</span>
+              <span className="align-middle">{i18n.t('CHAT_USER_PROFILE.ADD_TAG')}</span>
             </li>
             <li className="cursor-pointer mb-1">
               <Star className="me-50" size={17} />
-              <span className="align-middle"> Important Contact</span>
+              <span className="align-middle">{i18n.t('CHAT_USER_PROFILE.IMPORTANT_CONTACT')}</span>
             </li>
             <li className="cursor-pointer mb-1">
               <Image className="me-50" size={17} />
-              <span className="align-middle"> Shared Media</span>
-            </li>
-            <li className="cursor-pointer mb-1">
-              <Trash className="me-50" size={17} />
-              <span className="align-middle"> Delete Contact</span>
-            </li>
-            <li className="cursor-pointer">
-              <Slash className="me-75" size={17} />
-              <span className="align-middle">Block Contact</span>
+              <span className="align-middle">{i18n.t('CHAT_USER_PROFILE.SHARED_ATTACHMENTS')}</span>
             </li>
           </ul>
         </div>
