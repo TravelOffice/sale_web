@@ -19,9 +19,12 @@ i18n
       /* translation file path */
       loadPath: '/assets/data/locales/{{lng}}.json',
     },
-    fallbackLng: 'en',
+    fallbackLng: 'vi',
     interpolation: {
       escapeValue: false,
+    },
+    detection: {
+      order: ['localStorage'],
     },
   });
 
