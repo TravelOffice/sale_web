@@ -7,16 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  File,
-  Image,
-  Menu,
-  MessageSquare,
-  MoreVertical,
-  Paperclip,
-  Search,
-  Send,
-  Video,
-  Volume2,
+  File, Image, Menu, MessageSquare, MoreVertical, Paperclip, Search, Send, Video, Volume2,
 } from 'react-feather';
 import {
   Button,
@@ -41,6 +32,8 @@ import ChatMessage from '@features/Chat/components/ChatMessage';
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import AttachmentMessagePreview from '@components/Chat/AttachmentMessagePreview';
 import { chatActions } from '@redux/slices/chatSlice';
+import Viewer from 'react-viewer';
+import { ImageDecorator } from 'react-viewer/lib/ViewerProps';
 
 interface AttachmentMessageSetting {
   id: number,
@@ -92,7 +85,12 @@ export interface MessageGroup {
   messages: Array<Message>
 }
 
-function renderChats(messages: Message[], currentUser: AdminUser, contact: Contact) {
+function renderChats(
+  messages: Message[],
+  currentUser: AdminUser,
+  contact: Contact,
+  onClickChatMessage: (message: Message) => void,
+) {
   const isMe = (sender: string) => sender !== contact.id;
   return formatChatData(messages).map((item) => (
     <div
@@ -112,7 +110,11 @@ function renderChats(messages: Message[], currentUser: AdminUser, contact: Conta
 
       <div className="chat-body">
         {item.messages.map((message) => (
-          <ChatMessage message={message} key={message.id} />
+          <ChatMessage
+            message={message}
+            key={message.id}
+            onClick={onClickChatMessage}
+          />
         ))}
       </div>
     </div>
@@ -159,8 +161,11 @@ const ChatLog = (props: ChatLogProps) => {
   // State
   const [messageText, setMessageText] = useState('');
   const [scrollViewRef, setScrollViewRef] = useState<HTMLElement | null>(null);
-
   const chatArea = useRef(null);
+  const [imagePreviewerVisible, setImagePreviewerVisible] = useState(false);
+  const [previewImages, setPreviewImages] = useState<ImageDecorator[]>([]);
+  const [selectedPreviewIndex, setSelectedPreviewIndex] = useState(0);
+  const sortedMessages = useMemo(() => sortMessages(messages), [messages]);
 
   const dispatch = useDispatch();
 
@@ -198,7 +203,7 @@ const ChatLog = (props: ChatLogProps) => {
     ));
 
   // Opens right sidebar & handles its data
-  const handleAvatarClick = () => {
+  const handleAvatarClicked = () => {
     handleUserSidebarRight();
   };
 
@@ -207,6 +212,31 @@ const ChatLog = (props: ChatLogProps) => {
     if (!selectedConversation && !userSidebarLeft && window.innerWidth < 992) {
       handleSidebar();
     }
+  };
+
+  const handleChatMessageClicked = (selectedMessage: Message) => {
+    // Set the image sources for image viewer
+    const imageMessages = sortedMessages
+      .filter((message) => {
+        const { attachments } = message.messageData;
+        if (attachments && attachments.length > 0) {
+          const { mimeType } = attachments[0];
+          return mimeType.startsWith('image/');
+        }
+        return false;
+      });
+    const imageSources = imageMessages
+      .map((message) => {
+        const [mAttachment] = message.messageData.attachments!;
+        return { src: mAttachment.url || '', alt: mAttachment.name };
+      });
+    const selectedImageIndex = imageMessages.findIndex(
+      (message) => message.id === selectedMessage.id,
+    );
+    // Show image viewer
+    setPreviewImages(imageSources);
+    setSelectedPreviewIndex(selectedImageIndex);
+    setImagePreviewerVisible(true);
   };
 
   /**
@@ -241,7 +271,6 @@ const ChatLog = (props: ChatLogProps) => {
     }
   };
 
-  const sortedMessages = useMemo(() => sortMessages(messages), [messages]);
   return (
     <div className="chat-app-window">
       <div className={classnames('start-chat-area', { 'd-none': selectedConversation })}>
@@ -265,7 +294,7 @@ const ChatLog = (props: ChatLogProps) => {
                   imgWidth="36"
                   img={contact?.avatar}
                   className="avatar-border user-profile-toggle m-0 me-1"
-                  onClick={handleAvatarClick}
+                  onClick={handleAvatarClicked}
                 />
                 <h6 className="mb-0">{contact?.fullName}</h6>
               </div>
@@ -297,7 +326,7 @@ const ChatLog = (props: ChatLogProps) => {
             }
             {
               messages.length > 0 && (
-                <div className="chats">{renderChats(sortedMessages, currentUser, selectedConversation.contact)}</div>
+                <div className="chats">{renderChats(sortedMessages, currentUser, selectedConversation.contact, handleChatMessageClicked)}</div>
               )
             }
             {
@@ -345,6 +374,18 @@ const ChatLog = (props: ChatLogProps) => {
                 onSendAttachmentMessage(attachment, attachmentType);
               }
             }}
+          />
+          <Viewer
+            images={previewImages}
+            visible={imagePreviewerVisible}
+            onClose={() => { setImagePreviewerVisible(false); }}
+            onMaskClick={() => { setImagePreviewerVisible(false); }}
+            showTotal
+            scalable
+            downloadable={false}
+            rotatable={false}
+            zIndex={9999}
+            activeIndex={selectedPreviewIndex}
           />
         </div>
       )}

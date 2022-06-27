@@ -12,7 +12,7 @@ interface AuthState {
   zaloPage?: Page
 }
 
-const initialState : AuthState = {
+const initialState: AuthState = {
   session: undefined,
   currentUser: undefined,
   facebookPage: { id: '100945222539258', name: 'ABAT Travel Company' },
@@ -28,7 +28,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    attachSession: (state, action : PayloadAction<any>) => {
+    attachSession: (state, action: PayloadAction<any>) => {
       state.idToken = action.payload.idToken.jwtToken;
       state.session = action.payload;
       state.currentUser = toAdminUser(action.payload.idToken.payload);

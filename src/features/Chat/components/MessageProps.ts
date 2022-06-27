@@ -1,5 +1,6 @@
 import { Message } from '@domain/entities/Message';
 
 export interface MessageProps {
-  message: Message
+  message: Message,
+  onClick?: (message: Message) => void,
 }
