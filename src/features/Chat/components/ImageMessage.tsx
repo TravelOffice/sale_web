@@ -2,7 +2,7 @@ import React, { CSSProperties } from 'react';
 import { AttachmentMessageProps } from '@features/Chat/components/AttachmentMessageProps';
 
 export default function ImageMessage(props: AttachmentMessageProps) {
-  const { message, attachment } = props;
+  const { message, attachment, onClick } = props;
   const styles : CSSProperties = {};
   const { width, height } = attachment;
   if (width && height && width < height) {
@@ -11,7 +11,12 @@ export default function ImageMessage(props: AttachmentMessageProps) {
     // the user. Scale out it to solve this problem.
     styles.maxWidth = '20%';
   }
+
+  const onClickImageMessage = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    onClick?.(message);
+  };
   return (
-    <img style={styles} className="chat-content" key={message.id} src={attachment.url} alt={attachment.name} />
+    <img style={styles} className="chat-content cursor-pointer" key={message.id} src={attachment.url} alt={attachment.name} onClick={onClickImageMessage} />
   );
 }
