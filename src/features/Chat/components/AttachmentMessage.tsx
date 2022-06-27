@@ -8,9 +8,9 @@ import { isDocumentFile } from '@utils/ChatUtils';
 import DocumentMessage from '@features/Chat/components/DocumentMessage';
 
 export default function AttachmentMessage(props: AttachmentMessageProps) {
-  const { message, attachment } = props;
+  const { message, attachment, onClick } = props;
   if (attachment.mimeType.startsWith('image/')) {
-    return <ImageMessage attachment={attachment} message={message} />;
+    return <ImageMessage attachment={attachment} message={message} onClick={onClick} />;
   }
   if (attachment.mimeType.startsWith('audio/')) {
     return <AudioMessage attachment={attachment} message={message} />;

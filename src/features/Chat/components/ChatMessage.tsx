@@ -6,12 +6,12 @@ import AttachmentsMessage from '@features/Chat/components/AttachmentsMessage';
 import UnsupportedMessage from './UnsupportedMessage';
 
 export default function ChatMessage(props: MessageProps) {
-  const { message } = props;
+  const { message, onClick } = props;
   if (message.isUnsupported) {
     return <UnsupportedMessage message={message} />;
   }
   if (message.messageData.attachments) {
-    return <AttachmentsMessage message={message} />;
+    return <AttachmentsMessage message={message} onClick={onClick} />;
   }
   if (message.messageData.sticker) {
     return <StickerMessage message={message} />;
