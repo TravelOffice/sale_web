@@ -3,9 +3,7 @@ import i18n from '@config/i18n';
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/Conversation';
 import { MessageData } from '@domain/entities/Message';
-import {
-  useConversations, useMessages,
-} from '@hooks/chat';
+import { useConversations, useMessages } from '@hooks/chat';
 import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';
 import '@styles/base/pages/app-chat-list.scss';

@@ -97,8 +97,35 @@
         "CONNECTED_PAGES": "Trang đã liên kết"
     },
     "CHAT": {
+        "CONVERSATIONS_TITLE": "Hội thoại",
         "SEND_MESSAGE": "Gửi",
-        "UNSUPPORTED_MESSAGE": "Tin nhắn hiện chưa được hỗ trợ. Xem chi tiết tại"
+        "UNSUPPORTED_MESSAGE": "Tin nhắn hiện chưa được hỗ trợ. Xem chi tiết tại",
+        "LOADING_MORE": "Đang tải thêm...",
+        "LOAD_MORE_BUTTON_TITLE": "Tải thêm tin nhắn",
+        "START_CONVERSATION": "Bắt đầu cuộc hội thoại",
+        "VIEW_CONTACT": "Hiển thị thông tin",
+        "MUTE_NOTIFICATIONS": "Tắt thông báo",
+        "CLEAR_CHAT_MESSAGES": "Xóa tin nhắn",
+        "SEARCH_INPUT_PLACE_HOLDER": "Tìm kiếm hội thoại",
+        "MESSAGE_INPUT_PLACEHOLDER": "Nhập tin nhắn hoặc gửi tệp đính kèm"
+    },
+    "CHAT_USER_PROFILE": {
+        "ABOUT": "Mô tả",
+        "PERSONAL_INFORMATION": "Thông tin cá nhân",
+        "ADD_TAG": "Thêm nhãn",
+        "IMPORTANT_CONTACT": "Thêm liên hệ",
+        "SHARED_ATTACHMENTS": "Đính kèm đã chia sẻ",
+        "OPTIONS": "Tùy chọn"
+    },
+    "CHAT_USER_SETTING": {
+        "ABOUT": "Mô tả",
+        "SETTINGS_TITLE": "Thiết lập",
+        "NOTIFICATION_TITLE": "Thông báo",
+        "STATUS_TITLE": "Trạng thái",
+        "STATUS_ONLINE": "Đang hoạt động",
+        "STATUS_BUSY": "Bận",
+        "STATUS_AWAY": "Vắng mặt",
+        "STATUS_OFFLINE": "Không hoạt động"
     },
     "OPP": {
         "INITIALIZED": "Khởi tạo",
