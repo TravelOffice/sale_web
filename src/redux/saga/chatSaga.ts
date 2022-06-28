@@ -46,7 +46,7 @@ function createSubscriptionChannel(): EventChannel<Message> {
           const messageData = JSON.parse(rawMsg.messageData);
           if (messageData.attachments && messageData.attachments.length > 0) {
             messageData.attachments = messageData.attachments.map((attachment: any) => {
-              // Tranform original data
+              // Transform original data
               const { type, payload, ...modifiedAttachment } = attachment;
               const [fileUri] = payload.url.split('?');
               const { length, [length - 1]: fileName } = fileUri.split('/');

@@ -100,6 +100,15 @@ const chatSlice = createSlice({
       const { selectedConversation } = state;
       if (selectedConversation && selectedConversation.contact.id === message.customerId) {
         state.messages.push(message);
+      } else {
+        // Count unseenMessages of conversation if the new message has come from subscription
+        // Don't count message if sender is TO user
+        const ofConversation = state.conversations.find(
+          (conversation) => conversation.contact.id === message.customerId,
+        );
+        if (ofConversation && message.customerId === message.sender) {
+          ofConversation.unseenMessages += 1;
+        }
       }
     },
     onAttachmentMessageSent: (state) => {
