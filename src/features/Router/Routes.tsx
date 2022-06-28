@@ -28,7 +28,7 @@ const Routes : RoutePathConfig[] = [
     component: <Chat />,
   },
   {
-    path: '/settings',
+    path: '/apps/account-settings',
     component: <Settings />,
   },
   {

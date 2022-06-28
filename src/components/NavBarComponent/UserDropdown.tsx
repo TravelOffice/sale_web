@@ -1,54 +1,48 @@
 import Avatar from '@components/Avatar/Avatar';
-import AdminUser from '@domain/entities/AdminUser';
-import Images from '@themes/Images';
-import React, { useState } from 'react';
+import i18n from '@config/i18n';
+import User from '@domain/entities/User';
+import { RootState } from '@redux/store';
+import React from 'react';
 import {
-  MessageSquare, Power, Settings, User,
+  MessageSquare, Power, Settings,
 } from 'react-feather';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
 
 const UserDropdown = () => {
-  const [userData] = useState<AdminUser | null>(null);
+  const currentUser = useSelector((state: RootState) => state.auth.currentUser);
 
-  // TODO: Get from redux
-  // useEffect(() => {
-  //   if (isUserLoggedIn() !== null) {
-  //     setUserData(JSON.parse(localStorage.getItem('userData')));
-  //   }
-  // }, []);
+  // ** Renders Avatar
+  const renderAvatar = (user: User) => {
+    if (user.avatar) return <Avatar img={user.avatar} imgHeight="40" imgWidth="40" status="online" />;
 
-  // TODO: Get from redux
-  const userAvatar = Images.defaultAvatar;
-
+    return <Avatar color="light-primary" content={user.username} />;
+  };
   return (
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle href="/" tag="a" className="nav-link dropdown-user-link" onClick={(e) => e.preventDefault()}>
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">{(userData && userData.username) || 'John Doe'}</span>
-          <span className="user-status">{(userData && userData.role) || 'Admin'}</span>
+          <span className="user-name fw-bold">{currentUser?.username}</span>
+          <span className="user-status">{currentUser?.role}</span>
         </div>
-        <Avatar img={userAvatar} imgHeight="40" imgWidth="40" status="online" />
+        {currentUser && renderAvatar(currentUser)}
       </DropdownToggle>
       <DropdownMenu end>
-        <DropdownItem tag={Link} to="/pages/profile">
-          <User size={14} className="me-75" />
-          <span className="align-middle">Profile</span>
-        </DropdownItem>
         <DropdownItem tag={Link} to="/apps/chat">
           <MessageSquare size={14} className="me-75" />
-          <span className="align-middle">Chat</span>
+          <span className="align-middle">{i18n.t('COMMON.CHAT')}</span>
         </DropdownItem>
         <DropdownItem divider />
-        <DropdownItem tag={Link} to="/pages/account-settings">
+        <DropdownItem tag={Link} to="/apps/account-settings">
           <Settings size={14} className="me-75" />
-          <span className="align-middle">Setting</span>
+          <span className="align-middle">{i18n.t('COMMON.SETTING')}</span>
         </DropdownItem>
         <DropdownItem tag={Link} to="/sign-out">
           <Power size={14} className="me-75" />
-          <span className="align-middle">Logout</span>
+          <span className="align-middle">{i18n.t('COMMON.LOGOUT')}</span>
         </DropdownItem>
       </DropdownMenu>
     </UncontrolledDropdown>

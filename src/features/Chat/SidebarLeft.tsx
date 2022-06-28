@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Conversation } from '@domain/entities/Conversation';
-import { UserStatus } from '@domain/entities/AdminUser';
+import { UserStatus } from '@domain/entities/User';
 import Spinner from '@components/Spinner/Spinner';
 import Images from '@themes/Images';
 import i18n from '@config/i18n';
@@ -135,7 +135,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
             </div>
             <div className="header-profile-sidebar">
               <Avatar className="box-shadow-1 avatar-border" img={userProfile.avatar} size="xl" />
-              <h4 className="chat-user-name">{userProfile.fullName}</h4>
+              <h4 className="chat-user-name">{userProfile.username}</h4>
               <span className="user-post">{userProfile.role}</span>
             </div>
           </header>

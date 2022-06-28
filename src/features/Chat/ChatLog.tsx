@@ -26,7 +26,7 @@ import { Message, MessageData } from '@domain/entities/Message';
 import { Conversation } from '@domain/entities/Conversation';
 import { formatChatData, sortMessages } from '@utils/ChatUtils';
 import { Contact } from '@domain/entities/Contact';
-import AdminUser from '@domain/entities/AdminUser';
+import User from '@domain/entities/User';
 import Spinner from '@components/Spinner/Spinner';
 import ChatMessage from '@features/Chat/components/ChatMessage';
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
@@ -87,7 +87,7 @@ export interface MessageGroup {
 
 function renderChats(
   messages: Message[],
-  currentUser: AdminUser,
+  currentUser: User,
   contact: Contact,
   onClickChatMessage: (message: Message) => void,
 ) {

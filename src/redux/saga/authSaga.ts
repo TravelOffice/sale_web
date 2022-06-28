@@ -1,11 +1,13 @@
 import { authActions } from '@redux/slices/authSlice';
 import {
-  all, takeLatest, put,
+  all, takeLatest, put, call,
 } from 'redux-saga/effects';
-import { push } from 'connected-react-router';
+import User from '@domain/entities/User';
+import { userPresenter } from '@adapter/presenters';
 
 function* attachSession() {
-  yield put(push(('/')));
+  const currentUser: User = yield call(userPresenter.getCurrentUser);
+  yield put(authActions.setCurrentUser(currentUser));
 }
 
 export default function* authSaga() {

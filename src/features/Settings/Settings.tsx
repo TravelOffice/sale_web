@@ -22,7 +22,7 @@ const tabs : Tab[] = [
     id: 'account',
     icon: <User size={16} className="me-50" />,
     title: 'Account',
-    pane: <ConnectionsTabContent />,
+    pane: <div>Coming soon</div>,
   },
   {
     id: 'security',
@@ -46,7 +46,7 @@ const tabs : Tab[] = [
     id: 'connections',
     icon: <Link2 size={16} className="me-50" />,
     title: 'Connections',
-    pane: <div>Coming soon</div>,
+    pane: <ConnectionsTabContent />,
   },
 ];
 
