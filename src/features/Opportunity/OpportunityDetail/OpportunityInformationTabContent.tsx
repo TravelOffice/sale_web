@@ -1,14 +1,15 @@
 import React, {
+  MouseEventHandler,
   useCallback, useEffect, useMemo, useRef, useState,
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { opportunityActions } from '@redux/slices/opportunitySlice';
 import {
   Button,
   Card,
   CardBody,
+  CardFooter,
   CardHeader,
   CardTitle,
   Col,
@@ -16,31 +17,43 @@ import {
   FormFeedback,
   Input,
   Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
   Row,
   Spinner,
 } from 'reactstrap';
+import toasty from '@components/Toasty/Toasty';
+import Skeleton from 'react-loading-skeleton';
+import { Calendar, Plus, User } from 'react-feather';
+import Select from 'react-select';
+import NumberFormat, { NumberFormatValues } from 'react-number-format';
+import classnames from 'classnames';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import * as yup from 'yup';
+import Flatpickr from 'react-flatpickr';
+import flatpickr from 'flatpickr';
+import moment from 'moment';
+
+import i18n from '@config/i18n';
+import { opportunityActions } from '@redux/slices/opportunitySlice';
 import { RootState } from '@redux/store';
+import { opportunityPresenter } from '@adapter/presenters';
 import {
+  Opportunity,
   opportunityPotentials,
   opportunitySources,
   opportunityStatuses,
   OpportunityTask,
+  OppTaskSortEnum,
   OpportunityTaskSearchParams,
 } from '@domain/entities/opportunity/Opportunity';
-import { Calendar, Plus, User } from 'react-feather';
-import i18n from '@config/i18n';
-import Select from 'react-select';
 import { selectThemeColors } from '@utils/Utils';
-import classnames from 'classnames';
-import NumberFormat, { NumberFormatValues } from 'react-number-format';
-import Flatpickr from 'react-flatpickr';
-import flatpickr from 'flatpickr';
-import moment from 'moment';
 import { DATE_FORMAT, FLATPICKR_DATE_FORMAT } from '@utils/Constants';
-import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
-import * as yup from 'yup';
-import Skeleton from 'react-loading-skeleton';
 import OpportunityTasks from './OpportunityTasks';
+import OpportunityTaskSidebar from './OpportunityTaskSidebar';
+
 import 'react-loading-skeleton/dist/skeleton.css';
 
 interface ParamTypes {
@@ -50,11 +63,48 @@ interface ParamTypes {
 
 const {
   // getOpportunity,
-  getAllTasks,
-  selectTask,
-  updateTask,
+  // getAllTasks,
+  // selectTask,
+  // updateTask,
   selectOpportunity,
+  unSelectOpportunity,
 } = opportunityActions;
+
+const filterTaskByParams = (tasks: OpportunityTask[], params: OpportunityTaskSearchParams) => {
+  let tasksFilter: OpportunityTask[] = [...tasks];
+
+  // Filter by query
+  if (params.query && params.query.length) {
+    tasksFilter = tasksFilter.filter(
+      (task: OpportunityTask) => {
+        const regex = new RegExp(params.query, 'gi');
+        return regex.test(task.title);
+      },
+    );
+  }
+
+  // Sort the task
+  switch (params.sortBy) {
+    case OppTaskSortEnum.TITLE_ASC:
+      tasksFilter = tasksFilter.sort(
+        (a, b) => a.title.toLowerCase().localeCompare(b.title.toLowerCase()),
+      );
+      break;
+    case OppTaskSortEnum.TITLE_DESC:
+      tasksFilter = tasksFilter.sort(
+        (a, b) => b.title.toLowerCase().localeCompare(a.title.toLowerCase()),
+      );
+      break;
+    case OppTaskSortEnum.DUE_DATE:
+      tasksFilter = tasksFilter.sort(
+        (a, b) => Date.parse(a.dueDate) - Date.parse(b.dueDate),
+      );
+      break;
+    default:
+      break;
+  }
+  return tasksFilter;
+};
 
 const opportunityFormSchema = yup.object().shape({
   name: yup.string().required(),
@@ -78,13 +128,19 @@ const OpportunityInformationTabContent = () => {
   });
 
   // ** States
-  const [sort, setSort] = useState('');
-  const [query, setQuery] = useState('');
   const [openTaskSidebar, setOpenTaskSidebar] = useState(false);
+  const [selectedTask, setSelectedTask] = useState<OpportunityTask | undefined>();
+  const [taskSearchParams, setTaskSearchParams] = useState<OpportunityTaskSearchParams>({ query: '' });
+  const [areTasksChanged, setTasksChanged] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [tasks, setTasks] = useState<OpportunityTask[]>([]);
+  const [tasksFiltered, setTasksFiltered] = useState<OpportunityTask[]>([]);
+  const [openDiscardWarning, setOpenDiscardWarning] = useState(false);
 
   // ** Selectors
-  const opportunity = useSelector((state: RootState) => state.opportunity.selectedOpportunity);
-  const tasks = useSelector((state: RootState) => state.opportunity.allTasks);
+  const opportunity = useSelector((
+    state: RootState,
+  ) => state.opportunity.selectedOpportunity);
   const isUpdating = useSelector((
     state: RootState,
   ) => state.opportunity.createOrUpdateOpportunityLoading);
@@ -92,14 +148,21 @@ const OpportunityInformationTabContent = () => {
     state: RootState,
   ) => state.opportunity.getOpportunityLoading);
 
-  // ** URL Params
-  const params: OpportunityTaskSearchParams = {
-    oppId: oppId || '',
-    query: query || '',
-    sortBy: sort || '',
-  };
-
+  //
   const fp = useRef(null);
+
+  // Set task in first load
+  useEffect(() => {
+    if (!tasks.length) {
+      const tasksWithId: OpportunityTask[] = opportunity?.tasks
+        ? opportunity.tasks.map((task, index) => ({
+          ...task,
+          id: index,
+        }))
+        : [];
+      setTasks(tasksWithId);
+    }
+  }, [opportunity]);
 
   useEffect(() => {
     // Prevent refreshing browser or opening opp detail directly
@@ -108,6 +171,11 @@ const OpportunityInformationTabContent = () => {
       dispatch(selectOpportunity([leadId, oppId]));
     }
   }, [opportunity]);
+
+  useEffect(() => () => {
+    dispatch(unSelectOpportunity());
+    setTasks([]);
+  }, []);
 
   const defaultFormData = useMemo(() => {
     if (opportunity) {
@@ -127,12 +195,18 @@ const OpportunityInformationTabContent = () => {
   }, [defaultFormData]);
 
   // ** Get opportunity on mount
+  // useEffect(() => {
+  //   // dispatch(selectOpportunity(id));
+  //   params.sortBy = sort;
+  //   params.query = query;
+  //   dispatch(getAllTasks(params));
+  // }, [leadId, query, sort]);
+
+  // Update the filtered task when tasks or search param updated
   useEffect(() => {
-    // dispatch(selectOpportunity(id));
-    params.sortBy = sort;
-    params.query = query;
-    dispatch(getAllTasks(params));
-  }, [leadId, query, sort]);
+    const tasksFilter: OpportunityTask[] = filterTaskByParams(tasks, taskSearchParams);
+    setTasksFiltered(tasksFilter);
+  }, [tasks, taskSearchParams]);
 
   const onSubmit = useCallback((formData) => {
     // Submit form to update the opportunity
@@ -144,25 +218,121 @@ const OpportunityInformationTabContent = () => {
     dispatch(opportunityActions.updateOpportunity(updatedOpportunity));
   }, [opportunity]);
 
+  // ** Function to handle save new change to BE and store
+  const handleSaveAllTasks = async () => {
+    const newTasks = tasks.map((task) => {
+      const {
+        // eslint-disable-next-line no-unused-vars
+        id, ...newTask
+      } = task;
+      return newTask;
+    });
+    if (opportunity) {
+      const newOpp: Opportunity = { ...opportunity, tasks: newTasks as OpportunityTask[] };
+      try {
+        setSubmitting(true);
+        await opportunityPresenter.updateOpportunity(newOpp);
+        dispatch(selectOpportunity(newOpp));
+        toasty.show({
+          title: i18n.t('COMMON.SUCCESS'),
+          type: 'success',
+          message: i18n.t('OPP.UPDATE_TASKS_SUCCESSFULLY'),
+        });
+        setTasksChanged(false);
+      } catch (e: any) {
+        toasty.show({
+          title: i18n.t('COMMON.ERROR'),
+          type: 'error',
+          message: `${e.message}`,
+        });
+      } finally {
+        setSubmitting(false);
+      }
+    }
+  };
+
+  // ** Toggle discard warning dialog
+  const toggleDiscardWarningDialog = () => {
+    setOpenDiscardWarning(!openDiscardWarning);
+  };
+
+  // ** Dispatch action to delete opportunity from server
+  const handleDiscardTasks: MouseEventHandler = (e) => {
+    e.preventDefault();
+    toggleDiscardWarningDialog();
+  };
+
+  // ** Function to handle discard the change of task list
+  const onDiscardTasks = () => {
+    toggleDiscardWarningDialog();
+    const tasksWithId: OpportunityTask[] = opportunity?.tasks
+      ? opportunity.tasks.map((task, index) => ({
+        ...task,
+        id: index,
+      }))
+      : [];
+    setTasks(tasksWithId);
+    setTasksChanged(false);
+  };
+
   // ** Function to handle Task sidebar
   const handleTaskSidebar = () => setOpenTaskSidebar(!openTaskSidebar);
 
-  // ** Functions To Handle Add Task Click
+  // ** Function To Handle Add Task Click
   const handleAddClick = () => {
     handleTaskSidebar();
-    // setMainSidebar();
   };
 
-  const handleSelectTask = (task: OpportunityTask) => {
-    dispatch(selectTask(task));
+  // ** Function to handle adding new task
+  const handleAddTask = (task: OpportunityTask) => {
+    const newTasks = [...tasks];
+    newTasks.push(task);
+    setTasks(newTasks);
+    setTasksChanged(true);
   };
 
-  const handleSetSort = (sortType: string) => {
-    setSort(sortType);
+  // ** Function to handle task updated
+  const handleUpdateTask = (updateTask: OpportunityTask) => {
+    const newTasks: OpportunityTask[] = tasks.map((task: OpportunityTask) => {
+      if (task.id === updateTask.id) {
+        return updateTask;
+      }
+      return task;
+    });
+    setTasks(newTasks);
+    setTasksChanged(true);
   };
 
+  // ** Function to handle task deleted
+  const handleDeleteTask = (deleteTask: OpportunityTask) => {
+    const newTasks = tasks.filter((task: OpportunityTask) => task.id !== deleteTask.id);
+    setTasks(newTasks);
+    setTasksChanged(true);
+  };
+
+  // ** Function to handle select task
+  const handleSelectTask = (task?: OpportunityTask) => {
+    setSelectedTask(task);
+  };
+
+  // ** Function to handle task sorting
+  const handleSetSort = (sortType?: OppTaskSortEnum) => {
+    setTaskSearchParams({
+      ...taskSearchParams,
+      sortBy: sortType,
+    });
+  };
+
+  // ** Function to handle task searching
   const handleSetQuery = (queryString: string) => {
-    setQuery(queryString);
+    setTaskSearchParams({
+      ...taskSearchParams,
+      query: queryString,
+    });
+  };
+  // ** Function to handle re-order task list
+  const handleReOrderTasks = (newTasks: OpportunityTask[]) => {
+    setTasks(newTasks);
   };
 
   const renderEmptyTasksContent = () => (
@@ -487,6 +657,52 @@ const OpportunityInformationTabContent = () => {
     </>
   );
 
+  const renderChangedConfirmationTasks = () => (
+    <CardFooter>
+      <Row>
+        <Col className="mt-2" sm="12">
+          <Button type="submit" className="me-1" color="primary" onClick={handleSaveAllTasks}>
+            { !submitting ? i18n.t('COMMON.SAVE_CHANGES') : i18n.t('COMMON.LOADING')}
+            {' '}
+            { submitting ? (
+              <Spinner
+                style={{ width: '0.7rem', height: '0.7rem' }}
+                type="grow"
+                color="light"
+              />
+            ) : null }
+          </Button>
+          <Button color="secondary" outline onClick={handleDiscardTasks}>
+            {i18n.t('COMMON.DISCARD')}
+          </Button>
+          <Modal
+            isOpen={openDiscardWarning}
+            toggle={toggleDiscardWarningDialog}
+            className="modal-dialog-centered"
+            modalClassName="modal-warning"
+          >
+            <ModalHeader
+              toggle={toggleDiscardWarningDialog}
+            >
+              {i18n.t('OPP.DISCARD_TASK_WARNING_TITLE')}
+            </ModalHeader>
+            <ModalBody>
+              {i18n.t('OPP.DISCARD_TASK_WARNING_MESSAGE')}
+            </ModalBody>
+            <ModalFooter>
+              <Button outline color="secondary" onClick={() => setOpenDiscardWarning(!openDiscardWarning)}>
+                {i18n.t('COMMON.CANCEL')}
+              </Button>
+              <Button color="warning" onClick={onDiscardTasks}>
+                {i18n.t('COMMON.YES')}
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </Col>
+      </Row>
+    </CardFooter>
+  );
+
   return (
     <>
       <Row className="h-100">
@@ -508,6 +724,15 @@ const OpportunityInformationTabContent = () => {
                   </div>
                 ) : renderDetailedInformationForm()
               }
+              <OpportunityTaskSidebar
+                open={openTaskSidebar}
+                handleTaskSidebar={handleTaskSidebar}
+                addTask={handleAddTask}
+                selectedTask={selectedTask}
+                selectTask={handleSelectTask}
+                updateTask={handleUpdateTask}
+                deleteTask={handleDeleteTask}
+              />
             </CardBody>
           </Card>
         </Col>
@@ -522,18 +747,20 @@ const OpportunityInformationTabContent = () => {
             <CardBody className="py-2 my-25">
               {tasks.length > 0 ? (
                 <OpportunityTasks
-                  tasks={tasks}
-                  query={query}
-                  params={params}
+                  tasks={tasksFiltered}
+                  query={taskSearchParams.query}
+                  params={taskSearchParams}
                   setSort={handleSetSort}
                   setQuery={handleSetQuery}
-                  updateTask={updateTask}
+                  updateTask={handleUpdateTask}
                   selectTask={handleSelectTask}
                   handleTaskSidebar={handleTaskSidebar}
                   handleAddTaskClick={handleAddClick}
+                  reOrderTasks={handleReOrderTasks}
                 />
               ) : renderEmptyTasksContent()}
             </CardBody>
+            {areTasksChanged && renderChangedConfirmationTasks()}
           </Card>
         </Col>
       </Row>

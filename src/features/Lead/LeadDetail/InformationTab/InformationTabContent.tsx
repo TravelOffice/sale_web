@@ -25,6 +25,12 @@ import LeadTasks from './LeadTasks';
 import LeadTaskSidebar from './LeadTaskSidebar';
 import LeadInformation from './LeadInformation';
 
+/**
+ * TODO:
+ * - After save changes, the confirmation buttons need to hide
+ * - To need notification of empty task as Opp task management
+ */
+
 interface ParamTypes {
   leadId: string
 }
