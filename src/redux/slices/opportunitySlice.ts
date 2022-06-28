@@ -125,6 +125,10 @@ const opportunitySlice = createSlice({
       state.selectedTask = action.payload;
     },
     updateTask: (state, action: PayloadAction<OpportunityTask>) => { },
+    unSelectOpportunity: (state) => {
+      state.selectedOpportunity = undefined;
+      state.openSidebar = false;
+    },
   },
 });
 
