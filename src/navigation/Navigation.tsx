@@ -37,7 +37,7 @@ const Navigation : MenuItem[] = [
     id: 'settings',
     title: 'Setting',
     icon: <Settings size={12} />,
-    navLink: '/settings',
+    navLink: '/apps/account-settings',
   },
   {
     id: 'leads',

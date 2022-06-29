@@ -1,12 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import AdminUser from '@domain/entities/AdminUser';
+import User from '@domain/entities/User';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
-import { toAdminUser } from '@utils/CommonUtils';
 import { Page } from '@domain/entities/Page';
 
 interface AuthState {
   session?: CognitoUserSession,
-  currentUser?: AdminUser,
+  currentUser?: User,
   idToken?: string,
   facebookPage?: Page,
   zaloPage?: Page
@@ -31,12 +30,14 @@ const authSlice = createSlice({
     attachSession: (state, action: PayloadAction<any>) => {
       state.idToken = action.payload.idToken.jwtToken;
       state.session = action.payload;
-      state.currentUser = toAdminUser(action.payload.idToken.payload);
     },
     detachSession: (state) => {
       state.session = undefined;
       state.currentUser = undefined;
       state.idToken = undefined;
+    },
+    setCurrentUser: (state, action: PayloadAction<User>) => {
+      state.currentUser = action.payload;
     },
   },
 });

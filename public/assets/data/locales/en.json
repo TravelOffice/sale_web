@@ -27,12 +27,14 @@
         "SEVERITY_LOW": "Low",
         "INFORMATION": "Information",
         "TASK": "Task",
-        "SAVE_CHANGES": "Save Changes",
         "DISCARD": "Discard",
         "SORT": "Sort",
         "RESET_SORT": "Reset sort",
         "TITLE": "Title",
-        "UPDATE": "Update"
+        "UPDATE": "Update",
+        "CHAT": "Chat",
+        "SETTING": "Setting",
+        "LOGOUT": "Logout"
     },
     "LEAD": {
         "NAME": "Name",
