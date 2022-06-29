@@ -51,3 +51,15 @@ export const isDocumentFile = (mimeType: string, fileName: string) => {
   const regEx = /([a-zA-Z0-9\s_\\.\-:])+\.+(?:doc|docx|ppt|pptx|xls|xlsx|txt|rtf|pdf)$/;
   return SUPPORTED_DOCUMENT_FILE_TYPES.includes(mimeType) || regEx.test(fileName);
 };
+
+export const normalizeVietnameseName = (name: string) => {
+  let normalizedName = '';
+  // Convert to canonical decomposition form
+  normalizedName = name.normalize('NFD');
+  // Remove canonical characters
+  normalizedName = normalizedName.replace(/[\u0300-\u036f]/g, '');
+  // Replace đ/Đ to d/D characters
+  normalizedName = normalizedName.replace(/[đĐ]/g, (m) => (m === 'đ' ? 'd' : 'D'));
+
+  return normalizedName;
+};

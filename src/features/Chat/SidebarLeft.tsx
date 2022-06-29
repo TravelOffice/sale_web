@@ -33,7 +33,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
   const userProfile = authState.currentUser;
 
   // ** State
-  const [query] = useState('');
+  const [query, setQuery] = useState('');
   const [about, setAbout] = useState('');
   const [status, setStatus] = useState<UserStatus>('online');
 
@@ -185,6 +185,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                 <Input
                   defaultValue={query}
                   className="round"
+                  onChange={(event) => setQuery(event.target.value)}
                   placeholder={i18n.t('CHAT.SEARCH_INPUT_PLACE_HOLDER')}
                 />
               </InputGroup>
@@ -200,6 +201,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                     fetching={section.fetching}
                     selectedConversation={selectedConversation}
                     onConversationSelected={handleConversationSelected}
+                    query={query}
                   />
                 )
               ))
