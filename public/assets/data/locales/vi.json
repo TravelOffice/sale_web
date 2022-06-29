@@ -31,7 +31,10 @@
         "SORT": "Sắp xếp theo",
         "RESET_SORT": "Huỷ bỏ sắp xếp",
         "TITLE": "Tiêu đề",
-        "UPDATE": "Cập nhật"
+        "UPDATE": "Cập nhật",
+        "CHAT": "Chat",
+        "SETTING": "Cài đặt",
+        "LOGOUT": "Đăng xuất"
     },
     "LEAD": {
         "NAME": "Họ tên",

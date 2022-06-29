@@ -10,6 +10,7 @@ import ConnectZaloPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectZ
 import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkUseCaseImpl';
 import GetOpportunityUseCaseImpl from '@domain/useCases/opportunity/GetOpportunityUseCaseImpl';
 import { GetOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/GetOpportunityUseCase';
+import { GetCurrentUserUseCase } from '@domain/useCases/interfaces/user/GetCurrentUserUseCase';
 import GetConversationsUseCaseImpl from './chat/GetConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
@@ -42,6 +43,7 @@ import DeleteOpportunityUseCaseImpl from './opportunity/DeleteOpportunityUseCase
 import GetAllOpportunitiesUseCaseImpl from './opportunity/GetAllOpportunitiesUseCaseImpl';
 import GetOpportunitiesByLeadUseCaseImpl from './opportunity/GetOpportunitiesByLeadUseCaseImpl';
 import UpdateOpportunityUseCaseImpl from './opportunity/UpdateOpportunityUseCaseImpl';
+import GetCurrentUserUseCaseImpl from './user/GetCurrentUserUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -70,6 +72,8 @@ interface UseCases {
   // Zalo page
   getZaloOAuthLinkUseCase: GetZaloOAuthLinkUseCase,
   connectZaloPageUseCase: ConnectZaloPageUseCase,
+  // User
+  getCurrentUserUseCase: GetCurrentUserUseCase,
 }
 
 const useCases: UseCases = {
@@ -99,6 +103,8 @@ const useCases: UseCases = {
   getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
   addCustomerUseCase: new AddCustomerUseCaseImpl(),
   updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
+  // User
+  getCurrentUserUseCase: new GetCurrentUserUseCaseImpl(),
 };
 
 export const {
@@ -124,4 +130,5 @@ export const {
   connectZaloPageUseCase,
   createOpportunityUseCase,
   getOpportunityUseCase,
+  getCurrentUserUseCase,
 } = useCases;
