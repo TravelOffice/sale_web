@@ -1,37 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Avatar from '@components/Avatar/Avatar';
 import { useSelector } from 'react-redux';
-import { formatDateToMonthShort } from '@utils/DateUtils';
-import { isObjEmpty } from '@utils/CommonUtils';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Bell, Search, X } from 'react-feather';
 import {
-  Badge, CardText, Input, InputGroup, InputGroupText, Label,
+  InputGroup, InputGroupText, Input, Label,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Conversation } from '@domain/entities/Conversation';
 import { UserStatus } from '@domain/entities/User';
-import Spinner from '@components/Spinner/Spinner';
-import Images from '@themes/Images';
 import i18n from '@config/i18n';
+import ConversationList from '@features/Chat/components/ConversationList';
+import { ConversationSection } from '@features/Chat/ConversationSection';
 
 export interface SidebarLeftProps {
   sidebar: boolean,
   handleSidebar: () => void,
   userSidebarLeft: boolean,
   handleUserSidebarLeft: () => void,
-  conversations: Array<Conversation>
+  conversationSections: ConversationSection[],
   selectedConversation?: Conversation,
   onConversationSelected: (conversation: Conversation) => void,
-  fetching: boolean,
 }
 
 const SidebarLeft = (props: SidebarLeftProps) => {
   const {
     sidebar, handleSidebar, userSidebarLeft, handleUserSidebarLeft,
-    selectedConversation, onConversationSelected, conversations,
-    fetching,
+    selectedConversation, onConversationSelected, conversationSections,
   } = props;
   const authState = useSelector((state: RootState) => state.auth);
   const userProfile = authState.currentUser;
@@ -39,80 +35,15 @@ const SidebarLeft = (props: SidebarLeftProps) => {
   // ** State
   const [query] = useState('');
   const [about, setAbout] = useState('');
-  const [active, setActive] = useState<Conversation>();
   const [status, setStatus] = useState<UserStatus>('online');
-  const [filteredChat] = useState([]);
 
   // ** Handles User Chat Click
-  const handleUserClick = (item: Conversation) => {
-    setActive(item);
+  const handleConversationSelected = (item: Conversation) => {
     onConversationSelected?.(item);
     if (sidebar) {
       handleSidebar();
     }
   };
-
-  useEffect(() => {
-    if (selectedConversation && !isObjEmpty(selectedConversation)) {
-      setActive(selectedConversation);
-    }
-  }, []);
-
-  // ** Renders Chat
-  const renderChats = () => {
-    if (conversations && conversations.length) {
-      if (query.length && !filteredChat.length) {
-        return (
-          <li className="no-results show">
-            <h6 className="mb-0">No Chats Found</h6>
-          </li>
-        );
-      }
-      const arrToMap = query.length && filteredChat.length ? filteredChat : conversations;
-
-      return arrToMap.map((item) => {
-        const time = formatDateToMonthShort(item.lastMessage?.timestamp || new Date());
-        const { contact } = item;
-        return (
-          <li
-            key={item.id}
-            onClick={() => handleUserClick(item)}
-            className={classnames({
-              active: active?.id === item.id,
-            })}
-          >
-            <Avatar img={contact.avatar || Images.defaultAvatar} imgHeight="42" imgWidth="42" />
-            <div className="chat-info flex-grow-1">
-              <h5 className="mb-0">{contact.fullName}</h5>
-              <CardText className="text-truncate">
-                {item.lastMessage ? item.lastMessage.messageData.text : ''}
-              </CardText>
-            </div>
-            <div className="chat-meta text-nowrap">
-              <small className="float-end mb-25 chat-time ms-25">{time}</small>
-              {item.unseenMessages >= 1 ? (
-                <Badge className="float-end" color="danger" pill>
-                  {item.unseenMessages}
-                </Badge>
-              ) : null}
-            </div>
-          </li>
-        );
-      });
-    }
-    return null;
-  };
-
-  // // ** Handles Filter
-  // const handleFilter = (e) => {
-  //   setQuery(e.target.value);
-  //   const searchFilterFunction = (contact) => contact.fullName.toLowerCase().
-  //   includes(e.target.value.toLowerCase());
-  //   const filteredChatsArr = chats.filter(searchFilterFunction);
-  //   const filteredContactsArr = contacts.filter(searchFilterFunction);
-  //   setFilteredChat([...filteredChatsArr]);
-  //   setFilteredContacts([...filteredContactsArr]);
-  // };
 
   const renderAboutCount = () => {
     if (userProfile && userProfile.about && userProfile.about.length && about.length === 0) {
@@ -121,7 +52,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
     return about.length;
   };
 
-  return userProfile ? (
+  return (
     <div className="sidebar-left">
       <div className="sidebar">
         <div
@@ -134,9 +65,9 @@ const SidebarLeft = (props: SidebarLeftProps) => {
               <X size={14} />
             </div>
             <div className="header-profile-sidebar">
-              <Avatar className="box-shadow-1 avatar-border" img={userProfile.avatar} size="xl" />
-              <h4 className="chat-user-name">{userProfile.username}</h4>
-              <span className="user-post">{userProfile.role}</span>
+              <Avatar className="box-shadow-1 avatar-border" img={userProfile?.avatar} size="xl" />
+              <h4 className="chat-user-name">{userProfile?.username}</h4>
+              <span className="user-post">{userProfile?.role}</span>
             </div>
           </header>
           <PerfectScrollbar className="profile-sidebar-area" options={{ wheelPropagation: false }}>
@@ -145,7 +76,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
               <Input
                 rows="5"
                 type="textarea"
-                defaultValue={userProfile.about}
+                defaultValue={userProfile?.about}
                 onChange={(e) => setAbout(e.target.value)}
                 className={classnames('char-textarea', {
                   'text-danger': about && about.length > 120,
@@ -230,18 +161,14 @@ const SidebarLeft = (props: SidebarLeftProps) => {
             </ul>
           </PerfectScrollbar>
         </div>
-        <div
-          className={classnames('sidebar-content', {
-            show: sidebar,
-          })}
-        >
+        <div className={classnames('sidebar-content', { show: sidebar })}>
           <div className="sidebar-close-icon" onClick={handleSidebar}>
             <X size={14} />
           </div>
           <div className="chat-fixed-search">
             <div className="d-flex align-items-center w-100">
               <div className="sidebar-profile-toggle" onClick={handleUserSidebarLeft}>
-                {Object.keys(userProfile).length ? (
+                {userProfile && Object.keys(userProfile).length ? (
                   <Avatar
                     className="avatar-border"
                     img={userProfile.avatar}
@@ -265,17 +192,23 @@ const SidebarLeft = (props: SidebarLeftProps) => {
           </div>
           <PerfectScrollbar className="chat-user-list-wrapper list-group" options={{ wheelPropagation: false }}>
             {
-              fetching && <Spinner className="loading-spinner" />
+              conversationSections.map((section) => (
+                !section.error && (
+                  <ConversationList
+                    title={section.title}
+                    conversations={section.conversations}
+                    fetching={section.fetching}
+                    selectedConversation={selectedConversation}
+                    onConversationSelected={handleConversationSelected}
+                  />
+                )
+              ))
             }
-            <h4 className="chat-list-title">{i18n.t('CHAT.CONVERSATIONS_TITLE')}</h4>
-            <ul className="chat-users-list chat-list media-list">{renderChats()}</ul>
-            {/* <h4 className="chat-list-title">Contacts</h4> */}
-            {/* <ul className="chat-users-list contact-list media-list">{renderContacts()}</ul> */}
           </PerfectScrollbar>
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default SidebarLeft;

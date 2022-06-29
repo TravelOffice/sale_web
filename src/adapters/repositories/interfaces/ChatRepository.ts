@@ -7,7 +7,8 @@ import { FacebookUserInfo } from '@domain/entities/FacebookUserInfo';
 import { ChatPlatformSendMessage } from '@domain/entities/message-platforms/ChatPlatformSendMessage';
 
 export interface ChatRepository {
-  getConversations: (fbPageid: string, zaloPageId: string) => Promise<Conversation[]>
+  getFacebookConversations: (pageId: string) => Promise<Conversation[]>
+  getZaloConversations: (pageId: string) => Promise<Conversation[]>
   getFbMessages: (
     conversationId: string, fbPageId: string, before?: string
   ) => Promise<[FacebookMessage[], string]>

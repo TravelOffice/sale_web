@@ -6,8 +6,12 @@ import User from '@domain/entities/User';
 import { userPresenter } from '@adapter/presenters';
 
 function* attachSession() {
-  const currentUser: User = yield call(userPresenter.getCurrentUser);
-  yield put(authActions.setCurrentUser(currentUser));
+  try {
+    const currentUser: User = yield call(userPresenter.getCurrentUser);
+    yield put(authActions.setCurrentUser(currentUser));
+  } catch {
+    // Do nothing
+  }
 }
 
 export default function* authSaga() {
