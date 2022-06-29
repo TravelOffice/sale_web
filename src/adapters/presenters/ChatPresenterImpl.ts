@@ -2,8 +2,10 @@ import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/Conversation';
 import { Message } from '@domain/entities/Message';
 import {
-  getConversationsUseCase,
+  getFacebookConversationsUseCase,
+  getFacebookUserInfoUseCase,
   getMessagesUseCase,
+  getZaloConversationsUseCase,
   sendAttachmentMessageUseCase,
   sendMessageUseCase,
   subscribeNewMessageUseCase,
@@ -17,7 +19,9 @@ export default class ChatPresenterImpl implements ChatPresenter {
     this.currentNextToken = token;
   }
 
-  getConversations = async () => getConversationsUseCase.invoke();
+  getFbConversations = async (pageId: string) => getFacebookConversationsUseCase.invoke(pageId);
+
+  getZaloConversations = async (pageId: string) => getZaloConversationsUseCase.invoke(pageId);
 
   getMessages = async (conversation: Conversation): Promise<Message[]> => {
     const result = await getMessagesUseCase.invoke(conversation);
@@ -42,4 +46,8 @@ export default class ChatPresenterImpl implements ChatPresenter {
   }
 
   subscribeNewMessage = () => subscribeNewMessageUseCase.invoke();
+
+  getFbUserProfile = async (
+    pageId: string, userId: string,
+  ) => getFacebookUserInfoUseCase.invoke(pageId, userId);
 }

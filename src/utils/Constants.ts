@@ -12,3 +12,7 @@ export enum Languages {
   VIETNAMESE = 'Việt Nam',
   ENGLISH = 'English',
 }
+
+export const FACEBOOK = 'Facebook';
+
+export const ZALO = 'Zalo';

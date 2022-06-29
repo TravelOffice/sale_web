@@ -3,13 +3,18 @@ import { Conversation } from '@domain/entities/Conversation';
 import { Message, MessageData } from '@domain/entities/Message';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PAGE_SIZE } from '@utils/ChatUtils';
+import ConversationState from '@redux/slices/others/ConversationState';
+import GetConversationState from '@redux/slices/others/GetConversationState';
+import SuccessConversationState from '@redux/slices/others/SuccessConversationState';
+import ErrorConversationState from '@redux/slices/others/ErrorConversationState';
 
 interface ChatState {
   conversations: Conversation[],
+  fbConversations: ConversationState,
+  zaloConversations: ConversationState,
   messages: Message[],
   selectedConversation?: Conversation,
   canLoadMore: boolean,
-  fetchingConversations: boolean,
   fetchingMessages: boolean,
   loadingMoreMessages: boolean,
   firstLoad: boolean,
@@ -21,9 +26,10 @@ interface ChatState {
 
 const initialState : ChatState = {
   conversations: [],
+  fbConversations: new ConversationState(),
+  zaloConversations: new ConversationState(),
   messages: [],
   canLoadMore: true,
-  fetchingConversations: false,
   fetchingMessages: false,
   loadingMoreMessages: false,
   firstLoad: true,
@@ -38,11 +44,26 @@ const chatSlice = createSlice({
   initialState,
   reducers: {
     getConversations: (state) => {
-      state.fetchingConversations = true;
+      state.fbConversations = new GetConversationState();
+      state.zaloConversations = new GetConversationState();
     },
-    onConversationsRetrieved: (state, action: PayloadAction<Conversation[]>) => {
-      state.fetchingConversations = false;
-      state.conversations = action.payload;
+    getFbConversations: (state) => {
+      state.fbConversations = new GetConversationState();
+    },
+    getZaloConversations: (state) => {
+      state.zaloConversations = new GetConversationState();
+    },
+    onFbConversationRetrieved: (state, action: PayloadAction<Conversation[]>) => {
+      state.fbConversations = new SuccessConversationState(action.payload);
+    },
+    onGetFbConversationsFailed: (state, action: PayloadAction<string>) => {
+      state.fbConversations = new ErrorConversationState(action.payload);
+    },
+    onZaloConversationsRetrieved: (state, action: PayloadAction<Conversation[]>) => {
+      state.zaloConversations = new SuccessConversationState(action.payload);
+    },
+    onGetZaloConversationsFailed: (state, action: PayloadAction<string>) => {
+      state.zaloConversations = new ErrorConversationState(action.payload);
     },
     onNewConversation: (state, action: PayloadAction<Conversation>) => {
       const index = state.conversations.findIndex((item) => item.id === action.payload.id);

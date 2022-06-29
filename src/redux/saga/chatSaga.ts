@@ -9,14 +9,42 @@ import { END, EventChannel, eventChannel } from 'redux-saga';
 import {
   all, call, cancelled, put, select, take, takeEvery, takeLatest,
 } from 'redux-saga/effects';
+import toasty from '@components/Toasty/Toasty';
+import i18n from '@config/i18n';
 
-function* getConversation() {
+function* getFbConversations() {
   try {
-    const data: Conversation[] = yield call(chatPresenter.getConversations);
-    yield put({ type: chatActions.onConversationsRetrieved.type, payload: data });
-  } catch (error) {
-    // Do nothing
+    const fbPageId: string = yield select((
+      state: RootState,
+    ) => state.auth.facebookPage?.id);
+    const data: Conversation[] = yield call(chatPresenter.getFbConversations, fbPageId);
+    yield put({ type: chatActions.onFbConversationRetrieved.type, payload: data });
+  } catch (error: any) {
+    const errorMessage = error.message;
+    toasty.show({ type: 'error', title: i18n.t('COMMON.ERROR'), message: errorMessage });
+    yield put(chatActions.onGetFbConversationsFailed(errorMessage));
   }
+}
+
+function* getZaloConversations() {
+  try {
+    const zaloPageId: string = yield select((
+      state: RootState,
+    ) => state.auth.zaloPage?.id);
+    const data: Conversation[] = yield call(chatPresenter.getZaloConversations, zaloPageId);
+    yield put({ type: chatActions.onZaloConversationsRetrieved.type, payload: data });
+  } catch (error: any) {
+    const errorMessage = error.message;
+    toasty.show({ type: 'error', title: i18n.t('COMMON.ERROR'), message: errorMessage });
+    yield put(chatActions.onGetZaloConversationsFailed(errorMessage));
+  }
+}
+
+function* getConversations() {
+  yield all([
+    getFbConversations(),
+    getZaloConversations(),
+  ]);
 }
 
 function* getConversationMessages(action: PayloadAction<Conversation | undefined>) {
@@ -29,7 +57,7 @@ function* getConversationMessages(action: PayloadAction<Conversation | undefined
       yield put({ type: chatActions.onMessagesRetrieved.type, payload: messages });
     }
   } catch (error) {
-  // Do nothing
+    // Do nothing
   }
 }
 
@@ -172,7 +200,7 @@ function* loadMoreConversationMessages(action: PayloadAction<Conversation | unde
 
 export default function* chatSaga() {
   yield all([
-    takeLatest(chatActions.getConversations, getConversation),
+    takeLatest(chatActions.getConversations, getConversations),
     takeLatest(chatActions.getMessages, getConversationMessages),
     takeEvery(chatActions.sendMessage, sendMessage),
     takeLatest(chatActions.sendAttachmentMessage, sendAttachmentMessage),

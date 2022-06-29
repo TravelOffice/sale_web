@@ -11,7 +11,12 @@ import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkU
 import GetOpportunityUseCaseImpl from '@domain/useCases/opportunity/GetOpportunityUseCaseImpl';
 import { GetOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/GetOpportunityUseCase';
 import { GetCurrentUserUseCase } from '@domain/useCases/interfaces/user/GetCurrentUserUseCase';
-import GetConversationsUseCaseImpl from './chat/GetConversationsUseCaseImpl';
+import { GetFacebookConversationsUseCase } from '@domain/useCases/interfaces/chat/GetFacebookConversationsUseCase';
+import { GetZaloConversationsUseCase } from '@domain/useCases/interfaces/chat/GetZaloConversationsUseCase';
+import GetFacebookConversationsUseCaseImpl from '@domain/useCases/chat/GetFacebookConversationsUseCaseImpl';
+import GetZaloConversationsUseCaseImpl from '@domain/useCases/chat/GetZaloConversationsUseCaseImpl';
+import { GetFacebookUserInfoUseCase } from '@domain/useCases/interfaces/chat/GetFacebookUserInfoUseCase';
+import GetFacebookUserInfoUseCaseImpl from '@domain/useCases/chat/GetFacebookUserInfoUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
 import SendMessageUseCaseImpl from './chat/SendMessageUseCaseImpl';
@@ -19,7 +24,6 @@ import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImp
 import AddCustomerUseCaseImpl from './customer/AddCustomerUseCaseImpl';
 import GetAllCustomersUseCaseImpl from './customer/GetAllCustomersUseCaseImpl';
 import UpdateCustomerUseCaseImpl from './customer/UpdateCustomerUseCaseImpl';
-import { GetConversationsUseCase } from './interfaces/chat/GetConversationsUseCase';
 import { GetMessagesUseCase } from './interfaces/chat/GetMessagesUseCase';
 import { SendAttachmentMessageUseCase } from './interfaces/chat/SendAttachmentMessageUseCase';
 import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
@@ -47,7 +51,8 @@ import GetCurrentUserUseCaseImpl from './user/GetCurrentUserUseCaseImpl';
 
 interface UseCases {
   // Chat
-  getConversationsUseCase: GetConversationsUseCase,
+  getFacebookConversationsUseCase: GetFacebookConversationsUseCase,
+  getZaloConversationsUseCase: GetZaloConversationsUseCase,
   getMessagesUseCase: GetMessagesUseCase,
   sendMessageUseCase: SendMessageUseCase,
   subscribeNewMessageUseCase: SubscribeNewMessageUseCase,
@@ -58,6 +63,7 @@ interface UseCases {
   addLeadUseCase: AddLeadUseCase
   updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
+  getFacebookUserInfoUseCase: GetFacebookUserInfoUseCase,
   // Opportunity
   getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
   getOpportunitiesByLeadUseCase: GetOpportunitiesByLeadUseCase,
@@ -81,12 +87,14 @@ const useCases: UseCases = {
   getZaloOAuthLinkUseCase: new GetZaloOAuthLinkUseCaseImpl(),
   connectZaloPageUseCase: new ConnectZaloPageUseCaseImpl(),
   connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
-  getConversationsUseCase: new GetConversationsUseCaseImpl(),
   getMessagesUseCase: new GetMessagesUseCaseImpl(),
   sendMessageUseCase: new SendMessageUseCaseImpl(),
   sendAttachmentMessageUseCase: new SendAttachmentMessageUseCaseImpl(),
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
+  getFacebookConversationsUseCase: new GetFacebookConversationsUseCaseImpl(),
+  getZaloConversationsUseCase: new GetZaloConversationsUseCaseImpl(),
+  getFacebookUserInfoUseCase: new GetFacebookUserInfoUseCaseImpl(),
   // Lead use cases
   getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
   getLeadUseCase: new GetLeadUseCaseImpl(),
@@ -108,12 +116,14 @@ const useCases: UseCases = {
 };
 
 export const {
-  getConversationsUseCase,
+  getFacebookConversationsUseCase,
+  getZaloConversationsUseCase,
   getMessagesUseCase,
   sendMessageUseCase,
   sendAttachmentMessageUseCase,
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
+  getFacebookUserInfoUseCase,
   getAllLeadsUseCase,
   getLeadUseCase,
   addLeadUseCase,

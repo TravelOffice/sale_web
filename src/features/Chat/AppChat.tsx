@@ -3,14 +3,18 @@ import i18n from '@config/i18n';
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/Conversation';
 import { MessageData } from '@domain/entities/Message';
-import { useConversations, useMessages } from '@hooks/chat';
+import {
+  useConversations, useMessages,
+} from '@hooks/chat';
 import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';
 import '@styles/base/pages/app-chat-list.scss';
 import '@styles/base/pages/app-chat.scss';
 import classnames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ConversationSection } from '@features/Chat/ConversationSection';
+import { FACEBOOK, ZALO } from '@utils/Constants';
 import ChatLog from './ChatLog';
 import Sidebar from './SidebarLeft';
 import UserProfileSidebar from './UserProfileSidebar';
@@ -27,7 +31,11 @@ const AppChat = () => {
   const [sidebar, setSidebar] = useState(false);
   const [userSidebarRight, setUserSidebarRight] = useState(false);
   const [userSidebarLeft, setUserSidebarLeft] = useState(false);
-  const [conversations, fetchingConversations] = useConversations();
+  const { fbConversationsState, zaloConversationsState } = useConversations();
+  const sections : ConversationSection[] = useMemo(() => ([
+    { title: FACEBOOK, ...fbConversationsState },
+    { title: ZALO, ...zaloConversationsState },
+  ]), [fbConversationsState, zaloConversationsState]);
   const [messages, fetchingMessages] = useMessages(conversation);
   const dispatch = useDispatch();
 
@@ -72,8 +80,7 @@ const AppChat = () => {
         userSidebarLeft={userSidebarLeft}
         handleUserSidebarLeft={handleUserSidebarLeft}
         onConversationSelected={onConversationSelected}
-        conversations={conversations}
-        fetching={fetchingConversations}
+        conversationSections={sections}
       />
       <div className="content-right">
         <div className="content-wrapper">

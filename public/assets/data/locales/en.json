@@ -110,7 +110,8 @@
         "MUTE_NOTIFICATIONS": "Mute notifications",
         "CLEAR_CHAT_MESSAGES": "Clear messages",
         "SEARCH_INPUT_PLACE_HOLDER": "Search chat conversations",
-        "MESSAGE_INPUT_PLACEHOLDER": "Type your message or send file, media attachments"
+        "MESSAGE_INPUT_PLACEHOLDER": "Type your message or send file, media attachments",
+        "NO_CHAT_FOUND": "No Chats Found"
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "About",
