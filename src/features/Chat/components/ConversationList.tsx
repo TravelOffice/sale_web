@@ -1,11 +1,14 @@
 import { Conversation } from '@domain/entities/Conversation';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Badge, CardText } from 'reactstrap';
 import { formatDateToMonthShort } from '@utils/DateUtils';
 import classnames from 'classnames';
 import CustomerAvatar from '@features/Chat/components/CustomerAvatar';
 import i18n from '@config/i18n';
+import { normalizeVietnameseName } from '@utils/ChatUtils';
 
 export interface ConversationListProps {
   title: string,
@@ -13,6 +16,7 @@ export interface ConversationListProps {
   fetching: boolean,
   onConversationSelected: (conversation: Conversation) => void,
   selectedConversation?: Conversation,
+  query?: string,
 }
 
 const EmptyChats = React.memo(() => (
@@ -41,7 +45,9 @@ const ConversationSkeleton = React.memo(() => (
 ));
 
 function Conversations(props: ConversationListProps) {
-  const { conversations, onConversationSelected, selectedConversation } = props;
+  const {
+    conversations, onConversationSelected, selectedConversation, query,
+  } = props;
   const [active, setActive] = useState<Conversation>();
 
   const handleConversationClicked = useCallback((conversation: Conversation) => {
@@ -53,10 +59,21 @@ function Conversations(props: ConversationListProps) {
     setActive(selectedConversation);
   }, [selectedConversation]);
 
+  const filteredConversations = useMemo(() => {
+    if (!query) {
+      return conversations;
+    }
+    return conversations.filter((conversation) => {
+      const normalizedName = normalizeVietnameseName(conversation.contact.fullName).toLowerCase();
+      const normalizedQuery = normalizeVietnameseName(query).toLowerCase();
+      return normalizedName.includes(normalizedQuery);
+    });
+  }, [query, conversations]);
+
   return (
     <>
       {
-        conversations.map((conversation) => {
+        filteredConversations.map((conversation) => {
           const timestamp = conversation.lastMessage?.timestamp || new Date();
           const datetime = formatDateToMonthShort(timestamp);
           const { contact } = conversation;
