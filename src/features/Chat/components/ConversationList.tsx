@@ -3,12 +3,13 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import Skeleton from 'react-loading-skeleton';
-import { Badge, CardText } from 'reactstrap';
+import { Badge, CardText, Collapse } from 'reactstrap';
 import { formatDateToMonthShort } from '@utils/DateUtils';
 import classnames from 'classnames';
 import CustomerAvatar from '@features/Chat/components/CustomerAvatar';
 import i18n from '@config/i18n';
 import { normalizeVietnameseName } from '@utils/ChatUtils';
+import { ChevronDown, ChevronRight } from 'react-feather';
 
 export interface ConversationListProps {
   title: string,
@@ -32,15 +33,15 @@ const EmptyChats = React.memo(() => (
 const ConversationSkeleton = React.memo(() => (
   <>
     {
-        [1, 2, 3, 4, 5].map((item) => (
-          <li key={item}>
-            <Skeleton circle width={42} height={42} />
-            <div className="chat-info flex-grow-1">
-              <Skeleton count={2} width="100%" />
-            </div>
-          </li>
-        ))
-      }
+      [1, 2, 3, 4, 5].map((item) => (
+        <li key={item}>
+          <Skeleton circle width={42} height={42} />
+          <div className="chat-info flex-grow-1">
+            <Skeleton count={2} width="100%" />
+          </div>
+        </li>
+      ))
+    }
   </>
 ));
 
@@ -79,7 +80,6 @@ function Conversations(props: ConversationListProps) {
           const { contact } = conversation;
           return (
             <li
-              key={conversation.id}
               onClick={() => handleConversationClicked(conversation)}
               className={classnames({ active: active?.id === conversation.id })}
             >
@@ -119,11 +119,23 @@ function renderConversations(props: ConversationListProps) {
 
 export default function ConversationList(props: ConversationListProps) {
   const { title } = props;
+  const [conversationsVisible, setConversationsVisible] = useState<boolean>(true);
+
+  const toggleConversationsContent = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setConversationsVisible(!conversationsVisible);
+  };
+
   return (
     <>
-      <h4 className="chat-list-title">{title}</h4>
+      <div className="d-flex flex-row justify-content-between cursor-pointer chat-list-header" onClick={toggleConversationsContent}>
+        <h4>{title}</h4>
+        {conversationsVisible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+      </div>
       <ul className="chat-users-list chat-list media-list">
-        {renderConversations(props)}
+        <Collapse isOpen={conversationsVisible}>
+          {renderConversations(props)}
+        </Collapse>
       </ul>
     </>
   );
