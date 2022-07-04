@@ -1,21 +1,22 @@
-import {
-  all, call, put, takeLatest,
-} from 'redux-saga/effects';
-import {
-  ConnectFacebookPageRequest, ConnectZaloPageRequest,
-  pageConnectionActions,
-} from '@redux/slices/pageConnectionSlice';
-import { PayloadAction } from '@reduxjs/toolkit';
 import { accountConnectionPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
-import { ZaloPage } from '@domain/entities/ZaloPage';
+import { Page } from '@domain/entities/Page';
+import { authActions } from '@redux/slices/authSlice';
+import {
+  ConnectFacebookPageRequest,
+  ConnectZaloPageRequest,
+  pageConnectionActions,
+} from '@redux/slices/pageConnectionSlice';
+import { PayloadAction } from '@reduxjs/toolkit';
+import {
+  all, call, put, takeLatest,
+} from 'redux-saga/effects';
 
 function* connectFacebookPage({ payload }: PayloadAction<ConnectFacebookPageRequest>) {
   try {
     const { userAccessToken, page } = payload;
     yield call(accountConnectionPresenter.connectFacebookPage, userAccessToken, page);
-    yield put({ type: pageConnectionActions.onFacebookPageConnected.type, payload: page });
     toasty.show({
       type: 'success',
       title: i18n.t('PAGE.SUCCESS'),
@@ -29,19 +30,21 @@ function* connectFacebookPage({ payload }: PayloadAction<ConnectFacebookPageRequ
     });
   } finally {
     yield put({ type: pageConnectionActions.onFacebookPageConnectCompleted.type });
+    // Refresh linked pages
+    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages);
+    yield put(authActions.setLinkedPages(linkedPages));
   }
 }
 
 function* connectZaloPage({ payload }: PayloadAction<ConnectZaloPageRequest>) {
   try {
     const { pageId, state, authorizationCode } = payload;
-    const zaloPage : ZaloPage = yield call(
+    yield call(
       accountConnectionPresenter.connectZaloPage,
       pageId,
       state,
       authorizationCode,
     );
-    yield put(pageConnectionActions.onZaloPageConnected(zaloPage));
     toasty.show({
       type: 'success',
       title: i18n.t('PAGE.SUCCESS'),
@@ -55,6 +58,9 @@ function* connectZaloPage({ payload }: PayloadAction<ConnectZaloPageRequest>) {
     });
   } finally {
     yield put(pageConnectionActions.onZaloPageConnectCompleted());
+    // Refresh linked pages
+    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages);
+    yield put(authActions.setLinkedPages(linkedPages));
   }
 }
 

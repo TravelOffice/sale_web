@@ -48,6 +48,8 @@ import GetAllOpportunitiesUseCaseImpl from './opportunity/GetAllOpportunitiesUse
 import GetOpportunitiesByLeadUseCaseImpl from './opportunity/GetOpportunitiesByLeadUseCaseImpl';
 import UpdateOpportunityUseCaseImpl from './opportunity/UpdateOpportunityUseCaseImpl';
 import GetCurrentUserUseCaseImpl from './user/GetCurrentUserUseCaseImpl';
+import { GetLinkedPagesUseCase } from './interfaces/pageConnection/GetLinkedPagesUseCase';
+import GetLinkedPagesUseCaseImpl from './pageConnection/GetLinkedPagesUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -64,6 +66,7 @@ interface UseCases {
   updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
   getFacebookUserInfoUseCase: GetFacebookUserInfoUseCase,
+  getLinkedPagesUseCase: GetLinkedPagesUseCase,
   // Opportunity
   getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
   getOpportunitiesByLeadUseCase: GetOpportunitiesByLeadUseCase,
@@ -95,6 +98,7 @@ const useCases: UseCases = {
   getFacebookConversationsUseCase: new GetFacebookConversationsUseCaseImpl(),
   getZaloConversationsUseCase: new GetZaloConversationsUseCaseImpl(),
   getFacebookUserInfoUseCase: new GetFacebookUserInfoUseCaseImpl(),
+  getLinkedPagesUseCase: new GetLinkedPagesUseCaseImpl(),
   // Lead use cases
   getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
   getLeadUseCase: new GetLeadUseCaseImpl(),
@@ -141,4 +145,5 @@ export const {
   createOpportunityUseCase,
   getOpportunityUseCase,
   getCurrentUserUseCase,
+  getLinkedPagesUseCase,
 } = useCases;
