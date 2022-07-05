@@ -1,20 +1,21 @@
+import { accountConnectionPresenter } from '@adapter/presenters';
+import { FacebookPage } from '@domain/entities/FacebookPage';
+import { pageConnectionActions } from '@redux/slices/pageConnectionSlice';
+import { RootState } from '@redux/store';
+import Images from '@themes/Images';
 import React, { useEffect, useState } from 'react';
+import { ReactFacebookLoginInfo } from 'react-facebook-login';
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import {
+  Link as LinkIcon,
+  X,
+} from 'react-feather';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Button, Card, CardBody, CardHeader, CardTitle, Col, Input,
   ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader, Spinner,
 } from 'reactstrap';
-import Images from '@themes/Images';
-import {
-  Link as LinkIcon,
-} from 'react-feather';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
-import { ReactFacebookLoginInfo } from 'react-facebook-login';
-import { accountConnectionPresenter } from '@adapter/presenters';
-import { FacebookPage } from '@domain/entities/FacebookPage';
-import { useDispatch, useSelector } from 'react-redux';
-import { pageConnectionActions } from '@redux/slices/pageConnectionSlice';
-import { RootState } from '@redux/store';
-import { useTranslation } from 'react-i18next';
 
 export default function ConnectionsTabContent() {
   const [showModal, setShowModal] = useState(false);
@@ -22,9 +23,8 @@ export default function ConnectionsTabContent() {
   const [selectedPage, setSelectedPage] = useState<FacebookPage | undefined>();
   const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
   const [getZaloLinkLoading, setGetZaloLinkLoading] = useState(false);
-  const pageConnectionState = useSelector((state: RootState) => state.pageConnection);
-  const currentFacebookPage = useSelector((state: RootState) => state.pageConnection.facebookPage);
-  const currentZaloPage = useSelector((state: RootState) => state.pageConnection.zaloPage);
+  const currentFacebookPage = useSelector((state: RootState) => state.auth.facebookPage);
+  const currentZaloPage = useSelector((state: RootState) => state.auth.zaloPage);
   const [zaloCallbackUrl, setZaloCallbackUrl] = useState('');
   const connectingFacebookPage = useSelector((
     state: RootState,
@@ -76,10 +76,10 @@ export default function ConnectionsTabContent() {
     if (connectingZaloPage) {
       return t('PAGE.CONNECTING');
     }
-    if (!pageConnectionState.zaloPage) {
+    if (!currentZaloPage) {
       return t('PAGE.NOT_CONNECTED');
     }
-    return pageConnectionState.zaloPage.name;
+    return currentZaloPage.name;
   };
 
   useEffect(() => {
@@ -138,7 +138,7 @@ export default function ConnectionsTabContent() {
       <CardBody className="pt-2">
         <div className="d-flex mt-2 pb-2 border-bottom">
           <div className="flex-shrink-0">
-            <img className="me-1" src={currentFacebookPage?.picture || Images.facebookLogo} alt="" height="38" width="38" />
+            <img className="me-1" src={currentFacebookPage?.avatar || Images.facebookLogo} alt="" height="38" width="38" />
           </div>
           <div className="d-flex align-item-center justify-content-between flex-grow-1">
             <div className="me-1">
@@ -146,23 +146,31 @@ export default function ConnectionsTabContent() {
               <span>{facebookPageStatus()}</span>
             </div>
             <div className="mt-50 mt-sm-0">
-              <FacebookLogin
-                appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
-                autoLoad={false}
-                scope="pages_messaging"
-                callback={onFacebookConnected}
-                render={(renderProps) => (
-                  <Button outline className="btn-icon" onClick={() => renderProps.onClick()}>
-                    <LinkIcon className="font-medium-3" />
+              {
+                currentFacebookPage ? (
+                  <Button outline className="btn-icon btn-outline-danger" onClick={() => {}}>
+                    <X color="red" className="font-medium-3" />
                   </Button>
-                )}
-              />
+                ) : (
+                  <FacebookLogin
+                    appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
+                    autoLoad={false}
+                    scope="pages_messaging"
+                    callback={onFacebookConnected}
+                    render={(renderProps) => (
+                      <Button outline className="btn-icon" onClick={() => renderProps.onClick()}>
+                        <LinkIcon className="font-medium-3" />
+                      </Button>
+                    )}
+                  />
+                )
+              }
             </div>
           </div>
         </div>
         <div className="d-flex mt-2">
           <div className="flex-shrink-0">
-            <img className="me-1" src={currentZaloPage?.picture || Images.zaloLogo} alt="" height="38" width="38" />
+            <img className="me-1" src={currentZaloPage?.avatar || Images.zaloLogo} alt="" height="38" width="38" />
           </div>
           <div className="d-flex align-item-center justify-content-between flex-grow-1">
             <div className="me-1">
