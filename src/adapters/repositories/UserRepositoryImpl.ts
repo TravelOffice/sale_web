@@ -8,4 +8,9 @@ export default class UserRepositoryImpl implements UserRepository {
     const response = await apiProvider.authorizedRequest.get('/me');
     return response.data;
   }
+
+  getLinkedPages = async () => {
+    const response = await apiProvider.authorizedRequest.get('/me/linked_pages');
+    return response.data;
+  }
 }

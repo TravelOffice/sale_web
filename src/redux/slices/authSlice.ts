@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import User from '@domain/entities/User';
-import { CognitoUserSession } from 'amazon-cognito-identity-js';
 import { Page } from '@domain/entities/Page';
+import User from '@domain/entities/User';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
 interface AuthState {
   session?: CognitoUserSession,
@@ -14,8 +14,8 @@ interface AuthState {
 const initialState: AuthState = {
   session: undefined,
   currentUser: undefined,
-  facebookPage: { id: '100945222539258', name: 'ABAT Travel Company' },
-  zaloPage: { id: '652598983976304792', name: 'PYS Travel' },
+  facebookPage: undefined,
+  zaloPage: undefined,
 };
 
 export interface LoginPayload {
@@ -38,6 +38,11 @@ const authSlice = createSlice({
     },
     setCurrentUser: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
+    },
+    setLinkedPages: (state, action: PayloadAction<Array<Page>>) => {
+      const linkedPages = action.payload;
+      state.facebookPage = linkedPages.find((page) => page.platform === 'facebook');
+      state.zaloPage = linkedPages.find((page) => page.platform === 'zalo');
     },
   },
 });

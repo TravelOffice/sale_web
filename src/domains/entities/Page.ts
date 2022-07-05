@@ -1,5 +1,8 @@
+import { ChatPlatform } from './ChatPlatform';
+
 export interface Page {
   id: string,
   name: string,
-  picture?: string,
+  avatar?: string,
+  platform: ChatPlatform,
 }

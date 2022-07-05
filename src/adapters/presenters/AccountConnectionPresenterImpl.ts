@@ -3,6 +3,7 @@ import {
   connectFacebookPageUseCase,
   connectZaloPageUseCase,
   getFacebookPagesUseCase,
+  getLinkedPagesUseCase,
   getZaloOAuthLinkUseCase,
 } from '@domain/useCases';
 import { FacebookPage } from '@domain/entities/FacebookPage';
@@ -24,4 +25,6 @@ export default class AccountConnectionPresenterImpl implements AccountConnection
     state: string,
     authorizationCode: string,
   ) => connectZaloPageUseCase.invoke(pageId, state, authorizationCode);
+
+  getLinkedPages = async () => getLinkedPagesUseCase.invoke();
 }
