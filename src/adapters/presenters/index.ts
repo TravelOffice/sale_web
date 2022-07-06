@@ -4,6 +4,8 @@ import { AccountConnectionPresenter } from '@adapter/presenters/interfaces/Accou
 import AccountConnectionPresenterImpl from '@adapter/presenters/AccountConnectionPresenterImpl';
 import { ChatPresenter } from '@adapter/presenters/interfaces/ChatPresenter';
 import ChatPresenterImpl from '@adapter/presenters/ChatPresenterImpl';
+import { NotificationPresenter } from '@adapter/presenters/interfaces/NotificationPresenter';
+import NotificationPresenterImpl from '@adapter/presenters/NotificationPresenterImpl';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 import LeadPresenterImpl from './LeadPresenterImpl';
 import { OpportunityPresenter } from './interfaces/OpportunityPresenter';
@@ -18,6 +20,7 @@ interface Presenters {
   leadPresenter: LeadPresenter,
   opportunityPresenter: OpportunityPresenter,
   customerPresenter: CustomerPresenter,
+  notificationPresenter: NotificationPresenter,
 }
 
 const presenters: Presenters = {
@@ -27,6 +30,7 @@ const presenters: Presenters = {
   leadPresenter: new LeadPresenterImpl(),
   opportunityPresenter: new OpportunityPresenterImpl(),
   customerPresenter: new CustomerPresenterImpl(),
+  notificationPresenter: new NotificationPresenterImpl(),
 };
 
 export const {
@@ -36,4 +40,5 @@ export const {
   leadPresenter,
   opportunityPresenter,
   customerPresenter,
+  notificationPresenter,
 } = presenters;

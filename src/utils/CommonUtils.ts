@@ -23,3 +23,17 @@ export const handleSearchColumns = (
   }
   return columns.some((column: string) => row[column].includes(searchTerm));
 };
+
+/**
+ * Truncate given string with ellipsis
+ * @param str the given string which needs to be truncate
+ * @param maxLength maximum length of string (included ellipsis)
+ */
+export const truncateStringWithEllipsis = (str: string, maxLength: number) => {
+  // Skip truncating if the given string is not enough length
+  if (str.length <= maxLength || maxLength <= 3) {
+    return str;
+  }
+  // Replace 3 last characters by ellipsis (3 dots)
+  return `${str.substring(0, maxLength - 3)}...`;
+};

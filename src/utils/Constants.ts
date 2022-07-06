@@ -16,3 +16,7 @@ export enum Languages {
 export const FACEBOOK = 'Facebook';
 
 export const ZALO = 'Zalo';
+
+export const NOTIFICATION_KEY_IN_LOCAL_STORAGE = 'notifications';
+
+export const NOTIFICATION_UNREAD_KEY_IN_LOCAL_STORAGE = 'notifications_unread_count';

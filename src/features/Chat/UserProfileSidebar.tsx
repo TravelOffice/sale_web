@@ -13,7 +13,7 @@ import {
 } from 'react-feather';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import React from 'react';
-import CustomerAvatar from './components/CustomerAvatar';
+import CustomerAvatar from '@components/Avatar/CustomerAvatar';
 
 export interface UserProfileSidebarProps {
   conversation?: Conversation,

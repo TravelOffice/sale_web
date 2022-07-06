@@ -121,8 +121,9 @@ function* subscribeNewMessageEvent() {
       // Notify to update messages list
       yield put({ type: chatActions.onNewMessage.type, payload: message });
       // Notify to update conversations list
-      const selector = (state: RootState) => state.chat.conversations;
-      const conversations: Conversation[] = yield select(selector);
+      const conversationsSelector = (state: RootState) => state.chat.fbConversations.conversations
+        .concat(state.chat.zaloConversations.conversations);
+      const conversations: Conversation[] = yield select(conversationsSelector);
       const conversation = conversations.find(
         (item: Conversation) => item.contact.id === message.customerId,
       );

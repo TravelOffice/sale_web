@@ -6,6 +6,8 @@ import { AccountConnectionRepository } from '@adapter/repositories/interfaces/Ac
 import AccountConnectionRepositoryImpl from '@adapter/repositories/AccountConnectionRepositoryImpl';
 import { ZaloPageRepository } from '@adapter/repositories/interfaces/ZaloPageRepository';
 import ZaloPageRepositoryImpl from '@adapter/repositories/ZaloPageRepositoryImpl';
+import { NotificationRepository } from '@adapter/repositories/interfaces/NotificationRepository';
+import NotificationRepositoryImpl from '@adapter/repositories/NotificationRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
 import ChatRepositoryImpl from './ChatRepositoryImpl';
 import { S3Repository } from './interfaces/S3Repository';
@@ -27,6 +29,7 @@ interface Repositories {
   pageConnectionRepository: AccountConnectionRepository,
   opportunityRepository: OpportunityRepository,
   customerRepository: CustomerRepository,
+  notificationRepository: NotificationRepository,
 }
 
 const repositories : Repositories = {
@@ -39,6 +42,7 @@ const repositories : Repositories = {
   pageConnectionRepository: new AccountConnectionRepositoryImpl(),
   opportunityRepository: new OpportunityRepositoryImpl(),
   customerRepository: new CustomerRepositoryImpl(),
+  notificationRepository: new NotificationRepositoryImpl(),
 };
 
 export const {
@@ -51,4 +55,5 @@ export const {
   pageConnectionRepository,
   opportunityRepository,
   customerRepository,
+  notificationRepository,
 } = repositories;
