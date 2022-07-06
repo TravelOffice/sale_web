@@ -1,12 +1,12 @@
 import { FacebookMessage } from '@domain/entities/FacebookMessage';
 import { Message } from '@domain/entities/Message';
 import { ZaloMessage } from '@domain/entities/ZaloMessage';
-import { store } from '@redux/store';
 import messageAttachmentMapper from '@domain/mappers/MessageAttachmentMapper';
+import { getPageFromRedux } from '@utils/ChatUtils';
 
 class MessageMapper {
   fromFacebookMessage = (fbMessage: FacebookMessage) : Message => {
-    const fbPageId = store.getState().auth.facebookPage?.id!;
+    const fbPageId = getPageFromRedux('facebook')?.id!;
     const recipient = fbMessage.to.data[0].id;
     const customerId = fbPageId === fbMessage.from.id ? recipient : fbMessage.from.id;
     const attachments = fbMessage.attachments?.data.map(
@@ -29,7 +29,7 @@ class MessageMapper {
   }
 
   fromZaloMessage = (zaloMessage: ZaloMessage) : Message => {
-    const zaloPageId = store.getState().auth.zaloPage?.id!;
+    const zaloPageId = getPageFromRedux('zalo')?.id!;
     const customerId = zaloMessage.from_id === zaloPageId ? zaloMessage.to_id : zaloMessage.from_id;
     return {
       id: zaloMessage.message_id,

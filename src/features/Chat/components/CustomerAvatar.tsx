@@ -1,10 +1,9 @@
+import { chatPresenter } from '@adapter/presenters';
 import Avatar from '@components/Avatar/Avatar';
+import { Conversation } from '@domain/entities/Conversation';
+import { usePage } from '@hooks/chat';
 import Images from '@themes/Images';
 import React, { useEffect, useState } from 'react';
-import { Conversation } from '@domain/entities/Conversation';
-import { chatPresenter } from '@adapter/presenters';
-import { useSelector } from 'react-redux';
-import { RootState } from '@redux/store';
 
 export interface CustomerAvatarProps {
   conversation: Conversation,
@@ -12,7 +11,7 @@ export interface CustomerAvatarProps {
 
 const useCustomerAvatar = (conversation: Conversation) => {
   const [avatar, setAvatar] = useState(conversation.contact.avatar || Images.defaultAvatar);
-  const fbPageId = useSelector((state: RootState) => state.auth.facebookPage?.id);
+  const fbPageId = usePage('facebook')?.id;
   useEffect(() => {
     if (conversation.chatPlatform === 'facebook' && fbPageId) {
       chatPresenter.getFbUserProfile(fbPageId, conversation.contact.id).then((profile) => {

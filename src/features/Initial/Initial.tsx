@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import './Initial.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '@redux/slices/authSlice';
 import { getSSOPage } from '@utils/EnvUtils';
-import { useHistory } from 'react-router-dom';
 import EventMessageType from '@domain/entities/event/EventMassageType';
+import { RootState } from '@redux/store';
+import { useHistory } from 'react-router-dom';
 
 const SSO_PAGE = getSSOPage();
 
@@ -19,6 +20,7 @@ interface MessageData {
 export default function Initial() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const initialized = useSelector((state: RootState) => state.auth.initialized);
   useEffect(() => {
     const listener = (event: MessageEvent) => {
       // Skip event from other origin
@@ -31,8 +33,6 @@ export default function Initial() {
       if (message.type === 'cognito-signin') {
         const { session } = message;
         dispatch(authActions.attachSession(session));
-        const locationState: any = history.location.state;
-        history.push(locationState.from.pathname);
       }
     };
     window.addEventListener('message', listener);
@@ -40,6 +40,14 @@ export default function Initial() {
       window.removeEventListener('message', listener);
     };
   }, []);
+
+  useEffect(() => {
+    if (initialized) {
+      const locationState: any = history.location.state;
+      history.push(locationState.from.pathname);
+    }
+  }, [initialized]);
+
   return (
     <div className="initial">
       <iframe src={SSO_PAGE} title="SSO" />

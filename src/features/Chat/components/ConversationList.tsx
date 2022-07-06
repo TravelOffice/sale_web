@@ -80,6 +80,7 @@ function Conversations(props: ConversationListProps) {
           const { contact } = conversation;
           return (
             <li
+              key={conversation.id}
               onClick={() => handleConversationClicked(conversation)}
               className={classnames({ active: active?.id === conversation.id })}
             >

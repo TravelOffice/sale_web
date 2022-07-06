@@ -196,6 +196,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
               conversationSections.map((section) => (
                 !section.error && (
                   <ConversationList
+                    key={section.title}
                     title={section.title}
                     conversations={section.conversations}
                     fetching={section.fetching}
