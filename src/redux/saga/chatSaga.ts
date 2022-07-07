@@ -1,7 +1,11 @@
 import { chatPresenter } from '@adapter/presenters';
+import toasty from '@components/Toasty/Toasty';
+import i18n from '@config/i18n';
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import { ChatPlatform } from '@domain/entities/ChatPlatform';
 import { Conversation } from '@domain/entities/Conversation';
 import { Message, MessageData } from '@domain/entities/Message';
+import { Page } from '@domain/entities/Page';
 import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';
 import { PayloadAction } from '@reduxjs/toolkit';
@@ -9,15 +13,18 @@ import { END, EventChannel, eventChannel } from 'redux-saga';
 import {
   all, call, cancelled, put, select, take, takeEvery, takeLatest,
 } from 'redux-saga/effects';
-import toasty from '@components/Toasty/Toasty';
-import i18n from '@config/i18n';
+
+function* selectPage(platform: ChatPlatform) {
+  const page: Page = yield select(
+    (state: RootState) => state.auth.linkedPages.find((item) => item.platform === platform),
+  );
+  return page;
+}
 
 function* getFbConversations() {
   try {
-    const fbPageId: string = yield select((
-      state: RootState,
-    ) => state.auth.facebookPage?.id);
-    const data: Conversation[] = yield call(chatPresenter.getFbConversations, fbPageId);
+    const page: Page = yield selectPage('facebook');
+    const data: Conversation[] = yield call(chatPresenter.getFbConversations, page?.id);
     yield put({ type: chatActions.onFbConversationRetrieved.type, payload: data });
   } catch (error: any) {
     const errorMessage = error.message;
@@ -28,10 +35,8 @@ function* getFbConversations() {
 
 function* getZaloConversations() {
   try {
-    const zaloPageId: string = yield select((
-      state: RootState,
-    ) => state.auth.zaloPage?.id);
-    const data: Conversation[] = yield call(chatPresenter.getZaloConversations, zaloPageId);
+    const page: Page = yield selectPage('zalo');
+    const data: Conversation[] = yield call(chatPresenter.getZaloConversations, page?.id);
     yield put({ type: chatActions.onZaloConversationsRetrieved.type, payload: data });
   } catch (error: any) {
     const errorMessage = error.message;

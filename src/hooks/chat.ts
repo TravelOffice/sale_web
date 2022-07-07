@@ -1,9 +1,14 @@
 import { chatPresenter } from '@adapter/presenters';
+import { ChatPlatform } from '@domain/entities/ChatPlatform';
 import { Conversation } from '@domain/entities/Conversation';
 import { Message } from '@domain/entities/Message';
+import { ConversationSection } from '@features/Chat/ConversationSection';
 import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';
-import { useCallback, useEffect, useState } from 'react';
+import { FACEBOOK, ZALO } from '@utils/Constants';
+import {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const useConversations = () => {
@@ -32,6 +37,27 @@ export const useMessages = (conversation?: Conversation) : [Message[], boolean] 
     dispatch(chatActions.subscribeNewMessage());
   }, []);
   return [messages, fetching];
+};
+
+export const usePage = (platform: ChatPlatform) => useSelector(
+  (state: RootState) => state.auth.linkedPages.find((page) => page.platform === platform),
+);
+
+export const useConversationSections = () => {
+  const fbPage = usePage('facebook');
+  const zaloPage = usePage('zalo');
+  const { fbConversationsState, zaloConversationsState } = useConversations();
+  const sections : ConversationSection[] = useMemo(() => {
+    const conversations = [];
+    if (fbPage) {
+      conversations.push({ title: FACEBOOK, ...fbConversationsState });
+    }
+    if (zaloPage) {
+      conversations.push({ title: ZALO, ...zaloConversationsState });
+    }
+    return conversations;
+  }, [fbConversationsState, zaloConversationsState]);
+  return sections;
 };
 
 export const useLoadMore = (conversation?: Conversation) : [Function, boolean] => {

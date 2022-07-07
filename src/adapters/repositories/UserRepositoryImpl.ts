@@ -1,4 +1,4 @@
-import { apiProvider } from '@adapter/infrastructures';
+import { apiProvider, sessionStorageProvider } from '@adapter/infrastructures';
 import UserRepository from './interfaces/UserRepository';
 
 export default class UserRepositoryImpl implements UserRepository {
@@ -10,7 +10,15 @@ export default class UserRepositoryImpl implements UserRepository {
   }
 
   getLinkedPages = async () => {
+    // Use caching to reduce calling to the backend
+    const cachedKey = 'linked_pages';
+    const cachedPagesInJSON: string = await sessionStorageProvider.getItem(cachedKey);
+    if (cachedPagesInJSON) {
+      return JSON.parse(cachedPagesInJSON);
+    }
     const response = await apiProvider.authorizedRequest.get('/me/linked_pages');
-    return response.data;
+    const linkedPages = response.data;
+    await sessionStorageProvider.setItem(cachedKey, JSON.stringify(linkedPages));
+    return linkedPages;
   }
 }
