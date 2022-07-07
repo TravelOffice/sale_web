@@ -1,5 +1,8 @@
-import { MessageGroup } from '@features/Chat/ChatLog';
+import { ChatPlatform } from '@domain/entities/ChatPlatform';
 import { Message } from '@domain/entities/Message';
+import { Page } from '@domain/entities/Page';
+import { MessageGroup } from '@features/Chat/ChatLog';
+import { store } from '@redux/store';
 
 export const PAGE_SIZE = 10;
 
@@ -62,4 +65,14 @@ export const normalizeVietnameseName = (name: string) => {
   normalizedName = normalizedName.replace(/[đĐ]/g, (m) => (m === 'đ' ? 'd' : 'D'));
 
   return normalizedName;
+};
+
+export const getPage = (
+  linkedPages: Page[],
+  platform: ChatPlatform,
+) => linkedPages.find((page) => page.platform === platform);
+
+export const getPageFromRedux = (platform: ChatPlatform) => {
+  const { linkedPages } = store.getState().auth;
+  return getPage(linkedPages, platform);
 };

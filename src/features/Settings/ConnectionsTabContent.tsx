@@ -1,5 +1,6 @@
 import { accountConnectionPresenter } from '@adapter/presenters';
 import { FacebookPage } from '@domain/entities/FacebookPage';
+import { usePage } from '@hooks/chat';
 import { pageConnectionActions } from '@redux/slices/pageConnectionSlice';
 import { RootState } from '@redux/store';
 import Images from '@themes/Images';
@@ -23,8 +24,8 @@ export default function ConnectionsTabContent() {
   const [selectedPage, setSelectedPage] = useState<FacebookPage | undefined>();
   const [userAccessToken, setUserAccessToken] = useState<string | undefined>();
   const [getZaloLinkLoading, setGetZaloLinkLoading] = useState(false);
-  const currentFacebookPage = useSelector((state: RootState) => state.auth.facebookPage);
-  const currentZaloPage = useSelector((state: RootState) => state.auth.zaloPage);
+  const currentFacebookPage = usePage('facebook');
+  const currentZaloPage = usePage('zalo');
   const [zaloCallbackUrl, setZaloCallbackUrl] = useState('');
   const connectingFacebookPage = useSelector((
     state: RootState,

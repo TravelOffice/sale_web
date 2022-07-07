@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Page } from '@domain/entities/Page';
 import User from '@domain/entities/User';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -7,15 +8,15 @@ interface AuthState {
   session?: CognitoUserSession,
   currentUser?: User,
   idToken?: string,
-  facebookPage?: Page,
-  zaloPage?: Page
+  linkedPages: Page[],
+  initialized: boolean,
 }
 
 const initialState: AuthState = {
   session: undefined,
   currentUser: undefined,
-  facebookPage: undefined,
-  zaloPage: undefined,
+  linkedPages: [],
+  initialized: false,
 };
 
 export interface LoginPayload {
@@ -40,9 +41,11 @@ const authSlice = createSlice({
       state.currentUser = action.payload;
     },
     setLinkedPages: (state, action: PayloadAction<Array<Page>>) => {
-      const linkedPages = action.payload;
-      state.facebookPage = linkedPages.find((page) => page.platform === 'facebook');
-      state.zaloPage = linkedPages.find((page) => page.platform === 'zalo');
+      state.linkedPages = action.payload;
+    },
+    getLinkedPages: (state) => {},
+    onInitialCompleted: (state) => {
+      state.initialized = true;
     },
   },
 });
