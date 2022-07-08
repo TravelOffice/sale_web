@@ -23,9 +23,14 @@ function* getLinkedPages() {
   yield put(authActions.setLinkedPages(linkedPages));
 }
 
+function* detachSession() {
+  yield put({ type: 'signOut' });
+}
+
 export default function* authSaga() {
   yield all([
     takeLatest(authActions.attachSession, attachSession),
     takeLatest(authActions.getLinkedPages, getLinkedPages),
+    takeLatest(authActions.detachSession, detachSession),
   ]);
 }
