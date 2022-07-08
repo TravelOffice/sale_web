@@ -15,7 +15,7 @@ import { customerReducers } from './slices/customerSlice';
 const sageMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
 
-const rootReducers = combineReducers({
+const combinedReducers = combineReducers({
   router: connectRouter(history),
   auth: authReducers,
   layout: layoutReducers,
@@ -26,6 +26,16 @@ const rootReducers = combineReducers({
   pageConnection: pageConnectionReducers,
   customer: customerReducers,
 });
+
+type Reducers = typeof combinedReducers;
+
+const rootReducers: Reducers = (state, action) => {
+  if (action.type === 'signOut') {
+    // eslint-disable-next-line no-param-reassign
+    state = undefined;
+  }
+  return combinedReducers(state, action);
+};
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }).concat(
