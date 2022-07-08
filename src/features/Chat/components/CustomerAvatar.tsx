@@ -6,10 +6,15 @@ import Images from '@themes/Images';
 import React, { useEffect, useState } from 'react';
 
 export interface CustomerAvatarProps {
-  conversation: Conversation,
+  conversation?: Conversation,
+  className?: string,
+  onClick?: React.MouseEventHandler<any>,
+  height?: number,
+  width?: number,
 }
 
-const useCustomerAvatar = (conversation: Conversation) => {
+export const useCustomerAvatar = (conversation?: Conversation) => {
+  if (!conversation) return undefined;
   const [avatar, setAvatar] = useState(conversation.contact.avatar || Images.defaultAvatar);
   const fbPageId = usePage('facebook')?.id;
   useEffect(() => {
@@ -23,9 +28,21 @@ const useCustomerAvatar = (conversation: Conversation) => {
 };
 
 export default function CustomerAvatar(props: CustomerAvatarProps) {
-  const { conversation } = props;
+  const {
+    conversation,
+    className,
+    height,
+    width,
+    onClick,
+  } = props;
   const avatar = useCustomerAvatar(conversation);
   return (
-    <Avatar img={avatar} imgHeight="42" imgWidth="42" />
+    <Avatar
+      img={avatar}
+      imgHeight={height || 42}
+      imgWidth={width || 42}
+      className={className}
+      onClick={onClick}
+    />
   );
 }

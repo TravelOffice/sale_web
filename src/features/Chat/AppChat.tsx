@@ -28,7 +28,7 @@ const AppChat = () => {
   const [sidebar, setSidebar] = useState(false);
   const [userSidebarRight, setUserSidebarRight] = useState(false);
   const [userSidebarLeft, setUserSidebarLeft] = useState(false);
-  const sections : ConversationSection[] = useConversationSections();
+  const sections: ConversationSection[] = useConversationSections();
   const [messages, fetchingMessages] = useMessages(conversation);
   const dispatch = useDispatch();
 
@@ -98,7 +98,7 @@ const AppChat = () => {
               firstLoad={firstLoad}
             />
             <UserProfileSidebar
-              contact={conversation?.contact}
+              conversation={conversation}
               userSidebarRight={userSidebarRight}
               handleUserSidebarRight={handleUserSidebarRight}
             />

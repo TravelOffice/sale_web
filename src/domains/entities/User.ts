@@ -17,6 +17,7 @@ export default interface User {
   username: string,
   firstName?: string,
   lastName?: string,
+  name?: string,
   email: string,
   tenant: string,
   role: RolesType,

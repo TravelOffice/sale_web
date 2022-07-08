@@ -9,7 +9,7 @@ export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy';
 export type AvatarBadgeColor = 'primary' | 'secondary' | 'success' | 'danger' | 'info' | 'warning' | 'dark' | 'light-primary' | 'light-secondary' | 'light-success' | 'light-danger' | 'light-info' | 'light-warning' | 'light-dark';
 export type AvatarColor = 'primary' | 'secondary' | 'success' | 'danger' | 'info' | 'warning' | 'dark' | 'light-primary' | 'light-secondary' | 'light-success' | 'light-danger' | 'light-info' | 'light-warning' | 'light-dark';
 
-interface AvatarProps extends React.HTMLAttributes<any>{
+interface AvatarProps extends React.HTMLAttributes<any> {
   img?: string,
   size?: AvatarSize,
   icon?: ReactNode,

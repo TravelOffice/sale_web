@@ -1,22 +1,30 @@
-import React from 'react';
-import Avatar from '@components/Avatar/Avatar';
-import classnames from 'classnames';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import {
-  X, Mail, PhoneCall, Clock, Tag, Star, Image,
-} from 'react-feather';
-import { Contact } from '@domain/entities/Contact';
-import Images from '@themes/Images';
 import i18n from '@config/i18n';
+import { Contact } from '@domain/entities/Contact';
+import { Conversation } from '@domain/entities/Conversation';
+import classnames from 'classnames';
+import {
+  Clock,
+  Image,
+  Mail,
+  PhoneCall,
+  Star,
+  Tag,
+  X,
+} from 'react-feather';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import React from 'react';
+import CustomerAvatar from './components/CustomerAvatar';
 
 export interface UserProfileSidebarProps {
+  conversation?: Conversation,
   contact?: Contact,
   handleUserSidebarRight: () => void,
   userSidebarRight: boolean,
 }
 
 const UserProfileSidebar = (props: UserProfileSidebarProps) => {
-  const { contact, handleUserSidebarRight, userSidebarRight } = props;
+  const { conversation, handleUserSidebarRight, userSidebarRight } = props;
+  const contact = conversation?.contact;
 
   return (
     <div className={classnames('user-profile-sidebar', { show: userSidebarRight })}>
@@ -25,12 +33,11 @@ const UserProfileSidebar = (props: UserProfileSidebarProps) => {
           <X size={14} />
         </span>
         <div className="header-profile-sidebar">
-          <Avatar
+          <CustomerAvatar
+            conversation={conversation}
             className="box-shadow-1 avatar-border"
-            size="xl"
-            img={contact?.avatar || Images.defaultAvatar}
-            imgHeight="70"
-            imgWidth="70"
+            height={70}
+            width={70}
           />
           <h4 className="chat-user-name">{contact?.fullName}</h4>
         </div>
