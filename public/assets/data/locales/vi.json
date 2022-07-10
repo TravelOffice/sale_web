@@ -89,8 +89,10 @@
     "PAGE": {
         "SUCCESS": "Hoàn thành",
         "MESSAGE_LINK_SUCCESSFULLY": "Trang của bạn đã được liên kết!",
+        "MESSAGE_UNLINK_SUCCESSFULLY": "Đã hủy liên kết tới {{platform}} thành công",
         "ERROR": "Lỗi",
         "MESSAGE_LINK_FAILED": "Đã có lỗi xảy ra khi liên kết trang!",
+        "MESSAGE_UNLINK_FAILED": "Đã có lỗi xảy ra khi hủy liên kết {{platform}}",
         "CONNECTING": "Đang liên kết",
         "NOT_CONNECTED": "Chưa liên kết",
         "LINK_PAGE_TITLE": "Liên kết trang",
@@ -111,7 +113,8 @@
         "CLEAR_CHAT_MESSAGES": "Xóa tin nhắn",
         "SEARCH_INPUT_PLACE_HOLDER": "Tìm kiếm hội thoại",
         "MESSAGE_INPUT_PLACEHOLDER": "Nhập tin nhắn hoặc gửi tệp đính kèm",
-        "NO_CHAT_FOUND": "Chưa có tin nhắn"
+        "NO_CHAT_FOUND": "Chưa có tin nhắn",
+        "LINK_YOUR_PAGES": "Liên kết trang"
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "Mô tả",

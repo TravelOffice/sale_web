@@ -31,7 +31,7 @@ function* connectFacebookPage({ payload }: PayloadAction<ConnectFacebookPageRequ
   } finally {
     yield put({ type: pageConnectionActions.onFacebookPageConnectCompleted.type });
     // Refresh linked pages
-    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages);
+    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, true);
     yield put(authActions.setLinkedPages(linkedPages));
   }
 }
@@ -59,7 +59,33 @@ function* connectZaloPage({ payload }: PayloadAction<ConnectZaloPageRequest>) {
   } finally {
     yield put(pageConnectionActions.onZaloPageConnectCompleted());
     // Refresh linked pages
-    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages);
+    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, true);
+    yield put(authActions.setLinkedPages(linkedPages));
+  }
+}
+
+function* unlinkPage({ payload }: PayloadAction<Page>) {
+  const { platform, id } = payload;
+  try {
+    yield call(
+      accountConnectionPresenter.unlinkPage,
+      platform,
+      id,
+    );
+    toasty.show({
+      type: 'success',
+      title: i18n.t('PAGE.SUCCESS'),
+      message: i18n.t('PAGE.MESSAGE_UNLINK_SUCCESSFULLY', { platform }),
+    });
+  } catch {
+    toasty.show({
+      type: 'error',
+      title: i18n.t('PAGE.ERROR'),
+      message: i18n.t('PAGE.MESSAGE_UNLINK_FAILED', { platform }),
+    });
+  } finally {
+    // Refresh linked pages
+    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, true);
     yield put(authActions.setLinkedPages(linkedPages));
   }
 }
@@ -68,5 +94,6 @@ export default function* pageConnectionSaga() {
   yield all([
     takeLatest(pageConnectionActions.connectFacebookPage, connectFacebookPage),
     takeLatest(pageConnectionActions.connectZaloPage, connectZaloPage),
+    takeLatest(pageConnectionActions.unlinkPage, unlinkPage),
   ]);
 }

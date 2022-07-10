@@ -2,15 +2,15 @@ import { chatRepository } from '@adapter/repositories';
 import { Conversation } from '@domain/entities/Conversation';
 import { Message } from '@domain/entities/Message';
 import messageMapper from '@domain/mappers/MessageMapper';
-import { usePage } from '@hooks/chat';
+import { getPageFromRedux } from '@utils/ChatUtils';
 import { GetMessagesUseCase } from '../interfaces/chat/GetMessagesUseCase';
 
 export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
   invoke = async (
     conversation: Conversation, nextToken?: string,
   ) : Promise<[Message[], string]> => {
-    const facebookPage = usePage('facebook');
-    const zaloPage = usePage('zalo');
+    const facebookPage = getPageFromRedux('facebook');
+    const zaloPage = getPageFromRedux('zalo');
     if (conversation.chatPlatform === 'facebook') {
       return this.getFbMessages(facebookPage?.id || '', conversation, nextToken);
     }

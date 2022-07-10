@@ -10,7 +10,7 @@ function* attachSession() {
   try {
     const currentUser: User = yield call(userPresenter.getCurrentUser);
     yield put(authActions.setCurrentUser(currentUser));
-    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages);
+    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, false);
     yield put(authActions.setLinkedPages(linkedPages));
     yield put(authActions.onInitialCompleted());
   } catch {
@@ -19,7 +19,7 @@ function* attachSession() {
 }
 
 function* getLinkedPages() {
-  const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages);
+  const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, false);
   yield put(authActions.setLinkedPages(linkedPages));
 }
 
