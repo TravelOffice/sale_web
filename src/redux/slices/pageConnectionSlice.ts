@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { FacebookPage } from '@domain/entities/FacebookPage';
+import { Page } from '@domain/entities/Page';
 
 interface PageConnectionState {
   connectingFacebookPage: boolean,
@@ -29,6 +30,8 @@ const pageConnectionSlice = createSlice({
     },
     onZaloPageConnectCompleted: (state) => {
       state.connectingZaloPage = false;
+    },
+    unlinkPage: (_state, _action: PayloadAction<Page>) => {
     },
   },
 });

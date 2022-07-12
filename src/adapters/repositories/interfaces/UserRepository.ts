@@ -4,5 +4,5 @@ import User from '@domain/entities/User';
 export default interface UserRepository {
   getUser: (id: string) => Promise<User>,
   getCurrentUser: () => Promise<User>,
-  getLinkedPages: () => Promise<Array<Page>>;
+  getLinkedPages: (refresh: boolean) => Promise<Array<Page>>;
 }

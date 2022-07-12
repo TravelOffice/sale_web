@@ -1,4 +1,5 @@
 import { apiProvider } from '@adapter/infrastructures';
+import { ChatPlatform } from '@domain/entities/ChatPlatform';
 import { FacebookPage } from '@domain/entities/FacebookPage';
 import { ZaloPage } from '@domain/entities/ZaloPage';
 import { AccountConnectionRepository } from './interfaces/AccountConnectionRepository';
@@ -19,4 +20,16 @@ export default class AccountConnectionRepositoryImpl implements AccountConnectio
     const result = await apiProvider.authorizedRequest.post('/zalo/link', { pageId, state, authorizationCode });
     return result.data as ZaloPage;
   };
+
+  /**
+   * Unlink page
+   * @param platform The Chat platform
+   * @param pageId The id of chat platform
+   * @returns void
+   */
+  unlinkPage = async (platform: ChatPlatform, pageId: string) => apiProvider.authorizedRequest.delete('/me/linked_pages', {
+    queryParams: {
+      platform, pageId,
+    },
+  })
 }
