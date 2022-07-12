@@ -1,9 +1,18 @@
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
-import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
-import { ZaloPage } from '@domain/entities/chat/zalo/ZaloPage';
+import { FacebookPageProfile } from '@domain/entities/chat/facebook/FacebookPageProfile';
+import { ZaloPageProfile } from '@domain/entities/chat/zalo/ZaloPageProfile';
+import { TelegramPageProfile } from '@domain/entities/chat/telegram/TelegramPageProfile';
 
 export interface AccountConnectionRepository {
-  connectFacebookPage: (userAccessToken: string, page: FacebookPage) => Promise<FacebookPage>
-  connectZaloPage: (pageId: string, state: string, authorizationCode: string) => Promise<ZaloPage>
+  connectFacebookPage: (
+    userAccessToken: string,
+    page: FacebookPageProfile,
+  ) => Promise<FacebookPageProfile>
+  connectZaloPage: (
+    pageId: string,
+    state: string,
+    authorizationCode: string,
+  ) => Promise<ZaloPageProfile>
+  connectTelegramPage: (botToken: string) => Promise<TelegramPageProfile>
   unlinkPage: (platform: ChatPlatform, pageId: string) => Promise<void>
 }

@@ -100,7 +100,17 @@
         "LINK_PAGE_SUBTITLE": "Chọn một trang để liên kết",
         "LINK": "Liên kết",
         "CANCEL": "Hủy",
-        "CONNECTED_PAGES": "Trang đã liên kết"
+        "CONNECTED_PAGES": "Trang đã liên kết",
+        "CONNECT_TELEGRAM": "Liên kết Telegram",
+        "CONNECT_TELEGRAM_DESCRIPTION": "Hoàn thành liên kết để trò chuyện với khách hàng qua Telegram.",
+        "CONNECT_TELEGRAM_VIDEO_TUTORIAL": "Xem video hướng dẫn",
+        "ENTER_BOT_TOKEN_PLACEHOLDER": "Nhập Telegram bot token tại đây",
+        "LINK_TELEGRAM_INSTRUCTIONS": {
+            "MESSAGE_TO_BOT_FATHER": "Tìm kiếm <2>BotFather</2> trên Telegram sau đó gửi tin nhắn.",
+            "SEND_COMMAND_AND_SELECT_BOT": "Gửi tin nhắn lệnh <2>/mybots</2> và chọn bot muốn liên kết.",
+            "SELECT_API_TOKEN": "Chọn <2>API Token</2>.",
+            "FILL_API_TOKEN": "Sao chép <2>API Token</2> và điền vào ô bên dưới."
+        }
     },
     "CHAT": {
         "CONVERSATIONS_TITLE": "Hội thoại",

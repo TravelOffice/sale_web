@@ -1,13 +1,14 @@
 import { AccountConnectionPresenter } from '@adapter/presenters/interfaces/AccountConnectionPresenter';
 import {
   connectFacebookPageUseCase,
+  connectTelegramPageUseCase,
   connectZaloPageUseCase,
   getFacebookPagesUseCase,
   getLinkedPagesUseCase,
   getZaloOAuthLinkUseCase,
   unlinkPageUseCase,
 } from '@domain/useCases';
-import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
+import { FacebookPageProfile } from '@domain/entities/chat/facebook/FacebookPageProfile';
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 
 export default class AccountConnectionPresenterImpl implements AccountConnectionPresenter {
@@ -17,7 +18,7 @@ export default class AccountConnectionPresenterImpl implements AccountConnection
 
   connectFacebookPage = async (
     userAccessToken: string,
-    page: FacebookPage,
+    page: FacebookPageProfile,
   ) => connectFacebookPageUseCase.invoke(userAccessToken, page);
 
   getZaloOAuthLink = async () => getZaloOAuthLinkUseCase.invoke()
@@ -27,6 +28,8 @@ export default class AccountConnectionPresenterImpl implements AccountConnection
     state: string,
     authorizationCode: string,
   ) => connectZaloPageUseCase.invoke(pageId, state, authorizationCode);
+
+  connectTelegramPage = async (botToken: string) => connectTelegramPageUseCase.invoke(botToken)
 
   getLinkedPages = async (refresh: boolean) => getLinkedPagesUseCase.invoke(refresh);
 

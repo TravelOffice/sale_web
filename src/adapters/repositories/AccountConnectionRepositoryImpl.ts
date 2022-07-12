@@ -1,7 +1,8 @@
 import { apiProvider } from '@adapter/infrastructures';
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
-import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
-import { ZaloPage } from '@domain/entities/chat/zalo/ZaloPage';
+import { FacebookPageProfile } from '@domain/entities/chat/facebook/FacebookPageProfile';
+import { ZaloPageProfile } from '@domain/entities/chat/zalo/ZaloPageProfile';
+import { TelegramPageProfile } from '@domain/entities/chat/telegram/TelegramPageProfile';
 import { AccountConnectionRepository } from './interfaces/AccountConnectionRepository';
 
 export default class AccountConnectionRepositoryImpl implements AccountConnectionRepository {
@@ -10,16 +11,25 @@ export default class AccountConnectionRepositoryImpl implements AccountConnectio
    * @param userAccessToken Facebook user's access token
    * @param page the Facebook page which the user has selected
    */
-  connectFacebookPage = async (userAccessToken: string, page: FacebookPage) => {
+  connectFacebookPage = async (userAccessToken: string, page: FacebookPageProfile) => {
     const data = { userAccessToken, pageId: page.id };
     await apiProvider.authorizedRequest.post('/facebook/link', data);
     return page;
   };
 
   connectZaloPage = async (pageId: string, state: string, authorizationCode: string) => {
-    const result = await apiProvider.authorizedRequest.post('/zalo/link', { pageId, state, authorizationCode });
-    return result.data as ZaloPage;
+    const { data } = await apiProvider.authorizedRequest.post('/zalo/link', { pageId, state, authorizationCode });
+    return data as ZaloPageProfile;
   };
+
+  /**
+   * Method to connect Telegram by bot token
+   * @param botToken the Telegram bot token
+   */
+  connectTelegramPage = async (botToken: string) => {
+    const { data } = await apiProvider.authorizedRequest.post('/telegram/link', { token: botToken });
+    return data as TelegramPageProfile;
+  }
 
   /**
    * Unlink page
@@ -31,5 +41,5 @@ export default class AccountConnectionRepositoryImpl implements AccountConnectio
     queryParams: {
       platform, pageId,
     },
-  })
+  });
 }
