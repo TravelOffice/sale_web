@@ -1,4 +1,4 @@
-export interface FacebookPage {
+export interface FacebookPageProfile {
   id: string,
   name: string,
   picture: string,

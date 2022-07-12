@@ -100,7 +100,17 @@
         "LINK_PAGE_SUBTITLE": "Select which one you want to link",
         "LINK": "Link",
         "CANCEL": "Cancel",
-        "CONNECTED_PAGES": "Connected pages"
+        "CONNECTED_PAGES": "Connected pages",
+        "CONNECT_TELEGRAM": "Connect Telegram",
+        "CONNECT_TELEGRAM_DESCRIPTION": "This integration allows your team to chat with your customers over Telegram.",
+        "CONNECT_TELEGRAM_VIDEO_TUTORIAL": "Step-by-step video tutorial",
+        "ENTER_BOT_TOKEN_PLACEHOLDER": "Enter your Telegram bot token",
+        "LINK_TELEGRAM_INSTRUCTIONS": {
+            "MESSAGE_TO_BOT_FATHER": "Message the <2>BotFather</2> on Telegram.",
+            "SEND_COMMAND_AND_SELECT_BOT": "Send the command <2>/mybots</2> and select the bot to connect.",
+            "SELECT_API_TOKEN": "Select <2>API Token</2>.",
+            "FILL_API_TOKEN": "Find the <2>API Token</2> and add it below."
+        }
     },
     "CHAT": {
         "CONVERSATIONS_TITLE": "Conversations",

@@ -1,9 +1,9 @@
-import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
+import { FacebookPageProfile } from '@domain/entities/chat/facebook/FacebookPageProfile';
 import { pageConnectionRepository } from '@adapter/repositories';
 import { ConnectFacebookPageUseCase } from '../interfaces/pageConnection/ConnectFacebookPageUseCase';
 
 export default class ConnectFacebookPageUseCaseImpl implements ConnectFacebookPageUseCase {
   invoke = async (
-    userAccessToken: string, page: FacebookPage,
+    userAccessToken: string, page: FacebookPageProfile,
   ) => pageConnectionRepository.connectFacebookPage(userAccessToken, page)
 }

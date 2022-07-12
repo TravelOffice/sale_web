@@ -1,5 +1,5 @@
-import { ZaloPage } from '@domain/entities/chat/zalo/ZaloPage';
+import { ZaloPageProfile } from '@domain/entities/chat/zalo/ZaloPageProfile';
 
 export interface ConnectZaloPageUseCase {
-  invoke: (pageId: string, state: string, authorizationCode: string) => Promise<ZaloPage>
+  invoke: (pageId: string, state: string, authorizationCode: string) => Promise<ZaloPageProfile>
 }

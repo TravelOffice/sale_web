@@ -42,6 +42,10 @@ export const usePage = (platform: ChatPlatform) => useSelector(
   (state: RootState) => state.auth.linkedPages.find((page) => page.platform === platform),
 );
 
+export const useIsPageConnecting = (platform: ChatPlatform) => useSelector(
+  (state: RootState) => state.pageConnection.connecting[platform],
+);
+
 export const useConversationSections = () => {
   const linkedPages = useSelector((state: RootState) => state.auth.linkedPages);
   const allConversationsStates = useConversations();
