@@ -1,5 +1,6 @@
 import { accountConnectionPresenter } from '@adapter/presenters';
 import { FacebookPage } from '@domain/entities/FacebookPage';
+import { Page } from '@domain/entities/Page';
 import { usePage } from '@hooks/chat';
 import { pageConnectionActions } from '@redux/slices/pageConnectionSlice';
 import { RootState } from '@redux/store';
@@ -59,6 +60,12 @@ export default function ConnectionsTabContent() {
       userAccessToken: userAccessToken!,
       page: selectedPage!,
     }));
+    setSelectedPage(undefined);
+  };
+
+  const onCancel = () => {
+    setShowModal(!showModal);
+    setSelectedPage(undefined);
   };
 
   // Status of Facebook page
@@ -110,6 +117,10 @@ export default function ConnectionsTabContent() {
     dispatch(pageConnectionActions.connectZaloPage({ pageId, state, authorizationCode }));
   };
 
+  const unlinkPage = async (page: Page) => {
+    dispatch(pageConnectionActions.unlinkPage(page));
+  };
+
   useEffect(() => {
     const listener = (ev: MessageEvent<any>) => {
       if (ev.origin === zaloCallbackUrl) {
@@ -149,7 +160,7 @@ export default function ConnectionsTabContent() {
             <div className="mt-50 mt-sm-0">
               {
                 currentFacebookPage ? (
-                  <Button outline className="btn-icon btn-outline-danger" onClick={() => {}}>
+                  <Button outline className="btn-icon btn-outline-danger" onClick={() => unlinkPage(currentFacebookPage)}>
                     <X color="red" className="font-medium-3" />
                   </Button>
                 ) : (
@@ -179,15 +190,23 @@ export default function ConnectionsTabContent() {
               <span>{zaloPageStatus()}</span>
             </div>
             <div className="mt-50 mt-sm-0">
-              <Button outline className="btn-icon" disabled={getZaloLinkLoading} onClick={connectZaloPage}>
-                {
-                  getZaloLinkLoading ? (
-                    <Spinner style={{ width: '1.3rem', height: '1.3rem' }} />
-                  ) : (
-                    <LinkIcon className="font-medium-3" />
-                  )
-                }
-              </Button>
+              {
+                currentZaloPage ? (
+                  <Button outline className="btn-icon btn-outline-danger" onClick={() => unlinkPage(currentZaloPage)}>
+                    <X color="red" className="font-medium-3" />
+                  </Button>
+                ) : (
+                  <Button outline className="btn-icon" disabled={getZaloLinkLoading} onClick={connectZaloPage}>
+                    {
+                      getZaloLinkLoading ? (
+                        <Spinner style={{ width: '1.3rem', height: '1.3rem' }} />
+                      ) : (
+                        <LinkIcon className="font-medium-3" />
+                      )
+                    }
+                  </Button>
+                )
+              }
             </div>
           </div>
         </div>
@@ -220,12 +239,12 @@ export default function ConnectionsTabContent() {
             }
           </ListGroup>
           <Col className="text-center mt-1" xs={12}>
-            <Button type="submit" className="me-1" color="primary" onClick={onSubmit} disabled={connectingFacebookPage}>
+            <Button type="submit" className="me-1" color="primary" onClick={onSubmit} disabled={!selectedPage || connectingFacebookPage}>
               {
                 connectingFacebookPage ? <Spinner size="sm" /> : t('PAGE.LINK')
               }
             </Button>
-            <Button color="secondary" outline onClick={() => setShowModal(!showModal)} disabled={connectingFacebookPage}>
+            <Button color="secondary" outline onClick={onCancel} disabled={!selectedPage || connectingFacebookPage}>
               {t('PAGE.CANCEL')}
             </Button>
           </Col>

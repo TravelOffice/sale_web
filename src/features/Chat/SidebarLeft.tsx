@@ -3,9 +3,11 @@ import Avatar from '@components/Avatar/Avatar';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { Bell, Search, X } from 'react-feather';
 import {
-  InputGroup, InputGroupText, Input, Label,
+  Bell, Search, X,
+} from 'react-feather';
+import {
+  InputGroup, InputGroupText, Input, Label, Button,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Conversation } from '@domain/entities/Conversation';
@@ -13,6 +15,7 @@ import { UserStatus } from '@domain/entities/User';
 import i18n from '@config/i18n';
 import ConversationList from '@features/Chat/components/ConversationList';
 import { ConversationSection } from '@features/Chat/ConversationSection';
+import { Link } from 'react-router-dom';
 
 export interface SidebarLeftProps {
   sidebar: boolean,
@@ -193,8 +196,9 @@ const SidebarLeft = (props: SidebarLeftProps) => {
           </div>
           <PerfectScrollbar className="chat-user-list-wrapper list-group" options={{ wheelPropagation: false }}>
             {
-              conversationSections.map((section) => (
-                !section.error && (
+              conversationSections.length ? (
+                conversationSections.map((section) => (
+                  !section.error && (
                   <ConversationList
                     key={section.title}
                     title={section.title}
@@ -204,8 +208,12 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                     onConversationSelected={handleConversationSelected}
                     query={query}
                   />
-                )
-              ))
+                  )
+                ))) : (
+                  <Button tag={Link} to="/apps/account-settings" color="link">
+                    {i18n.t('CHAT.LINK_YOUR_PAGES')}
+                  </Button>
+              )
             }
           </PerfectScrollbar>
         </div>

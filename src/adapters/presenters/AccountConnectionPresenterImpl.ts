@@ -5,8 +5,10 @@ import {
   getFacebookPagesUseCase,
   getLinkedPagesUseCase,
   getZaloOAuthLinkUseCase,
+  unlinkPageUseCase,
 } from '@domain/useCases';
 import { FacebookPage } from '@domain/entities/FacebookPage';
+import { ChatPlatform } from '@domain/entities/ChatPlatform';
 
 export default class AccountConnectionPresenterImpl implements AccountConnectionPresenter {
   getFacebookPages = async (
@@ -26,5 +28,9 @@ export default class AccountConnectionPresenterImpl implements AccountConnection
     authorizationCode: string,
   ) => connectZaloPageUseCase.invoke(pageId, state, authorizationCode);
 
-  getLinkedPages = async () => getLinkedPagesUseCase.invoke();
+  getLinkedPages = async (refresh: boolean) => getLinkedPagesUseCase.invoke(refresh);
+
+  unlinkPage = async (
+    platform: ChatPlatform, pageId: string,
+  ) => unlinkPageUseCase.invoke(platform, pageId);
 }

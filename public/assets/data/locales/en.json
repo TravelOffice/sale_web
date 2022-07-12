@@ -89,8 +89,10 @@
     "PAGE": {
         "SUCCESS": "Success",
         "MESSAGE_LINK_SUCCESSFULLY": "Link your page successfully",
+        "MESSAGE_UNLINK_SUCCESSFULLY": "Unlink {{platform}} successfully",
         "ERROR": "Error",
         "MESSAGE_LINK_FAILED": "Failed to link your page",
+        "MESSAGE_UNLINK_FAILED": "Failed to unlink {{platform}}",
         "CONNECTING": "Connecting",
         "NOT_CONNECTED": "Not connected",
         "LINK_PAGE_TITLE": "Link your page",
@@ -111,7 +113,8 @@
         "CLEAR_CHAT_MESSAGES": "Clear messages",
         "SEARCH_INPUT_PLACE_HOLDER": "Search chat conversations",
         "MESSAGE_INPUT_PLACEHOLDER": "Type your message or send file, media attachments",
-        "NO_CHAT_FOUND": "No Chats Found"
+        "NO_CHAT_FOUND": "No Chats Found",
+        "LINK_YOUR_PAGES": "Link your pages"
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "About",
