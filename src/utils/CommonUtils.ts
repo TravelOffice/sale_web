@@ -37,3 +37,9 @@ export const truncateStringWithEllipsis = (str: string, maxLength: number) => {
   // Replace 3 last characters by ellipsis (3 dots)
   return `${str.substring(0, maxLength - 3)}...`;
 };
+
+/**
+ * Utility function to capitalize first letter of the given string
+ * @param str string after capitalizing the first letter
+ */
+export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);

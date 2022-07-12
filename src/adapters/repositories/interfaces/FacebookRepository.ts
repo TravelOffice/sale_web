@@ -1,5 +1,5 @@
-import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
+import { FacebookPageProfile } from '@domain/entities/chat/facebook/FacebookPageProfile';
 
 export interface FacebookRepository {
-  getPages: (userAccessToken: string) => Promise<FacebookPage[]>
+  getPages: (userAccessToken: string) => Promise<FacebookPageProfile[]>
 }

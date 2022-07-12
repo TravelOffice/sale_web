@@ -17,6 +17,8 @@ import { GetNotificationsUseCase } from '@domain/useCases/interfaces/notificatio
 import { SaveNotificationUseCase } from '@domain/useCases/interfaces/notification/SaveNotificationUseCase';
 import GetNotificationsUseCaseImpl from '@domain/useCases/notification/GetNotificationsUseCaseImpl';
 import SaveNotificationUseCaseImpl from '@domain/useCases/notification/SaveNotificationUseCaseImpl';
+import { ConnectTelegramPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectTelegramPageUseCase';
+import ConnectTelegramPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectTelegramPageUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
 import SendMessageUseCaseImpl from './chat/SendMessageUseCaseImpl';
@@ -85,6 +87,8 @@ interface UseCases {
   // Zalo page
   getZaloOAuthLinkUseCase: GetZaloOAuthLinkUseCase,
   connectZaloPageUseCase: ConnectZaloPageUseCase,
+  // Telegram
+  connectTelegramPageUseCase: ConnectTelegramPageUseCase,
   // User
   getCurrentUserUseCase: GetCurrentUserUseCase,
   // Notification
@@ -97,6 +101,7 @@ const useCases: UseCases = {
   getZaloOAuthLinkUseCase: new GetZaloOAuthLinkUseCaseImpl(),
   connectZaloPageUseCase: new ConnectZaloPageUseCaseImpl(),
   connectFacebookPageUseCase: new ConnectFacebookPageUseCaseImpl(),
+  connectTelegramPageUseCase: new ConnectTelegramPageUseCaseImpl(),
   getMessagesUseCase: new GetMessagesUseCaseImpl(),
   sendMessageUseCase: new SendMessageUseCaseImpl(),
   sendAttachmentMessageUseCase: new SendAttachmentMessageUseCaseImpl(),
@@ -158,4 +163,5 @@ export const {
   unlinkPageUseCase,
   getNotificationsUseCase,
   saveNotificationUseCase,
+  connectTelegramPageUseCase,
 } = useCases;
