@@ -88,7 +88,7 @@ const chatSlice = createSlice({
         // Whenever the user select another conversation, clear messages which are showing
         state.messages = [];
       }
-      state.selectedConversation = action.payload;
+      state.selectedConversation = conversation && { ...conversation };
     },
     getMessages: (state, _action: PayloadAction<Conversation | undefined>) => {
       state.fetchingMessages = true;

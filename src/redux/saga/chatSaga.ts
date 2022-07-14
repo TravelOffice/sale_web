@@ -15,6 +15,8 @@ import { END, EventChannel, eventChannel } from 'redux-saga';
 import {
   all, call, cancelled, put, select, take, takeEvery, takeLatest,
 } from 'redux-saga/effects';
+import { ReceivedMessage } from '@domain/entities/chat/ReceivedMessage';
+import ReceivedMessageMapperFactory from '@domain/mappers/ReceivedMessageMapperFactory';
 
 function* selectPage(platform: ChatPlatform) {
   const page: Page = yield select(
@@ -30,7 +32,7 @@ function* getPlatformConversationsWithoutAction(platform: ChatPlatform) {
     if (platformPage) {
       data = yield call(chatPresenter.getPlatformConversations, platform, platformPage.id);
     }
-    yield put({ type: chatActions.onPlatformConversationsRetrieved, payload: [platform, data] });
+    yield put(chatActions.onPlatformConversationsRetrieved([platform, data]));
   } catch (error: any) {
     const errorMessage = error.message;
     toasty.show({ type: 'error', title: i18n.t('COMMON.ERROR'), message: errorMessage });
@@ -74,29 +76,13 @@ function createSubscriptionChannel(): EventChannel<Message> {
     const obs = chatPresenter.subscribeNewMessage().subscribe({
       next: (value) => {
         if (value.data) {
-          const rawMsg = value.data.onNewMessageReceived.data;
-          const messageData = JSON.parse(rawMsg.messageData);
-          if (messageData.attachments && messageData.attachments.length > 0) {
-            messageData.attachments = messageData.attachments.map((attachment: any) => {
-              // Transform original data
-              const { type, payload, ...modifiedAttachment } = attachment;
-              const [fileUri] = payload.url.split('?');
-              const { length, [length - 1]: fileName } = fileUri.split('/');
-              modifiedAttachment.mimeType = `${type}/*`;
-              modifiedAttachment.url = payload.url;
-              modifiedAttachment.name = fileName;
-
-              return modifiedAttachment;
-            });
-          }
-
-          // TODO: Support Zalo webhook event later
-          const newMsg = {
-            ...rawMsg,
-            messageData,
-            timestamp: new Date(rawMsg.timestamp),
-          } as Message;
-          emit(newMsg);
+          if (!value.data) return;
+          const receivedMessage = value.data.onNewMessageReceived.data as ReceivedMessage;
+          if (!receivedMessage) return;
+          const mapper = ReceivedMessageMapperFactory.getMapper(receivedMessage);
+          if (!mapper) return;
+          const newMessage = mapper.convert(receivedMessage);
+          emit(newMessage);
         }
       },
       complete: () => {
