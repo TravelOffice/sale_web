@@ -5,6 +5,7 @@ import chatSaga from '@redux/saga/chatSaga';
 import pageConnectionSaga from '@redux/saga/pageConnectionSaga';
 import leadSaga from '@redux/saga/leadSaga';
 import opportunitySaga from '@redux/saga/opportunitySaga';
+import notificationSaga from '@redux/saga/notificationSaga';
 import customerSaga from './saga/customerSaga';
 
 // eslint-disable-next-line require-yield
@@ -26,5 +27,6 @@ export default function* rootSaga() {
     opportunitySaga(),
     pageConnectionSaga(),
     customerSaga(),
+    notificationSaga(),
   ]);
 }

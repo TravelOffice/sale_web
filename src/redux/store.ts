@@ -10,6 +10,7 @@ import { chatReducers } from '@redux/slices/chatSlice';
 import { pageConnectionReducers } from '@redux/slices/pageConnectionSlice';
 import { leadReducers } from '@redux/slices/leadSlice';
 import { opportunityReducers } from '@redux/slices/opportunitySlice';
+import { notificationReducers } from '@redux/slices/notificationSlice';
 import { customerReducers } from './slices/customerSlice';
 
 const sageMiddleware = createSagaMiddleware();
@@ -25,6 +26,7 @@ const combinedReducers = combineReducers({
   opportunity: opportunityReducers,
   pageConnection: pageConnectionReducers,
   customer: customerReducers,
+  notification: notificationReducers,
 });
 
 type Reducers = typeof combinedReducers;

@@ -9,7 +9,6 @@ import SuccessConversationState from '@redux/slices/others/SuccessConversationSt
 import ErrorConversationState from '@redux/slices/others/ErrorConversationState';
 
 interface ChatState {
-  conversations: Conversation[],
   fbConversations: ConversationState,
   zaloConversations: ConversationState,
   messages: Message[],
@@ -24,8 +23,7 @@ interface ChatState {
   chatActionErrorMessage: string,
 }
 
-const initialState : ChatState = {
-  conversations: [],
+const initialState: ChatState = {
   fbConversations: new ConversationState(),
   zaloConversations: new ConversationState(),
   messages: [],
@@ -66,15 +64,17 @@ const chatSlice = createSlice({
       state.zaloConversations = new ErrorConversationState(action.payload);
     },
     onNewConversation: (state, action: PayloadAction<Conversation>) => {
-      const index = state.conversations.findIndex((item) => item.id === action.payload.id);
-      if (index < 0) {
-        state.conversations = state.conversations.concat(action.payload);
+      const newConversation = action.payload;
+      if (newConversation.chatPlatform === 'facebook') {
+        state.fbConversations = state.fbConversations.onNewConversation(newConversation);
       } else {
-        state.conversations[index] = action.payload;
+        state.fbConversations = state.zaloConversations.onNewConversation(newConversation);
       }
     },
     onConversationSelected: (state, action: PayloadAction<Conversation>) => {
-      const conversation = state.conversations.find((item) => item.id === action.payload.id);
+      const conversations = state.fbConversations.conversations
+        .concat(state.zaloConversations.conversations);
+      const conversation = conversations.find((item) => item.id === action.payload.id);
       if (conversation) {
         // Change unseenMessages to zero to mark this conversation as read
         conversation.unseenMessages = 0;
@@ -121,15 +121,6 @@ const chatSlice = createSlice({
       const { selectedConversation } = state;
       if (selectedConversation && selectedConversation.contact.id === message.customerId) {
         state.messages.push(message);
-      } else {
-        // Count unseenMessages of conversation if the new message has come from subscription
-        // Don't count message if sender is TO user
-        const ofConversation = state.conversations.find(
-          (conversation) => conversation.contact.id === message.customerId,
-        );
-        if (ofConversation && message.customerId === message.sender) {
-          ofConversation.unseenMessages += 1;
-        }
       }
     },
     onAttachmentMessageSent: (state) => {

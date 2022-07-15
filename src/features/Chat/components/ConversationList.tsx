@@ -6,7 +6,7 @@ import Skeleton from 'react-loading-skeleton';
 import { Badge, CardText, Collapse } from 'reactstrap';
 import { formatDateToMonthShort } from '@utils/DateUtils';
 import classnames from 'classnames';
-import CustomerAvatar from '@features/Chat/components/CustomerAvatar';
+import ConversationAvatar from '@components/Avatar/CustomerAvatar';
 import i18n from '@config/i18n';
 import { normalizeVietnameseName } from '@utils/ChatUtils';
 import { ChevronDown, ChevronRight } from 'react-feather';
@@ -84,7 +84,7 @@ function Conversations(props: ConversationListProps) {
               onClick={() => handleConversationClicked(conversation)}
               className={classnames({ active: active?.id === conversation.id })}
             >
-              <CustomerAvatar conversation={conversation} />
+              <ConversationAvatar conversation={conversation} />
               <div className="chat-info flex-grow-1">
                 <h5 className="mb-0">{contact.fullName}</h5>
                 <CardText className="text-truncate">

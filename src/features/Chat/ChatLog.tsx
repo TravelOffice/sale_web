@@ -33,7 +33,7 @@ import AttachmentMessagePreview from '@components/Chat/AttachmentMessagePreview'
 import { chatActions } from '@redux/slices/chatSlice';
 import Viewer from 'react-viewer';
 import { ImageDecorator } from 'react-viewer/lib/ViewerProps';
-import CustomerAvatar from './components/CustomerAvatar';
+import CustomerAvatar from '@components/Avatar/CustomerAvatar';
 
 interface AttachmentMessageSetting {
   id: number,

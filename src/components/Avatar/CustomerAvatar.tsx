@@ -15,7 +15,7 @@ export interface CustomerAvatarProps {
 
 export const useCustomerAvatar = (conversation?: Conversation) => {
   if (!conversation) return undefined;
-  const [avatar, setAvatar] = useState(conversation.contact.avatar || Images.defaultAvatar);
+  const [avatar, setAvatar] = useState(conversation.contact.avatar);
   const fbPageId = usePage('facebook')?.id;
   useEffect(() => {
     if (conversation.chatPlatform === 'facebook' && fbPageId) {
@@ -38,7 +38,7 @@ export default function CustomerAvatar(props: CustomerAvatarProps) {
   const avatar = useCustomerAvatar(conversation);
   return (
     <Avatar
-      img={avatar}
+      img={avatar || Images.defaultAvatar}
       imgHeight={height || 42}
       imgWidth={width || 42}
       className={className}
