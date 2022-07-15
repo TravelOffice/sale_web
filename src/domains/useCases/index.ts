@@ -11,10 +11,6 @@ import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkU
 import GetOpportunityUseCaseImpl from '@domain/useCases/opportunity/GetOpportunityUseCaseImpl';
 import { GetOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/GetOpportunityUseCase';
 import { GetCurrentUserUseCase } from '@domain/useCases/interfaces/user/GetCurrentUserUseCase';
-import { GetFacebookConversationsUseCase } from '@domain/useCases/interfaces/chat/GetFacebookConversationsUseCase';
-import { GetZaloConversationsUseCase } from '@domain/useCases/interfaces/chat/GetZaloConversationsUseCase';
-import GetFacebookConversationsUseCaseImpl from '@domain/useCases/chat/GetFacebookConversationsUseCaseImpl';
-import GetZaloConversationsUseCaseImpl from '@domain/useCases/chat/GetZaloConversationsUseCaseImpl';
 import { GetFacebookUserInfoUseCase } from '@domain/useCases/interfaces/chat/GetFacebookUserInfoUseCase';
 import GetFacebookUserInfoUseCaseImpl from '@domain/useCases/chat/GetFacebookUserInfoUseCaseImpl';
 import { GetNotificationsUseCase } from '@domain/useCases/interfaces/notification/GetNotificationsUseCase';
@@ -56,11 +52,12 @@ import { GetLinkedPagesUseCase } from './interfaces/pageConnection/GetLinkedPage
 import GetLinkedPagesUseCaseImpl from './pageConnection/GetLinkedPagesUseCaseImpl';
 import { UnlinkPageUseCase } from './interfaces/pageConnection/UnlinkPageUseCase';
 import UnlinkPageUseCaseImpl from './pageConnection/UnlinkPageUseCaseImpl';
+import { GetPlatformConversationsUseCase } from './interfaces/chat/GetPlatformConversationsUseCase';
+import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
 
 interface UseCases {
   // Chat
-  getFacebookConversationsUseCase: GetFacebookConversationsUseCase,
-  getZaloConversationsUseCase: GetZaloConversationsUseCase,
+  getPlatformConversationsUseCase: GetPlatformConversationsUseCase,
   getMessagesUseCase: GetMessagesUseCase,
   sendMessageUseCase: SendMessageUseCase,
   subscribeNewMessageUseCase: SubscribeNewMessageUseCase,
@@ -105,8 +102,7 @@ const useCases: UseCases = {
   sendAttachmentMessageUseCase: new SendAttachmentMessageUseCaseImpl(),
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
-  getFacebookConversationsUseCase: new GetFacebookConversationsUseCaseImpl(),
-  getZaloConversationsUseCase: new GetZaloConversationsUseCaseImpl(),
+  getPlatformConversationsUseCase: new GetPlatformConversationsUseCaseImpl(),
   getFacebookUserInfoUseCase: new GetFacebookUserInfoUseCaseImpl(),
   getLinkedPagesUseCase: new GetLinkedPagesUseCaseImpl(),
   unlinkPageUseCase: new UnlinkPageUseCaseImpl(),
@@ -134,8 +130,7 @@ const useCases: UseCases = {
 };
 
 export const {
-  getFacebookConversationsUseCase,
-  getZaloConversationsUseCase,
+  getPlatformConversationsUseCase,
   getMessagesUseCase,
   sendMessageUseCase,
   sendAttachmentMessageUseCase,

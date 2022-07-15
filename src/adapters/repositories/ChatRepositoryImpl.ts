@@ -14,21 +14,30 @@ import { sessionStorageProvider } from '@adapter/infrastructures';
 import { ChatRepository } from './interfaces/ChatRepository';
 
 export default class ChatRepositoryImpl implements ChatRepository {
-  getFacebookConversations = async (fbPageId?: string) => {
-    if (!fbPageId) return [];
+  getFacebookConversations = async (fbPageId: string) => {
     const options = { query: allFbConversations, variables: { fbPageId } };
     const result = await gqlClient.query(options);
     const fbConversations = JSON.parse(result.data.allFbConversations.data).data;
     return fbConversations.map((item: any) => conversationMapper.fromFb(item, fbPageId));
-  }
+  };
 
-  getZaloConversations = async (zaloPageId?: string) => {
-    if (!zaloPageId) return [];
+  getZaloConversations = async (zaloPageId: string) => {
     const options = { query: allZaloConversations, variables: { zaloPageId } };
     const result = await gqlClient.query(options);
     const zaloConversations = JSON.parse(result.data.allZaloConversations.data).data;
     return zaloConversations.map((item: any) => conversationMapper.fromZalo(item, zaloPageId));
-  }
+  };
+
+  /**
+   * Get Telegram conversations for given bot id via graphql endpoint
+   * @param botId Telegram bot id
+   * @returns List of Telegram conversations stored at TO system
+   */
+  getTelegramConversations = async (botId: string) => {
+    // eslint-disable-next-line no-console
+    console.log(botId);
+    return [];
+  };
 
   getFbMessages = async (
     conversationId: string, fbPageId: string, after?: string,
@@ -84,5 +93,5 @@ export default class ChatRepositoryImpl implements ChatRepository {
     const userInfo = JSON.parse(result.data.userProfile.data) as FacebookUserInfo;
     await sessionStorageProvider.setItem(cachedKey, JSON.stringify(userInfo));
     return userInfo;
-  }
+  };
 }

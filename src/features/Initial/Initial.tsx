@@ -29,6 +29,7 @@ export default function Initial() {
       }
       const message: MessageData = event.data;
       // Handle matched event
+      // eslint-disable-next-line no-console
       console.log(message);
       if (message.type === 'cognito-signin') {
         const { session } = message;

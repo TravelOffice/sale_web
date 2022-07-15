@@ -7,10 +7,10 @@ import ConversationState from '@redux/slices/others/ConversationState';
 import GetConversationState from '@redux/slices/others/GetConversationState';
 import SuccessConversationState from '@redux/slices/others/SuccessConversationState';
 import ErrorConversationState from '@redux/slices/others/ErrorConversationState';
+import { ChatPlatform, chatPlatforms } from '@domain/entities/chat/ChatPlatform';
 
 interface ChatState {
-  fbConversations: ConversationState,
-  zaloConversations: ConversationState,
+  platformsConversations: Map<ChatPlatform, ConversationState>,
   messages: Message[],
   selectedConversation?: Conversation,
   canLoadMore: boolean,
@@ -24,8 +24,7 @@ interface ChatState {
 }
 
 const initialState: ChatState = {
-  fbConversations: new ConversationState(),
-  zaloConversations: new ConversationState(),
+  platformsConversations: new Map(),
   messages: [],
   canLoadMore: true,
   fetchingMessages: false,
@@ -41,39 +40,44 @@ const chatSlice = createSlice({
   name: 'chat',
   initialState,
   reducers: {
-    getConversations: (state) => {
-      state.fbConversations = new GetConversationState();
-      state.zaloConversations = new GetConversationState();
+    getAllPlatformsConversations: (state) => {
+      chatPlatforms.forEach((platform) => {
+        state.platformsConversations.set(platform, new GetConversationState());
+      });
     },
-    getFbConversations: (state) => {
-      state.fbConversations = new GetConversationState();
+    getPlatformConversations: (state, action: PayloadAction<ChatPlatform>) => {
+      const platform = action.payload;
+      state.platformsConversations.set(platform, new GetConversationState());
     },
-    getZaloConversations: (state) => {
-      state.zaloConversations = new GetConversationState();
+    onPlatformConversationsRetrieved: (
+      state,
+      action: PayloadAction<[ChatPlatform, Conversation[]]>,
+    ) => {
+      const [platform, conversations] = action.payload;
+      state.platformsConversations.set(platform, new SuccessConversationState(conversations));
     },
-    onFbConversationRetrieved: (state, action: PayloadAction<Conversation[]>) => {
-      state.fbConversations = new SuccessConversationState(action.payload);
-    },
-    onGetFbConversationsFailed: (state, action: PayloadAction<string>) => {
-      state.fbConversations = new ErrorConversationState(action.payload);
-    },
-    onZaloConversationsRetrieved: (state, action: PayloadAction<Conversation[]>) => {
-      state.zaloConversations = new SuccessConversationState(action.payload);
-    },
-    onGetZaloConversationsFailed: (state, action: PayloadAction<string>) => {
-      state.zaloConversations = new ErrorConversationState(action.payload);
+    onGetPlatformConversationsFailed: (state, action: PayloadAction<[ChatPlatform, string]>) => {
+      const [platform, errorMessage] = action.payload;
+      state.platformsConversations.set(platform, new ErrorConversationState(errorMessage));
     },
     onNewConversation: (state, action: PayloadAction<Conversation>) => {
       const newConversation = action.payload;
-      if (newConversation.chatPlatform === 'facebook') {
-        state.fbConversations = state.fbConversations.onNewConversation(newConversation);
-      } else {
-        state.fbConversations = state.zaloConversations.onNewConversation(newConversation);
+      const platformConversations = state.platformsConversations.get(newConversation.chatPlatform);
+      if (platformConversations) {
+        state.platformsConversations.set(
+          newConversation.chatPlatform,
+          platformConversations?.onNewConversation(
+            newConversation,
+            state.selectedConversation,
+          ),
+        );
       }
     },
     onConversationSelected: (state, action: PayloadAction<Conversation>) => {
-      const conversations = state.fbConversations.conversations
-        .concat(state.zaloConversations.conversations);
+      const conversations: Conversation[] = Array
+        .from(state.platformsConversations.values())
+        .map((conversationState: ConversationState) => conversationState.conversations)
+        .flat();
       const conversation = conversations.find((item) => item.id === action.payload.id);
       if (conversation) {
         // Change unseenMessages to zero to mark this conversation as read

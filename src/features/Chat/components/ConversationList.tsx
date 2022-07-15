@@ -112,7 +112,7 @@ function renderConversations(props: ConversationListProps) {
   if (fetching) {
     return <ConversationSkeleton />;
   }
-  if (conversations.length === 0) {
+  if (!conversations || conversations.length === 0) {
     return <EmptyChats />;
   }
   return <Conversations {...props} />;

@@ -1,11 +1,11 @@
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
 import {
-  getFacebookConversationsUseCase,
   getFacebookUserInfoUseCase,
   getMessagesUseCase,
-  getZaloConversationsUseCase,
+  getPlatformConversationsUseCase,
   sendAttachmentMessageUseCase,
   sendMessageUseCase,
   subscribeNewMessageUseCase,
@@ -19,9 +19,15 @@ export default class ChatPresenterImpl implements ChatPresenter {
     this.currentNextToken = token;
   }
 
-  getFbConversations = async (pageId: string) => getFacebookConversationsUseCase.invoke(pageId);
-
-  getZaloConversations = async (pageId: string) => getZaloConversationsUseCase.invoke(pageId);
+  /**
+   * Get conversations for given page id with specific chat platform
+   * @param platformOwnerId Platform page id or Telegram channel id
+   * @returns Conversations of given platform owner id
+   */
+  getPlatformConversations = async (
+    platform: ChatPlatform,
+    platformPageId: string,
+  ) => getPlatformConversationsUseCase.invoke(platform, platformPageId);
 
   getMessages = async (conversation: Conversation): Promise<Message[]> => {
     const result = await getMessagesUseCase.invoke(conversation);
