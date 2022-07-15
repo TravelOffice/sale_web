@@ -1,4 +1,4 @@
-import { Page } from '@domain/entities/Page';
+import { Page } from '@domain/entities/chat/Page';
 import User from '@domain/entities/User';
 
 export default interface UserRepository {

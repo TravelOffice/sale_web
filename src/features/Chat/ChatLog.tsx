@@ -22,8 +22,8 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
-import { Message, MessageData } from '@domain/entities/Message';
-import { Conversation } from '@domain/entities/Conversation';
+import { Message, MessageData } from '@domain/entities/chat/Message';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import { formatChatData, sortMessages } from '@utils/ChatUtils';
 import User from '@domain/entities/User';
 import Spinner from '@components/Spinner/Spinner';

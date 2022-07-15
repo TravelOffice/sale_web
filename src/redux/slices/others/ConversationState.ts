@@ -1,4 +1,4 @@
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 
 export default class ConversationState {
   fetching: boolean = false;

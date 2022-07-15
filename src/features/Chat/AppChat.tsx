@@ -1,8 +1,8 @@
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
-import { Conversation } from '@domain/entities/Conversation';
-import { MessageData } from '@domain/entities/Message';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { MessageData } from '@domain/entities/chat/Message';
 import { ConversationSection } from '@features/Chat/ConversationSection';
 import { useConversationSections, useMessages } from '@hooks/chat';
 import { chatActions } from '@redux/slices/chatSlice';

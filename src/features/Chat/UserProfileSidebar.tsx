@@ -1,6 +1,6 @@
 import i18n from '@config/i18n';
 import { Contact } from '@domain/entities/Contact';
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import classnames from 'classnames';
 import {
   Clock,

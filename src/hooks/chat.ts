@@ -1,7 +1,7 @@
 import { chatPresenter } from '@adapter/presenters';
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
-import { Conversation } from '@domain/entities/Conversation';
-import { Message } from '@domain/entities/Message';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { Message } from '@domain/entities/chat/Message';
 import { ConversationSection } from '@features/Chat/ConversationSection';
 import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';

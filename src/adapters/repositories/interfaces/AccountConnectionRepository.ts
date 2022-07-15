@@ -1,6 +1,6 @@
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
-import { FacebookPage } from '@domain/entities/FacebookPage';
-import { ZaloPage } from '@domain/entities/ZaloPage';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
+import { ZaloPage } from '@domain/entities/chat/zalo/ZaloPage';
 
 export interface AccountConnectionRepository {
   connectFacebookPage: (userAccessToken: string, page: FacebookPage) => Promise<FacebookPage>

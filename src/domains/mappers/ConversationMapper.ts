@@ -1,12 +1,12 @@
 import { Contact } from '@domain/entities/Contact';
-import { Conversation } from '@domain/entities/Conversation';
-import { FacebookConversation } from '@domain/entities/FacebookConversation';
-import { ZaloConversation } from '@domain/entities/ZaloConversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { FacebookConversation } from '@domain/entities/chat/facebook/FacebookConversation';
+import { ZaloConversation } from '@domain/entities/chat/zalo/ZaloConversation';
 
 class ConversationMapper {
-  fromFb = (conversation: FacebookConversation, pageId: string) : Conversation => {
+  fromFb = (conversation: FacebookConversation, pageId: string): Conversation => {
     const customer = conversation.participants.data.find((item: any) => item.id !== pageId)!;
-    const contact : Contact = {
+    const contact: Contact = {
       id: customer.id,
       fullName: customer.name,
       avatar: '',
@@ -31,12 +31,12 @@ class ConversationMapper {
     };
   }
 
-  fromZalo = (conversation: ZaloConversation, pageId: string) : Conversation => {
+  fromZalo = (conversation: ZaloConversation, pageId: string): Conversation => {
     const fromPage = pageId === conversation.from_id;
     const id = fromPage ? conversation.to_id : conversation.from_id;
     const name = fromPage ? conversation.to_display_name : conversation.from_display_name;
     const avatar = fromPage ? conversation.to_avatar : conversation.from_avatar;
-    const contact : Contact = {
+    const contact: Contact = {
       id,
       fullName: name,
       avatar,

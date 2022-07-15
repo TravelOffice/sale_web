@@ -1,5 +1,5 @@
 import { FacebookRepository } from '@adapter/repositories/interfaces/FacebookRepository';
-import { FacebookPage } from '@domain/entities/FacebookPage';
+import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
 import axios from 'axios';
 
 export default class FacebookPageRepositoryImpl implements FacebookRepository {

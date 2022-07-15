@@ -10,7 +10,7 @@ import {
   InputGroup, InputGroupText, Input, Label, Button,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import { UserStatus } from '@domain/entities/User';
 import i18n from '@config/i18n';
 import ConversationList from '@features/Chat/components/ConversationList';

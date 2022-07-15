@@ -1,6 +1,6 @@
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
-import { FacebookMessage } from '@domain/entities/FacebookMessage';
-import { ZaloMessage } from '@domain/entities/ZaloMessage';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { FacebookMessage } from '@domain/entities/chat/facebook/FacebookMessage';
+import { ZaloMessage } from '@domain/entities/chat/zalo/ZaloMessage';
 import conversationMapper from '@domain/mappers/ConversationMapper';
 import gqlClient from '@graphql/client';
 import { sendMessage } from '@graphql/mutations';
@@ -8,8 +8,8 @@ import {
   allFbConversations, allFbMessages, allZaloConversations, allZaloMessages, userProfile,
 } from '@graphql/queries';
 import { onNewMessage } from '@graphql/subscriptions';
-import { FacebookUserInfo } from '@domain/entities/FacebookUserInfo';
-import { ChatPlatformSendMessage } from '@domain/entities/message-platforms/ChatPlatformSendMessage';
+import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
+import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { sessionStorageProvider } from '@adapter/infrastructures';
 import { ChatRepository } from './interfaces/ChatRepository';
 
