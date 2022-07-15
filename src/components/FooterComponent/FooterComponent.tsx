@@ -1,5 +1,4 @@
 import React from 'react';
-import { Heart } from 'react-feather';
 
 export default function FooterComponent() {
   return (
@@ -9,14 +8,10 @@ export default function FooterComponent() {
         {' '}
         {new Date().getFullYear()}
         {' '}
-        <a href="https://1.envato.market/pixinvent_portfolio" target="_blank" rel="noopener noreferrer">
-          Pixinvent
+        <a href={process.env.LANDING_PAGE_URL} target="_blank" rel="noopener noreferrer">
+          SME Office
         </a>
         <span className="d-none d-sm-inline-block">, All rights Reserved</span>
-      </span>
-      <span className="float-md-end d-none d-md-block">
-        Hand-crafted & Made with
-        <Heart size={14} />
       </span>
     </p>
   );

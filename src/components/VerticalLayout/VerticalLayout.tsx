@@ -86,7 +86,7 @@ function VerticalLayout(props: VerticalLayoutProps) {
   };
   const navbarClasses = {
     floating:
-      contentWidth === 'boxed' ? 'floating-nav container-xxl' : 'floating-nav',
+      contentWidth === 'boxed' ? 'floating-nav container-fluid' : 'floating-nav',
     sticky: 'fixed-top',
     static: 'navbar-static-top',
     hidden: 'd-none',
@@ -131,15 +131,10 @@ function VerticalLayout(props: VerticalLayoutProps) {
       ) : null}
       <Navbar
         expand="lg"
-        container={false}
         light={skin !== 'dark'}
         dark={skin === 'dark' || bgColorCondition}
         color={bgColorCondition ? navbarColor : undefined}
-        className={classnames(
-          `header-navbar navbar align-items-center ${
-            navbarClasses[navbarType] || 'floating-nav'
-          } navbar-shadow`,
-        )}
+        className={classnames('header-navbar navbar align-items-center navbar-shadow', navbarClasses[navbarType])}
       >
         <div className="navbar-container d-flex content">
           {navbar || (
