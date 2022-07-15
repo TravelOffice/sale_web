@@ -7,7 +7,10 @@ export default class ConversationState {
 
   error?: string = undefined;
 
-  onNewConversation(newConversation: Conversation) {
+  onNewConversation(
+    newConversation: Conversation,
+    selectedConversation?: Conversation,
+  ) {
     const index = this.conversations.findIndex((item) => item.id === newConversation.id);
     const newState = new ConversationState();
     newState.fetching = this.fetching;
@@ -17,7 +20,10 @@ export default class ConversationState {
     } else {
       newState.conversations = this.conversations;
       newState.conversations[index] = newConversation;
-      newState.conversations[index].unseenMessages += 1;
+      // Increase unseen message if conversation is not currently selected
+      if (!selectedConversation || newConversation.id !== selectedConversation.id) {
+        newState.conversations[index].unseenMessages += 1;
+      }
     }
     return newState;
   }

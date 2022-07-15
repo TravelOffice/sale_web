@@ -1,17 +1,20 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
 import rootSaga from '@redux/rootSaga';
 import { authReducers } from '@redux/slices/authSlice';
+import { chatReducers } from '@redux/slices/chatSlice';
+import { layoutReducers } from '@redux/slices/layoutSlice';
+import { leadReducers } from '@redux/slices/leadSlice';
+import { navbarReducers } from '@redux/slices/navbarSlice';
+import { notificationReducers } from '@redux/slices/notificationSlice';
+import { opportunityReducers } from '@redux/slices/opportunitySlice';
+import { pageConnectionReducers } from '@redux/slices/pageConnectionSlice';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
-import { layoutReducers } from '@redux/slices/layoutSlice';
-import { navbarReducers } from '@redux/slices/navbarSlice';
-import { chatReducers } from '@redux/slices/chatSlice';
-import { pageConnectionReducers } from '@redux/slices/pageConnectionSlice';
-import { leadReducers } from '@redux/slices/leadSlice';
-import { opportunityReducers } from '@redux/slices/opportunitySlice';
-import { notificationReducers } from '@redux/slices/notificationSlice';
+import { enableMapSet } from 'immer';
+import createSagaMiddleware from 'redux-saga';
 import { customerReducers } from './slices/customerSlice';
+
+enableMapSet();
 
 const sageMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();

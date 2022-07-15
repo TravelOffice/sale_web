@@ -9,6 +9,7 @@ import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendM
 export interface ChatRepository {
   getFacebookConversations: (pageId: string) => Promise<Conversation[]>
   getZaloConversations: (pageId: string) => Promise<Conversation[]>
+  getTelegramConversations: (botId: string) => Promise<Conversation[]>
   getFbMessages: (
     conversationId: string, fbPageId: string, before?: string
   ) => Promise<[FacebookMessage[], string]>
