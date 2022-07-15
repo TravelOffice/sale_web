@@ -2,6 +2,7 @@ import Avatar from '@components/Avatar/Avatar';
 import i18n from '@config/i18n';
 import User from '@domain/entities/User';
 import { RootState } from '@redux/store';
+import Images from '@themes/Images';
 import React from 'react';
 import {
   MessageSquare, Power, Settings,
@@ -17,7 +18,7 @@ const UserDropdown = () => {
 
   // ** Renders Avatar
   const renderAvatar = (user: User) => {
-    if (user.avatar) return <Avatar img={user.avatar} imgHeight="40" imgWidth="40" status="online" />;
+    if (user.avatar) return <Avatar img={user.avatar || Images.defaultAvatar} imgHeight="40" imgWidth="40" status="online" />;
 
     return <Avatar color="light-primary" content={user.username} />;
   };

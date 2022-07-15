@@ -147,17 +147,17 @@ function* sendMessage(action: PayloadAction<[MessageData, Conversation?]>) {
     if (!conversation) {
       return;
     }
-    const { facebookPage, zaloPage } = yield select((state: RootState) => state.auth);
-    const sender = conversation.chatPlatform === 'facebook' ? facebookPage?.id : zaloPage?.id;
-    if (!sender) {
-      return;
-    }
+    const platform = conversation.chatPlatform;
+    const targetPage: Page | undefined = yield select(
+      (state: RootState) => state.auth.linkedPages.find((page) => page.platform === platform),
+    );
+    if (!targetPage) { return; }
     const newMessage: Message = {
       id: '',
       customerId: conversation.contact.id,
       messageData,
       recipient: conversation.contact.id,
-      sender,
+      sender: targetPage.id,
       timestamp: new Date(),
       chatPlatform: conversation.chatPlatform,
     };
@@ -175,13 +175,13 @@ function* sendAttachmentMessage(
     if (!conversation) {
       return;
     }
-    const { facebookPage, zaloPage } = yield select((state: RootState) => state.auth);
-    const sender = conversation.chatPlatform === 'facebook' ? facebookPage?.id : zaloPage?.id;
-    if (!sender) {
-      return;
-    }
+    const platform = conversation.chatPlatform;
+    const targetPage: Page | undefined = yield select(
+      (state: RootState) => state.auth.linkedPages.find((page) => page.platform === platform),
+    );
+    if (!targetPage) { return; }
     yield call(
-      chatPresenter.sendAttachmentMessage, sender, attachment, attachmentType, conversation,
+      chatPresenter.sendAttachmentMessage, targetPage.id, attachment, attachmentType, conversation,
     );
     yield put({ type: chatActions.onAttachmentMessageSent.type });
   } catch (error: any) {

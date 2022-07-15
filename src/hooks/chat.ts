@@ -7,7 +7,10 @@ import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';
 import { FACEBOOK, ZALO } from '@utils/Constants';
 import {
-  useCallback, useEffect, useMemo, useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,7 +27,7 @@ export const useConversations = () => {
   };
 };
 
-export const useMessages = (conversation?: Conversation) : [Message[], boolean] => {
+export const useMessages = (conversation?: Conversation): [Message[], boolean] => {
   const messages = useSelector((state: RootState) => state.chat.messages);
   const fetching = useSelector((state: RootState) => state.chat.fetchingMessages);
   const dispatch = useDispatch();
@@ -47,7 +50,7 @@ export const useConversationSections = () => {
   const fbPage = usePage('facebook');
   const zaloPage = usePage('zalo');
   const { fbConversationsState, zaloConversationsState } = useConversations();
-  const sections : ConversationSection[] = useMemo(() => {
+  const sections: ConversationSection[] = useMemo(() => {
     const conversations = [];
     if (fbPage) {
       conversations.push({ title: FACEBOOK, ...fbConversationsState });
@@ -60,7 +63,7 @@ export const useConversationSections = () => {
   return sections;
 };
 
-export const useLoadMore = (conversation?: Conversation) : [Function, boolean] => {
+export const useLoadMore = (conversation?: Conversation): [Function, boolean] => {
   const [loadingMore, setLoadingMore] = useState(false);
   const dispatch = useDispatch();
   const loadMore = useCallback(() => {
