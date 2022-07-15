@@ -16,6 +16,7 @@ import i18n from '@config/i18n';
 import ConversationList from '@features/Chat/components/ConversationList';
 import { ConversationSection } from '@features/Chat/ConversationSection';
 import { Link } from 'react-router-dom';
+import Images from '@themes/Images';
 
 export interface SidebarLeftProps {
   sidebar: boolean,
@@ -68,8 +69,12 @@ const SidebarLeft = (props: SidebarLeftProps) => {
               <X size={14} />
             </div>
             <div className="header-profile-sidebar">
-              <Avatar className="box-shadow-1 avatar-border" img={userProfile?.avatar} size="xl" />
-              <h4 className="chat-user-name">{userProfile?.username}</h4>
+              <Avatar
+                className="box-shadow-1 avatar-border"
+                size="xl"
+                img={userProfile?.avatar || Images.defaultAvatar}
+              />
+              <h4 className="chat-user-name">{userProfile?.name || userProfile?.username}</h4>
               <span className="user-post">{userProfile?.role}</span>
             </div>
           </header>
@@ -174,7 +179,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                 {userProfile && Object.keys(userProfile).length ? (
                   <Avatar
                     className="avatar-border"
-                    img={userProfile.avatar}
+                    img={userProfile.avatar || Images.defaultAvatar}
                     status={status}
                     imgHeight="42"
                     imgWidth="42"
@@ -199,21 +204,22 @@ const SidebarLeft = (props: SidebarLeftProps) => {
               conversationSections.length ? (
                 conversationSections.map((section) => (
                   !section.error && (
-                  <ConversationList
-                    key={section.title}
-                    title={section.title}
-                    conversations={section.conversations}
-                    fetching={section.fetching}
-                    selectedConversation={selectedConversation}
-                    onConversationSelected={handleConversationSelected}
-                    query={query}
-                  />
+                    <ConversationList
+                      key={section.title}
+                      title={section.title}
+                      conversations={section.conversations}
+                      fetching={section.fetching}
+                      selectedConversation={selectedConversation}
+                      onConversationSelected={handleConversationSelected}
+                      query={query}
+                    />
                   )
-                ))) : (
+                )))
+                : (
                   <Button tag={Link} to="/apps/account-settings" color="link">
                     {i18n.t('CHAT.LINK_YOUR_PAGES')}
                   </Button>
-              )
+                )
             }
           </PerfectScrollbar>
         </div>

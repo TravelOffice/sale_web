@@ -25,7 +25,6 @@ import { RootState } from '@redux/store';
 import { Message, MessageData } from '@domain/entities/Message';
 import { Conversation } from '@domain/entities/Conversation';
 import { formatChatData, sortMessages } from '@utils/ChatUtils';
-import { Contact } from '@domain/entities/Contact';
 import User from '@domain/entities/User';
 import Spinner from '@components/Spinner/Spinner';
 import ChatMessage from '@features/Chat/components/ChatMessage';
@@ -34,6 +33,7 @@ import AttachmentMessagePreview from '@components/Chat/AttachmentMessagePreview'
 import { chatActions } from '@redux/slices/chatSlice';
 import Viewer from 'react-viewer';
 import { ImageDecorator } from 'react-viewer/lib/ViewerProps';
+import CustomerAvatar from './components/CustomerAvatar';
 
 interface AttachmentMessageSetting {
   id: number,
@@ -86,12 +86,14 @@ export interface MessageGroup {
 }
 
 function renderChats(
+  conversation: Conversation,
   messages: Message[],
   currentUser: User,
-  contact: Contact,
   onClickChatMessage: (message: Message) => void,
 ) {
+  const { contact } = conversation;
   const isMe = (sender: string) => sender !== contact.id;
+
   return formatChatData(messages).map((item) => (
     <div
       key={item.messages[0].id}
@@ -100,12 +102,19 @@ function renderChats(
       })}
     >
       <div className="chat-avatar">
-        <Avatar
-          imgWidth={36}
-          imgHeight={36}
-          className="box-shadow-1 cursor-pointer"
-          img={isMe(item.senderId) ? currentUser.avatar : contact.avatar}
-        />
+        {
+          isMe(item.senderId)
+            ? (
+              <Avatar
+                imgWidth="42"
+                imgHeight="42"
+                className="cursor-pointer"
+                color="light-primary"
+                img={currentUser.avatar}
+                content={currentUser.avatar ? undefined : currentUser.name}
+              />
+            ) : <CustomerAvatar conversation={conversation} />
+        }
       </div>
 
       <div className="chat-body">
@@ -287,25 +296,29 @@ const ChatLog = (props: ChatLogProps) => {
             <header className="chat-header">
               <div className="d-flex align-items-center">
                 <div className="sidebar-toggle d-block d-lg-none me-1" onClick={handleSidebar}>
-                  <Menu size={21} />
+                  <Menu size={20} />
                 </div>
-                <Avatar
-                  imgHeight="36"
-                  imgWidth="36"
-                  img={contact?.avatar}
+                <CustomerAvatar
+                  conversation={selectedConversation}
                   className="avatar-border user-profile-toggle m-0 me-1"
                   onClick={handleAvatarClicked}
                 />
                 <h6 className="mb-0">{contact?.fullName}</h6>
               </div>
               <div className="d-flex align-items-center">
-                <Search size={18} className="cursor-pointer d-sm-block d-none" />
+                <Search size={20} className="cursor-pointer d-sm-block d-none" />
                 <UncontrolledDropdown className="more-options-dropdown">
                   <DropdownToggle className="btn-icon" color="transparent" size="sm">
-                    <MoreVertical size="18" />
+                    <MoreVertical size="20" />
                   </DropdownToggle>
                   <DropdownMenu end>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
+                    <DropdownItem
+                      href="/"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleAvatarClicked();
+                      }}
+                    >
                       {i18n.t('CHAT.VIEW_CONTACT')}
                     </DropdownItem>
                     <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
@@ -326,7 +339,16 @@ const ChatLog = (props: ChatLogProps) => {
             }
             {
               messages.length > 0 && (
-                <div className="chats">{renderChats(sortedMessages, currentUser, selectedConversation.contact, handleChatMessageClicked)}</div>
+                <div className="chats">
+                  {
+                    renderChats(
+                      selectedConversation,
+                      sortedMessages,
+                      currentUser,
+                      handleChatMessageClicked,
+                    )
+                  }
+                </div>
               )
             }
             {
