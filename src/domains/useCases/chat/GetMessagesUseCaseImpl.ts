@@ -1,6 +1,6 @@
 import { chatRepository } from '@adapter/repositories';
-import { Conversation } from '@domain/entities/Conversation';
-import { Message } from '@domain/entities/Message';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { Message } from '@domain/entities/chat/Message';
 import messageMapper from '@domain/mappers/MessageMapper';
 import { getPageFromRedux } from '@utils/ChatUtils';
 import { GetMessagesUseCase } from '../interfaces/chat/GetMessagesUseCase';
@@ -8,7 +8,7 @@ import { GetMessagesUseCase } from '../interfaces/chat/GetMessagesUseCase';
 export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
   invoke = async (
     conversation: Conversation, nextToken?: string,
-  ) : Promise<[Message[], string]> => {
+  ): Promise<[Message[], string]> => {
     const facebookPage = getPageFromRedux('facebook');
     const zaloPage = getPageFromRedux('zalo');
     if (conversation.chatPlatform === 'facebook') {
@@ -22,7 +22,7 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
 
   private getFbMessages = async (
     fbPageId: string, conversation: Conversation, after?: string,
-  ) : Promise<[Message[], string]> => {
+  ): Promise<[Message[], string]> => {
     const [fbMessages, fbNextToken] = await chatRepository.getFbMessages(
       conversation.id, fbPageId, after,
     );
@@ -32,7 +32,7 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
 
   private getZaloMessages = async (
     zaloPageId: string, conversation: Conversation, offset: number = 0,
-  ) : Promise<[Message[], string]> => {
+  ): Promise<[Message[], string]> => {
     const zaloMessages = await chatRepository.getZaloMessages(conversation.contact.id, zaloPageId);
     const messages = zaloMessages.map((zaloMessage) => messageMapper.fromZaloMessage(zaloMessage));
     return [messages, `${offset}`];

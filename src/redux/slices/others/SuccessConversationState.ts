@@ -1,4 +1,4 @@
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import ConversationState from '@redux/slices/others/ConversationState';
 
 export default class SuccessConversationState extends ConversationState {

@@ -1,4 +1,4 @@
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 
 export interface MessageAttachment {
   mimeType: string,

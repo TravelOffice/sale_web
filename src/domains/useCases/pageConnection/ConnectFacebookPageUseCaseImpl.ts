@@ -1,4 +1,4 @@
-import { FacebookPage } from '@domain/entities/FacebookPage';
+import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
 import { pageConnectionRepository } from '@adapter/repositories';
 import { ConnectFacebookPageUseCase } from '../interfaces/pageConnection/ConnectFacebookPageUseCase';
 

@@ -1,10 +1,10 @@
 import { FetchResult, Observable } from '@apollo/client';
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
-import { Conversation } from '@domain/entities/Conversation';
-import { FacebookMessage } from '@domain/entities/FacebookMessage';
-import { ZaloMessage } from '@domain/entities/ZaloMessage';
-import { FacebookUserInfo } from '@domain/entities/FacebookUserInfo';
-import { ChatPlatformSendMessage } from '@domain/entities/message-platforms/ChatPlatformSendMessage';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { FacebookMessage } from '@domain/entities/chat/facebook/FacebookMessage';
+import { ZaloMessage } from '@domain/entities/chat/zalo/ZaloMessage';
+import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
+import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 
 export interface ChatRepository {
   getFacebookConversations: (pageId: string) => Promise<Conversation[]>

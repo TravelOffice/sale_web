@@ -1,4 +1,4 @@
-import { Message } from '@domain/entities/Message';
+import { Message } from '@domain/entities/chat/Message';
 import { Contact } from '@domain/entities/Contact';
 import { ChatPlatform } from './ChatPlatform';
 

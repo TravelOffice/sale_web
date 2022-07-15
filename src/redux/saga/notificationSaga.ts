@@ -2,7 +2,7 @@ import {
   all, call, put, select, takeEvery, takeLatest,
 } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import { chatActions } from '@redux/slices/chatSlice';
 import { Notification, NotificationData } from '@domain/entities/Notification';
 import Images from '@themes/Images';

@@ -1,6 +1,6 @@
 import { NotificationProps } from '@components/NavBarComponent/NotificationProps';
 import React, { useCallback } from 'react';
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import { useHistory } from 'react-router-dom';
 import ConversationAvatar from '@components/Avatar/CustomerAvatar';
 

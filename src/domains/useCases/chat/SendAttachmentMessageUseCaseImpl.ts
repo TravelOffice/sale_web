@@ -1,9 +1,9 @@
 import { chatRepository, s3Repository } from '@adapter/repositories';
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
-import { Conversation } from '@domain/entities/Conversation';
-import { ChatPlatformSendMessage } from '@domain/entities/message-platforms/ChatPlatformSendMessage';
-import { FacebookSendAttachmentMessageContent } from '@domain/entities/message-platforms/FbSendMessageContent';
-import { ZaloSendAttachment, ZaloSendAttachmentMessage } from '@domain/entities/message-platforms/ZaloSendMessageContent';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
+import { FacebookSendAttachmentMessageContent } from '@domain/entities/chat/facebook/FbSendMessageContent';
+import { ZaloSendAttachment, ZaloSendAttachmentMessage } from '@domain/entities/chat/zalo/ZaloSendMessageContent';
 import { getFileExtension } from '@utils/FileUtils';
 import { SendAttachmentMessageUseCase } from '../interfaces/chat/SendAttachmentMessageUseCase';
 

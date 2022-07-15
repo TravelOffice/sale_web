@@ -1,7 +1,7 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
-import { FacebookPage } from '@domain/entities/FacebookPage';
-import { ZaloPage } from '@domain/entities/ZaloPage';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
+import { ZaloPage } from '@domain/entities/chat/zalo/ZaloPage';
 import { AccountConnectionRepository } from './interfaces/AccountConnectionRepository';
 
 export default class AccountConnectionRepositoryImpl implements AccountConnectionRepository {

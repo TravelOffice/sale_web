@@ -1,6 +1,6 @@
 import { chatPresenter } from '@adapter/presenters';
 import Avatar from '@components/Avatar/Avatar';
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import { usePage } from '@hooks/chat';
 import Images from '@themes/Images';
 import React, { useEffect, useState } from 'react';
