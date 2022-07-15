@@ -4,6 +4,7 @@ import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
 import { ConversationSection } from '@features/Chat/ConversationSection';
 import { chatActions } from '@redux/slices/chatSlice';
+import ConversationState from '@redux/slices/others/ConversationState';
 import { RootState } from '@redux/store';
 import { FACEBOOK, ZALO } from '@utils/Constants';
 import {
@@ -15,11 +16,11 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 
 export const useConversations = () => {
-  const fbConversationsState = useSelector((state: RootState) => state.chat.fbConversations);
-  const zaloConversationsState = useSelector((state: RootState) => state.chat.zaloConversations);
+  const fbConversationsState = useSelector((state: RootState) => state.chat.platformsConversations.get('facebook')) as ConversationState;
+  const zaloConversationsState = useSelector((state: RootState) => state.chat.platformsConversations.get('zalo')) as ConversationState;
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(chatActions.getConversations());
+    dispatch(chatActions.getAllPlatformsConversations());
   }, []);
   return {
     fbConversationsState,

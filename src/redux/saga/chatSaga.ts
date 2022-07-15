@@ -2,11 +2,13 @@ import { chatPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
-import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { ChatPlatform, chatPlatforms } from '@domain/entities/chat/ChatPlatform';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message, MessageData } from '@domain/entities/chat/Message';
 import { Page } from '@domain/entities/chat/Page';
+import { PlatformPage } from '@domain/entities/chat/PlatformPage';
 import { chatActions } from '@redux/slices/chatSlice';
+import ConversationState from '@redux/slices/others/ConversationState';
 import { RootState } from '@redux/store';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { END, EventChannel, eventChannel } from 'redux-saga';
@@ -21,35 +23,32 @@ function* selectPage(platform: ChatPlatform) {
   return page;
 }
 
-function* getFbConversations() {
+function* getPlatformConversationsWithoutAction(platform: ChatPlatform) {
   try {
-    const page: Page = yield selectPage('facebook');
-    const data: Conversation[] = yield call(chatPresenter.getFbConversations, page?.id);
-    yield put({ type: chatActions.onFbConversationRetrieved.type, payload: data });
+    const platformPage: PlatformPage | undefined = yield selectPage(platform);
+    let data = [];
+    if (platformPage) {
+      data = yield call(chatPresenter.getPlatformConversations, platform, platformPage.id);
+    }
+    yield put({ type: chatActions.onPlatformConversationsRetrieved, payload: [platform, data] });
   } catch (error: any) {
     const errorMessage = error.message;
     toasty.show({ type: 'error', title: i18n.t('COMMON.ERROR'), message: errorMessage });
-    yield put(chatActions.onGetFbConversationsFailed(errorMessage));
+    yield put(chatActions.onGetPlatformConversationsFailed([platform, errorMessage]));
   }
 }
 
-function* getZaloConversations() {
-  try {
-    const page: Page = yield selectPage('zalo');
-    const data: Conversation[] = yield call(chatPresenter.getZaloConversations, page?.id);
-    yield put({ type: chatActions.onZaloConversationsRetrieved.type, payload: data });
-  } catch (error: any) {
-    const errorMessage = error.message;
-    toasty.show({ type: 'error', title: i18n.t('COMMON.ERROR'), message: errorMessage });
-    yield put(chatActions.onGetZaloConversationsFailed(errorMessage));
-  }
+function* getPlatformConversations(action: PayloadAction<ChatPlatform>) {
+  const platform = action.payload;
+  yield call(getPlatformConversationsWithoutAction, platform);
 }
 
-function* getConversations() {
-  yield all([
-    getFbConversations(),
-    getZaloConversations(),
-  ]);
+function* getAllPlatformsConversations() {
+  const generators: Generator[] = [];
+  chatPlatforms.forEach((platform) => {
+    generators.push(getPlatformConversationsWithoutAction(platform));
+  });
+  yield all(generators);
 }
 
 function* getConversationMessages(action: PayloadAction<Conversation | undefined>) {
@@ -121,8 +120,13 @@ function* subscribeNewMessageEvent() {
       // Notify to update messages list
       yield put({ type: chatActions.onNewMessage.type, payload: message });
       // Notify to update conversations list
-      const conversationsSelector = (state: RootState) => state.chat.fbConversations.conversations
-        .concat(state.chat.zaloConversations.conversations);
+      const conversationsSelector = (state: RootState) => {
+        const platformsConversations = state.chat.platformsConversations.values();
+        return Array
+          .from(platformsConversations)
+          .map((conversationState: ConversationState) => conversationState.conversations)
+          .flat();
+      };
       const conversations: Conversation[] = yield select(conversationsSelector);
       const conversation = conversations.find(
         (item: Conversation) => item.contact.id === message.customerId,
@@ -206,7 +210,8 @@ function* loadMoreConversationMessages(action: PayloadAction<Conversation | unde
 
 export default function* chatSaga() {
   yield all([
-    takeLatest(chatActions.getConversations, getConversations),
+    takeLatest(chatActions.getAllPlatformsConversations, getAllPlatformsConversations),
+    takeLatest(chatActions.getPlatformConversations, getPlatformConversations),
     takeLatest(chatActions.getMessages, getConversationMessages),
     takeEvery(chatActions.sendMessage, sendMessage),
     takeLatest(chatActions.sendAttachmentMessage, sendAttachmentMessage),
