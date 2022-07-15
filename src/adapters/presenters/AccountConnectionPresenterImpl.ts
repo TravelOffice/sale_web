@@ -7,8 +7,8 @@ import {
   getZaloOAuthLinkUseCase,
   unlinkPageUseCase,
 } from '@domain/useCases';
-import { FacebookPage } from '@domain/entities/FacebookPage';
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
+import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 
 export default class AccountConnectionPresenterImpl implements AccountConnectionPresenter {
   getFacebookPages = async (

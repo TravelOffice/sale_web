@@ -1,6 +1,6 @@
 import { accountConnectionPresenter } from '@adapter/presenters';
-import { FacebookPage } from '@domain/entities/FacebookPage';
-import { Page } from '@domain/entities/Page';
+import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
+import { Page } from '@domain/entities/chat/Page';
 import { usePage } from '@hooks/chat';
 import { pageConnectionActions } from '@redux/slices/pageConnectionSlice';
 import { RootState } from '@redux/store';

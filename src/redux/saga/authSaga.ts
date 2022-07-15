@@ -1,5 +1,5 @@
 import { accountConnectionPresenter, userPresenter } from '@adapter/presenters';
-import { Page } from '@domain/entities/Page';
+import { Page } from '@domain/entities/chat/Page';
 import User from '@domain/entities/User';
 import { authActions } from '@redux/slices/authSlice';
 import {

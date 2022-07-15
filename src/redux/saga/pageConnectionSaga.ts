@@ -1,7 +1,7 @@
 import { accountConnectionPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
-import { Page } from '@domain/entities/Page';
+import { Page } from '@domain/entities/chat/Page';
 import { authActions } from '@redux/slices/authSlice';
 import {
   ConnectFacebookPageRequest,

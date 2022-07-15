@@ -1,4 +1,4 @@
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';

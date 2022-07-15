@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import AttachmentMessageType from '../chat/AttachmentMessageType';
+import AttachmentMessageType from '../AttachmentMessageType';
 
 export interface BasedFacebookSendMessageContent {
   metadata?: string, // Custom string that is delivered as a message echo. 1000 character limit.

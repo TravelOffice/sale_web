@@ -1,6 +1,6 @@
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
-import { Message } from '@domain/entities/Message';
-import { Page } from '@domain/entities/Page';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { Message } from '@domain/entities/chat/Message';
+import { Page } from '@domain/entities/chat/Page';
 import { MessageGroup } from '@features/Chat/ChatLog';
 import { store } from '@redux/store';
 

@@ -1,6 +1,6 @@
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
-import { Conversation } from '@domain/entities/Conversation';
-import { Message, MessageData } from '@domain/entities/Message';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { Message, MessageData } from '@domain/entities/chat/Message';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PAGE_SIZE } from '@utils/ChatUtils';
 import ConversationState from '@redux/slices/others/ConversationState';
@@ -89,8 +89,8 @@ const chatSlice = createSlice({
     getMessages: (state, _action: PayloadAction<Conversation | undefined>) => {
       state.fetchingMessages = true;
     },
-    subscribeNewMessage: (_state) => {},
-    sendMessage: (_state, _action: PayloadAction<[MessageData, Conversation?]>) => {},
+    subscribeNewMessage: (_state) => { },
+    sendMessage: (_state, _action: PayloadAction<[MessageData, Conversation?]>) => { },
     toggleAttachmentMessagePreview: (state, action: PayloadAction<boolean>) => {
       state.showingAttachmentMsgPreview = action.payload;
     },

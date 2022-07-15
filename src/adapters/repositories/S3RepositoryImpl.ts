@@ -1,5 +1,5 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { Conversation } from '@domain/entities/Conversation';
+import { Conversation } from '@domain/entities/chat/Conversation';
 import { S3Repository } from './interfaces/S3Repository';
 
 export default class S3RepositoryImpl implements S3Repository {

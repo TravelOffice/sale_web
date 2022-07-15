@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Page } from '@domain/entities/Page';
+import { Page } from '@domain/entities/chat/Page';
 import User from '@domain/entities/User';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
@@ -43,7 +43,7 @@ const authSlice = createSlice({
     setLinkedPages: (state, action: PayloadAction<Array<Page>>) => {
       state.linkedPages = action.payload;
     },
-    getLinkedPages: (state) => {},
+    getLinkedPages: (state) => { },
     onInitialCompleted: (state) => {
       state.initialized = true;
     },

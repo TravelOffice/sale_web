@@ -1,6 +1,6 @@
 import React from 'react';
 import { MessageProps } from '@features/Chat/components/MessageProps';
-import { ChatPlatform } from '@domain/entities/ChatPlatform';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import i18n from '@config/i18n';
 
 export interface UnsupportedMessageProps extends MessageProps {

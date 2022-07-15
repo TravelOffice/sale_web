@@ -1,11 +1,11 @@
-import { FacebookMessage } from '@domain/entities/FacebookMessage';
-import { Message } from '@domain/entities/Message';
-import { ZaloMessage } from '@domain/entities/ZaloMessage';
+import { FacebookMessage } from '@domain/entities/chat/facebook/FacebookMessage';
+import { Message } from '@domain/entities/chat/Message';
+import { ZaloMessage } from '@domain/entities/chat/zalo/ZaloMessage';
 import messageAttachmentMapper from '@domain/mappers/MessageAttachmentMapper';
 import { getPageFromRedux } from '@utils/ChatUtils';
 
 class MessageMapper {
-  fromFacebookMessage = (fbMessage: FacebookMessage) : Message => {
+  fromFacebookMessage = (fbMessage: FacebookMessage): Message => {
     const fbPageId = getPageFromRedux('facebook')?.id!;
     const recipient = fbMessage.to.data[0].id;
     const customerId = fbPageId === fbMessage.from.id ? recipient : fbMessage.from.id;
@@ -28,7 +28,7 @@ class MessageMapper {
     };
   }
 
-  fromZaloMessage = (zaloMessage: ZaloMessage) : Message => {
+  fromZaloMessage = (zaloMessage: ZaloMessage): Message => {
     const zaloPageId = getPageFromRedux('zalo')?.id!;
     const customerId = zaloMessage.from_id === zaloPageId ? zaloMessage.to_id : zaloMessage.from_id;
     return {

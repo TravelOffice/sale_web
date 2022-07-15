@@ -1,6 +1,6 @@
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
-import { Conversation } from '@domain/entities/Conversation';
-import { Message } from '@domain/entities/Message';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { Message } from '@domain/entities/chat/Message';
 import {
   getFacebookConversationsUseCase,
   getFacebookUserInfoUseCase,

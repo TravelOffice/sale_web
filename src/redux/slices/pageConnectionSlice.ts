@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FacebookPage } from '@domain/entities/FacebookPage';
-import { Page } from '@domain/entities/Page';
+import { FacebookPage } from '@domain/entities/chat/facebook/FacebookPage';
+import { Page } from '@domain/entities/chat/Page';
 
 interface PageConnectionState {
   connectingFacebookPage: boolean,
   connectingZaloPage: boolean,
 }
 
-const initialState : PageConnectionState = {
+const initialState: PageConnectionState = {
   connectingFacebookPage: false,
   connectingZaloPage: false,
 };
