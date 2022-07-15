@@ -34,7 +34,8 @@
         "UPDATE": "Cập nhật",
         "CHAT": "Chat",
         "SETTING": "Cài đặt",
-        "LOGOUT": "Đăng xuất"
+        "LOGOUT": "Đăng xuất",
+        "CLEAR": "Xóa"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -218,5 +219,11 @@
         "TASKS_EMPTY_TITLE": "Không có công việc. \uD83D\uDD75\uD83C\uDFFB\u200D♀️",
         "TASKS_EMPTY_SUB_TITLE": "Cơ hội không bao gồm bất kì công việc nào.",
         "ADD_NEW_TASK": "Thêm công việc mới"
+    },
+    "NOTIFICATION": {
+        "NOTIFICATIONS": "Thông báo",
+        "NEW_MESSAGE": "Tin nhắn mới!",
+        "NOTIFICATION_NEW_CONVERSATION_TITLE": "{{customerName}} đã gửi tin nhắn mới",
+        "NOTIFICATION_NEW_CONVERSATION_MESSAGE": "Bạn đã nhận được tin nhắn mới từ {{customerName}}. Kiểm tra ngay!"
     }
 }

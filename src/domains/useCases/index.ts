@@ -17,6 +17,10 @@ import GetFacebookConversationsUseCaseImpl from '@domain/useCases/chat/GetFacebo
 import GetZaloConversationsUseCaseImpl from '@domain/useCases/chat/GetZaloConversationsUseCaseImpl';
 import { GetFacebookUserInfoUseCase } from '@domain/useCases/interfaces/chat/GetFacebookUserInfoUseCase';
 import GetFacebookUserInfoUseCaseImpl from '@domain/useCases/chat/GetFacebookUserInfoUseCaseImpl';
+import { GetNotificationsUseCase } from '@domain/useCases/interfaces/notification/GetNotificationsUseCase';
+import { SaveNotificationUseCase } from '@domain/useCases/interfaces/notification/SaveNotificationUseCase';
+import GetNotificationsUseCaseImpl from '@domain/useCases/notification/GetNotificationsUseCaseImpl';
+import SaveNotificationUseCaseImpl from '@domain/useCases/notification/SaveNotificationUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
 import SendMessageUseCaseImpl from './chat/SendMessageUseCaseImpl';
@@ -86,6 +90,9 @@ interface UseCases {
   connectZaloPageUseCase: ConnectZaloPageUseCase,
   // User
   getCurrentUserUseCase: GetCurrentUserUseCase,
+  // Notification
+  getNotificationsUseCase: GetNotificationsUseCase,
+  saveNotificationUseCase: SaveNotificationUseCase,
 }
 
 const useCases: UseCases = {
@@ -121,6 +128,9 @@ const useCases: UseCases = {
   updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
   // User
   getCurrentUserUseCase: new GetCurrentUserUseCaseImpl(),
+  // Notification
+  getNotificationsUseCase: new GetNotificationsUseCaseImpl(),
+  saveNotificationUseCase: new SaveNotificationUseCaseImpl(),
 };
 
 export const {
@@ -151,4 +161,6 @@ export const {
   getCurrentUserUseCase,
   getLinkedPagesUseCase,
   unlinkPageUseCase,
+  getNotificationsUseCase,
+  saveNotificationUseCase,
 } = useCases;

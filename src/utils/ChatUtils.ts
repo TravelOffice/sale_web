@@ -51,12 +51,12 @@ export const sortMessages = (
 ); // ([a-zA-Z0-9\s_\\.\-:])+(.xls|.xlsx)$
 
 export const isDocumentFile = (mimeType: string, fileName: string) => {
-  const regEx = /([a-zA-Z0-9\s_\\.\-:])+\.+(?:doc|docx|ppt|pptx|xls|xlsx|txt|rtf|pdf)$/;
+  const regEx = /([a-zA-Z\d\s_\\.\-:])+\.+(?:doc|docx|ppt|pptx|xls|xlsx|txt|rtf|pdf)$/;
   return SUPPORTED_DOCUMENT_FILE_TYPES.includes(mimeType) || regEx.test(fileName);
 };
 
 export const normalizeVietnameseName = (name: string) => {
-  let normalizedName = '';
+  let normalizedName;
   // Convert to canonical decomposition form
   normalizedName = name.normalize('NFD');
   // Remove canonical characters
@@ -75,4 +75,9 @@ export const getPage = (
 export const getPageFromRedux = (platform: ChatPlatform) => {
   const { linkedPages } = store.getState().auth;
   return getPage(linkedPages, platform);
+};
+
+export const isMyMessage = (message: Message) => {
+  const pageId = getPageFromRedux(message.chatPlatform)?.id;
+  return pageId && pageId === message.sender;
 };

@@ -12,6 +12,7 @@ export interface ToastyOptions {
   textMuted?: string,
   message: string,
   type: ToastyType,
+  onClick?: () => void,
 }
 
 export interface ToastyProps {
@@ -31,13 +32,13 @@ const toastyThemes : ToastTheme = {
 function Toasty(props: ToastyProps) {
   const { options } = props;
   const {
-    title, textMuted, message, type,
+    title, textMuted, message, type, onClick,
   } = options;
   const theme = toastyThemes[type];
   const { color, icon } = theme;
   return (
     <>
-      <div className="toastify-header">
+      <div className="toastify-header" onClick={onClick}>
         <div className="title-wrapper">
           <Avatar status={undefined} size="sm" color={color} icon={icon} />
           <h6 className="toast-title">{title}</h6>

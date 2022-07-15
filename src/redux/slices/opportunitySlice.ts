@@ -9,7 +9,7 @@ import {
   OpportunityTaskSearchParams,
 } from '@domain/entities/opportunity/Opportunity';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import removeElement from '@utils/ArrayUtils';
+import { removeElement } from '@utils/ArrayUtils';
 import { HandleDataState } from './others/HandleDataState';
 
 interface OpportunityState {

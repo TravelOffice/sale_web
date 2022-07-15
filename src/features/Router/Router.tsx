@@ -1,16 +1,19 @@
 import React from 'react';
 import {
   Switch,
-  Route, BrowserRouter,
+  Route,
+  // BrowserRouter,
 } from 'react-router-dom';
 import AuthRoute from '@features/Router/AuthRoute';
 import SignOut from '@features/SignOut/SignOut';
+import { ConnectedRouter } from 'connected-react-router';
+import { history } from '@redux/store';
 import Home from '../Home/Home';
 import Initial from '../Initial/Initial';
 
 export default function Router() {
   return (
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       <Switch>
         <Route path="/initial">
           <Initial />
@@ -22,6 +25,6 @@ export default function Router() {
           <Home />
         </AuthRoute>
       </Switch>
-    </BrowserRouter>
+    </ConnectedRouter>
   );
 }

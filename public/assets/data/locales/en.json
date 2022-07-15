@@ -34,7 +34,8 @@
         "UPDATE": "Update",
         "CHAT": "Chat",
         "SETTING": "Setting",
-        "LOGOUT": "Logout"
+        "LOGOUT": "Logout",
+        "CLEAR": "Clear"
     },
     "LEAD": {
         "NAME": "Name",
@@ -218,5 +219,11 @@
         "TASKS_EMPTY_TITLE": "Tasks not found. \uD83D\uDD75\uD83C\uDFFB\u200D♀️",
         "TASKS_EMPTY_SUB_TITLE": "The opportunity does not have any tasks.",
         "ADD_NEW_TASK": "Add new task"
+    },
+    "NOTIFICATION": {
+        "NOTIFICATIONS": "Notifications",
+        "NEW_MESSAGE": "New message!",
+        "NOTIFICATION_NEW_CONVERSATION_TITLE": "{{customerName}} has sent you a message",
+        "NOTIFICATION_NEW_CONVERSATION_MESSAGE": "You have received new message from {{customerName}}. Check it now!"
     }
 }
