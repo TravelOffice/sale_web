@@ -2,6 +2,7 @@ import { Contact } from '@domain/entities/Contact';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { FacebookConversation } from '@domain/entities/chat/facebook/FacebookConversation';
 import { ZaloConversation } from '@domain/entities/chat/zalo/ZaloConversation';
+import { TelegramConversation } from '@domain/entities/chat/telegram/TelegramConversation';
 
 class ConversationMapper {
   fromFb = (conversation: FacebookConversation, pageId: string): Conversation => {
@@ -58,6 +59,46 @@ class ConversationMapper {
       },
       unseenMessages: 0,
       chatPlatform: 'zalo',
+    };
+  }
+
+  /**
+   * Map the Telegram conversation returned from backend to unified conversation object
+   * @param conversation Telegram conversation data
+   */
+  fromTelegram = (conversation: TelegramConversation): Conversation => {
+    let customerName: string;
+    const chatType = conversation.info.type;
+    if (chatType === 'private') {
+      // Individual user if chat type is private
+      customerName = `${conversation.info.first_name} ${conversation.info.last_name}`;
+    } else {
+      // Title as customer name, for supergroups, channels and group chats
+      customerName = `${conversation.info.title}`;
+    }
+    const customerId = `${conversation.info.id}`;
+    const contact: Contact = {
+      id: customerId,
+      fullName: customerName,
+      avatar: '',
+      about: '',
+    };
+    return {
+      id: conversation.conversationId,
+      contact,
+      lastMessage: {
+        id: `${conversation.lastMessage.message_id}`,
+        customerId,
+        recipient: '',
+        sender: '',
+        timestamp: new Date(conversation.lastMessage.date),
+        messageData: {
+          text: conversation.lastMessage.text || '',
+        },
+        chatPlatform: 'telegram',
+      },
+      unseenMessages: 0,
+      chatPlatform: 'telegram',
     };
   }
 }

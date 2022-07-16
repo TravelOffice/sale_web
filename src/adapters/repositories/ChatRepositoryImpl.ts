@@ -5,12 +5,18 @@ import conversationMapper from '@domain/mappers/ConversationMapper';
 import gqlClient from '@graphql/client';
 import { sendMessage } from '@graphql/mutations';
 import {
-  allFbConversations, allFbMessages, allZaloConversations, allZaloMessages, userProfile,
+  allFbConversations,
+  allFbMessages,
+  allTelegramConversations,
+  allZaloConversations,
+  allZaloMessages,
+  userProfile,
 } from '@graphql/queries';
 import { onNewMessage } from '@graphql/subscriptions';
 import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
 import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { sessionStorageProvider } from '@adapter/infrastructures';
+import { TelegramConversation } from '@domain/entities/chat/telegram/TelegramConversation';
 import { ChatRepository } from './interfaces/ChatRepository';
 
 export default class ChatRepositoryImpl implements ChatRepository {
@@ -30,13 +36,16 @@ export default class ChatRepositoryImpl implements ChatRepository {
 
   /**
    * Get Telegram conversations for given bot id via graphql endpoint
-   * @param botId Telegram bot id
+   * @param telegramBotId Telegram bot id
    * @returns List of Telegram conversations stored at TO system
    */
-  getTelegramConversations = async (botId: string) => {
-    // eslint-disable-next-line no-console
-    console.log(botId);
-    return [];
+  getTelegramConversations = async (telegramBotId: string) => {
+    const options = { query: allTelegramConversations, variables: { telegramBotId } };
+    const result = await gqlClient.query(options);
+    const payload = result.data.allTelegramConversations.data;
+    const conversations: TelegramConversation[] = JSON.parse(payload);
+    return conversations
+      .map((conversation) => conversationMapper.fromTelegram(conversation));
   };
 
   getFbMessages = async (
