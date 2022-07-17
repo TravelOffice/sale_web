@@ -18,6 +18,15 @@ export const allZaloConversations = gql`
   }
 `;
 
+export const allTelegramConversations = gql`
+  query GetTelegramConversations($telegramBotId: String!) {
+    allTelegramConversations(pageId: $telegramBotId) {
+      data
+      message
+    }
+  }
+`;
+
 export const allMessages = gql`
   query GetMessages($customerId: String!) {
     allMessages(customerId: $customerId) {
