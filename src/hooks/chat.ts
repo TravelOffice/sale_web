@@ -4,28 +4,23 @@ import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
 import { ConversationSection } from '@features/Chat/ConversationSection';
 import { chatActions } from '@redux/slices/chatSlice';
-import ConversationState from '@redux/slices/others/ConversationState';
 import { RootState } from '@redux/store';
-import { FACEBOOK, ZALO } from '@utils/Constants';
+import { platformTitleDefinitions } from '@utils/Constants';
 import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
+  useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 export const useConversations = () => {
-  const fbConversationsState = useSelector((state: RootState) => state.chat.platformsConversations.get('facebook')) as ConversationState;
-  const zaloConversationsState = useSelector((state: RootState) => state.chat.platformsConversations.get('zalo')) as ConversationState;
+  const allConversationsStates = useSelector((state: RootState) => {
+    const states = state.chat.platformsConversations.entries();
+    return Object.fromEntries(states);
+  });
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(chatActions.getAllPlatformsConversations());
   }, []);
-  return {
-    fbConversationsState,
-    zaloConversationsState,
-  };
+  return allConversationsStates;
 };
 
 export const useMessages = (conversation?: Conversation): [Message[], boolean] => {
@@ -48,19 +43,16 @@ export const usePage = (platform: ChatPlatform) => useSelector(
 );
 
 export const useConversationSections = () => {
-  const fbPage = usePage('facebook');
-  const zaloPage = usePage('zalo');
-  const { fbConversationsState, zaloConversationsState } = useConversations();
-  const sections: ConversationSection[] = useMemo(() => {
-    const conversations = [];
-    if (fbPage) {
-      conversations.push({ title: FACEBOOK, ...fbConversationsState });
-    }
-    if (zaloPage) {
-      conversations.push({ title: ZALO, ...zaloConversationsState });
-    }
-    return conversations;
-  }, [fbConversationsState, zaloConversationsState]);
+  const linkedPages = useSelector((state: RootState) => state.auth.linkedPages);
+  const allConversationsStates = useConversations();
+  const sections: ConversationSection[] = useMemo(() => linkedPages.map((page) => {
+    const { platform } = page;
+    const platformConversationsState = allConversationsStates[platform];
+    return {
+      title: platformTitleDefinitions[platform],
+      ...platformConversationsState,
+    };
+  }), [allConversationsStates]);
   return sections;
 };
 

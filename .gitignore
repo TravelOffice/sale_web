@@ -23,7 +23,9 @@ yarn-debug.log*
 yarn-error.log*
 yarn.lock
 
+# IDE
 /.idea
+/.vscode
 
 # Local .terraform directories
 **/.terraform/*

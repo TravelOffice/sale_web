@@ -1,30 +1,54 @@
 import { Conversation } from '@domain/entities/chat/Conversation';
 
 export default class ConversationState {
-  fetching: boolean = false;
+  // Are conversations fetching
+  fetching: boolean;
 
-  conversations: Conversation[] = [];
+  // Conversation items
+  conversations: Conversation[];
 
-  error?: string = undefined;
+  // Fetching error message
+  error?: string;
 
+  /**
+   * Constructor to init ConversationState object
+   * @param fetching Are conversations fetching
+   * @param error Fetching error message
+   * @param conversations Conversation items
+   */
+  constructor(
+    fetching?: boolean,
+    conversations?: Conversation[],
+    error?: string,
+  ) {
+    this.fetching = fetching || false;
+    this.error = error;
+    this.conversations = conversations || [];
+  }
+
+  /**
+   * On new conversation arrived
+   * New conversation state object will be returned
+   * @param newConversation New conversation arrived
+   * @param selectedConversation Selected conversation
+   * @returns New ConversationState object
+   */
   onNewConversation(
     newConversation: Conversation,
     selectedConversation?: Conversation,
   ) {
     const index = this.conversations.findIndex((item) => item.id === newConversation.id);
-    const newState = new ConversationState();
-    newState.fetching = this.fetching;
-    newState.error = this.error;
+    let newConversations = this.conversations;
     if (index < 0) {
-      newState.conversations = this.conversations.concat(newConversation);
+      // New customer chat with organization
+      newConversations = newConversations.concat(newConversation);
     } else {
-      newState.conversations = this.conversations;
-      newState.conversations[index] = newConversation;
+      newConversations[index] = newConversation;
       // Increase unseen message if conversation is not currently selected
       if (!selectedConversation || newConversation.id !== selectedConversation.id) {
-        newState.conversations[index].unseenMessages += 1;
+        newConversations[index].unseenMessages += 1;
       }
     }
-    return newState;
+    return new ConversationState(this.fetching, newConversations, this.error);
   }
 }
