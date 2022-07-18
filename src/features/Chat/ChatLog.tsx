@@ -24,7 +24,7 @@ import {
 import { RootState } from '@redux/store';
 import { Message, MessageData } from '@domain/entities/chat/Message';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { formatChatData, sortMessages } from '@utils/ChatUtils';
+import { messagesGroups, sortMessages } from '@utils/ChatUtils';
 import User from '@domain/entities/User';
 import Spinner from '@components/Spinner/Spinner';
 import ChatMessage from '@features/Chat/components/ChatMessage';
@@ -94,7 +94,7 @@ function renderChats(
   const { contact } = conversation;
   const isMe = (sender: string) => sender !== contact.id;
 
-  return formatChatData(messages).map((item) => (
+  return messagesGroups(messages).map((item) => (
     <div
       key={item.messages[0].id}
       className={classnames('chat', {
