@@ -8,6 +8,7 @@ import {
   allFbConversations,
   allFbMessages,
   allTelegramConversations,
+  allTelegramMessages,
   allZaloConversations,
   allZaloMessages,
   userProfile,
@@ -16,7 +17,8 @@ import { onNewMessage } from '@graphql/subscriptions';
 import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
 import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { sessionStorageProvider } from '@adapter/infrastructures';
-import { TelegramConversation } from '@domain/entities/chat/telegram/TelegramConversation';
+import { DDBTelegramConversation } from '@domain/entities/chat/telegram/DDBTelegramConversation';
+import { DDBTelegramMessages } from '@domain/entities/chat/telegram/DDBTelegramMessage';
 import { ChatRepository } from './interfaces/ChatRepository';
 
 export default class ChatRepositoryImpl implements ChatRepository {
@@ -43,7 +45,7 @@ export default class ChatRepositoryImpl implements ChatRepository {
     const options = { query: allTelegramConversations, variables: { telegramBotId } };
     const result = await gqlClient.query(options);
     const payload = result.data.allTelegramConversations.data;
-    const conversations: TelegramConversation[] = JSON.parse(payload);
+    const conversations: DDBTelegramConversation[] = JSON.parse(payload);
     return conversations
       .map((conversation) => conversationMapper.fromTelegram(conversation));
   };
@@ -62,6 +64,23 @@ export default class ChatRepositoryImpl implements ChatRepository {
     const options = { query: allZaloMessages, variables: { userId: conversationId, zaloPageId } };
     const result = await gqlClient.query(options);
     return JSON.parse(result.data.allZaloMessages.data).data as ZaloMessage[];
+  };
+
+  /**
+   * Get Telegram message of given conversation id
+   * Support paging by passing limit and next token values to graph endpoint
+   * @param conversationId Conversation id
+   * @param limit Number of items returned from backend
+   * @param nextToken Next token that data will be queried from
+   */
+  getTelegramMessages = async (conversationId: string, botId: string, nextToken?: string) => {
+    const options = {
+      query: allTelegramMessages,
+      variables: { conversationId, botId, nextToken },
+    };
+    const result = await gqlClient.query(options);
+    const payload = result.data.allTelegramMessages.data;
+    return JSON.parse(payload) as DDBTelegramMessages;
   };
 
   sendMessage = async (platform: ChatPlatform, message: ChatPlatformSendMessage) => {

@@ -1,9 +1,10 @@
 import { TelegramChat, TelegramMessage } from '@domain/entities/chat/telegram/TelegramChat';
 
-export interface TelegramConversation {
+// Telegram conversation stored at DynamoDB
+export interface DDBTelegramConversation {
   info: TelegramChat,
   lastMessage: TelegramMessage,
   conversationId: string,
-  createdAt: string,
-  updatedAt: string,
+  createdAt: number,
+  updatedAt: number,
 }
