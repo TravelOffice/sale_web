@@ -1,8 +1,10 @@
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import { Message } from '@domain/entities/chat/Message';
 import { Page } from '@domain/entities/chat/Page';
+import { TelegramMessage } from '@domain/entities/chat/telegram';
 import { MessageGroup } from '@features/Chat/ChatLog';
 import { store } from '@redux/store';
+import i18next from 'i18next';
 
 export const PAGE_SIZE = 10;
 
@@ -18,7 +20,7 @@ export const SUPPORTED_DOCUMENT_FILE_TYPES = [
 /**
  * Formats chat data based on sender
  */
-export const formatChatData = (messages: Array<Message>): Array<MessageGroup> => {
+export const messagesGroups = (messages: Array<Message>): Array<MessageGroup> => {
   const formattedChatLog: Array<MessageGroup> = [];
   let chatMessageSenderId = messages[0] ? messages[0].sender : undefined;
   if (!chatMessageSenderId) {
@@ -80,4 +82,22 @@ export const getPageFromRedux = (platform: ChatPlatform) => {
 export const isMyMessage = (message: Message) => {
   const pageId = getPageFromRedux(message.chatPlatform)?.id;
   return pageId && pageId === message.sender;
+};
+
+/**
+ * Get last message title of given Telegram conversation
+ * @param message Telegram message object
+ * @returns Title to show for last message at conversation box
+ */
+export const getTelegramLastMessageTitle = (message: TelegramMessage): string => {
+  if (message.pinned_message) {
+    return i18next.t('CHAT.PINNED_MESSAGE_TITLE');
+  }
+  if (message.video || message.audio || message.voice || message.photo) {
+    return i18next.t('CHAT.MEDIA_MESSAGE_TITLE');
+  }
+  if (message.document) {
+    return i18next.t('CHAT.DOCUMENT_MESSAGE_TITLE');
+  }
+  return message.text || '';
 };

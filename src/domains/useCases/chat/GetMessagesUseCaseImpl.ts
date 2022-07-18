@@ -8,16 +8,25 @@ import { GetMessagesUseCase } from '../interfaces/chat/GetMessagesUseCase';
 export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
   invoke = async (
     conversation: Conversation, nextToken?: string,
-  ): Promise<[Message[], string]> => {
-    const facebookPage = getPageFromRedux('facebook');
-    const zaloPage = getPageFromRedux('zalo');
-    if (conversation.chatPlatform === 'facebook') {
-      return this.getFbMessages(facebookPage?.id || '', conversation, nextToken);
+  ): Promise<[Message[], string?]> => {
+    // Page can be Facebook / Zalo page or Telegram bot
+    const page = getPageFromRedux(conversation.chatPlatform);
+    if (!page) {
+      throw new Error(`Platform page ${conversation.chatPlatform} is not linked to system yet.`);
     }
-    if (conversation.chatPlatform === 'zalo') {
-      return this.getZaloMessages(zaloPage?.id || '', conversation);
+    // Get message for specific platform
+    switch (conversation.chatPlatform) {
+      case 'facebook':
+        return this.getFbMessages(page.id, conversation, nextToken);
+
+      case 'zalo':
+        return this.getZaloMessages(page.id, conversation);
+
+      case 'telegram':
+        return this.getTelegramMessages(page.id, conversation, nextToken);
+
+      default: throw new Error(`Chat platform ${conversation.chatPlatform} is not supported.`);
     }
-    return [[], ''];
   };
 
   private getFbMessages = async (
@@ -28,7 +37,7 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
     );
     const messages = fbMessages.map((fbMessage) => messageMapper.fromFacebookMessage(fbMessage));
     return [messages, fbNextToken];
-  }
+  };
 
   private getZaloMessages = async (
     zaloPageId: string, conversation: Conversation, offset: number = 0,
@@ -36,5 +45,23 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
     const zaloMessages = await chatRepository.getZaloMessages(conversation.contact.id, zaloPageId);
     const messages = zaloMessages.map((zaloMessage) => messageMapper.fromZaloMessage(zaloMessage));
     return [messages, `${offset}`];
+  };
+
+  private getTelegramMessages = async (
+    botId: string,
+    conversation: Conversation,
+    nextToken?: string,
+  ): Promise<[Message[], string?]> => {
+    const {
+      messages: ddbTelegramMessages,
+      nextToken: incomingNextToken,
+    } = await chatRepository.getTelegramMessages(
+      conversation.id,
+      botId,
+      nextToken,
+    );
+    const messages = ddbTelegramMessages
+      .map((message) => messageMapper.fromTelegramMessage(message, botId));
+    return [messages, incomingNextToken];
   };
 }

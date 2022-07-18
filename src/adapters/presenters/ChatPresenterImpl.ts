@@ -15,7 +15,7 @@ import { ChatPresenter } from './interfaces/ChatPresenter';
 export default class ChatPresenterImpl implements ChatPresenter {
   private currentNextToken?: string
 
-  setNextToken(token: string) {
+  setNextToken(token?: string) {
     this.currentNextToken = token;
   }
 

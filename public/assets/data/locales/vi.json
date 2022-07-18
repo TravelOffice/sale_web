@@ -125,7 +125,10 @@
         "SEARCH_INPUT_PLACE_HOLDER": "Tìm kiếm hội thoại",
         "MESSAGE_INPUT_PLACEHOLDER": "Nhập tin nhắn hoặc gửi tệp đính kèm",
         "NO_CHAT_FOUND": "Chưa có tin nhắn",
-        "LINK_YOUR_PAGES": "Liên kết trang"
+        "LINK_YOUR_PAGES": "Liên kết trang",
+        "PINNED_MESSAGE_TITLE": "Tin nhắn được ghim",
+        "MEDIA_MESSAGE_TITLE": "Tin nhắn đa phương tiện được gửi",
+        "DOCUMENT_MESSAGE_TITLE": "Tin nhắn văn bản được gửi"
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "Mô tả",

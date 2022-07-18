@@ -61,6 +61,15 @@ export const allZaloMessages = gql`
   }
 `;
 
+export const allTelegramMessages = gql`
+  query GetTelegramMessages($botId: String!, $conversationId: String!, $nextToken: String) {
+    allTelegramMessages(pageId: $botId, conversationId: $conversationId, nextToken: $nextToken) {
+      message
+      data
+    }
+  }
+`;
+
 export const userProfile = gql`
   query GetUserProfile($pageId: String!, $pageUserId: String!, $platform: String!) {
     userProfile(pageId: $pageId, pageUserId: $pageUserId, platform: $platform) {

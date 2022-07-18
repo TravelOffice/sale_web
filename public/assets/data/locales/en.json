@@ -125,7 +125,10 @@
         "SEARCH_INPUT_PLACE_HOLDER": "Search chat conversations",
         "MESSAGE_INPUT_PLACEHOLDER": "Type your message or send file, media attachments",
         "NO_CHAT_FOUND": "No Chats Found",
-        "LINK_YOUR_PAGES": "Link your pages"
+        "LINK_YOUR_PAGES": "Link your pages",
+        "PINNED_MESSAGE_TITLE": "A message has been pinned",
+        "MEDIA_MESSAGE_TITLE": "A media message has been sent",
+        "DOCUMENT_MESSAGE_TITLE": "A document message has been sent"
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "About",

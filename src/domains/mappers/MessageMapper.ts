@@ -3,6 +3,8 @@ import { Message } from '@domain/entities/chat/Message';
 import { ZaloMessage } from '@domain/entities/chat/zalo/ZaloMessage';
 import messageAttachmentMapper from '@domain/mappers/MessageAttachmentMapper';
 import { getPageFromRedux } from '@utils/ChatUtils';
+import { DDBTelegramMessage } from '@domain/entities/chat/telegram/DDBTelegramMessage';
+import DDBMessageGroupType from '@domain/entities/chat/telegram/DDBTelegramMessageGroupType';
 
 class MessageMapper {
   fromFacebookMessage = (fbMessage: FacebookMessage): Message => {
@@ -42,6 +44,30 @@ class MessageMapper {
       },
       chatPlatform: 'zalo',
       isUnsupported: zaloMessage.type === 'nosupport', // Zalo unsupported message
+    };
+  }
+
+  /**
+   * Convert Telegram message data to unified Message object
+   * @param ddbTelegramMessage Message data stored at DynamoDB
+   * @param botId Bot id
+   */
+  fromTelegramMessage = (ddbTelegramMessage: DDBTelegramMessage, botId: string): Message => {
+    const { content: telegramMessage, type } = ddbTelegramMessage;
+    const sentByBot = telegramMessage.from?.is_bot;
+    const customerId = telegramMessage.chat.username || telegramMessage.chat.id.toString();
+
+    return {
+      id: telegramMessage.message_id.toString(),
+      recipient: sentByBot ? customerId : botId,
+      sender: sentByBot ? botId : customerId,
+      customerId,
+      timestamp: new Date(telegramMessage.date * 1000),
+      messageData: {
+        text: telegramMessage.text || '',
+      },
+      chatPlatform: 'telegram',
+      isUnsupported: type === DDBMessageGroupType.OTHER,
     };
   }
 }
