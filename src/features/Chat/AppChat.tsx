@@ -73,6 +73,7 @@ const AppChat = () => {
         userSidebarLeft={userSidebarLeft}
         handleUserSidebarLeft={handleUserSidebarLeft}
         onConversationSelected={onConversationSelected}
+        selectedConversation={conversation}
         conversationSections={sections}
       />
       <div className="content-right">

@@ -12,6 +12,7 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { enableMapSet } from 'immer';
 import createSagaMiddleware from 'redux-saga';
+import client from '@graphql/client';
 import { customerReducers } from './slices/customerSlice';
 
 enableMapSet();
@@ -38,6 +39,7 @@ const rootReducers: Reducers = (state, action) => {
   if (action.type === 'signOut') {
     // eslint-disable-next-line no-param-reassign
     state = undefined;
+    client.resetStore().then();
   }
   return combinedReducers(state, action);
 };
