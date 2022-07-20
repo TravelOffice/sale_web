@@ -1,6 +1,6 @@
 import { Conversation } from '@domain/entities/chat/Conversation';
 import React, {
-  useCallback, useEffect, useMemo, useState,
+  useCallback, useMemo, useState,
 } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Badge, CardText, Collapse } from 'reactstrap';
@@ -49,15 +49,9 @@ function Conversations(props: ConversationListProps) {
   const {
     conversations, onConversationSelected, selectedConversation, query,
   } = props;
-  const [active, setActive] = useState<Conversation>();
 
   const handleConversationClicked = useCallback((conversation: Conversation) => {
-    setActive(conversation);
     onConversationSelected(conversation);
-  }, [active]);
-
-  useEffect(() => {
-    setActive(selectedConversation);
   }, [selectedConversation]);
 
   const filteredConversations = useMemo(() => {
@@ -82,7 +76,7 @@ function Conversations(props: ConversationListProps) {
             <li
               key={conversation.id}
               onClick={() => handleConversationClicked(conversation)}
-              className={classnames({ active: active?.id === conversation.id })}
+              className={classnames({ active: selectedConversation?.id === conversation.id })}
             >
               <ConversationAvatar conversation={conversation} />
               <div className="chat-info flex-grow-1">
