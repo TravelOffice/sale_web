@@ -1,10 +1,10 @@
-import { ReceivedMessage } from '@domain/entities/chat/ReceivedMessage';
+import { AppSyncReceivedMessage } from '@domain/entities/chat/AppSyncReceivedMessage';
 import { TelegramMessage } from '@domain/entities/chat/telegram';
 import { Message } from '@domain/entities/chat/Message';
 import ReceivedMessageMapper from '@domain/mappers/ReceivedMessageMapper';
 
 export default class TelegramReceivedMessageMapper extends ReceivedMessageMapper {
-  convert = (receivedMessage: ReceivedMessage) => {
+  convert = (receivedMessage: AppSyncReceivedMessage) => {
     const messageData: TelegramMessage = JSON.parse(receivedMessage.messageData);
     // Timestamp returned by Telegram is in milliseconds
     const timestamp = new Date(receivedMessage.timestamp * 1000);

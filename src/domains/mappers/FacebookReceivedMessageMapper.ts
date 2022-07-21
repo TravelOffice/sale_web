@@ -1,9 +1,9 @@
-import { ReceivedMessage } from '@domain/entities/chat/ReceivedMessage';
+import { AppSyncReceivedMessage } from '@domain/entities/chat/AppSyncReceivedMessage';
 import { Message } from '@domain/entities/chat/Message';
 import ReceivedMessageMapper from '@domain/mappers/ReceivedMessageMapper';
 
 export default class FacebookReceivedMessageMapper extends ReceivedMessageMapper {
-  convert = (message: ReceivedMessage) => {
+  convert = (message: AppSyncReceivedMessage) => {
     const messageData = JSON.parse(message.messageData);
     if (messageData.attachments && messageData.attachments.length > 0) {
       messageData.attachments = messageData.attachments.map((attachment: any) => {

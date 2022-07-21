@@ -5,6 +5,7 @@ import { Message } from '@domain/entities/chat/Message';
 import { Observable } from 'subscriptions-transport-ws';
 import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 
 export interface ChatPresenter {
   getPlatformConversations: (
@@ -13,7 +14,7 @@ export interface ChatPresenter {
   ) => Promise<Conversation[]>;
   getMessages: (conversation: Conversation) => Promise<Message[]>
   loadMoreMessage: (conversation: Conversation) => Promise<Message[]>
-  sendMessage: (message: Message, conversation: Conversation) => Promise<void>
+  sendMessage: (message: ChatPlatformSendMessage, conversation: Conversation) => Promise<void>
   sendAttachmentMessage: (
     sender: string, attachment: File, fileType: AttachmentMessageType, conversation: Conversation,
   ) => Promise<void>

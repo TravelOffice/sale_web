@@ -1,5 +1,6 @@
 import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
 import {
@@ -41,7 +42,7 @@ export default class ChatPresenterImpl implements ChatPresenter {
     return result[0];
   }
 
-  sendMessage = async (message: Message, conversation: Conversation) => {
+  sendMessage = async (message: ChatPlatformSendMessage, conversation: Conversation) => {
     await sendMessageUseCase.invoke(message, conversation);
   };
 

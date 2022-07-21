@@ -15,7 +15,7 @@ import { END, EventChannel, eventChannel } from 'redux-saga';
 import {
   all, call, cancelled, put, select, take, takeEvery, takeLatest,
 } from 'redux-saga/effects';
-import { ReceivedMessage } from '@domain/entities/chat/ReceivedMessage';
+import { AppSyncReceivedMessage } from '@domain/entities/chat/AppSyncReceivedMessage';
 import ReceivedMessageMapperFactory from '@domain/mappers/ReceivedMessageMapperFactory';
 
 function* selectPage(platform: ChatPlatform) {
@@ -77,7 +77,7 @@ function createSubscriptionChannel(): EventChannel<Message> {
       next: (value) => {
         if (value.data) {
           if (!value.data) return;
-          const receivedMessage = value.data.onNewMessageReceived.data as ReceivedMessage;
+          const receivedMessage = value.data.onNewMessageReceived.data as AppSyncReceivedMessage;
           if (!receivedMessage) return;
           const mapper = ReceivedMessageMapperFactory.getMapper(receivedMessage);
           if (!mapper) return;
