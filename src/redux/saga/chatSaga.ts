@@ -142,12 +142,16 @@ function* sendMessage(action: PayloadAction<[MessageData, Conversation?]>) {
     const targetPage: Page | undefined = yield select(
       (state: RootState) => state.auth.linkedPages.find((page) => page.platform === platform),
     );
+    let recipient = conversation.contact.id;
+    if (conversation.chatPlatform === 'telegram') {
+      recipient = conversation.id;
+    }
     if (!targetPage) { return; }
     const newMessage: Message = {
       id: '',
       customerId: conversation.contact.id,
       messageData,
-      recipient: conversation.contact.id,
+      recipient,
       sender: targetPage.id,
       timestamp: new Date(),
       chatPlatform: conversation.chatPlatform,
