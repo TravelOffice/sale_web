@@ -9,18 +9,24 @@ import i18next from 'i18next';
 export const PAGE_SIZE = 10;
 
 export const SUPPORTED_DOCUMENT_FILE_TYPES = [
+  // Excel / Sheet
   'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // xlsx
   'application/vnd.ms-excel', // xls
+  'application/wps-office.xlsx',
+  // Doc / Word
   'application/msword', // doc
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // docx
+  'application/wps-office.docx',
+  // Presentation / PowerPoint
   'application/vnd.ms-powerpoint', // ppt
   'application/vnd.openxmlformats-officedocument.presentationml.presentation', // pptx
+  'application/wps-office.pptx',
 ];
 
 /**
  * Formats chat data based on sender
  */
-export const messagesGroups = (messages: Array<Message>): Array<MessageGroup> => {
+export const groupMessages = (messages: Array<Message>): Array<MessageGroup> => {
   const formattedChatLog: Array<MessageGroup> = [];
   let chatMessageSenderId = messages[0] ? messages[0].sender : undefined;
   if (!chatMessageSenderId) {
@@ -100,4 +106,35 @@ export const getTelegramLastMessageTitle = (message: TelegramMessage): string =>
     return i18next.t('CHAT.DOCUMENT_MESSAGE_TITLE');
   }
   return message.text || '';
+};
+
+export const isImageMessage = (message: Message) => {
+  if (message.chatPlatform === 'facebook' || message.chatPlatform === 'zalo') {
+    const { attachments } = message.messageData;
+    if (attachments && attachments.length > 0) {
+      const { mimeType } = attachments[0];
+      return mimeType.startsWith('image/');
+    }
+  }
+  // TODO: Telegram is unsupported now
+  return false;
+};
+
+/**
+ * Get all image sources from messages
+ * @param messages the Message list
+ */
+export const getImageSources = (messages: Message[]) => {
+  type ImageSource = { messageId: string, src: string, alt: string };
+  const imageSources : ImageSource[] = [];
+  messages.forEach((message) => {
+    if (message.chatPlatform === 'facebook' || message.chatPlatform === 'zalo') {
+      const { attachments } = message.messageData;
+      if (attachments && attachments.length > 0 && attachments[0].mimeType.startsWith('image/')) {
+        const [mAttachment] = message.messageData.attachments!;
+        imageSources.push({ messageId: message.id, src: mAttachment.url || '', alt: mAttachment.name });
+      }
+    }
+  });
+  return imageSources;
 };

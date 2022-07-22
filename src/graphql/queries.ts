@@ -106,3 +106,12 @@ export const adminAllTelegramConversations = gql`
     }
   }
 `;
+
+export const telegramFileInfo = gql`
+  query GetTelegramFileInfo($fileId: String!, $telegramConversationId: String!, $telegramPageId: String!) {
+    getTelegramFileInfo(conversationId: $telegramConversationId, fileId: $fileId, pageId: $telegramPageId) {
+      message
+      data
+    }
+  }
+`;

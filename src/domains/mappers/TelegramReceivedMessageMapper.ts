@@ -13,9 +13,8 @@ export default class TelegramReceivedMessageMapper extends ReceivedMessageMapper
     const message: Message = {
       ...receivedMessage,
       timestamp,
-      messageData: {
-        text: messageData.text || '',
-      },
+      messageData,
+      chatPlatform: 'telegram',
     };
     return message;
   }

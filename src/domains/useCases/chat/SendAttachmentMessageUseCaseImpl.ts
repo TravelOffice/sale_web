@@ -1,7 +1,7 @@
 import { chatRepository, s3Repository } from '@adapter/repositories';
 import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
+import { ChatPlatformSendMessage, ZaloSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { FacebookSendAttachmentMessageContent } from '@domain/entities/chat/facebook/FbSendMessageContent';
 import { ZaloSendAttachment, ZaloSendAttachmentMessage } from '@domain/entities/chat/zalo/ZaloSendMessageContent';
 import { getFileExtension } from '@utils/FileUtils';
@@ -68,7 +68,7 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
       attachment: zaloAttachment,
     } as ZaloSendAttachmentMessage;
 
-    const message: ChatPlatformSendMessage = {
+    const message: ZaloSendMessage = {
       sender,
       chatPlatform: conversation.chatPlatform,
       recipient: conversation.contact.id,
