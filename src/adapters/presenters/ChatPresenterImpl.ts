@@ -11,6 +11,7 @@ import {
   sendMessageUseCase,
   subscribeNewMessageUseCase,
 } from '@domain/useCases';
+import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { ChatPresenter } from './interfaces/ChatPresenter';
 
 export default class ChatPresenterImpl implements ChatPresenter {
@@ -42,7 +43,7 @@ export default class ChatPresenterImpl implements ChatPresenter {
     return result[0];
   }
 
-  sendMessage = async (message: Message, conversation: Conversation) => {
+  sendMessage = async (message: ChatPlatformSendMessage, conversation: Conversation) => {
     await sendMessageUseCase.invoke(message, conversation);
   };
 

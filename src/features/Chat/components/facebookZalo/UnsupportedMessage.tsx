@@ -1,12 +1,9 @@
 import React from 'react';
-import { MessageProps } from '@features/Chat/components/MessageProps';
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import i18n from '@config/i18n';
+import { FacebookMessageProps } from '@features/Chat/components/facebookZalo/FacebookMessageProps';
 
-export interface UnsupportedMessageProps extends MessageProps {
-}
-
-export default function UnsupportedMessage(props: UnsupportedMessageProps) {
+export default function UnsupportedMessage(props: FacebookMessageProps) {
   const { message } = props;
 
   const getChartPlatformUrl = (chatPlatform: ChatPlatform): string => {

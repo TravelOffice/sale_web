@@ -63,9 +63,7 @@ class MessageMapper {
       sender: sentByBot ? botId : customerId,
       customerId,
       timestamp: new Date(telegramMessage.date * 1000),
-      messageData: {
-        text: telegramMessage.text || '',
-      },
+      messageData: telegramMessage,
       chatPlatform: 'telegram',
       isUnsupported: type === DDBMessageGroupType.OTHER,
     };

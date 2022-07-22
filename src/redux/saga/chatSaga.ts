@@ -4,7 +4,9 @@ import i18n from '@config/i18n';
 import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { ChatPlatform, chatPlatforms } from '@domain/entities/chat/ChatPlatform';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { Message, MessageData } from '@domain/entities/chat/Message';
+import {
+  Message, MessageData,
+} from '@domain/entities/chat/Message';
 import { Page } from '@domain/entities/chat/Page';
 import { PlatformPage } from '@domain/entities/chat/PlatformPage';
 import { chatActions } from '@redux/slices/chatSlice';
@@ -17,6 +19,7 @@ import {
 } from 'redux-saga/effects';
 import { ReceivedMessage } from '@domain/entities/chat/ReceivedMessage';
 import ReceivedMessageMapperFactory from '@domain/mappers/ReceivedMessageMapperFactory';
+import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 
 function* selectPage(platform: ChatPlatform) {
   const page: Page = yield select(
@@ -150,7 +153,7 @@ function* sendMessage(action: PayloadAction<[MessageData, Conversation?]>) {
       recipient = conversation.id;
     }
     if (!targetPage) { return; }
-    const newMessage: Message = {
+    const newMessage: ChatPlatformSendMessage = {
       id: '',
       customerId: conversation.contact.id,
       messageData,

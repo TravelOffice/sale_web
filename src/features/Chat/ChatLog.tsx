@@ -2,7 +2,6 @@ import React, {
   FormEvent, useEffect, useMemo, useRef, useState,
 } from 'react';
 import i18n from '@config/i18n';
-import Avatar from '@components/Avatar/Avatar';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -24,10 +23,10 @@ import {
 import { RootState } from '@redux/store';
 import { Message, MessageData } from '@domain/entities/chat/Message';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { messagesGroups, sortMessages } from '@utils/ChatUtils';
-import User from '@domain/entities/User';
+import {
+  getImageSources, sortMessages,
+} from '@utils/ChatUtils';
 import Spinner from '@components/Spinner/Spinner';
-import ChatMessage from '@features/Chat/components/ChatMessage';
 import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import AttachmentMessagePreview from '@components/Chat/AttachmentMessagePreview';
 import { chatActions } from '@redux/slices/chatSlice';
@@ -35,6 +34,7 @@ import Viewer from 'react-viewer';
 import { ImageDecorator } from 'react-viewer/lib/ViewerProps';
 import CustomerAvatar from '@components/Avatar/CustomerAvatar';
 import { ChatPlatform } from '@domain/entities/ChatPlatform';
+import MessageList from '@features/Chat/MessageList';
 
 interface AttachmentMessageSetting {
   id: number,
@@ -134,51 +134,6 @@ export interface MessageGroup {
   messages: Array<Message>
 }
 
-function renderChats(
-  conversation: Conversation,
-  messages: Message[],
-  currentUser: User,
-  onClickChatMessage: (message: Message) => void,
-) {
-  const { contact } = conversation;
-  const isMe = (sender: string) => sender !== contact.id;
-
-  return messagesGroups(messages).map((item) => (
-    <div
-      key={item.messages[0].id}
-      className={classnames('chat', {
-        'chat-left': !isMe(item.senderId),
-      })}
-    >
-      <div className="chat-avatar">
-        {
-          isMe(item.senderId)
-            ? (
-              <Avatar
-                imgWidth="42"
-                imgHeight="42"
-                className="cursor-pointer"
-                color="light-primary"
-                img={currentUser.avatar}
-                content={currentUser.avatar ?? currentUser.name}
-              />
-            ) : <CustomerAvatar conversation={conversation} />
-        }
-      </div>
-
-      <div className="chat-body">
-        {item.messages.map((message) => (
-          <ChatMessage
-            message={message}
-            key={message.id}
-            onClick={onClickChatMessage}
-          />
-        ))}
-      </div>
-    </div>
-  ));
-}
-
 function renderLoadMore(canLoadMore: boolean, loadingMore: boolean, onClick: Function) {
   if (loadingMore) {
     return (
@@ -202,8 +157,6 @@ const ChatLog = (props: ChatLogProps) => {
     handleUserSidebarRight, handleSidebar, userSidebarLeft, selectedConversation,
     messages, onSendMessage, fetching, onLoadMore, loadingMore, firstLoad, onSendAttachmentMessage,
   } = props;
-  const authState = useSelector((state: RootState) => state.auth);
-  const currentUser = authState.currentUser!;
   const customerId = selectedConversation?.id;
   const contact = selectedConversation?.contact;
   const canLoadMore = useSelector((state: RootState) => state.chat.canLoadMore);
@@ -278,22 +231,9 @@ const ChatLog = (props: ChatLogProps) => {
 
   const handleChatMessageClicked = (selectedMessage: Message) => {
     // Set the image sources for image viewer
-    const imageMessages = sortedMessages
-      .filter((message) => {
-        const { attachments } = message.messageData;
-        if (attachments && attachments.length > 0) {
-          const { mimeType } = attachments[0];
-          return mimeType.startsWith('image/');
-        }
-        return false;
-      });
-    const imageSources = imageMessages
-      .map((message) => {
-        const [mAttachment] = message.messageData.attachments!;
-        return { src: mAttachment.url || '', alt: mAttachment.name };
-      });
-    const selectedImageIndex = imageMessages.findIndex(
-      (message) => message.id === selectedMessage.id,
+    const imageSources = getImageSources(messages);
+    const selectedImageIndex = imageSources.findIndex(
+      (image) => image.messageId === selectedMessage.id,
     );
     // Show image viewer
     setPreviewImages(imageSources);
@@ -393,14 +333,11 @@ const ChatLog = (props: ChatLogProps) => {
             {
               messages.length > 0 && (
                 <div className="chats">
-                  {
-                    renderChats(
-                      selectedConversation,
-                      sortedMessages,
-                      currentUser,
-                      handleChatMessageClicked,
-                    )
-                  }
+                  <MessageList
+                    currentConversation={selectedConversation}
+                    messages={sortedMessages}
+                    onMessageClicked={handleChatMessageClicked}
+                  />
                 </div>
               )
             }
