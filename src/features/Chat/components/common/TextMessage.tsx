@@ -1,0 +1,25 @@
+import DOMPurify from 'dompurify';
+import React from 'react';
+
+export interface TextMessageProps {
+  text: string,
+}
+
+/**
+ * Component to display text message
+ * @param props
+ * @constructor
+ */
+export default function TextMessage(props: TextMessageProps) {
+  const { text } = props;
+  const replacedText = text.replace(
+    /((http|https|ftp|ftps):\/\/[a-zA-Z\d\-.]+\.[a-zA-Z]{2,3}(\/\S*)?)/g,
+    '<a href="$1" target="_blank">$1</a>',
+  );
+  return (
+    <div className="chat-content">
+      {/* eslint-disable-next-line react/no-danger */}
+      <p dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(replacedText, { ADD_ATTR: ['target'] }) }} />
+    </div>
+  );
+}

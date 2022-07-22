@@ -79,7 +79,29 @@ $chat-widget-height: 390px;
           border-radius: $border-radius;
         }
         audio::-webkit-media-controls-panel {
-          background-color: white;
+          background: linear-gradient(80deg, #7367f0, #9e95f5);
+          color: white;
+          border: 0;
+        }
+        .audio-controls {
+          height: 40px;
+          .audio-timeline {
+            flex: 1;
+            height: 2px;
+            margin-left: 8px;
+            margin-right: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            position: relative;
+            .audio-thumb {
+              width: 8px;
+              height: 8px;
+              background: white;
+              position: absolute;
+              top: -3px;
+              left: 0;
+              border-radius: 50%;
+            }
+          }
         }
       }
       img.chat-content {
@@ -93,6 +115,7 @@ $chat-widget-height: 390px;
         align-items: center;
         gap: 10px;
         padding: 0;
+        width: 40%;
       }
       .video.chat-content {
         padding: 0;
@@ -108,13 +131,23 @@ $chat-widget-height: 390px;
           float: left;
           margin: 0 0 10px 1rem;
           color: $body-color;
-          background: none;
-          background-color: lighten($white, 18%);
+          background: lighten($white, 18%) none;
 
+          audio::-webkit-media-controls-panel {
+            background-color: white;
+          }
           a {
             color: map-get($primary-color, 'base');
             word-break: break-word;
             text-decoration: underline;
+          }
+          .audio-controls {
+            .audio-timeline {
+              background: rgba(0, 0, 0, 0.3);
+              .audio-thumb {
+                background: $body-color;
+              }
+            }
           }
         }
         img.chat-content {

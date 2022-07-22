@@ -50,3 +50,8 @@ export interface VideoNote extends FileBase {
   duration: number;
   thumb?: PhotoSize;
 }
+
+export interface File extends FileBase {
+  file_path: string,
+  file_unique_id: string,
+}

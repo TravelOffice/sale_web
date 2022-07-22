@@ -84,7 +84,6 @@ class ConversationMapper {
       avatar: '',
       about: '',
     };
-    const text = getTelegramLastMessageTitle(conversation.lastMessage);
     return {
       id: conversation.conversationId,
       contact,
@@ -94,7 +93,10 @@ class ConversationMapper {
         recipient: '',
         sender: '',
         timestamp: new Date(conversation.lastMessage.date * 1000),
-        messageData: { text },
+        messageData: {
+          ...conversation.lastMessage,
+          text: getTelegramLastMessageTitle(conversation.lastMessage),
+        },
         chatPlatform: 'telegram',
       },
       unseenMessages: 0,

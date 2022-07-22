@@ -1,14 +1,22 @@
 import { Optional, Omit } from 'utility-types';
+import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import { Message } from './Message';
 import { FacebookSendMessageContent } from './facebook/FbSendMessageContent';
 import { ZaloSendMessageContent } from './zalo/ZaloSendMessageContent';
-import { TelegramSendMessageOptions } from './telegram/sendMessage/TelegramSendMessageOption';
 import { TelegramSendMessageContent } from './telegram/sendMessage/TelegramSendMessageContent';
-import SendMessageType from './AttachmentMessageType';
 
-export type ChatPlatformSendMessage = Omit<Optional<Message, 'id' | 'timestamp'>, 'messageData'> & {
-  // Redefine the message data for sending to AppSync
-  messageData: FacebookSendMessageContent
-  | ZaloSendMessageContent
-  | TelegramSendMessageContent<SendMessageType, TelegramSendMessageOptions>;
+export type SendMessageWithoutData = Omit<Optional<Message, 'id' | 'timestamp'>, 'messageData'>;
+
+export type SendMessageContent<P extends ChatPlatform> = {
+  messageData: P extends 'facebook' ? FacebookSendMessageContent
+    : P extends 'zalo' ? ZaloSendMessageContent
+      : TelegramSendMessageContent
 };
+
+export type FacebookSendMessage = SendMessageWithoutData & SendMessageContent<'facebook'>;
+
+export type ZaloSendMessage = SendMessageWithoutData & SendMessageContent<'zalo'>;
+
+export type TelegramSendMessage = SendMessageWithoutData & SendMessageContent<'telegram'>;
+
+export type ChatPlatformSendMessage = FacebookSendMessage | ZaloSendMessage | TelegramSendMessage;

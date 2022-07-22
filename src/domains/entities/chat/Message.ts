@@ -1,4 +1,5 @@
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { TelegramMessage } from '@domain/entities/chat/telegram';
 
 export interface MessageAttachment {
   mimeType: string,
@@ -19,13 +20,19 @@ export interface MessageData {
   }
 }
 
-export interface Message {
+export interface BaseMessage<P extends ChatPlatform, D extends any = MessageData> {
   id: string,
   customerId: string,
-  messageData: MessageData,
+  messageData: D,
   recipient: string,
   sender: string,
   timestamp: Date,
-  chatPlatform: ChatPlatform,
+  chatPlatform: P,
   isUnsupported?: boolean,
 }
+
+export type FacebookChatMessage = BaseMessage<'facebook'>;
+export type ZaloChatMessage = BaseMessage<'zalo'>;
+export type TelegramChatMessage = BaseMessage<'telegram', TelegramMessage>;
+
+export type Message = FacebookChatMessage | ZaloChatMessage | TelegramChatMessage;
