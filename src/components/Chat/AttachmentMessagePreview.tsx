@@ -1,5 +1,5 @@
 import i18n from '@config/i18n';
-import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { RootState } from '@redux/store';
 import { getFileExtension, getFileSizeAsText } from '@utils/FileUtils';
 import React from 'react';
@@ -11,7 +11,7 @@ import {
 
 interface AttachmentMessagePreviewProps {
   attachment: File | null,
-  attachmentType: AttachmentMessageType,
+  attachmentType: SendMessageType,
   onCancelSendingAttachment: () => void,
   onSubmitSendingAttachment: () => void,
 }
@@ -28,9 +28,9 @@ export default function AttachmentMessagePreview(props: AttachmentMessagePreview
 
   const renderAttachmentPreview = () => {
     switch (attachmentType) {
-      case AttachmentMessageType.IMAGE:
+      case SendMessageType.IMAGE:
         return <img className="w-100" style={{ objectFit: 'cover' }} src={attachment ? URL.createObjectURL(attachment) : ''} alt={attachment?.name} />;
-      case AttachmentMessageType.AUDIO:
+      case SendMessageType.AUDIO:
         return (
           <div className="d-flex flex-column">
             <Volume2 className="cursor-pointer text-secondary" size={120} />
@@ -39,7 +39,7 @@ export default function AttachmentMessagePreview(props: AttachmentMessagePreview
             </p>
           </div>
         );
-      case AttachmentMessageType.VIDEO:
+      case SendMessageType.VIDEO:
         return (
           <>
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
@@ -63,8 +63,8 @@ export default function AttachmentMessagePreview(props: AttachmentMessagePreview
 
   const getModalSizeClass = () => {
     if (
-      attachmentType === AttachmentMessageType.VIDEO
-      || attachmentType === AttachmentMessageType.IMAGE
+      attachmentType === SendMessageType.VIDEO
+      || attachmentType === SendMessageType.IMAGE
     ) {
       return 'modal-lg';
     }

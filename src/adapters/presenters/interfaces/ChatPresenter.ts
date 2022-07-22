@@ -1,5 +1,5 @@
 import { FetchResult } from '@apollo/client';
-import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
 import { Observable } from 'subscriptions-transport-ws';
@@ -15,7 +15,7 @@ export interface ChatPresenter {
   loadMoreMessage: (conversation: Conversation) => Promise<Message[]>
   sendMessage: (message: Message, conversation: Conversation) => Promise<void>
   sendAttachmentMessage: (
-    sender: string, attachment: File, fileType: AttachmentMessageType, conversation: Conversation,
+    sender: string, attachment: File, fileType: SendMessageType, conversation: Conversation,
   ) => Promise<void>
   subscribeNewMessage: () => Observable<FetchResult>
   getFbUserProfile: (pageId: string, userId: string) => Promise<FacebookUserInfo>

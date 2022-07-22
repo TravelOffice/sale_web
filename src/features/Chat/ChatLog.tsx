@@ -28,41 +28,90 @@ import { messagesGroups, sortMessages } from '@utils/ChatUtils';
 import User from '@domain/entities/User';
 import Spinner from '@components/Spinner/Spinner';
 import ChatMessage from '@features/Chat/components/ChatMessage';
-import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import AttachmentMessagePreview from '@components/Chat/AttachmentMessagePreview';
 import { chatActions } from '@redux/slices/chatSlice';
 import Viewer from 'react-viewer';
 import { ImageDecorator } from 'react-viewer/lib/ViewerProps';
 import CustomerAvatar from '@components/Avatar/CustomerAvatar';
+import { ChatPlatform } from '@domain/entities/ChatPlatform';
 
 interface AttachmentMessageSetting {
   id: number,
   icon: JSX.Element,
-  fileType: AttachmentMessageType,
-  ignoreInZalo?: boolean,
+  fileType: SendMessageType,
 }
-const attachmentMessageSettings: AttachmentMessageSetting[] = [
+
+interface PlatformAttachmentMessageSetting {
+  platform: ChatPlatform,
+  attachmentMessageSettings: AttachmentMessageSetting[],
+}
+
+const platformAttachmentMessageSettings: PlatformAttachmentMessageSetting[] = [
   {
-    id: 0,
-    icon: <Video size={16} />,
-    fileType: AttachmentMessageType.VIDEO,
-    ignoreInZalo: true,
+    platform: 'facebook',
+    attachmentMessageSettings: [
+      {
+        id: 0,
+        icon: <Video size={16} />,
+        fileType: SendMessageType.VIDEO,
+      },
+      {
+        id: 1,
+        icon: <Volume2 size={16} />,
+        fileType: SendMessageType.AUDIO,
+      },
+      {
+        id: 2,
+        icon: <Image size={16} />,
+        fileType: SendMessageType.IMAGE,
+      },
+      {
+        id: 3,
+        icon: <File size={16} />,
+        fileType: SendMessageType.FILE,
+      },
+    ],
   },
   {
-    id: 1,
-    icon: <Volume2 size={16} />,
-    fileType: AttachmentMessageType.AUDIO,
-    ignoreInZalo: true,
+    platform: 'zalo',
+    attachmentMessageSettings: [
+      {
+        id: 0,
+        icon: <Image size={16} />,
+        fileType: SendMessageType.IMAGE,
+      },
+      {
+        id: 1,
+        icon: <File size={16} />,
+        fileType: SendMessageType.FILE,
+      },
+    ],
   },
   {
-    id: 2,
-    icon: <Image size={16} />,
-    fileType: AttachmentMessageType.IMAGE,
-  },
-  {
-    id: 3,
-    icon: <File size={16} />,
-    fileType: AttachmentMessageType.FILE,
+    platform: 'telegram',
+    attachmentMessageSettings: [
+      {
+        id: 0,
+        icon: <Video size={16} />,
+        fileType: SendMessageType.VIDEO,
+      },
+      {
+        id: 1,
+        icon: <Volume2 size={16} />,
+        fileType: SendMessageType.AUDIO,
+      },
+      {
+        id: 2,
+        icon: <Image size={16} />,
+        fileType: SendMessageType.IMAGE,
+      },
+      {
+        id: 3,
+        icon: <File size={16} />,
+        fileType: SendMessageType.FILE,
+      },
+    ],
   },
 ];
 
@@ -74,7 +123,7 @@ export interface ChatLogProps {
   messages: Message[],
   fetching: boolean,
   onSendMessage: (params: MessageData) => void,
-  onSendAttachmentMessage: (attachment: File, attachmentType: AttachmentMessageType) => void,
+  onSendAttachmentMessage: (attachment: File, attachmentType: SendMessageType) => void,
   onLoadMore: () => void,
   loadingMore: boolean,
   firstLoad: boolean,
@@ -111,7 +160,7 @@ function renderChats(
                 className="cursor-pointer"
                 color="light-primary"
                 img={currentUser.avatar}
-                content={currentUser.avatar ? undefined : currentUser.name}
+                content={currentUser.avatar ?? currentUser.name}
               />
             ) : <CustomerAvatar conversation={conversation} />
         }
@@ -166,7 +215,7 @@ const ChatLog = (props: ChatLogProps) => {
   const [
     attachmentType,
     setAttachmentType,
-  ] = useState<AttachmentMessageType>(AttachmentMessageType.FILE);
+  ] = useState<SendMessageType>(SendMessageType.FILE);
   // State
   const [messageText, setMessageText] = useState('');
   const [scrollViewRef, setScrollViewRef] = useState<HTMLElement | null>(null);
@@ -193,16 +242,20 @@ const ChatLog = (props: ChatLogProps) => {
    * Then user can choose attachment file according to attachment type of given dropdown item
    * Supported attachment types are `file`, `audio`, `video`, `image`
    */
-  const renderAttachmentItems = attachmentMessageSettings
-    .filter((attachmentSetting) => (!attachmentSetting.ignoreInZalo && selectedConversation?.chatPlatform === 'zalo') || selectedConversation?.chatPlatform === 'facebook')
-    .map((attachmentSetting) => (
+  const selectedConversationMessageSetting = platformAttachmentMessageSettings.find(
+    (setting: PlatformAttachmentMessageSetting) => (
+      setting.platform === selectedConversation?.chatPlatform
+    ),
+  );
+  const renderAttachmentItems = selectedConversationMessageSetting?.attachmentMessageSettings
+    .map((attachmentSetting: AttachmentMessageSetting) => (
       <DropdownItem
         tag="span"
         key={attachmentSetting.id}
         onClick={() => {
           setAttachmentType(attachmentSetting.fileType);
           if (attachmentRef.current) {
-            attachmentRef.current.accept = attachmentSetting.fileType === AttachmentMessageType.FILE ? '*/*' : `${attachmentSetting.fileType}/*`;
+            attachmentRef.current.accept = attachmentSetting.fileType === SendMessageType.FILE ? '*/*' : `${attachmentSetting.fileType}/*`;
           }
           attachmentRef.current?.click();
         }}
