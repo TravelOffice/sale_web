@@ -1,6 +1,6 @@
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
-import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { MessageData } from '@domain/entities/chat/Message';
 import { ConversationSection } from '@features/Chat/ConversationSection';
@@ -50,7 +50,7 @@ const AppChat = () => {
     dispatch(chatActions.sendMessage([messageData, conversation]));
   };
 
-  const onSendAttachmentMessage = (attachment: File, attachmentType: AttachmentMessageType) => {
+  const onSendAttachmentMessage = (attachment: File, attachmentType: SendMessageType) => {
     dispatch(chatActions.sendAttachmentMessage([attachment, attachmentType, conversation]));
   };
 

@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import AttachmentMessageType from '../AttachmentMessageType';
+import SendMessageType from '../AttachmentMessageType';
 
 export interface BasedFacebookSendMessageContent {
   metadata?: string, // Custom string that is delivered as a message echo. 1000 character limit.
@@ -13,7 +13,7 @@ export type FacebookSendTextMessageContent = BasedFacebookSendMessageContent & {
 // Refer to https://developers.facebook.com/docs/messenger-platform/reference/send-api/#attachment
 export type FacebookSendAttachmentMessageContent = BasedFacebookSendMessageContent & {
   attachment: {
-    type: AttachmentMessageType,
+    type: SendMessageType,
     payload: {
       url: string,
       is_reusable: boolean, // Set to true to make the saved asset sendable to other message recipients. Defaults to false.
