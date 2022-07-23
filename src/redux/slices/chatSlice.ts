@@ -1,4 +1,4 @@
-import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message, MessageData } from '@domain/entities/chat/Message';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -100,7 +100,7 @@ const chatSlice = createSlice({
     },
     sendAttachmentMessage: (
       state,
-      _action: PayloadAction<[File, AttachmentMessageType, Conversation?]>,
+      _action: PayloadAction<[File, SendMessageType, Conversation?]>,
     ) => {
       state.showingAttachmentMsgPreview = false;
       state.sendingAttachmentMessage = true;

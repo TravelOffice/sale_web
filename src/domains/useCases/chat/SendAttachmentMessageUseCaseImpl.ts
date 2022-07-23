@@ -1,10 +1,11 @@
 import { chatRepository, s3Repository } from '@adapter/repositories';
-import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { FacebookSendAttachmentMessageContent } from '@domain/entities/chat/facebook/FbSendMessageContent';
 import { ZaloSendAttachment, ZaloSendAttachmentMessage } from '@domain/entities/chat/zalo/ZaloSendMessageContent';
 import { getFileExtension } from '@utils/FileUtils';
+import { TelegramSendMessageContent } from '@domain/entities/chat/telegram/sendMessage/TelegramSendMessageContent';
 import { SendAttachmentMessageUseCase } from '../interfaces/chat/SendAttachmentMessageUseCase';
 
 export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentMessageUseCase {
@@ -19,46 +20,53 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
    * @param conversation Conversation containing given message
    */
   invoke = async (
-    sender: string, file: File, fileType: AttachmentMessageType, conversation: Conversation,
+    sender: string, file: File, fileType: SendMessageType, conversation: Conversation,
   ) => {
     // Get new presign url
     const presignedData = await s3Repository.uploadChatAttachmentViaPresignedURL(
       sender, conversation.contact.id, file,
     );
-    let messageData;
-    if (conversation.chatPlatform === 'zalo') {
-      // Upload file to chat flatform
-      const { length, [length - 1]: fileName } = presignedData.url.split('/');
-      const zaloFileType = (fileType === AttachmentMessageType.IMAGE && getFileExtension(file) === 'GIF') ? 'gif' : fileType;
-      const zaloFileUploadResponse = await s3Repository.uploadFileToChatPlatform(
-        sender,
-        zaloFileType,
-        conversation,
-        presignedData.key,
-        fileName,
-      );
-      const zaloAttachment = this.prepareZaloAttachmentMessageData(
-        file,
-        fileType,
-        zaloFileUploadResponse.data.token || zaloFileUploadResponse.data.attachment_id,
-      );
-      messageData = {
-        attachment: zaloAttachment,
-      } as ZaloSendAttachmentMessage;
-    } else if (conversation.chatPlatform === 'facebook') {
-      // Send message
-      messageData = {
-        attachment: {
-          type: fileType,
-          payload: {
-            is_reusable: true,
-            url: presignedData.url,
-          },
-        },
-      } as FacebookSendAttachmentMessageContent;
-    } else {
-      throw new Error('Chat platform is not supported.');
+    switch (conversation.chatPlatform) {
+      case 'zalo':
+        await this.sendZaloAttachmentMessage(fileType, presignedData, file, sender, conversation);
+        break;
+      case 'facebook':
+        await this.sendFacebookAttachmentMessage(fileType, presignedData.url, sender, conversation);
+        break;
+      case 'telegram':
+        await this.sendTelegramAttachmentMessage(fileType, presignedData.url, sender, conversation);
+        break;
+      default:
+        break;
     }
+  };
+
+  private sendZaloAttachmentMessage = async (
+    fileType: SendMessageType,
+    presignedData: { url: string, key: string },
+    file: File,
+    sender: string,
+    conversation: Conversation,
+  ) => {
+    // Upload file to chat flatform
+    const { length, [length - 1]: fileName } = presignedData.url.split('/');
+    const zaloFileType = (fileType === SendMessageType.IMAGE && getFileExtension(file) === 'GIF') ? 'gif' : fileType;
+    const zaloFileUploadResponse = await s3Repository.uploadFileToChatPlatform(
+      sender,
+      zaloFileType,
+      conversation,
+      presignedData.key,
+      fileName,
+    );
+    const zaloAttachment = this.prepareZaloAttachmentMessageData(
+      file,
+      fileType,
+      zaloFileUploadResponse.data.token || zaloFileUploadResponse.data.attachment_id,
+    );
+    const messageData = {
+      attachment: zaloAttachment,
+    } as ZaloSendAttachmentMessage;
+
     const message: ChatPlatformSendMessage = {
       sender,
       chatPlatform: conversation.chatPlatform,
@@ -67,13 +75,61 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
       messageData,
     };
     await chatRepository.sendMessage(conversation.chatPlatform, message);
-  };
+  }
+
+  private sendFacebookAttachmentMessage = async (
+    fileType: SendMessageType,
+    presignedUrl: string,
+    sender: string,
+    conversation: Conversation,
+  ) => {
+    // Send message
+    const messageData = {
+      attachment: {
+        type: fileType,
+        payload: {
+          is_reusable: true,
+          url: presignedUrl,
+        },
+      },
+    } as FacebookSendAttachmentMessageContent;
+    const message: ChatPlatformSendMessage = {
+      sender,
+      chatPlatform: 'facebook',
+      recipient: conversation.contact.id,
+      customerId: conversation.contact.id,
+      messageData,
+    };
+    await chatRepository.sendMessage(conversation.chatPlatform, message);
+  }
+
+  private sendTelegramAttachmentMessage = async (
+    fileType: SendMessageType,
+    presignedUrl: string,
+    sender: string,
+    conversation: Conversation,
+  ) => {
+    // Send message
+    const messageData = {
+      messageType: fileType,
+      attachment: presignedUrl,
+      // TODO need add options and fileOptions in the feature
+    } as TelegramSendMessageContent;
+    const message: ChatPlatformSendMessage = {
+      sender,
+      chatPlatform: 'telegram',
+      recipient: conversation.id,
+      customerId: conversation.contact.id,
+      messageData,
+    };
+    await chatRepository.sendMessage(conversation.chatPlatform, message);
+  }
 
   private prepareZaloAttachmentMessageData = (
-    file: File, fileType: AttachmentMessageType, idOrToken: string,
+    file: File, fileType: SendMessageType, idOrToken: string,
   ): ZaloSendAttachment => {
     const fileExtension = getFileExtension(file);
-    if (fileType === AttachmentMessageType.FILE) {
+    if (fileType === SendMessageType.FILE) {
       if (fileExtension === 'DOC' || fileExtension === 'DOCX' || fileExtension === 'PDF') {
         return {
           payload: {
@@ -83,7 +139,7 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
         };
       }
       throw new Error(`File type ${fileExtension} is not supported for sending Zalo file attachment`);
-    } if (fileType === AttachmentMessageType.IMAGE) {
+    } if (fileType === SendMessageType.IMAGE) {
       if (fileExtension === 'PNG' || fileExtension === 'JPG' || fileExtension === 'JPEG') {
         return {
           payload: {

@@ -1,7 +1,7 @@
 import { chatPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
-import AttachmentMessageType from '@domain/entities/chat/AttachmentMessageType';
+import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { ChatPlatform, chatPlatforms } from '@domain/entities/chat/ChatPlatform';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message, MessageData } from '@domain/entities/chat/Message';
@@ -163,7 +163,7 @@ function* sendMessage(action: PayloadAction<[MessageData, Conversation?]>) {
 }
 
 function* sendAttachmentMessage(
-  action: PayloadAction<[File, AttachmentMessageType, Conversation?]>,
+  action: PayloadAction<[File, SendMessageType, Conversation?]>,
 ) {
   try {
     const [attachment, attachmentType, conversation] = action.payload;
