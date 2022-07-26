@@ -6,6 +6,7 @@ import { FacebookSendAttachmentMessageContent } from '@domain/entities/chat/face
 import { ZaloSendAttachment, ZaloSendAttachmentMessage } from '@domain/entities/chat/zalo/ZaloSendMessageContent';
 import { getFileExtension } from '@utils/FileUtils';
 import { TelegramSendMessageContent } from '@domain/entities/chat/telegram/sendMessage/TelegramSendMessageContent';
+import { PresignedUrl } from '@domain/entities/chat/PresignedUrl';
 import { SendAttachmentMessageUseCase } from '../interfaces/chat/SendAttachmentMessageUseCase';
 
 export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentMessageUseCase {
@@ -31,10 +32,10 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
         await this.sendZaloAttachmentMessage(fileType, presignedData, file, sender, conversation);
         break;
       case 'facebook':
-        await this.sendFacebookAttachmentMessage(fileType, presignedData.url, sender, conversation);
+        await this.sendFacebookAttachmentMessage(fileType, presignedData.cdn, sender, conversation);
         break;
       case 'telegram':
-        await this.sendTelegramAttachmentMessage(fileType, presignedData.url, sender, conversation);
+        await this.sendTelegramAttachmentMessage(fileType, presignedData.cdn, sender, conversation);
         break;
       default:
         break;
@@ -43,7 +44,7 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
 
   private sendZaloAttachmentMessage = async (
     fileType: SendMessageType,
-    presignedData: { url: string, key: string },
+    presignedData: PresignedUrl,
     file: File,
     sender: string,
     conversation: Conversation,
@@ -79,7 +80,7 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
 
   private sendFacebookAttachmentMessage = async (
     fileType: SendMessageType,
-    presignedUrl: string,
+    cdnUrl: string,
     sender: string,
     conversation: Conversation,
   ) => {
@@ -89,7 +90,7 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
         type: fileType,
         payload: {
           is_reusable: true,
-          url: presignedUrl,
+          url: cdnUrl,
         },
       },
     } as FacebookSendAttachmentMessageContent;
@@ -105,14 +106,14 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
 
   private sendTelegramAttachmentMessage = async (
     fileType: SendMessageType,
-    presignedUrl: string,
+    cdn: string,
     sender: string,
     conversation: Conversation,
   ) => {
     // Send message
     const messageData = {
       messageType: fileType,
-      attachment: presignedUrl,
+      attachment: cdn,
       // TODO need add options and fileOptions in the feature
     } as TelegramSendMessageContent;
     const message: ChatPlatformSendMessage = {

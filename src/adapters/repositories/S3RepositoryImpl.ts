@@ -1,5 +1,6 @@
 import { apiProvider } from '@adapter/infrastructures';
 import { Conversation } from '@domain/entities/chat/Conversation';
+import { PresignedUrl } from '@domain/entities/chat/PresignedUrl';
 import { S3Repository } from './interfaces/S3Repository';
 
 export default class S3RepositoryImpl implements S3Repository {
@@ -24,9 +25,10 @@ export default class S3RepositoryImpl implements S3Repository {
       },
     });
     return {
-      url: attachmentUrl.split('?')[0],
       key: response.data.key,
-    };
+      url: attachmentUrl.split('?')[0],
+      cdn: response.data.cdn,
+    } as PresignedUrl;
   }
 
   uploadFileToChatPlatform = async (
