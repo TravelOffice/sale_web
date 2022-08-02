@@ -3,6 +3,7 @@ import Avatar from '@components/Avatar/Avatar';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { usePage } from '@hooks/chat';
 import Images from '@themes/Images';
+import { getAvatarUrlByPlatform } from '@utils/ChatUtils';
 import React, { useEffect, useState } from 'react';
 
 export interface CustomerAvatarProps {
@@ -15,15 +16,23 @@ export interface CustomerAvatarProps {
 
 export const useCustomerAvatar = (conversation?: Conversation) => {
   if (!conversation) return undefined;
-  const [avatar, setAvatar] = useState(conversation.contact.avatar);
-  const fbPageId = usePage('facebook')?.id;
+  const platform = conversation.chatPlatform;
+  const defaultAvatar = conversation.contact.avatar;
+  const [avatar, setAvatar] = useState(defaultAvatar);
+  const pageId = usePage(platform)?.id;
   useEffect(() => {
-    if (conversation.chatPlatform === 'facebook' && fbPageId) {
-      chatPresenter.getFbUserProfile(fbPageId, conversation.contact.id).then((profile) => {
-        setAvatar(profile.profile_pic);
+    if (pageId) {
+      chatPresenter.getUserProfile(
+        platform,
+        pageId,
+        conversation.contact.id,
+        conversation.id,
+      ).then((profile) => {
+        const path = getAvatarUrlByPlatform(platform, profile) || defaultAvatar;
+        setAvatar(path);
       });
     }
-  }, [conversation, fbPageId]);
+  }, [conversation, pageId]);
   return avatar;
 };
 

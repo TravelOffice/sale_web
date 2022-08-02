@@ -71,8 +71,8 @@ export const allTelegramMessages = gql`
 `;
 
 export const userProfile = gql`
-  query GetUserProfile($pageId: String!, $pageUserId: String!, $platform: String!) {
-    userProfile(pageId: $pageId, pageUserId: $pageUserId, platform: $platform) {
+  query GetUserProfile($pageId: String!, $pageUserId: String!, $chatPlatform: String!, $chatId: String) {
+    userProfile(pageId: $pageId, pageUserId: $pageUserId, chatPlatform: $chatPlatform, chatId: $chatId) {
       message
       data
     }

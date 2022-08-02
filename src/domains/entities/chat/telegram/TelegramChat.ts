@@ -1,5 +1,5 @@
 import { ChatType } from './TelegramTypes';
-import { User } from './TelegramUser';
+import { TelegramUserInfo } from './TelegramUser';
 import * as MessageContents from './message-contents';
 
 export interface ChatPhoto {
@@ -45,11 +45,11 @@ export interface TelegramChat {
 
 export interface TelegramMessage {
   message_id: number;
-  from?: User;
+  from?: TelegramUserInfo;
   date: number;
   chat: TelegramChat;
   sender_chat?: TelegramChat;
-  forward_from?: User;
+  forward_from?: TelegramUserInfo;
   forward_from_chat?: TelegramChat;
   forward_from_message_id?: number;
   forward_signature?: string;
@@ -76,8 +76,8 @@ export interface TelegramMessage {
   location?: MessageContents.Location;
   venue?: MessageContents.Venue;
   poll?: MessageContents.Poll;
-  new_chat_members?: User[];
-  left_chat_member?: User;
+  new_chat_members?: TelegramUserInfo[];
+  left_chat_member?: TelegramUserInfo;
   new_chat_title?: string;
   new_chat_photo?: MessageContents.PhotoSize[];
   delete_chat_photo?: boolean;
