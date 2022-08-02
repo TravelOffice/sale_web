@@ -29,8 +29,11 @@ function* getPlatformConversationsWithoutAction(platform: ChatPlatform) {
   try {
     const platformPage: PlatformPage | undefined = yield selectPage(platform);
     let data = [];
+    const isAdmin: boolean = yield select((state: RootState) => state.auth.isAdmin);
     if (platformPage) {
-      data = yield call(chatPresenter.getPlatformConversations, platform, platformPage.id);
+      data = isAdmin
+        ? yield call(chatPresenter.adminGetPlatformConversations, platform, platformPage.id)
+        : yield call(chatPresenter.getPlatformConversations, platform, platformPage.id);
     }
     yield put(chatActions.onPlatformConversationsRetrieved([platform, data]));
   } catch (error: any) {

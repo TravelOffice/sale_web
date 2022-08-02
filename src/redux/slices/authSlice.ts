@@ -10,6 +10,7 @@ interface AuthState {
   idToken?: string,
   linkedPages: Page[],
   initialized: boolean,
+  isAdmin: boolean,
 }
 
 const initialState: AuthState = {
@@ -17,6 +18,7 @@ const initialState: AuthState = {
   currentUser: undefined,
   linkedPages: [],
   initialized: false,
+  isAdmin: false,
 };
 
 export interface LoginPayload {
@@ -39,6 +41,7 @@ const authSlice = createSlice({
     },
     setCurrentUser: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
+      state.isAdmin = state.currentUser.role === 'ADMIN' || state.currentUser.role === 'ROOT';
     },
     setLinkedPages: (state, action: PayloadAction<Array<Page>>) => {
       state.linkedPages = action.payload;

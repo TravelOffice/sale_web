@@ -3,6 +3,7 @@ import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
 import {
+  adminGetPlatformConversationsUseCase,
   getFacebookUserInfoUseCase,
   getMessagesUseCase,
   getPlatformConversationsUseCase,
@@ -56,4 +57,14 @@ export default class ChatPresenterImpl implements ChatPresenter {
   getFbUserProfile = async (
     pageId: string, userId: string,
   ) => getFacebookUserInfoUseCase.invoke(pageId, userId);
+
+  /**
+   * Get all conversations for given page id with specific chat platform
+   * @param platformOwnerId Platform page id or Telegram channel id
+   * @returns Conversations of given platform owner id
+   */
+  adminGetPlatformConversations = async (
+    platform: ChatPlatform,
+    platformPageId: string,
+  ) => adminGetPlatformConversationsUseCase.invoke(platform, platformPageId);
 }

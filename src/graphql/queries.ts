@@ -78,3 +78,31 @@ export const userProfile = gql`
     }
   }
 `;
+
+// Admin queries
+export const adminAllFbConversations = gql`
+  query AdminGetFbConversations($fbPageId: String!) {
+    adminAllFbConversations(pageId: $fbPageId) {
+      data
+      message
+    }
+  }
+`;
+
+export const adminAllZaloConversations = gql`
+  query AdminGetZaloConversations($zaloPageId: String!) {
+    adminAllZaloConversations(pageId: $zaloPageId) {
+      data
+      message
+    }
+  }
+`;
+
+export const adminAllTelegramConversations = gql`
+  query AdminGetTelegramConversations($telegramBotId: String!) {
+    adminAllTelegramConversations(pageId: $telegramBotId) {
+      data
+      message
+    }
+  }
+`;

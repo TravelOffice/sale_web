@@ -56,6 +56,8 @@ import { UnlinkPageUseCase } from './interfaces/pageConnection/UnlinkPageUseCase
 import UnlinkPageUseCaseImpl from './pageConnection/UnlinkPageUseCaseImpl';
 import { GetPlatformConversationsUseCase } from './interfaces/chat/GetPlatformConversationsUseCase';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
+import { AdminGetPlatformConversationsUseCase } from './interfaces/chat/AdminGetPlatformConversationsUseCase';
+import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -73,6 +75,7 @@ interface UseCases {
   getFacebookUserInfoUseCase: GetFacebookUserInfoUseCase,
   getLinkedPagesUseCase: GetLinkedPagesUseCase,
   unlinkPageUseCase: UnlinkPageUseCase,
+  adminGetPlatformConversationsUseCase: AdminGetPlatformConversationsUseCase,
   // Opportunity
   getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
   getOpportunitiesByLeadUseCase: GetOpportunitiesByLeadUseCase,
@@ -111,6 +114,7 @@ const useCases: UseCases = {
   getFacebookUserInfoUseCase: new GetFacebookUserInfoUseCaseImpl(),
   getLinkedPagesUseCase: new GetLinkedPagesUseCaseImpl(),
   unlinkPageUseCase: new UnlinkPageUseCaseImpl(),
+  adminGetPlatformConversationsUseCase: new AdminGetPlatformConversationsUseCaseImpl(),
   // Lead use cases
   getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
   getLeadUseCase: new GetLeadUseCaseImpl(),
@@ -164,4 +168,5 @@ export const {
   getNotificationsUseCase,
   saveNotificationUseCase,
   connectTelegramPageUseCase,
+  adminGetPlatformConversationsUseCase,
 } = useCases;

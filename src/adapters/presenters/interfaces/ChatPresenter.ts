@@ -19,4 +19,8 @@ export interface ChatPresenter {
   ) => Promise<void>
   subscribeNewMessage: () => Observable<FetchResult>
   getFbUserProfile: (pageId: string, userId: string) => Promise<FacebookUserInfo>
+  adminGetPlatformConversations: (
+    platform: ChatPlatform,
+    platformPageId: string,
+  ) => Promise<Conversation[]>;
 }

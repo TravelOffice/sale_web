@@ -9,6 +9,7 @@ export enum LanguagesType {
   VIETNAMESE = 'vi',
 }
 export enum RolesType {
+  ROOT = 'ROOT',
   ADMIN = 'ADMIN',
   EMPLOYEE = 'EMPLOYEE',
 }

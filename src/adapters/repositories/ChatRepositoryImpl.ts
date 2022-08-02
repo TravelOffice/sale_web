@@ -12,6 +12,9 @@ import {
   allZaloConversations,
   allZaloMessages,
   userProfile,
+  adminAllFbConversations,
+  adminAllTelegramConversations,
+  adminAllZaloConversations,
 } from '@graphql/queries';
 import { onNewMessage } from '@graphql/subscriptions';
 import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
@@ -121,5 +124,28 @@ export default class ChatRepositoryImpl implements ChatRepository {
     const userInfo = JSON.parse(result.data.userProfile.data) as FacebookUserInfo;
     await sessionStorageProvider.setItem(cachedKey, JSON.stringify(userInfo));
     return userInfo;
+  };
+
+  adminGetFacebookConversations = async (fbPageId: string) => {
+    const options = { query: adminAllFbConversations, variables: { fbPageId } };
+    const result = await gqlClient.query(options);
+    const fbConversations = JSON.parse(result.data.adminAllFbConversations.data).data;
+    return fbConversations.map((item: any) => conversationMapper.fromFb(item, fbPageId));
+  };
+
+  adminGetZaloConversations = async (zaloPageId: string) => {
+    const options = { query: adminAllZaloConversations, variables: { zaloPageId } };
+    const result = await gqlClient.query(options);
+    const zaloConversations = JSON.parse(result.data.adminAllZaloConversations.data).data;
+    return zaloConversations.map((item: any) => conversationMapper.fromZalo(item, zaloPageId));
+  };
+
+  adminGetTelegramConversations = async (telegramBotId: string) => {
+    const options = { query: adminAllTelegramConversations, variables: { telegramBotId } };
+    const result = await gqlClient.query(options);
+    const payload = result.data.adminAllTelegramConversations.data;
+    const conversations: DDBTelegramConversation[] = JSON.parse(payload);
+    return conversations
+      .map((conversation) => conversationMapper.fromTelegram(conversation));
   };
 }
