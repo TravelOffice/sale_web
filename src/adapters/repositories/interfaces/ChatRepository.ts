@@ -23,4 +23,8 @@ export interface ChatRepository {
   sendMessage: (platform: ChatPlatform, message: ChatPlatformSendMessage) => Promise<void>
   subscribeToNewMessage: () => Observable<FetchResult>
   getFbUserInfo: (pageId: string, userId: string) => Promise<FacebookUserInfo>
+
+  adminGetFacebookConversations: (pageId: string) => Promise<Conversation[]>
+  adminGetZaloConversations: (pageId: string) => Promise<Conversation[]>
+  adminGetTelegramConversations: (botId: string) => Promise<Conversation[]>
 }
