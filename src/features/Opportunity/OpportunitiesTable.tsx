@@ -16,6 +16,8 @@ import { FilterAttributesOpportunity, OpportunityStatus } from '@domain/entities
 import { useLeadAndCustomers } from '@hooks/customer';
 import { Customer, Lead } from '@domain/entities/Lead';
 import { useParams } from 'react-router-dom';
+import { useAccessControl } from '@hooks/auth';
+import PERMISSIONS from '@utils/PermissionUtils';
 import { allOpportunitiesColumns, opportunitiesOfLeadColumns } from './OpportunityColumns';
 
 const statusOptions = [
@@ -52,7 +54,7 @@ const OpportunitiesTable = () => {
     dispatch(opportunityActions.setOpenSidebar(open));
   }, [openSidebar]);
   const params = useQueryParams();
-
+  const { canAny } = useAccessControl();
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
 
   const leadsAndCustomers = useLeadAndCustomers();
@@ -152,15 +154,20 @@ const OpportunitiesTable = () => {
         toggleAddDataSidebar={toggleSidebar}
         sortColumnDefault="name"
         onPageChange={() => { }}
+        requirePermissions={[PERMISSIONS.create_opportunity]}
         onRefresh={onRefresh}
       />
-      <OpportunitySidebar
-        open={openSidebar}
-        toggleSidebar={toggleSidebar}
-        opportunity={selectedOpportunity}
-        onClosed={() => { }}
-        leadDetailId={leadDetailId}
-      />
+      {
+        canAny(PERMISSIONS.create_opportunity, PERMISSIONS.update_opportunity) && (
+          <OpportunitySidebar
+            open={openSidebar}
+            toggleSidebar={toggleSidebar}
+            opportunity={selectedOpportunity}
+            onClosed={() => { }}
+            leadDetailId={leadDetailId}
+          />
+        )
+      }
     </>
   );
 };

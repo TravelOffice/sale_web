@@ -16,6 +16,8 @@ import {
 } from 'reactstrap';
 import { leadActions } from '@redux/slices/leadSlice';
 import { Lead, LeadStatusType } from '@domain/entities/Lead';
+import PERMISSIONS from '@utils/PermissionUtils';
+import { useAccessControl } from '@hooks/auth';
 import { leadColumns } from './LeadColumns';
 
 import LeadSidebar from './LeadSidebar';
@@ -31,6 +33,7 @@ const LeadTable = () => {
   const fetchLeadsState = useSelector(
     (state: RootState) => state.lead.fetchAllLeadsState,
   );
+  const { canAny } = useAccessControl();
 
   const { getAllLeads, setOpenLeadSidebar: setOpenSidebarAction } = leadActions;
 
@@ -97,15 +100,20 @@ const LeadTable = () => {
           dispatch(leadActions.selectLead(lead));
         }}
         onPageChange={() => {}}
+        requirePermissions={[PERMISSIONS.create_lead]}
         onRefresh={onRefresh}
       />
-      <LeadSidebar
-        open={openSidebar}
-        setOpenSidebar={setOpenSidebar}
-        toggleSidebar={toggleLeadSidebar}
-        lead={selectedLead}
-        onClosed={() => dispatch(leadActions.unSelectLead())}
-      />
+      {
+        canAny(PERMISSIONS.create_lead, PERMISSIONS.update_lead) && (
+          <LeadSidebar
+            open={openSidebar}
+            setOpenSidebar={setOpenSidebar}
+            toggleSidebar={toggleLeadSidebar}
+            lead={selectedLead}
+            onClosed={() => dispatch(leadActions.unSelectLead())}
+          />
+        )
+      }
     </>
 
   );

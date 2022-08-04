@@ -7,6 +7,8 @@ import { notificationActions } from '@redux/slices/notificationSlice';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
+import AccessControl from '@components/AccessControl/AccessControl';
+import NotAuthorized from '@components/NotAuthorized/NotAuthorized';
 import Navigation from '../../navigation/Navigation';
 
 export default function Home() {
@@ -30,7 +32,12 @@ export default function Home() {
                 wrapperClass={route.className}
                 appLayout={route.appLayout}
               >
-                {route.component}
+                <AccessControl
+                  requiredPermissions={route.requiredPermissions || []}
+                  fallback={route.fallback || <NotAuthorized />}
+                >
+                  {route.component}
+                </AccessControl>
               </LayoutWrapper>
             </Route>
           ))

@@ -35,6 +35,8 @@ import { ImageDecorator } from 'react-viewer/lib/ViewerProps';
 import CustomerAvatar from '@components/Avatar/CustomerAvatar';
 import { ChatPlatform } from '@domain/entities/ChatPlatform';
 import MessageList from '@features/Chat/MessageList';
+import { useAccessControl } from '@hooks/auth';
+import PERMISSIONS from '@utils/PermissionUtils';
 
 interface AttachmentMessageSetting {
   id: number,
@@ -273,6 +275,8 @@ const ChatLog = (props: ChatLogProps) => {
     }
   };
 
+  const { can } = useAccessControl();
+
   return (
     <div className="chat-app-window">
       <div className={classnames('start-chat-area', { 'd-none': selectedConversation })}>
@@ -326,7 +330,12 @@ const ChatLog = (props: ChatLogProps) => {
             </header>
           </div>
 
-          <PerfectScrollbar containerRef={(ref) => setScrollViewRef(ref)} ref={chatArea} className="user-chats" options={{ wheelPropagation: false }}>
+          <PerfectScrollbar
+            containerRef={(ref) => setScrollViewRef(ref)}
+            ref={chatArea}
+            className={classnames('user-chats', { 'hide-input': !can(PERMISSIONS.send_message) })}
+            options={{ wheelPropagation: false }}
+          >
             {
               renderLoadMore(canLoadMore, loadingMore, onLoadMore)
             }
@@ -346,34 +355,38 @@ const ChatLog = (props: ChatLogProps) => {
             }
           </PerfectScrollbar>
 
-          <Form className="chat-app-form" onSubmit={(e) => handleSendMessage(e)}>
-            <InputGroup className="input-group-merge form-send-message">
-              {/* TODO: Implement sending audio record file in the future */}
-              {/* <InputGroupText> */}
-              {/*  <Mic className="cursor-pointer" size={16} /> */}
-              {/* </InputGroupText> */}
-              <Input
-                value={messageText}
-                onChange={(e) => setMessageText(e.target.value)}
-                placeholder={i18n.t('CHAT.MESSAGE_INPUT_PLACEHOLDER')}
-              />
-            </InputGroup>
-            <UncontrolledButtonDropdown className="dropdown-icon-wrapper" direction="up">
-              <DropdownToggle className="dropdown-toggle-split" color="fiat-primary" caret>
-                {
-                  isSendingAttachment ? <ReactSpinner className="me-25" color="primary" size="sm" /> : <Paperclip className="cursor-pointer text-secondary" size={16} />
-                }
-                <input ref={attachmentRef} type="file" id="attach-file" onChange={handleAttachmentChange} hidden />
-              </DropdownToggle>
-              <DropdownMenu hidden={isSendingAttachment} tag="div" end>
-                {renderAttachmentItems}
-              </DropdownMenu>
-            </UncontrolledButtonDropdown>
-            <Button className="send" color="primary" disabled={isSendingAttachment}>
-              <Send size={14} className="d-lg-none" />
-              <span className="d-none d-lg-block">{i18n.t('CHAT.SEND_MESSAGE')}</span>
-            </Button>
-          </Form>
+          {
+            can(PERMISSIONS.send_message) && (
+              <Form className="chat-app-form" onSubmit={(e) => handleSendMessage(e)}>
+                <InputGroup className="input-group-merge form-send-message">
+                  {/* TODO: Implement sending audio record file in the future */}
+                  {/* <InputGroupText> */}
+                  {/*  <Mic className="cursor-pointer" size={16} /> */}
+                  {/* </InputGroupText> */}
+                  <Input
+                    value={messageText}
+                    onChange={(e) => setMessageText(e.target.value)}
+                    placeholder={i18n.t('CHAT.MESSAGE_INPUT_PLACEHOLDER')}
+                  />
+                </InputGroup>
+                <UncontrolledButtonDropdown className="dropdown-icon-wrapper" direction="up">
+                  <DropdownToggle className="dropdown-toggle-split" color="fiat-primary" caret>
+                    {
+                      isSendingAttachment ? <ReactSpinner className="me-25" color="primary" size="sm" /> : <Paperclip className="cursor-pointer text-secondary" size={16} />
+                    }
+                    <input ref={attachmentRef} type="file" id="attach-file" onChange={handleAttachmentChange} hidden />
+                  </DropdownToggle>
+                  <DropdownMenu hidden={isSendingAttachment} tag="div" end>
+                    {renderAttachmentItems}
+                  </DropdownMenu>
+                </UncontrolledButtonDropdown>
+                <Button className="send" color="primary" disabled={isSendingAttachment}>
+                  <Send size={14} className="d-lg-none" />
+                  <span className="d-none d-lg-block">{i18n.t('CHAT.SEND_MESSAGE')}</span>
+                </Button>
+              </Form>
+            )
+          }
           <AttachmentMessagePreview
             attachment={attachment}
             attachmentType={attachmentType}

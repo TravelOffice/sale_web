@@ -15,7 +15,7 @@ import { RootState } from '@redux/store';
 import moment from 'moment';
 import { RoleOption } from '@domain/entities/RolePermission';
 
-type OmitFields = 'createdAt' | 'updatedAt' | 'settings' | 'avatar' | 'status' | 'fullName' | 'about' | 'tenant' | 'rolesStr';
+type OmitFields = 'createdAt' | 'updatedAt' | 'settings' | 'avatar' | 'status' | 'fullName' | 'about' | 'tenant' | 'rolesStr' | 'permissions';
 type UserFormData = Omit<User, OmitFields>;
 
 const defaultValues: UserFormData = {

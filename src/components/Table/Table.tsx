@@ -19,6 +19,7 @@ import {
 } from 'reactstrap';
 import { handleSearchColumns } from '@utils/CommonUtils';
 import { DEFAULT_PAGE_SIZE } from '@utils/Constants';
+import { RequirePermissions } from '@domain/entities/RequirePermissions';
 
 export interface TableSelectOption {
   label: string,
@@ -37,7 +38,8 @@ export interface TableProps<T> {
   onRefresh?: () => void,
   selectableRows?: boolean,
   handleSelectChange?: (value: string) => void,
-  selectOptions?: Array<TableSelectOption>
+  selectOptions?: Array<TableSelectOption>,
+  requirePermissions?: RequirePermissions,
 }
 
 type SortDirection = 'asc' | 'desc';
@@ -56,6 +58,7 @@ function Table<T>(props: TableProps<T>) {
     selectableRows,
     handleSelectChange,
     selectOptions,
+    requirePermissions,
   } = props;
 
   // ** States
@@ -170,6 +173,7 @@ function Table<T>(props: TableProps<T>) {
               handleRefresh={handleRefresh}
               handleSelectChange={handleSelectChange}
               selectOptions={selectOptions}
+              requirePermissions={requirePermissions || []}
             />
           )}
         />

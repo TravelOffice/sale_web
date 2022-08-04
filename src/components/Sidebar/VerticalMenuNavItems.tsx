@@ -3,6 +3,7 @@ import { MenuHeader, MenuItem, MenuLinkItem } from '@domain/entities/MenuLinkIte
 import VerticalNavMenuGroup from '@components/Sidebar/VerticalNavMenuGroup';
 import VerticalNavMenuLink from '@components/Sidebar/VerticalNavMenuLink';
 import VerticalNavMenuSectionHeader from '@components/Sidebar/VerticalNavMenuSectionHeader';
+import { useAccessControl } from '@hooks/auth';
 
 export interface VerticalMenuNavItemsProps {
   items: MenuItem[],
@@ -24,6 +25,7 @@ export interface VerticalMenuNavItemsProps {
 
 export default function VerticalMenuNavItems(props: VerticalMenuNavItemsProps) {
   const { items, parentItem } = props;
+  const { canAccess } = useAccessControl();
   return (
     <>
       {items.map((item) => {
@@ -35,6 +37,9 @@ export default function VerticalMenuNavItems(props: VerticalMenuNavItemsProps) {
 
         // Render if the item is a group item
         const menuItem = item as MenuLinkItem;
+        if (menuItem.requiredPermissions && !canAccess(menuItem.requiredPermissions)) {
+          return <></>;
+        }
         if (menuItem.children) {
           return (
             <VerticalNavMenuGroup
