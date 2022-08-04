@@ -39,7 +39,8 @@
         "DISABLE": "Vô hiệu hóa",
         "SELECT_ALL": "Chọn tất cả",
         "COMING_SOON_TITLE": "Chúng tôi sẽ sớm ra mắt 🚀",
-        "COMING_SOON_CONTENT": "Chúng tôi đang tạo ra các tính năng tuyệt vời. Vui lòng theo dõi để nhận được thông báo khi tính năng đã sẵn sàng!"
+        "COMING_SOON_CONTENT": "Chúng tôi đang tạo ra các tính năng tuyệt vời. Vui lòng theo dõi để nhận được thông báo khi tính năng đã sẵn sàng!",
+        "NOT_AUTHORIZED_TITLE": "Bạn không có quyền để thực hiện chức năng này! \uD83D\uDD10"
     },
     "LEAD": {
         "NAME": "Họ tên",

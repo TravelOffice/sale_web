@@ -5,6 +5,7 @@ import {
   MessageSquare, Settings, Shield,
   ShoppingCart, Target, User, UserCheck, Users,
 } from 'react-feather';
+import PERMISSIONS from '@utils/PermissionUtils';
 
 const Navigation : MenuItem[] = [
   {
@@ -33,12 +34,16 @@ const Navigation : MenuItem[] = [
     id: 'chat',
     title: 'Chat',
     icon: <MessageSquare size={20} />,
+    requiredPermissions: {
+      any: [PERMISSIONS.view_assigned_conversations, PERMISSIONS.view_all_conversations],
+    },
     navLink: '/apps/chat',
   },
   {
     id: 'user',
     title: 'User',
     icon: <Users size={20} />,
+    requiredPermissions: [PERMISSIONS.view_all_users],
     navLink: '/admin/user/list',
   },
   {
@@ -50,12 +55,14 @@ const Navigation : MenuItem[] = [
   {
     id: 'leads',
     title: 'Lead',
+    requiredPermissions: [PERMISSIONS.get_leads],
     icon: <User size={12} />,
     navLink: '/apps/lead/list',
   },
   {
     id: 'opps',
     title: 'Opportunity',
+    requiredPermissions: [PERMISSIONS.view_opportunities_of_tenant],
     icon: <Target size={12} />,
     navLink: '/apps/opp/list',
   },
@@ -68,6 +75,7 @@ const Navigation : MenuItem[] = [
   {
     id: 'roles-permissions',
     title: 'Roles & Permissions',
+    requiredPermissions: [PERMISSIONS.get_roles],
     icon: <Shield size={20} />,
     navLink: '/apps/admin/roles',
   },

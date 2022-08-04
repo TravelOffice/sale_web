@@ -63,6 +63,7 @@ export interface User {
   updatedAt?: number,
   status?: UserStatusType,
   about?: string,
+  permissions?: string[],
 }
 
 export interface FetchAllUsersResponse {

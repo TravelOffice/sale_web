@@ -10,12 +10,16 @@ import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/pages/page-account-settings.scss';
 import ConnectionsTabContent from '@features/Settings/ConnectionsTabContent';
 import CommingSoon from '@components/CommingSoon/CommingSoon';
+import { useAccessControl } from '@hooks/auth';
+import PERMISSIONS from '@utils/PermissionUtils';
+import { RequirePermissions } from '@domain/entities/RequirePermissions';
 
 export interface Tab {
   id: string,
   title: string,
   icon: ReactNode,
   pane: ReactNode,
+  requiredPermissions?: RequirePermissions,
 }
 
 const tabs: Tab[] = [
@@ -47,12 +51,14 @@ const tabs: Tab[] = [
     id: 'connections',
     icon: <Link2 size={16} className="me-50" />,
     title: 'Connections',
+    requiredPermissions: { any: [PERMISSIONS.link_page, PERMISSIONS.unlink_page] },
     pane: <ConnectionsTabContent />,
   },
 ];
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const { canAccess } = useAccessControl();
   return (
     <>
       <Row>
@@ -62,7 +68,9 @@ export default function Settings() {
             {
               tabs.map((tab) => (
                 <TabPane key={tab.id} tabId={tab.id}>
-                  {tab.pane}
+                  {
+                    canAccess(tab.requiredPermissions || []) && tab.pane
+                  }
                 </TabPane>
               ))
             }

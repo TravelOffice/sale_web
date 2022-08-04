@@ -18,6 +18,8 @@ import { userActions } from '@redux/slices/userSlice';
 import { User, UserStatusOption, userStatusTypes } from '@domain/entities/User';
 import { rolePermissionActions } from '@redux/slices/rolePermissionSlice';
 import { RoleOption } from '@domain/entities/RolePermission';
+import { useAccessControl } from '@hooks/auth';
+import PERMISSIONS from '@utils/PermissionUtils';
 import { userColumns } from './UserColumns';
 import UserSidebar from './UserSidebar';
 
@@ -28,6 +30,7 @@ const UserTable = () => {
   const selectedUser = useSelector((state: RootState) => state.user.selectedUser);
   const [usersFiltered, setUsersFiltered] = useState<User[]>([]);
   const dispatch = useDispatch();
+  const { canAny } = useAccessControl();
   // ** States
   const openSidebar = useSelector((state: RootState) => state.user.openSidebar);
   const [currentStatus, setCurrentStatus] = useState({ value: '', label: i18n.t('COMMON.SELECT'), number: 0 });
@@ -131,16 +134,21 @@ const UserTable = () => {
         toggleAddDataSidebar={toggleUserSidebar}
         sortColumnDefault="createdAt"
         onPageChange={() => {}}
+        requirePermissions={[PERMISSIONS.create_user]}
         onRefresh={onRefresh}
       />
-      <UserSidebar
-        open={openSidebar}
-        setOpenSidebar={setOpenSidebar}
-        toggleSidebar={toggleUserSidebar}
-        user={selectedUser}
-        onClosed={() => dispatch(userActions.unSelectUser())}
-        roleOptions={roleOptions}
-      />
+      {
+        canAny(PERMISSIONS.create_user, PERMISSIONS.update_user) && (
+          <UserSidebar
+            open={openSidebar}
+            setOpenSidebar={setOpenSidebar}
+            toggleSidebar={toggleUserSidebar}
+            user={selectedUser}
+            onClosed={() => dispatch(userActions.unSelectUser())}
+            roleOptions={roleOptions}
+          />
+        )
+      }
     </>
 
   );

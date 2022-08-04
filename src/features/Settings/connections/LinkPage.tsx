@@ -7,6 +7,8 @@ import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { capitalizeFirstLetter } from '@utils/CommonUtils';
+import { useAccessControl } from '@hooks/auth';
+import PERMISSIONS from '@utils/PermissionUtils';
 
 export interface LinkPageProps {
   platform: ChatPlatform,
@@ -21,6 +23,10 @@ export interface LinkPageProps {
 
 function renderLinkButton(props: LinkPageProps, connecting: boolean) {
   const { customLinkButton, onLinkPage, loading } = props;
+  const { can } = useAccessControl();
+  if (!can(PERMISSIONS.link_page)) {
+    return <></>;
+  }
   if (customLinkButton) {
     // Render custom link button such as ReactFacebookLogin
     return customLinkButton;
@@ -39,9 +45,22 @@ function renderLinkButton(props: LinkPageProps, connecting: boolean) {
   );
 }
 
+function renderUnlinkButton(props: LinkPageProps, page: Page) {
+  const { onUnlinkPage } = props;
+  const { can } = useAccessControl();
+  if (!can(PERMISSIONS.unlink_page)) {
+    return <></>;
+  }
+  return (
+    <Button outline className="btn-icon btn-outline-danger" onClick={() => onUnlinkPage?.(page)}>
+      <X color="red" className="font-medium-3" />
+    </Button>
+  );
+}
+
 export default function LinkPage(props: LinkPageProps) {
   const {
-    onUnlinkPage, platform, defaultAvatar, borderBottom, paddingTop = true,
+    platform, defaultAvatar, borderBottom, paddingTop = true,
   } = props;
   const { t } = useTranslation();
   const page = usePage(platform);
@@ -75,11 +94,7 @@ export default function LinkPage(props: LinkPageProps) {
           </div>
           <div className="mt-50 mt-sm-0">
             {
-              page ? (
-                <Button outline className="btn-icon btn-outline-danger" onClick={() => onUnlinkPage?.(page)}>
-                  <X color="red" className="font-medium-3" />
-                </Button>
-              ) : renderLinkButton(props, connecting)
+              page ? renderUnlinkButton(props, page) : renderLinkButton(props, connecting)
             }
           </div>
         </div>

@@ -10,6 +10,7 @@ import LeadDetail from '@features/Lead/LeadDetail/LeadDetail';
 import OpportunityDetail from '@features/Opportunity/OpportunityDetail/OpportunityDetail';
 import UserList from '@features/User/UserList';
 import Roles from '@features/Roles-Permissions/Roles/Role';
+import PERMISSIONS from '@utils/PermissionUtils';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -27,6 +28,9 @@ const Routes : RoutePathConfig[] = [
     exact: true,
     appLayout: true,
     className: 'chat-application',
+    requiredPermissions: {
+      any: [PERMISSIONS.view_assigned_conversations, PERMISSIONS.view_all_conversations],
+    },
     component: <Chat />,
   },
   {
@@ -36,21 +40,25 @@ const Routes : RoutePathConfig[] = [
   {
     path: '/apps/lead/list',
     exact: true,
+    requiredPermissions: [PERMISSIONS.get_leads],
     component: <LeadList />,
   },
   {
     path: '/apps/lead/:leadId',
     exact: true,
+    requiredPermissions: [PERMISSIONS.get_leads],
     component: <LeadDetail />,
   },
   {
     path: '/apps/opp/list',
     exact: true,
+    requiredPermissions: [PERMISSIONS.view_opportunities_of_tenant],
     component: <OpportunitiesList />,
   },
   {
     path: '/apps/lead/:leadId/opp/:oppId',
     exact: true,
+    requiredPermissions: [PERMISSIONS.view_opportunity],
     component: <OpportunityDetail />,
   },
   {
@@ -61,11 +69,13 @@ const Routes : RoutePathConfig[] = [
   {
     path: '/admin/user/list',
     exact: true,
+    requiredPermissions: [PERMISSIONS.view_all_users],
     component: <UserList />,
   },
   {
     path: '/apps/admin/roles',
     exact: true,
+    requiredPermissions: [PERMISSIONS.get_roles],
     component: <Roles />,
   },
   {
