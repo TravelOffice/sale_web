@@ -1,6 +1,6 @@
 // ** React Imports
 import React, {
-  Fragment, useCallback, useEffect, useState,
+  useCallback, useEffect, useState,
 } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -36,6 +36,8 @@ import { User } from '@domain/entities/User';
 import { RootState } from '@redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { rolePermissionActions } from '@redux/slices/rolePermissionSlice';
+import { useAccessControl } from '@hooks/auth';
+import PERMISSIONS from '@utils/PermissionUtils';
 
 interface RoleData {
   name: string,
@@ -69,6 +71,7 @@ const RoleCards = (props: RoleCardProps) => {
   const setShowModal = useCallback((status: boolean) => {
     dispatch(rolePermissionActions.setOpenModal(status));
   }, []);
+  const { can } = useAccessControl();
 
   useEffect(() => {
     const data: RoleData[] = roles.map((role) => {
@@ -208,73 +211,88 @@ const RoleCards = (props: RoleCardProps) => {
                   <div>
                     {!item.isDefault && (
                       <>
+                        {
+                          can(PERMISSIONS.update_role) && (
+                            <Link
+                              to="/"
+                              className="text-body me-1"
+                              title={i18n.t('ROLE-PERMISSION.EDIT_ROLE')}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setShowModal(true);
+                                handleEditRole(item);
+                              }}
+                            >
+                              <Edit className="font-medium-5" />
+                            </Link>
+                          )
+                        }
+                        {
+                          item.totalUsers === 0 && can(PERMISSIONS.delete_roles)
+                          && (
+                            <Link
+                              to="/"
+                              className="text-body me-1"
+                              title={i18n.t('ROLE-PERMISSION.DELETE_ROLE')}
+                            >
+                              <Trash className="font-medium-5" />
+                            </Link>
+                          )
+                        }
+                      </>
+                    )}
+                    {
+                      can(PERMISSIONS.create_role) && (
                         <Link
                           to="/"
-                          className="text-body me-1"
-                          title={i18n.t('ROLE-PERMISSION.EDIT_ROLE')}
+                          className="text-body"
+                          title={i18n.t('ROLE-PERMISSION.CLONE_ROLE')}
                           onClick={(e) => {
                             e.preventDefault();
                             setShowModal(true);
-                            handleEditRole(item);
+                            handleCopyRole(item);
                           }}
                         >
-                          <Edit className="font-medium-5" />
+                          <Copy className="font-medium-5" />
                         </Link>
-                        { item.totalUsers === 0 && (
-                          <Link
-                            to="/"
-                            className="text-body me-1"
-                            title={i18n.t('ROLE-PERMISSION.DELETE_ROLE')}
-                          >
-                            <Trash className="font-medium-5" />
-                          </Link>
-                        )}
-                      </>
-                    )}
-                    <Link
-                      to="/"
-                      className="text-body"
-                      title={i18n.t('ROLE-PERMISSION.CLONE_ROLE')}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setShowModal(true);
-                        handleCopyRole(item);
-                      }}
-                    >
-                      <Copy className="font-medium-5" />
-                    </Link>
+                      )
+                    }
                   </div>
                 </div>
               </CardBody>
             </Card>
           </Col>
         ))}
-        <Col xl={4} md={6}>
-          <Card>
-            <Row>
-              <Col sm={5}>
-                <div className="d-flex align-items-end justify-content-center h-100">
-                  <img className="img-fluid mt-2" src={Images.faq} alt="Not authorized page" width={85} />
-                </div>
-              </Col>
-              <Col sm={7}>
-                <CardBody className="text-sm-end text-center ps-sm-0">
-                  <Button
-                    color="primary"
-                    className="text-nowrap mb-1"
-                    onClick={() => {
-                      setModalType(i18n.t('ROLE-PERMISSION.ADD_NEW_ROLE'));
-                      setShowModal(true);
-                      handleAddRole();
-                    }}
-                  >
-                    {i18n.t('ROLE-PERMISSION.ADD_NEW_ROLE')}
-                  </Button>
-                </CardBody>
-              </Col>
-            </Row>
-          </Card>
-        </Col>
+        {
+          can(PERMISSIONS.create_role) && (
+            <Col xl={4} md={6}>
+              <Card>
+                <Row>
+                  <Col sm={5}>
+                    <div className="d-flex align-items-end justify-content-center h-100">
+                      <img className="img-fluid mt-2" src={Images.faq} alt="Not authorized page" width={85} />
+                    </div>
+                  </Col>
+                  <Col sm={7}>
+                    <CardBody className="text-sm-end text-center ps-sm-0">
+                      <Button
+                        color="primary"
+                        className="text-nowrap mb-1"
+                        onClick={() => {
+                          setModalType(i18n.t('ROLE-PERMISSION.ADD_NEW_ROLE'));
+                          setShowModal(true);
+                          handleAddRole();
+                        }}
+                      >
+                        {i18n.t('ROLE-PERMISSION.ADD_NEW_ROLE')}
+                      </Button>
+                    </CardBody>
+                  </Col>
+                </Row>
+              </Card>
+            </Col>
+          )
+        }
       </Row>
       <Modal
         isOpen={openModal}

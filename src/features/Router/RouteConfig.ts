@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import { RequirePermissions } from '@domain/entities/RequirePermissions';
 
 export interface RouteMetadata {
   navLink: string,
@@ -11,6 +12,8 @@ export interface RoutePathConfig {
   className?: string,
   component: ReactNode,
   meta?: RouteMetadata,
+  requiredPermissions?: RequirePermissions,
+  fallback?: JSX.Element
 }
 
 export interface RouteGroupConfig {

@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Role } from '@domain/entities/RolePermission';
 import { User } from '@domain/entities/User';
 import { userActions } from '@redux/slices/userSlice';
+import PERMISSIONS from '@utils/PermissionUtils';
 import { userColumns } from './RoleUserColumns';
 
 interface UserTableProps {
@@ -77,6 +78,7 @@ const UserTable = (props: UserTableProps) => {
         onPageChange={() => {}}
         onRefresh={onRefresh}
         handleSelectChange={(value) => { setCurrentRole(value); }}
+        requirePermissions={[PERMISSIONS.create_user]}
         selectOptions={roleOptions}
       />
     </>

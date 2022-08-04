@@ -1,6 +1,7 @@
 import React from 'react';
 import { Nav, NavItem, NavLink } from 'reactstrap';
 import { Tab } from '@features/Settings/Settings';
+import { useAccessControl } from '@hooks/auth';
 
 export interface SettingTabsProps {
   tabs: Tab[],
@@ -29,10 +30,11 @@ function TabItem(props: TabProps) {
 
 export default function SettingTabs(props: SettingTabsProps) {
   const { activeTab, toggleTab, tabs } = props;
+  const { canAccess } = useAccessControl();
   return (
     <Nav pills className="mb-2">
       {
-        tabs.map((tab) => (
+        tabs.map((tab) => canAccess(tab.requiredPermissions || []) && (
           <TabItem
             key={tab.id}
             tab={tab}

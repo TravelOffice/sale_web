@@ -9,6 +9,8 @@ import telegramLogo from '@assets/images/icons/socials/telegram.svg';
 import faq from '@assets/images/illustration/faq-illustrations.svg';
 import comingSoon from '@assets/images/illustration/coming-soon/coming-soon.svg';
 import comingSoonDark from '@assets/images/illustration/coming-soon/coming-soon-dark.svg';
+import notAuthorized from '@assets/images/pages/not-authorized.svg';
+import notAuthorizedDark from '@assets/images/pages/not-authorized-dark.svg';
 
 const Images = {
   logo,
@@ -25,6 +27,10 @@ const Images = {
       zaloLogo,
       telegramLogo,
     },
+  },
+  pages: {
+    notAuthorized,
+    notAuthorizedDark,
   },
 };
 

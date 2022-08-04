@@ -39,7 +39,8 @@
         "DISABLE": "Disable",
         "SELECT_ALL": "Select All",
         "COMING_SOON_TITLE": "We are launching soon 🚀",
-        "COMING_SOON_CONTENT": "We're creating something awesome. Please subscribe to get notified when it's ready!"
+        "COMING_SOON_CONTENT": "We're creating something awesome. Please subscribe to get notified when it's ready!",
+        "NOT_AUTHORIZED_TITLE": "You are not authorized! \uD83D\uDD10"
     },
     "LEAD": {
         "NAME": "Name",

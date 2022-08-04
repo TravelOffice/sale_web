@@ -5,6 +5,8 @@ import { RefreshCw } from 'react-feather';
 import {
   Button, Col, Input, Row,
 } from 'reactstrap';
+import { useAccessControl } from '@hooks/auth';
+import { RequirePermissions } from '@domain/entities/RequirePermissions';
 import { TableSelectOption } from './Table';
 
 export interface CustomHeaderProps {
@@ -16,7 +18,8 @@ export interface CustomHeaderProps {
   rowsPerPage: number,
   loading: boolean,
   handleSelectChange?: (e: string) => void,
-  selectOptions?: Array<TableSelectOption>
+  selectOptions?: Array<TableSelectOption>,
+  requirePermissions: RequirePermissions,
 }
 
 export default function CustomHeader(props: CustomHeaderProps) {
@@ -30,8 +33,9 @@ export default function CustomHeader(props: CustomHeaderProps) {
     handleRefresh,
     handleSelectChange,
     selectOptions,
+    requirePermissions,
   } = props;
-
+  const { canAccess } = useAccessControl();
   const handleToggleSidebar = () => onToggleSidebar?.();
   return (
     <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
@@ -87,7 +91,7 @@ export default function CustomHeader(props: CustomHeaderProps) {
             </Input>
           )}
 
-          {onToggleSidebar && (
+          {onToggleSidebar && canAccess(requirePermissions) && (
           <div className="d-flex align-items-center table-header-actions">
             <Button className="add-new-user" color="primary" onClick={handleToggleSidebar}>
               {i18n.t('COMMON.ADD')}
