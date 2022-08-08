@@ -6,6 +6,7 @@ import { ZaloMessage } from '@domain/entities/chat/zalo/ZaloMessage';
 import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
 import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { DDBTelegramMessages } from '@domain/entities/chat/telegram/DDBTelegramMessage';
+import { TelegramUserInfo } from '@domain/entities/chat/telegram';
 
 export interface ChatRepository {
   getFacebookConversations: (pageId: string) => Promise<Conversation[]>
@@ -22,9 +23,10 @@ export interface ChatRepository {
   ) => Promise<DDBTelegramMessages>
   sendMessage: (platform: ChatPlatform, message: ChatPlatformSendMessage) => Promise<void>
   subscribeToNewMessage: () => Observable<FetchResult>
-  getFbUserInfo: (pageId: string, userId: string) => Promise<FacebookUserInfo>
-
   adminGetFacebookConversations: (pageId: string) => Promise<Conversation[]>
   adminGetZaloConversations: (pageId: string) => Promise<Conversation[]>
   adminGetTelegramConversations: (botId: string) => Promise<Conversation[]>
+  getUserInfo: (
+    chatPlatform: ChatPlatform, pageId: string, userId: string, chatId?: string
+  ) => Promise<FacebookUserInfo | TelegramUserInfo>
 }

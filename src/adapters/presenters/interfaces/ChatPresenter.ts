@@ -6,6 +6,7 @@ import { Observable } from 'subscriptions-transport-ws';
 import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
+import { TelegramUserInfo } from '@domain/entities/chat/telegram';
 
 export interface ChatPresenter {
   getPlatformConversations: (
@@ -19,9 +20,11 @@ export interface ChatPresenter {
     sender: string, attachment: File, fileType: SendMessageType, conversation: Conversation,
   ) => Promise<void>
   subscribeNewMessage: () => Observable<FetchResult>
-  getFbUserProfile: (pageId: string, userId: string) => Promise<FacebookUserInfo>
   adminGetPlatformConversations: (
     platform: ChatPlatform,
     platformPageId: string,
   ) => Promise<Conversation[]>;
+  getUserProfile: (
+    chatPlatform: ChatPlatform, pageId: string, userId: string, chatId?: string
+  ) => Promise<FacebookUserInfo | TelegramUserInfo>
 }

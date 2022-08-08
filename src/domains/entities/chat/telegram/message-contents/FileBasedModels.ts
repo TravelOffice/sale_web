@@ -4,6 +4,11 @@ export interface FileBase {
   file_size?: number;
 }
 
+export interface AvatarPhoto extends FileBase {
+  file_path: string;
+  file_unique_id?: string;
+}
+
 export interface PhotoSize extends FileBase {
   width: number;
   height: number;
