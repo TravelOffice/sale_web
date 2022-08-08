@@ -1,7 +1,8 @@
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
 import { Message } from '@domain/entities/chat/Message';
 import { Page } from '@domain/entities/chat/Page';
-import { TelegramMessage } from '@domain/entities/chat/telegram';
+import { TelegramMessage, TelegramUserInfo } from '@domain/entities/chat/telegram';
 import { MessageGroup } from '@features/Chat/ChatLog';
 import { store } from '@redux/store';
 import i18next from 'i18next';
@@ -137,4 +138,24 @@ export const getImageSources = (messages: Message[]) => {
     }
   });
   return imageSources;
+};
+
+/**
+ * Get avatar URL by specify platform and user data
+ * @param platform type as platform
+ * @param data User data of different platforms
+ * @returns URL of user avatar
+ */
+export const getAvatarUrlByPlatform = (
+  platform: ChatPlatform,
+  data: FacebookUserInfo | TelegramUserInfo,
+) => {
+  switch (platform) {
+    case 'facebook':
+      return (data as FacebookUserInfo)?.profile_pic;
+    case 'telegram':
+      return (data as TelegramUserInfo)?.avatar?.file_path;
+    default:
+      return undefined;
+  }
 };

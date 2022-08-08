@@ -1,6 +1,6 @@
 import { MessageEntityType } from '../TelegramTypes';
 import { PhotoSize } from './FileBasedModels';
-import { User } from '../TelegramUser';
+import { TelegramUserInfo } from '../TelegramUser';
 
 /// MESSAGE CONTENT MODELS ///
 export interface Game {
@@ -81,6 +81,6 @@ export interface MessageEntity {
   offset: number;
   length: number;
   url?: string;
-  user?: User;
+  user?: TelegramUserInfo;
   language?: string;
 }

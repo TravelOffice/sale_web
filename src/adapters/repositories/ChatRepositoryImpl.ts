@@ -17,7 +17,6 @@ import {
   adminAllZaloConversations,
 } from '@graphql/queries';
 import { onNewMessage } from '@graphql/subscriptions';
-import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
 import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { sessionStorageProvider } from '@adapter/infrastructures';
 import { DDBTelegramConversation } from '@domain/entities/chat/telegram/DDBTelegramConversation';
@@ -102,26 +101,33 @@ export default class ChatRepositoryImpl implements ChatRepository {
 
   /**
    * Get Facebook user profile by id
+   * @param chatPlatform the chat platform
    * @param pageId the Facebook page id
    * @param userId the Facebook user who had sent messages to the page
+   * @param chatId the id of conversation
    * @return FacebookUserInfo
    */
-  getFbUserInfo = async (pageId: string, userId: string) => {
+  getUserInfo = async (
+    chatPlatform: ChatPlatform,
+    pageId: string,
+    userId: string,
+    chatId?: string,
+  ) => {
     const variables = {
       pageId,
       pageUserId: userId,
-      platform: 'facebook',
+      chatPlatform,
+      chatId,
     };
     // Use caching to reduce calling to the backend
-    const cachedKey = `fb-user-${pageId}-${userId}`;
+    const cachedKey = `${chatPlatform}-user-${pageId}-${userId}`;
     const cachedUserInfoInJSON: string = await sessionStorageProvider.getItem(cachedKey);
-    if (cachedUserInfoInJSON) {
+    if (JSON.parse(cachedUserInfoInJSON)) {
       return JSON.parse(cachedUserInfoInJSON);
     }
-
     const options = { query: userProfile, variables };
     const result = await gqlClient.query(options);
-    const userInfo = JSON.parse(result.data.userProfile.data) as FacebookUserInfo;
+    const userInfo = JSON.parse(result.data.userProfile.data);
     await sessionStorageProvider.setItem(cachedKey, JSON.stringify(userInfo));
     return userInfo;
   };

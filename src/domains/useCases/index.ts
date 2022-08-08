@@ -11,8 +11,8 @@ import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkU
 import GetOpportunityUseCaseImpl from '@domain/useCases/opportunity/GetOpportunityUseCaseImpl';
 import { GetOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/GetOpportunityUseCase';
 import { GetCurrentUserUseCase } from '@domain/useCases/interfaces/user/GetCurrentUserUseCase';
-import { GetFacebookUserInfoUseCase } from '@domain/useCases/interfaces/chat/GetFacebookUserInfoUseCase';
-import GetFacebookUserInfoUseCaseImpl from '@domain/useCases/chat/GetFacebookUserInfoUseCaseImpl';
+import { GetUserInfoUseCase } from '@domain/useCases/interfaces/chat/GetUserInfoUseCase';
+import GetUserInfoUseCaseImpl from '@domain/useCases/chat/GetUserInfoUseCaseImpl';
 import { GetNotificationsUseCase } from '@domain/useCases/interfaces/notification/GetNotificationsUseCase';
 import { SaveNotificationUseCase } from '@domain/useCases/interfaces/notification/SaveNotificationUseCase';
 import GetNotificationsUseCaseImpl from '@domain/useCases/notification/GetNotificationsUseCaseImpl';
@@ -72,7 +72,7 @@ interface UseCases {
   addLeadUseCase: AddLeadUseCase
   updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
-  getFacebookUserInfoUseCase: GetFacebookUserInfoUseCase,
+  getUserInfoUseCase: GetUserInfoUseCase,
   getLinkedPagesUseCase: GetLinkedPagesUseCase,
   unlinkPageUseCase: UnlinkPageUseCase,
   adminGetPlatformConversationsUseCase: AdminGetPlatformConversationsUseCase,
@@ -111,7 +111,7 @@ const useCases: UseCases = {
   subscribeNewMessageUseCase: new SubscribeNewMessageUseCaseImpl(),
   getFacebookPagesUseCase: new GetFacebookPagesUseCaseImpl(),
   getPlatformConversationsUseCase: new GetPlatformConversationsUseCaseImpl(),
-  getFacebookUserInfoUseCase: new GetFacebookUserInfoUseCaseImpl(),
+  getUserInfoUseCase: new GetUserInfoUseCaseImpl(),
   getLinkedPagesUseCase: new GetLinkedPagesUseCaseImpl(),
   unlinkPageUseCase: new UnlinkPageUseCaseImpl(),
   adminGetPlatformConversationsUseCase: new AdminGetPlatformConversationsUseCaseImpl(),
@@ -145,7 +145,7 @@ export const {
   sendAttachmentMessageUseCase,
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
-  getFacebookUserInfoUseCase,
+  getUserInfoUseCase,
   getAllLeadsUseCase,
   getLeadUseCase,
   addLeadUseCase,
