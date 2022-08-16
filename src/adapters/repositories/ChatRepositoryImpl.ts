@@ -85,9 +85,14 @@ export default class ChatRepositoryImpl implements ChatRepository {
     return JSON.parse(payload) as DDBTelegramMessages;
   };
 
-  sendMessage = async (platform: ChatPlatform, message: ChatPlatformSendMessage) => {
+  sendMessage = async (
+    platform: ChatPlatform,
+    conversationId: string,
+    message: ChatPlatformSendMessage,
+  ) => {
     const variables = {
       chatPlatform: platform,
+      conversationId,
       customerId: message.customerId,
       recipient: message.recipient,
       sender: message.sender,

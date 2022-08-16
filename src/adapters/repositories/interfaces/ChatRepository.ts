@@ -21,7 +21,11 @@ export interface ChatRepository {
     botId: string,
     nextToken?: string,
   ) => Promise<DDBTelegramMessages>
-  sendMessage: (platform: ChatPlatform, message: ChatPlatformSendMessage) => Promise<void>
+  sendMessage: (
+    platform: ChatPlatform,
+    conversationId: string,
+    message: ChatPlatformSendMessage,
+  ) => Promise<void>
   subscribeToNewMessage: () => Observable<FetchResult>
   adminGetFacebookConversations: (pageId: string) => Promise<Conversation[]>
   adminGetZaloConversations: (pageId: string) => Promise<Conversation[]>
