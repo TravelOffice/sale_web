@@ -75,7 +75,11 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
       customerId: conversation.contact.id,
       messageData,
     };
-    await chatRepository.sendMessage(conversation.chatPlatform, message);
+    await chatRepository.sendMessage(
+      conversation.chatPlatform,
+      conversation.id,
+      message,
+    );
   }
 
   private sendFacebookAttachmentMessage = async (
@@ -101,7 +105,11 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
       customerId: conversation.contact.id,
       messageData,
     };
-    await chatRepository.sendMessage(conversation.chatPlatform, message);
+    await chatRepository.sendMessage(
+      conversation.chatPlatform,
+      conversation.id,
+      message,
+    );
   }
 
   private sendTelegramAttachmentMessage = async (
@@ -123,7 +131,11 @@ export default class SendAttachmentMessageUseCaseImpl implements SendAttachmentM
       customerId: conversation.contact.id,
       messageData,
     };
-    await chatRepository.sendMessage(conversation.chatPlatform, message);
+    await chatRepository.sendMessage(
+      conversation.chatPlatform,
+      conversation.id,
+      message,
+    );
   }
 
   private prepareZaloAttachmentMessageData = (
