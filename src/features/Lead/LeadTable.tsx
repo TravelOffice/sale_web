@@ -85,6 +85,7 @@ const LeadTable = () => {
         </CardBody>
       </Card>
       <Table<Lead>
+        selectableRows
         data={allLeads}
         fetchDataState={fetchLeadsState}
         columns={leadColumns}

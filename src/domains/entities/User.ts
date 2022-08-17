@@ -1,4 +1,4 @@
-export type UserStatus = 'online' | 'offline' | 'busy' | 'away';
+export type UserStatusType = 'online' | 'offline' | 'busy' | 'away' | 'inactive';
 
 export enum ThemesType {
   DARK = 'dark',
@@ -14,14 +14,14 @@ export enum RolesType {
   EMPLOYEE = 'EMPLOYEE',
 }
 
-export default interface User {
+export interface User {
   username: string,
   firstName?: string,
   lastName?: string,
   name?: string,
   email: string,
   tenant: string,
-  role: RolesType,
+  roles: Array<string>,
   address?: string,
   avatar?: string,
   phoneNumber: string,
@@ -31,6 +31,10 @@ export default interface User {
   },
   createdAt: number,
   updatedAt: number,
-  status: UserStatus,
+  status: UserStatusType,
   about?: string,
+}
+
+export interface FetchAllUsersResponse {
+  users?: User[],
 }

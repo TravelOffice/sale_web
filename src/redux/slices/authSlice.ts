@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Page } from '@domain/entities/chat/Page';
-import User from '@domain/entities/User';
+import { User, RolesType } from '@domain/entities/User';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
@@ -41,7 +41,8 @@ const authSlice = createSlice({
     },
     setCurrentUser: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
-      state.isAdmin = state.currentUser.role === 'ADMIN' || state.currentUser.role === 'ROOT';
+      state.isAdmin = state.currentUser.roles.includes(RolesType.ADMIN)
+                      || state.currentUser.roles.includes(RolesType.ROOT);
     },
     setLinkedPages: (state, action: PayloadAction<Array<Page>>) => {
       state.linkedPages = action.payload;

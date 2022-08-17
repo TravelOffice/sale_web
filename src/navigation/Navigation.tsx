@@ -1,7 +1,7 @@
 import { MenuItem } from '@domain/entities/MenuLinkItem';
 import React from 'react';
 import {
-  Activity, Home, MessageSquare, Settings, ShoppingCart, Target, User, UserCheck,
+  Activity, Home, MessageSquare, Settings, ShoppingCart, Target, User, UserCheck, Users,
 } from 'react-feather';
 
 const Navigation : MenuItem[] = [
@@ -32,6 +32,12 @@ const Navigation : MenuItem[] = [
     title: 'Chat',
     icon: <MessageSquare size={20} />,
     navLink: '/apps/chat',
+  },
+  {
+    id: 'user',
+    title: 'User',
+    icon: <Users size={20} />,
+    navLink: '/admin/user/list',
   },
   {
     id: 'settings',

@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import { Badge } from 'reactstrap';
 
 export type AvatarSize = 'sm' | 'lg' | 'xl';
-export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy';
+export type AvatarStatus = 'online' | 'offline' | 'away' | 'busy' | 'inactive';
 export type AvatarBadgeColor = 'primary' | 'secondary' | 'success' | 'danger' | 'info' | 'warning' | 'dark' | 'light-primary' | 'light-secondary' | 'light-success' | 'light-danger' | 'light-info' | 'light-warning' | 'light-dark';
 export type AvatarColor = 'primary' | 'secondary' | 'success' | 'danger' | 'info' | 'warning' | 'dark' | 'light-primary' | 'light-secondary' | 'light-success' | 'light-danger' | 'light-info' | 'light-warning' | 'light-dark';
 

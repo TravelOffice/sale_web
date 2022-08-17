@@ -84,6 +84,7 @@ const CustomerTable = () => {
         </CardBody>
       </Card>
       <Table<Customer>
+        selectableRows
         data={allCustomers}
         fetchDataState={fetchCustomersState}
         columns={customerColumns}

@@ -11,6 +11,7 @@ import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkU
 import GetOpportunityUseCaseImpl from '@domain/useCases/opportunity/GetOpportunityUseCaseImpl';
 import { GetOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/GetOpportunityUseCase';
 import { GetCurrentUserUseCase } from '@domain/useCases/interfaces/user/GetCurrentUserUseCase';
+import { GetAllUsersUseCase } from '@domain/useCases/interfaces/user/GetAllUsersUseCase';
 import { GetUserInfoUseCase } from '@domain/useCases/interfaces/chat/GetUserInfoUseCase';
 import GetUserInfoUseCaseImpl from '@domain/useCases/chat/GetUserInfoUseCaseImpl';
 import { GetNotificationsUseCase } from '@domain/useCases/interfaces/notification/GetNotificationsUseCase';
@@ -50,6 +51,7 @@ import GetAllOpportunitiesUseCaseImpl from './opportunity/GetAllOpportunitiesUse
 import GetOpportunitiesByLeadUseCaseImpl from './opportunity/GetOpportunitiesByLeadUseCaseImpl';
 import UpdateOpportunityUseCaseImpl from './opportunity/UpdateOpportunityUseCaseImpl';
 import GetCurrentUserUseCaseImpl from './user/GetCurrentUserUseCaseImpl';
+import GetAllUsersUseCaseImpl from './user/GetAllUsersUseCaseImpl';
 import { GetLinkedPagesUseCase } from './interfaces/pageConnection/GetLinkedPagesUseCase';
 import GetLinkedPagesUseCaseImpl from './pageConnection/GetLinkedPagesUseCaseImpl';
 import { UnlinkPageUseCase } from './interfaces/pageConnection/UnlinkPageUseCase';
@@ -94,6 +96,7 @@ interface UseCases {
   connectTelegramPageUseCase: ConnectTelegramPageUseCase,
   // User
   getCurrentUserUseCase: GetCurrentUserUseCase,
+  getAllUsersUseCase: GetAllUsersUseCase,
   // Notification
   getNotificationsUseCase: GetNotificationsUseCase,
   saveNotificationUseCase: SaveNotificationUseCase,
@@ -133,6 +136,7 @@ const useCases: UseCases = {
   updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
   // User
   getCurrentUserUseCase: new GetCurrentUserUseCaseImpl(),
+  getAllUsersUseCase: new GetAllUsersUseCaseImpl(),
   // Notification
   getNotificationsUseCase: new GetNotificationsUseCaseImpl(),
   saveNotificationUseCase: new SaveNotificationUseCaseImpl(),
@@ -163,6 +167,7 @@ export const {
   createOpportunityUseCase,
   getOpportunityUseCase,
   getCurrentUserUseCase,
+  getAllUsersUseCase,
   getLinkedPagesUseCase,
   unlinkPageUseCase,
   getNotificationsUseCase,
