@@ -35,7 +35,8 @@
         "CHAT": "Chat",
         "SETTING": "Cài đặt",
         "LOGOUT": "Đăng xuất",
-        "CLEAR": "Xóa"
+        "CLEAR": "Xóa",
+        "DISABLE": "Vô hiệu hóa"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -238,5 +239,17 @@
         "NEW_MESSAGE": "Tin nhắn mới!",
         "NOTIFICATION_NEW_CONVERSATION_TITLE": "{{customerName}} đã gửi tin nhắn mới",
         "NOTIFICATION_NEW_CONVERSATION_MESSAGE": "Bạn đã nhận được tin nhắn mới từ {{customerName}}. Kiểm tra ngay!"
+    },
+    "USER": {
+        "NAME": "Tên tài khoản",
+        "PHONE": "Số điện thoại",
+        "EMAIL": "Email cá nhân",
+        "ROLE": "Phân quyền",
+        "ONLINE": "Trực tuyến",
+        "BUSY": "Đang bận",
+        "AWAY": "Vắng mặt",
+        "OFFLINE": "Không trực tuyến",
+        "INACTIVE": "Bị vô hiệu hóa",
+        "TOTAL_USERS": "Tổng số nhân viên"
     }
 }

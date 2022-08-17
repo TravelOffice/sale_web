@@ -14,6 +14,7 @@ import { enableMapSet } from 'immer';
 import createSagaMiddleware from 'redux-saga';
 import client from '@graphql/client';
 import { customerReducers } from './slices/customerSlice';
+import { userReducers } from './slices/userSlice';
 
 enableMapSet();
 
@@ -23,6 +24,7 @@ export const history = createBrowserHistory();
 const combinedReducers = combineReducers({
   router: connectRouter(history),
   auth: authReducers,
+  user: userReducers,
   layout: layoutReducers,
   navbar: navbarReducers,
   chat: chatReducers,

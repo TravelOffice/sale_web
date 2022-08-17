@@ -31,6 +31,7 @@ export interface TableProps<T> {
   onRowClicked?: (row: T) => void,
   onPageChange?: (pageNumber: number) => void,
   onRefresh?: () => void,
+  selectableRows?: boolean,
 }
 
 type SortDirection = 'asc' | 'desc';
@@ -46,6 +47,7 @@ function Table<T>(props: TableProps<T>) {
     toggleAddDataSidebar,
     onRowClicked,
     onRefresh,
+    selectableRows,
   } = props;
 
   // ** States
@@ -136,7 +138,7 @@ function Table<T>(props: TableProps<T>) {
       <div className="react-dataTable">
         <DataTable
           noHeader
-          selectableRows
+          selectableRows={selectableRows || false}
           subHeader
           sortServer
           pagination

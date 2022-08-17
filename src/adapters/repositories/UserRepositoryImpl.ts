@@ -9,6 +9,11 @@ export default class UserRepositoryImpl implements UserRepository {
     return response.data;
   }
 
+  getAllUsers = async () => {
+    const response = await apiProvider.authorizedRequest.get('/users');
+    return response.data;
+  }
+
   getLinkedPages = async (refresh: boolean) => {
     // Use caching to reduce calling to the backend
     const cachedKey = 'linked_pages';
@@ -18,7 +23,7 @@ export default class UserRepositoryImpl implements UserRepository {
         return JSON.parse(cachedPagesInJSON);
       }
     }
-    const response = await apiProvider.authorizedRequest.get('/me/linked_pages');
+    const response = await apiProvider.authorizedRequest.get('/admin/linked_pages');
     const linkedPages = response.data;
     await sessionStorageProvider.setItem(cachedKey, JSON.stringify(linkedPages));
     return linkedPages;

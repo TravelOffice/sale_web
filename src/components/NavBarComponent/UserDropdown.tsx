@@ -1,6 +1,6 @@
 import Avatar from '@components/Avatar/Avatar';
 import i18n from '@config/i18n';
-import User from '@domain/entities/User';
+import { User } from '@domain/entities/User';
 import { RootState } from '@redux/store';
 import Images from '@themes/Images';
 import React from 'react';
@@ -27,7 +27,7 @@ const UserDropdown = () => {
       <DropdownToggle href="/" tag="a" className="nav-link dropdown-user-link" onClick={(e) => e.preventDefault()}>
         <div className="user-nav d-sm-flex d-none">
           <span className="user-name fw-bold">{currentUser?.username}</span>
-          <span className="user-status">{currentUser?.role}</span>
+          <span className="user-status">{currentUser?.roles.join(', ')}</span>
         </div>
         {currentUser && renderAvatar(currentUser)}
       </DropdownToggle>

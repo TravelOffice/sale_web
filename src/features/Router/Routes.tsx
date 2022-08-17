@@ -8,6 +8,7 @@ import React from 'react';
 import CustomerList from '@features/Customer/CustomerList';
 import LeadDetail from '@features/Lead/LeadDetail/LeadDetail';
 import OpportunityDetail from '@features/Opportunity/OpportunityDetail/OpportunityDetail';
+import UserList from '@features/User/UserList';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -55,6 +56,11 @@ const Routes : RoutePathConfig[] = [
     path: '/apps/customer/list',
     exact: true,
     component: <CustomerList />,
+  },
+  {
+    path: '/admin/user/list',
+    exact: true,
+    component: <UserList />,
   },
   {
     path: '*',
