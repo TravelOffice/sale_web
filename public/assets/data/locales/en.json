@@ -35,7 +35,8 @@
         "CHAT": "Chat",
         "SETTING": "Setting",
         "LOGOUT": "Logout",
-        "CLEAR": "Clear"
+        "CLEAR": "Clear",
+        "DISABLE": "Disable"
     },
     "LEAD": {
         "NAME": "Name",
@@ -238,5 +239,17 @@
         "NEW_MESSAGE": "New message!",
         "NOTIFICATION_NEW_CONVERSATION_TITLE": "{{customerName}} has sent you a message",
         "NOTIFICATION_NEW_CONVERSATION_MESSAGE": "You have received new message from {{customerName}}. Check it now!"
+    },
+    "USER": {
+        "NAME": "USER NAME",
+        "PHONE": "Phone Number",
+        "EMAIL": "Email",
+        "ROLE": "Role",
+        "ONLINE": "Online",
+        "BUSY": "Busy",
+        "AWAY": "Away",
+        "OFFLINE": "Offline",
+        "INACTIVE": "Inactive",
+        "TOTAL_USERS": "Total Users"
     }
 }

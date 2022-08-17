@@ -37,7 +37,7 @@ export default class AccountConnectionRepositoryImpl implements AccountConnectio
    * @param pageId The id of chat platform
    * @returns void
    */
-  unlinkPage = async (platform: ChatPlatform, pageId: string) => apiProvider.authorizedRequest.delete('/me/linked_pages', {
+  unlinkPage = async (platform: ChatPlatform, pageId: string) => apiProvider.authorizedRequest.delete('/admin/linked_pages', {
     queryParams: {
       platform, pageId,
     },

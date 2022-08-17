@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { UserStatus } from '@domain/entities/User';
+import { UserStatusType } from '@domain/entities/User';
 import i18n from '@config/i18n';
 import ConversationList from '@features/Chat/components/ConversationList';
 import { ConversationSection } from '@features/Chat/ConversationSection';
@@ -39,7 +39,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
   // ** State
   const [query, setQuery] = useState('');
   const [about, setAbout] = useState('');
-  const [status, setStatus] = useState<UserStatus>('online');
+  const [status, setStatus] = useState<UserStatusType>('online');
 
   // ** Handles User Chat Click
   const handleConversationSelected = (item: Conversation) => {
@@ -75,7 +75,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                 img={userProfile?.avatar || Images.defaultAvatar}
               />
               <h4 className="chat-user-name">{userProfile?.name || userProfile?.username}</h4>
-              <span className="user-post">{userProfile?.role}</span>
+              <span className="user-post">{userProfile?.roles.join(', ')}</span>
             </div>
           </header>
           <PerfectScrollbar className="profile-sidebar-area" options={{ wheelPropagation: false }}>
