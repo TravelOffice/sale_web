@@ -74,7 +74,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                 size="xl"
                 img={userProfile?.avatar || Images.defaultAvatar}
               />
-              <h4 className="chat-user-name">{userProfile?.name || userProfile?.username}</h4>
+              <h4 className="chat-user-name">{userProfile?.fullName || userProfile?.username}</h4>
               <span className="user-post">{userProfile?.roles.join(', ')}</span>
             </div>
           </header>

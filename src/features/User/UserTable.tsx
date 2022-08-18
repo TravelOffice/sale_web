@@ -17,10 +17,12 @@ import {
 import { userActions } from '@redux/slices/userSlice';
 import { User } from '@domain/entities/User';
 import { userColumns } from './UserColumns';
+import UserSidebar from './UserSidebar';
 
 const UserTable = () => {
   // ** Store Vars
   const allUsers = useSelector((state: RootState) => state.user.allUsers);
+  const selectedUser = useSelector((state: RootState) => state.user.selectedUser);
   const [usersFiltered, setUsersFiltered] = useState<User[]>([]);
   const dispatch = useDispatch();
   // ** States
@@ -124,12 +126,22 @@ const UserTable = () => {
         data={usersFiltered}
         fetchDataState={fetchUsersState}
         columns={userColumns}
-        searchableColumns={['name', 'username']}
+        searchableColumns={['email', 'phoneNumber']}
         toggleAddDataSidebar={toggleUserSidebar}
         sortColumnDefault="createdAt"
-        onRowClicked={() => {}}
+        onRowClicked={(user) => {
+          setOpenSidebar(true);
+          dispatch(userActions.selectUser(user));
+        }}
         onPageChange={() => {}}
         onRefresh={onRefresh}
+      />
+      <UserSidebar
+        open={openSidebar}
+        setOpenSidebar={setOpenSidebar}
+        toggleSidebar={toggleUserSidebar}
+        user={selectedUser}
+        onClosed={() => dispatch(userActions.unSelectUser())}
       />
     </>
 

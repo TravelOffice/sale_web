@@ -3,6 +3,7 @@ import Avatar, { AvatarColor } from '@components/Avatar/Avatar';
 // ** i18n import
 import i18n from '@config/i18n';
 import { User } from '@domain/entities/User';
+import { userActions } from '@redux/slices/userSlice';
 import Images from '@themes/Images';
 import React, { MouseEventHandler } from 'react';
 import { TableColumn } from 'react-data-table-component';
@@ -11,6 +12,7 @@ import {
   AlertTriangle,
   Archive, FileText, MoreVertical, Trash2,
 } from 'react-feather';
+import { useDispatch } from 'react-redux';
 // ** React Imports
 import { Link } from 'react-router-dom';
 // ** Reactstrap Imports
@@ -35,7 +37,7 @@ const renderClient = (row: User) => {
     offline: 'light-secondary',
     inactive: 'light-secondary',
   };
-  const color : AvatarColor = states[row.status];
+  const color : AvatarColor = states[row.status || 'offline'];
 
   if (row.avatar && row.avatar.length) {
     return <Avatar img={row.avatar || Images.defaultAvatar} className="me-1" imgHeight="32" imgWidth="32" status="online" />;
@@ -97,7 +99,7 @@ export const userColumns: TableColumn<User>[] = [
     sortField: 'status',
     selector: (row: User) => row.status || '',
     cell: (row: User) => (
-      <Badge className="text-capitalize" color={statusObj[row.status]} pill>
+      <Badge className="text-capitalize" color={statusObj[row.status || 'offline']} pill>
         {row.status && i18n.t(`USER.${row.status.toUpperCase()}`)}
       </Badge>
     ),
@@ -106,10 +108,11 @@ export const userColumns: TableColumn<User>[] = [
     name: i18n.t('COMMON.ACTIONS'),
     minWidth: '50px',
     cell: (row: User) => {
-      // const dispatch = useDispatch();
+      const dispatch = useDispatch();
       const selectRow: MouseEventHandler = (e) => {
         e.preventDefault();
-        // dispatch(userActions.selectUser(row));
+        dispatch(userActions.selectUser(row));
+        dispatch(userActions.setOpenSidebar(true));
       };
       return (
         <div className="column-action">
