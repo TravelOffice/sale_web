@@ -5,26 +5,34 @@ import { RefreshCw } from 'react-feather';
 import {
   Button, Col, Input, Row,
 } from 'reactstrap';
+import { TableSelectOption } from './Table';
 
 export interface CustomHeaderProps {
-  onToggleSidebar: () => void,
+  onToggleSidebar?: () => void,
   handlePerPage: (e: ChangeEvent<HTMLInputElement>) => void,
   handleFilter: (e: string) => void,
   handleRefresh: () => void,
   searchTerm: string,
   rowsPerPage: number,
   loading: boolean,
-
+  handleSelectChange?: (e: string) => void,
+  selectOptions?: Array<TableSelectOption>
 }
 
 export default function CustomHeader(props: CustomHeaderProps) {
   const {
-    handleFilter, handlePerPage, rowsPerPage, searchTerm, loading, onToggleSidebar, handleRefresh,
+    handleFilter,
+    handlePerPage,
+    rowsPerPage,
+    searchTerm,
+    loading,
+    onToggleSidebar,
+    handleRefresh,
+    handleSelectChange,
+    selectOptions,
   } = props;
 
-  const handleToggleSidebar = () => {
-    onToggleSidebar();
-  };
+  const handleToggleSidebar = () => onToggleSidebar?.();
   return (
     <div className="invoice-list-table-header w-100 me-1 ms-50 mt-2 mb-75">
       <Row>
@@ -64,11 +72,26 @@ export default function CustomHeader(props: CustomHeaderProps) {
             />
           </div>
 
+          {(handleSelectChange && selectOptions) && (
+            <Input
+              type="select"
+              className="d-flex align-items-center mb-sm-0 mb-1 me-1"
+              style={{ width: '16rem' }}
+              onChange={(e) => handleSelectChange(e.target.value)}
+            >
+              {
+                selectOptions.map((option) => <option value={option.value}>{option.label}</option>)
+              }
+            </Input>
+          )}
+
+          {onToggleSidebar && (
           <div className="d-flex align-items-center table-header-actions">
             <Button className="add-new-user" color="primary" onClick={handleToggleSidebar}>
               {i18n.t('COMMON.ADD')}
             </Button>
           </div>
+          )}
         </Col>
       </Row>
     </div>

@@ -2,7 +2,7 @@
 import Avatar, { AvatarColor } from '@components/Avatar/Avatar';
 // ** i18n import
 import i18n from '@config/i18n';
-import { User } from '@domain/entities/User';
+import { User, UserStatusEnum } from '@domain/entities/User';
 import { userActions } from '@redux/slices/userSlice';
 import Images from '@themes/Images';
 import React, { MouseEventHandler } from 'react';
@@ -30,19 +30,19 @@ const statusObj = {
 
 // ** Renders Client Columns
 const renderClient = (row: User) => {
-  const states : { [key: string] : AvatarColor } = {
+  const states: { [key: string] : AvatarColor } = {
     away: 'light-primary',
     busy: 'light-warning',
     online: 'light-success',
     offline: 'light-secondary',
     inactive: 'light-secondary',
   };
-  const color : AvatarColor = states[row.status || 'offline'];
+  const color: AvatarColor = states[row.status || 'offline'];
 
   if (row.avatar && row.avatar.length) {
-    return <Avatar img={row.avatar || Images.defaultAvatar} className="me-1" imgHeight="32" imgWidth="32" status="online" />;
+    return <Avatar img={row.avatar || Images.defaultAvatar} className="me-1" imgHeight="32" imgWidth="32" status={row.status} />;
   }
-  return <Avatar color={color || 'primary'} className="me-1" content={row.username || 'John Doe'} />;
+  return <Avatar color={color || 'primary'} className="me-1" content={row.username} />;
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -52,7 +52,6 @@ export const userColumns: TableColumn<User>[] = [
     sortable: true,
     minWidth: '300px',
     sortField: 'fullName',
-    selector: (row) => row.username,
     cell: (row) => (
       <div className="d-flex justify-content-left align-items-center">
         {renderClient(row)}
@@ -73,7 +72,6 @@ export const userColumns: TableColumn<User>[] = [
     minWidth: '150px',
     sortable: true,
     sortField: 'role',
-    selector: (row: User) => row.roles.join(',') || '',
     cell: (row: User) => <span className="text-capitalize">{row.roles.join(',')}</span>,
   },
   {
@@ -81,7 +79,6 @@ export const userColumns: TableColumn<User>[] = [
     minWidth: '150px',
     sortable: true,
     sortField: 'phone',
-    selector: (row: User) => row.phoneNumber || '',
     cell: (row: User) => <span className="text-capitalize">{row.phoneNumber}</span>,
   },
   {
@@ -89,17 +86,15 @@ export const userColumns: TableColumn<User>[] = [
     minWidth: '150px',
     sortable: true,
     sortField: 'birthday',
-    selector: (row: User) => row.email || '',
-    cell: (row: User) => <span className="text-capitalize">{row.email}</span>,
+    cell: (row: User) => <span>{row.email}</span>,
   },
   {
     name: i18n.t('COMMON.STATUS'),
     minWidth: '150px',
     sortable: true,
     sortField: 'status',
-    selector: (row: User) => row.status || '',
     cell: (row: User) => (
-      <Badge className="text-capitalize" color={statusObj[row.status || 'offline']} pill>
+      <Badge className="text-capitalize" color={statusObj[row.status || UserStatusEnum.offline]} pill>
         {row.status && i18n.t(`USER.${row.status.toUpperCase()}`)}
       </Badge>
     ),
@@ -129,34 +124,37 @@ export const userColumns: TableColumn<User>[] = [
                 <FileText size={14} className="me-50" />
                 <span className="align-middle">{i18n.t('COMMON.DETAILS')}</span>
               </DropdownItem>
-              <DropdownItem tag="a" href="/" className="w-100" onClick={selectRow}>
-                <Archive size={14} className="me-50" />
-                <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
-              </DropdownItem>
-              <DropdownItem
-                tag="a"
-                href="/"
-                className="w-100"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <Trash2 size={14} className="me-50" />
-                <span className="align-middle">{i18n.t('COMMON.DELETE')}</span>
-              </DropdownItem>
-              { row.status !== 'inactive'
-              && (
-              <DropdownItem
-                tag="a"
-                href="/"
-                className="w-100"
-                onClick={(e) => {
-                  e.preventDefault();
-                }}
-              >
-                <AlertTriangle size={14} className="me-50" />
-                <span className="align-middle">{i18n.t('COMMON.DISABLE')}</span>
-              </DropdownItem>
+              { row.roles.includes('ROOT') || (
+                <>
+                  <DropdownItem tag="a" href="/" className="w-100" onClick={selectRow}>
+                    <Archive size={14} className="me-50" />
+                    <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
+                  </DropdownItem>
+                  <DropdownItem
+                    tag="a"
+                    href="/"
+                    className="w-100"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <Trash2 size={14} className="me-50" />
+                    <span className="align-middle">{i18n.t('COMMON.DELETE')}</span>
+                  </DropdownItem>
+                  { row.status !== UserStatusEnum.inactive && (
+                  <DropdownItem
+                    tag="a"
+                    href="/"
+                    className="w-100"
+                    onClick={(e) => {
+                      e.preventDefault();
+                    }}
+                  >
+                    <AlertTriangle size={14} className="me-50" />
+                    <span className="align-middle">{i18n.t('COMMON.DISABLE')}</span>
+                  </DropdownItem>
+                  )}
+                </>
               )}
             </DropdownMenu>
           </UncontrolledDropdown>

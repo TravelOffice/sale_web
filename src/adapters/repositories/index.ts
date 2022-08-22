@@ -18,6 +18,8 @@ import { OpportunityRepository } from './interfaces/OpportunityRepository';
 import OpportunityRepositoryImpl from './OpportunityRepositoryImpl';
 import { CustomerRepository } from './interfaces/CustomerRepository';
 import CustomerRepositoryImpl from './CustomerRepositoryImpl';
+import RolePermissionRepository from './interfaces/RolePermissionRepository';
+import RolePermissionRepositoryImpl from './RolePermissionRepositoryImpl';
 
 interface Repositories {
   userRepository: UserRepository,
@@ -30,6 +32,7 @@ interface Repositories {
   opportunityRepository: OpportunityRepository,
   customerRepository: CustomerRepository,
   notificationRepository: NotificationRepository,
+  rolePermissionRepository: RolePermissionRepository,
 }
 
 const repositories : Repositories = {
@@ -43,6 +46,7 @@ const repositories : Repositories = {
   opportunityRepository: new OpportunityRepositoryImpl(),
   customerRepository: new CustomerRepositoryImpl(),
   notificationRepository: new NotificationRepositoryImpl(),
+  rolePermissionRepository: new RolePermissionRepositoryImpl(),
 };
 
 export const {
@@ -56,4 +60,5 @@ export const {
   opportunityRepository,
   customerRepository,
   notificationRepository,
+  rolePermissionRepository,
 } = repositories;

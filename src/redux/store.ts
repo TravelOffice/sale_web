@@ -15,6 +15,7 @@ import createSagaMiddleware from 'redux-saga';
 import client from '@graphql/client';
 import { customerReducers } from './slices/customerSlice';
 import { userReducers } from './slices/userSlice';
+import { rolePermissionReducers } from './slices/rolePermissionSlice';
 
 enableMapSet();
 
@@ -33,6 +34,7 @@ const combinedReducers = combineReducers({
   pageConnection: pageConnectionReducers,
   customer: customerReducers,
   notification: notificationReducers,
+  rolePermission: rolePermissionReducers,
 });
 
 type Reducers = typeof combinedReducers;

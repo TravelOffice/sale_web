@@ -1,4 +1,10 @@
-export type UserStatusType = 'online' | 'offline' | 'busy' | 'away' | 'inactive';
+export enum UserStatusEnum {
+  online = 'online',
+  offline = 'offline',
+  busy = 'busy',
+  away = 'away',
+  inactive = 'inactive',
+}
 
 export enum ThemesType {
   DARK = 'dark',
@@ -23,9 +29,19 @@ export enum SexEnum {
 
 export type SexType = keyof typeof SexEnum;
 export type RoleType = keyof typeof RoleEnum;
+export type UserStatusType = keyof typeof UserStatusEnum;
 
 export const userSexes: SexType[] = Object.keys(SexEnum) as Array<SexType>;
 export const roleTypes: RoleType[] = Object.keys(RoleEnum) as Array<RoleType>;
+export const userStatusTypes: UserStatusType[] = Object.keys(
+  UserStatusEnum,
+) as Array<UserStatusType>;
+
+export interface UserStatusOption {
+  label: string,
+  value: string,
+  number: number
+}
 
 export interface User {
   username: string,

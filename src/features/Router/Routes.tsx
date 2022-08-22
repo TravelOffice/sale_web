@@ -9,6 +9,7 @@ import CustomerList from '@features/Customer/CustomerList';
 import LeadDetail from '@features/Lead/LeadDetail/LeadDetail';
 import OpportunityDetail from '@features/Opportunity/OpportunityDetail/OpportunityDetail';
 import UserList from '@features/User/UserList';
+import Roles from '@features/Roles-Permissions/Roles/Role';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -61,6 +62,11 @@ const Routes : RoutePathConfig[] = [
     path: '/admin/user/list',
     exact: true,
     component: <UserList />,
+  },
+  {
+    path: '/apps/admin/roles',
+    exact: true,
+    component: <Roles />,
   },
   {
     path: '*',
