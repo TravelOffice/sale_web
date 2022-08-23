@@ -219,6 +219,7 @@
     "MESSAGE": {
         "NAME_REQUIRE_MESSAGE": "Tên không được để trống",
         "PRIMARY_PHONE_REQUIRE_MESSAGE": "SĐT chính không được để trống",
+        "PHONE_REQUIRE_MESSAGE": "SĐT không được để trống",
         "SELECT_FIELD_INVALID_MESSAGE": "Field is invalid",
         "COUNTRY_INVALID_MESSAGE": "Quốc gia không hợp lệ",
         "PHONE_INVALID_MESSAGE": "SĐT không hợp lệ",
@@ -226,7 +227,12 @@
         "SEX_INVALID_MESSAGE": "Giới tính không hợp lệ",
         "MARITAL_INVALID_MESSAGE": "Tình trạng hôn nhân không hợp lệ",
         "STATUS_INVALID_MESSAGE": "Trạng thái không hợp lệ",
-        "SOURCE_INVALID_MESSAGE": "Nguồn không hợp lệ"
+        "SOURCE_INVALID_MESSAGE": "Nguồn không hợp lệ",
+        "EMAIL_REQUIRE_MESSAGE": "Email không được để trống",
+        "EMAIL_INVALID_MESSAGE": "Email không hợp lệ",
+        "FIRST_NAME_REQUIRE_MESSAGE": "Tên không được để trống",
+        "LAST_NAME_REQUIRE_MESSAGE": "Họ không được để trống",
+        "ROLE_REQUIRE_MESSAGE": "Role không được để trống"
     },
     "TASK": {
         "LIST_TASKS": "Danh sách công việc",
@@ -250,6 +256,18 @@
         "AWAY": "Vắng mặt",
         "OFFLINE": "Không trực tuyến",
         "INACTIVE": "Bị vô hiệu hóa",
-        "TOTAL_USERS": "Tổng số nhân viên"
+        "TOTAL_USERS": "Tổng số nhân viên",
+        "ADD_USER": "Thêm mới nhân viên",
+        "EDIT_USER": "Cập nhật thông tin nhân viên",
+        "FIRSTNAME": "Tên",
+        "LASTNAME": "Họ",
+        "BIRTHDAY": "Ngày sinh",
+        "ADDRESS":"Địa chỉ",
+        "SEX":"Giới tính",
+        "MALE": "Nam",
+        "FEMALE": "Nữ",
+        "OTHER": "Khác",
+        "ADD_USER_SUCCESSFULLY": "Đã thêm mới nhân viên {{userName}}",
+        "UPDATE_USER_SUCCESSFULLY": "Cập nhật thông tin nhân viên {{userName}} thành công"
     }
 }

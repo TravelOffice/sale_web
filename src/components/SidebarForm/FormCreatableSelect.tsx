@@ -1,5 +1,5 @@
 import {
-  Controller, FieldPathValue, Path, UnpackNestedValue, UseFormSetValue,
+  Controller, FieldError, FieldPathValue, Path, UnpackNestedValue, UseFormSetValue,
 } from 'react-hook-form';
 import { FormItemProps } from '@components/SidebarForm/FormItemProps';
 import { FormFeedback, Label } from 'reactstrap';
@@ -83,7 +83,17 @@ function FormCreatableSelect<T, TName extends Path<T>>(
           );
         }}
       />
-      {fieldError && <FormFeedback>{fieldError.message}</FormFeedback>}
+      {fieldError && (
+        fieldError.message
+          ? <FormFeedback>{fieldError.message}</FormFeedback>
+          : (
+            <FormFeedback>
+              {(fieldError as any as FieldError[]).map(
+                (error) => error.message,
+              ).join('\r\n')}
+            </FormFeedback>
+          )
+      )}
     </div>
   );
 }

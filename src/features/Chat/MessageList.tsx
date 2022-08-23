@@ -38,7 +38,7 @@ export default function MessageList(props: MessageListProps) {
                       className="cursor-pointer"
                       color="light-primary"
                       img={currentUser.avatar}
-                      content={currentUser.avatar ? undefined : currentUser.name}
+                      content={currentUser.avatar ? undefined : currentUser.fullName}
                     />
                   ) : <CustomerAvatar conversation={currentConversation} />
               }
