@@ -6,7 +6,9 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HandleDataState } from './others/HandleDataState';
 
 interface UserState {
+  createOrUpdateUserLoading: any;
   allUsers: User[],
+  selectedUser?: User,
   fetchAllUsersError?: FetchAllUsersResponse,
   fetchAllUsersState: HandleDataState,
   openSidebar: boolean,
@@ -17,6 +19,7 @@ const initialState : UserState = {
   fetchAllUsersError: undefined,
   fetchAllUsersState: 'init',
   openSidebar: false,
+  createOrUpdateUserLoading: false,
 };
 
 const userSlice = createSlice({
@@ -35,11 +38,46 @@ const userSlice = createSlice({
     setFetchAllUserError: (state) => {
       state.fetchAllUsersState = 'error';
     },
+    getUser: (state, _action: PayloadAction<string>) => {
+    },
+    addUser: (state, _action: PayloadAction<User>) => {
+      state.createOrUpdateUserLoading = true;
+    },
+    onUserAdded: (state, _action: PayloadAction<User>) => {
+      state.createOrUpdateUserLoading = false;
+      state.openSidebar = false;
+    },
+    onUserAddedError: (state) => {
+      state.createOrUpdateUserLoading = false;
+    },
+    updateUser: (state, _action: PayloadAction<User>) => {
+      state.createOrUpdateUserLoading = true;
+    },
+    onUserUpdated: (state, _action: PayloadAction<User>) => {
+      state.createOrUpdateUserLoading = false;
+      state.openSidebar = false;
+    },
+    onUserUpdatedError: (state) => {
+      state.createOrUpdateUserLoading = false;
+    },
+    deleteUser: (state, _action: PayloadAction<User>) => {},
+    selectUser: (state, action: PayloadAction<User | undefined>) => {
+      state.selectedUser = action.payload;
+    },
+    setSelectedUser: (state, action: PayloadAction<User>) => {
+      state.selectedUser = action.payload;
+    },
+    unSelectUser: (state) => {
+      state.selectedUser = undefined;
+      state.openSidebar = false;
+    },
     setOpenSidebar: (state, action: PayloadAction<boolean>) => {
       state.openSidebar = action.payload;
     },
     resetSidebar: (state) => {
       state.openSidebar = false;
+      state.createOrUpdateUserLoading = false;
+      state.selectedUser = undefined;
     },
   },
 });

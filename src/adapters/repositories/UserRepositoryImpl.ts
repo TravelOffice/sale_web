@@ -1,4 +1,5 @@
 import { apiProvider, sessionStorageProvider } from '@adapter/infrastructures';
+import { User } from '@domain/entities/User';
 import UserRepository from './interfaces/UserRepository';
 
 export default class UserRepositoryImpl implements UserRepository {
@@ -12,6 +13,22 @@ export default class UserRepositoryImpl implements UserRepository {
   getAllUsers = async () => {
     const response = await apiProvider.authorizedRequest.get('/users');
     return response.data;
+  }
+
+  addUser = async (user: User) => {
+    await apiProvider.authorizedRequest.post('/users', user);
+    return user;
+  }
+
+  updateUser = async (user: User) => {
+    /* eslint-disable no-unused-vars */
+    const {
+      username,
+      ...updateUser
+    } = user;
+    /* eslint-enable no-unused-vars */
+    await apiProvider.authorizedRequest.put(`/users/${user.username}`, updateUser);
+    return user;
   }
 
   getLinkedPages = async (refresh: boolean) => {
