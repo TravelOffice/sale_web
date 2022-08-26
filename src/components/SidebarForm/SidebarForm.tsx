@@ -31,7 +31,7 @@
  * />
  *
  * */
-import React, { useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   Button,
   Form as ReactstrapForm, Spinner,
@@ -161,6 +161,10 @@ export default function SidebarForm<T>(props: FormProps<T> & RightSideBarProps) 
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
+  const handleOnClosed = useCallback(() => {
+    onClosed();
+    reset(defaultValues);
+  }, []);
 
   return (
     <RightSideBar
@@ -170,7 +174,7 @@ export default function SidebarForm<T>(props: FormProps<T> & RightSideBarProps) 
       headerClassName="mb-1"
       contentClassName="pt-0"
       toggleSidebar={toggleSidebar}
-      onClosed={onClosed}
+      onClosed={handleOnClosed}
     >
       <ReactstrapForm onSubmit={onSubmit && handleSubmit(onSubmit)}>
         {

@@ -8,6 +8,7 @@ import opportunitySaga from '@redux/saga/opportunitySaga';
 import notificationSaga from '@redux/saga/notificationSaga';
 import customerSaga from './saga/customerSaga';
 import userSaga from './saga/userSaga';
+import rolePermissionSaga from './saga/rolePermission';
 
 // eslint-disable-next-line require-yield
 function* log(action: PayloadAction) {
@@ -30,5 +31,6 @@ export default function* rootSaga() {
     pageConnectionSaga(),
     customerSaga(),
     notificationSaga(),
+    rolePermissionSaga(),
   ]);
 }

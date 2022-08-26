@@ -36,7 +36,8 @@
         "SETTING": "Setting",
         "LOGOUT": "Logout",
         "CLEAR": "Clear",
-        "DISABLE": "Disable"
+        "DISABLE": "Disable",
+        "SELECT_ALL": "Select All"
     },
     "LEAD": {
         "NAME": "Name",
@@ -232,7 +233,8 @@
         "EMAIL_INVALID_MESSAGE": "Email is invalid",
         "FIRST_NAME_REQUIRE_MESSAGE": "First name is required",
         "LAST_NAME_REQUIRE_MESSAGE": "Last name is required",
-        "ROLE_REQUIRE_MESSAGE": "Role is required"
+        "ROLE_REQUIRE_MESSAGE": "Role is required",
+        "ROLE_INVALID_MESSAGE": "Please enter a valid role name"
     },
     "TASK": {
         "TASKS_LIST": "Tasks",
@@ -256,7 +258,6 @@
         "AWAY": "Away",
         "OFFLINE": "Offline",
         "INACTIVE": "Inactive",
-        "TOTAL_USERS": "Total Users",
         "ADD_USER": "Add new user",
         "EDIT_USER": "Update user information",
         "FIRSTNAME": "First name",
@@ -268,6 +269,24 @@
         "FEMALE": "Female",
         "OTHER": "Other",
         "ADD_USER_SUCCESSFULLY": "Create user {{userName}} successfully",
-        "UPDATE_USER_SUCCESSFULLY": "Update user {{userName}} successfully"
+        "UPDATE_USER_SUCCESSFULLY": "Update user {{userName}} successfully",
+        "TOTAL_USERS": "Total Users"
+    },
+    "ROLE-PERMISSION": {
+        "ROLE_LIST_TITLE": "Roles List",
+        "ROLE_CARD_TITLE": "Total users",
+        "ADD_NEW_ROLE": "Add new Role",
+        "EDIT_ROLE": "Edit Role",
+        "CLONE_ROLE": "Clone Role",
+        "DELETE_ROLE": "Delete Role",
+        "ENTER_ROLE_NAME": "Enter role name",
+        "ROLE_NAME": "Role name",
+        "SELECT_ROLE": "Select Role",
+        "DEFAULT_ROLE": "System Default Role",
+        "CUSTOM_ROLE": "Custom Role",
+        "TOTAL_USER": "Total {{totalUsers}} users",
+        "ADMINISTRATOR_ACCESS": "Administrator Access",
+        "ROLE_PERMISSIONS": "Role Permissions",
+        "INPUT_ROLE_NAME": "Enter role name"
     }
 }

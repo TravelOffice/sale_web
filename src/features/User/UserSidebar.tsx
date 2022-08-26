@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import SidebarForm, { FormSchema } from '@components/SidebarForm/SidebarForm';
 import {
-  roleTypes,
   User,
   userSexes,
+  UserStatusEnum,
 } from '@domain/entities/User';
 import i18n from '@config/i18n';
 import * as yup from 'yup';
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '@redux/slices/userSlice';
 import { RootState } from '@redux/store';
 import moment from 'moment';
+import { RoleOption } from '@domain/entities/RolePermission';
 
 type OmitFields = 'createdAt' | 'updatedAt' | 'settings' | 'avatar' | 'status' | 'fullName' | 'about' | 'tenant' | 'rolesStr';
 type UserFormData = Omit<User, OmitFields>;
@@ -32,9 +33,10 @@ export interface UserSidebarProps {
   open: boolean,
   user?: User,
   onClosed: () => void,
+  roleOptions: Array<RoleOption>
 }
 
-function useSchema(user: User | undefined) {
+function useSchema(user: User | undefined, roleOptions: Array<RoleOption>) {
   const schema: FormSchema<UserFormData> = useMemo(() => ({
     username: {
       type: 'text',
@@ -92,9 +94,9 @@ function useSchema(user: User | undefined) {
       type: 'select',
       label: i18n.t('USER.ROLE'),
       required: true,
-      options: roleTypes.map((option) => ({
-        label: option,
-        value: [option],
+      options: roleOptions.map((option) => ({
+        label: option.label,
+        value: [option.value],
       })),
       validator: yup.array().min(1, i18n.t('MESSAGE.ROLE_REQUIRE_MESSAGE')),
       isMulti: true,
@@ -105,7 +107,7 @@ function useSchema(user: User | undefined) {
 
 export default function UserSidebar(props: UserSidebarProps) {
   const {
-    open, toggleSidebar, user, onClosed,
+    open, toggleSidebar, user, onClosed, roleOptions,
   } = props;
   const userFormData = useMemo(() => {
     if (user) {
@@ -117,7 +119,7 @@ export default function UserSidebar(props: UserSidebarProps) {
   }, [user]);
 
   const dispatch = useDispatch();
-  const schema = useSchema(user);
+  const schema = useSchema(user, roleOptions);
   const loading = useSelector((state: RootState) => state.user.createOrUpdateUserLoading);
   const onSubmit = useCallback((formData: UnpackNestedValue<UserFormData>) => {
     if (user) {
@@ -136,7 +138,7 @@ export default function UserSidebar(props: UserSidebarProps) {
       // Create user
       dispatch(userActions.addUser({
         ...formData,
-        status: 'offline',
+        status: UserStatusEnum.offline,
         roles: formData.roles.flat(),
         birthday: moment(formData.birthday).format(BIRTHDAY_FORMAT),
       }));

@@ -15,13 +15,16 @@ import {
   Card, CardBody, CardHeader, CardTitle, Col, Label, Row,
 } from 'reactstrap';
 import { userActions } from '@redux/slices/userSlice';
-import { User } from '@domain/entities/User';
+import { User, UserStatusOption, userStatusTypes } from '@domain/entities/User';
+import { rolePermissionActions } from '@redux/slices/rolePermissionSlice';
+import { RoleOption } from '@domain/entities/RolePermission';
 import { userColumns } from './UserColumns';
 import UserSidebar from './UserSidebar';
 
 const UserTable = () => {
   // ** Store Vars
   const allUsers = useSelector((state: RootState) => state.user.allUsers);
+  const allRoles = useSelector((state: RootState) => state.rolePermission.allRoles);
   const selectedUser = useSelector((state: RootState) => state.user.selectedUser);
   const [usersFiltered, setUsersFiltered] = useState<User[]>([]);
   const dispatch = useDispatch();
@@ -40,23 +43,20 @@ const UserTable = () => {
   const toggleUserSidebar = () => setOpenSidebar(!openSidebar);
 
   // ** User filter options
-  const statusOptions = [
-    { value: '', label: i18n.t('COMMON.SELECT'), number: 0 },
-    { value: 'online', label: i18n.t('USER.ONLINE'), number: 1 },
-    { value: 'busy', label: i18n.t('USER.BUSY'), number: 2 },
-    { value: 'away', label: i18n.t('USER.AWAY'), number: 3 },
-    { value: 'offline', label: i18n.t('USER.OFFLINE'), number: 4 },
-    { value: 'inactive', label: i18n.t('USER.INACTIVE'), number: 5 },
-  ];
+  const statusOptions: Array<UserStatusOption> = userStatusTypes.map((status, index) => ({
+    label: status,
+    value: status,
+    number: index,
+  }));
+
+  const defaultOption = [{ value: '', label: i18n.t('COMMON.SELECT'), number: -1 }];
 
   // ** User filter options
-  const roleOptions = [
-    { value: '', label: i18n.t('COMMON.SELECT'), number: 0 },
-    { value: 'admin', label: 'Admin', number: 1 },
-    { value: 'sale', label: 'Sale', number: 2 },
-    { value: 'employee', label: 'Employee', number: 3 },
-    { value: 'root', label: 'Root', number: 4 },
-  ];
+  const roleOptions: Array<RoleOption> = allRoles.map((role, index) => ({
+    label: role.name,
+    value: role.name,
+    number: index,
+  }));
 
   const handlerFilterUsers = (users: User[], role?: string, status?: string) => {
     let filteredUsers = users;
@@ -83,6 +83,7 @@ const UserTable = () => {
   useEffect(() => {
     dispatch(userActions.resetSidebar());
     dispatch(getAllUsers());
+    dispatch(rolePermissionActions.getAllRoles());
   }, []);
 
   return (
@@ -99,7 +100,7 @@ const UserTable = () => {
                 isClearable={false}
                 className="react-select"
                 classNamePrefix="select"
-                options={statusOptions}
+                options={defaultOption.concat(statusOptions)}
                 value={currentStatus}
                 onChange={(data) => {
                   setCurrentStatus(data!);
@@ -112,7 +113,7 @@ const UserTable = () => {
                 isClearable={false}
                 className="react-select"
                 classNamePrefix="select"
-                options={roleOptions}
+                options={defaultOption.concat(roleOptions)}
                 value={currentRole}
                 onChange={(data) => {
                   setCurrentRole(data!);
@@ -129,10 +130,6 @@ const UserTable = () => {
         searchableColumns={['email', 'phoneNumber']}
         toggleAddDataSidebar={toggleUserSidebar}
         sortColumnDefault="createdAt"
-        onRowClicked={(user) => {
-          setOpenSidebar(true);
-          dispatch(userActions.selectUser(user));
-        }}
         onPageChange={() => {}}
         onRefresh={onRefresh}
       />
@@ -142,6 +139,7 @@ const UserTable = () => {
         toggleSidebar={toggleUserSidebar}
         user={selectedUser}
         onClosed={() => dispatch(userActions.unSelectUser())}
+        roleOptions={roleOptions}
       />
     </>
 
