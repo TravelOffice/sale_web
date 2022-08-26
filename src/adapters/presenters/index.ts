@@ -12,9 +12,12 @@ import { OpportunityPresenter } from './interfaces/OpportunityPresenter';
 import OpportunityPresenterImpl from './OpportunityPresenterImpl';
 import { CustomerPresenter } from './interfaces/CustomerPresenter';
 import CustomerPresenterImpl from './CustomerPresenterImpl';
+import { RolePermissionPresenter } from './interfaces/RolePermissionPresenter';
+import RolePermissionPresenterImpl from './RolePermissionPresenterImpl';
 
 interface Presenters {
   userPresenter: UserPresenter,
+  rolePermissionPresenter: RolePermissionPresenter,
   chatPresenter: ChatPresenter,
   accountConnectionPresenter: AccountConnectionPresenter,
   leadPresenter: LeadPresenter,
@@ -25,6 +28,7 @@ interface Presenters {
 
 const presenters: Presenters = {
   userPresenter: new UserPresenterImpl(),
+  rolePermissionPresenter: new RolePermissionPresenterImpl(),
   chatPresenter: new ChatPresenterImpl(),
   accountConnectionPresenter: new AccountConnectionPresenterImpl(),
   leadPresenter: new LeadPresenterImpl(),
@@ -35,6 +39,7 @@ const presenters: Presenters = {
 
 export const {
   userPresenter,
+  rolePermissionPresenter,
   chatPresenter,
   accountConnectionPresenter,
   leadPresenter,

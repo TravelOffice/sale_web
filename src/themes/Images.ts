@@ -6,6 +6,7 @@ import errorDark from '@assets/images/pages/error-dark.svg';
 import facebookLogo from '@assets/images/icons/socials/facebook.png';
 import zaloLogo from '@assets/images/icons/socials/zalo.png';
 import telegramLogo from '@assets/images/icons/socials/telegram.svg';
+import faq from '@assets/images/illustration/faq-illustrations.svg';
 
 const Images = {
   logo,
@@ -13,6 +14,7 @@ const Images = {
   defaultAvatar,
   error,
   errorDark,
+  faq,
   icons: {
     socials: {
       facebookLogo,

@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { UserStatusType } from '@domain/entities/User';
+import { UserStatusEnum, UserStatusType } from '@domain/entities/User';
 import i18n from '@config/i18n';
 import ConversationList from '@features/Chat/components/ConversationList';
 import { ConversationSection } from '@features/Chat/ConversationSection';
@@ -39,7 +39,7 @@ const SidebarLeft = (props: SidebarLeftProps) => {
   // ** State
   const [query, setQuery] = useState('');
   const [about, setAbout] = useState('');
-  const [status, setStatus] = useState<UserStatusType>('online');
+  const [status, setStatus] = useState<UserStatusType>(UserStatusEnum.online);
 
   // ** Handles User Chat Click
   const handleConversationSelected = (item: Conversation) => {
@@ -104,8 +104,8 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                     type="radio"
                     label="Online"
                     id="user-online"
-                    checked={status === 'online'}
-                    onChange={() => setStatus('online')}
+                    checked={status === UserStatusEnum.online}
+                    onChange={() => setStatus(UserStatusEnum.online)}
                   />
                   <Label className="form-check-label" for="user-online">
                     {i18n.t('CHAT_USER_SETTING.STATUS_ONLINE')}
@@ -118,8 +118,8 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                     type="radio"
                     id="user-busy"
                     label="Do Not Disturb"
-                    checked={status === 'busy'}
-                    onChange={() => setStatus('busy')}
+                    checked={status === UserStatusEnum.busy}
+                    onChange={() => setStatus(UserStatusEnum.busy)}
                   />
                   <Label className="form-check-label" for="user-busy">
                     {i18n.t('CHAT_USER_SETTING.STATUS_BUSY')}

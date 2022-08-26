@@ -36,7 +36,8 @@
         "SETTING": "Cài đặt",
         "LOGOUT": "Đăng xuất",
         "CLEAR": "Xóa",
-        "DISABLE": "Vô hiệu hóa"
+        "DISABLE": "Vô hiệu hóa",
+        "SELECT_ALL": "Chọn tất cả"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -232,7 +233,8 @@
         "EMAIL_INVALID_MESSAGE": "Email không hợp lệ",
         "FIRST_NAME_REQUIRE_MESSAGE": "Tên không được để trống",
         "LAST_NAME_REQUIRE_MESSAGE": "Họ không được để trống",
-        "ROLE_REQUIRE_MESSAGE": "Role không được để trống"
+        "ROLE_REQUIRE_MESSAGE": "Role không được để trống",
+        "ROLE_INVALID_MESSAGE": "Role không hợp lệ"
     },
     "TASK": {
         "LIST_TASKS": "Danh sách công việc",
@@ -269,5 +271,22 @@
         "OTHER": "Khác",
         "ADD_USER_SUCCESSFULLY": "Đã thêm mới nhân viên {{userName}}",
         "UPDATE_USER_SUCCESSFULLY": "Cập nhật thông tin nhân viên {{userName}} thành công"
+    },
+    "ROLE-PERMISSION": {
+        "ROLE_LIST_TITLE": "Danh sách Role",
+        "ROLE_CARD_TITLE": "Danh sách nhân viên",
+        "ADD_NEW_ROLE": "Thêm mới Role",
+        "EDIT_ROLE": "Chỉnh sửa Role",
+        "CLONE_ROLE": "Sao chép Role",
+        "DELETE_ROLE": "Xóa Role",
+        "ENTER_ROLE_NAME": "Nhập tên Role",
+        "ROLE_NAME": "Tên Role",
+        "SELECT_ROLE": "Lựa chọn Role",
+        "DEFAULT_ROLE": "Role mặc định",
+        "CUSTOM_ROLE": "Role người dùng",
+        "TOTAL_USER": "Tổng số  {{totalUsers}} nhân viên",
+        "ADMINISTRATOR_ACCESS": "Administrator Access",
+        "ROLE_PERMISSIONS": "Role Permissions",
+        "INPUT_ROLE_NAME": "Nhập tên Role"
     }
 }

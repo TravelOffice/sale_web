@@ -20,6 +20,10 @@ import {
 import { handleSearchColumns } from '@utils/CommonUtils';
 import { DEFAULT_PAGE_SIZE } from '@utils/Constants';
 
+export interface TableSelectOption {
+  label: string,
+  value: string,
+}
 export interface TableProps<T> {
   data: T[],
   fetchDataState: HandleDataState,
@@ -27,11 +31,13 @@ export interface TableProps<T> {
   columns: TableColumn<T>[],
   searchableColumns: string[],
   sortColumnDefault: string,
-  toggleAddDataSidebar: () => void,
+  toggleAddDataSidebar?: () => void,
   onRowClicked?: (row: T) => void,
   onPageChange?: (pageNumber: number) => void,
   onRefresh?: () => void,
   selectableRows?: boolean,
+  handleSelectChange?: (value: string) => void,
+  selectOptions?: Array<TableSelectOption>
 }
 
 type SortDirection = 'asc' | 'desc';
@@ -48,6 +54,8 @@ function Table<T>(props: TableProps<T>) {
     onRowClicked,
     onRefresh,
     selectableRows,
+    handleSelectChange,
+    selectOptions,
   } = props;
 
   // ** States
@@ -160,6 +168,8 @@ function Table<T>(props: TableProps<T>) {
               handlePerPage={handlePerPage}
               onToggleSidebar={toggleAddDataSidebar}
               handleRefresh={handleRefresh}
+              handleSelectChange={handleSelectChange}
+              selectOptions={selectOptions}
             />
           )}
         />

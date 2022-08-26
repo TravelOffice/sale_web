@@ -51,6 +51,8 @@ import { UnlinkPageUseCase } from './interfaces/pageConnection/UnlinkPageUseCase
 import { AddUserUseCase } from './interfaces/user/AddUserUseCase';
 import { GetUserUseCase } from './interfaces/user/GetUserUseCase';
 import { UpdateUserUseCase } from './interfaces/user/UpdateUserUseCase';
+import { GetAllPermissionsUseCase } from './interfaces/rolePermission/GetAllPermissionsUseCase';
+import { GetAllRolesUseCase } from './interfaces/rolePermission/GetAllRolesUseCase';
 import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
 import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
 import GetLeadUseCaseImpl from './lead/GetLeadUseCaseImpl';
@@ -66,6 +68,12 @@ import GetAllUsersUseCaseImpl from './user/GetAllUsersUseCaseImpl';
 import GetCurrentUserUseCaseImpl from './user/GetCurrentUserUseCaseImpl';
 import GetUserUseCaseImpl from './user/GetUserUseCaseImpl';
 import UpdateUserUseCaseImpl from './user/UpdateUserUseCaseImpl';
+import GetAllPermissionsUseCaseImpl from './rolePermission/GetAllPermissionsUseCaseImpl';
+import GetAllRolesUseCaseImpl from './rolePermission/GetAllRolesUseCaseImpl';
+import { AddRoleUseCase } from './interfaces/rolePermission/AddRoleUseCase';
+import { UpdateRoleUseCase } from './interfaces/rolePermission/UpdateRoleUseCase';
+import AddRoleUseCaseImpl from './rolePermission/AddRoleUseCaseImpl';
+import UpdateRoleUseCaseImpl from './rolePermission/UpdateRoleUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -109,6 +117,11 @@ interface UseCases {
   // Notification
   getNotificationsUseCase: GetNotificationsUseCase,
   saveNotificationUseCase: SaveNotificationUseCase,
+  // Role Permission
+  getAllRolesUseCase: GetAllRolesUseCase,
+  getAllPermissionsUseCase: GetAllPermissionsUseCase,
+  addRoleUseCase: AddRoleUseCase
+  updateRoleUseCase: UpdateRoleUseCase
 }
 
 const useCases: UseCases = {
@@ -152,6 +165,11 @@ const useCases: UseCases = {
   // Notification
   getNotificationsUseCase: new GetNotificationsUseCaseImpl(),
   saveNotificationUseCase: new SaveNotificationUseCaseImpl(),
+  // Role Permission
+  getAllRolesUseCase: new GetAllRolesUseCaseImpl(),
+  getAllPermissionsUseCase: new GetAllPermissionsUseCaseImpl(),
+  addRoleUseCase: new AddRoleUseCaseImpl(),
+  updateRoleUseCase: new UpdateRoleUseCaseImpl(),
 };
 
 export const {
@@ -189,4 +207,8 @@ export const {
   saveNotificationUseCase,
   connectTelegramPageUseCase,
   adminGetPlatformConversationsUseCase,
+  getAllRolesUseCase,
+  getAllPermissionsUseCase,
+  addRoleUseCase,
+  updateRoleUseCase,
 } = useCases;

@@ -1,7 +1,9 @@
 import { MenuItem } from '@domain/entities/MenuLinkItem';
 import React from 'react';
 import {
-  Activity, Home, MessageSquare, Settings, ShoppingCart, Target, User, UserCheck, Users,
+  Activity, Home,
+  MessageSquare, Settings, Shield,
+  ShoppingCart, Target, User, UserCheck, Users,
 } from 'react-feather';
 
 const Navigation : MenuItem[] = [
@@ -62,6 +64,12 @@ const Navigation : MenuItem[] = [
     title: 'Customer',
     icon: <UserCheck size={12} />,
     navLink: '/apps/customer/list',
+  },
+  {
+    id: 'roles-permissions',
+    title: 'Roles & Permissions',
+    icon: <Shield size={20} />,
+    navLink: '/apps/admin/roles',
   },
 ];
 
