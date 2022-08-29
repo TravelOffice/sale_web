@@ -72,12 +72,16 @@ class ConversationMapper {
     const chatType = conversation.info.type;
     if (chatType === 'private') {
       // Individual user if chat type is private
-      customerName = `${conversation.info.first_name} ${conversation.info.last_name}`;
+      if (conversation.info.first_name && conversation.info.last_name) {
+        customerName = `${conversation.info.first_name} ${conversation.info.last_name}`;
+      } else {
+        customerName = conversation.info.username || 'unknown';
+      }
     } else {
       // Title as customer name, for supergroups, channels and group chats
       customerName = `${conversation.info.title}`;
     }
-    const customerId = conversation.info.username || conversation.info.id.toString();
+    const customerId = conversation.info.id.toString();
     const contact: Contact = {
       id: customerId,
       fullName: customerName,
