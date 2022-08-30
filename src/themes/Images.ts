@@ -7,6 +7,8 @@ import facebookLogo from '@assets/images/icons/socials/facebook.png';
 import zaloLogo from '@assets/images/icons/socials/zalo.png';
 import telegramLogo from '@assets/images/icons/socials/telegram.svg';
 import faq from '@assets/images/illustration/faq-illustrations.svg';
+import comingSoon from '@assets/images/illustration/coming-soon/coming-soon.svg';
+import comingSoonDark from '@assets/images/illustration/coming-soon/coming-soon-dark.svg';
 
 const Images = {
   logo,
@@ -14,6 +16,8 @@ const Images = {
   defaultAvatar,
   error,
   errorDark,
+  comingSoon,
+  comingSoonDark,
   faq,
   icons: {
     socials: {

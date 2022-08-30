@@ -37,7 +37,9 @@
         "LOGOUT": "Logout",
         "CLEAR": "Clear",
         "DISABLE": "Disable",
-        "SELECT_ALL": "Select All"
+        "SELECT_ALL": "Select All",
+        "COMING_SOON_TITLE": "We are launching soon 🚀",
+        "COMING_SOON_CONTENT": "We're creating something awesome. Please subscribe to get notified when it's ready!"
     },
     "LEAD": {
         "NAME": "Name",
