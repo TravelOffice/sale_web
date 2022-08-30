@@ -37,7 +37,9 @@
         "LOGOUT": "Đăng xuất",
         "CLEAR": "Xóa",
         "DISABLE": "Vô hiệu hóa",
-        "SELECT_ALL": "Chọn tất cả"
+        "SELECT_ALL": "Chọn tất cả",
+        "COMING_SOON_TITLE": "Chúng tôi sẽ sớm ra mắt 🚀",
+        "COMING_SOON_CONTENT": "Chúng tôi đang tạo ra các tính năng tuyệt vời. Vui lòng theo dõi để nhận được thông báo khi tính năng đã sẵn sàng!"
     },
     "LEAD": {
         "NAME": "Họ tên",

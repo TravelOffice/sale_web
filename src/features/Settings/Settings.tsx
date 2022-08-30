@@ -9,6 +9,7 @@ import {
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/pages/page-account-settings.scss';
 import ConnectionsTabContent from '@features/Settings/ConnectionsTabContent';
+import CommingSoon from '@components/CommingSoon/CommingSoon';
 
 export interface Tab {
   id: string,
@@ -17,30 +18,30 @@ export interface Tab {
   pane: ReactNode,
 }
 
-const tabs : Tab[] = [
+const tabs: Tab[] = [
   {
     id: 'account',
     icon: <User size={16} className="me-50" />,
     title: 'Account',
-    pane: <div>Coming soon</div>,
+    pane: <CommingSoon />,
   },
   {
     id: 'security',
     icon: <Lock size={16} className="me-50" />,
     title: 'Security',
-    pane: <div>Coming soon</div>,
+    pane: <CommingSoon />,
   },
   {
     id: 'billing',
     icon: <Bookmark size={16} className="me-50" />,
     title: 'Billing & Plans',
-    pane: <div>Coming soon</div>,
+    pane: <CommingSoon />,
   },
   {
     id: 'notifications',
     icon: <Bell size={16} className="me-50" />,
     title: 'Notifications',
-    pane: <div>Coming soon</div>,
+    pane: <CommingSoon />,
   },
   {
     id: 'connections',
