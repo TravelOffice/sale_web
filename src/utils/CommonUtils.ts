@@ -43,3 +43,7 @@ export const truncateStringWithEllipsis = (str: string, maxLength: number) => {
  * @param str string after capitalizing the first letter
  */
 export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+
+// ** Converts HTML to string
+export const htmlToString = (html: string) => html.replace(/<\/?[^>]+(>|$)/g, '') // Remove HTML tag
+  .replaceAll('\n', ' ').replaceAll('\r\n', ' '); // Remove break line

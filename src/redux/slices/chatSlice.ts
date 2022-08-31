@@ -155,8 +155,6 @@ const chatSlice = createSlice({
           ),
         );
       }
-
-      console.log(state.platformsConversations.get('facebook'));
     },
   },
 });

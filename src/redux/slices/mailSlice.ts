@@ -1,15 +1,34 @@
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
+import { MailMessage } from '@domain/entities/mail/MailMessage';
+import { Mailbox } from '@domain/entities/mail/Mailbox';
+import { MailMessageList } from '@domain/entities/mail/MailMessageList';
 
 export interface MailState {
-  mailAccounts: MailAccount[],
   linkModalStatus: 'closed' | 'open' | 'linking' | 'finished',
+  mailAccounts: MailAccount[],
+  isFetchingMailAccounts: boolean,
+  selectedMailAccount?: MailAccount,
+  mailboxes: Mailbox[],
+  isFetchingMailboxes: boolean,
+  selectedMailboxId: string,
+  mails: MailMessage[],
+  nextToken?: string,
+  isFetchingMails: boolean,
 }
 
-const initialState: MailState = {
-  mailAccounts: [],
+const defaultMailboxId = 'INBOX';
+
+const initialState : MailState = {
   linkModalStatus: 'closed',
+  mailAccounts: [],
+  isFetchingMailAccounts: false,
+  mailboxes: [],
+  isFetchingMailboxes: false,
+  selectedMailboxId: defaultMailboxId,
+  mails: [],
+  isFetchingMails: false,
 };
 
 const mailSlice = createSlice({
@@ -41,9 +60,49 @@ const mailSlice = createSlice({
         state.linkModalStatus = 'open';
       }
     },
+    getMailAccounts: (state) => {
+      state.isFetchingMailAccounts = true;
+    },
+    onMailAccountsFetched: (state, action: PayloadAction<MailAccount[]>) => {
+      const accounts = action.payload;
+      const [firstAccount] = accounts;
+      state.isFetchingMailAccounts = false;
+      state.mailAccounts = accounts;
+      state.selectedMailAccount = firstAccount;
+    },
+    selectAccount: (state, action: PayloadAction<MailAccount>) => {
+      state.selectedMailAccount = action.payload;
+      state.selectedMailboxId = defaultMailboxId;
+    },
+    getMailboxes: (state, _action: PayloadAction<MailAccount>) => {
+      state.isFetchingMailboxes = true;
+    },
+    onMailboxesFetched: (state, action: PayloadAction<Mailbox[]>) => {
+      state.mailboxes = action.payload;
+      state.isFetchingMailboxes = false;
+    },
+    selectMailbox: (state, action: PayloadAction<string>) => {
+      const mailboxId = action.payload;
+      const selectedMailbox = state.mailboxes.find((mailbox) => mailbox.name === mailboxId);
+      state.selectedMailboxId = mailboxId;
+      if (selectedMailbox) {
+        selectedMailbox.unread = 0;
+      }
+    },
+    getMails: (state, _action: PayloadAction<{ mailAccount: MailAccount, mailboxId: string }>) => {
+      state.isFetchingMails = true;
+    },
+    onGetMailsSuccessfully: (state, action: PayloadAction<MailMessageList>) => {
+      const { mails, token } = action.payload;
+      state.mails = mails;
+      state.nextToken = token;
+      state.isFetchingMails = false;
+    },
   },
 });
 
+// Actions
 export const mailActions = mailSlice.actions;
 
+// Reducers
 export const mailReducers = mailSlice.reducer;

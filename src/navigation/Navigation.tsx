@@ -1,7 +1,7 @@
 import { MenuItem } from '@domain/entities/MenuLinkItem';
 import React from 'react';
 import {
-  Activity, Home,
+  Activity, Home, Mail,
   MessageSquare, Settings, Shield,
   ShoppingCart, Target, User, UserCheck, Users,
 } from 'react-feather';
@@ -38,6 +38,12 @@ const Navigation : MenuItem[] = [
       any: [PERMISSIONS.view_assigned_conversations, PERMISSIONS.view_all_conversations],
     },
     navLink: '/apps/chat',
+  },
+  {
+    id: 'email',
+    title: 'Email',
+    icon: <Mail size={20} />,
+    navLink: '/apps/email',
   },
   {
     id: 'user',

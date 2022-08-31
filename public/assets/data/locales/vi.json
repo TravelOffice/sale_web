@@ -350,6 +350,9 @@
         "ERROR_CONNECT_TO_OUTBOUND_SERVER": "Lỗi khi kết nối server {{outboundHost}}!",
         "ERROR_LOGIN_TO_OUTBOUND_SERVER": "Tên đăng nhập hoặc mật khẩu không đúng cho server {{outboundHost}}!",
         "ERROR_EMAIL_ADDRESS_IS_INVALID": "Email {{mailAddress}} không hợp lệ!",
-        "ERROR_UNKNOWN": "Đã có lỗi xảy ra!"
+        "ERROR_UNKNOWN": "Đã có lỗi xảy ra!",
+        "ERROR_GET_MAIL_ACCOUNTS": "Không thể lấy danh sách tài khoản của bạn!",
+        "ERROR_GET_MAILBOXES": "Không thể lấy danh sách thư mục email của bạn!!",
+        "ERROR_GET_MAIL_MESSAGES": "Không thể lấy danh sách mail của bạn!!"
     }
 }
