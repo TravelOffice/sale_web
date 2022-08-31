@@ -8,6 +8,8 @@ import { mailPresenter } from '@adapter/presenters';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
+import { Mailbox } from '@domain/entities/mail/Mailbox';
+import { MailMessageList } from '@domain/entities/mail/MailMessageList';
 
 function* linkMail(action: PayloadAction<LinkEmailFormData>) {
   let success = true;
@@ -32,8 +34,48 @@ function* linkMail(action: PayloadAction<LinkEmailFormData>) {
   }
 }
 
+function* getMailAccounts() {
+  try {
+    const mailAccounts: MailAccount[] = yield call(mailPresenter.getMailAccounts);
+    yield put(mailActions.onMailAccountsFetched(mailAccounts));
+  } catch {
+    toasty.show({
+      title: i18n.t('COMMON.ERROR'),
+      message: i18n.t('MAIL.ERROR_GET_MAIL_ACCOUNTS'),
+      type: 'error',
+    });
+  }
+}
+
+function* getMailboxes(action: PayloadAction<MailAccount>) {
+  try {
+    const account = action.payload;
+    const mailboxes: Mailbox[] = yield call(mailPresenter.getMailboxes, account.email);
+    yield put(mailActions.onMailboxesFetched(mailboxes));
+  } catch {
+    toasty.show({
+      title: i18n.t('COMMON.ERROR'),
+      message: i18n.t('MAIL.ERROR_GET_MAILBOXES'),
+      type: 'error',
+    });
+  }
+}
+
+function* getMails(action: PayloadAction<{ mailAccount: MailAccount, mailboxId: string }>) {
+  const { mailAccount, mailboxId } = action.payload;
+  const mailMessages: MailMessageList = yield call(
+    mailPresenter.getMailMessages,
+    mailAccount.email,
+    mailboxId,
+  );
+  yield put(mailActions.onGetMailsSuccessfully(mailMessages));
+}
+
 export default function* mailSaga() {
   yield all([
     takeLatest(mailActions.linkMail, linkMail),
+    takeLatest(mailActions.getMailAccounts, getMailAccounts),
+    takeLatest(mailActions.getMailboxes, getMailboxes),
+    takeLatest(mailActions.getMails, getMails),
   ]);
 }

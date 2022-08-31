@@ -350,6 +350,9 @@
         "ERROR_CONNECT_TO_OUTBOUND_SERVER": "Failed to connect to {{outboundHost}} server!",
         "ERROR_LOGIN_TO_OUTBOUND_SERVER": "Username or password is invalid for {{outboundHost}} server!",
         "ERROR_EMAIL_ADDRESS_IS_INVALID": "Email {{mailAddress}} is valid!",
-        "ERROR_UNKNOWN": "Something went wrong!"
+        "ERROR_UNKNOWN": "Something went wrong!",
+        "ERROR_GET_MAIL_ACCOUNTS": "Failed to get your mail accounts!",
+        "ERROR_GET_MAILBOXES": "Failed to get your mailboxes!",
+        "ERROR_GET_MAIL_MESSAGES": "Failed to get mail messages!"
     }
 }

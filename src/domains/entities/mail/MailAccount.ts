@@ -27,6 +27,5 @@ export type MailProviderType = typeof mailProviders[number];
 export interface MailAccount {
   name: string,
   email: string,
-  protocol: MailProtocol,
   provider: MailProviderType,
 }
