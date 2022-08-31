@@ -11,6 +11,7 @@ import OpportunityDetail from '@features/Opportunity/OpportunityDetail/Opportuni
 import UserList from '@features/User/UserList';
 import Roles from '@features/Roles-Permissions/Roles/Role';
 import PERMISSIONS from '@utils/PermissionUtils';
+import AppMail from '@features/Mail/AppMail';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -32,6 +33,13 @@ const Routes : RoutePathConfig[] = [
       any: [PERMISSIONS.view_assigned_conversations, PERMISSIONS.view_all_conversations],
     },
     component: <Chat />,
+  },
+  {
+    path: '/apps/email',
+    exact: true,
+    appLayout: true,
+    className: 'email-application',
+    component: <AppMail />,
   },
   {
     path: '/apps/account-settings',

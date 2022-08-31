@@ -15,6 +15,14 @@ export const mailSslModeLabels: Record<InboundSslMode, string> = {
   starttls: 'STARTTLS',
 };
 
+export const mailFlags = {
+  answered: '\\Answered',
+  deleted: '\\Deleted',
+  draft: '\\Draft',
+  recent: '\\Recent',
+  seen: '\\Seen',
+};
+
 export function getMailProviderLogo(provider: MailProviderType) {
   switch (provider) {
     case 'Gmail': return Images.icons.mails.gmailLogo;

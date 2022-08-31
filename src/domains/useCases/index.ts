@@ -23,6 +23,12 @@ import { ManualAssignChatUseCase } from '@domain/useCases/interfaces/chat/Manual
 import ManualAssignChatUseCaseImpl from '@domain/useCases/chat/ManualAssignChatUseCaseImpl';
 import { LinkEmailUseCase } from '@domain/useCases/interfaces/mail/LinkEmailUseCase';
 import LinkEmailUseCaseImpl from '@domain/useCases/mail/LinkEmailUseCaseImpl';
+import { GetMailAccountsUseCase } from '@domain/useCases/interfaces/mail/GetMailAccountsUseCase';
+import { GetMailboxesUseCase } from '@domain/useCases/interfaces/mail/GetMailboxesUseCase';
+import { GetMailMessagesUseCase } from '@domain/useCases/interfaces/mail/GetMailMessagesUseCase';
+import GetMailAccountsUseCaseImpl from '@domain/useCases/mail/GetMailAccountsUseCaseImpl';
+import GetMailboxesUseCaseImpl from '@domain/useCases/mail/GetMailboxesUseCaseImpl';
+import GetMailMessagesUseCaseImpl from '@domain/useCases/mail/GetMailMessagesUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -135,6 +141,9 @@ interface UseCases {
   updateRoleUseCase: UpdateRoleUseCase
   // Mail
   linkMailUseCase: LinkEmailUseCase,
+  getMailAccountsUseCase: GetMailAccountsUseCase,
+  getMailboxesUseCase: GetMailboxesUseCase,
+  getMailMessagesUseCase: GetMailMessagesUseCase,
 }
 
 const useCases: UseCases = {
@@ -188,6 +197,9 @@ const useCases: UseCases = {
   updateRoleUseCase: new UpdateRoleUseCaseImpl(),
   // Mail
   linkMailUseCase: new LinkEmailUseCaseImpl(),
+  getMailAccountsUseCase: new GetMailAccountsUseCaseImpl(),
+  getMailboxesUseCase: new GetMailboxesUseCaseImpl(),
+  getMailMessagesUseCase: new GetMailMessagesUseCaseImpl(),
 };
 
 export const {
@@ -233,4 +245,7 @@ export const {
   subscribeNewNotificationUseCase,
   manualAssignChatUseCase,
   linkMailUseCase,
+  getMailAccountsUseCase,
+  getMailboxesUseCase,
+  getMailMessagesUseCase,
 } = useCases;
