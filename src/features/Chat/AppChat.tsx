@@ -4,7 +4,8 @@ import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { MessageData } from '@domain/entities/chat/Message';
 import { ConversationSection } from '@features/Chat/ConversationSection';
-import { useConversationSections, useMessages } from '@hooks/chat';
+import { useAllPlatformConversations, useConversationSections, useMessages } from '@hooks/chat';
+import useQueryParams from '@hooks/useQueryParams';
 import { chatActions } from '@redux/slices/chatSlice';
 import { RootState } from '@redux/store';
 import '@styles/base/pages/app-chat-list.scss';
@@ -28,9 +29,12 @@ const AppChat = () => {
   const [sidebar, setSidebar] = useState(false);
   const [userSidebarRight, setUserSidebarRight] = useState(false);
   const [userSidebarLeft, setUserSidebarLeft] = useState(false);
+  const [isLoadByParams, setIsLoadByParams] = useState(false);
   const sections: ConversationSection[] = useConversationSections();
+  const allPlatformConversations: Conversation[] = useAllPlatformConversations();
   const [messages, fetchingMessages] = useMessages(conversation);
   const dispatch = useDispatch();
+  const useQuery = useQueryParams();
 
   // ** Sidebar & overlay toggle functions
   const handleSidebar = () => setSidebar(!sidebar);
@@ -64,6 +68,22 @@ const AppChat = () => {
       toasty.show({ title: i18n.t('COMMON.ERROR'), type: 'error', message: chatActionErrorMessage });
     }
   }, [isChatActionError]);
+
+  useEffect(() => {
+    if (isLoadByParams) return;
+    const chatPlatformParam = useQuery.get('chatPlatformn');
+    const conversationIdParam = useQuery.get('conversationId');
+    if (chatPlatformParam && conversationIdParam) {
+      const conversationToOpen = allPlatformConversations.find((platformConversation) => {
+        const { chatPlatform, id } = platformConversation;
+        return chatPlatformParam === chatPlatform && conversationIdParam === id;
+      });
+      if (conversationToOpen) {
+        dispatch(chatActions.onConversationSelected(conversationToOpen));
+        setIsLoadByParams(true);
+      }
+    }
+  }, [useQuery, allPlatformConversations]);
 
   return (
     <>

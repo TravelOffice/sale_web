@@ -247,8 +247,14 @@
     "NOTIFICATION": {
         "NOTIFICATIONS": "Notifications",
         "NEW_MESSAGE": "New message!",
-        "NOTIFICATION_NEW_CONVERSATION_TITLE": "{{customerName}} has sent you a message",
-        "NOTIFICATION_NEW_CONVERSATION_MESSAGE": "You have received new message from {{customerName}}. Check it now!"
+        "NOTIFICATION_NEW_MESSAGE_TITLE": "{{customerName}} has sent you a message",
+        "NOTIFICATION_NEW_MESSAGE_SUBTITLE": "You have received new message from {{customerName}}. Check it now!",
+        "NEW_ASSIGNED_CONVERSATION_TITLE": "New assigned conversation",
+        "NEW_ASSIGNED_CONVERSATION_SUBTITLE": "You have been assigned to new {{chatPlatform}} conversation. Let's go to chat box and response to user.",
+        "ADMIN_NEW_ASSIGNED_CONVERSATION_SUBTITLE": "User {{username}} have been assigned to new {{chatPlatform}} conversation.",
+        "EMPTY_NOTIFICATIONS": "Congrats, all notifications were handled!",
+        "NEW_NOTIFICATIONS_NUMBER": "{{unreadCount}} New",
+        "MARK_ALL_AS_READ": "Mark all as read"
     },
     "USER": {
         "NAME": "USER NAME",

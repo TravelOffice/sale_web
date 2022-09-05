@@ -1,6 +1,9 @@
-import { Notification, NotificationData } from '@domain/entities/Notification';
+import { FetchResult, Observable } from '@apollo/client';
+import { NotificationData, Notifications } from '@domain/entities/notification/Notification';
 
 export interface NotificationPresenter {
-  getNotifications: () => Promise<NotificationData>
-  saveNotification: (notifications: Notification[], unreadCount: number) => Promise<void>,
+  getNotifications: () => Promise<Notifications>
+  saveNotifications: (notifications: NotificationData[]) => Promise<void>
+  clearNotifications: () => Promise<void>
+  subscribeNewNotification: () => Observable<FetchResult>
 }

@@ -1,27 +1,28 @@
-import { NotificationProps } from '@components/NavBarComponent/NotificationProps';
-import React, { useCallback } from 'react';
-import { Conversation } from '@domain/entities/chat/Conversation';
-import { useHistory } from 'react-router-dom';
 import ConversationAvatar from '@components/Avatar/CustomerAvatar';
+import { NotificationProps } from '@components/NavBarComponent/NotificationProps';
+import { Conversation } from '@domain/entities/chat/Conversation';
+import { New20Regular } from '@fluentui/react-icons';
+import React, { useCallback } from 'react';
 
-export default function NewConversationNotification(props: NotificationProps) {
-  const { notification } = props;
-  const conversation = notification.data as Conversation;
-  const history = useHistory();
+export default function NewMessageNotification(props: NotificationProps) {
+  const { notification, onClickHandled } = props;
+  const { data: conversation, unread } = notification;
   const onNotificationClicked = useCallback((e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    // TODO: Add query params to open chat of the customer who has sent this message
-    history.push('/apps/chat');
+    onClickHandled();
   }, []);
   return (
     <a className="d-flex" href="/" onClick={onNotificationClicked}>
       <div className="list-item d-flex align-items-start">
         <div className="me-1">
-          <ConversationAvatar conversation={conversation} />
+          <ConversationAvatar conversation={conversation as Conversation} />
         </div>
         <div className="list-item-body d-flex flex-column flex-grow-1">
-          <span>
+          <span className={unread ? 'text-primary' : ''}>
             {notification.title}
+            {
+              unread ? <New20Regular /> : <></>
+            }
           </span>
           <small className="notification-text">{notification.subtitle}</small>
         </div>

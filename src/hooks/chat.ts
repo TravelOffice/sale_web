@@ -4,6 +4,7 @@ import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
 import { ConversationSection } from '@features/Chat/ConversationSection';
 import { chatActions } from '@redux/slices/chatSlice';
+import ConversationState from '@redux/slices/others/ConversationState';
 import { RootState } from '@redux/store';
 import { platformTitleDefinitions } from '@utils/Constants';
 import {
@@ -31,10 +32,6 @@ export const useMessages = (conversation?: Conversation): [Message[], boolean] =
     dispatch(chatActions.getMessages(conversation));
   }, [conversation]);
 
-  // Subscribe to new message
-  useEffect(() => {
-    dispatch(chatActions.subscribeNewMessage());
-  }, []);
   return [messages, fetching];
 };
 
@@ -74,3 +71,11 @@ export const useLoadMore = (conversation?: Conversation): [Function, boolean] =>
   }, [conversation]);
   return [loadMore, loadingMore];
 };
+
+export const useAllPlatformConversations = () => useSelector((state: RootState) => {
+  const platformConversationsMap = state.chat.platformsConversations;
+  return Array
+    .from(platformConversationsMap.values())
+    .map((conversationState: ConversationState) => conversationState.conversations)
+    .flat();
+});
