@@ -38,3 +38,6 @@ yarn.lock
 *.lock*
 infrastructures/environments/**/main.tf
 infrastructures/environments/**/output.tf
+
+# env
+.env
