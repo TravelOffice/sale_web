@@ -55,7 +55,7 @@ class MessageMapper {
   fromTelegramMessage = (ddbTelegramMessage: DDBTelegramMessage, botId: string): Message => {
     const { content: telegramMessage, type } = ddbTelegramMessage;
     const sentByBot = telegramMessage.from?.is_bot;
-    const customerId = telegramMessage.chat.username || telegramMessage.chat.id.toString();
+    const customerId = telegramMessage.chat.id.toString();
 
     return {
       id: telegramMessage.message_id.toString(),
