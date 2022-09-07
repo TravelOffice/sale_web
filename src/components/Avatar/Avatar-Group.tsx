@@ -35,14 +35,14 @@ const AvatarGroup = (props: AvatarGroupProps) => {
   const renderData = () => data.map((item) => (
     <Fragment key={item.key}>
       {item.title ? (
-        <UncontrolledTooltip placement={item.placement} target={item.title.split(' ').join('-')}>
+        <UncontrolledTooltip placement={item.placement} target={item.key}>
           {item.title}
         </UncontrolledTooltip>
       ) : null}
       <Avatar
         className="pull-up"
         content={item.content}
-        {...(item.title ? { id: item.title.split(' ').join('-') } : {})}
+        id={item.key}
         {...item}
       />
     </Fragment>
