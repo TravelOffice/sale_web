@@ -80,7 +80,9 @@ export default function CustomHeader(props: CustomHeaderProps) {
               onChange={(e) => handleSelectChange(e.target.value)}
             >
               {
-                selectOptions.map((option) => <option value={option.value}>{option.label}</option>)
+                selectOptions.map((option) => (
+                  <option key={option.value} value={option.value}>{option.label}</option>
+                ))
               }
             </Input>
           )}
