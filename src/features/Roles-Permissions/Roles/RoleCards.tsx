@@ -181,7 +181,7 @@ const RoleCards = (props: RoleCardProps) => {
   };
 
   const handleAddRole = () => {
-    setModalType(i18n.t('ROLE-PERMISSION.CLONE_ROLE'));
+    setModalType(i18n.t('ROLE-PERMISSION.ADD_NEW_ROLE'));
     setCheckedPermissions([]);
     setSelectedRole(undefined);
     reset({ roleName: '' });
