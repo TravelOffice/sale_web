@@ -1,33 +1,49 @@
-import { Notification, NotificationData } from '@domain/entities/Notification';
+import { NotificationData, Notifications } from '@domain/entities/notification/Notification';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface NotificationState {
-  notifications: Notification[],
-  unreadCount: number,
+  notifications: NotificationData[],
 }
 
-const initialState : NotificationState = {
+const initialState: NotificationState = {
   notifications: [],
-  unreadCount: 0,
 };
 
 const notificationSlide = createSlice({
   name: 'notification',
   initialState,
   reducers: {
-    onNotificationsRetrieved: (state, action: PayloadAction<NotificationData>) => {
-      const { notifications, unreadCount } = action.payload;
+    onNotificationsRetrieved: (state, action: PayloadAction<Notifications>) => {
+      const { notifications } = action.payload;
       state.notifications = notifications;
-      state.unreadCount = unreadCount;
     },
-    onNotificationsUpdated: (state, action: PayloadAction<NotificationData>) => {
-      const { notifications, unreadCount } = action.payload;
+    onNotificationsUpdated: (state, action: PayloadAction<Notifications>) => {
+      const { notifications } = action.payload;
       state.notifications = notifications;
-      state.unreadCount = unreadCount;
     },
     markAllRead: (state) => {
-      state.unreadCount = 0;
+      state.notifications = state.notifications.map((notification) => ({
+        ...notification,
+        unread: false,
+      }));
     },
+    markRead: (state, action: PayloadAction<string>) => {
+      const channelId = action.payload;
+      const index = state.notifications.findIndex(
+        (notification) => notification.channelId === channelId,
+      );
+      if (index >= 0) {
+        const notificationAsRead = {
+          ...state.notifications[index],
+          unread: false,
+        };
+        state.notifications[index] = notificationAsRead;
+      }
+    },
+    clearNotifications: (state) => {
+      state.notifications = [];
+    },
+    subscribeNewNotification: (_state) => { },
   },
 });
 

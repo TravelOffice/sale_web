@@ -1,6 +1,6 @@
-import { Notification } from '@domain/entities/Notification';
+import { NotificationData } from '@domain/entities/notification/Notification';
 
 export interface NotificationProps {
-  notification: Notification,
-  unread: boolean,
+  notification: NotificationData,
+  onClickHandled: () => void,
 }

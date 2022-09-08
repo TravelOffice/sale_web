@@ -7,4 +7,4 @@ export const useNotifications = () => useSelector((
 
 export const useUnreadNotificationCount = () => useSelector((
   state: RootState,
-) => state.notification.unreadCount);
+) => state.notification.notifications.filter((notification) => notification.unread).length);

@@ -3,7 +3,7 @@ import GetFacebookPagesUseCaseImpl from '@domain/useCases/facebook/GetFacebookPa
 import { GetUserInfoUseCase } from '@domain/useCases/interfaces/chat/GetUserInfoUseCase';
 import { GetFacebookPagesUseCase } from '@domain/useCases/interfaces/facebook/GetFacebookPagesUseCase';
 import { GetNotificationsUseCase } from '@domain/useCases/interfaces/notification/GetNotificationsUseCase';
-import { SaveNotificationUseCase } from '@domain/useCases/interfaces/notification/SaveNotificationUseCase';
+import { SaveNotificationsUseCase } from '@domain/useCases/interfaces/notification/SaveNotificationsUseCase';
 import { CreateOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/CreateOpportunityUseCase';
 import { GetOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/GetOpportunityUseCase';
 import { ConnectFacebookPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectFacebookPageUseCase';
@@ -13,7 +13,6 @@ import { GetAllUsersUseCase } from '@domain/useCases/interfaces/user/GetAllUsers
 import { GetCurrentUserUseCase } from '@domain/useCases/interfaces/user/GetCurrentUserUseCase';
 import { GetZaloOAuthLinkUseCase } from '@domain/useCases/interfaces/zalo/GetZaloOAuthLinkUseCase';
 import GetNotificationsUseCaseImpl from '@domain/useCases/notification/GetNotificationsUseCaseImpl';
-import SaveNotificationUseCaseImpl from '@domain/useCases/notification/SaveNotificationUseCaseImpl';
 import CreateOpportunityUseCaseImpl from '@domain/useCases/opportunity/CreateOpportunityUseCaseImpl';
 import GetOpportunityUseCaseImpl from '@domain/useCases/opportunity/GetOpportunityUseCaseImpl';
 import ConnectFacebookPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectFacebookPageUseCaseImpl';
@@ -74,6 +73,11 @@ import { AddRoleUseCase } from './interfaces/rolePermission/AddRoleUseCase';
 import { UpdateRoleUseCase } from './interfaces/rolePermission/UpdateRoleUseCase';
 import AddRoleUseCaseImpl from './rolePermission/AddRoleUseCaseImpl';
 import UpdateRoleUseCaseImpl from './rolePermission/UpdateRoleUseCaseImpl';
+import { SubscribeNewNotificationUseCase } from './interfaces/notification/SubscribeNewNotificationUseCase';
+import SubscribeNewNotificationUseCaseImpl from './notification/SubscribeNewNotificationUseCaseImpl';
+import SaveNotificationsUseCaseImpl from './notification/SaveNotificationsUseCaseImpl';
+import { ClearNotificationsUseCase } from './interfaces/notification/ClearNotificationsUseCase';
+import ClearNotificationsUseCaseImpl from './notification/ClearNotificationsUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -116,7 +120,9 @@ interface UseCases {
   updateUserUseCase: UpdateUserUseCase
   // Notification
   getNotificationsUseCase: GetNotificationsUseCase,
-  saveNotificationUseCase: SaveNotificationUseCase,
+  saveNotificationsUseCase: SaveNotificationsUseCase,
+  clearNotificationsUseCase: ClearNotificationsUseCase,
+  subscribeNewNotificationUseCase: SubscribeNewNotificationUseCase,
   // Role Permission
   getAllRolesUseCase: GetAllRolesUseCase,
   getAllPermissionsUseCase: GetAllPermissionsUseCase,
@@ -164,7 +170,9 @@ const useCases: UseCases = {
   updateUserUseCase: new UpdateUserUseCaseImpl(),
   // Notification
   getNotificationsUseCase: new GetNotificationsUseCaseImpl(),
-  saveNotificationUseCase: new SaveNotificationUseCaseImpl(),
+  saveNotificationsUseCase: new SaveNotificationsUseCaseImpl(),
+  clearNotificationsUseCase: new ClearNotificationsUseCaseImpl(),
+  subscribeNewNotificationUseCase: new SubscribeNewNotificationUseCaseImpl(),
   // Role Permission
   getAllRolesUseCase: new GetAllRolesUseCaseImpl(),
   getAllPermissionsUseCase: new GetAllPermissionsUseCaseImpl(),
@@ -204,11 +212,13 @@ export const {
   getLinkedPagesUseCase,
   unlinkPageUseCase,
   getNotificationsUseCase,
-  saveNotificationUseCase,
+  saveNotificationsUseCase,
+  clearNotificationsUseCase,
   connectTelegramPageUseCase,
   adminGetPlatformConversationsUseCase,
   getAllRolesUseCase,
   getAllPermissionsUseCase,
   addRoleUseCase,
   updateRoleUseCase,
+  subscribeNewNotificationUseCase,
 } = useCases;
