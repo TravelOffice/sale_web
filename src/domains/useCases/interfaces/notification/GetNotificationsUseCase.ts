@@ -1,5 +1,5 @@
-import { NotificationData } from '@domain/entities/Notification';
+import { Notifications } from '@domain/entities/notification/Notification';
 
 export interface GetNotificationsUseCase {
-  invoke: () => Promise<NotificationData>
+  invoke: () => Promise<Notifications>
 }
