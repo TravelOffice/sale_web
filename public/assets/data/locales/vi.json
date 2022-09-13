@@ -40,7 +40,13 @@
         "SELECT_ALL": "Chọn tất cả",
         "COMING_SOON_TITLE": "Chúng tôi sẽ sớm ra mắt 🚀",
         "COMING_SOON_CONTENT": "Chúng tôi đang tạo ra các tính năng tuyệt vời. Vui lòng theo dõi để nhận được thông báo khi tính năng đã sẵn sàng!",
-        "NOT_AUTHORIZED_TITLE": "Bạn không có quyền để thực hiện chức năng này! \uD83D\uDD10"
+        "NOT_AUTHORIZED_TITLE": "Bạn không có quyền để thực hiện chức năng này! \uD83D\uDD10",
+        "GET_STARTED": "Bắt đầu",
+        "FIELD_IS_REQUIRED": "{{field}} không được bỏ trống!",
+        "INVALID_EMAIL": "{{field}} không đúng định dạng!",
+        "INVALID_ONE_OF": "{{field}} phải là một trong các lựa chọn {{values}}",
+        "INVALID_MIN": "{{field}} không được nhỏ hơn {{min}}",
+        "INVALID_MAX": "{{field}} không được lớn hơn {{max}}"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -297,5 +303,35 @@
         "ADMINISTRATOR_ACCESS": "Administrator Access",
         "ROLE_PERMISSIONS": "Role Permissions",
         "INPUT_ROLE_NAME": "Nhập tên Role"
+    },
+    "MAIL": {
+        "CONNECTED_MAILS": "Email đã liên kết",
+        "PROVIDER": "Nhà cung cấp",
+        "NAME": "Tên hiển thị",
+        "MAIL_ADDRESS": "Địa chỉ email",
+        "PROTOCOL": "Giao thức",
+        "INBOUND_HOST": "Máy chủ nhận",
+        "INBOUND_SSL_MODE": "Bảo mật",
+        "INBOUND_PORT": "Cổng",
+        "INBOUND_USERNAME": "Tên đăng nhập",
+        "INBOUND_PASSWORD": "Mật khẩu",
+        "OUTBOUND_HOST": "Máy chủ gửi đi",
+        "OUTBOUND_SSL_MODE": "Bảo mật",
+        "OUTBOUND_PORT": "Cổng",
+        "USE_INBOUND_USER": "Sử dụng tên đăng nhập và mật khẩu giống máy chủ nhận",
+        "OUTBOUND_USERNAME": "Tên đăng nhập",
+        "OUTBOUND_PASSWORD": "Mật khẩu",
+        "DETAILS": "Chi tiết",
+        "DETAILS_SUBTITLE": "Nhập địa chỉ email của bạn.",
+        "CONFIGURE_INBOUND": "Cấu hình nhận",
+        "CONFIGURE_INBOUND_SUBTITLE": "Cấu hình kết nối nhận email.",
+        "CONFIGURE_OUTBOUND": "Cấu hình gửi",
+        "CONFIGURE_OUTBOUND_SUBTITLE": "Cấu hình kết nối gửi đi email.",
+        "SUBMIT": "Hoàn tất",
+        "SUBMIT_SUBTITLE": "Xem lại và hoàn tất",
+        "LINK_EMAIL_TITLE": "Liên kết email của bạn",
+        "LINK_EMAIL_SUBTITLE": "Vui lòng cung cấp thông tin email theo mẫu bên dưới",
+        "NO_EMAIL_LINKED": "Bạn chưa liên kết email nào!",
+        "ADD_MORE_ACCOUNT": "Thêm tài khoản"
     }
 }

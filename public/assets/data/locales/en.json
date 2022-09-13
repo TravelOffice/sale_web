@@ -40,7 +40,13 @@
         "SELECT_ALL": "Select All",
         "COMING_SOON_TITLE": "We are launching soon 🚀",
         "COMING_SOON_CONTENT": "We're creating something awesome. Please subscribe to get notified when it's ready!",
-        "NOT_AUTHORIZED_TITLE": "You are not authorized! \uD83D\uDD10"
+        "NOT_AUTHORIZED_TITLE": "You are not authorized! \uD83D\uDD10",
+        "GET_STARTED": "Get started",
+        "FIELD_IS_REQUIRED": "{{field}} is a required field!",
+        "INVALID_EMAIL": "{{field}} is invalid email!",
+        "INVALID_ONE_OF": "{{field}} must be one of {{values}}",
+        "INVALID_MIN": "{{field}} must be greater than or equal to {{min}}",
+        "INVALID_MAX": "{{field}} must be less than or equal to {{max}}"
     },
     "LEAD": {
         "NAME": "Name",
@@ -297,5 +303,35 @@
         "ADMINISTRATOR_ACCESS": "Administrator Access",
         "ROLE_PERMISSIONS": "Role Permissions",
         "INPUT_ROLE_NAME": "Enter role name"
+    },
+    "MAIL": {
+        "CONNECTED_MAILS": "Connected mails",
+        "PROVIDER": "Provider",
+        "NAME": "Name",
+        "MAIL_ADDRESS": "Mail address",
+        "PROTOCOL": "Protocol",
+        "INBOUND_HOST": "Inbound host",
+        "INBOUND_SSL_MODE": "Inbound SSL Mode",
+        "INBOUND_PORT": "Inbound port",
+        "INBOUND_USERNAME": "Inbound username",
+        "INBOUND_PASSWORD": "Inbound password",
+        "OUTBOUND_HOST": "Outbound host",
+        "OUTBOUND_SSL_MODE": "Outbound SSL Mode",
+        "OUTBOUND_PORT": "Outbound port",
+        "USE_INBOUND_USER": "Use username and password as same as inbound configuration",
+        "OUTBOUND_USERNAME": "Outbound username",
+        "OUTBOUND_PASSWORD": "Outbound password",
+        "DETAILS": "Details",
+        "DETAILS_SUBTITLE": "Enter your mail address.",
+        "CONFIGURE_INBOUND": "Inbound",
+        "CONFIGURE_INBOUND_SUBTITLE": "Configure inbound connection",
+        "CONFIGURE_OUTBOUND": "Outbound",
+        "CONFIGURE_OUTBOUND_SUBTITLE": "Configure outbound connection",
+        "SUBMIT": "Submit",
+        "SUBMIT_SUBTITLE": "Review & Submit",
+        "LINK_EMAIL_TITLE": "Link your email",
+        "LINK_EMAIL_SUBTITLE": "Provide email information with this form",
+        "NO_EMAIL_LINKED": "You haven't connect any mail account yet!",
+        "ADD_MORE_ACCOUNT": "Add more account"
     }
 }

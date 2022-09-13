@@ -11,6 +11,12 @@ import comingSoon from '@assets/images/illustration/coming-soon/coming-soon.svg'
 import comingSoonDark from '@assets/images/illustration/coming-soon/coming-soon-dark.svg';
 import notAuthorized from '@assets/images/pages/not-authorized.svg';
 import notAuthorizedDark from '@assets/images/pages/not-authorized-dark.svg';
+import googleLogo from '@assets/images/icons/socials/google.png';
+import mailLogo from '@assets/images/icons/mails/mail.png';
+import gmailLogo from '@assets/images/icons/mails/gmail.svg';
+import outlookLogo from '@assets/images/icons/mails/outlook.svg';
+import iCloudLogo from '@assets/images/icons/mails/icloud.svg';
+import yahooLogo from '@assets/images/icons/mails/yahoo.png';
 
 const Images = {
   logo,
@@ -26,6 +32,14 @@ const Images = {
       facebookLogo,
       zaloLogo,
       telegramLogo,
+      googleLogo,
+    },
+    mails: {
+      mailLogo,
+      gmailLogo,
+      outlookLogo,
+      iCloudLogo,
+      yahooLogo,
     },
   },
   pages: {
