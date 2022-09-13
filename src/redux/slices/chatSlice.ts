@@ -135,6 +135,29 @@ const chatSlice = createSlice({
       state.isChatActionError = true;
       state.chatActionErrorMessage = action.payload;
     },
+    assignChat: (_state, _action: PayloadAction<[Conversation, string]>) => {},
+    onChatAssigned: (state, action: PayloadAction<[Conversation, string]>) => {
+      const [conversation, newAssignee] = action.payload;
+      // Update assignee for selected conversation
+      if (state.selectedConversation) {
+        state.selectedConversation.assignee = newAssignee;
+      }
+
+      // Update conversations list
+      const { chatPlatform } = conversation;
+      const platformConversations = state.platformsConversations.get(chatPlatform);
+      if (platformConversations) {
+        state.platformsConversations.set(
+          chatPlatform,
+          platformConversations?.onConversationAssigned(
+            conversation,
+            newAssignee,
+          ),
+        );
+      }
+
+      console.log(state.platformsConversations.get('facebook'));
+    },
   },
 });
 

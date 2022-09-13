@@ -19,6 +19,8 @@ import ConnectFacebookPageUseCaseImpl from '@domain/useCases/pageConnection/Conn
 import ConnectTelegramPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectTelegramPageUseCaseImpl';
 import ConnectZaloPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectZaloPageUseCaseImpl';
 import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkUseCaseImpl';
+import { ManualAssignChatUseCase } from '@domain/useCases/interfaces/chat/ManualAssignChatUseCase';
+import ManualAssignChatUseCaseImpl from '@domain/useCases/chat/ManualAssignChatUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -96,6 +98,7 @@ interface UseCases {
   getLinkedPagesUseCase: GetLinkedPagesUseCase,
   unlinkPageUseCase: UnlinkPageUseCase,
   adminGetPlatformConversationsUseCase: AdminGetPlatformConversationsUseCase,
+  manualAssignChatUseCase: ManualAssignChatUseCase,
   // Opportunity
   getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
   getOpportunitiesByLeadUseCase: GetOpportunitiesByLeadUseCase,
@@ -146,6 +149,7 @@ const useCases: UseCases = {
   getLinkedPagesUseCase: new GetLinkedPagesUseCaseImpl(),
   unlinkPageUseCase: new UnlinkPageUseCaseImpl(),
   adminGetPlatformConversationsUseCase: new AdminGetPlatformConversationsUseCaseImpl(),
+  manualAssignChatUseCase: new ManualAssignChatUseCaseImpl(),
   // Lead use cases
   getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
   getLeadUseCase: new GetLeadUseCaseImpl(),
@@ -221,4 +225,5 @@ export const {
   addRoleUseCase,
   updateRoleUseCase,
   subscribeNewNotificationUseCase,
+  manualAssignChatUseCase,
 } = useCases;

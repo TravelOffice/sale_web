@@ -7,4 +7,5 @@ export interface DDBTelegramConversation {
   conversationId: string,
   createdAt: number,
   updatedAt: number,
+  assignee?: string,
 }

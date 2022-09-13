@@ -33,4 +33,10 @@ export interface ChatRepository {
   getUserInfo: (
     chatPlatform: ChatPlatform, pageId: string, userId: string, chatId?: string
   ) => Promise<FacebookUserInfo | TelegramUserInfo>
+  manualAssignChat: (data: {
+    chatPlatform: ChatPlatform,
+    pageId: string,
+    conversationId: string,
+    assignee: string,
+  }) => Promise<void>
 }

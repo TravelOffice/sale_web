@@ -19,7 +19,7 @@ const fromAppSyncToAppNotification = (
     if (isAdmin) {
       // Support showing title / subtitle for admin
       subtitle = i18n.t(
-        'ADMIN_NOTIFICATION.NEW_ASSIGNED_CONVERSATION_SUBTITLE',
+        'NOTIFICATION.ADMIN_NEW_ASSIGNED_CONVERSATION_SUBTITLE',
         {
           chatPlatform,
           username,

@@ -51,4 +51,19 @@ export default class ConversationState {
     }
     return new ConversationState(this.fetching, newConversations, this.error);
   }
+
+  /**
+   * Assignee of conversation has been updated
+   * This value should be updated
+   * @param conversation Conversation to be updated
+   * @param assignee New assignee
+   */
+  onConversationAssigned(conversation: Conversation, assignee: string) {
+    const index = this.conversations.findIndex((item) => item.id === conversation.id);
+    const newConversations = this.conversations;
+    if (index >= 0) {
+      newConversations[index].assignee = assignee;
+    }
+    return new ConversationState(this.fetching, newConversations, this.error);
+  }
 }
