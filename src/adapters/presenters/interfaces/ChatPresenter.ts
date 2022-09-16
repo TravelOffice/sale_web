@@ -13,18 +13,30 @@ export interface ChatPresenter {
     platform: ChatPlatform,
     platformPageId: string,
   ) => Promise<Conversation[]>;
+
   getMessages: (conversation: Conversation) => Promise<Message[]>
+
   loadMoreMessage: (conversation: Conversation) => Promise<Message[]>
+
   sendMessage: (message: ChatPlatformSendMessage, conversation: Conversation) => Promise<void>
+
   sendAttachmentMessage: (
     sender: string, attachment: File, fileType: SendMessageType, conversation: Conversation,
   ) => Promise<void>
+
   subscribeNewMessage: () => Observable<FetchResult>
+
   adminGetPlatformConversations: (
     platform: ChatPlatform,
     platformPageId: string,
   ) => Promise<Conversation[]>;
+
   getUserProfile: (
     chatPlatform: ChatPlatform, pageId: string, userId: string, chatId?: string
   ) => Promise<FacebookUserInfo | TelegramUserInfo>
+
+  assignChat: (
+    conversation: Conversation,
+    newAssignee:string,
+  ) => Promise<void>
 }

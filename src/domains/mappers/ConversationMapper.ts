@@ -1,12 +1,13 @@
 import { Contact } from '@domain/entities/Contact';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { FacebookConversation } from '@domain/entities/chat/facebook/FacebookConversation';
 import { ZaloConversation } from '@domain/entities/chat/zalo/ZaloConversation';
 import { DDBTelegramConversation } from '@domain/entities/chat/telegram/DDBTelegramConversation';
 import { getTelegramLastMessageTitle } from '@utils/ChatUtils';
+import { DDBFacebookConversation } from '@domain/entities/chat/facebook/DDBFacebookConversation';
 
 class ConversationMapper {
-  fromFb = (conversation: FacebookConversation, pageId: string): Conversation => {
+  fromFb = (ddbConversation: DDBFacebookConversation, pageId: string): Conversation => {
+    const { info: conversation, assignee } = ddbConversation;
     const customer = conversation.participants.data.find((item: any) => item.id !== pageId)!;
     const contact: Contact = {
       id: customer.id,
@@ -30,6 +31,8 @@ class ConversationMapper {
       },
       unseenMessages: 0,
       chatPlatform: 'facebook',
+      assignee,
+      pageId,
     };
   }
 
@@ -60,14 +63,17 @@ class ConversationMapper {
       },
       unseenMessages: 0,
       chatPlatform: 'zalo',
+      pageId,
     };
   }
 
   /**
    * Map the Telegram conversation returned from backend to unified conversation object
    * @param conversation Telegram conversation data
+   * @param botId Telegram bot id
    */
-  fromTelegram = (conversation: DDBTelegramConversation): Conversation => {
+  fromTelegram = (conversation: DDBTelegramConversation, botId: string): Conversation => {
+    const { assignee } = conversation;
     let customerName: string;
     const chatType = conversation.info.type;
     if (chatType === 'private') {
@@ -105,6 +111,8 @@ class ConversationMapper {
       },
       unseenMessages: 0,
       chatPlatform: 'telegram',
+      assignee,
+      pageId: botId,
     };
   }
 }

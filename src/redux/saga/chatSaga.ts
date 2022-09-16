@@ -204,6 +204,25 @@ function* loadMoreConversationMessages(action: PayloadAction<Conversation | unde
   }
 }
 
+function* assignChat(action: PayloadAction<[Conversation, string]>) {
+  const [conversation, newAssignee] = action.payload;
+  try {
+    yield call(chatPresenter.assignChat, conversation, newAssignee);
+    yield put({ type: chatActions.onChatAssigned.type, payload: [conversation, newAssignee] });
+    toasty.show({
+      title: i18n.t('COMMON.SUCCESS'),
+      type: 'success',
+      message: i18n.t('CHAT.MANUAL_ASSIGN.ASSIGN_CHAT_SUCCESSFULLY', { assignee: newAssignee }),
+    });
+  } catch (e: any) {
+    toasty.show({
+      title: i18n.t('COMMON.ERROR'),
+      type: 'error',
+      message: i18n.t('CHAT.MANUAL_ASSIGN.ASSIGN_CHAT_FAILED', { assignee: newAssignee }),
+    });
+  }
+}
+
 export default function* chatSaga() {
   yield all([
     takeLatest(chatActions.getAllPlatformsConversations, getAllPlatformsConversations),
@@ -213,5 +232,6 @@ export default function* chatSaga() {
     takeLatest(chatActions.sendAttachmentMessage, sendAttachmentMessage),
     takeLatest(chatActions.subscribeNewMessage, subscribeNewMessageEvent),
     takeLatest(chatActions.loadMoreMessages, loadMoreConversationMessages),
+    takeEvery(chatActions.assignChat, assignChat),
   ]);
 }

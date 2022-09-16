@@ -18,14 +18,7 @@ import { truncateStringWithEllipsis } from '@utils/CommonUtils';
 import fromAppSyncToAppNotification from '@utils/notification/mapper';
 import { END, EventChannel, eventChannel } from 'redux-saga';
 import {
-  all,
-  call,
-  cancelled,
-  put,
-  select,
-  take,
-  takeEvery,
-  takeLatest,
+  all, call, cancelled, put, select, take, takeEvery, takeLatest,
 } from 'redux-saga/effects';
 
 const notificationsSelector = (state: RootState) => state.notification.notifications;
@@ -52,7 +45,7 @@ function* onNewNotification(newNotification: NotificationData) {
     onClick: () => {
       history.push({
         pathname: '/apps/chat',
-        search: `?chatPlatformn=${chatPlatform}&conversationId=${conversationId}`,
+        search: `?chatPlatform=${chatPlatform}&conversationId=${conversationId}`,
       });
     },
   });
@@ -114,6 +107,9 @@ function* onNewConversation(action: PayloadAction<Conversation>) {
       createdAt: Date.now(),
       unread: true,
     };
+    // TODO: Should also send notification to the user that was unassigned conversation
+    // Because, the conversation is no longer assigned to old employee
+    // Have to update marketing backend AppSync velocity template
     yield onNewNotification(newNotification);
   } catch {
     // Do nothing
@@ -205,7 +201,11 @@ function* subscribeNewNotificationEvent() {
       }
 
       // Notify new notification
-      const newNotification = fromAppSyncToAppNotification(notificationPayload);
+      const isForAdmin = currentUser?.username !== notificationPayload.username;
+      const newNotification = fromAppSyncToAppNotification(
+        notificationPayload,
+        isForAdmin,
+      );
       yield onNewNotification(newNotification);
     } finally {
       const isCancelled: boolean = yield cancelled();

@@ -38,7 +38,7 @@ function renderNotifications(
     // Other notification type will be handled case by case in the feature
     history.push({
       pathname: '/apps/chat',
-      search: `?chatPlatformn=${chatPlatform}&conversationId=${conversationId}`,
+      search: `?chatPlatform=${chatPlatform}&conversationId=${conversationId}`,
     });
 
     // Mark clicked notification as read
