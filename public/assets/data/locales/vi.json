@@ -133,7 +133,15 @@
         "LINK_YOUR_PAGES": "Liên kết trang",
         "PINNED_MESSAGE_TITLE": "Tin nhắn được ghim",
         "MEDIA_MESSAGE_TITLE": "Tin nhắn đa phương tiện được gửi",
-        "DOCUMENT_MESSAGE_TITLE": "Tin nhắn văn bản được gửi"
+        "DOCUMENT_MESSAGE_TITLE": "Tin nhắn văn bản được gửi",
+        "MANUAL_ASSIGN": {
+            "CHAT_NOT_ASSIGNED": "Chưa phân công",
+            "CHAT_ASSIGN_FAILED": "không thể phân công hội thoại cho nhân viên  {{username}}",
+            "CHAT_ASSIGNED_USER_TOOLTIP": "{{name}} được chỉ định chăm sóc hội thoại này",
+            "CHOOSE_ASSIGNEE_DROPDOWN_TITLE": "Chỉ định...",
+            "ASSIGN_CHAT_SUCCESSFULLY": "Chỉ định hội thoại thành công cho nhân viên {{assignee}}",
+            "ASSIGN_CHAT_FAILED": "Không thể chỉ định hội thoại cho nhân viên {{assignee}}"
+        }
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "Mô tả",
@@ -251,9 +259,9 @@
         "NOTIFICATION_NEW_MESSAGE_TITLE": "{{customerName}} đã gửi tin nhắn mới",
         "NOTIFICATION_NEW_MESSAGE_SUBTITLE": "Bạn đã nhận được tin nhắn mới từ {{customerName}}. Kiểm tra ngay!",
         "NEW_ASSIGNED_CONVERSATION_TITLE": "Hội thoại mới",
-        "NEW_ASSIGNED_CONVERSATION_SUBTITLE": "Cạn đã được chỉ định chăm sóc hội thoại mới từ nền tảng {{chatPlatform}}. Hãy tới ô chat và phản hồi khách hàng.",
+        "NEW_ASSIGNED_CONVERSATION_SUBTITLE": "Bạn đã được chỉ định chăm sóc hội thoại mới từ nền tảng {{chatPlatform}}. Hãy tới ô chat và phản hồi khách hàng.",
         "ADMIN_NEW_ASSIGNED_CONVERSATION_SUBTITLE": "Nhân viên {{username}} được chỉ định chăm sóc hội thoại từ nền tảng {{chatPlatform}}.",
-        "EMPTY_NOTIFICATIONS": "Chúc mừng, tất cả thông báo đã được xử lý!",
+        "EMPTY_NOTIFICATIONS": "Chúc mừng bạn, tất cả thông báo đã được xử lý!",
         "NEW_NOTIFICATIONS_NUMBER": "{{unreadCount}} Mới",
         "MARK_ALL_AS_READ": "Đánh dấu đã đọc"
     },

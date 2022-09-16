@@ -4,9 +4,10 @@ import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
 import {
   adminGetPlatformConversationsUseCase,
-  getUserInfoUseCase,
   getMessagesUseCase,
   getPlatformConversationsUseCase,
+  getUserInfoUseCase,
+  manualAssignChatUseCase,
   sendAttachmentMessageUseCase,
   sendMessageUseCase,
   subscribeNewMessageUseCase,
@@ -23,7 +24,8 @@ export default class ChatPresenterImpl implements ChatPresenter {
 
   /**
    * Get conversations for given page id with specific chat platform
-   * @param platformOwnerId Platform page id or Telegram channel id
+   * @param platform Chat platform
+   * @param platformPageId Page id
    * @returns Conversations of given platform owner id
    */
   getPlatformConversations = async (
@@ -57,7 +59,8 @@ export default class ChatPresenterImpl implements ChatPresenter {
 
   /**
    * Get all conversations for given page id with specific chat platform
-   * @param platformOwnerId Platform page id or Telegram channel id
+   * @param platform Chat platform
+   * @param platformPageId Page id
    * @returns Conversations of given platform owner id
    */
   adminGetPlatformConversations = async (
@@ -68,4 +71,9 @@ export default class ChatPresenterImpl implements ChatPresenter {
   getUserProfile = async (
     chatPlatform: ChatPlatform, pageId: string, userId: string, chatId?: string,
   ) => getUserInfoUseCase.invoke(chatPlatform, pageId, userId, chatId);
+
+  assignChat = async (
+    conversation: Conversation,
+    newAssignee:string,
+  ) => manualAssignChatUseCase.invoke(conversation, newAssignee);
 }

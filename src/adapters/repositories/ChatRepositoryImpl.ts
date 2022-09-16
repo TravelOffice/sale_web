@@ -18,9 +18,10 @@ import {
 } from '@graphql/queries';
 import { onNewMessage } from '@graphql/subscriptions';
 import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
-import { sessionStorageProvider } from '@adapter/infrastructures';
+import { apiProvider, sessionStorageProvider } from '@adapter/infrastructures';
 import { DDBTelegramConversation } from '@domain/entities/chat/telegram/DDBTelegramConversation';
 import { DDBTelegramMessages } from '@domain/entities/chat/telegram/DDBTelegramMessage';
+import { ResponseType } from '@utils/ApiUtils';
 import { ChatRepository } from './interfaces/ChatRepository';
 
 export default class ChatRepositoryImpl implements ChatRepository {
@@ -49,7 +50,7 @@ export default class ChatRepositoryImpl implements ChatRepository {
     const payload = result.data.allTelegramConversations.data;
     const conversations: DDBTelegramConversation[] = JSON.parse(payload);
     return conversations
-      .map((conversation) => conversationMapper.fromTelegram(conversation));
+      .map((conversation) => conversationMapper.fromTelegram(conversation, telegramBotId));
   };
 
   getFbMessages = async (
@@ -72,7 +73,7 @@ export default class ChatRepositoryImpl implements ChatRepository {
    * Get Telegram message of given conversation id
    * Support paging by passing limit and next token values to graph endpoint
    * @param conversationId Conversation id
-   * @param limit Number of items returned from backend
+   * @param botId Telegram bot id
    * @param nextToken Next token that data will be queried from
    */
   getTelegramMessages = async (conversationId: string, botId: string, nextToken?: string) => {
@@ -157,6 +158,19 @@ export default class ChatRepositoryImpl implements ChatRepository {
     const payload = result.data.adminAllTelegramConversations.data;
     const conversations: DDBTelegramConversation[] = JSON.parse(payload);
     return conversations
-      .map((conversation) => conversationMapper.fromTelegram(conversation));
+      .map((conversation) => conversationMapper.fromTelegram(conversation, telegramBotId));
   };
+
+  manualAssignChat = async (data: {
+    chatPlatform: ChatPlatform,
+    pageId: string,
+    conversationId: string,
+    assignee: string,
+  }) => {
+    const { assignee } = data;
+    const response = await apiProvider.authorizedRequest.post('/admin/assign-chat', data);
+    if (response.message !== ResponseType.SUCCESS) {
+      throw Error(`Can not assign chat to user ${assignee}`);
+    }
+  }
 }

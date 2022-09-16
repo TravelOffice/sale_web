@@ -71,7 +71,7 @@ const AppChat = () => {
 
   useEffect(() => {
     if (isLoadByParams) return;
-    const chatPlatformParam = useQuery.get('chatPlatformn');
+    const chatPlatformParam = useQuery.get('chatPlatform');
     const conversationIdParam = useQuery.get('conversationId');
     if (chatPlatformParam && conversationIdParam) {
       const conversationToOpen = allPlatformConversations.find((platformConversation) => {

@@ -133,7 +133,15 @@
         "LINK_YOUR_PAGES": "Link your pages",
         "PINNED_MESSAGE_TITLE": "A message has been pinned",
         "MEDIA_MESSAGE_TITLE": "A media message has been sent",
-        "DOCUMENT_MESSAGE_TITLE": "A document message has been sent"
+        "DOCUMENT_MESSAGE_TITLE": "A document message has been sent",
+        "MANUAL_ASSIGN": {
+            "CHAT_NOT_ASSIGNED": "Not Assigned",
+            "CHAT_ASSIGN_FAILED": "Can not assign conversation to employee {{username}}",
+            "CHAT_ASSIGNED_USER_TOOLTIP": "{{name}} is assigned to this chat",
+            "CHOOSE_ASSIGNEE_DROPDOWN_TITLE": "Choose assignee...",
+            "ASSIGN_CHAT_SUCCESSFULLY": "Assign chat to {{assignee}} successfully",
+            "ASSIGN_CHAT_FAILED": "Can not assign chat to {{assignee}}"
+        }
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "About",

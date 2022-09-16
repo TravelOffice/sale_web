@@ -37,6 +37,7 @@ import { ChatPlatform } from '@domain/entities/ChatPlatform';
 import MessageList from '@features/Chat/MessageList';
 import { useAccessControl } from '@hooks/auth';
 import PERMISSIONS from '@utils/PermissionUtils';
+import ManualAssignChat from '@features/Chat/components/ManualAssignChat';
 
 interface AttachmentMessageSetting {
   id: number,
@@ -301,6 +302,11 @@ const ChatLog = (props: ChatLogProps) => {
                   onClick={handleAvatarClicked}
                 />
                 <h6 className="mb-0">{contact?.fullName}</h6>
+                {
+                  can(PERMISSIONS.assign_chat) && (
+                    <ManualAssignChat conversation={selectedConversation} />
+                  )
+                }
               </div>
               <div className="d-flex align-items-center">
                 <Search size={20} className="cursor-pointer d-sm-block d-none" />
