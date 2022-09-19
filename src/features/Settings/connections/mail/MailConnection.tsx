@@ -1,21 +1,22 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
   Button,
   Card, CardBody, CardHeader, CardTitle,
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
-import { MailAccount } from '@domain/entities/mail/MailAccount';
 import MailAccountItem from '@features/Settings/connections/mail/MailAccountItem';
 import classNames from 'classnames';
 import LinkEmailModal from '@features/Settings/connections/mail/LinkEmailModal';
-
-const mailAccounts: MailAccount[] = [];
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@redux/store';
+import { mailActions } from '@redux/slices/mailSlice';
 
 export default function MailConnection() {
-  const [modalOpen, setModalOpen] = useState(false);
   const { t } = useTranslation();
-  const onLinkEmail = useCallback(() => setModalOpen(true), []);
-  const onDismiss = useCallback(() => setModalOpen(false), []);
+  const dispatch = useDispatch();
+  const mailAccounts = useSelector((state: RootState) => state.mail.mailAccounts);
+  const modalStatus = useSelector((state: RootState) => state.mail.linkModalStatus);
+  const onLinkEmail = useCallback(() => dispatch(mailActions.openLinkModal()), []);
   return (
     <>
       <Card>
@@ -52,7 +53,7 @@ export default function MailConnection() {
           }
         </CardBody>
       </Card>
-      <LinkEmailModal isOpen={modalOpen} onDismiss={onDismiss} />
+      <LinkEmailModal isOpen={modalStatus !== 'closed'} />
     </>
   );
 }

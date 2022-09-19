@@ -21,6 +21,8 @@ import ConnectZaloPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectZ
 import GetZaloOAuthLinkUseCaseImpl from '@domain/useCases/zalo/GetZaloOAuthLinkUseCaseImpl';
 import { ManualAssignChatUseCase } from '@domain/useCases/interfaces/chat/ManualAssignChatUseCase';
 import ManualAssignChatUseCaseImpl from '@domain/useCases/chat/ManualAssignChatUseCaseImpl';
+import { LinkEmailUseCase } from '@domain/useCases/interfaces/mail/LinkEmailUseCase';
+import LinkEmailUseCaseImpl from '@domain/useCases/mail/LinkEmailUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -131,6 +133,8 @@ interface UseCases {
   getAllPermissionsUseCase: GetAllPermissionsUseCase,
   addRoleUseCase: AddRoleUseCase
   updateRoleUseCase: UpdateRoleUseCase
+  // Mail
+  linkMailUseCase: LinkEmailUseCase,
 }
 
 const useCases: UseCases = {
@@ -182,6 +186,8 @@ const useCases: UseCases = {
   getAllPermissionsUseCase: new GetAllPermissionsUseCaseImpl(),
   addRoleUseCase: new AddRoleUseCaseImpl(),
   updateRoleUseCase: new UpdateRoleUseCaseImpl(),
+  // Mail
+  linkMailUseCase: new LinkEmailUseCaseImpl(),
 };
 
 export const {
@@ -226,4 +232,5 @@ export const {
   updateRoleUseCase,
   subscribeNewNotificationUseCase,
   manualAssignChatUseCase,
+  linkMailUseCase,
 } = useCases;

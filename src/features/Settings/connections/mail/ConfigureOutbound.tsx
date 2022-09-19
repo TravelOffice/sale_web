@@ -16,7 +16,7 @@ import { LinkEmailStepProps } from '@features/Settings/connections/mail/LinkEmai
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import i18n from '@config/i18n';
-import { getDefaultOutboundPort } from '@utils/MailUtils';
+import { getDefaultOutboundPort, mailSslModeLabels } from '@utils/MailUtils';
 
 const schema = yup.object().shape({
   outboundHost: yup.string()
@@ -107,9 +107,12 @@ export default function ConfigureOutbound(props: LinkEmailStepProps) {
                 <Select
                   isClearable={false}
                   classNamePrefix="select"
-                  options={inboundSslModes.map((mode) => ({ label: mode, value: mode }))}
+                  options={inboundSslModes.map((mode) => ({
+                    label: mailSslModeLabels[mode],
+                    value: mode,
+                  }))}
                   className={classnames('react-select', { 'is-invalid': errors.outboundSslMode })}
-                  value={{ label: value, value }}
+                  value={{ label: mailSslModeLabels[value], value }}
                   onChange={(newValue) => onChange(newValue?.value)}
                   {...rest}
                 />

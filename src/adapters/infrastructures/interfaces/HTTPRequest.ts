@@ -1,11 +1,11 @@
 import { ApiRequestConfig } from './ApiRequestConfig';
 
 export interface HTTPRequest {
-  get: (url: string, config?: ApiRequestConfig) => Promise<any>,
+  get: <R = any>(url: string, config?: ApiRequestConfig) => Promise<R>,
 
-  post: (url: string, data?: any, config?: ApiRequestConfig) => Promise<any>,
+  post: <R = any>(url: string, data?: any, config?: ApiRequestConfig) => Promise<R>,
 
-  put: (url: string, data?: any, config?: ApiRequestConfig) => Promise<any>,
+  put: <R = any>(url: string, data?: any, config?: ApiRequestConfig) => Promise<R>,
 
-  delete: (url: string, config?: ApiRequestConfig) => Promise<any>
+  delete: <R = any>(url: string, config?: ApiRequestConfig) => Promise<R>
 }

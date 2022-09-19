@@ -13,6 +13,7 @@ import { createBrowserHistory } from 'history';
 import { enableMapSet } from 'immer';
 import createSagaMiddleware from 'redux-saga';
 import client from '@graphql/client';
+import { mailReducers } from '@redux/slices/mailSlice';
 import { customerReducers } from './slices/customerSlice';
 import { userReducers } from './slices/userSlice';
 import { rolePermissionReducers } from './slices/rolePermissionSlice';
@@ -35,6 +36,7 @@ const combinedReducers = combineReducers({
   customer: customerReducers,
   notification: notificationReducers,
   rolePermission: rolePermissionReducers,
+  mail: mailReducers,
 });
 
 type Reducers = typeof combinedReducers;

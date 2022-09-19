@@ -1,4 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import {
   ModalHeader, Modal, ModalBody, Form,
 } from 'reactstrap';
@@ -14,23 +16,27 @@ import ConfigureOutbound from '@features/Settings/connections/mail/ConfigureOutb
 import Stepper from '@utils/Stepper';
 import Review from '@features/Settings/connections/mail/Review';
 import i18n from '@config/i18n';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@redux/store';
+import { mailActions } from '@redux/slices/mailSlice';
 
 export interface LinkEmailModalProps {
   isOpen: boolean,
-  onDismiss: () => void,
 }
 
 const defaultValues: Partial<LinkEmailFormData> = {
   provider: 'Other',
-  protocol: 'IMAP',
-  inboundSslMode: 'SSL/TLS',
-  outboundSslMode: 'SSL/TLS',
+  protocol: 'imap',
+  inboundSslMode: 'ssl/tls',
+  outboundSslMode: 'ssl/tls',
 };
 
 export default function LinkEmailModal(props: LinkEmailModalProps) {
-  const { isOpen, onDismiss } = props;
+  const { isOpen } = props;
   const form = useForm<LinkEmailFormData>({ defaultValues });
   const [stepper] = useState<Stepper>(new Stepper());
+  const dispatch = useDispatch();
+  const modalStatus = useSelector((state: RootState) => state.mail.linkModalStatus);
   const steps: WizardStep[] = useMemo(() => [
     {
       id: 'details',
@@ -62,9 +68,27 @@ export default function LinkEmailModal(props: LinkEmailModalProps) {
     },
   ], [form, stepper]);
 
+  useEffect(() => {
+    // Watch state change that represents success linking
+    // Reset the form before close this modal
+    if (modalStatus === 'finished') {
+      form.reset({});
+      dispatch(mailActions.closeLinkModal());
+    }
+  }, [modalStatus, form]);
+
+  const handleOnDismiss = useCallback(() => {
+    if (modalStatus === 'linking') {
+      // Disable dismissing whenever an email is linking
+      return;
+    }
+    form.reset({});
+    dispatch(mailActions.closeLinkModal());
+  }, [modalStatus, form]);
+
   return (
-    <Modal isOpen={isOpen} toggle={onDismiss} className="modal-dialog-centered modal-lg">
-      <ModalHeader className="bg-transparent" toggle={onDismiss} />
+    <Modal isOpen={isOpen} toggle={handleOnDismiss} className="modal-dialog-centered modal-lg">
+      <ModalHeader className="bg-transparent" toggle={handleOnDismiss} />
       <ModalBody>
         <h1 className="text-center mb-1">{i18n.t('MAIL.LINK_EMAIL_TITLE')}</h1>
         <p className="text-center mb-2">{i18n.t('MAIL.LINK_EMAIL_SUBTITLE')}</p>
