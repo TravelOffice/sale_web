@@ -94,15 +94,29 @@ function* onNewConversation(action: PayloadAction<Conversation>) {
     const messageText = conversation.lastMessage?.messageData.text;
     const customerName = conversation.contact.fullName;
     const notificationTitle = i18n.t('NOTIFICATION.NOTIFICATION_NEW_MESSAGE_TITLE', { customerName });
+    const titleI18n = {
+      key: 'NOTIFICATION.NOTIFICATION_NEW_MESSAGE_TITLE',
+      params: { customerName },
+    };
     const notificationMessage = messageText
       ? truncateStringWithEllipsis(messageText, 50)
       : i18n.t('NOTIFICATION.NOTIFICATION_NEW_MESSAGE_SUBTITLE', { customerName });
+
+    let subtitleI18n;
+    if (!messageText) {
+      subtitleI18n = {
+        key: 'NOTIFICATION.NOTIFICATION_NEW_MESSAGE_SUBTITLE',
+        params: { customerName },
+      };
+    }
     const newNotification: NotificationData = {
       channelId: conversation.id,
       avatar: Images.defaultAvatar,
       data: conversation,
       title: notificationTitle,
+      titleI18n,
       subtitle: notificationMessage,
+      subtitleI18n,
       type: 'newChatMessage',
       createdAt: Date.now(),
       unread: true,

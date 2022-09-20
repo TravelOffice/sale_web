@@ -3,10 +3,18 @@ import { NotificationProps } from '@components/NavBarComponent/NotificationProps
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { New20Regular } from '@fluentui/react-icons';
 import React, { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function NewMessageNotification(props: NotificationProps) {
+  const { t } = useTranslation();
   const { notification, onClickHandled } = props;
-  const { data: conversation, unread } = notification;
+  const {
+    data: conversation,
+    unread,
+    titleI18n,
+    subtitle,
+    subtitleI18n,
+  } = notification;
   const onNotificationClicked = useCallback((e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     onClickHandled();
@@ -19,12 +27,16 @@ export default function NewMessageNotification(props: NotificationProps) {
         </div>
         <div className="list-item-body d-flex flex-column flex-grow-1">
           <span className={unread ? 'text-primary' : ''}>
-            {notification.title}
+            {t(titleI18n.key, titleI18n.params)}
             {
               unread ? <New20Regular /> : <></>
             }
           </span>
-          <small className="notification-text">{notification.subtitle}</small>
+          {
+            subtitleI18n
+              ? <small className="notification-text">{t(subtitleI18n.key, subtitleI18n.params)}</small>
+              : <small className="notification-text">{subtitle}</small>
+          }
         </div>
       </div>
     </a>
