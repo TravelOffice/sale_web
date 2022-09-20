@@ -15,25 +15,35 @@ const fromAppSyncToAppNotification = (
   if (type === 'CHAT_NEW_CONVERSATION_ASSIGNED') {
     const { chatPlatform, conversationId } = data;
     const title = i18n.t('NOTIFICATION.NEW_ASSIGNED_CONVERSATION_TITLE');
-    let subtitle: string;
+    const titleI18n = {
+      key: 'NOTIFICATION.NEW_ASSIGNED_CONVERSATION_TITLE',
+    };
+    let subtitleI18n;
     if (isAdmin) {
       // Support showing title / subtitle for admin
-      subtitle = i18n.t(
-        'NOTIFICATION.ADMIN_NEW_ASSIGNED_CONVERSATION_SUBTITLE',
-        {
+      subtitleI18n = {
+        key: 'NOTIFICATION.ADMIN_NEW_ASSIGNED_CONVERSATION_SUBTITLE',
+        params: {
           chatPlatform,
           username,
         },
-      );
+      };
     } else {
       // Normal user
-      subtitle = i18n.t('NOTIFICATION.NEW_ASSIGNED_CONVERSATION_SUBTITLE', { chatPlatform });
+      subtitleI18n = {
+        key: 'NOTIFICATION.NEW_ASSIGNED_CONVERSATION_SUBTITLE',
+        params: { chatPlatform },
+      };
     }
+
+    const subtitle = i18n.t(subtitleI18n.key, subtitleI18n.params);
 
     return {
       channelId: conversationId,
       title,
+      titleI18n,
       subtitle,
+      subtitleI18n,
       createdAt: timestamp,
       avatar: '',
       type: 'newConversation',
