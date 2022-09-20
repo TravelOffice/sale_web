@@ -5,12 +5,15 @@ import { New20Regular } from '@fluentui/react-icons';
 import Images from '@themes/Images';
 import React, { useCallback } from 'react';
 import { SocialIcon } from 'react-social-icons';
+import { useTranslation } from 'react-i18next';
 
 export default function NewConversationNotification(props: NotificationProps) {
+  const { t } = useTranslation();
   const { notification, onClickHandled } = props;
   const {
-    title,
+    titleI18n,
     subtitle,
+    subtitleI18n,
     unread,
     data: conversationInformation,
   } = notification as NewConversationNotificationData;
@@ -47,12 +50,16 @@ export default function NewConversationNotification(props: NotificationProps) {
         </div>
         <div className="list-item-body d-flex flex-column flex-grow-1">
           <span className={unread ? 'text-primary' : ''}>
-            {title}
+            {t(titleI18n.key, titleI18n.params)}
             {
               unread ? <New20Regular /> : <></>
             }
           </span>
-          <small className="notification-text">{subtitle}</small>
+          {
+            subtitleI18n
+              ? <small className="notification-text">{t(subtitleI18n.key, subtitleI18n.params)}</small>
+              : <small className="notification-text">{subtitle}</small>
+          }
         </div>
       </div>
     </div>
