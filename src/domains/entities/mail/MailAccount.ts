@@ -1,16 +1,16 @@
-export const mailProtocols = ['POP3', 'IMAP'] as const;
+export const mailProtocols = ['pop3', 'imap'] as const;
 
 export type MailProtocol = typeof mailProtocols[number];
 
-export const inboundSslModes = ['None', 'SSL/TLS', 'STARTTLS'] as const;
+export const inboundSslModes = ['none', 'ssl/tls', 'starttls'] as const;
 
 export type InboundSslMode = typeof inboundSslModes[number];
 
-export const pop3InboundTypes = ['POP3', 'POP3S'] as const;
+export const pop3InboundTypes = ['pop3', 'pop3s'] as const;
 
 export type POP3InboundType = typeof pop3InboundTypes[number];
 
-export const imapInboundTypes = ['IMAP', 'IMAPS'] as const;
+export const imapInboundTypes = ['imap', 'imaps'] as const;
 
 export type IMAPInboundType = typeof imapInboundTypes[number];
 

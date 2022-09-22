@@ -46,7 +46,8 @@
         "INVALID_EMAIL": "{{field}} is invalid email!",
         "INVALID_ONE_OF": "{{field}} must be one of {{values}}",
         "INVALID_MIN": "{{field}} must be greater than or equal to {{min}}",
-        "INVALID_MAX": "{{field}} must be less than or equal to {{max}}"
+        "INVALID_MAX": "{{field}} must be less than or equal to {{max}}",
+        "NONE": "None"
     },
     "LEAD": {
         "NAME": "Name",
@@ -340,6 +341,15 @@
         "LINK_EMAIL_TITLE": "Link your email",
         "LINK_EMAIL_SUBTITLE": "Provide email information with this form",
         "NO_EMAIL_LINKED": "You haven't connect any mail account yet!",
-        "ADD_MORE_ACCOUNT": "Add more account"
+        "ADD_MORE_ACCOUNT": "Add more account",
+        "LINK_MAIL_SUCCESSFULLY": "Mail account {{mailAddress}} has been linked successfully",
+        "ERROR_VALIDATOR": "Invalid params",
+        "ERROR_DUPLICATED_MAIL_ACCOUNT": "Mail account {{mailAddress}} has already been linked!",
+        "ERROR_CONNECT_TO_INBOUND_SERVER": "Failed to connect to {{inboundHost}} server!",
+        "ERROR_LOGIN_TO_INBOUND_SERVER": "Username or password is invalid for {{inboundHost}} server!",
+        "ERROR_CONNECT_TO_OUTBOUND_SERVER": "Failed to connect to {{outboundHost}} server!",
+        "ERROR_LOGIN_TO_OUTBOUND_SERVER": "Username or password is invalid for {{outboundHost}} server!",
+        "ERROR_EMAIL_ADDRESS_IS_INVALID": "Email {{mailAddress}} is valid!",
+        "ERROR_UNKNOWN": "Something went wrong!"
     }
 }

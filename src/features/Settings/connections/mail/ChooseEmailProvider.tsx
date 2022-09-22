@@ -16,7 +16,7 @@ import i18n from '@config/i18n';
 
 const schema = yup.object().shape({
   name: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('MAIL.NAME') })),
-  mailAddress: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('MAIL.MAIL_ADDRESS') }))
+  email: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('MAIL.MAIL_ADDRESS') }))
     .email(i18n.t('COMMON.INVALID_EMAIL', { field: i18n.t('MAIL.MAIL_ADDRESS') })),
 });
 
@@ -26,8 +26,8 @@ export default function ChooseEmailProvider(props: LinkEmailStepProps) {
   const { t } = useTranslation();
   const { control, getValues } = form;
   const onNext = useCallback(() => {
-    const [name, mailAddress] = getValues(['name', 'mailAddress']);
-    schema.validate({ name, mailAddress }, { abortEarly: false }).then(() => {
+    const [name, email] = getValues(['name', 'email']);
+    schema.validate({ name, email }, { abortEarly: false }).then(() => {
       setErrors({});
       stepper.next();
     }).catch((err: ValidationError) => {
@@ -81,13 +81,13 @@ export default function ChooseEmailProvider(props: LinkEmailStepProps) {
           <span className="text-danger">*</span>
         </Label>
         <Controller
-          name="mailAddress"
+          name="email"
           control={control}
           render={({ field }) => (
-            <Input id="mailAddress" type="email" placeholder={t('MAIL.MAIL_ADDRESS')} invalid={!!errors.mailAddress} {...field} />
+            <Input id="mailAddress" type="email" placeholder={t('MAIL.MAIL_ADDRESS')} invalid={!!errors.email} {...field} />
           )}
         />
-        {errors.mailAddress && <FormFeedback>{errors.mailAddress}</FormFeedback>}
+        {errors.email && <FormFeedback>{errors.email}</FormFeedback>}
       </div>
       <div className="d-flex justify-content-between mt-2">
         <Button color="secondary" outline disabled>

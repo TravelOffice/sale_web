@@ -5,7 +5,7 @@ import {
 export interface LinkEmailFormData {
   provider: MailProviderType,
   name: string,
-  mailAddress: string,
+  email: string,
   protocol: MailProtocol,
   inboundHost: string,
   inboundPassword: string,

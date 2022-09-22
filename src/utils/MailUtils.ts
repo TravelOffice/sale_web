@@ -1,5 +1,19 @@
 import Images from '@themes/Images';
-import { InboundSslMode, MailProviderType, OutboundSslMode } from '@domain/entities/mail/MailAccount';
+import {
+  InboundSslMode, MailProtocol, MailProviderType, OutboundSslMode,
+} from '@domain/entities/mail/MailAccount';
+import i18n from 'i18next';
+
+export const mailProtocolLabels: Record<MailProtocol, string> = {
+  imap: 'IMAP',
+  pop3: 'POP3',
+};
+
+export const mailSslModeLabels: Record<InboundSslMode, string> = {
+  none: i18n.t('COMMON.NONE'),
+  'ssl/tls': 'SSL/TLS',
+  starttls: 'STARTTLS',
+};
 
 export function getMailProviderLogo(provider: MailProviderType) {
   switch (provider) {
@@ -11,20 +25,20 @@ export function getMailProviderLogo(provider: MailProviderType) {
   }
 }
 
-export function getDefaultInboundPort(inboundProtocol: string, sslMode: InboundSslMode) {
-  if (sslMode === 'SSL/TLS') {
-    return inboundProtocol === 'IMAP' ? 993 : 995;
-  } if (sslMode === 'STARTTLS') {
-    return inboundProtocol === 'IMAP' ? 143 : 587;
+export function getDefaultInboundPort(inboundProtocol: MailProtocol, sslMode: InboundSslMode) {
+  if (sslMode === 'ssl/tls') {
+    return inboundProtocol === 'imap' ? 993 : 995;
+  } if (sslMode === 'starttls') {
+    return inboundProtocol === 'imap' ? 143 : 110;
   }
   // sslMode is None
-  return inboundProtocol === 'IMAP' ? 143 : 110;
+  return inboundProtocol === 'imap' ? 143 : 110;
 }
 
 export function getDefaultOutboundPort(sslMode: OutboundSslMode) {
-  if (sslMode === 'STARTTLS') {
+  if (sslMode === 'starttls') {
     return 587;
-  } if (sslMode === 'SSL/TLS') {
+  } if (sslMode === 'ssl/tls') {
     return 465;
   }
   // sslMode is None

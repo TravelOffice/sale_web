@@ -1,12 +1,15 @@
 import React, { useCallback, useState } from 'react';
 import { LinkEmailStepProps } from '@features/Settings/connections/mail/LinkEmailStepProps';
-import { Button, Col } from 'reactstrap';
+import { Button, Col, Spinner } from 'reactstrap';
 import {
   ArrowLeft, ArrowRight, Eye, EyeOff,
 } from 'react-feather';
 import { useWatch } from 'react-hook-form';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@redux/store';
+import { mailActions } from '@redux/slices/mailSlice';
 
 function PasswordText(props: { password: string }) {
   const { password } = props;
@@ -27,11 +30,12 @@ export default function Review(props: LinkEmailStepProps) {
   const { form, stepper } = props;
   const { control, handleSubmit } = form;
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const modalStatus = useSelector((state: RootState) => state.mail.linkModalStatus);
   const data = useWatch({ control });
   const onSubmit = useCallback(() => {
     handleSubmit((formData: LinkEmailFormData) => {
-      // TODO: Invoke API call to link email
-      console.log('formData', formData);
+      dispatch(mailActions.linkMail(formData));
     })();
   }, []);
 
@@ -55,7 +59,7 @@ export default function Review(props: LinkEmailStepProps) {
                 {t('MAIL.MAIL_ADDRESS')}
                 :
               </td>
-              <td><span className="fw-bold">{data.mailAddress}</span></td>
+              <td><span className="fw-bold">{data.email}</span></td>
             </tr>
             <div className="mt-2" />
             <tr><h6 className="mb-2">{t('MAIL.CONFIGURE_INBOUND')}</h6></tr>
@@ -162,7 +166,8 @@ export default function Review(props: LinkEmailStepProps) {
           <ArrowLeft size={14} className="rotate-rtl align-middle me-sm-50 me-0" />
           <div className="align-middle d-sm-inline-block d-none">{t('COMMON.PREVIOUS')}</div>
         </Button>
-        <Button color="success" onClick={onSubmit}>
+        <Button color="success" onClick={onSubmit} disabled={modalStatus === 'linking'}>
+          {modalStatus === 'linking' && <Spinner size="sm" className="me-2" />}
           <div className="align-middle d-sm-inline-block d-none">{t('COMMON.SUBMIT')}</div>
           <ArrowRight size={14} className="rotate-rtl align-middle ms-sm-50 ms-0" />
         </Button>

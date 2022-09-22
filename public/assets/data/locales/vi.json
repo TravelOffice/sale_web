@@ -46,7 +46,8 @@
         "INVALID_EMAIL": "{{field}} không đúng định dạng!",
         "INVALID_ONE_OF": "{{field}} phải là một trong các lựa chọn {{values}}",
         "INVALID_MIN": "{{field}} không được nhỏ hơn {{min}}",
-        "INVALID_MAX": "{{field}} không được lớn hơn {{max}}"
+        "INVALID_MAX": "{{field}} không được lớn hơn {{max}}",
+        "NONE": "Không"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -340,6 +341,15 @@
         "LINK_EMAIL_TITLE": "Liên kết email của bạn",
         "LINK_EMAIL_SUBTITLE": "Vui lòng cung cấp thông tin email theo mẫu bên dưới",
         "NO_EMAIL_LINKED": "Bạn chưa liên kết email nào!",
-        "ADD_MORE_ACCOUNT": "Thêm tài khoản"
+        "ADD_MORE_ACCOUNT": "Thêm tài khoản",
+        "LINK_MAIL_SUCCESSFULLY": "Tài khoản {{mailAddress}} đã được liên kết thành công!",
+        "ERROR_VALIDATOR": "Đã có lỗi xảy ra!",
+        "ERROR_DUPLICATED_MAIL_ACCOUNT": "Tài khoản {{mailAddress}} đã được liên kết!",
+        "ERROR_CONNECT_TO_INBOUND_SERVER": "Lỗi khi kết nối server {{inboundHost}}!",
+        "ERROR_LOGIN_TO_INBOUND_SERVER": "Tên đăng nhập hoặc mật khẩu không đúng cho server {{inboundHost}}!",
+        "ERROR_CONNECT_TO_OUTBOUND_SERVER": "Lỗi khi kết nối server {{outboundHost}}!",
+        "ERROR_LOGIN_TO_OUTBOUND_SERVER": "Tên đăng nhập hoặc mật khẩu không đúng cho server {{outboundHost}}!",
+        "ERROR_EMAIL_ADDRESS_IS_INVALID": "Email {{mailAddress}} không hợp lệ!",
+        "ERROR_UNKNOWN": "Đã có lỗi xảy ra!"
     }
 }

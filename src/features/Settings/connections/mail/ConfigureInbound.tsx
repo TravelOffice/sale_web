@@ -15,7 +15,7 @@ import { ArrowLeft, ArrowRight } from 'react-feather';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import i18n from '@config/i18n';
-import { getDefaultInboundPort } from '@utils/MailUtils';
+import { getDefaultInboundPort, mailProtocolLabels, mailSslModeLabels } from '@utils/MailUtils';
 
 const schema = yup.object().shape({
   protocol: yup.string()
@@ -75,9 +75,12 @@ export default function ConfigureInbound(props: LinkEmailStepProps) {
             <Select
               isClearable={false}
               classNamePrefix="select"
-              options={mailProtocols.map((protocol) => ({ label: protocol, value: protocol }))}
+              options={mailProtocols.map((protocol) => ({
+                label: mailProtocolLabels[protocol],
+                value: protocol,
+              }))}
               className={classnames('react-select', { 'is-invalid': errors.protocol })}
-              value={{ label: value, value }}
+              value={{ label: mailProtocolLabels[value], value }}
               onChange={(newValue) => onChange(newValue?.value)}
               {...rest}
             />
@@ -115,9 +118,12 @@ export default function ConfigureInbound(props: LinkEmailStepProps) {
                 <Select
                   isClearable={false}
                   classNamePrefix="select"
-                  options={inboundSslModes.map((mode) => ({ label: mode, value: mode }))}
+                  options={inboundSslModes.map((mode) => ({
+                    label: mailSslModeLabels[mode],
+                    value: mode,
+                  }))}
                   className={classnames('react-select', { 'is-invalid': errors.inboundSslMode })}
-                  value={{ label: value, value }}
+                  value={{ label: mailSslModeLabels[value], value }}
                   onChange={(newValue) => onChange(newValue?.value)}
                   {...rest}
                 />

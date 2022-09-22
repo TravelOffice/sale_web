@@ -6,6 +6,7 @@ import pageConnectionSaga from '@redux/saga/pageConnectionSaga';
 import leadSaga from '@redux/saga/leadSaga';
 import opportunitySaga from '@redux/saga/opportunitySaga';
 import notificationSaga from '@redux/saga/notificationSaga';
+import mailSaga from '@redux/saga/mailSaga';
 import customerSaga from './saga/customerSaga';
 import userSaga from './saga/userSaga';
 import rolePermissionSaga from './saga/rolePermission';
@@ -32,5 +33,6 @@ export default function* rootSaga() {
     customerSaga(),
     notificationSaga(),
     rolePermissionSaga(),
+    mailSaga(),
   ]);
 }
