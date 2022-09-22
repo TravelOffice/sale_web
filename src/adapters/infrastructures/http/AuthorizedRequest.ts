@@ -1,6 +1,7 @@
 import { store } from '@redux/store';
 import { toAxiosRequestConfig } from '@utils/ApiUtils';
 import axios, { AxiosInstance } from 'axios';
+import { ResponseMiddleware } from '@adapter/infrastructures/http/ResponseMiddleware';
 import { HTTPRequest } from '../interfaces/HTTPRequest';
 import { ApiRequestConfig } from '../interfaces/ApiRequestConfig';
 import proxyResponseApi from './ApiUtils';
@@ -8,7 +9,13 @@ import proxyResponseApi from './ApiUtils';
 export default class AuthorizedRequest implements HTTPRequest {
   private readonly axiosInstance: AxiosInstance;
 
-  constructor(baseUrl: string) {
+  private readonly useBearer: boolean;
+
+  private readonly responseMiddleware: ResponseMiddleware;
+
+  constructor(baseUrl: string, useBearer?: boolean, responseMiddleware?: ResponseMiddleware) {
+    this.useBearer = useBearer || false;
+    this.responseMiddleware = responseMiddleware || proxyResponseApi;
     this.axiosInstance = axios.create({
       baseURL: baseUrl,
     });
@@ -19,35 +26,35 @@ export default class AuthorizedRequest implements HTTPRequest {
   ) : Promise<ApiRequestConfig> => ({
     ...config,
     headers: {
-      Authorization: store.getState().auth?.idToken,
+      Authorization: this.useBearer ? `Bearer ${store.getState().auth?.idToken}` : store.getState().auth?.idToken,
     },
   });
 
-  async get(url: string, config: ApiRequestConfig | undefined): Promise<any> {
+  async get<R = any>(url: string, config?: ApiRequestConfig): Promise<any> {
     const authorizedRequestConfig = await this.createAuthorizedConfigRequest(config);
     const axiosConfig = toAxiosRequestConfig(authorizedRequestConfig);
     const response = await this.axiosInstance.get(url, axiosConfig);
-    return proxyResponseApi(response);
+    return this.responseMiddleware<R>(response);
   }
 
-  async post(url: string, data: any, config: ApiRequestConfig | undefined): Promise<any> {
+  async post<R = any>(url: string, data: any, config?: ApiRequestConfig): Promise<any> {
     const authorizedRequestConfig = await this.createAuthorizedConfigRequest(config);
     const axiosConfig = toAxiosRequestConfig(authorizedRequestConfig);
-    const response = await this.axiosInstance.post(url, data, axiosConfig);
-    return proxyResponseApi(response);
+    const response = await this.axiosInstance.post<R>(url, data, axiosConfig);
+    return this.responseMiddleware(response);
   }
 
-  async put(url: string, data: any, config: ApiRequestConfig | undefined): Promise<any> {
+  async put<R = any>(url: string, data: any, config?: ApiRequestConfig): Promise<any> {
     const authorizedRequestConfig = await this.createAuthorizedConfigRequest(config);
     const axiosConfig = toAxiosRequestConfig(authorizedRequestConfig);
-    const response = await this.axiosInstance.put(url, data, axiosConfig);
-    return proxyResponseApi(response);
+    const response = await this.axiosInstance.put<R>(url, data, axiosConfig);
+    return this.responseMiddleware(response);
   }
 
-  async delete(url: string, config: ApiRequestConfig | undefined): Promise<any> {
+  async delete<R = any>(url: string, config?: ApiRequestConfig): Promise<any> {
     const authorizedRequestConfig = await this.createAuthorizedConfigRequest(config);
     const axiosConfig = toAxiosRequestConfig(authorizedRequestConfig);
-    const response = await this.axiosInstance.delete(url, axiosConfig);
-    return proxyResponseApi(response);
+    const response = await this.axiosInstance.delete<R>(url, axiosConfig);
+    return this.responseMiddleware(response);
   }
 }

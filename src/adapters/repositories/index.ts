@@ -8,6 +8,8 @@ import { ZaloPageRepository } from '@adapter/repositories/interfaces/ZaloPageRep
 import ZaloPageRepositoryImpl from '@adapter/repositories/ZaloPageRepositoryImpl';
 import { NotificationRepository } from '@adapter/repositories/interfaces/NotificationRepository';
 import NotificationRepositoryImpl from '@adapter/repositories/NotificationRepositoryImpl';
+import { MailRepository } from '@adapter/repositories/interfaces/MailRepository';
+import MailRepositoryImpl from '@adapter/repositories/MailRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
 import ChatRepositoryImpl from './ChatRepositoryImpl';
 import { S3Repository } from './interfaces/S3Repository';
@@ -33,6 +35,7 @@ interface Repositories {
   customerRepository: CustomerRepository,
   notificationRepository: NotificationRepository,
   rolePermissionRepository: RolePermissionRepository,
+  mailRepository: MailRepository,
 }
 
 const repositories : Repositories = {
@@ -47,6 +50,7 @@ const repositories : Repositories = {
   customerRepository: new CustomerRepositoryImpl(),
   notificationRepository: new NotificationRepositoryImpl(),
   rolePermissionRepository: new RolePermissionRepositoryImpl(),
+  mailRepository: new MailRepositoryImpl(),
 };
 
 export const {
@@ -61,4 +65,5 @@ export const {
   customerRepository,
   notificationRepository,
   rolePermissionRepository,
+  mailRepository,
 } = repositories;
