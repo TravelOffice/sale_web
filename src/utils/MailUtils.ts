@@ -109,6 +109,17 @@ export function downloadAttachment(attachment: MailAttachment) {
   });
 }
 
+/**
+ * Function to get default sync mail interval by REACT_APP_DEFAULT_SYNC_MAIL_INTERVAL_MS
+ * configuration. If not set, the default interval should be 3 minutes.
+ */
+export function getDefaultSyncMailInterval() {
+  if (process.env.REACT_APP_DEFAULT_SYNC_MAIL_INTERVAL_MS) {
+    return parseInt(process.env.REACT_APP_DEFAULT_SYNC_MAIL_INTERVAL_MS, 10);
+  }
+  return 3 * 60 * 1000;
+}
+
 export const MAXIMUM_ATTACHMENT_SIZE = 25 * 1024 * 1024;
 
 export const Y_SCROLL_END_THRESHOLD = 10;

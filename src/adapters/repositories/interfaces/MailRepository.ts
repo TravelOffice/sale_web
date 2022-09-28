@@ -8,6 +8,7 @@ import { MailSearchResult } from '@domain/entities/mail/MailSearchResult';
 
 export interface MailRepository {
   link: (formData: LinkEmailFormData) => Promise<MailAccount>,
+  syncEmail: (mailAccounts: MailAccount[]) => Promise<void>
   getMailAccounts: () => Promise<MailAccount[]>
   getMailboxes: (mailAccount: string) => Promise<Mailbox[]>
   getMails: (mailAccount: string, mailbox: string, nextToken?: string) => Promise<MailMessageList>

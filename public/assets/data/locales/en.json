@@ -51,7 +51,8 @@
         "DOWNLOADING": "Downloading",
         "DOWNLOAD": "Download",
         "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Something went wrong.",
-        "TRY_AGAIN": "Try again"
+        "TRY_AGAIN": "Try again",
+        "CONGRATULATIONS": "Congratulations"
     },
     "LEAD": {
         "NAME": "Name",
@@ -392,7 +393,11 @@
         "SUBJECT": "Subject",
         "MESSAGE_CONTENT": "Message",
         "SEND_MAIL_SUCCESSFULLY": "Send mail successfully",
+        "ERROR_TO_ADDRESSES": "[To] addresses must has at least one email",
         "FILE_TOO_BIG": "File size must be less than 25MB",
-        "ERROR_TO_ADDRESSES": "[To] addresses must has at least one email"
+        "FIRST_SYNC_SUCCESSFULLY": "{{count}} mail messages has been synced. Open now!",
+        "NEW_EMAILS_RECEIVED": "New emails received",
+        "NEW_EMAILS_RECEIVED_SUBTITLE": "You have received {{count}} mail messages. Check it now!",
+        "NO_MAIL_ACCOUNTS": "You haven't linked any mail account"
     }
 }

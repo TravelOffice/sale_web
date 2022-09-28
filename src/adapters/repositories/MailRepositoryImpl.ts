@@ -4,6 +4,8 @@ import { mailApiProvider, searchProvider } from '@adapter/infrastructures';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
+import { syncEmail } from '@graphql/queries';
+import graphqlClient from '@graphql/client';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 
@@ -11,6 +13,12 @@ export default class MailRepositoryImpl implements MailRepository {
   private readonly client = mailApiProvider.authorizedRequest;
 
   link = async (formData: LinkEmailFormData) => this.client.post<MailAccount>('/link-email', formData);
+
+  syncEmail = async (mailAccounts: MailAccount[]) => {
+    mailAccounts.forEach((account) => {
+      graphqlClient.query({ query: syncEmail, variables: { email: account.email, mailbox: 'INBOX' } });
+    });
+  }
 
   getMailAccounts = async () => this.client.get<MailAccount[]>('/mail-accounts');
 

@@ -8,7 +8,6 @@ import {
 import {
   Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown,
 } from 'reactstrap';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import MailMessageContent from '@features/Mail/components/MailMessageContent';
 import MailContentSkeleton from '@features/Mail/components/MailContentSkeleton';
 import { useDispatch } from 'react-redux';
@@ -153,7 +152,7 @@ export default function MailDetail(props: MailDetailComponentProps) {
               </ul>
             </div>
           </div>
-          <PerfectScrollbar className="email-scroll-area" options={{ wheelPropagation: false }}>
+          <div className="email-scroll-area position-relative">
             <Row className="mb-1 mt-3">
               {
                 mail.inReplyTo && (
@@ -202,7 +201,7 @@ export default function MailDetail(props: MailDetailComponentProps) {
                 }
               </Col>
             </Row>
-          </PerfectScrollbar>
+          </div>
         </>
       )}
     </div>

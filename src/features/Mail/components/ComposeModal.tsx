@@ -406,7 +406,7 @@ export default function ComposeModal() {
                 <CKEditor
                   editor={ClassicEditor}
                   data={htmlContent}
-                  onChange={onChange}
+                  onChange={(event, editor) => onChange(editor.getData())}
                 />
               )}
             />

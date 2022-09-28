@@ -1,3 +1,4 @@
+import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { ChatPlatform } from '../ChatPlatform';
 
 export interface BasedAppSyncNotificationPayload
@@ -16,7 +17,7 @@ export interface BasedAppSyncNotificationPayload
   data: D,
 }
 
-export const appsyncNotificationTypes = ['UNKNOWN', 'CHAT_NEW_CONVERSATION_ASSIGNED'] as const;
+export const appsyncNotificationTypes = ['UNKNOWN', 'CHAT_NEW_CONVERSATION_ASSIGNED', 'MAIL_NEW_EMAIL_RECEIVED'] as const;
 
 export type AppSyncNotificationType = typeof appsyncNotificationTypes[number];
 
@@ -27,8 +28,16 @@ export interface ASNewConversationNotificationData {
   conversationId: string,
 }
 
+export type NewEmailReceivedNotificationData = MailMessage[] | {
+  firstSync: true,
+  messageCount: number,
+};
+
 export type ASNewConversationNotification = BasedAppSyncNotificationPayload<'CHAT_NEW_CONVERSATION_ASSIGNED', ASNewConversationNotificationData>;
+
+export type NewEmailReceivedNotification = BasedAppSyncNotificationPayload<'MAIL_NEW_EMAIL_RECEIVED', NewEmailReceivedNotificationData>;
 
 export type AppSyncNotificationPayload =
   ASNewConversationNotification
+  | NewEmailReceivedNotification
   | BasedAppSyncNotificationPayload;
