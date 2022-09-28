@@ -1,5 +1,5 @@
 import {
-  all, call, put, takeLatest, select, takeEvery,
+  all, call, put, select, takeLatest, takeEvery, fork, take, cancel, delay,
 } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
@@ -13,6 +13,9 @@ import { MailMessageList } from '@domain/entities/mail/MailMessageList';
 import { RootState } from '@redux/store';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
+import { authActions } from '@redux/slices/authSlice';
+import { Task } from 'redux-saga';
+import { getDefaultSyncMailInterval } from '@utils/MailUtils';
 
 function* linkMail(action: PayloadAction<LinkEmailFormData>) {
   let success = true;
@@ -138,8 +141,34 @@ function* uploadAttachment(action: PayloadAction<File>) {
   }
 }
 
+function* bgSync() {
+  while (true) {
+    const mailAccounts: MailAccount[] = yield select((state: RootState) => state.mail.mailAccounts);
+    if (mailAccounts.length > 0) {
+      yield call(mailPresenter.syncMail, mailAccounts);
+      const syncMailInterval = getDefaultSyncMailInterval();
+      yield delay(syncMailInterval);
+    } else {
+      // No email accounts has been link
+      // Wait for linking new email account successfully
+      yield take([mailActions.onLinkMailAccountCompleted]);
+    }
+  }
+}
+
+function* syncFlow() {
+  while (true) {
+    yield take(authActions.onInitialCompleted);
+    yield getMailAccounts();
+    const bgTask: Task = yield fork(bgSync);
+    yield take(authActions.detachSession);
+    yield cancel(bgTask);
+  }
+}
+
 export default function* mailSaga() {
   yield all([
+    syncFlow(),
     takeLatest(mailActions.linkMail, linkMail),
     takeLatest(mailActions.getMailAccounts, getMailAccounts),
     takeLatest(mailActions.getMailboxes, getMailboxes),

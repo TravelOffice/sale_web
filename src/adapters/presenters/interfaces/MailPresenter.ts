@@ -19,5 +19,6 @@ export interface MailPresenter {
   getMailThread: (mailAccount: string, mailbox: string, mailId: string) => Promise<MailMessage[]>
   sendMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
   uploadMailAttachment: (file: File) => Promise<MailAttachment>
+  syncMail: (mailAccounts: MailAccount[]) => Promise<void>
   search: (mailAccount: MailAccount, query: string) => Promise<MailSearchResult[]>
 }

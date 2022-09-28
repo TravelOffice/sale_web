@@ -1,6 +1,7 @@
 import { AppSyncNotificationPayload } from '@domain/entities/notification/AppSyncNotificationPayload';
 import i18n from '@config/i18n';
 import { NotificationData } from '@domain/entities/notification/Notification';
+import { history } from '@redux/store';
 
 const fromAppSyncToAppNotification = (
   appsyncNotification: AppSyncNotificationPayload,
@@ -50,6 +51,12 @@ const fromAppSyncToAppNotification = (
       data: {
         chatPlatform,
         conversationId,
+      },
+      onClick: () => {
+        history.push({
+          pathname: '/apps/chat',
+          search: `?chatPlatform=${chatPlatform}&conversationId=${conversationId}`,
+        });
       },
       unread: true,
     };

@@ -51,7 +51,8 @@
         "DOWNLOADING": "Đang tải xuống",
         "DOWNLOAD": "Tải xuống",
         "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Đã có lỗi xảy ra.",
-        "TRY_AGAIN": "Tải lại"
+        "TRY_AGAIN": "Tải lại",
+        "CONGRATULATIONS": "Chúc mừng"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -392,7 +393,11 @@
         "SUBJECT": "Chủ đề",
         "MESSAGE_CONTENT": "Nội dung",
         "SEND_MAIL_SUCCESSFULLY": "Gửi thư thành công",
+        "ERROR_TO_ADDRESSES": "Danh sách người nhận không được để trống",
         "FILE_TOO_BIG": "Tệp phải nhỏ hơn 25MB",
-        "ERROR_TO_ADDRESSES": "Danh sách người nhận không được để trống"
+        "FIRST_SYNC_SUCCESSFULLY": "{{count}} email đã được đồng bộ. Kiểm tra ngay!",
+        "NEW_EMAILS_RECEIVED": "Email mới",
+        "NEW_EMAILS_RECEIVED_SUBTITLE": "Bạn nhận được {{count}} emails mới. Kiểm tra ngay!",
+        "NO_MAIL_ACCOUNTS": "Bạn chưa liên kết email nào"
     }
 }

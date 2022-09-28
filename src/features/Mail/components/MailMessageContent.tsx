@@ -1,7 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {
+  useCallback, useEffect, useState,
+} from 'react';
 import { MailMessage, MailMessageAddress } from '@domain/entities/mail/MailMessage';
 import {
-  Button,
   Card, CardBody, CardFooter, CardHeader, DropdownItem, DropdownMenu, DropdownToggle,
   Table, UncontrolledDropdown,
 } from 'reactstrap';
@@ -12,7 +13,6 @@ import {
 } from 'react-feather';
 import classNames from 'classnames';
 import LazyImage from '@components/Image/LazyImage';
-import Skeleton from 'react-loading-skeleton';
 import { getFileSizeText } from '@utils/FileUtils';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { removeElement } from '@utils/ArrayUtils';
@@ -21,6 +21,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import { MailAddress } from '@domain/entities/mail/MailAddress';
 import { mailActions } from '@redux/slices/mailSlice';
 import { useDispatch } from 'react-redux';
+import MailMessageContentFrame from '@features/Mail/components/MailMessageContentFrame';
 
 export interface MailMessageContentProps {
   mail: MailMessage,
@@ -70,29 +71,6 @@ export default function MailMessageContent(props: MailMessageContentProps) {
       .catch(() => setHasError(true))
       .finally(() => setIsFetchingHtmlContent(false));
   }, []);
-
-  const renderContent = useCallback(() => {
-    if (isFetchingHtmlContent) {
-      return <Skeleton count={3} />;
-    }
-
-    if (hasError) {
-      return (
-        <p className="text-center text-muted">
-          {t('MAIL.ERROR_LOAD_MESSAGE_CONTENT')}
-          <br />
-          <Button className="mt-1" color="primary" onClick={fetchHtmlContent}>
-            {t('MAIL.RELOAD')}
-          </Button>
-        </p>
-      );
-    }
-
-    return (
-      // eslint-disable-next-line react/no-danger
-      <div className="mail-message" dangerouslySetInnerHTML={{ __html: htmlContent }} />
-    );
-  }, [isFetchingHtmlContent, hasError, htmlContent]);
 
   useEffect(() => {
     fetchHtmlContent();
@@ -217,7 +195,12 @@ export default function MailMessageContent(props: MailMessageContentProps) {
         </div>
       </CardHeader>
       <CardBody className="mail-message-wrapper pt-2">
-        {renderContent()}
+        <MailMessageContentFrame
+          isFetching={isFetchingHtmlContent}
+          hasError={hasError}
+          htmlContent={htmlContent}
+          onReload={fetchHtmlContent}
+        />
       </CardBody>
       {attachments && attachments.length > 0 && (
         <CardFooter>

@@ -356,6 +356,7 @@ $email_details_header_height: 5rem;
       padding: 0 2rem;
       position: relative;
       height: calc(100% - #{$email_details_header_height});
+      overflow-y: scroll;
 
       .email-detail-head {
         border-bottom: 1px solid $border-color;
