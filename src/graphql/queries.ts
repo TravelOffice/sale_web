@@ -115,3 +115,11 @@ export const telegramFileInfo = gql`
     }
   }
 `;
+
+export const syncEmail = gql`
+query SyncEmail($email: String!, $mailbox: String!) {
+  syncEmail(email: $email, mailbox: $mailbox) {
+    message
+  }
+}
+`;

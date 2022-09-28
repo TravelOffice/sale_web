@@ -3,7 +3,10 @@ import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { ChatPlatform } from '@domain/entities/ChatPlatform';
-import { AppSyncNotificationPayload } from '@domain/entities/notification/AppSyncNotificationPayload';
+import {
+  AppSyncNotificationPayload,
+  ASNewConversationNotification, NewEmailReceivedNotification,
+} from '@domain/entities/notification/AppSyncNotificationPayload';
 import { NotificationData, Notifications } from '@domain/entities/notification/Notification';
 import { User } from '@domain/entities/User';
 import { authActions } from '@redux/slices/authSlice';
@@ -20,6 +23,7 @@ import { END, EventChannel, eventChannel } from 'redux-saga';
 import {
   all, call, cancelled, put, select, take, takeEvery, takeLatest,
 } from 'redux-saga/effects';
+import { mailActions } from '@redux/slices/mailSlice';
 
 const notificationsSelector = (state: RootState) => state.notification.notifications;
 const notificationsUnreadCountSelector = (state: RootState) => {
@@ -35,19 +39,11 @@ const notificationsUnreadCountSelector = (state: RootState) => {
  * @param newNotification New notification data
  */
 function* onNewNotification(newNotification: NotificationData) {
-  const { type } = newNotification;
-  const { chatPlatform } = newNotification.data;
-  const conversationId = type === 'newChatMessage' ? newNotification.data.id : newNotification.data.conversationId;
   toasty.show({
     type: 'success',
     title: newNotification.title,
     message: newNotification.subtitle,
-    onClick: () => {
-      history.push({
-        pathname: '/apps/chat',
-        search: `?chatPlatform=${chatPlatform}&conversationId=${conversationId}`,
-      });
-    },
+    onClick: newNotification.onClick,
   });
   const notifications: NotificationData[] = yield select(notificationsSelector);
   let unreadCount: number = yield select(notificationsUnreadCountSelector);
@@ -182,45 +178,110 @@ function createSubscriptionChannel(): EventChannel<AppSyncNotificationPayload> {
   });
 }
 
+function* handleNewChatConversation(notificationPayload: ASNewConversationNotification) {
+  const currentUser: User | undefined = yield select((state: RootState) => state.auth.currentUser);
+
+  // Ignore payload if notification is not same with current user
+  // Admin user can read all notifications
+  const isSendToUser = currentUser && currentUser.username !== notificationPayload.username;
+  const roles: string[] = yield select(
+    (state: RootState) => state.auth.currentUser?.roles || [],
+  );
+  // TODO: Check permissions instead of roles
+  if (!isSendToUser && !roles.includes('ADMIN')) {
+    return;
+  }
+
+  /**
+   * Notify to update notifications list
+   * Then, notifications are being shown at the top bar
+   */
+  // Re-fetch conversations list if chat page is opening
+  const pathName: string = yield select((state: RootState) => state.router.location.pathname);
+  if (pathName === '/apps/chat') {
+    const { data } = notificationPayload;
+    const { chatPlatform } = data;
+    yield fetchPlatformConversations(chatPlatform);
+  }
+
+  // Notify new notification
+  const isForAdmin = currentUser?.username !== notificationPayload.username;
+  const newNotification = fromAppSyncToAppNotification(
+    notificationPayload,
+    isForAdmin,
+  );
+  yield onNewNotification(newNotification);
+}
+
+function* handleNewEmailReceived(payload: NewEmailReceivedNotification) {
+  const { data, timestamp } = payload;
+  if ('firstSync' in data) {
+    const notificationData: NotificationData = {
+      channelId: timestamp.toString(),
+      title: i18n.t('COMMON.CONGRATULATIONS'),
+      titleI18n: { key: 'COMMON.CONGRATULATIONS' },
+      subtitle: i18n.t('MAIL.FIRST_SYNC_SUCCESSFULLY', { count: data.messageCount }),
+      subtitleI18n: { key: 'MAIL.FIRST_SYNC_SUCCESSFULLY', params: { count: data.messageCount } },
+      createdAt: timestamp,
+      avatar: '',
+      type: 'syncEmailSucceed',
+      data: {
+        messageCount: data.messageCount,
+      },
+      unread: true,
+      onClick: () => {
+        history.push({
+          pathname: '/apps/email',
+        });
+      },
+    };
+    yield onNewNotification(notificationData);
+  } else {
+    const pathName: string = yield select((state: RootState) => state.router.location.pathname);
+    // Do not push new notification in mail page
+    if (pathName === '/app/mail') {
+      yield put(mailActions.onNewMailMessages(data));
+    } else {
+      const notificationData: NotificationData = {
+        channelId: timestamp.toString(),
+        title: i18n.t('MAIL.NEW_EMAILS_RECEIVED'),
+        titleI18n: { key: 'COMMON.NEW_EMAILS_RECEIVED' },
+        subtitle: i18n.t('MAIL.NEW_EMAILS_RECEIVED_SUBTITLE', { count: data.length }),
+        subtitleI18n: { key: 'MAIL.NEW_EMAILS_RECEIVED_SUBTITLE', params: { count: data.length } },
+        createdAt: timestamp,
+        avatar: '',
+        type: 'syncEmailSucceed',
+        data,
+        unread: true,
+        onClick: () => {
+          history.push({
+            pathname: '/apps/email',
+          });
+        },
+      };
+      yield onNewNotification(notificationData);
+    }
+  }
+}
+
 function* subscribeNewNotificationEvent() {
   const subscriptionChannel = createSubscriptionChannel();
-  const currentUser: User | undefined = yield select((state: RootState) => state.auth.currentUser);
 
   while (true) {
     try {
       // Get notification payload from channel
       const notificationPayload: AppSyncNotificationPayload = yield take(subscriptionChannel);
 
-      // Ignore payload if notification is not same with current user
-      // Admin user can read all notifications
-      const isSendToUser = currentUser && currentUser.username !== notificationPayload.username;
-      const roles: string[] = yield select(
-        (state: RootState) => state.auth.currentUser?.roles || [],
-      );
-      // TODO: Check permissions instead of roles
-      if (!isSendToUser && !roles.includes('ADMIN')) {
-        return;
+      const { type } = notificationPayload;
+      switch (type) {
+        case 'CHAT_NEW_CONVERSATION_ASSIGNED': yield handleNewChatConversation(notificationPayload);
+          break;
+        case 'MAIL_NEW_EMAIL_RECEIVED': yield handleNewEmailReceived(notificationPayload);
+          break;
+        default: console.error('Cannot resolve', type);
       }
-
-      /**
-       * Notify to update notifications list
-       * Then, notifications are being shown at the top bar
-       */
-      // Re-fetch conversations list if chat page is opening
-      const pathName: string = yield select((state: RootState) => state.router.location.pathname);
-      if (pathName === '/apps/chat') {
-        const { data } = notificationPayload;
-        const { chatPlatform } = data;
-        yield fetchPlatformConversations(chatPlatform);
-      }
-
-      // Notify new notification
-      const isForAdmin = currentUser?.username !== notificationPayload.username;
-      const newNotification = fromAppSyncToAppNotification(
-        notificationPayload,
-        isForAdmin,
-      );
-      yield onNewNotification(newNotification);
+    } catch (e) {
+      // Do nothing
     } finally {
       const isCancelled: boolean = yield cancelled();
       if (isCancelled) {

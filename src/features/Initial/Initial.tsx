@@ -45,7 +45,11 @@ export default function Initial() {
   useEffect(() => {
     if (initialized) {
       const locationState: any = history.location.state;
-      history.push(locationState.from.pathname);
+      if (locationState) {
+        history.push(locationState.from.pathname);
+      } else {
+        history.push('/');
+      }
     }
   }, [initialized]);
 

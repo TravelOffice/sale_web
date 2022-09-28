@@ -96,6 +96,7 @@ const mailSlice = createSlice({
     selectAccount: (state, action: PayloadAction<MailAccount>) => {
       state.selectedMailAccount = action.payload;
       state.selectedMailboxId = defaultMailboxId;
+      state.selectedMail = undefined;
     },
     getMailboxes: (state, _action: PayloadAction<MailAccount>) => {
       state.isFetchingMailboxes = true;
@@ -199,6 +200,9 @@ const mailSlice = createSlice({
     },
     selectMailResult: (state, action: PayloadAction<MailSearchResult | undefined>) => {
       state.selectedMailSearchResult = action.payload;
+    },
+    onNewMailMessages: (state, action: PayloadAction<MailMessage[]>) => {
+      state.mails = state.mails.concat(action.payload);
     },
   },
 });

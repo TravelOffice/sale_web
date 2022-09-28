@@ -32,13 +32,13 @@ const toastyThemes : ToastTheme = {
 function Toasty(props: ToastyProps) {
   const { options } = props;
   const {
-    title, textMuted, message, type, onClick,
+    title, textMuted, message, type,
   } = options;
   const theme = toastyThemes[type];
   const { color, icon } = theme;
   return (
     <>
-      <div className="toastify-header" onClick={onClick}>
+      <div className="toastify-header">
         <div className="title-wrapper">
           <Avatar status={undefined} size="sm" color={color} icon={icon} />
           <h6 className="toast-title">{title}</h6>
@@ -56,7 +56,10 @@ function Toasty(props: ToastyProps) {
 }
 
 const toasty = {
-  show: (options: ToastyOptions) => toast(<Toasty options={options} />),
+  show: (options: ToastyOptions) => toast(
+    <Toasty options={options} />,
+    { onClick: options.onClick },
+  ),
 };
 
 export default toasty;
