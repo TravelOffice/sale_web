@@ -3,6 +3,9 @@ import {
   InboundSslMode, MailProtocol, MailProviderType, OutboundSslMode,
 } from '@domain/entities/mail/MailAccount';
 import i18n from 'i18next';
+import { MailAddress } from '@domain/entities/mail/MailAddress';
+import { MailAttachment } from '@domain/entities/mail/MailAttachment';
+import FileSaver from 'file-saver';
 
 export const mailProtocolLabels: Record<MailProtocol, string> = {
   imap: 'IMAP',
@@ -51,4 +54,57 @@ export function getDefaultOutboundPort(sslMode: OutboundSslMode) {
   }
   // sslMode is None
   return 25;
+}
+
+/**
+ * Function to get display name
+ * @param mailAddress
+ */
+export function getDisplayMailAddress(mailAddress: MailAddress) {
+  let displayName = mailAddress.address;
+  if (mailAddress.personal) {
+    displayName += ` (${mailAddress.personal})`;
+  }
+  return displayName;
+}
+
+const extensionIcons = [
+  { extensions: ['avi'], icon: Images.types.avi },
+  { extensions: ['doc', 'docx'], icon: Images.types.doc },
+  { extensions: ['gif'], icon: Images.types.gif },
+  { extensions: ['jpg', 'jpeg'], icon: Images.types.jpg },
+  { extensions: ['pdf'], icon: Images.types.pdf },
+  { extensions: ['png'], icon: Images.types.png },
+  { extensions: ['ppt', 'pptx'], icon: Images.types.ppt },
+  { extensions: ['psd'], icon: Images.types.psd },
+  { extensions: ['txt'], icon: Images.types.txt },
+  { extensions: ['xls', 'xlsx'], icon: Images.types.xls },
+  { extensions: ['zip'], icon: Images.types.zip },
+];
+
+/**
+ * Function to get thumbnail icon of given file
+ * @param filename
+ */
+export function getFileThumbnail(filename: string) {
+  const fileExt = filename.split('.').pop();
+  if (fileExt) {
+    for (let i = 0; i < extensionIcons.length; i += 1) {
+      if (extensionIcons[i].extensions.includes(fileExt)) {
+        return extensionIcons[i].icon;
+      }
+    }
+  }
+  return Images.types.file;
+}
+
+/**
+ * Function to download a mail attachment
+ * @param attachment
+ */
+export function downloadAttachment(attachment: MailAttachment) {
+  return new Promise((resolve) => {
+    FileSaver.saveAs(attachment.path, attachment.name);
+    resolve(undefined);
+  });
 }

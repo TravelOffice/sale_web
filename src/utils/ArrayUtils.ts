@@ -11,3 +11,11 @@ export const removeElementAt = <T>(elements: T[], index: number): T[] => {
 };
 
 export const addElementToFirst = <T>(elements: T[], element: T) : T[] => [element].concat(elements);
+
+export const numberArrayOf = (length: number) => {
+  const array: number[] = [];
+  for (let i = 0; i < length; i += 1) {
+    array.push(i);
+  }
+  return array;
+};
