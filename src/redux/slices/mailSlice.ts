@@ -4,6 +4,7 @@ import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
+import { mailFlags } from '@utils/MailUtils';
 
 export interface MailState {
   linkModalStatus: 'closed' | 'open' | 'linking' | 'finished',
@@ -16,6 +17,7 @@ export interface MailState {
   mails: MailMessage[],
   nextToken?: string,
   isFetchingMails: boolean,
+  selectedMail?: MailMessage,
 }
 
 const defaultMailboxId = 'INBOX';
@@ -82,12 +84,8 @@ const mailSlice = createSlice({
       state.isFetchingMailboxes = false;
     },
     selectMailbox: (state, action: PayloadAction<string>) => {
-      const mailboxId = action.payload;
-      const selectedMailbox = state.mailboxes.find((mailbox) => mailbox.name === mailboxId);
-      state.selectedMailboxId = mailboxId;
-      if (selectedMailbox) {
-        selectedMailbox.unread = 0;
-      }
+      state.selectedMailboxId = action.payload;
+      state.selectedMail = undefined;
     },
     getMails: (state, _action: PayloadAction<{ mailAccount: MailAccount, mailboxId: string }>) => {
       state.isFetchingMails = true;
@@ -97,6 +95,24 @@ const mailSlice = createSlice({
       state.mails = mails;
       state.nextToken = token;
       state.isFetchingMails = false;
+    },
+    selectMail: (state, action: PayloadAction<MailMessage>) => {
+      const mail = action.payload;
+      state.selectedMail = mail;
+
+      // Update unread
+      // TODO: Replace by fetching from server
+      if (mail.flags === mailFlags.recent) {
+        const selectedMailbox = state.mailboxes.find((
+          mailbox,
+        ) => mailbox.name === state.selectedMailboxId);
+        if (selectedMailbox) {
+          selectedMailbox.unread -= 1;
+        }
+      }
+    },
+    unselectMail: (state) => {
+      state.selectedMail = undefined;
     },
   },
 });

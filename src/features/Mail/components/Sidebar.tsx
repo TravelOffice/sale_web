@@ -1,24 +1,21 @@
-import React, {
-  ReactNode, useCallback, useMemo,
-} from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import classnames from 'classnames';
 import {
-  Badge, DropdownItem, DropdownMenu, DropdownToggle, ListGroup, ListGroupItem, UncontrolledDropdown,
+  Badge, Button, ListGroup, ListGroupItem, UncontrolledTooltip,
 } from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import {
-  Edit2, Info, Mail, Send, Star, Trash,
+  Edit2, Info, Mail, Send, Settings, Star, Trash, User,
 } from 'react-feather';
-import {
-  useMailAccounts, useMailboxes, useSelectedMailAccount, useSelectedMailbox,
-} from '@hooks/mail';
+import { useMailboxes, useSelectedMailAccount, useSelectedMailbox } from '@hooks/mail';
 import { capitalizeFirstLetter } from '@utils/CommonUtils';
 import { useDispatch, useSelector } from 'react-redux';
 import { mailActions } from '@redux/slices/mailSlice';
-import { MailAccount } from '@domain/entities/mail/MailAccount';
 import Skeleton from 'react-loading-skeleton';
 import { RootState } from '@redux/store';
-import { getMailProviderLogo } from '@utils/MailUtils';
+import SwitchAccountModal from '@features/Mail/components/SwitchAccountModal';
+import { numberArrayOf } from '@utils/ArrayUtils';
+import { useTranslation } from 'react-i18next';
 
 export interface SidebarProps {
   sidebarOpen: boolean,
@@ -33,26 +30,12 @@ const mailIcons: Record<string, ReactNode> = {
   delete: <Trash size={18} className="me-75" />,
 };
 
-function AccountSkeleton() {
-  return (
-    <div className="form-group-account text-center d-flex flex-row cursor-pointer">
-      <div className="avatar-wrapper">
-        <Skeleton circle width={42} height={42} />
-      </div>
-      <div className="d-flex flex-column align-items-start justify-content-center text-truncate w-100">
-        <h5 className="mb-25 font-medium-1 w-100"><Skeleton /></h5>
-        <span className="text-truncate font-small-3 w-100"><Skeleton /></span>
-      </div>
-    </div>
-  );
-}
-
 function MailboxesSkeleton() {
   return (
     <ListGroup className="list-group-messages">
       {
-        [...new Array(5)].map(() => (
-          <ListGroupItem><Skeleton /></ListGroupItem>
+        numberArrayOf(5).map((key) => (
+          <ListGroupItem key={key}><Skeleton /></ListGroupItem>
         ))
       }
     </ListGroup>
@@ -60,111 +43,78 @@ function MailboxesSkeleton() {
 }
 
 export default function Sidebar(props: SidebarProps) {
-  const {
-    sidebarOpen,
-  } = props;
+  const { sidebarOpen } = props;
+
+  const [showAccountModal, setShowAccountModal] = useState(false);
+
+  const { t, i18n } = useTranslation();
   const dispatch = useDispatch();
-  const selectedMailAccount = useSelectedMailAccount();
+  const mailAccount = useSelectedMailAccount();
   const selectedMailbox = useSelectedMailbox();
-  const mailAccounts = useMailAccounts();
   const mailboxes = useMailboxes();
-  const { isFetchingMailAccounts, isFetchingMailboxes } = useSelector((state: RootState) => ({
-    isFetchingMailAccounts: state.mail.isFetchingMailAccounts,
-    isFetchingMailboxes: state.mail.isFetchingMailboxes,
-  }));
-  const otherMailAccounts = useMemo(
-    () => mailAccounts.filter((account) => account.email !== selectedMailAccount?.email),
-    [mailAccounts, selectedMailAccount],
-  );
+  const isFetchingMailboxes = useSelector((state: RootState) => state.mail.isFetchingMailboxes);
   const onMailboxSelected = useCallback((mailbox: string) => {
     dispatch(mailActions.selectMailbox(mailbox));
-  }, []);
-  const onAccountSelected = useCallback((mailAccount: MailAccount) => {
-    dispatch(mailActions.selectAccount(mailAccount));
   }, []);
   return (
     <div className={classnames('sidebar-left', { show: sidebarOpen })}>
       <div className="sidebar">
         <div className="sidebar-content email-app-sidebar">
-          <div className="email-app-menu">
-            {
-              isFetchingMailAccounts ? (
-                <AccountSkeleton />
-              ) : (
-                <div className="form-group-account text-center d-flex flex-row cursor-pointer">
-                  <UncontrolledDropdown tag="div" className="dropdown-user nav-item">
-                    <DropdownToggle href="/" tag="a" className="nav-link avatar-wrapper" onClick={(e) => e.preventDefault()}>
+          <div className="d-flex flex-column h-100">
+            <div className="email-app-menu flex-grow-1">
+              <div className="form-group-compose text-center compose-btn">
+                <Button block color="primary">{t('MAIL.COMPOSE')}</Button>
+              </div>
+              {
+                isFetchingMailboxes ? (
+                  <MailboxesSkeleton />
+                ) : (
+                  <PerfectScrollbar className="sidebar-menu-list" options={{ wheelPropagation: false }}>
+                    <ListGroup tag="div" className="list-group-messages">
                       {
-                        selectedMailAccount && (
-                          <img src={getMailProviderLogo(selectedMailAccount.provider)} alt="" width={42} height={42} />
-                        )
+                        mailboxes.map((mailbox) => (
+                          <ListGroupItem
+                            key={mailbox.name}
+                            onClick={() => onMailboxSelected(mailbox.name)}
+                            action
+                            active={selectedMailbox === mailbox.name}
+                          >
+                            {mailIcons[mailbox.name.toLowerCase()]}
+                            <span className="align-middle">
+                              {i18n.exists(`MAIL.${mailbox.name.toUpperCase()}`) ? t(`MAIL.${mailbox.name.toUpperCase()}`) : capitalizeFirstLetter(mailbox.name.toUpperCase())}
+                            </span>
+                            {
+                              mailbox.unread > 0 && (
+                                <Badge className="float-end" color="light-primary" pill>
+                                  {mailbox.unread}
+                                </Badge>
+                              )
+                            }
+                          </ListGroupItem>
+                        ))
                       }
-                    </DropdownToggle>
-                    {
-                      otherMailAccounts.length > 0 && (
-                        <DropdownMenu>
-                          <h5 className="ps-2 pt-1 pb-1">Switch account</h5>
-                          {
-                            otherMailAccounts.map((account) => (
-                              <DropdownItem tag="div" to="/pages/profile" onClick={() => onAccountSelected(account)}>
-                                <div className="d-flex flex-row">
-                                  <div className="d-flex align-items-center">
-                                    <img src={getMailProviderLogo(account.provider)} alt="" width={32} height={32} />
-                                  </div>
-                                  <div className="d-flex flex-column ps-1">
-                                    <span className="align-middle fw-bold">
-                                      {account.name}
-                                    </span>
-                                    <span className="align-middle text-primary font-small-3">{account.email}</span>
-                                  </div>
-                                </div>
-                              </DropdownItem>
-                            ))
-                          }
-                        </DropdownMenu>
-                      )
-                    }
-                  </UncontrolledDropdown>
-                  <div className="d-flex flex-column align-items-start justify-content-center text-truncate">
-                    <h5 className="mb-25 font-medium-1">{selectedMailAccount?.name}</h5>
-                    <span className="text-truncate font-small-3">{selectedMailAccount?.email}</span>
-                  </div>
-                </div>
-              )
-            }
-            {
-              isFetchingMailboxes ? (
-                <MailboxesSkeleton />
-              ) : (
-                <PerfectScrollbar className="sidebar-menu-list" options={{ wheelPropagation: false }}>
-                  <ListGroup tag="div" className="list-group-messages">
-                    {
-                      mailboxes.map((mailbox) => (
-                        <ListGroupItem
-                          key={mailbox.name}
-                          onClick={() => onMailboxSelected(mailbox.name)}
-                          action
-                          active={selectedMailbox === mailbox.name}
-                        >
-                          {mailIcons[mailbox.name.toLowerCase()]}
-                          <span className="align-middle">{capitalizeFirstLetter(mailbox.name.toLowerCase())}</span>
-                          {
-                            mailbox.unread > 0 && (
-                              <Badge className="float-end" color="light-primary" pill>
-                                {mailbox.unread}
-                              </Badge>
-                            )
-                          }
-                        </ListGroupItem>
-                      ))
-                    }
-                  </ListGroup>
-                </PerfectScrollbar>
-              )
-            }
+                    </ListGroup>
+                  </PerfectScrollbar>
+                )
+              }
+            </div>
+            <div className="email-settings">
+              <User className="email-settings-item" id="switchAccount" onClick={() => setShowAccountModal(true)} />
+              <Settings className="email-settings-item" id="settings" />
+              <UncontrolledTooltip target="switchAccount">
+                {
+                  mailAccount ? `${mailAccount.name}\n${mailAccount.email}` : t('MAIL.SWITCH_ACCOUNT')
+                }
+              </UncontrolledTooltip>
+              <UncontrolledTooltip target="settings">{t('MAIL.SETTINGS')}</UncontrolledTooltip>
+            </div>
           </div>
         </div>
       </div>
+      <SwitchAccountModal
+        isOpen={showAccountModal}
+        toggle={() => setShowAccountModal(!showAccountModal)}
+      />
     </div>
   );
 }

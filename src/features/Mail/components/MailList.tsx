@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useCallback, useState } from 'react';
 import {
-  Edit2, Folder, Info, Menu, Search, Tag, Trash, Mail as MailIcon,
+  Edit2, Folder, Info, Menu, Search, Trash, Mail as MailIcon,
 } from 'react-feather';
 import {
   DropdownItem,
@@ -16,9 +16,12 @@ import { MailMessage } from '@domain/entities/mail/MailMessage';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import MailListItem from '@features/Mail/components/MailListItem';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
 import Skeleton from 'react-loading-skeleton';
+import { mailActions } from '@redux/slices/mailSlice';
+import MailDetail from '@features/Mail/components/MailDetail';
+import { numberArrayOf } from '@utils/ArrayUtils';
 
 export interface MailListProps {
   onMenuClick: () => void,
@@ -29,7 +32,7 @@ function MailListSkeleton() {
   return (
     <ul className="email-media-list">
       {
-        [...new Array(5)].map((i) => (
+        numberArrayOf(5).map((i) => (
           <li key={i} className="user-mail">
             <Skeleton count={2} />
           </li>
@@ -47,6 +50,7 @@ export default function MailList(props: MailListProps) {
   const [selectedMails, setSelectedMails] = useState<MailMessage[]>([]);
   const { t } = useTranslation();
   const isFetchingMails = useSelector((state: RootState) => state.mail.isFetchingMailboxes);
+  const dispatch = useDispatch();
 
   // Select all messages
   const onSelectAll = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -73,8 +77,8 @@ export default function MailList(props: MailListProps) {
 
   }, [selectedMails]);
 
-  const onMailClicked = useCallback(() => {
-    // TODO: Go to mail detail page
+  const onMailClicked = useCallback((mail: MailMessage) => {
+    dispatch(mailActions.selectMail(mail));
   }, []);
 
   // Select/unselected a message
@@ -102,7 +106,7 @@ export default function MailList(props: MailListProps) {
               </InputGroupText>
               <Input
                 id="email-search"
-                placeholder="Search email"
+                placeholder={t('MAIL.SEARCH_EMAIL')}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
               />
@@ -137,7 +141,7 @@ export default function MailList(props: MailListProps) {
                         className="d-flex align-items-center"
                       >
                         <Edit2 className="me-50" size={18} />
-                        <span>Draft</span>
+                        <span>{t('MAIL.DRAFT')}</span>
                       </DropdownItem>
                       <DropdownItem
                         tag="a"
@@ -146,7 +150,7 @@ export default function MailList(props: MailListProps) {
                         className="d-flex align-items-center"
                       >
                         <Info className="me-50" size={18} />
-                        <span>Spam</span>
+                        <span>{t('MAIL.SPAM')}</span>
                       </DropdownItem>
                       <DropdownItem
                         tag="a"
@@ -155,52 +159,7 @@ export default function MailList(props: MailListProps) {
                         className="d-flex align-items-center"
                       >
                         <Trash className="me-50" size={18} />
-                        <span>Trash</span>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
-                </li>
-                <li className="list-inline-item me-1">
-                  <UncontrolledDropdown>
-                    <DropdownToggle tag="span">
-                      <Tag size={18} />
-                    </DropdownToggle>
-                    <DropdownMenu end>
-                      <DropdownItem
-                        tag="a"
-                        href="/"
-                        onClick={(e) => moveToMailbox(e, 'personal')}
-                        className="d-flex align-items-center"
-                      >
-                        <span className="bullet bullet-success bullet-sm me-50" />
-                        <span>Personal</span>
-                      </DropdownItem>
-                      <DropdownItem
-                        tag="a"
-                        href="/"
-                        onClick={(e) => moveToMailbox(e, 'company')}
-                        className="d-flex align-items-center"
-                      >
-                        <span className="bullet bullet-primary bullet-sm me-50" />
-                        <span>Company</span>
-                      </DropdownItem>
-                      <DropdownItem
-                        tag="a"
-                        href="/"
-                        onClick={(e) => moveToMailbox(e, 'important')}
-                        className="d-flex align-items-center"
-                      >
-                        <span className="bullet bullet-warning bullet-sm me-50" />
-                        <span>Important</span>
-                      </DropdownItem>
-                      <DropdownItem
-                        tag="a"
-                        href="/"
-                        onClick={(e) => moveToMailbox(e, 'private')}
-                        className="d-flex align-items-center"
-                      >
-                        <span className="bullet bullet-danger bullet-sm me-50" />
-                        <span>Private</span>
+                        <span>{t('COMMON.DELETE')}</span>
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
@@ -242,13 +201,14 @@ export default function MailList(props: MailListProps) {
                 </ul>
               ) : (
                 <div className="no-results d-block">
-                  <h5>No Items Found</h5>
+                  <h5>{t('MAIL.NO_MAILS_FOUND')}</h5>
                 </div>
               )}
             </>
           )}
         </PerfectScrollbar>
       </div>
+      <MailDetail />
     </>
   );
 }

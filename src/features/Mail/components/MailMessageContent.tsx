@@ -1,0 +1,197 @@
+import React, { useCallback, useEffect, useState } from 'react';
+import { MailMessage } from '@domain/entities/mail/MailMessage';
+import {
+  Button,
+  Card, CardBody, CardFooter, CardHeader, DropdownItem, DropdownMenu, DropdownToggle,
+  Table, UncontrolledDropdown,
+} from 'reactstrap';
+import { downloadAttachment, getDisplayMailAddress, getFileThumbnail } from '@utils/MailUtils';
+import moment from 'moment';
+import {
+  CornerUpLeft, CornerUpRight, MoreVertical, Paperclip, Trash2,
+} from 'react-feather';
+import classNames from 'classnames';
+import LazyImage from '@components/Image/LazyImage';
+import Skeleton from 'react-loading-skeleton';
+import { getFileSizeText } from '@utils/FileUtils';
+import { MailAttachment } from '@domain/entities/mail/MailAttachment';
+import { removeElement } from '@utils/ArrayUtils';
+import { useTranslation } from 'react-i18next';
+
+export interface MailMessageContentProps {
+  mail: MailMessage,
+}
+
+export default function MailMessageContent(props: MailMessageContentProps) {
+  const { mail } = props;
+  const { t } = useTranslation();
+  const [hasError, setHasError] = useState(true);
+  const [htmlContent, setHtmlContent] = useState('');
+  const [downloadingFiles, setDownloadingFiles] = useState<MailAttachment[]>([]);
+  const [isFetchingHtmlContent, setIsFetchingHtmlContent] = useState(false);
+  const { attachments } = mail;
+  const date = moment(mail.receivedDate || mail.sentDate);
+
+  const fetchHtmlContent = useCallback(() => {
+    setIsFetchingHtmlContent(true);
+    fetch(mail.htmlContent)
+      .then((res) => res.text())
+      .then((content) => setHtmlContent(content))
+      .then(() => setHasError(false))
+      .catch(() => setHasError(true))
+      .finally(() => setIsFetchingHtmlContent(false));
+  }, []);
+
+  const renderContent = useCallback(() => {
+    if (isFetchingHtmlContent) {
+      return <Skeleton count={3} />;
+    }
+
+    if (hasError) {
+      return (
+        <p className="text-center text-muted">
+          {t('MAIL.ERROR_LOAD_MESSAGE_CONTENT')}
+          <br />
+          <Button className="mt-1" color="primary" onClick={fetchHtmlContent}>
+            {t('MAIL.RELOAD')}
+          </Button>
+        </p>
+      );
+    }
+
+    return (
+      // eslint-disable-next-line react/no-danger
+      <div className="mail-message" dangerouslySetInnerHTML={{ __html: htmlContent }} />
+    );
+  }, [isFetchingHtmlContent, hasError, htmlContent]);
+
+  useEffect(() => {
+    fetchHtmlContent();
+  }, []);
+
+  const downloadFile = useCallback((attachment: MailAttachment) => {
+    // Do not download a file which has already in downloading state
+    if (downloadingFiles.includes(attachment)) return;
+    setDownloadingFiles(downloadingFiles.concat(attachment));
+    downloadAttachment(attachment).finally(() => {
+      setDownloadingFiles(removeElement(downloadingFiles, (
+        downloadingAttachment,
+      ) => downloadingAttachment !== attachment));
+    });
+  }, []);
+
+  return (
+    <Card>
+      <CardHeader className="email-detail-head">
+        <div className="user-details d-flex justify-content-between align-items-center flex-wrap">
+          <div className="mail-items">
+            <h5 className="mb-0">{getDisplayMailAddress(mail.from[0])}</h5>
+            <UncontrolledDropdown className="email-info-dropup">
+              <DropdownToggle className="font-small-3 text-muted cursor-pointer" tag="span" caret>
+                <span className="me-25">
+                  {t('MAIL.TO')}
+                  :
+                  {' '}
+                  {mail.to.map((address) => getDisplayMailAddress(address)).join(', ')}
+                </span>
+              </DropdownToggle>
+              <DropdownMenu>
+                <Table className="font-small-3" size="sm" borderless>
+                  <tbody>
+                    <tr>
+                      <td className="text-end text-muted align-top">
+                        {t('MAIL.FROM')}
+                        :
+                      </td>
+                      <td>{getDisplayMailAddress(mail.from[0])}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-end text-muted align-top">
+                        {t('MAIL.TO')}
+                        :
+                      </td>
+                      <td>{mail.to.map((address) => getDisplayMailAddress(address)).join('\n')}</td>
+                    </tr>
+                    <tr>
+                      <td className="text-end text-muted align-top">
+                        {t('MAIL.DATE')}
+                        :
+                      </td>
+                      <td>{date.format('hh:mm DD MMM YYYY')}</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+          </div>
+        </div>
+        <div className="mail-meta-item d-flex align-items-center">
+          <small className="mail-date-time text-muted">{date.format('MMM DD, YYYY')}</small>
+          <UncontrolledDropdown className="ms-50">
+            <DropdownToggle className="cursor-pointer" tag="span">
+              <MoreVertical size={14} />
+            </DropdownToggle>
+            <DropdownMenu end>
+              <DropdownItem className="d-flex align-items-center w-100">
+                <CornerUpLeft className="me-50" size={14} />
+                {t('MAIL.REPLY')}
+              </DropdownItem>
+              <DropdownItem className="d-flex align-items-center w-100">
+                <CornerUpRight className="me-50" size={14} />
+                {t('MAIL.FORWARD')}
+              </DropdownItem>
+              <DropdownItem className="d-flex align-items-center w-100">
+                <Trash2 className="me-50" size={14} />
+                {t('COMMON.DELETE')}
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+        </div>
+      </CardHeader>
+      <CardBody className="mail-message-wrapper pt-2">
+        {renderContent()}
+      </CardBody>
+      {attachments && attachments.length && (
+        <CardFooter>
+          <div className="mail-attachments">
+            <div className="d-flex align-items-center mb-1">
+              <Paperclip size={16} />
+              <h5 className="fw-bolder text-body mb-0 ms-50">
+                {attachments.length}
+                {' '}
+                {attachments.length > 1 ? t('MAIL.ATTACHMENTS') : t('MAIL.ATTACHMENT')}
+              </h5>
+            </div>
+            <div className="d-flex flex-column">
+              {
+                attachments.map((attachment, index) => (
+                  <div
+                    key={attachment.name}
+                    className={classNames('text-primary', { 'mb-50': index + 1 !== attachments.length })}
+                  >
+                    <a
+                      href={attachment.path}
+                      target="_blank"
+                      download={attachment.name}
+                      rel="noreferrer"
+                    >
+                      <LazyImage lazySrc={getFileThumbnail(attachment.name)} alt={attachment.name} width="16" className="me-50" />
+                      <span className="fw-bolder align-text-top">{attachment.name}</span>
+                      <span className="font-small-2 ms-25">{`(${getFileSizeText(attachment.size)})`}</span>
+                    </a>
+                    {' '}
+                    <span className="font-small-2 ms-25 cursor-pointer" onClick={() => downloadFile(attachment)}>
+                      {
+                        downloadingFiles.includes(attachment) ? t('COMMON.DOWNLOADING') : t('COMMON.DOWNLOAD')
+                      }
+                    </span>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+        </CardFooter>
+      )}
+    </Card>
+  );
+}

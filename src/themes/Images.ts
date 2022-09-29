@@ -46,6 +46,20 @@ const Images = {
     notAuthorized,
     notAuthorizedDark,
   },
+  types: {
+    avi: import('@assets/images/icons/types/avi.png'),
+    doc: import('@assets/images/icons/types/doc.png'),
+    file: import('@assets/images/icons/types/file.png'),
+    gif: import('@assets/images/icons/types/gif.png'),
+    jpg: import('@assets/images/icons/types/jpg.png'),
+    pdf: import('@assets/images/icons/types/pdf.png'),
+    png: import('@assets/images/icons/types/png.png'),
+    ppt: import('@assets/images/icons/types/ppt.png'),
+    psd: import('@assets/images/icons/types/psd.png'),
+    txt: import('@assets/images/icons/types/txt.png'),
+    xls: import('@assets/images/icons/types/xls.png'),
+    zip: import('@assets/images/icons/types/zip.png'),
+  },
 };
 
 export default Images;

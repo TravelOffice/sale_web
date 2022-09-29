@@ -54,6 +54,7 @@ export default function MailListItem(props: MailListItemProps) {
           <div className="mail-meta-item">
             {mail.attachments && mail.attachments.length ? <Paperclip size={14} /> : null}
             {/* {renderLabels(mail.labels)} */}
+            {' '}
             <span className="mail-date">{formatDateToMonthShort(new Date(mail.sentDate))}</span>
           </div>
         </div>
