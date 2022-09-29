@@ -4,6 +4,7 @@ import { mailApiProvider } from '@adapter/infrastructures';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
+import { MailMessage } from '@domain/entities/mail/MailMessage';
 
 export default class MailRepositoryImpl implements MailRepository {
   private readonly client = mailApiProvider.authorizedRequest;
@@ -15,4 +16,10 @@ export default class MailRepositoryImpl implements MailRepository {
   getMailboxes = async (mailAccount: string) => this.client.get<Mailbox[]>('/mail-boxes', { queryParams: { email: mailAccount } });
 
   getMails = async (mailAccount: string, mailbox: string) => this.client.get<MailMessageList>('/mails', { queryParams: { email: mailAccount, mailbox } })
+
+  getMailThread = async (
+    mailAccount: string,
+    mailbox: string,
+    mailId: string,
+  ) => this.client.get<MailMessage[]>(`/mails/${mailId}`, { queryParams: { email: mailAccount, mailbox } })
 }

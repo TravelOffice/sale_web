@@ -4,7 +4,7 @@ import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 export interface MailMessage {
   messageId: string,
   subject: string,
-  receivedDate: number,
+  receivedDate?: number,
   sentDate: number,
   briefContent: string,
   htmlContent: string,
@@ -16,4 +16,5 @@ export interface MailMessage {
   isStarred?: boolean,
   attachments: MailAttachment[],
   labels: string[],
+  inReplyTo?: string,
 }

@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { mailActions } from '@redux/slices/mailSlice';
+import { MailMessage } from '@domain/entities/mail/MailMessage';
+import { mailPresenter } from '@adapter/presenters';
 
 /**
  * Hook to get selected mail account
@@ -16,6 +18,13 @@ export const useSelectedMailAccount = () => useSelector((
 export const useSelectedMailbox = () => useSelector((
   state: RootState,
 ) => state.mail.selectedMailboxId);
+
+/**
+ * Hook to get selected mail message
+ */
+export const useSelectedMail = () => useSelector((
+  state: RootState,
+) => state.mail.selectedMail);
 
 /**
  * Hook to get all mail accounts
@@ -63,4 +72,23 @@ export const useMails = () => {
     }
   }, [selectedMailAccount, selectedMailboxId, dispatch]);
   return mails;
+};
+
+/**
+ * Hook to get mail thread of given mail message
+ */
+export const useMailThread = (mailAccount?: string, mailbox?: string, mailId?: string) => {
+  const [mailThread, setMailThread] = useState<MailMessage[]>([]);
+  const [isFetchingMailThread, setIsFetchingMailThread] = useState(false);
+  useEffect(() => {
+    if (mailAccount && mailbox && mailId) {
+      setIsFetchingMailThread(true);
+      mailPresenter.getMailThread(mailAccount, mailbox, mailId)
+        .then((data) => setMailThread(data))
+        .finally(() => setIsFetchingMailThread(false));
+    } else {
+      setMailThread([]);
+    }
+  }, [mailAccount, mailbox, mailId]);
+  return { mailThread, isFetchingMailThread };
 };
