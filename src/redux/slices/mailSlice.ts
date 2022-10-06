@@ -8,6 +8,7 @@ import { MAIL_PAGE_SIZE, mailFlags } from '@utils/MailUtils';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { ComposeProps } from '@features/Mail/components/ComposeModal';
+import { MailSearchResult } from '@domain/entities/mail/MailSearchResult';
 
 export interface MailState {
   linkModalStatus: 'closed' | 'open' | 'linking' | 'finished',
@@ -29,6 +30,7 @@ export interface MailState {
   composeType: 'new' | 'reply' | 'replyAll' | 'forward';
   isSendingMail: boolean,
   uploadedAttachments: Record<string, MailAttachment>,
+  selectedMailSearchResult?: MailSearchResult,
 }
 
 const defaultMailboxId = 'INBOX';
@@ -194,6 +196,9 @@ const mailSlice = createSlice({
       state.isSendingMail = false;
       state.composeModalOpen = false;
       state.composeModalData = {} as ComposeProps;
+    },
+    selectMailResult: (state, action: PayloadAction<MailSearchResult | undefined>) => {
+      state.selectedMailSearchResult = action.payload;
     },
   },
 });

@@ -1,6 +1,6 @@
 import { MailRepository } from '@adapter/repositories/interfaces/MailRepository';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
-import { mailApiProvider } from '@adapter/infrastructures';
+import { mailApiProvider, searchProvider } from '@adapter/infrastructures';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
@@ -24,5 +24,15 @@ export default class MailRepositoryImpl implements MailRepository {
     mailId: string,
   ) => this.client.get<MailMessage[]>(`/mails/${mailId}`, { queryParams: { email: mailAccount, mailbox } })
 
-  sendMail = async (sendMailFormData: SendMailFormData) => this.client.post<MailMessage>('/send-email', sendMailFormData)
+  sendMail = async (sendMailFormData: SendMailFormData) => this.client.post<MailMessage>('/send-email', sendMailFormData);
+
+  search = async (indexUid: string, query: string) => {
+    const result = await searchProvider.query(indexUid, query, {
+      attributesToHighlight: ['*'],
+      sort: ['date:desc'],
+      attributesToCrop: ['content'],
+      cropLength: 20,
+    });
+    return result.hits;
+  }
 }

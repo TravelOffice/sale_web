@@ -5,6 +5,7 @@ import { MailMessageList } from '@domain/entities/mail/MailMessageList';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
+import { MailSearchResult } from '@domain/entities/mail/MailSearchResult';
 
 export interface MailPresenter {
   linkMail: (formData: LinkEmailFormData) => Promise<MailAccount>
@@ -18,4 +19,5 @@ export interface MailPresenter {
   getMailThread: (mailAccount: string, mailbox: string, mailId: string) => Promise<MailMessage[]>
   sendMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
   uploadMailAttachment: (file: File) => Promise<MailAttachment>
+  search: (mailAccount: MailAccount, query: string) => Promise<MailSearchResult[]>
 }

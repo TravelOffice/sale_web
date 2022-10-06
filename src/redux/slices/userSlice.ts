@@ -40,7 +40,7 @@ const userSlice = createSlice({
     },
     getUser: (state, _action: PayloadAction<string>) => {
     },
-    addUser: (state, _action: PayloadAction<User>) => {
+    addUser: (state, _action: PayloadAction<Partial<User>>) => {
       state.createOrUpdateUserLoading = true;
     },
     onUserAdded: (state, _action: PayloadAction<User>) => {
@@ -50,7 +50,7 @@ const userSlice = createSlice({
     onUserAddedError: (state) => {
       state.createOrUpdateUserLoading = false;
     },
-    updateUser: (state, _action: PayloadAction<User>) => {
+    updateUser: (state, _action: PayloadAction<Partial<User>>) => {
       state.createOrUpdateUserLoading = true;
     },
     onUserUpdated: (state, _action: PayloadAction<User>) => {

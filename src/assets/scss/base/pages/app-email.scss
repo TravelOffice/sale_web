@@ -249,6 +249,17 @@ $email_details_header_height: 5rem;
         }
       }
 
+      .search-results {
+        li {
+          p {
+            color: $text-muted;
+            em {
+              background: yellow;
+            }
+          }
+        }
+      }
+
       .no-results {
         display: none;
         padding: 1.5rem;
