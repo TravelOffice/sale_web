@@ -4,6 +4,7 @@ import { mailApiProvider } from '@adapter/infrastructures';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
+import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 
 export default class MailRepositoryImpl implements MailRepository {
@@ -22,4 +23,6 @@ export default class MailRepositoryImpl implements MailRepository {
     mailbox: string,
     mailId: string,
   ) => this.client.get<MailMessage[]>(`/mails/${mailId}`, { queryParams: { email: mailAccount, mailbox } })
+
+  sendMail = async (sendMailFormData: SendMailFormData) => this.client.post<MailMessage>('/send-email', sendMailFormData)
 }

@@ -350,6 +350,10 @@
         "CLICK_HERE_TO_REPLY_OR_FORWARD": "Nhấn vào đây để <2>Trả lời</2> hoặc <6>Chuyển tiếp</6>",
         "TO": "Đến",
         "FROM": "Từ",
+        "CC": "Cc",
+        "BCC": "Bcc",
+        "SEND": "Gửi",
+        "SENDING": "Đang Gửi",
         "DATE": "Ngày gửi",
         "REPLY": "Trả lời",
         "FORWARD": "Chuyển tiếp",
@@ -379,6 +383,11 @@
         "ERROR_UNKNOWN": "Đã có lỗi xảy ra!",
         "ERROR_GET_MAIL_ACCOUNTS": "Không thể lấy danh sách tài khoản của bạn!",
         "ERROR_GET_MAILBOXES": "Không thể lấy danh sách thư mục email của bạn!!",
-        "ERROR_GET_MAIL_MESSAGES": "Không thể lấy danh sách mail của bạn!!"
+        "ERROR_GET_MAIL_MESSAGES": "Không thể lấy danh sách mail của bạn!!",
+        "SCHEDULE_SEND": "Gửi sau",
+        "SUBJECT": "Chủ đề",
+        "MESSAGE_CONTENT": "Nội dung",
+        "SEND_MAIL_SUCCESSFULLY": "Gửi thư thành công",
+        "FILE_TOO_BIG": "Tệp phải nhỏ hơn 25MB"
     }
 }

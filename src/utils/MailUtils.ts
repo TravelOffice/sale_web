@@ -108,3 +108,5 @@ export function downloadAttachment(attachment: MailAttachment) {
     resolve(undefined);
   });
 }
+
+export const MAXIMUM_ATTACHMENT_SIZE = 25 * 1024 * 1024;

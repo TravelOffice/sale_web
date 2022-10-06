@@ -2,6 +2,7 @@ import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
+import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 
 export interface MailRepository {
@@ -10,4 +11,5 @@ export interface MailRepository {
   getMailboxes: (mailAccount: string) => Promise<Mailbox[]>
   getMails: (mailAccount: string, mailbox: string) => Promise<MailMessageList>
   getMailThread: (mailAccount: string, mailbox: string, mailId: string) => Promise<MailMessage[]>
+  sendMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
 }

@@ -4,6 +4,7 @@ import '@styles/react/apps/app-email.scss';
 import classnames from 'classnames';
 import MailList from '@features/Mail/components/MailList';
 import { useMails } from '@hooks/mail';
+import ComposeModal from '@features/Mail/components/ComposeModal';
 
 export default function AppMail() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -18,6 +19,7 @@ export default function AppMail() {
             onClick={() => setSidebarOpen(false)}
           />
           <MailList onMenuClick={() => setSidebarOpen(true)} mails={mails} />
+          <ComposeModal />
         </div>
       </div>
     </>
