@@ -3,13 +3,14 @@ import {
   Edit2, Folder, Info, Menu, Search, Trash, Mail as MailIcon,
 } from 'react-feather';
 import {
+  Button,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Input,
   InputGroup,
   InputGroupText,
-  Label,
+  Label, Spinner,
   UncontrolledDropdown,
 } from 'reactstrap';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
@@ -22,10 +23,13 @@ import Skeleton from 'react-loading-skeleton';
 import { mailActions } from '@redux/slices/mailSlice';
 import MailDetail from '@features/Mail/components/MailDetail';
 import { numberArrayOf } from '@utils/ArrayUtils';
+import { Y_SCROLL_END_THRESHOLD } from '@utils/MailUtils';
+import LazyImage from '@components/Image/LazyImage';
 
 export interface MailListProps {
   onMenuClick: () => void,
   mails: MailMessage[],
+  onRefresh: () => void,
 }
 
 function MailListSkeleton() {
@@ -44,12 +48,14 @@ function MailListSkeleton() {
 
 export default function MailList(props: MailListProps) {
   const {
-    onMenuClick, mails,
+    onMenuClick, mails, onRefresh,
   } = props;
   const [query, setQuery] = useState('');
   const [selectedMails, setSelectedMails] = useState<MailMessage[]>([]);
   const { t } = useTranslation();
   const isFetchingMails = useSelector((state: RootState) => state.mail.isFetchingMailboxes);
+  const isLoadingMoreMessages = useSelector((state: RootState) => state.mail.isLoadingMoreMessages);
+  const fetchingMailsFailed = useSelector((state: RootState) => state.mail.fetchingMailsFailed);
   const dispatch = useDispatch();
 
   // Select all messages
@@ -91,6 +97,70 @@ export default function MailList(props: MailListProps) {
       setSelectedMails(selectedMails.filter((selectedMail) => selectedMail !== mail));
     }
   }, [selectedMails]);
+
+  const onScroll = useCallback((container: HTMLElement) => {
+    const { scrollTop, offsetHeight, scrollHeight } = container;
+    if (scrollTop + offsetHeight >= scrollHeight - Y_SCROLL_END_THRESHOLD) {
+      dispatch(mailActions.loadMore());
+    }
+  }, []);
+
+  const renderMailList = useCallback(() => {
+    // Render fetching UI
+    if (isFetchingMails) {
+      return <MailListSkeleton />;
+    }
+
+    // Render error UI
+    if (fetchingMailsFailed) {
+      return (
+        <div className="d-flex flex-column justify-content-center align-items-center w-100 h-100">
+          <LazyImage className="h-50" lazySrc={import('@assets/images/illustration/error.svg')} />
+          <div className="misc-inner pt-2">
+            <div className="w-100 text-center">
+              <p className="mb-2 font-medium-3">{t('COMMON.SOMETHING_WENT_WRONG')}</p>
+              <Button color="primary" className="btn-sm-block mb-2" onClick={onRefresh}>
+                {t('COMMON.TRY_AGAIN')}
+              </Button>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Render empty UI
+    if (mails.length === 0) {
+      return (
+        <div className="no-results d-block">
+          <h5>{t('MAIL.NO_MAILS_FOUND')}</h5>
+        </div>
+      );
+    }
+
+    // Render mail list UI
+    return (
+      <ul className="email-media-list">
+        {
+          mails.map((mail) => (
+            <MailListItem
+              key={mail.messageId}
+              mail={mail}
+              onMailClicked={onMailClicked}
+              onMailSelected={onMailSelected}
+              isSelected={selectedMails.includes(mail)}
+            />
+          ))
+        }
+        {
+          isLoadingMoreMessages && (
+            <li className="text-center pt-1 pb-1">
+              <Spinner color="primary" size="sm" />
+            </li>
+          )
+        }
+      </ul>
+    );
+  }, [isFetchingMails, fetchingMailsFailed, mails, isLoadingMoreMessages]);
 
   return (
     <>
@@ -179,33 +249,8 @@ export default function MailList(props: MailListProps) {
           ) : null}
         </div>
 
-        <PerfectScrollbar className="email-user-list" options={{ wheelPropagation: false }}>
-          {
-            isFetchingMails && <MailListSkeleton />
-          }
-          { !isFetchingMails && (
-            <>
-              {mails.length > 0 ? (
-                <ul className="email-media-list">
-                  {
-                    mails.map((mail) => (
-                      <MailListItem
-                        key={mail.messageId}
-                        mail={mail}
-                        onMailClicked={onMailClicked}
-                        onMailSelected={onMailSelected}
-                        isSelected={selectedMails.includes(mail)}
-                      />
-                    ))
-                  }
-                </ul>
-              ) : (
-                <div className="no-results d-block">
-                  <h5>{t('MAIL.NO_MAILS_FOUND')}</h5>
-                </div>
-              )}
-            </>
-          )}
+        <PerfectScrollbar className="email-user-list" options={{ }} onScrollY={onScroll}>
+          {renderMailList()}
         </PerfectScrollbar>
       </div>
       <MailDetail />

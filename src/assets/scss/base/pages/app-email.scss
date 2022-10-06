@@ -139,7 +139,7 @@ $email_details_header_height: 5rem;
         // Set delay per List Item
         @for $i from 1 through 5000 {
           li:nth-child(#{$i}) {
-            animation-delay: 0.1s * $i;
+            animation-delay: 0.1s * ($i % 10);
           }
         }
 
@@ -211,6 +211,9 @@ $email_details_header_height: 5rem;
             display: flex;
             justify-content: space-between;
             margin-bottom: 0.55rem;
+            .mail-items {
+              flex: 1;
+            }
           }
 
           .mail-date {
@@ -350,6 +353,12 @@ $email_details_header_height: 5rem;
           .dropdown {
             line-height: 0;
           }
+        }
+        .user-details {
+          width: 80%;
+        }
+        .to {
+          max-height: 15rem;
         }
       }
 

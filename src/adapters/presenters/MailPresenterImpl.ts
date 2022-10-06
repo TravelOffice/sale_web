@@ -17,7 +17,8 @@ export default class MailPresenterImpl implements MailPresenter {
   getMailMessages = async (
     mailAccount: string,
     mailbox: string,
-  ) => getMailMessagesUseCase.invoke(mailAccount, mailbox)
+    nextToken?: string,
+  ) => getMailMessagesUseCase.invoke(mailAccount, mailbox, nextToken)
 
   getMailThread = async (
     mailAccount: string,

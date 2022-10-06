@@ -9,7 +9,7 @@ export interface MailRepository {
   link: (formData: LinkEmailFormData) => Promise<MailAccount>,
   getMailAccounts: () => Promise<MailAccount[]>
   getMailboxes: (mailAccount: string) => Promise<Mailbox[]>
-  getMails: (mailAccount: string, mailbox: string) => Promise<MailMessageList>
+  getMails: (mailAccount: string, mailbox: string, nextToken?: string) => Promise<MailMessageList>
   getMailThread: (mailAccount: string, mailbox: string, mailId: string) => Promise<MailMessage[]>
   sendMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
 }
