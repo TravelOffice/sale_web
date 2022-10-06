@@ -31,6 +31,10 @@ import GetMailboxesUseCaseImpl from '@domain/useCases/mail/GetMailboxesUseCaseIm
 import GetMailMessagesUseCaseImpl from '@domain/useCases/mail/GetMailMessagesUseCaseImpl';
 import GetMailThreadUseCaseImpl from '@domain/useCases/mail/GetMailThreadUseCaseImpl';
 import { GetMailThreadUseCase } from '@domain/useCases/interfaces/mail/GetMailThreadUseCase';
+import SendMailUseCaseImpl from '@domain/useCases/mail/SendMailUseCaseImpl';
+import { SendMailUseCase } from '@domain/useCases/interfaces/mail/SendMailUseCase';
+import { UploadMailAttachmentUseCase } from '@domain/useCases/interfaces/mail/UploadMailAttachmentUseCase';
+import UploadMailAttachmentUseCaseImpl from '@domain/useCases/mail/UploadMailAttachmentUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -147,6 +151,8 @@ interface UseCases {
   getMailboxesUseCase: GetMailboxesUseCase,
   getMailMessagesUseCase: GetMailMessagesUseCase,
   getMailThreadUseCase: GetMailThreadUseCase,
+  sendMailUseCase: SendMailUseCase,
+  uploadMailAttachmentUseCase: UploadMailAttachmentUseCase,
 }
 
 const useCases: UseCases = {
@@ -204,6 +210,8 @@ const useCases: UseCases = {
   getMailboxesUseCase: new GetMailboxesUseCaseImpl(),
   getMailMessagesUseCase: new GetMailMessagesUseCaseImpl(),
   getMailThreadUseCase: new GetMailThreadUseCaseImpl(),
+  sendMailUseCase: new SendMailUseCaseImpl(),
+  uploadMailAttachmentUseCase: new UploadMailAttachmentUseCaseImpl(),
 };
 
 export const {
@@ -253,4 +261,6 @@ export const {
   getMailboxesUseCase,
   getMailMessagesUseCase,
   getMailThreadUseCase,
+  sendMailUseCase,
+  uploadMailAttachmentUseCase,
 } = useCases;
