@@ -1,15 +1,16 @@
 import {
-  all, call, put, takeEvery, takeLatest,
+  all, call, put, takeLatest, select, takeEvery,
 } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
-import { mailActions } from '@redux/slices/mailSlice';
+import { mailActions, MailState } from '@redux/slices/mailSlice';
 import { mailPresenter } from '@adapter/presenters';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
+import { RootState } from '@redux/store';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 
@@ -64,13 +65,41 @@ function* getMailboxes(action: PayloadAction<MailAccount>) {
 }
 
 function* getMails(action: PayloadAction<{ mailAccount: MailAccount, mailboxId: string }>) {
-  const { mailAccount, mailboxId } = action.payload;
-  const mailMessages: MailMessageList = yield call(
-    mailPresenter.getMailMessages,
-    mailAccount.email,
-    mailboxId,
-  );
-  yield put(mailActions.onGetMailsSuccessfully(mailMessages));
+  try {
+    const { mailAccount, mailboxId } = action.payload;
+    const mailMessages: MailMessageList = yield call(
+      mailPresenter.getMailMessages,
+      mailAccount.email,
+      mailboxId,
+    );
+    yield put(mailActions.onGetMailsSuccessfully(mailMessages));
+  } catch {
+    yield put(mailActions.onGetMailsFailed());
+  }
+}
+
+function* loadMore() {
+  try {
+    const mailState: MailState = yield select((state: RootState) => state.mail);
+    const {
+      nextToken, selectedMailAccount, selectedMailboxId,
+      isFetchingMails, isFetchingMailboxes, loadableMore,
+    } = mailState;
+    if (!loadableMore || !selectedMailAccount || isFetchingMailboxes || isFetchingMails) {
+      // Do not load more if fetching mail account mail messages
+      yield put(mailActions.onLoadMoreMessageCompleted());
+      return;
+    }
+    const mailMessages: MailMessageList = yield call(
+      mailPresenter.getMailMessages,
+      selectedMailAccount.email,
+      selectedMailboxId,
+      nextToken,
+    );
+    yield put(mailActions.onMoreMessagedLoaded(mailMessages));
+  } catch {
+    // Do nothing
+  }
 }
 
 function* sendMail(action: PayloadAction<SendMailFormData>) {
@@ -115,6 +144,7 @@ export default function* mailSaga() {
     takeLatest(mailActions.getMailAccounts, getMailAccounts),
     takeLatest(mailActions.getMailboxes, getMailboxes),
     takeLatest(mailActions.getMails, getMails),
+    takeLatest(mailActions.loadMore, loadMore),
     takeLatest(mailActions.sendMail, sendMail),
     takeEvery(mailActions.uploadAttachment, uploadAttachment),
   ]);

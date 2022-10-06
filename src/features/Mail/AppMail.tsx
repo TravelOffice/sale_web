@@ -8,7 +8,7 @@ import ComposeModal from '@features/Mail/components/ComposeModal';
 
 export default function AppMail() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const mails = useMails();
+  const { mails, loadMailMessages } = useMails();
   return (
     <>
       <Sidebar sidebarOpen={sidebarOpen} />
@@ -18,7 +18,11 @@ export default function AppMail() {
             className={classnames('body-content-overlay', { show: false })}
             onClick={() => setSidebarOpen(false)}
           />
-          <MailList onMenuClick={() => setSidebarOpen(true)} mails={mails} />
+          <MailList
+            onMenuClick={() => setSidebarOpen(true)}
+            mails={mails}
+            onRefresh={loadMailMessages}
+          />
           <ComposeModal />
         </div>
       </div>

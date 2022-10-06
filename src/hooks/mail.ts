@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { mailActions } from '@redux/slices/mailSlice';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { mailPresenter } from '@adapter/presenters';
@@ -66,7 +66,7 @@ export const useMails = () => {
   const selectedMailAccount = useSelectedMailAccount();
   const selectedMailboxId = useSelectedMailbox();
   const mails = useSelector((state: RootState) => state.mail.mails);
-  useEffect(() => {
+  const loadMailMessages = useCallback(() => {
     if (selectedMailAccount && selectedMailboxId) {
       // Fetch mail messages whenever either mail account of mailbox changed
       dispatch((mailActions.getMails({
@@ -75,7 +75,10 @@ export const useMails = () => {
       })));
     }
   }, [selectedMailAccount, selectedMailboxId, dispatch]);
-  return mails;
+  useEffect(() => {
+    loadMailMessages();
+  }, [selectedMailAccount, selectedMailboxId, dispatch]);
+  return { mails, loadMailMessages };
 };
 
 /**

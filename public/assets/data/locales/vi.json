@@ -49,7 +49,9 @@
         "INVALID_MAX": "{{field}} không được lớn hơn {{max}}",
         "NONE": "Không",
         "DOWNLOADING": "Đang tải xuống",
-        "DOWNLOAD": "Tải xuống"
+        "DOWNLOAD": "Tải xuống",
+        "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Đã có lỗi xảy ra.",
+        "TRY_AGAIN": "Tải lại"
     },
     "LEAD": {
         "NAME": "Họ tên",

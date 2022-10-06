@@ -132,7 +132,7 @@ export default function MailDetail() {
               {
                 mail.inReplyTo && (
                   <Col sm="12">
-                    <a href="/" className="fw-bold" onClick={viewMailThread}>
+                    <a href="/" className="fw-bold text-primary" onClick={viewMailThread}>
                       {!showMailThread ? t('MAIL.VIEW_MAIL_THREAD') : t('MAIL.VIEW_MESSAGE_ONLY')}
                     </a>
                   </Col>
@@ -159,13 +159,13 @@ export default function MailDetail() {
                       <Trans i18nKey="MAIL.CLICK_HERE_TO_REPLY_OR_FORWARD">
                         Click here to
                         {' '}
-                        <a href="/" onClick={(e) => e.preventDefault()}>
+                        <a className="text-primary" href="/" onClick={(e) => e.preventDefault()}>
                           Reply
                         </a>
                         {' '}
                         or
                         {' '}
-                        <a href="/" onClick={(e) => e.preventDefault()}>
+                        <a className="text-primary" href="/" onClick={(e) => e.preventDefault()}>
                           Forward
                         </a>
                       </Trans>
