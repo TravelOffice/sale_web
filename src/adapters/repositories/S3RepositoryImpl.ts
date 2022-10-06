@@ -1,10 +1,15 @@
-import { apiProvider } from '@adapter/infrastructures';
+import { apiProvider, mailApiProvider } from '@adapter/infrastructures';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { PresignedUrl } from '@domain/entities/chat/PresignedUrl';
+import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { S3Repository } from './interfaces/S3Repository';
 
 export default class S3RepositoryImpl implements S3Repository {
-  uploadChatAttachmentViaPresignedURL = async (pageId: string, customerId: string, file: File) => {
+  uploadChatAttachmentViaPresignedURL = async (
+    pageId: string,
+    customerId: string,
+    file: File,
+  ) => {
     // Get presign url by calling api
     const response = await apiProvider.authorizedRequest.get('/presigned-url', {
       queryParams: {
@@ -48,5 +53,56 @@ export default class S3RepositoryImpl implements S3Repository {
       },
     });
     return response.data;
+  }
+
+  uploadHtmlContentViaPresignedURL = async (htmlContent: string) => {
+    // Get pre-sign url by calling api
+    const contentType = 'text/html';
+    const response = await mailApiProvider.authorizedRequest.get('/presigned-url', {
+      queryParams: {
+        contentType,
+        fileName: 'htmlContent/index.html',
+      },
+    });
+    const { url, key } = response;
+    // Upload html content to s3
+    await fetch(url, {
+      method: 'PUT',
+      body: new Blob([htmlContent], {
+        type: contentType,
+      }),
+      headers: {
+        'Content-Type': contentType,
+      },
+    });
+    // Upload to given url
+    return key;
+  }
+
+  uploadMailAttachmentViaPresignedURL = async (file: File) => {
+    // Get pre-sign url by calling api
+    const response = await mailApiProvider.authorizedRequest.get('/presigned-url', {
+      queryParams: {
+        contentType: file.type,
+        fileName: file.name,
+      },
+    });
+    const { url, key } = response;
+    // Upload html content to s3
+    await fetch(url, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type,
+      },
+    });
+    // Upload to given url
+    return {
+      name: file.name,
+      mimeType: file.type,
+      path: key,
+      size: file.size,
+      uploading: false,
+    } as MailAttachment;
   }
 }

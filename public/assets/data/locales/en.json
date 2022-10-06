@@ -350,6 +350,10 @@
         "CLICK_HERE_TO_REPLY_OR_FORWARD": "Click here to <2>Reply</2> or <6>Forward</6>",
         "TO": "To",
         "FROM": "From",
+        "CC": "Cc",
+        "BCC": "Bcc",
+        "SEND": "Send",
+        "SENDING": "Sending",
         "DATE": "Date",
         "REPLY": "Reply",
         "FORWARD": "Forward",
@@ -379,6 +383,11 @@
         "ERROR_UNKNOWN": "Something went wrong!",
         "ERROR_GET_MAIL_ACCOUNTS": "Failed to get your mail accounts!",
         "ERROR_GET_MAILBOXES": "Failed to get your mailboxes!",
-        "ERROR_GET_MAIL_MESSAGES": "Failed to get mail messages!"
+        "ERROR_GET_MAIL_MESSAGES": "Failed to get mail messages!",
+        "SCHEDULE_SEND": "Schedule Send",
+        "SUBJECT": "Subject",
+        "MESSAGE_CONTENT": "Message",
+        "SEND_MAIL_SUCCESSFULLY": "Send mail successfully",
+        "FILE_TOO_BIG": "File size must be less than 25MB"
     }
 }

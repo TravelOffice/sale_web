@@ -12,6 +12,10 @@ export const useSelectedMailAccount = () => useSelector((
   state: RootState,
 ) => state.mail.selectedMailAccount);
 
+export const useUploadedAttachments = () => useSelector((
+  state: RootState,
+) => state.mail.uploadedAttachments);
+
 /**
  * Hook to get selected mailbox
  */

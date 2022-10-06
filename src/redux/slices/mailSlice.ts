@@ -5,6 +5,8 @@ import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
 import { mailFlags } from '@utils/MailUtils';
+import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
+import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 
 export interface MailState {
   linkModalStatus: 'closed' | 'open' | 'linking' | 'finished',
@@ -18,11 +20,14 @@ export interface MailState {
   nextToken?: string,
   isFetchingMails: boolean,
   selectedMail?: MailMessage,
+  composeModalOpen: boolean,
+  isSendingMail: boolean,
+  uploadedAttachments: Record<string, MailAttachment>,
 }
 
 const defaultMailboxId = 'INBOX';
 
-const initialState : MailState = {
+const initialState: MailState = {
   linkModalStatus: 'closed',
   mailAccounts: [],
   isFetchingMailAccounts: false,
@@ -31,6 +36,9 @@ const initialState : MailState = {
   selectedMailboxId: defaultMailboxId,
   mails: [],
   isFetchingMails: false,
+  composeModalOpen: false,
+  isSendingMail: false,
+  uploadedAttachments: {},
 };
 
 const mailSlice = createSlice({
@@ -113,6 +121,41 @@ const mailSlice = createSlice({
     },
     unselectMail: (state) => {
       state.selectedMail = undefined;
+    },
+    openComposeModal: (state) => {
+      state.composeModalOpen = true;
+    },
+    toggleComposeModal: (state) => {
+      state.composeModalOpen = !state.composeModalOpen;
+    },
+    sendMail: (state, _actionPayload: PayloadAction<SendMailFormData>) => {
+      state.isSendingMail = true;
+    },
+    onSendMailCompleted: (state, action: PayloadAction<boolean>) => {
+      state.isSendingMail = false;
+      state.composeModalOpen = !action.payload;
+    },
+    uploadAttachment: (state, action: PayloadAction<File>) => {
+      const file = action.payload;
+      state.uploadedAttachments[file.name] = {
+        name: file.name,
+        mimeType: file.type,
+        size: file.size,
+        uploading: true,
+      } as MailAttachment;
+    },
+    onUploadAttachmentSuccessfully: (state, action: PayloadAction<MailAttachment>) => {
+      const attachment = action.payload;
+      state.uploadedAttachments[attachment.name] = attachment;
+    },
+    removeAttachment: (state, action: PayloadAction<string>) => {
+      const fileName = action.payload;
+      delete state.uploadedAttachments[fileName];
+    },
+    resetComposeModal: (state) => {
+      state.uploadedAttachments = {};
+      state.isSendingMail = false;
+      state.composeModalOpen = false;
     },
   },
 });

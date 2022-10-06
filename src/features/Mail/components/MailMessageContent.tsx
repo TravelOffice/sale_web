@@ -177,7 +177,9 @@ export default function MailMessageContent(props: MailMessageContentProps) {
                     >
                       <LazyImage lazySrc={getFileThumbnail(attachment.name)} alt={attachment.name} width="16" className="me-50" />
                       <span className="fw-bolder align-text-top">{attachment.name}</span>
-                      <span className="font-small-2 ms-25">{`(${getFileSizeText(attachment.size)})`}</span>
+                      {
+                        attachment.size ? <span className="font-small-2 ms-25">{`(${getFileSizeText(attachment.size)})`}</span> : null
+                      }
                     </a>
                     {' '}
                     <span className="font-small-2 ms-25 cursor-pointer" onClick={() => downloadFile(attachment)}>

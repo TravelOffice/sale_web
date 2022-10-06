@@ -56,6 +56,11 @@ export default function Sidebar(props: SidebarProps) {
   const onMailboxSelected = useCallback((mailbox: string) => {
     dispatch(mailActions.selectMailbox(mailbox));
   }, []);
+
+  const onCompose = useCallback(() => {
+    dispatch(mailActions.openComposeModal());
+  }, []);
+
   return (
     <div className={classnames('sidebar-left', { show: sidebarOpen })}>
       <div className="sidebar">
@@ -63,7 +68,7 @@ export default function Sidebar(props: SidebarProps) {
           <div className="d-flex flex-column h-100">
             <div className="email-app-menu flex-grow-1">
               <div className="form-group-compose text-center compose-btn">
-                <Button block color="primary">{t('MAIL.COMPOSE')}</Button>
+                <Button block color="primary" onClick={onCompose}>{t('MAIL.COMPOSE')}</Button>
               </div>
               {
                 isFetchingMailboxes ? (

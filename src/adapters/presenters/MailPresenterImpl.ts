@@ -3,7 +3,9 @@ import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import {
   getMailAccountsUseCase, getMailboxesUseCase, getMailMessagesUseCase,
   getMailThreadUseCase, linkMailUseCase,
+  sendMailUseCase, uploadMailAttachmentUseCase,
 } from '@domain/useCases';
+import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 
 export default class MailPresenterImpl implements MailPresenter {
   linkMail = async (formData: LinkEmailFormData) => linkMailUseCase.invoke(formData)
@@ -22,4 +24,8 @@ export default class MailPresenterImpl implements MailPresenter {
     mailbox: string,
     mailId: string,
   ) => getMailThreadUseCase.invoke(mailAccount, mailbox, mailId)
+
+  sendMail = async (formData: SendMailFormData) => sendMailUseCase.invoke(formData)
+
+  uploadMailAttachment = async (file: File) => uploadMailAttachmentUseCase.invoke(file)
 }
