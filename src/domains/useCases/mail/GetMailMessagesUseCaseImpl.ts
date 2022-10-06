@@ -5,5 +5,6 @@ export default class GetMailMessagesUseCaseImpl implements GetMailMessagesUseCas
   invoke = async (
     mailAccount: string,
     mailbox: string,
-  ) => mailRepository.getMails(mailAccount, mailbox);
+    nextToken?: string,
+  ) => mailRepository.getMails(mailAccount, mailbox, nextToken);
 }

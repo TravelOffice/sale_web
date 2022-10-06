@@ -110,3 +110,7 @@ export function downloadAttachment(attachment: MailAttachment) {
 }
 
 export const MAXIMUM_ATTACHMENT_SIZE = 25 * 1024 * 1024;
+
+export const Y_SCROLL_END_THRESHOLD = 10;
+
+export const MAIL_PAGE_SIZE = 10;

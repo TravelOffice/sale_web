@@ -49,7 +49,9 @@
         "INVALID_MAX": "{{field}} must be less than or equal to {{max}}",
         "NONE": "None",
         "DOWNLOADING": "Downloading",
-        "DOWNLOAD": "Download"
+        "DOWNLOAD": "Download",
+        "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Something went wrong.",
+        "TRY_AGAIN": "Try again"
     },
     "LEAD": {
         "NAME": "Name",

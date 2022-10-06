@@ -10,7 +10,11 @@ export interface MailPresenter {
   linkMail: (formData: LinkEmailFormData) => Promise<MailAccount>
   getMailAccounts: () => Promise<MailAccount[]>
   getMailboxes: (mailAccount: string) => Promise<Mailbox[]>
-  getMailMessages: (mailAccount: string, mailbox: string) => Promise<MailMessageList>
+  getMailMessages: (
+    mailAccount: string,
+    mailbox: string,
+    nextToken?: string,
+  ) => Promise<MailMessageList>
   getMailThread: (mailAccount: string, mailbox: string, mailId: string) => Promise<MailMessage[]>
   sendMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
   uploadMailAttachment: (file: File) => Promise<MailAttachment>

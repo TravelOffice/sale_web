@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { MailMessage } from '@domain/entities/mail/MailMessage';
+import { MailMessage, MailMessageAddress } from '@domain/entities/mail/MailMessage';
 import {
   Button,
   Card, CardBody, CardFooter, CardHeader, DropdownItem, DropdownMenu, DropdownToggle,
@@ -17,9 +17,20 @@ import { getFileSizeText } from '@utils/FileUtils';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { removeElement } from '@utils/ArrayUtils';
 import { useTranslation } from 'react-i18next';
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import { MailAddress } from '@domain/entities/mail/MailAddress';
 
 export interface MailMessageContentProps {
   mail: MailMessage,
+}
+
+function renderMailAddresses(mailAddress: MailMessageAddress) {
+  const displayMailAddresses = mailAddress.addresses.map((address) => getDisplayMailAddress(address)).join(', ');
+  const others = mailAddress.count - mailAddress.addresses.length;
+  if (others > 0) {
+    return `${displayMailAddresses} +${others}`;
+  }
+  return displayMailAddresses;
 }
 
 export default function MailMessageContent(props: MailMessageContentProps) {
@@ -31,6 +42,22 @@ export default function MailMessageContent(props: MailMessageContentProps) {
   const [isFetchingHtmlContent, setIsFetchingHtmlContent] = useState(false);
   const { attachments } = mail;
   const date = moment(mail.receivedDate || mail.sentDate);
+  const [addresses, setAddresses] = useState<Record<'to' | 'cc' | 'bcc', MailAddress[]>>({
+    to: [],
+    cc: [],
+    bcc: [],
+  });
+
+  useEffect(() => {
+    if (mail) {
+      const cc: MailAddress[] = mail.cc?.addresses || [];
+      const bcc: MailAddress[] = mail.bcc?.addresses || [];
+      setAddresses({ to: mail.to.addresses, cc, bcc });
+      fetch(mail.metaData).then((res) => res.json()).then((data) => {
+        setAddresses(data);
+      });
+    }
+  }, [mail]);
 
   const fetchHtmlContent = useCallback(() => {
     setIsFetchingHtmlContent(true);
@@ -92,7 +119,7 @@ export default function MailMessageContent(props: MailMessageContentProps) {
                   {t('MAIL.TO')}
                   :
                   {' '}
-                  {mail.to.map((address) => getDisplayMailAddress(address)).join(', ')}
+                  {renderMailAddresses(mail.to)}
                 </span>
               </DropdownToggle>
               <DropdownMenu>
@@ -110,14 +137,18 @@ export default function MailMessageContent(props: MailMessageContentProps) {
                         {t('MAIL.TO')}
                         :
                       </td>
-                      <td>{mail.to.map((address) => getDisplayMailAddress(address)).join('\n')}</td>
+                      <td>
+                        <PerfectScrollbar className="to">
+                          {addresses.to.map((address) => getDisplayMailAddress(address)).join('\n')}
+                        </PerfectScrollbar>
+                      </td>
                     </tr>
                     <tr>
                       <td className="text-end text-muted align-top">
                         {t('MAIL.DATE')}
                         :
                       </td>
-                      <td>{date.format('hh:mm DD MMM YYYY')}</td>
+                      <td>{date.format('hh:mm DD MMMM YYYY')}</td>
                     </tr>
                   </tbody>
                 </Table>
