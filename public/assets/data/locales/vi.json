@@ -349,7 +349,7 @@
         "LINK_MAIL_SUCCESSFULLY": "Tài khoản {{mailAddress}} đã được liên kết thành công!",
         "VIEW_MAIL_THREAD": "Xem tất cả email liên quan",
         "VIEW_MESSAGE_ONLY": "Rút gọn",
-        "CLICK_HERE_TO_REPLY_OR_FORWARD": "Nhấn vào đây để <2>Trả lời</2> hoặc <6>Chuyển tiếp</6>",
+        "CLICK_HERE_TO_REPLY_OR_FORWARD": "Nhấn vào đây để <2>Trả lời</2>, <4>Trả lời tất cả</4> hoặc <6>Chuyển tiếp</6>",
         "TO": "Đến",
         "FROM": "Từ",
         "CC": "Cc",
@@ -358,6 +358,7 @@
         "SENDING": "Đang Gửi",
         "DATE": "Ngày gửi",
         "REPLY": "Trả lời",
+        "REPLY_ALL": "Trả lời tất cả",
         "FORWARD": "Chuyển tiếp",
         "ATTACHMENT": "Tệp đính kèm",
         "ATTACHMENTS": "Tệp đính kèm",
@@ -382,6 +383,7 @@
         "ERROR_CONNECT_TO_OUTBOUND_SERVER": "Lỗi khi kết nối server {{outboundHost}}!",
         "ERROR_LOGIN_TO_OUTBOUND_SERVER": "Tên đăng nhập hoặc mật khẩu không đúng cho server {{outboundHost}}!",
         "ERROR_EMAIL_ADDRESS_IS_INVALID": "Email {{mailAddress}} không hợp lệ!",
+        "ERROR_EMAIL_IS_INVALID": "Email không hợp lệ!",
         "ERROR_UNKNOWN": "Đã có lỗi xảy ra!",
         "ERROR_GET_MAIL_ACCOUNTS": "Không thể lấy danh sách tài khoản của bạn!",
         "ERROR_GET_MAILBOXES": "Không thể lấy danh sách thư mục email của bạn!!",
@@ -390,6 +392,7 @@
         "SUBJECT": "Chủ đề",
         "MESSAGE_CONTENT": "Nội dung",
         "SEND_MAIL_SUCCESSFULLY": "Gửi thư thành công",
-        "FILE_TOO_BIG": "Tệp phải nhỏ hơn 25MB"
+        "FILE_TOO_BIG": "Tệp phải nhỏ hơn 25MB",
+        "ERROR_TO_ADDRESSES": "Danh sách người nhận không được để trống"
     }
 }

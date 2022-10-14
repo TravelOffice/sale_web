@@ -68,9 +68,8 @@ export default function MailList(props: MailListProps) {
   }, [mails]);
 
   // Move a message to another mailbox
-  const moveToMailbox = useCallback((e: React.MouseEvent, mailbox: string) => {
+  const moveToMailbox = useCallback((e: React.MouseEvent, _mailbox: string) => {
     e.preventDefault();
-    console.log('move to', mailbox);
     setSelectedMails([]);
   }, []);
 

@@ -382,6 +382,25 @@ $email_details_header_height: 5rem;
   }
 
   #compose-mail {
+    .ck-content {
+      padding: 0.5rem;
+      max-height: 40vh;
+      min-height: 300px;
+      border: 1px;
+    }
+    .ck-toolbar_grouping {
+      border: 1px
+    }
+    .compose-addresses {
+      max-height: 10vh;
+      overflow-y: auto;
+    }
+    .compose-address-ul {
+      gap: 4px;
+    }
+    .compose-address-input {
+      gap: 4px;
+    }
     .compose-mail-form-field {
       display: flex;
       justify-content: center;
@@ -420,6 +439,10 @@ $email_details_header_height: 5rem;
       label {
         font-size: $font-size-base;
       }
+
+      .form-feedback {
+        padding-left: 1rem;
+      }
     }
 
     // On compose form full screen
@@ -430,6 +453,7 @@ $email_details_header_height: 5rem;
 
       #message-editor {
         height: calc(100% - 240px);
+        width: 100%;
       }
 
       .editor {
@@ -458,6 +482,10 @@ $email_details_header_height: 5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
+    }
+
+    .compose-form-feedback {
+      padding-left: 1.5rem;
     }
 
     .mail-attachments {
