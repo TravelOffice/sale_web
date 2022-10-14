@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useEffect, useState,
+  useCallback, useEffect, useMemo, useState,
 } from 'react';
 import {
   Button,
@@ -7,50 +7,146 @@ import {
   DropdownMenu,
   DropdownToggle,
   Form,
+  FormFeedback,
   Input,
   Label,
   Modal,
-  ModalBody, Spinner,
+  ModalBody,
+  Spinner,
   UncontrolledButtonDropdown,
 } from 'reactstrap';
-import {
-  Minus, Paperclip, X,
-} from 'react-feather';
-import { Editor } from 'react-draft-wysiwyg';
+import { Minus, Paperclip, X } from 'react-feather';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
 import { mailActions } from '@redux/slices/mailSlice';
 import { Controller, useForm } from 'react-hook-form';
 import TagsInput from '@components/Input/TagsInput';
-import draftToHtml from 'draftjs-to-html';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { useSelectedMailAccount, useUploadedAttachments } from '@hooks/mail';
 import classNames from 'classnames';
 import LazyImage from '@components/Image/LazyImage';
-import { getFileThumbnail, MAXIMUM_ATTACHMENT_SIZE } from '@utils/MailUtils';
+import {
+  FORWARD_PREFIX, getFileThumbnail, MAXIMUM_ATTACHMENT_SIZE, REPLY_PREFIX,
+} from '@utils/MailUtils';
 import { getFileSizeText } from '@utils/FileUtils';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { useTranslation } from 'react-i18next';
 import toasty from '@components/Toasty/Toasty';
+import * as yup from 'yup';
+import { ValidationError } from 'yup';
+import { MailMessage } from '@domain/entities/mail/MailMessage';
+import { MailAddress } from '@domain/entities/mail/MailAddress';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
+
+export interface ComposeProps {
+  message: MailMessage,
+  type: 'new' | 'reply' | 'reply_all' | 'forward',
+}
 
 export default function ComposeModal() {
   const [ccOpen, setCCOpen] = useState(false);
   const [bccOpen, setBCCOpen] = useState(false);
   const [files, setFiles] = useState<File[]>();
   const mailAccount = useSelectedMailAccount();
+  const [htmlContent, setHtmlContent] = useState('');
   const sending = useSelector((state: RootState) => state.mail.isSendingMail);
   const uploadedFiles = useUploadedAttachments();
   const { t } = useTranslation();
-
+  const [validationError, setValidationError] = useState<string>();
+  const schema = yup.object().shape({
+    to: yup.array().min(1, t('MAIL.ERROR_TO_ADDRESSES')).of(yup.object().shape({
+      address: yup.string().email(),
+      personal: yup.string(),
+    })),
+  });
   const { control, getValues, setValue } = useForm<SendMailFormData>({});
+  const composeModalData = useSelector((state: RootState) => state.mail.composeModalData);
+  const [addresses, setAddresses] = useState<Record<'from' | 'to' | 'cc' | 'bcc', MailAddress[]>>({
+    from: [],
+    to: [],
+    cc: [],
+    bcc: [],
+  });
+
+  const getReplySubject = (subject: string) => {
+    let newSubject = subject;
+    const fwdIndex = newSubject.toLowerCase().indexOf(FORWARD_PREFIX.toLowerCase());
+    if (fwdIndex >= 0) {
+      newSubject = subject.substring(fwdIndex + 1);
+    }
+    return newSubject.toLowerCase().includes(REPLY_PREFIX.toLowerCase()) ? newSubject : `${REPLY_PREFIX}${newSubject}`;
+  };
+
+  const getForwardSubject = (subject: string) => {
+    let newSubject = subject;
+    const replyIndex = subject.toLowerCase().indexOf(REPLY_PREFIX.toLowerCase());
+    if (replyIndex >= 0) {
+      newSubject = subject.substring(replyIndex + REPLY_PREFIX.length);
+    }
+    return newSubject.toLowerCase().includes(FORWARD_PREFIX.toLowerCase()) ? newSubject : `${FORWARD_PREFIX}${newSubject}`;
+  };
+
+  const fetchHtmlContent = useCallback((message: MailMessage) => {
+    fetch(message.htmlContent)
+      .then((res) => res.text())
+      .then((content) => {
+        setHtmlContent(content);
+      });
+  }, []);
+
+  const fetchAddresses = useCallback((message: MailMessage, type: string) => {
+    fetch(message.metaData).then((res) => res.json()).then((data) => {
+      let { to, cc } = data;
+      switch (type) {
+        case 'reply':
+          setValue('subject', getReplySubject(message.subject));
+          to = message.from;
+          cc = [];
+          break;
+        case 'reply_all':
+          setValue('subject', getReplySubject(message.subject));
+          to = message.from.concat(to);
+          break;
+        case 'forward':
+          setValue('subject', getForwardSubject(message.subject));
+          to = [];
+          cc = [];
+          break;
+        default: break;
+      }
+      setAddresses({ ...data, to, cc });
+    });
+  }, []);
+  const dispatch = useDispatch();
+  const getAttachmentS3Key = (cdnUrl: string) => {
+    const url = decodeURIComponent(cdnUrl);
+    const mailCdn = 'https://mailcdn.traveloffice.shop/';
+    const cdnIndex = url.indexOf(mailCdn);
+    return url.substring(cdnIndex + mailCdn.length);
+  };
+  const forwardAttachments = (message: MailMessage) => {
+    const attachments = message.attachments.map((attachment: MailAttachment) => (
+      { ...attachment, path: getAttachmentS3Key(attachment.path) }
+    ));
+    dispatch(mailActions.setUploadAttachments(attachments));
+  };
+
   useEffect(() => {
     if (mailAccount) {
       setValue('from', [{ personal: '', address: mailAccount.email }]);
-      setValue('subject', '');
     }
-  }, [mailAccount]);
+    const { message, type } = composeModalData;
+    if (message) {
+      fetchAddresses(message, type);
+      fetchHtmlContent(message);
+      if (type === 'forward') {
+        forwardAttachments(message);
+      }
+    }
+  }, [mailAccount, composeModalData]);
 
-  const dispatch = useDispatch();
   const composeModalOpen = useSelector((state: RootState) => state.mail.composeModalOpen);
 
   const toggleCompose = useCallback(() => {
@@ -83,7 +179,16 @@ export default function ComposeModal() {
     }
     const formData = getValues() as SendMailFormData;
     const request = { ...formData, attachments: Object.values(uploadedFiles) };
-    dispatch(mailActions.sendMail(request));
+    try {
+      schema.validateSync(request);
+      dispatch(mailActions.sendMail(request));
+      setValidationError('');
+    } catch (e: any) {
+      if (e instanceof ValidationError) {
+        const error = e as ValidationError;
+        setValidationError(error.message);
+      }
+    }
   }, [uploadedFiles]);
 
   const onFilesChanged = useCallback((fileList: FileList | null) => {
@@ -126,8 +231,27 @@ export default function ComposeModal() {
   }, []);
 
   const onClosed = useCallback(() => {
+    setAddresses({
+      from: [],
+      to: [],
+      cc: [],
+      bcc: [],
+    });
+    setCCOpen(false);
+    setBCCOpen(false);
     dispatch((mailActions.resetComposeModal()));
   }, []);
+
+  const validateEmail = (value: string) => {
+    const regExp = new RegExp(/^(?=.{1,254}$)(?=.{1,64}@)[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+(\.[-!#$%&'*+/0-9=?A-Z^_`a-z{|}~]+)*@[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?(\.[A-Za-z0-9]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*$/);
+    return regExp.test(value);
+  };
+
+  const formAddresses = useMemo(() => ({
+    to: addresses.to.map((address) => address.address),
+    cc: addresses.cc.map((address) => address.address),
+    bcc: addresses.bcc.map((address) => address.address),
+  }), [addresses]);
 
   return (
     <Modal
@@ -157,91 +281,99 @@ export default function ComposeModal() {
       </div>
       <ModalBody className="flex-grow-1 p-0">
         <Form className="compose-form">
-          <div className="compose-mail-form-field">
-            <Label for="email-to" className="form-label">
-              {t('MAIL.TO')}
-              :
-            </Label>
-            <div className="flex-grow-1">
-              <Controller
-                control={control}
-                name="to"
-                render={({ field: { onChange, ...rest } }) => (
-                  <TagsInput
-                    onChanged={(tags: string[]) => onChange(tags.map((tag) => ({
-                      address: tag,
-                      personal: '',
-                    })))}
-                    {...rest}
-                  />
-                )}
-              />
-            </div>
-            <div>
-              <a href="/" className="toggle-cc text-body me-1" onClick={toggleCC}>
-                {t('MAIL.CC')}
-              </a>
-              <a href="/" className="toggle-cc text-body" onClick={toggleBCC}>
-                {t('MAIL.BCC')}
-              </a>
-            </div>
-          </div>
-          {ccOpen ? (
-            <div className="compose-mail-form-field cc-wrapper">
-              <Label for="email-cc" className="form-label">
-                {t('MAIL.CC')}
+          <div className="compose-addresses">
+            <div className="compose-mail-form-field">
+              <Label for="email-to" className="form-label">
+                {t('MAIL.TO')}
                 :
               </Label>
               <div className="flex-grow-1">
                 <Controller
                   control={control}
-                  name="cc"
+                  name="to"
                   render={({ field: { onChange, ...rest } }) => (
                     <TagsInput
+                      validate={validateEmail}
                       onChanged={(tags: string[]) => onChange(tags.map((tag) => ({
                         address: tag,
                         personal: '',
                       })))}
+                      defaultTags={formAddresses.to}
                       {...rest}
                     />
                   )}
                 />
               </div>
               <div>
-                <a href="/" className="toggle-cc text-body" onClick={toggleCC}>
-                  <X size={14} />
+                <a href="/" className="toggle-cc text-body me-1" onClick={toggleCC}>
+                  {t('MAIL.CC')}
                 </a>
-              </div>
-            </div>
-          ) : null}
-          {bccOpen ? (
-            <div className="compose-mail-form-field cc-wrapper">
-              <Label for="email-bcc" className="form-label">
-                {t('MAIL.BCC')}
-                :
-              </Label>
-              <div className="flex-grow-1">
-                <Controller
-                  control={control}
-                  name="bcc"
-                  render={({ field: { onChange, ...rest } }) => (
-                    <TagsInput
-                      onChanged={(tags: string[]) => onChange(tags.map((tag) => ({
-                        address: tag,
-                        personal: '',
-                      })))}
-                      {...rest}
-                    />
-                  )}
-                />
-              </div>
-              <div>
                 <a href="/" className="toggle-cc text-body" onClick={toggleBCC}>
-                  <X size={14} />
+                  {t('MAIL.BCC')}
                 </a>
               </div>
             </div>
-          ) : null}
+            {ccOpen ? (
+              <div className="compose-mail-form-field cc-wrapper">
+                <Label for="email-cc" className="form-label">
+                  {t('MAIL.CC')}
+                  :
+                </Label>
+                <div className="flex-grow-1">
+                  <Controller
+                    control={control}
+                    name="cc"
+                    render={({ field: { onChange, ...rest } }) => (
+                      <TagsInput
+                        validate={validateEmail}
+                        onChanged={(tags: string[]) => onChange(tags.map((tag) => ({
+                          address: tag,
+                          personal: '',
+                        })))}
+                        defaultTags={formAddresses.cc}
+                        {...rest}
+                      />
+                    )}
+                  />
+                </div>
+                <div>
+                  <a href="/" className="toggle-cc text-body" onClick={toggleCC}>
+                    <X size={14} />
+                  </a>
+                </div>
+              </div>
+            ) : null}
+            {bccOpen ? (
+              <div className="compose-mail-form-field cc-wrapper">
+                <Label for="email-bcc" className="form-label">
+                  {t('MAIL.BCC')}
+                  :
+                </Label>
+                <div className="flex-grow-1">
+                  <Controller
+                    control={control}
+                    name="bcc"
+                    render={({ field: { onChange, ...rest } }) => (
+                      <TagsInput
+                        validate={validateEmail}
+                        onChanged={(tags: string[]) => onChange(tags.map((tag) => ({
+                          address: tag,
+                          personal: '',
+                        })))}
+                        defaultTags={formAddresses.bcc}
+                        {...rest}
+                      />
+                    )}
+                  />
+                </div>
+                <div>
+                  <a href="/" className="toggle-cc text-body" onClick={toggleBCC}>
+                    <X size={14} />
+                  </a>
+                </div>
+              </div>
+            ) : null}
+          </div>
           <div className="compose-mail-form-field">
             <Label for="email-subject" className="form-label">
               {t('MAIL.SUBJECT')}
@@ -260,19 +392,10 @@ export default function ComposeModal() {
               control={control}
               name="htmlContent"
               render={({ field: { onChange } }) => (
-                <Editor
-                  placeholder={t('MAIL.MESSAGE_CONTENT')}
-                  toolbarClassName="rounded-0"
-                  wrapperClassName="toolbar-bottom"
-                  editorClassName="rounded-0 border-0"
-                  toolbar={{
-                    options: ['inline', 'textAlign', 'list'],
-                    inline: {
-                      inDropdown: false,
-                      options: ['bold', 'italic', 'underline', 'strikethrough'],
-                    },
-                  }}
-                  onChange={(contentState) => onChange(draftToHtml(contentState))}
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={htmlContent}
+                  onChange={onChange}
                 />
               )}
             />
@@ -319,6 +442,11 @@ export default function ComposeModal() {
                 ))
               }
             </div>
+          </div>
+          <div className="compose-form-feedback">
+            <FormFeedback className={'form-feedback d-block '.concat(validationError ? 'visible' : 'invisible')}>
+              {validationError}
+            </FormFeedback>
           </div>
           <div className="compose-footer-wrapper">
             <div className="btn-wrapper d-flex align-items-center">

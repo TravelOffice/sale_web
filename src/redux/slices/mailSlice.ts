@@ -7,6 +7,7 @@ import { MailMessageList } from '@domain/entities/mail/MailMessageList';
 import { MAIL_PAGE_SIZE, mailFlags } from '@utils/MailUtils';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
+import { ComposeProps } from '@features/Mail/components/ComposeModal';
 
 export interface MailState {
   linkModalStatus: 'closed' | 'open' | 'linking' | 'finished',
@@ -24,6 +25,8 @@ export interface MailState {
   isLoadingMoreMessages: boolean,
   loadableMore: boolean,
   composeModalOpen: boolean,
+  composeModalData: ComposeProps,
+  composeType: 'new' | 'reply' | 'replyAll' | 'forward';
   isSendingMail: boolean,
   uploadedAttachments: Record<string, MailAttachment>,
 }
@@ -43,6 +46,8 @@ const initialState : MailState = {
   isLoadingMoreMessages: false,
   loadableMore: false,
   composeModalOpen: false,
+  composeModalData: {} as ComposeProps,
+  composeType: 'new',
   isSendingMail: false,
   uploadedAttachments: {},
 };
@@ -148,8 +153,9 @@ const mailSlice = createSlice({
     onLoadMoreMessageCompleted: (state) => {
       state.isLoadingMoreMessages = false;
     },
-    openComposeModal: (state) => {
+    openComposeModal: (state, action: PayloadAction<ComposeProps>) => {
       state.composeModalOpen = true;
+      state.composeModalData = action.payload;
     },
     toggleComposeModal: (state) => {
       state.composeModalOpen = !state.composeModalOpen;
@@ -174,6 +180,11 @@ const mailSlice = createSlice({
       const attachment = action.payload;
       state.uploadedAttachments[attachment.name] = attachment;
     },
+    setUploadAttachments: (state, action: PayloadAction<MailAttachment[]>) => {
+      action.payload.forEach((attachment) => {
+        state.uploadedAttachments[attachment.name] = attachment;
+      });
+    },
     removeAttachment: (state, action: PayloadAction<string>) => {
       const fileName = action.payload;
       delete state.uploadedAttachments[fileName];
@@ -182,6 +193,7 @@ const mailSlice = createSlice({
       state.uploadedAttachments = {};
       state.isSendingMail = false;
       state.composeModalOpen = false;
+      state.composeModalData = {} as ComposeProps;
     },
   },
 });

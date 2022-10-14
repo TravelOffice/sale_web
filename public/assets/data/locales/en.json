@@ -349,7 +349,7 @@
         "LINK_MAIL_SUCCESSFULLY": "Mail account {{mailAddress}} has been linked successfully",
         "VIEW_MAIL_THREAD": "View all messages of this thread",
         "VIEW_MESSAGE_ONLY": "View this message only",
-        "CLICK_HERE_TO_REPLY_OR_FORWARD": "Click here to <2>Reply</2> or <6>Forward</6>",
+        "CLICK_HERE_TO_REPLY_OR_FORWARD": "Click here to <2>Reply</2>, <4>Reply All</4> or <6>Forward</6>",
         "TO": "To",
         "FROM": "From",
         "CC": "Cc",
@@ -358,6 +358,7 @@
         "SENDING": "Sending",
         "DATE": "Date",
         "REPLY": "Reply",
+        "REPLY_ALL": "Reply All",
         "FORWARD": "Forward",
         "ATTACHMENT": "Attachment",
         "ATTACHMENTS": "Attachments",
@@ -381,7 +382,8 @@
         "ERROR_LOGIN_TO_INBOUND_SERVER": "Username or password is invalid for {{inboundHost}} server!",
         "ERROR_CONNECT_TO_OUTBOUND_SERVER": "Failed to connect to {{outboundHost}} server!",
         "ERROR_LOGIN_TO_OUTBOUND_SERVER": "Username or password is invalid for {{outboundHost}} server!",
-        "ERROR_EMAIL_ADDRESS_IS_INVALID": "Email {{mailAddress}} is valid!",
+        "ERROR_EMAIL_ADDRESS_IS_INVALID": "Email {{mailAddress}} is invalid!",
+        "ERROR_EMAIL_IS_INVALID": "Email is invalid!",
         "ERROR_UNKNOWN": "Something went wrong!",
         "ERROR_GET_MAIL_ACCOUNTS": "Failed to get your mail accounts!",
         "ERROR_GET_MAILBOXES": "Failed to get your mailboxes!",
@@ -390,6 +392,7 @@
         "SUBJECT": "Subject",
         "MESSAGE_CONTENT": "Message",
         "SEND_MAIL_SUCCESSFULLY": "Send mail successfully",
-        "FILE_TOO_BIG": "File size must be less than 25MB"
+        "FILE_TOO_BIG": "File size must be less than 25MB",
+        "ERROR_TO_ADDRESSES": "[To] addresses must has at least one email"
     }
 }

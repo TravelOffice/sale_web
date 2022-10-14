@@ -19,6 +19,8 @@ import { removeElement } from '@utils/ArrayUtils';
 import { useTranslation } from 'react-i18next';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { MailAddress } from '@domain/entities/mail/MailAddress';
+import { mailActions } from '@redux/slices/mailSlice';
+import { useDispatch } from 'react-redux';
 
 export interface MailMessageContentProps {
   mail: MailMessage,
@@ -107,6 +109,37 @@ export default function MailMessageContent(props: MailMessageContentProps) {
     });
   }, []);
 
+  const dispatch = useDispatch();
+  const onReplyCompose = useCallback((e: any) => {
+    e.preventDefault();
+    if (mail) {
+      dispatch(mailActions.openComposeModal({
+        message: mail,
+        type: 'reply',
+      }));
+    }
+  }, [mail]);
+
+  const onReplyAllCompose = useCallback((e: any) => {
+    e.preventDefault();
+    if (mail) {
+      dispatch(mailActions.openComposeModal({
+        message: mail,
+        type: 'reply_all',
+      }));
+    }
+  }, [mail]);
+
+  const onForwardCompose = useCallback((e: any) => {
+    e.preventDefault();
+    if (mail) {
+      dispatch(mailActions.openComposeModal({
+        message: mail,
+        type: 'forward',
+      }));
+    }
+  }, [mail]);
+
   return (
     <Card>
       <CardHeader className="email-detail-head">
@@ -163,11 +196,15 @@ export default function MailMessageContent(props: MailMessageContentProps) {
               <MoreVertical size={14} />
             </DropdownToggle>
             <DropdownMenu end>
-              <DropdownItem className="d-flex align-items-center w-100">
+              <DropdownItem className="d-flex align-items-center w-100" onClick={onReplyCompose}>
                 <CornerUpLeft className="me-50" size={14} />
                 {t('MAIL.REPLY')}
               </DropdownItem>
-              <DropdownItem className="d-flex align-items-center w-100">
+              <DropdownItem className="d-flex align-items-center w-100" onClick={onReplyAllCompose}>
+                <CornerUpLeft className="me-50" size={14} onClick={onReplyAllCompose} />
+                {t('MAIL.REPLY_ALL')}
+              </DropdownItem>
+              <DropdownItem className="d-flex align-items-center w-100" onClick={onForwardCompose}>
                 <CornerUpRight className="me-50" size={14} />
                 {t('MAIL.FORWARD')}
               </DropdownItem>
@@ -182,7 +219,7 @@ export default function MailMessageContent(props: MailMessageContentProps) {
       <CardBody className="mail-message-wrapper pt-2">
         {renderContent()}
       </CardBody>
-      {attachments && attachments.length && (
+      {attachments && attachments.length > 0 && (
         <CardFooter>
           <div className="mail-attachments">
             <div className="d-flex align-items-center mb-1">
