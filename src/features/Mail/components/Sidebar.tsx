@@ -16,6 +16,8 @@ import { RootState } from '@redux/store';
 import SwitchAccountModal from '@features/Mail/components/SwitchAccountModal';
 import { numberArrayOf } from '@utils/ArrayUtils';
 import { useTranslation } from 'react-i18next';
+import { MailMessage } from '@domain/entities/mail/MailMessage';
+import { ComposeProps } from '@features/Mail/components/ComposeModal';
 
 export interface SidebarProps {
   sidebarOpen: boolean,
@@ -58,7 +60,11 @@ export default function Sidebar(props: SidebarProps) {
   }, []);
 
   const onCompose = useCallback(() => {
-    dispatch(mailActions.openComposeModal());
+    const composeProps = {
+      message: {} as MailMessage,
+      type: 'new',
+    } as ComposeProps;
+    dispatch(mailActions.openComposeModal(composeProps));
   }, []);
 
   return (

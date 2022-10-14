@@ -54,19 +54,48 @@ export default function MailDetail() {
   }, []);
   const handleFolderClick = useCallback((
     e: React.MouseEvent<HTMLElement>,
-    mailbox: string,
-    mailId: MailMessage,
+    _mailbox: string,
+    _mailId: MailMessage,
   ) => {
     e.preventDefault();
-    console.log(mailbox, mailId);
   }, []);
   const deleteMessage = useCallback(() => {
-    console.log('delete', mail);
   }, []);
   const viewMailThread = useCallback((e: React.MouseEvent) => {
     e.preventDefault();
     setShowMailThread(!showMailThread);
   }, [mail, showMailThread]);
+
+  const onReplyCompose = useCallback((e: any) => {
+    e.preventDefault();
+    if (mail) {
+      dispatch(mailActions.openComposeModal({
+        message: mail,
+        type: 'reply',
+      }));
+    }
+  }, [mail]);
+
+  const onReplyAllCompose = useCallback((e: any) => {
+    e.preventDefault();
+    if (mail) {
+      dispatch(mailActions.openComposeModal({
+        message: mail,
+        type: 'reply_all',
+      }));
+    }
+  }, [mail]);
+
+  const onForwardCompose = useCallback((e: any) => {
+    e.preventDefault();
+    if (mail) {
+      dispatch(mailActions.openComposeModal({
+        message: mail,
+        type: 'forward',
+      }));
+    }
+  }, [mail]);
+
   return (
     <div className={classNames('email-app-details', { show: mail })}>
       {mail && (
@@ -159,13 +188,15 @@ export default function MailDetail() {
                       <Trans i18nKey="MAIL.CLICK_HERE_TO_REPLY_OR_FORWARD">
                         Click here to
                         {' '}
-                        <a className="text-primary" href="/" onClick={(e) => e.preventDefault()}>
+                        <a className="text-primary" href="/" onClick={onReplyCompose}>
                           Reply
                         </a>
-                        {' '}
-                        or
-                        {' '}
-                        <a className="text-primary" href="/" onClick={(e) => e.preventDefault()}>
+                        {', '}
+                        <a className="text-primary" href="/" onClick={onReplyAllCompose}>
+                          Reply All
+                        </a>
+                        {' or '}
+                        <a className="text-primary" href="/" onClick={onForwardCompose}>
                           Forward
                         </a>
                       </Trans>
