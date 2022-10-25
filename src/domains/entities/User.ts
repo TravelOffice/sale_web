@@ -55,6 +55,7 @@ export interface User {
   birthday?: string,
   sex: SexType,
   phoneNumber: string,
+  searchToken: string,
   settings?: {
     language?: LanguagesType,
     theme?: ThemesType

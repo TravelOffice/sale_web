@@ -44,7 +44,7 @@ function MailboxesSkeleton() {
   );
 }
 
-export default function Sidebar(props: SidebarProps) {
+export default function AppMailSidebar(props: SidebarProps) {
   const { sidebarOpen } = props;
 
   const [showAccountModal, setShowAccountModal] = useState(false);

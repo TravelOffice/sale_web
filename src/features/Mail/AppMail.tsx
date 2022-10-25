@@ -1,28 +1,22 @@
 import React, { useState } from 'react';
-import Sidebar from '@features/Mail/components/Sidebar';
+import AppMailSidebar from '@features/Mail/components/AppMailSidebar';
 import '@styles/react/apps/app-email.scss';
 import classnames from 'classnames';
-import MailList from '@features/Mail/components/MailList';
-import { useMails } from '@hooks/mail';
 import ComposeModal from '@features/Mail/components/ComposeModal';
+import AppMailContent from '@features/Mail/components/AppMailContent';
 
 export default function AppMail() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const { mails, loadMailMessages } = useMails();
   return (
     <>
-      <Sidebar sidebarOpen={sidebarOpen} />
+      <AppMailSidebar sidebarOpen={sidebarOpen} />
       <div className="content-right">
         <div className="content-body">
           <div
             className={classnames('body-content-overlay', { show: false })}
             onClick={() => setSidebarOpen(false)}
           />
-          <MailList
-            onMenuClick={() => setSidebarOpen(true)}
-            mails={mails}
-            onRefresh={loadMailMessages}
-          />
+          <AppMailContent onMenuClick={() => setSidebarOpen(true)} />
           <ComposeModal />
         </div>
       </div>
