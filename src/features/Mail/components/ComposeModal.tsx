@@ -38,7 +38,6 @@ import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { MailAddress } from '@domain/entities/mail/MailAddress';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-// import DecoupledEditor from '@ckeditor/ckeditor5-build-decoupled-document';
 
 export interface ComposeProps {
   message: MailMessage,
@@ -74,7 +73,7 @@ export default function ComposeModal() {
     let newSubject = subject;
     const fwdIndex = newSubject.toLowerCase().indexOf(FORWARD_PREFIX.toLowerCase());
     if (fwdIndex >= 0) {
-      newSubject = subject.substring(fwdIndex + 1);
+      newSubject = subject.substring(fwdIndex + FORWARD_PREFIX.length);
     }
     return newSubject.toLowerCase().includes(REPLY_PREFIX.toLowerCase()) ? newSubject : `${REPLY_PREFIX}${newSubject}`;
   };
@@ -89,35 +88,45 @@ export default function ComposeModal() {
   };
 
   const fetchHtmlContent = useCallback((message: MailMessage) => {
-    fetch(message.htmlContent)
-      .then((res) => res.text())
-      .then((content) => {
-        setHtmlContent(content);
-      });
+    if (message.htmlContent) {
+      fetch(message.htmlContent)
+        .then((res) => res.text())
+        .then((content) => {
+          setHtmlContent(content);
+        });
+    } else {
+      setHtmlContent('');
+    }
   }, []);
 
   const fetchAddresses = useCallback((message: MailMessage, type: string) => {
-    fetch(message.metaData).then((res) => res.json()).then((data) => {
-      let { to, cc } = data;
-      switch (type) {
-        case 'reply':
-          setValue('subject', getReplySubject(message.subject));
-          to = message.from;
-          cc = [];
-          break;
-        case 'reply_all':
-          setValue('subject', getReplySubject(message.subject));
-          to = message.from.concat(to);
-          break;
-        case 'forward':
-          setValue('subject', getForwardSubject(message.subject));
-          to = [];
-          cc = [];
-          break;
-        default: break;
-      }
-      setAddresses({ ...data, to, cc });
-    });
+    if (message.metaData) {
+      fetch(message.metaData).then((res) => res.json()).then((data) => {
+        let { to, cc } = data;
+        switch (type) {
+          case 'reply':
+            setValue('subject', getReplySubject(message.subject));
+            to = message.from;
+            cc = [];
+            break;
+          case 'reply_all':
+            setValue('subject', getReplySubject(message.subject));
+            if (!to.find(
+              (mailAddress: MailAddress) => mailAddress.address === message.from[0].address,
+            )) {
+              to = message.from.concat(to);
+            }
+            break;
+          case 'forward':
+            setValue('subject', getForwardSubject(message.subject));
+            to = [];
+            cc = [];
+            break;
+          default: break;
+        }
+        setAddresses({ ...data, to, cc });
+      });
+    }
   }, []);
   const dispatch = useDispatch();
   const getAttachmentS3Key = (cdnUrl: string) => {
@@ -127,10 +136,12 @@ export default function ComposeModal() {
     return url.substring(cdnIndex + mailCdn.length);
   };
   const forwardAttachments = (message: MailMessage) => {
-    const attachments = message.attachments.map((attachment: MailAttachment) => (
-      { ...attachment, path: getAttachmentS3Key(attachment.path) }
-    ));
-    dispatch(mailActions.setUploadAttachments(attachments));
+    if (message.attachments) {
+      const attachments = message.attachments.map((attachment: MailAttachment) => (
+        { ...attachment, path: getAttachmentS3Key(attachment.path) }
+      ));
+      dispatch(mailActions.setUploadAttachments(attachments));
+    }
   };
 
   useEffect(() => {
