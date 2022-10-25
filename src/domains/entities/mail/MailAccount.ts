@@ -28,4 +28,5 @@ export interface MailAccount {
   name: string,
   email: string,
   provider: MailProviderType,
+  searchIndex: string,
 }

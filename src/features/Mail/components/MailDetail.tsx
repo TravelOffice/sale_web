@@ -1,21 +1,25 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  useMailThread, useSelectedMail, useSelectedMailAccount, useSelectedMailbox,
-} from '@hooks/mail';
+import { MailMessage } from '@domain/entities/mail/MailMessage';
+import { Trans, useTranslation } from 'react-i18next';
 import classNames from 'classnames';
-import {
-  Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown,
-} from 'reactstrap';
 import {
   ChevronLeft, Edit2, Folder, Info, Trash,
 } from 'react-feather';
+import {
+  Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown,
+} from 'reactstrap';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import { MailMessage } from '@domain/entities/mail/MailMessage';
 import MailMessageContent from '@features/Mail/components/MailMessageContent';
+import MailContentSkeleton from '@features/Mail/components/MailContentSkeleton';
 import { useDispatch } from 'react-redux';
 import { mailActions } from '@redux/slices/mailSlice';
-import MailContentSkeleton from '@features/Mail/components/MailContentSkeleton';
-import { Trans, useTranslation } from 'react-i18next';
+
+export interface MailDetailComponentProps {
+  mail: MailMessage | undefined,
+  mailThread: MailMessage[],
+  onBack: () => void,
+  isFetching: boolean,
+}
 
 interface RenderContentOptions {
   mail: MailMessage,
@@ -35,23 +39,16 @@ function renderContent(options: RenderContentOptions) {
   ));
 }
 
-export default function MailDetail() {
-  const [showMailThread, setShowMailThread] = useState(false);
-  const mail = useSelectedMail();
-  const mailAccount = useSelectedMailAccount();
-  const mailboxId = useSelectedMailbox();
-  const { t } = useTranslation();
+export default function MailDetail(props: MailDetailComponentProps) {
   const {
-    mailThread,
-    isFetchingMailThread,
-  } = useMailThread(mailAccount?.email, mailboxId, mail?.messageId!);
+    mail, mailThread, onBack, isFetching,
+  } = props;
+  const [showMailThread, setShowMailThread] = useState(false);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
     setShowMailThread(false);
   }, [mail]);
-  const handleGoBack = useCallback(() => {
-    dispatch(mailActions.unselectMail());
-  }, []);
   const handleFolderClick = useCallback((
     e: React.MouseEvent<HTMLElement>,
     _mailbox: string,
@@ -102,7 +99,7 @@ export default function MailDetail() {
         <>
           <div className="email-detail-header">
             <div className="email-header-left d-flex align-items-center">
-              <span className="go-back me-1" onClick={handleGoBack}>
+              <span className="go-back me-1" onClick={onBack}>
                 <ChevronLeft size={20} />
               </span>
               <h4 className="email-subject mb-0">{mail.subject}</h4>
@@ -174,7 +171,7 @@ export default function MailDetail() {
                   renderContent({
                     mail,
                     mailThread,
-                    isFetching: isFetchingMailThread,
+                    isFetching,
                     showMailThread,
                   })
                 }
