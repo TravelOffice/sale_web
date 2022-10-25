@@ -165,18 +165,6 @@ export default function MailDetail(props: MailDetailComponentProps) {
                 )
               }
             </Row>
-            <Row className="mt-1">
-              <Col sm="12">
-                {
-                  renderContent({
-                    mail,
-                    mailThread,
-                    isFetching,
-                    showMailThread,
-                  })
-                }
-              </Col>
-            </Row>
             <Row>
               <Col sm="12">
                 <Card>
@@ -200,6 +188,18 @@ export default function MailDetail(props: MailDetailComponentProps) {
                     </h5>
                   </CardBody>
                 </Card>
+              </Col>
+            </Row>
+            <Row className="mt-1">
+              <Col sm="12">
+                {
+                  renderContent({
+                    mail,
+                    mailThread,
+                    isFetching,
+                    showMailThread,
+                  })
+                }
               </Col>
             </Row>
           </PerfectScrollbar>
