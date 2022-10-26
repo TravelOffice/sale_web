@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import AccessControl from '@components/AccessControl/AccessControl';
 import NotAuthorized from '@components/NotAuthorized/NotAuthorized';
+import TokenRefresher from '@features/Home/TokenRefresher';
 import Navigation from '../../navigation/Navigation';
 
 export default function Home() {
@@ -43,6 +44,7 @@ export default function Home() {
           ))
         }
       </Switch>
+      <TokenRefresher />
     </VerticalLayout>
   );
 }

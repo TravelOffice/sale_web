@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
-// import { RequirePermissions } from '@domain/entities/RequirePermissions';
+import { getSSOPage } from '@utils/EnvUtils';
+import EventMessageType from '@domain/entities/event/EventMassageType';
 
 export function useIsLoggedIn() {
   return useSelector((state: RootState) => !!state.auth.session);
@@ -49,4 +50,28 @@ export function useAccessControl() {
     canAny,
     canAccess,
   };
+}
+
+/**
+ * Hook to listen event which is emitted from SSO page
+ */
+export function useSsoEvent<T extends any>(type: EventMessageType, effect: (data: T) => void) {
+  useEffect(() => {
+    const listener = (event: MessageEvent) => {
+      // Skip event from other origin
+      if (event.origin !== getSSOPage()) {
+        return;
+      }
+      type SsoMessageEventData = { type: EventMessageType, data: T };
+      const message: SsoMessageEventData = event.data;
+      // Handle matched event
+      if (message.type === type) {
+        effect(message.data);
+      }
+    };
+    window.addEventListener('message', listener);
+    return () => {
+      window.removeEventListener('message', listener);
+    };
+  }, []);
 }
