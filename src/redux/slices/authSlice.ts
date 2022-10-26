@@ -39,6 +39,10 @@ const authSlice = createSlice({
       state.currentUser = undefined;
       state.idToken = undefined;
     },
+    refreshSession: (state, action) => {
+      state.idToken = action.payload.idToken.jwtToken;
+      state.session = action.payload;
+    },
     setCurrentUser: (state, action: PayloadAction<User>) => {
       state.currentUser = action.payload;
       state.isAdmin = state.currentUser.roles.includes(RoleEnum.ADMIN)
