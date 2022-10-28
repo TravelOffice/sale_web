@@ -22,6 +22,7 @@ import { MailAddress } from '@domain/entities/mail/MailAddress';
 import { mailActions } from '@redux/slices/mailSlice';
 import { useDispatch } from 'react-redux';
 import MailMessageContentFrame from '@features/Mail/components/MailMessageContentFrame';
+import MailCalendarContent from '@features/Mail/components/MailCalendarContent';
 
 export interface MailMessageContentProps {
   mail: MailMessage,
@@ -195,12 +196,18 @@ export default function MailMessageContent(props: MailMessageContentProps) {
         </div>
       </CardHeader>
       <CardBody className="mail-message-wrapper pt-2">
-        <MailMessageContentFrame
-          isFetching={isFetchingHtmlContent}
-          hasError={hasError}
-          htmlContent={htmlContent}
-          onReload={fetchHtmlContent}
-        />
+        {
+          mail.calendarEvent ? (
+            <MailCalendarContent calendarEvent={mail.calendarEvent} />
+          ) : (
+            <MailMessageContentFrame
+              isFetching={isFetchingHtmlContent}
+              hasError={hasError}
+              htmlContent={htmlContent}
+              onReload={fetchHtmlContent}
+            />
+          )
+        }
       </CardBody>
       {attachments && attachments.length > 0 && (
         <CardFooter>
