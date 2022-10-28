@@ -120,6 +120,15 @@ export function getDefaultSyncMailInterval() {
   return 3 * 60 * 1000;
 }
 
+/**
+ * Function to extract email address from `mailto` ref.
+ * A `mailto` ref format is `mailto:<email>`
+ * @param mailTo
+ */
+export function extractMailAddress(mailTo: string) {
+  return mailTo.replace('mailto:', '');
+}
+
 export const MAXIMUM_ATTACHMENT_SIZE = 25 * 1024 * 1024;
 
 export const Y_SCROLL_END_THRESHOLD = 10;

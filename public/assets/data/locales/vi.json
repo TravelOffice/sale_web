@@ -398,6 +398,9 @@
         "FIRST_SYNC_SUCCESSFULLY": "{{count}} email đã được đồng bộ. Kiểm tra ngay!",
         "NEW_EMAILS_RECEIVED": "Email mới",
         "NEW_EMAILS_RECEIVED_SUBTITLE": "Bạn nhận được {{count}} emails mới. Kiểm tra ngay!",
-        "NO_MAIL_ACCOUNTS": "Bạn chưa liên kết email nào"
+        "NO_MAIL_ACCOUNTS": "Bạn chưa liên kết email nào",
+        "CALENDAR_LOCATION": "Địa điểm",
+        "CALENDAR_INVITEES": "Thành phần tham gia",
+        "CALENDAR_DESCRIPTION": "Mô tả"
     }
 }

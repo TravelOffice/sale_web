@@ -12,6 +12,7 @@ export interface MailMessage {
   receivedDate?: number,
   sentDate: number,
   briefContent: string,
+  calendarEvent?: string,
   htmlContent: string,
   flags: string,
   from: MailAddress[],
