@@ -398,6 +398,9 @@
         "FIRST_SYNC_SUCCESSFULLY": "{{count}} mail messages has been synced. Open now!",
         "NEW_EMAILS_RECEIVED": "New emails received",
         "NEW_EMAILS_RECEIVED_SUBTITLE": "You have received {{count}} mail messages. Check it now!",
-        "NO_MAIL_ACCOUNTS": "You haven't linked any mail account"
+        "NO_MAIL_ACCOUNTS": "You haven't linked any mail account",
+        "CALENDAR_LOCATION": "Location",
+        "CALENDAR_INVITEES": "Invitees",
+        "CALENDAR_DESCRIPTION": "Description"
     }
 }

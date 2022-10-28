@@ -391,6 +391,22 @@ $email_details_header_height: 5rem;
         }
       }
     }
+
+    .mail-calendar {
+      p {
+        white-space: break-spaces;
+
+        h5 {
+          margin-top: 1rem;
+        }
+
+        .invitees {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+      }
+    }
   }
 
   #compose-mail {
