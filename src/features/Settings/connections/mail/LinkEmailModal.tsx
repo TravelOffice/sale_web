@@ -6,10 +6,10 @@ import {
 } from 'reactstrap';
 import Wizard, { WizardStep } from '@components/Wizard/Wizard';
 import {
-  ArrowDown, Book, Check,
+  ArrowDown, Book, Check, Key,
 } from 'react-feather';
 import ChooseEmailProvider from '@features/Settings/connections/mail/ChooseEmailProvider';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import ConfigureInbound from '@features/Settings/connections/mail/ConfigureInbound';
 import ConfigureOutbound from '@features/Settings/connections/mail/ConfigureOutbound';
@@ -19,13 +19,14 @@ import i18n from '@config/i18n';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
 import { mailActions } from '@redux/slices/mailSlice';
+import AuthenticateMail from '@features/Settings/connections/mail/AuthenticateMail';
 
 export interface LinkEmailModalProps {
   isOpen: boolean,
 }
 
 const defaultValues: Partial<LinkEmailFormData> = {
-  provider: 'Other',
+  type: 'auto',
   protocol: 'imap',
   inboundSslMode: 'ssl/tls',
   outboundSslMode: 'ssl/tls',
@@ -37,36 +38,50 @@ export default function LinkEmailModal(props: LinkEmailModalProps) {
   const [stepper] = useState<Stepper>(new Stepper());
   const dispatch = useDispatch();
   const modalStatus = useSelector((state: RootState) => state.mail.linkModalStatus);
-  const steps: WizardStep[] = useMemo(() => [
-    {
-      id: 'details',
-      title: i18n.t('MAIL.DETAILS'),
-      subtitle: i18n.t('MAIL.DETAILS_SUBTITLE'),
-      icon: <Book className="font-medium-3" />,
-      content: <ChooseEmailProvider form={form} stepper={stepper} />,
-    },
-    {
-      id: 'inbound',
-      title: i18n.t('MAIL.CONFIGURE_INBOUND'),
-      subtitle: i18n.t('MAIL.CONFIGURE_INBOUND_SUBTITLE'),
-      icon: <ArrowDown className="font-medium-3" />,
-      content: <ConfigureInbound form={form} stepper={stepper} />,
-    },
-    {
-      id: 'outbound',
-      title: i18n.t('MAIL.CONFIGURE_OUTBOUND'),
-      subtitle: i18n.t('MAIL.CONFIGURE_OUTBOUND_SUBTITLE'),
-      icon: <ArrowDown className="font-medium-3 rotate-180" />,
-      content: <ConfigureOutbound form={form} stepper={stepper} />,
-    },
-    {
+  const linkType = useWatch({ name: 'type', control: form.control });
+  const authMethod = useWatch({ name: 'authMethod', control: form.control });
+  const steps: WizardStep[] = useMemo(() => {
+    const linkSteps: WizardStep[] = [
+      {
+        id: 'details',
+        title: i18n.t('MAIL.DETAILS'),
+        subtitle: i18n.t('MAIL.DETAILS_SUBTITLE'),
+        icon: <Book className="font-medium-3" />,
+        content: <ChooseEmailProvider form={form} stepper={stepper} />,
+      },
+    ];
+    linkSteps.push({
+      id: 'authenticate',
+      title: i18n.t('MAIL.AUTHENTICATE'),
+      subtitle: i18n.t('MAIL.AUTHENTICATE_MAIL_SERVER'),
+      icon: <Key className="font-medium-3" />,
+      content: <AuthenticateMail form={form} stepper={stepper} />,
+    });
+    if (linkType === 'manual') {
+      linkSteps.push(...[{
+        id: 'inbound',
+        title: i18n.t('MAIL.CONFIGURE_INBOUND'),
+        subtitle: i18n.t('MAIL.CONFIGURE_INBOUND_SUBTITLE'),
+        icon: <ArrowDown className="font-medium-3" />,
+        content: <ConfigureInbound form={form} stepper={stepper} />,
+      },
+      {
+        id: 'outbound',
+        title: i18n.t('MAIL.CONFIGURE_OUTBOUND'),
+        subtitle: i18n.t('MAIL.CONFIGURE_OUTBOUND_SUBTITLE'),
+        icon: <ArrowDown className="font-medium-3 rotate-180" />,
+        content: <ConfigureOutbound form={form} stepper={stepper} />,
+      }]);
+    }
+    linkSteps.push({
       id: 'review',
       title: i18n.t('MAIL.SUBMIT'),
       subtitle: i18n.t('MAIL.SUBMIT_SUBTITLE'),
       icon: <Check className="font-medium-3" />,
       content: <Review form={form} stepper={stepper} />,
-    },
-  ], [form, stepper]);
+    });
+    return linkSteps;
+  }, [form, stepper, linkType, authMethod]);
 
   useEffect(() => {
     // Watch state change that represents success linking

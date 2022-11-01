@@ -52,7 +52,10 @@
         "DOWNLOAD": "Tải xuống",
         "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Đã có lỗi xảy ra.",
         "TRY_AGAIN": "Tải lại",
-        "CONGRATULATIONS": "Chúc mừng"
+        "CONGRATULATIONS": "Chúc mừng",
+        "AUTO": "Tự động",
+        "MANUAL": "Thủ công",
+        "CHECK": "Kiểm tra"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -401,6 +404,11 @@
         "NO_MAIL_ACCOUNTS": "Bạn chưa liên kết email nào",
         "CALENDAR_LOCATION": "Địa điểm",
         "CALENDAR_INVITEES": "Thành phần tham gia",
-        "CALENDAR_DESCRIPTION": "Mô tả"
+        "CALENDAR_DESCRIPTION": "Mô tả",
+        "LINK_TYPE": "Cấu hình tài khoản",
+        "PASSWORD": "Mật khẩu",
+        "AUTHENTICATE": "Xác thực",
+        "AUTHENTICATE_MAIL_SERVER": "Xác thực tài khoản",
+        "CONFIGURE_MANUALLY": "MAIL.CONFIGURE_MANUALLY"
     }
 }

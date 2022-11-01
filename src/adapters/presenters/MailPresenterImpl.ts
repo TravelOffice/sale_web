@@ -3,7 +3,7 @@ import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import {
   getMailAccountsUseCase, getMailboxesUseCase, getMailMessagesUseCase,
   getMailThreadUseCase, linkMailUseCase, sendMailUseCase, uploadMailAttachmentUseCase,
-  syncMailUseCase, searchMailUseCase,
+  syncMailUseCase, searchMailUseCase, getMailServerUseCase,
 } from '@domain/useCases';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
@@ -36,5 +36,7 @@ export default class MailPresenterImpl implements MailPresenter {
     query: string,
   ) => searchMailUseCase.query(mailAccount, query);
 
-  syncMail = async (mailAccounts: MailAccount[]) => syncMailUseCase.invoke(mailAccounts)
+  syncMail = async (mailAccounts: MailAccount[]) => syncMailUseCase.invoke(mailAccounts);
+
+  getMailServer = async (mailAddress: string) => getMailServerUseCase.invoke(mailAddress);
 }

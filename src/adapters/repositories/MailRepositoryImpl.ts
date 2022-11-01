@@ -24,7 +24,13 @@ export default class MailRepositoryImpl implements MailRepository {
 
   getMailboxes = async (mailAccount: string) => this.client.get<Mailbox[]>('/mail-boxes', { queryParams: { email: mailAccount } });
 
-  getMails = async (mailAccount: string, mailbox: string, nextToken?: string) => this.client.get<MailMessageList>('/mails', { queryParams: { email: mailAccount, mailbox, token: nextToken } })
+  getMails = async (mailAccount: string, mailbox: string, nextToken?: string) => this.client.get<MailMessageList>('/mails', {
+    queryParams: {
+      email: mailAccount,
+      mailbox,
+      token: nextToken,
+    },
+  })
 
   getMailThread = async (
     mailAccount: string,
@@ -43,4 +49,6 @@ export default class MailRepositoryImpl implements MailRepository {
     });
     return result.hits;
   }
+
+  getMailServer = async (mailAddress: string) => this.client.get('/autolink-email', { queryParams: { email: mailAddress } });
 }

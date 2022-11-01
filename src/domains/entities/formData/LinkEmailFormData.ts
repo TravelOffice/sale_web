@@ -1,9 +1,11 @@
 import {
-  InboundSslMode, MailProtocol, MailProviderType, OutboundSslMode,
+  InboundSslMode, MailProtocol, OutboundSslMode,
 } from '@domain/entities/mail/MailAccount';
+import { MailServerAuthMethod } from '@domain/entities/mail/MailServer';
 
 export interface LinkEmailFormData {
-  provider: MailProviderType,
+  type: 'auto' | 'manual',
+  provider: string,
   name: string,
   email: string,
   protocol: MailProtocol,
@@ -17,4 +19,9 @@ export interface LinkEmailFormData {
   outboundPort: number,
   outboundSslMode: OutboundSslMode,
   outboundUser: string,
+  authMethod: MailServerAuthMethod,
+  oauthUrl: string,
+  password: string,
+  authorizationCode: string,
+  authorizationState: string,
 }

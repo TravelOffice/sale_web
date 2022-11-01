@@ -52,7 +52,10 @@
         "DOWNLOAD": "Download",
         "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Something went wrong.",
         "TRY_AGAIN": "Try again",
-        "CONGRATULATIONS": "Congratulations"
+        "CONGRATULATIONS": "Congratulations",
+        "AUTO": "Auto",
+        "MANUAL": "Manual",
+        "CHECK": "Check"
     },
     "LEAD": {
         "NAME": "Name",
@@ -401,6 +404,11 @@
         "NO_MAIL_ACCOUNTS": "You haven't linked any mail account",
         "CALENDAR_LOCATION": "Location",
         "CALENDAR_INVITEES": "Invitees",
-        "CALENDAR_DESCRIPTION": "Description"
+        "CALENDAR_DESCRIPTION": "Description",
+        "LINK_TYPE": "Configure mail account",
+        "PASSWORD": "Password",
+        "AUTHENTICATE": "Authentication",
+        "AUTHENTICATE_MAIL_SERVER": "Authenticate with mail server",
+        "CONFIGURE_MANUALLY": "MAIL.CONFIGURE_MANUALLY"
     }
 }

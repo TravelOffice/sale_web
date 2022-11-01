@@ -4,6 +4,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { mailActions } from '@redux/slices/mailSlice';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { mailPresenter } from '@adapter/presenters';
+import { useSsoEvent } from '@hooks/auth';
+import { MailServerAuthMethod } from '@domain/entities/mail/MailServer';
+import toasty from '@components/Toasty/Toasty';
 
 /**
  * Hook to get selected mail account
@@ -98,4 +101,44 @@ export const useMailThread = (mailAccount?: string, mailbox?: string, mailId?: s
     }
   }, [mailAccount, mailbox, mailId]);
   return { mailThread, isFetchingMailThread };
+};
+
+export const useAutoLinkMailAccount = (callback: (data: any) => void) => {
+  const [authMethod, setAuthMethod] = useState<MailServerAuthMethod>();
+  const [oauthUrl, setOauthUrl] = useState<string>();
+  const autoLinkMailAccount = useCallback((mailAddress: string) => {
+    mailPresenter.getMailServer(mailAddress).then((mailServer) => {
+      const method = mailServer.incoming.authentication_method;
+      setAuthMethod(method);
+      setOauthUrl(mailServer.oauthUrl);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (authMethod === 'oauth2') {
+      if (oauthUrl) {
+        window.open(oauthUrl, '_blank', 'height=800,width=1000');
+      } else {
+        toasty.show({
+          title: '',
+          message: '',
+          type: 'error',
+        });
+      }
+    }
+  }, [authMethod]);
+
+  useSsoEvent<string>('mailCallback', (query) => {
+    const params = new URLSearchParams(query);
+    const code = params.get('code');
+    const state = params.get('state');
+    if (code && state) {
+      callback({ code, state });
+    }
+  });
+
+  return {
+    authMethod,
+    autoLinkMailAccount,
+  };
 };

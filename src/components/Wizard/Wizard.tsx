@@ -15,6 +15,7 @@ export interface WizardStep {
   subtitle: string,
   icon: ReactNode,
   content: ReactNode,
+  skip?: boolean,
 }
 
 export interface WizardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -84,13 +85,19 @@ export default function Wizard(props: WizardProps) {
   } = props;
   const [activeIndex, setActiveIndex] = useState(0);
   const next = useCallback(() => {
-    if (activeIndex < steps.length - 1) {
-      setActiveIndex(activeIndex + 1);
+    for (let i = activeIndex + 1; i < steps.length; i += 1) {
+      if (!steps[i].skip) {
+        setActiveIndex(i);
+        break;
+      }
     }
   }, [steps, activeIndex]);
   const prev = useCallback(() => {
-    if (activeIndex > 0) {
-      setActiveIndex(activeIndex - 1);
+    for (let i = activeIndex - 1; i >= 0; i -= 1) {
+      if (!steps[i].skip) {
+        setActiveIndex(i);
+        break;
+      }
     }
   }, [steps, activeIndex]);
   useEffect(() => {
