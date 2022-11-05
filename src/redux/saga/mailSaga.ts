@@ -166,6 +166,26 @@ function* syncFlow() {
   }
 }
 
+function* draftMail(action: PayloadAction<SendMailFormData>) {
+  let result = true;
+  try {
+    yield call(mailPresenter.draftMail, action.payload);
+    toasty.show({
+      title: i18n.t('COMMON.SUCCESS'),
+      type: 'success',
+      message: i18n.t('MAIL.DRAFT_MAIL_SUCCESSFULLY'),
+    });
+  } catch (error: any) {
+    result = false;
+    toasty.show({
+      title: i18n.t('COMMON.ERROR'),
+      type: 'error',
+      message: `${error.message}`,
+    });
+  }
+  yield put(mailActions.onSendMailCompleted(result));
+}
+
 export default function* mailSaga() {
   yield all([
     syncFlow(),
@@ -175,6 +195,7 @@ export default function* mailSaga() {
     takeLatest(mailActions.getMails, getMails),
     takeLatest(mailActions.loadMore, loadMore),
     takeLatest(mailActions.sendMail, sendMail),
+    takeLatest(mailActions.draftMail, draftMail),
     takeEvery(mailActions.uploadAttachment, uploadAttachment),
   ]);
 }

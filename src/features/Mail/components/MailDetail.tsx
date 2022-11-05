@@ -10,8 +10,9 @@ import {
 } from 'reactstrap';
 import MailMessageContent from '@features/Mail/components/MailMessageContent';
 import MailContentSkeleton from '@features/Mail/components/MailContentSkeleton';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { mailActions } from '@redux/slices/mailSlice';
+import { RootState } from '@redux/store';
 
 export interface MailDetailComponentProps {
   mail: MailMessage | undefined,
@@ -43,6 +44,7 @@ export default function MailDetail(props: MailDetailComponentProps) {
     mail, mailThread, onBack, isFetching,
   } = props;
   const [showMailThread, setShowMailThread] = useState(false);
+  const selectMailbox = useSelector((state: RootState) => state.mail.selectedMailboxId);
   const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -62,35 +64,17 @@ export default function MailDetail(props: MailDetailComponentProps) {
     setShowMailThread(!showMailThread);
   }, [mail, showMailThread]);
 
-  const onReplyCompose = useCallback((e: any) => {
+  const openCompose = ((e: any, type: 'draft' | 'reply' | 'reply_all' | 'forward' | 'new') => {
     e.preventDefault();
     if (mail) {
-      dispatch(mailActions.openComposeModal({
-        message: mail,
-        type: 'reply',
-      }));
+      dispatch(mailActions.openComposeModal({ mail, type }));
     }
-  }, [mail]);
+  });
 
-  const onReplyAllCompose = useCallback((e: any) => {
-    e.preventDefault();
-    if (mail) {
-      dispatch(mailActions.openComposeModal({
-        message: mail,
-        type: 'reply_all',
-      }));
-    }
-  }, [mail]);
-
-  const onForwardCompose = useCallback((e: any) => {
-    e.preventDefault();
-    if (mail) {
-      dispatch(mailActions.openComposeModal({
-        message: mail,
-        type: 'forward',
-      }));
-    }
-  }, [mail]);
+  const onDraftCompose = useCallback((e: any) => openCompose(e, 'draft'), [mail]);
+  const onReplyCompose = useCallback((e: any) => openCompose(e, 'reply'), [mail]);
+  const onReplyAllCompose = useCallback((e: any) => openCompose(e, 'reply_all'), [mail]);
+  const onForwardCompose = useCallback((e: any) => openCompose(e, 'forward'), [mail]);
 
   return (
     <div className={classNames('email-app-details', { show: mail })}>
@@ -169,21 +153,33 @@ export default function MailDetail(props: MailDetailComponentProps) {
                 <Card>
                   <CardBody>
                     <h5 className="mb-0">
-                      <Trans i18nKey="MAIL.CLICK_HERE_TO_REPLY_OR_FORWARD">
-                        Click here to
-                        {' '}
-                        <a className="text-primary" href="/" onClick={onReplyCompose}>
-                          Reply
-                        </a>
-                        {', '}
-                        <a className="text-primary" href="/" onClick={onReplyAllCompose}>
-                          Reply All
-                        </a>
-                        {' or '}
-                        <a className="text-primary" href="/" onClick={onForwardCompose}>
-                          Forward
-                        </a>
-                      </Trans>
+                      {selectMailbox === 'DRAFT'
+                        ? (
+                          <Trans i18nKey="MAIL.CLICK_HERE_TO_EDIT">
+                            Click here to
+                            {' '}
+                            <a className="text-primary" href="/" onClick={onDraftCompose}>
+                              Edit
+                            </a>
+                          </Trans>
+                        )
+                        : (
+                          <Trans i18nKey="MAIL.CLICK_HERE_TO_REPLY_OR_FORWARD">
+                            Click here to
+                            {' '}
+                            <a className="text-primary" href="/" onClick={onReplyCompose}>
+                              Reply
+                            </a>
+                            {', '}
+                            <a className="text-primary" href="/" onClick={onReplyAllCompose}>
+                              Reply All
+                            </a>
+                            {' or '}
+                            <a className="text-primary" href="/" onClick={onForwardCompose}>
+                              Forward
+                            </a>
+                          </Trans>
+                        )}
                     </h5>
                   </CardBody>
                 </Card>
