@@ -24,4 +24,5 @@ export interface MailMessage {
   labels: string[],
   inReplyTo?: string,
   metaData: string,
+  updatedAt: number,
 }

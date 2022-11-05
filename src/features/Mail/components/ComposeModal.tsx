@@ -22,7 +22,7 @@ import { mailActions } from '@redux/slices/mailSlice';
 import { Controller, useForm } from 'react-hook-form';
 import TagsInput from '@components/Input/TagsInput';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
-import { useSelectedMailAccount, useUploadedAttachments } from '@hooks/mail';
+import { useSelectedMailAccount, useSelectedMailbox, useUploadedAttachments } from '@hooks/mail';
 import classNames from 'classnames';
 import LazyImage from '@components/Image/LazyImage';
 import {
@@ -40,8 +40,8 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 export interface ComposeProps {
-  message: MailMessage,
-  type: 'new' | 'reply' | 'reply_all' | 'forward',
+  mail: MailMessage,
+  type: 'new' | 'reply' | 'reply_all' | 'forward' | 'draft',
 }
 
 export default function ComposeModal() {
@@ -68,6 +68,7 @@ export default function ComposeModal() {
     cc: [],
     bcc: [],
   });
+  const selectedMailBox = useSelectedMailbox();
 
   const getReplySubject = (subject: string) => {
     let newSubject = subject;
@@ -122,7 +123,9 @@ export default function ComposeModal() {
             to = [];
             cc = [];
             break;
-          default: break;
+          default:
+            setValue('subject', message.subject);
+            break;
         }
         setAddresses({ ...data, to, cc });
       });
@@ -148,12 +151,12 @@ export default function ComposeModal() {
     if (mailAccount) {
       setValue('from', [{ personal: '', address: mailAccount.email }]);
     }
-    const { message, type } = composeModalData;
-    if (message) {
-      fetchAddresses(message, type);
-      fetchHtmlContent(message);
+    const { mail, type } = composeModalData;
+    if (mail) {
+      fetchAddresses(mail, type);
+      fetchHtmlContent(mail);
       if (type === 'forward') {
-        forwardAttachments(message);
+        forwardAttachments(mail);
       }
     }
   }, [mailAccount, composeModalData]);
@@ -189,7 +192,12 @@ export default function ComposeModal() {
       return;
     }
     const formData = getValues() as SendMailFormData;
-    const request = { ...formData, attachments: Object.values(uploadedFiles) };
+    const { mail } = composeModalData;
+    const request = {
+      ...formData,
+      attachments: Object.values(uploadedFiles),
+      messageId: selectedMailBox === 'draft' ? mail.messageId : undefined,
+    };
     try {
       schema.validateSync(request);
       dispatch(mailActions.sendMail(request));
@@ -200,7 +208,31 @@ export default function ComposeModal() {
         setValidationError(error.message);
       }
     }
-  }, [uploadedFiles]);
+  }, [uploadedFiles, composeModalData]);
+
+  const onDraftMail = useCallback((event: any) => {
+    event.preventDefault();
+    // Discard submit when uploading file
+    if (Object.values(uploadedFiles).find((file) => file.uploading)) {
+      return;
+    }
+    const formData = getValues() as SendMailFormData;
+    const request = {
+      ...formData,
+      attachments: Object.values(uploadedFiles),
+    };
+    try {
+      schema.validateSync(request);
+      dispatch(mailActions.toggleComposeModal());
+      dispatch(mailActions.draftMail(request));
+      setValidationError('');
+    } catch (e: any) {
+      if (e instanceof ValidationError) {
+        const error = e as ValidationError;
+        setValidationError(error.message);
+      }
+    }
+  }, [uploadedFiles, composeModalData]);
 
   const onFilesChanged = useCallback((fileList: FileList | null) => {
     if (!fileList) return;
@@ -250,6 +282,8 @@ export default function ComposeModal() {
     });
     setCCOpen(false);
     setBCCOpen(false);
+    setValue('subject', '');
+    setValidationError('');
     dispatch((mailActions.resetComposeModal()));
   }, []);
 
@@ -259,9 +293,9 @@ export default function ComposeModal() {
   };
 
   const formAddresses = useMemo(() => ({
-    to: addresses.to.map((address) => address.address),
-    cc: addresses.cc.map((address) => address.address),
-    bcc: addresses.bcc.map((address) => address.address),
+    to: addresses.to?.map((address) => address.address),
+    cc: addresses.cc?.map((address) => address.address),
+    bcc: addresses.bcc?.map((address) => address.address),
   }), [addresses]);
 
   return (
@@ -280,7 +314,7 @@ export default function ComposeModal() {
       onClosed={onClosed}
     >
       <div className="modal-header">
-        <h5 className="modal-title">{ t('MAIL.COMPOSE') }</h5>
+        <h5 className="modal-title">{t('MAIL.COMPOSE')}</h5>
         <div className="modal-actions">
           <a href="/" className="text-body me-75" onClick={togglePopUp}>
             <Minus size={14} />
@@ -434,20 +468,20 @@ export default function ComposeModal() {
                     <LazyImage lazySrc={getFileThumbnail(file.name)} alt={file.name} width="16" className="me-50" />
                     <span className="fw-bolder align-text-top">{file.name}</span>
                     {
-                        file.size
-                          ? <span className="font-small-2 ms-25">{`(${getFileSizeText(file.size)})`}</span> : null
-                      }
+                      file.size
+                        ? <span className="font-small-2 ms-25">{`(${getFileSizeText(file.size)})`}</span> : null
+                    }
                     {' '}
                     {
-                        file.uploading
-                          ? (
-                            <Spinner
-                              style={{ width: '0.7rem', height: '0.7rem' }}
-                              color="blue"
-                            />
-                          )
-                          : <X size={15} onClick={() => removeAttachment(file.name)} />
-                      }
+                      file.uploading
+                        ? (
+                          <Spinner
+                            style={{ width: '0.7rem', height: '0.7rem' }}
+                            color="blue"
+                          />
+                        )
+                        : <X size={15} onClick={() => removeAttachment(file.name)} />
+                    }
                     <span className="font-small-2 ms-25 cursor-pointer" />
                   </div>
                 ))
@@ -469,6 +503,9 @@ export default function ComposeModal() {
                 <DropdownMenu end>
                   <DropdownItem href="/" tag="a" onClick={togglePopUp}>
                     {t('MAIL.SCHEDULE_SEND')}
+                  </DropdownItem>
+                  <DropdownItem href="/" tag="a" onClick={onDraftMail}>
+                    {t('MAIL.SAVE_DRAFT')}
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledButtonDropdown>

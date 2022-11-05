@@ -204,6 +204,7 @@ const mailSlice = createSlice({
     onNewMailMessages: (state, action: PayloadAction<MailMessage[]>) => {
       state.mails = state.mails.concat(action.payload);
     },
+    draftMail: (_state, _actionPayload: PayloadAction<SendMailFormData>) => {},
   },
 });
 

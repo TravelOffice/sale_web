@@ -21,4 +21,5 @@ export interface MailPresenter {
   uploadMailAttachment: (file: File) => Promise<MailAttachment>
   syncMail: (mailAccounts: MailAccount[]) => Promise<void>
   search: (mailAccount: MailAccount, query: string) => Promise<MailSearchResult[]>
+  draftMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
 }

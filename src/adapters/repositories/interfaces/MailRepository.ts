@@ -14,5 +14,6 @@ export interface MailRepository {
   getMails: (mailAccount: string, mailbox: string, nextToken?: string) => Promise<MailMessageList>
   getMailThread: (mailAccount: string, mailbox: string, mailId: string) => Promise<MailMessage[]>
   sendMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
+  draftMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
   search: (indexUid: string, query: string) => Promise<MailSearchResult[]>
 }
