@@ -43,4 +43,6 @@ export default class MailRepositoryImpl implements MailRepository {
     });
     return result.hits;
   }
+
+  draftMail = async (sendMailFormData: SendMailFormData): Promise<MailMessage> => this.client.post('draft-email', sendMailFormData);
 }

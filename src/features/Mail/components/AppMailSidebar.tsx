@@ -61,7 +61,7 @@ export default function AppMailSidebar(props: SidebarProps) {
 
   const onCompose = useCallback(() => {
     const composeProps = {
-      message: {} as MailMessage,
+      mail: {} as MailMessage,
       type: 'new',
     } as ComposeProps;
     dispatch(mailActions.openComposeModal(composeProps));

@@ -45,7 +45,7 @@ export default function MailMessageContent(props: MailMessageContentProps) {
   const [downloadingFiles, setDownloadingFiles] = useState<MailAttachment[]>([]);
   const [isFetchingHtmlContent, setIsFetchingHtmlContent] = useState(false);
   const { attachments } = mail;
-  const date = moment(mail.receivedDate || mail.sentDate);
+  const date = moment(mail.receivedDate || mail.updatedAt);
   const [addresses, setAddresses] = useState<Record<'to' | 'cc' | 'bcc', MailAddress[]>>({
     to: [],
     cc: [],
@@ -89,35 +89,15 @@ export default function MailMessageContent(props: MailMessageContentProps) {
   }, []);
 
   const dispatch = useDispatch();
-  const onReplyCompose = useCallback((e: any) => {
+  const openCompose = ((e: any, type: 'draft' | 'reply' | 'reply_all' | 'forward' | 'new') => {
     e.preventDefault();
     if (mail) {
-      dispatch(mailActions.openComposeModal({
-        message: mail,
-        type: 'reply',
-      }));
+      dispatch(mailActions.openComposeModal({ mail, type }));
     }
-  }, [mail]);
-
-  const onReplyAllCompose = useCallback((e: any) => {
-    e.preventDefault();
-    if (mail) {
-      dispatch(mailActions.openComposeModal({
-        message: mail,
-        type: 'reply_all',
-      }));
-    }
-  }, [mail]);
-
-  const onForwardCompose = useCallback((e: any) => {
-    e.preventDefault();
-    if (mail) {
-      dispatch(mailActions.openComposeModal({
-        message: mail,
-        type: 'forward',
-      }));
-    }
-  }, [mail]);
+  });
+  const onReplyCompose = useCallback((e: any) => openCompose(e, 'reply'), [mail]);
+  const onReplyAllCompose = useCallback((e: any) => openCompose(e, 'reply_all'), [mail]);
+  const onForwardCompose = useCallback((e: any) => openCompose(e, 'forward'), [mail]);
 
   return (
     <Card>
