@@ -8,6 +8,7 @@ import { syncEmail } from '@graphql/queries';
 import graphqlClient from '@graphql/client';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
+import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 
 export default class MailRepositoryImpl implements MailRepository {
   private readonly client = mailApiProvider.authorizedRequest;
@@ -45,4 +46,6 @@ export default class MailRepositoryImpl implements MailRepository {
   }
 
   draftMail = async (sendMailFormData: SendMailFormData): Promise<MailMessage> => this.client.post('draft-email', sendMailFormData);
+
+  deleteMail = async (request: DeleteMailRequest) => this.client.delete<void>('mails', { data: request })
 }

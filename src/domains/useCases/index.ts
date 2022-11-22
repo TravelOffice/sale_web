@@ -41,6 +41,8 @@ import { SearchMailUseCase } from '@domain/useCases/interfaces/mail/SearchMailUs
 import SearchMailUseCaseImpl from '@domain/useCases/mail/SearchMailUseCase';
 import { DraftMailUseCase } from '@domain/useCases/interfaces/mail/DraftMailUseCase';
 import DraftMailUseCaseImpl from '@domain/useCases/mail/DraftMailUseCaseImpl';
+import { DeleteMailUseCase } from '@domain/useCases/interfaces/mail/DeleteMailUseCase';
+import DeleteMailUseCaseImpl from '@domain/useCases/mail/DeleteMailUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -162,6 +164,7 @@ interface UseCases {
   uploadMailAttachmentUseCase: UploadMailAttachmentUseCase,
   searchMailUseCase: SearchMailUseCase,
   draftMailUseCase: DraftMailUseCase,
+  deleteMailUseCase: DeleteMailUseCase,
 }
 
 const useCases: UseCases = {
@@ -224,6 +227,7 @@ const useCases: UseCases = {
   uploadMailAttachmentUseCase: new UploadMailAttachmentUseCaseImpl(),
   searchMailUseCase: new SearchMailUseCaseImpl(),
   draftMailUseCase: new DraftMailUseCaseImpl(),
+  deleteMailUseCase: new DeleteMailUseCaseImpl(),
 };
 
 export const {
@@ -278,4 +282,5 @@ export const {
   uploadMailAttachmentUseCase,
   searchMailUseCase,
   draftMailUseCase,
+  deleteMailUseCase,
 } = useCases;

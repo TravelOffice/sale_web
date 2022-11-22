@@ -9,6 +9,7 @@ import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { ComposeProps } from '@features/Mail/components/ComposeModal';
 import { MailSearchResult } from '@domain/entities/mail/MailSearchResult';
+import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 
 export interface MailState {
   linkModalStatus: 'closed' | 'open' | 'linking' | 'finished',
@@ -204,7 +205,12 @@ const mailSlice = createSlice({
     onNewMailMessages: (state, action: PayloadAction<MailMessage[]>) => {
       state.mails = state.mails.concat(action.payload);
     },
-    draftMail: (_state, _actionPayload: PayloadAction<SendMailFormData>) => {},
+    draftMail: (_state, _action: PayloadAction<SendMailFormData>) => {},
+    deleteMail: (state, action: PayloadAction<DeleteMailRequest>) => {
+      const { messagesId } = action.payload;
+      state.mails = state.mails.filter((mail: MailMessage) => !messagesId.includes(mail.messageId));
+      state.selectedMail = undefined;
+    },
   },
 });
 

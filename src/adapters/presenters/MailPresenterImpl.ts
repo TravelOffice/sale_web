@@ -3,10 +3,11 @@ import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import {
   getMailAccountsUseCase, getMailboxesUseCase, getMailMessagesUseCase,
   getMailThreadUseCase, linkMailUseCase, sendMailUseCase, uploadMailAttachmentUseCase,
-  syncMailUseCase, searchMailUseCase, draftMailUseCase,
+  syncMailUseCase, searchMailUseCase, draftMailUseCase, deleteMailUseCase,
 } from '@domain/useCases';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
+import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 
 export default class MailPresenterImpl implements MailPresenter {
   linkMail = async (formData: LinkEmailFormData) => linkMailUseCase.invoke(formData)
@@ -39,4 +40,6 @@ export default class MailPresenterImpl implements MailPresenter {
   syncMail = async (mailAccounts: MailAccount[]) => syncMailUseCase.invoke(mailAccounts)
 
   draftMail = async (formData: SendMailFormData) => draftMailUseCase.invoke(formData)
+
+  deleteMail = async (request: DeleteMailRequest) => deleteMailUseCase.invoke(request)
 }

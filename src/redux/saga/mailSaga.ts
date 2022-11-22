@@ -16,6 +16,7 @@ import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { authActions } from '@redux/slices/authSlice';
 import { Task } from 'redux-saga';
 import { getDefaultSyncMailInterval } from '@utils/MailUtils';
+import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 
 function* linkMail(action: PayloadAction<LinkEmailFormData>) {
   let success = true;
@@ -167,7 +168,6 @@ function* syncFlow() {
 }
 
 function* draftMail(action: PayloadAction<SendMailFormData>) {
-  let result = true;
   try {
     yield call(mailPresenter.draftMail, action.payload);
     toasty.show({
@@ -176,14 +176,29 @@ function* draftMail(action: PayloadAction<SendMailFormData>) {
       message: i18n.t('MAIL.DRAFT_MAIL_SUCCESSFULLY'),
     });
   } catch (error: any) {
-    result = false;
     toasty.show({
       title: i18n.t('COMMON.ERROR'),
       type: 'error',
       message: `${error.message}`,
     });
   }
-  yield put(mailActions.onSendMailCompleted(result));
+}
+
+function* deleteMail(action: PayloadAction<DeleteMailRequest>) {
+  try {
+    yield call(mailPresenter.deleteMail, action.payload);
+    toasty.show({
+      title: i18n.t('COMMON.SUCCESS'),
+      type: 'success',
+      message: i18n.t('MAIL.DELETE_MAIL_SUCCESSFULLY'),
+    });
+  } catch (error: any) {
+    toasty.show({
+      title: i18n.t('COMMON.ERROR'),
+      type: 'error',
+      message: `${error.message}`,
+    });
+  }
 }
 
 export default function* mailSaga() {
@@ -196,6 +211,7 @@ export default function* mailSaga() {
     takeLatest(mailActions.loadMore, loadMore),
     takeLatest(mailActions.sendMail, sendMail),
     takeLatest(mailActions.draftMail, draftMail),
+    takeLatest(mailActions.deleteMail, deleteMail),
     takeEvery(mailActions.uploadAttachment, uploadAttachment),
   ]);
 }

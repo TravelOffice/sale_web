@@ -36,7 +36,7 @@ export default function MailListItem(props: MailListItemProps) {
   };
 
   return (
-    <li onClick={() => onMailClicked(mail)} className={classnames('d-flex user-mail', { 'mail-read': mail.flags !== mailFlags.recent })}>
+    <li className={classnames('d-flex user-mail', { 'mail-read': mail.flags !== mailFlags.recent })}>
       <div className="mail-left pe-50">
         <div className="user-action">
           <div className="form-check">
@@ -53,7 +53,7 @@ export default function MailListItem(props: MailListItemProps) {
           </div>
         </div>
       </div>
-      <div className="mail-body">
+      <div className="mail-body" onClick={() => onMailClicked(mail)}>
         <div className="mail-details">
           <div className="mail-items">
             <h5 className="mb-25">
