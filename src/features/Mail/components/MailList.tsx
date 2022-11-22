@@ -17,6 +17,7 @@ import MailListSkeleton from '@features/Mail/components/MailListSkeleton';
 import EmptyMailList from '@features/Mail/components/EmptyMailList';
 import ErrorMailList from '@features/Mail/components/ErrorMailList';
 import { useMails } from '@hooks/mail';
+import DeleteMailButton from '@features/Mail/components/DeleteMailButton';
 
 export default function MailList() {
   const { mails, loadMailMessages } = useMails();
@@ -44,11 +45,6 @@ export default function MailList() {
 
   // Mark all selected messages as read
   const markAsRead = useCallback(() => {
-  }, [selectedMails]);
-
-  // Delete selected messages
-  const deleteMails = useCallback(() => {
-
   }, [selectedMails]);
 
   const onMailClicked = useCallback((mail: MailMessage) => {
@@ -173,9 +169,7 @@ export default function MailList() {
                 </span>
               </li>
               <li className="list-inline-item">
-                <span className="action-icon" onClick={deleteMails}>
-                  <Trash size={18} />
-                </span>
+                <DeleteMailButton mails={selectedMails} />
               </li>
             </ul>
           </div>

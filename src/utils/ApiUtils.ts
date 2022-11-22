@@ -5,6 +5,7 @@ export const toAxiosRequestConfig = (apiRequestConfig?: ApiRequestConfig) => {
   const axiosRequestConfig : AxiosRequestConfig = {
     headers: apiRequestConfig?.headers || {},
     params: apiRequestConfig?.queryParams,
+    data: apiRequestConfig?.data,
   };
   return axiosRequestConfig;
 };

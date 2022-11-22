@@ -6,6 +6,7 @@ import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { MailSearchResult } from '@domain/entities/mail/MailSearchResult';
+import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 
 export interface MailPresenter {
   linkMail: (formData: LinkEmailFormData) => Promise<MailAccount>
@@ -22,4 +23,5 @@ export interface MailPresenter {
   syncMail: (mailAccounts: MailAccount[]) => Promise<void>
   search: (mailAccount: MailAccount, query: string) => Promise<MailSearchResult[]>
   draftMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
+  deleteMail: (request: DeleteMailRequest) => Promise<void>
 }

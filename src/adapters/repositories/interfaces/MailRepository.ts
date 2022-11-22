@@ -5,6 +5,7 @@ import { MailMessageList } from '@domain/entities/mail/MailMessageList';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { MailSearchResult } from '@domain/entities/mail/MailSearchResult';
+import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 
 export interface MailRepository {
   link: (formData: LinkEmailFormData) => Promise<MailAccount>,
@@ -16,4 +17,5 @@ export interface MailRepository {
   sendMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
   draftMail: (sendMailFormData: SendMailFormData) => Promise<MailMessage>
   search: (indexUid: string, query: string) => Promise<MailSearchResult[]>
+  deleteMail: (request: DeleteMailRequest) => Promise<void>
 }

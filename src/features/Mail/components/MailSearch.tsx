@@ -8,12 +8,12 @@ import ErrorMailList from '@features/Mail/components/ErrorMailList';
 import MailResultItem from '@features/Mail/components/MailResultItem';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { Input, Label } from 'reactstrap';
-import { Trash } from 'react-feather';
 import { MailSearchResult } from '@domain/entities/mail/MailSearchResult';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { mailActions } from '@redux/slices/mailSlice';
 import { useDebounce } from '@hooks/common';
+import DeleteMailButton from '@features/Mail/components/DeleteMailButton';
 
 export interface MailSearchProps {
   query: string,
@@ -28,7 +28,6 @@ export default function MailSearch(props: MailSearchProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { data, isLoading, isError } = useQuery(['mailSearch', debouncedSearchQuery], () => mailPresenter.search(mailAccount!, debouncedSearchQuery), { enabled: !!mailAccount });
-
   // Select all search results
   const onSelectAll = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked && data) {
@@ -84,11 +83,6 @@ export default function MailSearch(props: MailSearchProps) {
     );
   }, [isLoading, isError, data, selectedResults]);
 
-  // Delete selected messages
-  const deleteMails = () => {
-
-  };
-
   // Render results
   return (
     <>
@@ -108,9 +102,7 @@ export default function MailSearch(props: MailSearchProps) {
           <div className="action-right">
             <ul className="list-inline m-0">
               <li className="list-inline-item">
-                <span className="action-icon" onClick={deleteMails}>
-                  <Trash size={18} />
-                </span>
+                <DeleteMailButton mails={selectedResults} />
               </li>
             </ul>
           </div>

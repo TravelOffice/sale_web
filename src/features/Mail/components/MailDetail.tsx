@@ -3,7 +3,7 @@ import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { Trans, useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import {
-  ChevronLeft, Edit2, Folder, Info, Trash,
+  ChevronLeft, Edit2, Folder, Info,
 } from 'react-feather';
 import {
   Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown,
@@ -13,6 +13,7 @@ import MailContentSkeleton from '@features/Mail/components/MailContentSkeleton';
 import { useDispatch, useSelector } from 'react-redux';
 import { mailActions } from '@redux/slices/mailSlice';
 import { RootState } from '@redux/store';
+import DeleteMailButton from '@features/Mail/components/DeleteMailButton';
 
 export interface MailDetailComponentProps {
   mail: MailMessage | undefined,
@@ -119,7 +120,7 @@ export default function MailDetail(props: MailDetailComponentProps) {
                         onClick={(e) => handleFolderClick(e, 'trash', mail)}
                         className="d-flex align-items-center"
                       >
-                        <Trash className="me-50" size={18} />
+                        <DeleteMailButton mails={[mail]} />
                         <span>{t('MAIL.DELETE')}</span>
                       </DropdownItem>
                     </DropdownMenu>
@@ -130,7 +131,7 @@ export default function MailDetail(props: MailDetailComponentProps) {
                     className="action-icon"
                     onClick={deleteMessage}
                   >
-                    <Trash size={18} />
+                    <DeleteMailButton mails={[mail]} />
                   </span>
                 </li>
               </ul>
