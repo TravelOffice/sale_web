@@ -404,6 +404,7 @@
         "NO_MAIL_ACCOUNTS": "You haven't linked any mail account",
         "CALENDAR_LOCATION": "Location",
         "CALENDAR_INVITEES": "Invitees",
-        "CALENDAR_DESCRIPTION": "Description"
+        "CALENDAR_DESCRIPTION": "Description",
+        "DELETE_MAIL_SUCCESSFULLY": "Delete mail successfully"
     }
 }

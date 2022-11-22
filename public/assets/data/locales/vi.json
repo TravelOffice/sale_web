@@ -404,6 +404,7 @@
         "NO_MAIL_ACCOUNTS": "Bạn chưa liên kết email nào",
         "CALENDAR_LOCATION": "Địa điểm",
         "CALENDAR_INVITEES": "Thành phần tham gia",
-        "CALENDAR_DESCRIPTION": "Mô tả"
+        "CALENDAR_DESCRIPTION": "Mô tả",
+        "DELETE_MAIL_SUCCESSFULLY": "Xóa thư thành công"
     }
 }

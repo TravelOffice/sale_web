@@ -23,6 +23,7 @@ import { mailActions } from '@redux/slices/mailSlice';
 import { useDispatch } from 'react-redux';
 import MailMessageContentFrame from '@features/Mail/components/MailMessageContentFrame';
 import MailCalendarContent from '@features/Mail/components/MailCalendarContent';
+import { useSelectedMailAccount, useSelectedMailbox } from '@hooks/mail';
 
 export interface MailMessageContentProps {
   mail: MailMessage,
@@ -51,6 +52,8 @@ export default function MailMessageContent(props: MailMessageContentProps) {
     cc: [],
     bcc: [],
   });
+  const currentMailAccount = useSelectedMailAccount();
+  const selectedMailbox = useSelectedMailbox();
 
   useEffect(() => {
     if (mail) {
@@ -98,7 +101,16 @@ export default function MailMessageContent(props: MailMessageContentProps) {
   const onReplyCompose = useCallback((e: any) => openCompose(e, 'reply'), [mail]);
   const onReplyAllCompose = useCallback((e: any) => openCompose(e, 'reply_all'), [mail]);
   const onForwardCompose = useCallback((e: any) => openCompose(e, 'forward'), [mail]);
-
+  // Delete selected messages
+  const deleteMails = useCallback(() => {
+    if (currentMailAccount && mail) {
+      dispatch(mailActions.deleteMail({
+        email: currentMailAccount?.email,
+        mailbox: selectedMailbox,
+        messagesId: [mail.messageId],
+      }));
+    }
+  }, [mail]);
   return (
     <Card>
       <CardHeader className="email-detail-head">
@@ -160,14 +172,14 @@ export default function MailMessageContent(props: MailMessageContentProps) {
                 {t('MAIL.REPLY')}
               </DropdownItem>
               <DropdownItem className="d-flex align-items-center w-100" onClick={onReplyAllCompose}>
-                <CornerUpLeft className="me-50" size={14} onClick={onReplyAllCompose} />
+                <CornerUpLeft className="me-50" size={14} />
                 {t('MAIL.REPLY_ALL')}
               </DropdownItem>
               <DropdownItem className="d-flex align-items-center w-100" onClick={onForwardCompose}>
                 <CornerUpRight className="me-50" size={14} />
                 {t('MAIL.FORWARD')}
               </DropdownItem>
-              <DropdownItem className="d-flex align-items-center w-100">
+              <DropdownItem className="d-flex align-items-center w-100" onClick={deleteMails}>
                 <Trash2 className="me-50" size={14} />
                 {t('COMMON.DELETE')}
               </DropdownItem>
