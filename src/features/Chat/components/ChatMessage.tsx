@@ -5,7 +5,7 @@ import TelegramChatMessage from '@features/Chat/components/telegram/TelegramChat
 
 export default function ChatMessage(props: MessageProps<any>) {
   const { message } = props;
-  if (message.chatPlatform === 'facebook') {
+  if (message.chatPlatform === 'facebook' || message.chatPlatform === 'zalo') {
     return <FacebookChatMessage {...props} />;
   }
   if (message.chatPlatform === 'telegram') {

@@ -64,7 +64,7 @@ export default class ChatRepositoryImpl implements ChatRepository {
   };
 
   getZaloMessages = async (conversationId: string, zaloPageId: string) => {
-    const options = { query: allZaloMessages, variables: { userId: conversationId, zaloPageId } };
+    const options = { query: allZaloMessages, variables: { conversationId, zaloPageId } };
     const result = await gqlClient.query(options);
     return JSON.parse(result.data.allZaloMessages.data).data as ZaloMessage[];
   };
