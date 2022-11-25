@@ -37,12 +37,12 @@ class ConversationMapper {
   }
 
   fromZalo = (conversation: ZaloConversation, pageId: string): Conversation => {
-    const fromPage = pageId === conversation.from_id;
-    const id = fromPage ? conversation.to_id : conversation.from_id;
-    const name = fromPage ? conversation.to_display_name : conversation.from_display_name;
-    const avatar = fromPage ? conversation.to_avatar : conversation.from_avatar;
+    const {
+      lastMessage, info, conversationId, assignee,
+    } = conversation;
+    const { name, avatar } = info;
     const contact: Contact = {
-      id,
+      id: conversationId,
       fullName: name,
       avatar,
       about: '',
@@ -53,17 +53,18 @@ class ConversationMapper {
       lastMessage: {
         id: '',
         customerId: contact.id,
-        recipient: conversation.to_id,
-        sender: conversation.from_id,
-        timestamp: new Date(conversation.time),
+        recipient: lastMessage.to_id,
+        sender: lastMessage.from_id,
+        timestamp: new Date(lastMessage.time),
         messageData: {
-          text: conversation.message || `${contact.fullName} has sent a message.`,
+          text: lastMessage.message || `${contact.fullName} has sent a message.`,
         },
         chatPlatform: 'zalo',
       },
       unseenMessages: 0,
       chatPlatform: 'zalo',
       pageId,
+      assignee,
     };
   }
 
