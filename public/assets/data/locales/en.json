@@ -52,7 +52,8 @@
         "DOWNLOAD": "Download",
         "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Something went wrong.",
         "TRY_AGAIN": "Try again",
-        "CONGRATULATIONS": "Congratulations"
+        "CONGRATULATIONS": "Congratulations",
+        "YOU": "You"
     },
     "LEAD": {
         "NAME": "Name",
@@ -153,7 +154,14 @@
             "CHOOSE_ASSIGNEE_DROPDOWN_TITLE": "Choose assignee...",
             "ASSIGN_CHAT_SUCCESSFULLY": "Assign chat to {{assignee}} successfully",
             "ASSIGN_CHAT_FAILED": "Can not assign chat to {{assignee}}"
-        }
+        },
+        "VOICE_MESSAGE": "{{fullname}} has sent a voice",
+        "GIF_MESSAGE": "{{fullname}} has sent a GIF",
+        "VIDEO_MESSAGE": "{{fullname}} has sent a video",
+        "LINK_MESSAGE": "{{fullname}} has sent a link",
+        "STICKER_MESSAGE": "{{fullname}} has sent a sticker",
+        "PHOTO_MESSAGE": "{{fullname}} has sent a photo",
+        "MESSAGE_MESSAGE": "{{fullname}} has sent a message"
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "About",

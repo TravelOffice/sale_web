@@ -1,6 +1,9 @@
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
+import { Conversation, ZaloConversation } from '@domain/entities/chat/Conversation';
 import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
-import { Message } from '@domain/entities/chat/Message';
+import {
+  Message, MessageData, ZaloMessageDataAttachmentType,
+} from '@domain/entities/chat/Message';
 import { Page } from '@domain/entities/chat/Page';
 import { TelegramMessage, TelegramUserInfo } from '@domain/entities/chat/telegram';
 import { MessageGroup } from '@features/Chat/ChatLog';
@@ -110,12 +113,15 @@ export const getTelegramLastMessageTitle = (message: TelegramMessage): string =>
 };
 
 export const isImageMessage = (message: Message) => {
-  if (message.chatPlatform === 'facebook' || message.chatPlatform === 'zalo') {
+  if (message.chatPlatform === 'facebook') {
     const { attachments } = message.messageData;
     if (attachments && attachments.length > 0) {
       const { mimeType } = attachments[0];
       return mimeType.startsWith('image/');
     }
+  }
+  if (message.chatPlatform === 'zalo') {
+    return !!message.messageData.url;
   }
   // TODO: Telegram is unsupported now
   return false;
@@ -129,12 +135,15 @@ export const getImageSources = (messages: Message[]) => {
   type ImageSource = { messageId: string, src: string, alt: string };
   const imageSources : ImageSource[] = [];
   messages.forEach((message) => {
-    if (message.chatPlatform === 'facebook' || message.chatPlatform === 'zalo') {
+    if (message.chatPlatform === 'facebook') {
       const { attachments } = message.messageData;
       if (attachments && attachments.length > 0 && attachments[0].mimeType.startsWith('image/')) {
         const [mAttachment] = message.messageData.attachments!;
         imageSources.push({ messageId: message.id, src: mAttachment.url || '', alt: mAttachment.name });
       }
+    }
+    if (message.chatPlatform === 'zalo' && message.messageData.url) {
+      imageSources.push({ messageId: message.id, src: message.messageData.url, alt: '' });
     }
   });
   return imageSources;
@@ -158,4 +167,43 @@ export const getAvatarUrlByPlatform = (
     default:
       return undefined;
   }
+};
+
+export const getDisplayZaloFileMessageText = (type: ZaloMessageDataAttachmentType) => {
+  switch (type) {
+    case 'gif': return 'CHAT.GIF_MESSAGE';
+    case 'link': return 'CHAT.LINK_MESSAGE';
+    case 'image': return 'CHAT.PHOTO_MESSAGE';
+    case 'video': return 'CHAT.VIDEO_MESSAGE';
+    default: return 'CHAT.MESSAGE_MESSAGE';
+  }
+};
+
+export const getZaloConversationText = (conversation: ZaloConversation) => {
+  const { contact, lastMessage, id } = conversation;
+  const { text, attachments, from_id: fromId } = lastMessage.messageData;
+  const fromName = id === fromId ? contact.fullName : i18next.t('COMMON.YOU');
+  if (text) {
+    return id !== fromId ? `${i18next.t('COMMON.YOU')}: ${text}` : text;
+  }
+  if (attachments && attachments.length > 0) {
+    const { type } = attachments[0];
+    return i18next.t(getDisplayZaloFileMessageText(type), { fullname: fromName });
+  }
+  return i18next.t('CHAT.MESSAGE_MESSAGE', { fullname: fromName });
+};
+
+export const getConversationText = (conversation: Conversation) => {
+  const { chatPlatform, lastMessage } = conversation;
+  const { messageData } = lastMessage;
+  if (chatPlatform === 'facebook') {
+    return (messageData as MessageData).text;
+  }
+  if (chatPlatform === 'zalo') {
+    return getZaloConversationText(conversation);
+  }
+  if (chatPlatform === 'telegram') {
+    return (messageData as TelegramMessage).text;
+  }
+  return '';
 };
