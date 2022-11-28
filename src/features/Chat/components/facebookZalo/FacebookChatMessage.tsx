@@ -1,5 +1,4 @@
 import React from 'react';
-import UnsupportedMessage from '@features/Chat/components/facebookZalo/UnsupportedMessage';
 import FacebookAttachmentsMessage from '@features/Chat/components/facebookZalo/FacebookAttachmentsMessage';
 import FacebookStickerMessage from '@features/Chat/components/facebookZalo/FacebookStickerMessage';
 import FacebookTextMessage from '@features/Chat/components/facebookZalo/FacebookTextMessage';
@@ -8,9 +7,6 @@ import { FacebookMessageProps } from '@features/Chat/components/facebookZalo/Fac
 
 export default function FacebookChatMessage(props: FacebookMessageProps) {
   const { message } = props;
-  if (message.isUnsupported) {
-    return <UnsupportedMessage {...props} />;
-  }
   const messageData = message.messageData as MessageData;
   if (messageData.attachments) {
     return <FacebookAttachmentsMessage {...props} />;

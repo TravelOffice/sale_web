@@ -15,7 +15,9 @@ export interface ChatRepository {
   getFbMessages: (
     conversationId: string, fbPageId: string, before?: string
   ) => Promise<[FacebookMessage[], string]>
-  getZaloMessages: (conversationId: string, zaloPageId: string) => Promise<ZaloMessage[]>
+  getZaloMessages: (
+    conversationId: string, zaloPageId: string, before?: string
+  ) => Promise<[ZaloMessage[], string]>
   getTelegramMessages: (
     conversationId: string,
     botId: string,

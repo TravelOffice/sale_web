@@ -8,7 +8,7 @@ import { formatDateToMonthShort } from '@utils/DateUtils';
 import classnames from 'classnames';
 import ConversationAvatar from '@components/Avatar/CustomerAvatar';
 import i18n from '@config/i18n';
-import { normalizeVietnameseName } from '@utils/ChatUtils';
+import { getConversationText, normalizeVietnameseName } from '@utils/ChatUtils';
 import { ChevronDown, ChevronRight } from 'react-feather';
 
 export interface ConversationListProps {
@@ -82,7 +82,7 @@ function Conversations(props: ConversationListProps) {
               <div className="chat-info flex-grow-1">
                 <h5 className="mb-0">{contact.fullName}</h5>
                 <CardText className="text-truncate">
-                  {conversation.lastMessage ? conversation.lastMessage.messageData.text : ''}
+                  {getConversationText(conversation)}
                 </CardText>
               </div>
               <div className="chat-meta text-nowrap">

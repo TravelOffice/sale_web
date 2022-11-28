@@ -39,9 +39,7 @@ class MessageMapper {
       recipient: zaloMessage.to_id,
       sender: zaloMessage.from_id,
       timestamp: new Date(zaloMessage.time),
-      messageData: {
-        text: zaloMessage.message,
-      },
+      messageData: zaloMessage,
       chatPlatform: 'zalo',
       isUnsupported: zaloMessage.type === 'nosupport', // Zalo unsupported message
     };

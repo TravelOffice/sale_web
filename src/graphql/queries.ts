@@ -53,8 +53,8 @@ export const allFbMessages = gql`
 `;
 
 export const allZaloMessages = gql`
-  query GetZaloMessages($zaloPageId: String!, $conversationId: String!) {
-    allZaloMessages(pageId: $zaloPageId, conversationId: $conversationId) {
+  query GetZaloMessages($zaloPageId: String!, $conversationId: String!, $offset: Int) {
+    allZaloMessages(pageId: $zaloPageId, conversationId: $conversationId, offset: $offset) {
       message
       data
     }
@@ -122,4 +122,13 @@ query SyncEmail($email: String!, $mailbox: String!) {
     message
   }
 }
+`;
+
+export const zaloAudio = gql`
+  query GetZaloAudio($conversationId: String!, $fileUrl: String!, $messageId: String!, $pageId: String!) {
+    getZaloAudio(conversationId: $conversationId, fileUrl: $fileUrl, messageId: $messageId, pageId: $pageId) {
+      data
+      message
+    }
+  }
 `;

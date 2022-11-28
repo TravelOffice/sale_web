@@ -20,7 +20,7 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
         return this.getFbMessages(page.id, conversation, nextToken);
 
       case 'zalo':
-        return this.getZaloMessages(page.id, conversation);
+        return this.getZaloMessages(page.id, conversation, nextToken);
 
       case 'telegram':
         return this.getTelegramMessages(page.id, conversation, nextToken);
@@ -40,11 +40,13 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
   };
 
   private getZaloMessages = async (
-    zaloPageId: string, conversation: Conversation, offset: number = 0,
+    zaloPageId: string, conversation: Conversation, after?: string,
   ): Promise<[Message[], string]> => {
-    const zaloMessages = await chatRepository.getZaloMessages(conversation.contact.id, zaloPageId);
+    const [zaloMessages, zaloNextToken] = await chatRepository.getZaloMessages(
+      conversation.contact.id, zaloPageId, after,
+    );
     const messages = zaloMessages.map((zaloMessage) => messageMapper.fromZaloMessage(zaloMessage));
-    return [messages, `${offset}`];
+    return [messages, `${zaloNextToken}`];
   };
 
   private getTelegramMessages = async (

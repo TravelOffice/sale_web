@@ -63,10 +63,17 @@ export default class ChatRepositoryImpl implements ChatRepository {
     return [fbMessages, data.paging.cursors.after];
   };
 
-  getZaloMessages = async (conversationId: string, zaloPageId: string) => {
-    const options = { query: allZaloMessages, variables: { conversationId, zaloPageId } };
+  getZaloMessages = async (
+    conversationId: string, zaloPageId: string, after?: string,
+  ): Promise<[ZaloMessage[], string]> => {
+    const options = {
+      query: allZaloMessages,
+      variables: { conversationId, zaloPageId, offset: after ? parseInt(after, 10) : 0 },
+    };
     const result = await gqlClient.query(options);
-    return JSON.parse(result.data.allZaloMessages.data).data as ZaloMessage[];
+    const data = JSON.parse(result.data.allZaloMessages.data);
+    const zaloMessages = data.data as ZaloMessage[];
+    return [zaloMessages, data.paging.cursors.after];
   };
 
   /**
