@@ -1,6 +1,6 @@
 import { Contact } from '@domain/entities/Contact';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { ZaloConversation } from '@domain/entities/chat/zalo/ZaloConversation';
+import { DDBZaloConversation } from '@domain/entities/chat/zalo/DDBZaloConversation';
 import { DDBTelegramConversation } from '@domain/entities/chat/telegram/DDBTelegramConversation';
 import { getTelegramLastMessageTitle } from '@utils/ChatUtils';
 import { DDBFacebookConversation } from '@domain/entities/chat/facebook/DDBFacebookConversation';
@@ -36,11 +36,12 @@ class ConversationMapper {
     };
   }
 
-  fromZalo = (conversation: ZaloConversation, pageId: string): Conversation => {
+  fromZalo = (conversation: DDBZaloConversation, pageId: string): Conversation => {
     const {
       lastMessage, info, conversationId, assignee,
     } = conversation;
     const { name, avatar } = info;
+    const { time } = lastMessage;
     const contact: Contact = {
       id: conversationId,
       fullName: name,
@@ -51,15 +52,10 @@ class ConversationMapper {
       id: contact.id,
       contact,
       lastMessage: {
-        id: '',
-        customerId: contact.id,
-        recipient: lastMessage.to_id,
-        sender: lastMessage.from_id,
-        timestamp: new Date(lastMessage.time),
-        messageData: {
-          text: lastMessage.message || `${contact.fullName} has sent a message.`,
-        },
+        ...lastMessage,
         chatPlatform: 'zalo',
+        timestamp: new Date(time),
+        messageData: lastMessage,
       },
       unseenMessages: 0,
       chatPlatform: 'zalo',

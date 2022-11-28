@@ -52,7 +52,8 @@
         "DOWNLOAD": "Tải xuống",
         "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Đã có lỗi xảy ra.",
         "TRY_AGAIN": "Tải lại",
-        "CONGRATULATIONS": "Chúc mừng"
+        "CONGRATULATIONS": "Chúc mừng",
+        "YOU": "Bạn"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -153,7 +154,14 @@
             "CHOOSE_ASSIGNEE_DROPDOWN_TITLE": "Chỉ định...",
             "ASSIGN_CHAT_SUCCESSFULLY": "Chỉ định hội thoại thành công cho nhân viên {{assignee}}",
             "ASSIGN_CHAT_FAILED": "Không thể chỉ định hội thoại cho nhân viên {{assignee}}"
-        }
+        },
+        "VOICE_MESSAGE": "{{fullname}} đã gửi tin nhắn âm thanh",
+        "GIF_MESSAGE": "{{fullname}} đã gửi GIF",
+        "VIDEO_MESSAGE": "{{fullname}} đã gửi video",
+        "LINK_MESSAGE": "{{fullname}} đã gửi liên kết",
+        "STICKER_MESSAGE": "{{fullname}} đã gửi nhãn dán",
+        "PHOTO_MESSAGE": "{{fullname}} đã gửi hình ảnh",
+        "MESSAGE_MESSAGE": "{{fullname}} đã gửi tin nhắn"
     },
     "CHAT_USER_PROFILE": {
         "ABOUT": "Mô tả",

@@ -3,7 +3,7 @@ import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import { ChatPlatform, chatPlatforms } from '@domain/entities/chat/ChatPlatform';
-import { Conversation } from '@domain/entities/chat/Conversation';
+import { Conversation, ConversationLastMessage } from '@domain/entities/chat/Conversation';
 import {
   Message, MessageData,
 } from '@domain/entities/chat/Message';
@@ -108,7 +108,7 @@ function* subscribeNewMessageEvent() {
   const subscriptionChannel = createSubscriptionChannel();
   while (true) {
     try {
-      const message: Message = yield take(subscriptionChannel);
+      const message: ConversationLastMessage = yield take(subscriptionChannel);
       // Notify to update messages list
       yield put({ type: chatActions.onNewMessage.type, payload: message });
       // Notify to update conversations list

@@ -49,9 +49,7 @@ export default function AudioMessage(props: AudioMessageProps) {
         </div>
       </div>
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <audio className="hidden" ref={ref} controls onTimeUpdate={onTimeUpdate} onEnded={onEnded}>
-        <source src={url} />
-      </audio>
+      <audio className="hidden" ref={ref} datatype="audio/mpeg" src={url} controls onTimeUpdate={onTimeUpdate} onEnded={onEnded} />
     </div>
   );
 }

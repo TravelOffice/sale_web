@@ -16,7 +16,7 @@ import { history, RootState } from '@redux/store';
 import { PayloadAction } from '@reduxjs/toolkit';
 import Images from '@themes/Images';
 import { addElementToFirst, removeElementAt } from '@utils/ArrayUtils';
-import { isMyMessage } from '@utils/ChatUtils';
+import { getConversationText } from '@utils/ChatUtils';
 import { truncateStringWithEllipsis } from '@utils/CommonUtils';
 import fromAppSyncToAppNotification from '@utils/notification/mapper';
 import { END, EventChannel, eventChannel } from 'redux-saga';
@@ -77,17 +77,17 @@ function* onNewConversation(action: PayloadAction<Conversation>) {
     if (!lastMessage) {
       return;
     }
-    if (isMyMessage(lastMessage)) {
-      // Don't push notification if the message is sent by the user
-      return;
-    }
+    // if (isMyMessage(lastMessage)) {
+    //   // Don't push notification if the message is sent by the user
+    //   return;
+    // }
     // Check whether the user is being in Chat page
     const pathName: string = yield select((state: RootState) => state.router.location.pathname);
     if (pathName === '/apps/chat') {
       // Don't push any notification whenever the user is being in Chat page
       return;
     }
-    const messageText = conversation.lastMessage?.messageData.text;
+    const messageText = getConversationText(conversation);
     const customerName = conversation.contact.fullName;
     const notificationTitle = i18n.t('NOTIFICATION.NOTIFICATION_NEW_MESSAGE_TITLE', { customerName });
     const titleI18n = {
