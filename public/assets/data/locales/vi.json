@@ -405,6 +405,10 @@
         "CALENDAR_LOCATION": "Địa điểm",
         "CALENDAR_INVITEES": "Thành phần tham gia",
         "CALENDAR_DESCRIPTION": "Mô tả",
-        "DELETE_MAIL_SUCCESSFULLY": "Xóa thư thành công"
+        "DELETE_MAIL_SUCCESSFULLY": "Xóa thư thành công",
+        "DELETE_MAIL_WARNING_TITLE": "Xóa thư",
+        "DELETE_MAILS_WARNING_TITLE": "Xóa {{count}} thư",
+        "DELETE_MAIL_WARNING_MESSAGE": "Thư sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa?",
+        "DELETE_MAILS_WARNING_MESSAGE": "{{count}} thư sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa?"
     }
 }
