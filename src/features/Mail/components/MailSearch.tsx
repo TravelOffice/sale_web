@@ -102,7 +102,10 @@ export default function MailSearch(props: MailSearchProps) {
           <div className="action-right">
             <ul className="list-inline m-0">
               <li className="list-inline-item">
-                <DeleteMailButton mails={selectedResults} />
+                <DeleteMailButton
+                  mails={selectedResults}
+                  callback={() => { setSelectedResults([]); }}
+                />
               </li>
             </ul>
           </div>

@@ -169,7 +169,10 @@ export default function MailList() {
                 </span>
               </li>
               <li className="list-inline-item">
-                <DeleteMailButton mails={selectedMails} />
+                <DeleteMailButton
+                  mails={selectedMails}
+                  callback={() => { setSelectedMails([]); }}
+                />
               </li>
             </ul>
           </div>
