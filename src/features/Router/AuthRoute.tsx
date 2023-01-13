@@ -1,9 +1,13 @@
 import React from 'react';
 import {
-  Redirect,
   Route, RouteProps,
 } from 'react-router-dom';
-import { useIsLoggedIn } from '@hooks/auth';
+import { useAuthStatus } from '@hooks/auth';
+import { getSSOPage } from '@utils/EnvUtils';
+import FallbackSpinner from '@components/FallbackSpinner/FallbackSpinner';
+import RedirectToExternalUri from '@components/Redirect/RedirectToExternalUri';
+
+const SSO_PAGE = getSSOPage();
 
 /**
  * A route component extended from default Route (react-Router-dom). This component
@@ -11,15 +15,27 @@ import { useIsLoggedIn } from '@hooks/auth';
  * @param props properties of the route.
  */
 export default function AuthRoute(props: RouteProps) {
-  const isLoggedIn = useIsLoggedIn();
+  const authStatus = useAuthStatus();
   const { children, ...rest } = props;
+
+  // TODO: state oneOf checking | notLoggedIn | loggedIn
+  // checking -> show spinner
+  // notLoggedIn (expired) -> redirect SSO
+  // loggedIn -> render
+
   return (
     <>
       <Route
         {...rest}
-        render={({ location }) => (
-          isLoggedIn ? children : <Redirect to={{ pathname: '/initial', state: { from: location } }} />
-        )}
+        render={() => {
+          if (authStatus === 'checking') {
+            return <FallbackSpinner />;
+          }
+          if (authStatus === 'notLoggedIn') {
+            return <RedirectToExternalUri to={`${SSO_PAGE}?redirect_url=http://${window.location.host}`} />;
+          }
+          return children;
+        }}
       />
     </>
   );
