@@ -9,6 +9,10 @@ export function useIsLoggedIn() {
   return useSelector((state: RootState) => !!state.auth.session);
 }
 
+export function useAuthStatus() {
+  return useSelector((state: RootState) => state.auth.authStatus);
+}
+
 export function useCurrentUser() {
   return useSelector((state: RootState) => state.auth.currentUser);
 }
