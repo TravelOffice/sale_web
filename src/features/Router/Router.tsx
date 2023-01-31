@@ -9,15 +9,11 @@ import SignOut from '@features/SignOut/SignOut';
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from '@redux/store';
 import Home from '../Home/Home';
-import Initial from '../Initial/Initial';
 
 export default function Router() {
   return (
     <ConnectedRouter history={history}>
       <Switch>
-        <Route path="/initial">
-          <Initial />
-        </Route>
         <Route path="/sign-out">
           <SignOut />
         </Route>
