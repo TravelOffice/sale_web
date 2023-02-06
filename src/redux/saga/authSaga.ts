@@ -9,7 +9,8 @@ import { Task } from 'redux-saga';
 import { isTokenExpired } from '@utils/CheckExpireUntil';
 import { RootState } from '@redux/store';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { ID_TOKEN, TOKEN } from '@utils/Constants';
+import { ID_TOKEN } from '@utils/Constants';
+import history from '@utils/HistoryUtils';
 
 function* attachSession(action: PayloadAction<string>) {
   try {
@@ -66,8 +67,11 @@ function* authFlow() {
 function* getIdToken() {
   const search: string = yield select((state: RootState) => state.router.location.search);
   const urlSearchParams = new URLSearchParams(search);
-  if (urlSearchParams.has(TOKEN)) {
-    return urlSearchParams.get(TOKEN);
+  if (urlSearchParams.has(ID_TOKEN)) {
+    const path = window.location.pathname;
+    history.push(path);
+    const jwtToken = urlSearchParams.get(ID_TOKEN);
+    return jwtToken;
   }
   return localStorage.getItem(ID_TOKEN);
 }
