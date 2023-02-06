@@ -32,7 +32,7 @@ export default function AuthRoute(props: RouteProps) {
             return <FallbackSpinner />;
           }
           if (authStatus === 'notLoggedIn') {
-            return <RedirectToExternalUri to={`${SSO_PAGE}?redirect_url=http://${window.location.host}`} />;
+            return <RedirectToExternalUri to={`${SSO_PAGE}?redirect_uri=${window.location.href}`} />;
           }
           return children;
         }}

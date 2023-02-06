@@ -25,8 +25,6 @@ export const TELEGRAM = 'Telegram';
 
 export const ID_TOKEN = 'id_token';
 
-export const TOKEN = 'token';
-
 export const platformTitleDefinitions: { [key in ChatPlatform]: string } = {
   facebook: FACEBOOK,
   zalo: ZALO,
