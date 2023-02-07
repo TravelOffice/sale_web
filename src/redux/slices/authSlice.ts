@@ -4,7 +4,7 @@ import { User, RoleEnum } from '@domain/entities/User';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
-type AuthStatus = 'checking' | 'notLoggedIn' | 'loggedIn';
+type AuthStatus = 'checking' | 'notLoggedIn' | 'fetchingUserInfo' | 'loggedIn';
 
 export type AuthPayload = { status: AuthStatus, idToken?: string };
 
@@ -26,11 +26,6 @@ const initialState: AuthState = {
   isAdmin: false,
   authStatus: 'checking',
 };
-
-export interface LoginPayload {
-  username: string,
-  password: string,
-}
 
 const authSlice = createSlice({
   name: 'auth',
@@ -61,9 +56,10 @@ const authSlice = createSlice({
     setLinkedPages: (state, action: PayloadAction<Array<Page>>) => {
       state.linkedPages = action.payload;
     },
-    getLinkedPages: (state) => { },
+    getLinkedPages: (_state) => { },
     onInitialCompleted: (state) => {
       state.initialized = true;
+      state.authStatus = 'loggedIn';
     },
   },
 });
@@ -73,5 +69,3 @@ export const authActions = authSlice.actions;
 
 // Reducers
 export const authReducers = authSlice.reducer;
-
-export default { authActions, authReducers };
