@@ -9,7 +9,7 @@ import { Task } from 'redux-saga';
 import { isTokenExpired } from '@utils/CheckExpireUntil';
 import { RootState } from '@redux/store';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { ID_TOKEN } from '@utils/Constants';
+import { ID_TOKEN, EVENT, EVENT_CHANGE_PASSWORD } from '@utils/Constants';
 import history from '@utils/HistoryUtils';
 import { Role } from '@domain/entities/RolePermission';
 import { rolePermissionActions } from '@redux/slices/rolePermissionSlice';
@@ -26,16 +26,24 @@ function* getCurrentUser() {
  * Effect to fetch all pages (Facebook, Zalo, Telegram,...) that are linked to the user's tenant.
  */
 function* getLinkedPage() {
-  const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, false);
-  yield put(authActions.setLinkedPages(linkedPages));
+  try {
+    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, false);
+    yield put(authActions.setLinkedPages(linkedPages));
+  } catch {
+    // Do nothing
+  }
 }
 
 /**
  * Effect to fetch all roles defined to the user's tenant.
  */
 function* getAllRole() {
-  const roles: Role[] = yield call(rolePermissionPresenter.getAllRoles);
-  yield put(rolePermissionActions.setAllRoles(roles));
+  try {
+    const roles: Role[] = yield call(rolePermissionPresenter.getAllRoles);
+    yield put(rolePermissionActions.setAllRoles(roles));
+  } catch {
+    // Do nothing
+  }
 }
 
 /**
@@ -65,6 +73,7 @@ function* getLinkedPages() {
 }
 
 function* detachSession() {
+  localStorage.removeItem(ID_TOKEN);
   yield put({ type: 'signOut' });
 }
 
@@ -110,6 +119,24 @@ function* getIdToken() {
   return localStorage.getItem(ID_TOKEN);
 }
 
+function* listenChangePasswordEvent() {
+  const search: string = yield select((state: RootState) => state.router.location.search);
+  const urlSearchParams = new URLSearchParams(search);
+  if (urlSearchParams.has(EVENT) && urlSearchParams.get(EVENT) === EVENT_CHANGE_PASSWORD) {
+    return true;
+  }
+  return false;
+}
+
+function* onPasswordChanged() {
+  const flagChangePassword: boolean = yield listenChangePasswordEvent();
+  if (flagChangePassword) {
+    localStorage.removeItem(ID_TOKEN);
+    history.push('/');
+    yield put(authActions.detachSession);
+  }
+}
+
 function* checkAuth() {
   const idToken: string = yield getIdToken();
   if (isTokenExpired(idToken)) {
@@ -132,6 +159,7 @@ export default function* authSaga() {
     takeLatest(authActions.getLinkedPages, getLinkedPages),
     takeLatest(authActions.detachSession, detachSession),
     takeLatest(authActions.changeAuthStatus, listenToAuth),
+    onPasswordChanged(),
     authFlow(),
     checkAuth(),
   ]);

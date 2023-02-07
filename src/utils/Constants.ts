@@ -25,6 +25,10 @@ export const TELEGRAM = 'Telegram';
 
 export const ID_TOKEN = 'id_token';
 
+export const EVENT = 'event';
+
+export const EVENT_CHANGE_PASSWORD = 'change-password-success';
+
 export const platformTitleDefinitions: { [key in ChatPlatform]: string } = {
   facebook: FACEBOOK,
   zalo: ZALO,
