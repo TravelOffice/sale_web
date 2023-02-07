@@ -1,4 +1,4 @@
-import { accountConnectionPresenter, userPresenter } from '@adapter/presenters';
+import { accountConnectionPresenter, rolePermissionPresenter, userPresenter } from '@adapter/presenters';
 import { Page } from '@domain/entities/chat/Page';
 import { User } from '@domain/entities/User';
 import { authActions, AuthPayload } from '@redux/slices/authSlice';
@@ -11,14 +11,48 @@ import { RootState } from '@redux/store';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { ID_TOKEN } from '@utils/Constants';
 import history from '@utils/HistoryUtils';
+import { Role } from '@domain/entities/RolePermission';
+import { rolePermissionActions } from '@redux/slices/rolePermissionSlice';
+
+/**
+ * Effect to fetch current user information then update to global state
+ */
+function* getCurrentUser() {
+  const currentUser: User = yield call(userPresenter.getCurrentUser);
+  yield put(authActions.setCurrentUser(currentUser));
+}
+
+/**
+ * Effect to fetch all pages (Facebook, Zalo, Telegram,...) that are linked to the user's tenant.
+ */
+function* getLinkedPage() {
+  const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, false);
+  yield put(authActions.setLinkedPages(linkedPages));
+}
+
+/**
+ * Effect to fetch all roles defined to the user's tenant.
+ */
+function* getAllRole() {
+  const roles: Role[] = yield call(rolePermissionPresenter.getAllRoles);
+  yield put(rolePermissionActions.setAllRoles(roles));
+}
+
+/**
+ * Effect to fetch initial data such as user information, linked page, roles,... that
+ * should be used in the app. This effect can be known as bootstrap effect, must be
+ * completed before accessing main function of the app.
+ */
+function* fetchUserData() {
+  yield fork(getCurrentUser);
+  yield fork(getLinkedPage);
+  yield fork(getAllRole);
+}
 
 function* attachSession(action: PayloadAction<string>) {
   try {
     localStorage.setItem(ID_TOKEN, action.payload);
-    const currentUser: User = yield call(userPresenter.getCurrentUser);
-    yield put(authActions.setCurrentUser(currentUser));
-    const linkedPages: Page[] = yield call(accountConnectionPresenter.getLinkedPages, false);
-    yield put(authActions.setLinkedPages(linkedPages));
+    yield call(fetchUserData); // Block until user data ready to use
     yield put(authActions.onInitialCompleted());
   } catch {
     // Do nothing
