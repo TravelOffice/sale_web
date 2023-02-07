@@ -53,7 +53,9 @@
         "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Đã có lỗi xảy ra.",
         "TRY_AGAIN": "Tải lại",
         "CONGRATULATIONS": "Chúc mừng",
-        "YOU": "Bạn"
+        "YOU": "Bạn",
+        "CHANGE_PASSWORD_BUTTON": "Đổi mật khẩu",
+        "CHANGE_PASSWORD_TITLE": "Đổi mật khẩu"
     },
     "LEAD": {
         "NAME": "Họ tên",

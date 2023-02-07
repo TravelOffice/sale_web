@@ -53,7 +53,9 @@
         "SOMETHING_WENT_WRONG": "Oops! \uD83D\uDE16 Something went wrong.",
         "TRY_AGAIN": "Try again",
         "CONGRATULATIONS": "Congratulations",
-        "YOU": "You"
+        "YOU": "You",
+        "CHANGE_PASSWORD_BUTTON": "CHANGE PASSWORD",
+        "CHANGE_PASSWORD_TITLE": "Change Password"
     },
     "LEAD": {
         "NAME": "Name",
