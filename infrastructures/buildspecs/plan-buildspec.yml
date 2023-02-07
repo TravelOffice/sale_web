@@ -20,7 +20,7 @@ phases:
   
   build:
     commands:
-      - npm ci --legacy-peer-deps
+      - npm i
       - npm run build
       - ./scripts/execute_terraform.sh $BUILD_ENV plan -var="TF_BUCKET=$TF_BUCKET" -var="ENV=$BUILD_ENV"
 
