@@ -28,7 +28,7 @@ export default function AuthRoute(props: RouteProps) {
       <Route
         {...rest}
         render={() => {
-          if (authStatus === 'checking') {
+          if (authStatus === 'checking' || authStatus === 'fetchingUserInfo') {
             return <FallbackSpinner />;
           }
           if (authStatus === 'notLoggedIn') {

@@ -47,7 +47,7 @@ export function useAccessControl() {
       return requiredPermissions.any.some((permissionStatement) => (typeof permissionStatement === 'string' ? can(permissionStatement) : can(...permissionStatement.all)));
     }
     return true;
-  }, []);
+  }, [can, canAny, userPermissions]);
   return {
     userPermissions,
     can,
