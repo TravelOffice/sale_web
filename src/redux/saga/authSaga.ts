@@ -77,13 +77,13 @@ function* checkAuth() {
   if (isTokenExpired(idToken)) {
     yield put(authActions.changeAuthStatus({ status: 'notLoggedIn' }));
   } else {
-    yield put(authActions.changeAuthStatus({ status: 'loggedIn', idToken }));
+    yield put(authActions.changeAuthStatus({ status: 'fetchingUserInfo', idToken }));
   }
 }
 
 function* listenToAuth(action: PayloadAction<AuthPayload>) {
   const { status, idToken } = action.payload;
-  if (status === 'loggedIn') {
+  if (status === 'fetchingUserInfo') {
     yield put(authActions.attachSession(idToken!));
   }
 }
