@@ -13,6 +13,7 @@ import CommingSoon from '@components/CommingSoon/CommingSoon';
 import { useAccessControl } from '@hooks/auth';
 import PERMISSIONS from '@utils/PermissionUtils';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
+import SecurityTabContent from '../Security/SecurityTabContent';
 
 export interface Tab {
   id: string,
@@ -33,7 +34,7 @@ const tabs: Tab[] = [
     id: 'security',
     icon: <Lock size={16} className="me-50" />,
     title: 'Security',
-    pane: <CommingSoon />,
+    pane: <SecurityTabContent />,
   },
   {
     id: 'billing',
