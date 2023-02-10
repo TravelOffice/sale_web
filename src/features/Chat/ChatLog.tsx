@@ -35,7 +35,7 @@ import { ImageDecorator } from 'react-viewer/lib/ViewerProps';
 import CustomerAvatar from '@components/Avatar/CustomerAvatar';
 import { ChatPlatform } from '@domain/entities/ChatPlatform';
 import MessageList from '@features/Chat/MessageList';
-import { useAccessControl } from '@hooks/auth';
+import { useAccessControl, useCurrentUser } from '@hooks/auth';
 import PERMISSIONS from '@utils/PermissionUtils';
 import ManualAssignChat from '@features/Chat/components/ManualAssignChat';
 
@@ -180,6 +180,7 @@ const ChatLog = (props: ChatLogProps) => {
   const [previewImages, setPreviewImages] = useState<ImageDecorator[]>([]);
   const [selectedPreviewIndex, setSelectedPreviewIndex] = useState(0);
   const sortedMessages = useMemo(() => sortMessages(messages), [messages]);
+  const currentUser = useCurrentUser();
 
   const dispatch = useDispatch();
 
@@ -278,6 +279,18 @@ const ChatLog = (props: ChatLogProps) => {
 
   const { can } = useAccessControl();
 
+  // Check wether current user can send message to actived customer or not
+  const canResponseCustomer = () => {
+    // Permission returned from server according to user role
+    if (can(PERMISSIONS.send_message)) {
+      // Current user should be assigned to conversation that belong to customer
+      if (currentUser && currentUser.username === selectedConversation.assignee) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   return (
     <div className="chat-app-window">
       <div className={classnames('start-chat-area', { 'd-none': selectedConversation })}>
@@ -339,7 +352,7 @@ const ChatLog = (props: ChatLogProps) => {
           <PerfectScrollbar
             containerRef={(ref) => setScrollViewRef(ref)}
             ref={chatArea}
-            className={classnames('user-chats', { 'hide-input': !can(PERMISSIONS.send_message) })}
+            className={classnames('user-chats', { 'hide-input': !canResponseCustomer() })}
             options={{ wheelPropagation: false }}
           >
             {
@@ -360,9 +373,8 @@ const ChatLog = (props: ChatLogProps) => {
               fetching && <Spinner className="loading-spinner" />
             }
           </PerfectScrollbar>
-
           {
-            can(PERMISSIONS.send_message) && (
+            canResponseCustomer() && (
               <Form className="chat-app-form" onSubmit={(e) => handleSendMessage(e)}>
                 <InputGroup className="input-group-merge form-send-message">
                   {/* TODO: Implement sending audio record file in the future */}
