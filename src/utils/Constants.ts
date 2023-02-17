@@ -34,3 +34,5 @@ export const platformTitleDefinitions: { [key in ChatPlatform]: string } = {
   zalo: ZALO,
   telegram: TELEGRAM,
 };
+
+export const SUPPORTED_AUDIO_EXTENSIONS = ['.aac'];

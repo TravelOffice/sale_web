@@ -1,6 +1,5 @@
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import { FacebookMessage } from '@domain/entities/chat/facebook/FacebookMessage';
-import { ZaloMessage } from '@domain/entities/chat/zalo/ZaloMessage';
 import conversationMapper from '@domain/mappers/ConversationMapper';
 import gqlClient from '@graphql/client';
 import { sendMessage } from '@graphql/mutations';
@@ -22,6 +21,7 @@ import { apiProvider, sessionStorageProvider } from '@adapter/infrastructures';
 import { DDBTelegramConversation } from '@domain/entities/chat/telegram/DDBTelegramConversation';
 import { DDBTelegramMessages } from '@domain/entities/chat/telegram/DDBTelegramMessage';
 import { ResponseType } from '@utils/ApiUtils';
+import { DDBZaloMessage } from '@domain/entities/chat/zalo/DDBZaloMessage';
 import { ChatRepository } from './interfaces/ChatRepository';
 
 export default class ChatRepositoryImpl implements ChatRepository {
@@ -64,16 +64,16 @@ export default class ChatRepositoryImpl implements ChatRepository {
   };
 
   getZaloMessages = async (
-    conversationId: string, zaloPageId: string, after?: string,
-  ): Promise<[ZaloMessage[], string]> => {
+    conversationId: string, zaloPageId: string, nextToken?: string,
+  ): Promise<[DDBZaloMessage[], string]> => {
     const options = {
       query: allZaloMessages,
-      variables: { conversationId, zaloPageId, offset: after ? parseInt(after, 10) : 0 },
+      variables: { conversationId, zaloPageId, nextToken },
     };
     const result = await gqlClient.query(options);
     const data = JSON.parse(result.data.allZaloMessages.data);
-    const zaloMessages = data.data as ZaloMessage[];
-    return [zaloMessages, data.paging.cursors.after];
+    const zaloMessages = data.data as DDBZaloMessage[];
+    return [zaloMessages, data.paging.cursors.before];
   };
 
   /**

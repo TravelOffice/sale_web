@@ -4,16 +4,25 @@ import { ZaloMessageProps } from '@features/Chat/components/zalo/ZaloMessageProp
 import { usePage } from '@hooks/chat';
 import { useQuery } from '@apollo/client';
 import { zaloAudio } from '@graphql/queries';
+import { ZaloReceivedAudioMessage } from '@domain/entities/chat/Message';
+import { SUPPORTED_AUDIO_EXTENSIONS } from '@utils/Constants';
 
 export default function ZaloAudioMessage(props: ZaloMessageProps) {
   const { messageData } = props;
   const page = usePage('zalo')!;
   const conversationId = page.id === messageData.from_id ? messageData.from_id : messageData.to_id;
+  const fileUrl = (messageData.attachments?.[0] as ZaloReceivedAudioMessage).payload.url;
+  const fileExtension = String(fileUrl.split('.').pop());
+  if (SUPPORTED_AUDIO_EXTENSIONS.includes(fileExtension)) {
+    return (
+      <AudioMessage url={fileUrl} />
+    );
+  }
   const { data } = useQuery(zaloAudio, {
     variables: {
       conversationId,
-      fileUrl: messageData.url,
-      messageId: messageData.message_id,
+      fileUrl,
+      messageId: messageData.msg_id,
       pageId: page.id,
     },
   });
@@ -21,7 +30,7 @@ export default function ZaloAudioMessage(props: ZaloMessageProps) {
     if (!data) {
       return undefined;
     }
-    return JSON.parse(data.getZaloAudio.data).data;
+    return fileUrl;
   }, [data]);
   return (
     <AudioMessage url={url} />

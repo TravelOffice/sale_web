@@ -31,17 +31,17 @@ class MessageMapper {
   }
 
   fromZaloMessage = (zaloMessage: ZaloMessage): Message => {
+    // const { content: zaloMessageContent} = zaloMessage;
     const zaloPageId = getPageFromRedux('zalo')?.id!;
     const customerId = zaloMessage.from_id === zaloPageId ? zaloMessage.to_id : zaloMessage.from_id;
     return {
-      id: zaloMessage.message_id,
+      id: zaloMessage.msg_id,
       customerId,
       recipient: zaloMessage.to_id,
       sender: zaloMessage.from_id,
       timestamp: new Date(zaloMessage.time),
       messageData: zaloMessage,
       chatPlatform: 'zalo',
-      isUnsupported: zaloMessage.type === 'nosupport', // Zalo unsupported message
     };
   }
 

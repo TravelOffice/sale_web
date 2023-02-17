@@ -4,6 +4,6 @@ import { ZaloMessageProps } from '@features/Chat/components/zalo/ZaloMessageProp
 
 export default function ZaloTextMessage(props: ZaloMessageProps) {
   const { messageData } = props;
-  const textData = messageData.message;
+  const textData = String(messageData.text);
   return <TextMessage text={textData} />;
 }
