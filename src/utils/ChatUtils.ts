@@ -112,21 +112,6 @@ export const getTelegramLastMessageTitle = (message: TelegramMessage): string =>
   return message.text || '';
 };
 
-export const isImageMessage = (message: Message) => {
-  if (message.chatPlatform === 'facebook') {
-    const { attachments } = message.messageData;
-    if (attachments && attachments.length > 0) {
-      const { mimeType } = attachments[0];
-      return mimeType.startsWith('image/');
-    }
-  }
-  if (message.chatPlatform === 'zalo') {
-    return !!message.messageData.url;
-  }
-  // TODO: Telegram is unsupported now
-  return false;
-};
-
 /**
  * Get all image sources from messages
  * @param messages the Message list
@@ -142,8 +127,13 @@ export const getImageSources = (messages: Message[]) => {
         imageSources.push({ messageId: message.id, src: mAttachment.url || '', alt: mAttachment.name });
       }
     }
-    if (message.chatPlatform === 'zalo' && message.messageData.url) {
-      imageSources.push({ messageId: message.id, src: message.messageData.url, alt: '' });
+    if (message.chatPlatform === 'zalo' && message.messageData.attachments) {
+      const { attachments } = message.messageData;
+      attachments?.forEach((attachment) => {
+        if (attachment.type === 'image' || attachment.type === 'gif') {
+          imageSources.push({ messageId: message.id, src: attachment.payload.url, alt: '' });
+        }
+      });
     }
   });
   return imageSources;
