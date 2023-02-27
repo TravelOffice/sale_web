@@ -53,8 +53,8 @@ export const allFbMessages = gql`
 `;
 
 export const allZaloMessages = gql`
-  query GetZaloMessages($zaloPageId: String!, $conversationId: String!, $offset: Int) {
-    allZaloMessages(pageId: $zaloPageId, conversationId: $conversationId, offset: $offset) {
+  query GetZaloMessages($zaloPageId: String!, $conversationId: String!, $nextToken: String) {
+    allZaloMessages(pageId: $zaloPageId, conversationId: $conversationId, nextToken: $nextToken) {
       message
       data
     }

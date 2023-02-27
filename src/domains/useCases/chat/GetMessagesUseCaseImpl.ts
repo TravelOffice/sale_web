@@ -1,6 +1,7 @@
 import { chatRepository } from '@adapter/repositories';
 import { Conversation } from '@domain/entities/chat/Conversation';
 import { Message } from '@domain/entities/chat/Message';
+import { DDBZaloMessage } from '@domain/entities/chat/zalo/DDBZaloMessage';
 import messageMapper from '@domain/mappers/MessageMapper';
 import { getPageFromRedux } from '@utils/ChatUtils';
 import { GetMessagesUseCase } from '../interfaces/chat/GetMessagesUseCase';
@@ -40,12 +41,16 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
   };
 
   private getZaloMessages = async (
-    zaloPageId: string, conversation: Conversation, after?: string,
+    zaloPageId: string,
+    conversation: Conversation,
+    nextToken?: string,
   ): Promise<[Message[], string]> => {
-    const [zaloMessages, zaloNextToken] = await chatRepository.getZaloMessages(
-      conversation.contact.id, zaloPageId, after,
+    const [ddbZaloMessages, zaloNextToken] = await chatRepository.getZaloMessages(
+      conversation.contact.id, zaloPageId, nextToken,
     );
-    const messages = zaloMessages.map((zaloMessage) => messageMapper.fromZaloMessage(zaloMessage));
+    const messages = ddbZaloMessages.map(
+      (ddbZaloMessage: DDBZaloMessage) => messageMapper.fromZaloMessage(ddbZaloMessage.content),
+    );
     return [messages, `${zaloNextToken}`];
   };
 
