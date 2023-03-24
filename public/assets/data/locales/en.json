@@ -55,7 +55,8 @@
         "CONGRATULATIONS": "Congratulations",
         "YOU": "You",
         "CHANGE_PASSWORD_BUTTON": "CHANGE PASSWORD",
-        "CHANGE_PASSWORD_TITLE": "Change Password"
+        "CHANGE_PASSWORD_TITLE": "Change Password",
+        "NEXT_STEP": "Next step"
     },
     "LEAD": {
         "NAME": "Name",
@@ -419,6 +420,9 @@
         "DELETE_MAIL_WARNING_TITLE": "Delete mail",
         "DELETE_MAILS_WARNING_TITLE": "Delete {{count}} mails",
         "DELETE_MAIL_WARNING_MESSAGE": "This mail will be deleted from TravelOffice system. Do you want to delete?",
-        "DELETE_MAILS_WARNING_MESSAGE": "{{count}} mails will be deleted from TravelOffice system. Do you want to delete?"
+        "DELETE_MAILS_WARNING_MESSAGE": "{{count}} mails will be deleted from TravelOffice system. Do you want to delete?",
+        "PASSWORD": "Password",
+        "CONFIGURE_MANUALLY": "I want to configure my email address manually",
+        "SIGN_IN_WITH": "Sign in with {{name}}"
     }
 }

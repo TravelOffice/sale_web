@@ -6,10 +6,10 @@ import {
 import { useTranslation } from 'react-i18next';
 import MailAccountItem from '@features/Settings/connections/mail/MailAccountItem';
 import classNames from 'classnames';
-import LinkEmailModal from '@features/Settings/connections/mail/LinkEmailModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
 import { mailActions } from '@redux/slices/mailSlice';
+import ConfigureMailAccountModal from '@features/Settings/connections/mail/ConfigureMailAccountModal';
 
 export default function MailConnection() {
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ export default function MailConnection() {
           }
         </CardBody>
       </Card>
-      <LinkEmailModal isOpen={modalStatus !== 'closed'} />
+      <ConfigureMailAccountModal isOpen={modalStatus !== 'closed'} />
     </>
   );
 }

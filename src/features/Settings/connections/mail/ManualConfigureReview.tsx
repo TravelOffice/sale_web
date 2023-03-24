@@ -1,15 +1,15 @@
 import React, { useCallback, useState } from 'react';
-import { LinkEmailStepProps } from '@features/Settings/connections/mail/LinkEmailStepProps';
+import { ManualConfigureEmailStepProps } from '@features/Settings/connections/mail/ManualConfigureEmailStepProps';
 import { Button, Col, Spinner } from 'reactstrap';
 import {
   ArrowLeft, ArrowRight, Eye, EyeOff,
 } from 'react-feather';
 import { useWatch } from 'react-hook-form';
-import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@redux/store';
-import { mailActions } from '@redux/slices/mailSlice';
+import { useMutation } from '@tanstack/react-query';
+import { mailPresenter } from '@adapter/presenters';
+import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
+import { showLinkMailAccountFailed, showLinkMailAccountSuccessfully } from '@utils/MailUtils';
 
 function PasswordText(props: { password: string }) {
   const { password } = props;
@@ -26,16 +26,30 @@ function PasswordText(props: { password: string }) {
   );
 }
 
-export default function Review(props: LinkEmailStepProps) {
-  const { form, stepper } = props;
+export interface ReviewProps extends ManualConfigureEmailStepProps {
+  onCompleted: () => void,
+}
+
+export default function ManualConfigureReview(props: ReviewProps) {
+  const { form, stepper, onCompleted } = props;
   const { control, handleSubmit } = form;
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const modalStatus = useSelector((state: RootState) => state.mail.linkModalStatus);
   const data = useWatch({ control });
-  const onSubmit = useCallback(() => {
+
+  const linkEmailMutation = useMutation({
+    mutationFn: (formData: LinkEmailFormData) => mailPresenter.linkMail(formData),
+    onSuccess: (_, formData) => {
+      showLinkMailAccountSuccessfully(formData.email);
+      onCompleted();
+    },
+    onError: (error: Error) => {
+      showLinkMailAccountFailed(error);
+    },
+  });
+
+  const handleOnSubmit = useCallback(() => {
     handleSubmit((formData: LinkEmailFormData) => {
-      dispatch(mailActions.linkMail(formData));
+      linkEmailMutation.mutate(formData);
     })();
   }, []);
 
@@ -166,8 +180,8 @@ export default function Review(props: LinkEmailStepProps) {
           <ArrowLeft size={14} className="rotate-rtl align-middle me-sm-50 me-0" />
           <div className="align-middle d-sm-inline-block d-none">{t('COMMON.PREVIOUS')}</div>
         </Button>
-        <Button color="success" onClick={onSubmit} disabled={modalStatus === 'linking'}>
-          {modalStatus === 'linking' && <Spinner size="sm" className="me-2" />}
+        <Button color="success" onClick={handleOnSubmit} disabled={linkEmailMutation.isLoading}>
+          {linkEmailMutation.isLoading && <Spinner size="sm" className="me-2" />}
           <div className="align-middle d-sm-inline-block d-none">{t('COMMON.SUBMIT')}</div>
           <ArrowRight size={14} className="rotate-rtl align-middle ms-sm-50 ms-0" />
         </Button>

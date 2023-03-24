@@ -17,6 +17,7 @@ import gmailLogo from '@assets/images/icons/mails/gmail.svg';
 import outlookLogo from '@assets/images/icons/mails/outlook.svg';
 import iCloudLogo from '@assets/images/icons/mails/icloud.svg';
 import yahooLogo from '@assets/images/icons/mails/yahoo.png';
+import email from '@assets/images/illustration/email.svg';
 
 const Images = {
   logo,
@@ -41,6 +42,9 @@ const Images = {
       iCloudLogo,
       yahooLogo,
     },
+  },
+  illustration: {
+    email,
   },
   pages: {
     notAuthorized,
