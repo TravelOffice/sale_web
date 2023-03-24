@@ -88,4 +88,5 @@ export interface TelegramMessage {
   migrate_from_chat_id?: number;
   pinned_message?: TelegramMessage;
   dice?: MessageContents.Dice;
+  metadata?: string;
 }
