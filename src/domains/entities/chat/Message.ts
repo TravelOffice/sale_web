@@ -14,6 +14,7 @@ export interface MessageAttachment {
 
 export interface MessageData {
   text: string,
+  metadata?: string,
   attachments?: MessageAttachment[],
   sticker?: {
     id: string,
@@ -91,6 +92,7 @@ export interface ZaloMessageData {
   time: number,
   from_id: string,
   to_id: string,
+  metadata?: string,
 }
 
 export interface BaseMessage<P extends ChatPlatform, D extends any = MessageData> {
@@ -102,6 +104,7 @@ export interface BaseMessage<P extends ChatPlatform, D extends any = MessageData
   timestamp: Date,
   chatPlatform: P,
   isUnsupported?: boolean,
+  seen?: boolean,
 }
 
 export type FacebookChatMessage = BaseMessage<'facebook'>;

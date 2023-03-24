@@ -5,8 +5,9 @@ import { TelegramMessageProps } from '@features/Chat/components/telegram/Telegra
 
 export default function TelegramTextMessage(props: TelegramMessageProps) {
   const { message } = props;
+  const { seen } = message;
   const messageData = message.messageData as TelegramMessage;
   return (
-    <TextMessage text={messageData.text || ''} />
+    <TextMessage text={messageData.text || ''} seen={seen} />
   );
 }
