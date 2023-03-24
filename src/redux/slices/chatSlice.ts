@@ -124,7 +124,23 @@ const chatSlice = createSlice({
       const message = action.payload;
       const { selectedConversation } = state;
       if (selectedConversation && selectedConversation.contact.id === message.customerId) {
-        state.messages.push(message);
+        const { messages } = state;
+        if (message.messageData.metadata) {
+          const newMessages = [...state.messages];
+          const index: number = messages.findIndex(
+            (element) => element.messageData.metadata === message.messageData.metadata,
+          );
+          // find replies messages from webhooks and replace preview message
+          if (index > -1) {
+            newMessages[index] = {
+              ...message,
+              timestamp: newMessages[index].timestamp,
+            };
+            state.messages = newMessages;
+          }
+        } else {
+          state.messages.push(message);
+        }
       }
     },
     onAttachmentMessageSent: (state) => {
@@ -155,6 +171,9 @@ const chatSlice = createSlice({
           ),
         );
       }
+    },
+    onPushPreviewMessage: (state, action: PayloadAction<Message[]>) => {
+      state.messages = action.payload;
     },
   },
 });

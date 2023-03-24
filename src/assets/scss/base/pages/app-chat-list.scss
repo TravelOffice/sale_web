@@ -65,6 +65,9 @@ $chat-widget-height: 390px;
         margin: 0 1rem 10px 0;
         clear: both;
         color: $white;
+        &.preview {
+          @include gradient-directional(map-get($dark-color, 'darken-3'), map-get($dark-color, 'darken-1'), 80deg);
+        }
         @include gradient-directional(map-get($primary-color, 'base'), map-get($primary-color, 'lighten-2'), 80deg);
         border-radius: $border-radius;
         box-shadow: 0 4px 8px 0 rgba($black, 0.12);

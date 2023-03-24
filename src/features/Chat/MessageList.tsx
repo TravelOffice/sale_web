@@ -28,8 +28,9 @@ export default function MessageList(props: MessageListProps) {
             key={group.messages[0].id}
             className={classnames('chat', { 'chat-left': !isMe(group.senderId) })}
           >
-            <div className="chat-avatar">
-              {
+            <div>
+              <div className="chat-avatar">
+                {
                 isMe(group.senderId)
                   ? (
                     <Avatar
@@ -42,8 +43,8 @@ export default function MessageList(props: MessageListProps) {
                     />
                   ) : <CustomerAvatar conversation={currentConversation} />
               }
+              </div>
             </div>
-
             <div className="chat-body">
               {group.messages.map((message) => (
                 <ChatMessage

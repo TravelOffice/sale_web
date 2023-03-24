@@ -38,6 +38,8 @@ import MessageList from '@features/Chat/MessageList';
 import { useAccessControl, useCurrentUser } from '@hooks/auth';
 import PERMISSIONS from '@utils/PermissionUtils';
 import ManualAssignChat from '@features/Chat/components/ManualAssignChat';
+import { generateMetadata } from '@utils/GenerateMetadataUtils';
+import { v4 as uuidV4 } from 'uuid';
 
 interface AttachmentMessageSetting {
   id: number,
@@ -251,11 +253,30 @@ const ChatLog = (props: ChatLogProps) => {
    */
   const handleSendMessage = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const timestamp: Date = new Date();
+    const metadata = generateMetadata(selectedConversation?.id, timestamp);
     if (messageText.length && customerId) {
       setMessageText('');
       const messageData: MessageData = {
         text: messageText,
+        metadata,
       };
+      const previewedMessageId: string = uuidV4();
+      const previewedMessage: Message = {
+        id: previewedMessageId,
+        customerId: contact.id,
+        messageData: {
+          text: messageText,
+          metadata,
+        },
+        recipient: contact.id,
+        sender: selectedConversation?.pageId,
+        timestamp,
+        chatPlatform: selectedConversation?.chatPlatform,
+        seen: true,
+      };
+      const newListMessage: Message[] = messages.concat(previewedMessage);
+      dispatch(chatActions.onPushPreviewMessage(newListMessage));
       onSendMessage(messageData);
     }
   };
