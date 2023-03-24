@@ -6,6 +6,7 @@ import i18n from 'i18next';
 import { MailAddress } from '@domain/entities/mail/MailAddress';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import FileSaver from 'file-saver';
+import toasty from '@components/Toasty/Toasty';
 
 export const mailProtocolLabels: Record<MailProtocol, string> = {
   imap: 'IMAP',
@@ -138,3 +139,27 @@ export const MAIL_PAGE_SIZE = 10;
 export const REPLY_PREFIX = 'Re: ';
 
 export const FORWARD_PREFIX = 'Fwd: ';
+
+/**
+ * Method to show an error notification when linking a mail account failed
+ * @param error an Error object which would be shown to the user
+ */
+export function showLinkMailAccountFailed(error: Error) {
+  toasty.show({
+    type: 'error',
+    title: i18n.t('COMMON.ERROR'),
+    message: error.message,
+  });
+}
+
+/**
+ * Method to show a notification when linking a mail account successfully
+ * @param mailAddress the given mail address to notify the user
+ */
+export function showLinkMailAccountSuccessfully(mailAddress: string) {
+  toasty.show({
+    title: i18n.t('COMMON.SUCCESS'),
+    type: 'success',
+    message: i18n.t('MAIL.LINK_MAIL_SUCCESSFULLY', { mailAddress }),
+  });
+}

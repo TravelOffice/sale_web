@@ -201,6 +201,15 @@ function* deleteMail(action: PayloadAction<DeleteMailRequest>) {
   }
 }
 
+function* refreshMailAccountList() {
+  try {
+    const mailAccounts: MailAccount[] = yield call(mailPresenter.getMailAccounts);
+    yield put(mailActions.onMailAccountsFetched(mailAccounts));
+  } catch {
+    // Do nothing
+  }
+}
+
 export default function* mailSaga() {
   yield all([
     syncFlow(),
@@ -213,5 +222,6 @@ export default function* mailSaga() {
     takeLatest(mailActions.draftMail, draftMail),
     takeLatest(mailActions.deleteMail, deleteMail),
     takeEvery(mailActions.uploadAttachment, uploadAttachment),
+    takeLatest(mailActions.refreshMailAccountList, refreshMailAccountList),
   ]);
 }

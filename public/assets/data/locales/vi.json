@@ -55,7 +55,8 @@
         "CONGRATULATIONS": "Chúc mừng",
         "YOU": "Bạn",
         "CHANGE_PASSWORD_BUTTON": "Đổi mật khẩu",
-        "CHANGE_PASSWORD_TITLE": "Đổi mật khẩu"
+        "CHANGE_PASSWORD_TITLE": "Đổi mật khẩu",
+        "NEXT_STEP": "Tiếp theo"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -419,6 +420,9 @@
         "DELETE_MAIL_WARNING_TITLE": "Xóa thư",
         "DELETE_MAILS_WARNING_TITLE": "Xóa {{count}} thư",
         "DELETE_MAIL_WARNING_MESSAGE": "Thư sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa?",
-        "DELETE_MAILS_WARNING_MESSAGE": "{{count}} thư sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa?"
+        "DELETE_MAILS_WARNING_MESSAGE": "{{count}} thư sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa?",
+        "PASSWORD": "Mật khẩu",
+        "CONFIGURE_MANUALLY": "Tôi muốn cấu hình thủ công",
+        "SIGN_IN_WITH": "Đăng nhập bằng {{name}}"
     }
 }

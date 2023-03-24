@@ -1,8 +1,7 @@
 import { UseFormReturn } from 'react-hook-form';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
-import Stepper from '@utils/Stepper';
 
-export interface LinkEmailStepProps {
+export interface ConfigureMailAccountStepProps<T = any> {
   form: UseFormReturn<LinkEmailFormData>,
-  stepper: Stepper
+  onNext: (data?: T) => void,
 }
