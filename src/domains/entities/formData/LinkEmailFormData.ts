@@ -17,4 +17,5 @@ export interface LinkEmailFormData {
   outboundPort: number,
   outboundSslMode: OutboundSslMode,
   outboundUser: string,
+  password: string,
 }

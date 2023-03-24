@@ -211,6 +211,7 @@ const mailSlice = createSlice({
       state.mails = state.mails.filter((mail: MailMessage) => !messagesId.includes(mail.messageId));
       state.selectedMail = undefined;
     },
+    refreshMailAccountList: (_state) => {},
   },
 });
 

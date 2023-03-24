@@ -8,7 +8,7 @@ import Select from 'react-select';
 import { inboundSslModes, mailProtocols } from '@domain/entities/mail/MailAccount';
 import classnames from 'classnames';
 import InputPasswordToggle from '@components/Input/InputPasswordToggle';
-import { LinkEmailStepProps } from '@features/Settings/connections/mail/LinkEmailStepProps';
+import { ManualConfigureEmailStepProps } from '@features/Settings/connections/mail/ManualConfigureEmailStepProps';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import { ValidationError } from 'yup';
 import { ArrowLeft, ArrowRight } from 'react-feather';
@@ -36,7 +36,7 @@ const schema = yup.object().shape({
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('MAIL.INBOUND_PASSWORD') })),
 });
 
-export default function ConfigureInbound(props: LinkEmailStepProps) {
+export default function ManualConfigureIncomingServer(props: ManualConfigureEmailStepProps) {
   const { form, stepper } = props;
   const [errors, setErrors] = useState<Partial<Record<FieldPath<LinkEmailFormData>, string>>>({});
   const { control, setValue, getValues } = form;

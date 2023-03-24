@@ -10,6 +10,7 @@ import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 import { ChangeMailboxRequest } from '@domain/entities/mail/ChangeMailboxRequest';
+import { AutoLinkEmailRequest } from '@domain/entities/mail/AutoLinkEmailRequest';
 
 export default class MailRepositoryImpl implements MailRepository {
   private readonly client = mailApiProvider.authorizedRequest;
@@ -48,7 +49,19 @@ export default class MailRepositoryImpl implements MailRepository {
 
   draftMail = async (sendMailFormData: SendMailFormData): Promise<MailMessage> => this.client.post('draft-email', sendMailFormData);
 
-  deleteMail = async (request: DeleteMailRequest) => this.client.delete<void>('mails', { data: request })
+  deleteMail = async (request: DeleteMailRequest) => this.client.delete<void>('mails', { data: request });
 
   changeMailbox = async (request: ChangeMailboxRequest): Promise<void> => this.client.post('mails/change-mailbox', request);
+
+  /**
+   * Get mail server information by given mail address
+   * @param mailAddress the given mail address
+   */
+  getMailServer = async (mailAddress: string) => this.client.get('/autolink-email', { queryParams: { email: mailAddress } });
+
+  /**
+   * Method to auto link a mail address using pre-config mail server
+   * @param request includes information to link such as emai
+   */
+  autoLinkEmail = async (request: AutoLinkEmailRequest) => this.client.post('/autolink-email', request);
 }

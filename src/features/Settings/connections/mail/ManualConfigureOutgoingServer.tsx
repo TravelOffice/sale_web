@@ -12,7 +12,7 @@ import classnames from 'classnames';
 import InputPasswordToggle from '@components/Input/InputPasswordToggle';
 import { ValidationError } from 'yup';
 import { ArrowLeft, ArrowRight } from 'react-feather';
-import { LinkEmailStepProps } from '@features/Settings/connections/mail/LinkEmailStepProps';
+import { ManualConfigureEmailStepProps } from '@features/Settings/connections/mail/ManualConfigureEmailStepProps';
 import * as yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import i18n from '@config/i18n';
@@ -34,7 +34,7 @@ const schema = yup.object().shape({
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('MAIL.OUTBOUND_PASSWORD') })),
 });
 
-export default function ConfigureOutbound(props: LinkEmailStepProps) {
+export default function ManualConfigureOutgoingServer(props: ManualConfigureEmailStepProps) {
   const { form, stepper } = props;
   const {
     control, setValue, getValues,
