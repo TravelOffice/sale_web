@@ -64,4 +64,10 @@ export default class MailRepositoryImpl implements MailRepository {
    * @param request includes information to link such as emai
    */
   autoLinkEmail = async (request: AutoLinkEmailRequest) => this.client.post('/autolink-email', request);
+
+  /**
+   * Method to unlink a mail account from the system
+   * @param mailAccount the given mail account to unlink
+   */
+  unlinkMailAccount = async (mailAccount: MailAccount) => this.client.get('/unlink-email', { queryParams: { email: mailAccount.email } })
 }

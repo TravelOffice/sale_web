@@ -24,4 +24,5 @@ export interface MailRepository {
   changeMailbox: (request: ChangeMailboxRequest) => Promise<void>
   getMailServer: (email: string) => Promise<MailServer>
   autoLinkEmail: (request: AutoLinkEmailRequest) => Promise<MailAccount>
+  unlinkMailAccount: (mailAccount: MailAccount) => Promise<void>
 }

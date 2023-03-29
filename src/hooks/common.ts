@@ -2,6 +2,10 @@ import React, { useCallback, useState } from 'react';
 import * as yup from 'yup';
 import { ValidationError } from 'yup';
 import { FieldPath } from 'react-hook-form';
+import { useMutation } from '@tanstack/react-query';
+import { UseMutationOptions } from '@tanstack/react-query/src/types';
+import toasty from '@components/Toasty/Toasty';
+import { useTranslation } from 'react-i18next';
 
 export function useDebounce(value: string, delay: number = 500) {
   const [debouncedValue, setDebouncedValue] = React.useState(value);
@@ -43,4 +47,45 @@ export function useYupValidation<T>() {
     setErrors({});
   }, []);
   return { errors, validate, clearErrors };
+}
+
+export type UseMutationWithNotificationOptions<
+  TData = unknown,
+  TError = unknown,
+  TVariables = void,
+  TContext = unknown,
+> = UseMutationOptions<TData, TError, TVariables, TContext> & {
+  successTitle?: string | ((data: TData, variables: TVariables) => string),
+  successMessage: string | ((data: TData, variables: TVariables) => string),
+  errorTitle?: string | ((error: TError, variables: TVariables) => string),
+  errorMessage?: string | ((error: TError, variables: TVariables) => string),
+};
+
+export function useMutationWithNotification<
+  TData = unknown,
+  TError = unknown,
+  TVariables = void,
+  TContext = unknown,
+>(options: UseMutationWithNotificationOptions<TData, TError, TVariables, TContext>) {
+  const { t } = useTranslation();
+  const {
+    successTitle, successMessage, errorTitle, errorMessage,
+  } = options;
+  return useMutation({
+    onSuccess: (data: TData, variables: TVariables) => {
+      toasty.show({
+        type: 'success',
+        title: (typeof successTitle === 'string' ? successTitle : successTitle?.(data, variables)) || t('COMMON.SUCCESS'),
+        message: typeof successMessage === 'string' ? successMessage : successMessage(data, variables),
+      });
+    },
+    onError: (error: TError, variables: TVariables) => {
+      toasty.show({
+        type: 'error',
+        title: (typeof errorTitle === 'string' ? errorTitle : errorTitle?.(error, variables)) || t('COMMON.ERROR'),
+        message: (typeof errorMessage === 'string' ? errorMessage : errorMessage?.(error, variables)) || (error instanceof Error ? error.message : t('COMMON.ERROR')),
+      });
+    },
+    ...options,
+  });
 }
