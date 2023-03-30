@@ -1,5 +1,5 @@
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
-import { FacebookMessage } from '@domain/entities/chat/facebook/FacebookMessage';
+import { DDBFacebookMessage } from '@domain/entities/chat/facebook/FacebookMessage';
 import conversationMapper from '@domain/mappers/ConversationMapper';
 import gqlClient from '@graphql/client';
 import { sendMessage } from '@graphql/mutations';
@@ -54,12 +54,12 @@ export default class ChatRepositoryImpl implements ChatRepository {
   };
 
   getFbMessages = async (
-    conversationId: string, fbPageId: string, after?: string,
-  ): Promise<[FacebookMessage[], string]> => {
-    const options = { query: allFbMessages, variables: { conversationId, fbPageId, after } };
+    conversationId: string, fbPageId: string, nextToken?: string,
+  ): Promise<[DDBFacebookMessage[], string]> => {
+    const options = { query: allFbMessages, variables: { conversationId, fbPageId, nextToken } };
     const result = await gqlClient.query(options);
     const data = JSON.parse(result.data.allFbMessages.data);
-    const fbMessages = data.data as FacebookMessage[];
+    const fbMessages = data.data as DDBFacebookMessage[];
     return [fbMessages, data.paging.cursors.after];
   };
 

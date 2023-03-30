@@ -44,8 +44,8 @@ export const allMessages = gql`
 `;
 
 export const allFbMessages = gql`
-  query GetFbMessages($conversationId: String!, $fbPageId: String!, $after: String) {
-    allFbMessages(conversationId: $conversationId, pageId: $fbPageId, after: $after) {
+  query GetFbMessages($conversationId: String!, $fbPageId: String!, $nextToken: String) {
+    allFbMessages(conversationId: $conversationId, pageId: $fbPageId, nextToken: $nextToken) {
       data
       message
     }
