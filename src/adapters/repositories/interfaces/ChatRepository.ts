@@ -1,7 +1,7 @@
 import { FetchResult, Observable } from '@apollo/client';
 import { ChatPlatform } from '@domain/entities/chat/ChatPlatform';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { FacebookMessage } from '@domain/entities/chat/facebook/FacebookMessage';
+import { DDBFacebookMessage } from '@domain/entities/chat/facebook/FacebookMessage';
 import { FacebookUserInfo } from '@domain/entities/chat/facebook/FacebookUserInfo';
 import { ChatPlatformSendMessage } from '@domain/entities/chat/ChatPlatformSendMessage';
 import { DDBTelegramMessages } from '@domain/entities/chat/telegram/DDBTelegramMessage';
@@ -14,7 +14,7 @@ export interface ChatRepository {
   getTelegramConversations: (botId: string) => Promise<Conversation[]>
   getFbMessages: (
     conversationId: string, fbPageId: string, before?: string
-  ) => Promise<[FacebookMessage[], string]>
+  ) => Promise<[DDBFacebookMessage[], string]>
   getZaloMessages: (
     conversationId: string, zaloPageId: string, before?: string
   ) => Promise<[DDBZaloMessage[], string]>
