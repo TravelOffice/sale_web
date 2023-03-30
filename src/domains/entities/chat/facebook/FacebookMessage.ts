@@ -47,3 +47,12 @@ export interface FacebookMessage {
     }>
   }
 }
+
+export interface DDBFacebookMessages {
+  data: DDBFacebookMessage[],
+  nextToken?: string,
+}
+
+export interface DDBFacebookMessage {
+  content: FacebookMessage,
+}

@@ -31,12 +31,14 @@ export default class GetMessagesUseCaseImpl implements GetMessagesUseCase {
   };
 
   private getFbMessages = async (
-    fbPageId: string, conversation: Conversation, after?: string,
+    fbPageId: string, conversation: Conversation, nextToken?: string,
   ): Promise<[Message[], string]> => {
     const [fbMessages, fbNextToken] = await chatRepository.getFbMessages(
-      conversation.id, fbPageId, after,
+      conversation.id, fbPageId, nextToken,
     );
-    const messages = fbMessages.map((fbMessage) => messageMapper.fromFacebookMessage(fbMessage));
+    const messages = fbMessages.map(
+      (fbMessage) => messageMapper.fromFacebookMessage(fbMessage.content),
+    );
     return [messages, fbNextToken];
   };
 
