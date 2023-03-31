@@ -9,6 +9,7 @@ import { MailSearchResult } from '@domain/entities/mail/MailSearchResult';
 import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 import { MailServer } from '@domain/entities/mail/MailServer';
 import { AutoLinkEmailRequest } from '@domain/entities/mail/AutoLinkEmailRequest';
+import { ChangeMailboxRequest } from '@domain/entities/mail/ChangeMailboxRequest';
 
 export interface MailPresenter {
   linkMail: (formData: LinkEmailFormData) => Promise<MailAccount>
@@ -28,4 +29,5 @@ export interface MailPresenter {
   deleteMail: (request: DeleteMailRequest) => Promise<void>
   getMailServer: (mailAddress: string) => Promise<MailServer>
   autoLinkEmail: (request: AutoLinkEmailRequest) => Promise<MailAccount>
+  changeMailbox: (request: ChangeMailboxRequest) => Promise<void>
 }

@@ -212,6 +212,12 @@ const mailSlice = createSlice({
       state.selectedMail = undefined;
     },
     refreshMailAccountList: (_state) => {},
+    changeMailbox: (state, action: PayloadAction<{ mailbox: string, mails: MailMessage[] }>) => {
+      const { mails } = action.payload;
+      const mailIdsToMove = mails.map((mail) => mail.messageId);
+      state.mails = state.mails.filter((mail) => !mailIdsToMove.includes(mail.messageId));
+      state.selectedMail = undefined;
+    },
   },
 });
 

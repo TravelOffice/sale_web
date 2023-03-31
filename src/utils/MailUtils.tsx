@@ -7,6 +7,10 @@ import { MailAddress } from '@domain/entities/mail/MailAddress';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import FileSaver from 'file-saver';
 import toasty from '@components/Toasty/Toasty';
+import React, { ReactNode } from 'react';
+import {
+  Edit2, Info, Mail, Send, Star, Trash,
+} from 'react-feather';
 
 export const mailProtocolLabels: Record<MailProtocol, string> = {
   imap: 'IMAP',
@@ -163,3 +167,12 @@ export function showLinkMailAccountSuccessfully(mailAddress: string) {
     message: i18n.t('MAIL.LINK_MAIL_SUCCESSFULLY', { mailAddress }),
   });
 }
+
+export const mailIcons: Record<string, ReactNode> = {
+  inbox: <Mail size={18} className="me-75" />,
+  sent: <Send size={18} className="me-75" />,
+  draft: <Edit2 size={18} className="me-75" />,
+  starred: <Star size={18} className="me-75" />,
+  spam: <Info size={18} className="me-75" />,
+  delete: <Trash size={18} className="me-75" />,
+};
