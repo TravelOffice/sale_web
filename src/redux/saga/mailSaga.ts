@@ -17,6 +17,7 @@ import { authActions } from '@redux/slices/authSlice';
 import { Task } from 'redux-saga';
 import { getDefaultSyncMailInterval } from '@utils/MailUtils';
 import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
+import { MailMessage } from '@domain/entities/mail/MailMessage';
 
 function* linkMail(action: PayloadAction<LinkEmailFormData>) {
   let success = true;
@@ -210,6 +211,34 @@ function* refreshMailAccountList() {
   }
 }
 
+/**
+ * Effect which should be used to move a mail message from a folder to another
+ */
+function* changeMailbox(action: PayloadAction<{ mailbox: string, mails: MailMessage[] }>) {
+  try {
+    const { mailbox, mails } = action.payload;
+    const mailState: MailState = yield select((state: RootState) => state.mail);
+    const { selectedMailboxId, selectedMailAccount } = mailState;
+    yield call(mailPresenter.changeMailbox, {
+      from: selectedMailboxId,
+      to: mailbox,
+      mail: selectedMailAccount?.email!,
+      messages: mails.map((mail) => mail.messageId),
+    });
+    toasty.show({
+      title: i18n.t('COMMON.SUCCESS'),
+      type: 'success',
+      message: i18n.t('MAIL.CHANGE_MAILBOX_SUCCESSFULLY', { count: mails.length, folder: i18n.t(`MAIL.${mailbox.toUpperCase()}`) }),
+    });
+  } catch (error: any) {
+    toasty.show({
+      title: i18n.t('COMMON.ERROR'),
+      type: 'error',
+      message: `${error.message}`,
+    });
+  }
+}
+
 export default function* mailSaga() {
   yield all([
     syncFlow(),
@@ -223,5 +252,6 @@ export default function* mailSaga() {
     takeLatest(mailActions.deleteMail, deleteMail),
     takeEvery(mailActions.uploadAttachment, uploadAttachment),
     takeLatest(mailActions.refreshMailAccountList, refreshMailAccountList),
+    takeLatest(mailActions.changeMailbox, changeMailbox),
   ]);
 }

@@ -423,6 +423,7 @@
         "DELETE_MAILS_WARNING_MESSAGE": "{{count}} thư sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa?",
         "PASSWORD": "Mật khẩu",
         "CONFIGURE_MANUALLY": "Tôi muốn cấu hình thủ công",
-        "SIGN_IN_WITH": "Đăng nhập bằng {{name}}"
+        "SIGN_IN_WITH": "Đăng nhập bằng {{name}}",
+        "CHANGE_MAILBOX_SUCCESSFULLY": "{{count}} mail đã được chuyển sang thư mục {{folder}}"
     }
 }

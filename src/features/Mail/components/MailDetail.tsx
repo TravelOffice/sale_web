@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { mailActions } from '@redux/slices/mailSlice';
 import { RootState } from '@redux/store';
 import DeleteMailButton from '@features/Mail/components/DeleteMailButton';
+import { useMailboxes } from '@hooks/mail';
+import { mailIcons } from '@utils/MailUtils';
 
 export interface MailDetailComponentProps {
   mail: MailMessage | undefined,
@@ -45,7 +47,8 @@ export default function MailDetail(props: MailDetailComponentProps) {
     mail, mailThread, onBack, isFetching,
   } = props;
   const [showMailThread, setShowMailThread] = useState(false);
-  const selectMailbox = useSelector((state: RootState) => state.mail.selectedMailboxId);
+  const selectedMailbox = useSelector((state: RootState) => state.mail.selectedMailboxId);
+  const mailboxes = useMailboxes();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -53,10 +56,11 @@ export default function MailDetail(props: MailDetailComponentProps) {
   }, [mail]);
   const handleFolderClick = useCallback((
     e: React.MouseEvent<HTMLElement>,
-    _mailbox: string,
-    _mailId: MailMessage,
+    mailbox: string,
+    mailMessage: MailMessage,
   ) => {
     e.preventDefault();
+    dispatch(mailActions.changeMailbox({ mailbox, mails: [mailMessage] }));
   }, []);
   const deleteMessage = useCallback(() => {
   }, []);
@@ -96,6 +100,20 @@ export default function MailDetail(props: MailDetailComponentProps) {
                       <Folder size={18} />
                     </DropdownToggle>
                     <DropdownMenu end>
+                      {
+                        mailboxes.map((mailbox) => (
+                          mailbox.name !== selectedMailbox && (
+                            <DropdownItem
+                              tag="a"
+                              onClick={(e) => handleFolderClick(e, mailbox.name, mail)}
+                              className="d-flex align-items-center"
+                            >
+                              {mailIcons[mailbox.name.toLowerCase()]}
+                              <span>{t(`MAIL.${mailbox.name}`)}</span>
+                            </DropdownItem>
+                          )
+                        ))
+                      }
                       <DropdownItem
                         tag="a"
                         href="/"
@@ -154,7 +172,7 @@ export default function MailDetail(props: MailDetailComponentProps) {
                 <Card>
                   <CardBody>
                     <h5 className="mb-0">
-                      {selectMailbox === 'DRAFT'
+                      {selectedMailbox === 'DRAFT'
                         ? (
                           <Trans i18nKey="MAIL.CLICK_HERE_TO_EDIT">
                             Click here to

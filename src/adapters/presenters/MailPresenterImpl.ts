@@ -4,12 +4,13 @@ import {
   getMailAccountsUseCase, getMailboxesUseCase, getMailMessagesUseCase,
   getMailThreadUseCase, linkMailUseCase, sendMailUseCase, uploadMailAttachmentUseCase,
   syncMailUseCase, searchMailUseCase, draftMailUseCase, deleteMailUseCase, getMailServerUseCase,
-  autoLinkEmailUseCase,
+  autoLinkEmailUseCase, changeMailboxUseCase,
 } from '@domain/useCases';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import { DeleteMailRequest } from '@domain/entities/mail/DeleteMailRequest';
 import { AutoLinkEmailRequest } from '@domain/entities/mail/AutoLinkEmailRequest';
+import { ChangeMailboxRequest } from '@domain/entities/mail/ChangeMailboxRequest';
 
 export default class MailPresenterImpl implements MailPresenter {
   linkMail = async (formData: LinkEmailFormData) => linkMailUseCase.invoke(formData)
@@ -48,4 +49,6 @@ export default class MailPresenterImpl implements MailPresenter {
   getMailServer = async (mailAddress: string) => getMailServerUseCase.invoke(mailAddress);
 
   autoLinkEmail = async (request: AutoLinkEmailRequest) => autoLinkEmailUseCase.invoke(request);
+
+  changeMailbox = async (request: ChangeMailboxRequest) => changeMailboxUseCase.invoke(request);
 }

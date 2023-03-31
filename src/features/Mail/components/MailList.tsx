@@ -1,6 +1,8 @@
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import React, {
+  ChangeEvent, useCallback, useState,
+} from 'react';
 import {
-  Edit2, Folder, Info, Mail as MailIcon, Trash,
+  Folder, Mail as MailIcon,
 } from 'react-feather';
 import {
   DropdownItem, DropdownMenu, DropdownToggle, Input, Label, Spinner, UncontrolledDropdown,
@@ -12,16 +14,18 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
 import { mailActions } from '@redux/slices/mailSlice';
-import { Y_SCROLL_END_THRESHOLD } from '@utils/MailUtils';
+import { mailIcons, Y_SCROLL_END_THRESHOLD } from '@utils/MailUtils';
 import MailListSkeleton from '@features/Mail/components/MailListSkeleton';
 import EmptyMailList from '@features/Mail/components/EmptyMailList';
 import ErrorMailList from '@features/Mail/components/ErrorMailList';
-import { useMails } from '@hooks/mail';
+import { useMailboxes, useMails } from '@hooks/mail';
 import DeleteMailButton from '@features/Mail/components/DeleteMailButton';
 
 export default function MailList() {
   const { mails, loadMailMessages } = useMails();
+  const mailboxes = useMailboxes();
   const [selectedMails, setSelectedMails] = useState<MailMessage[]>([]);
+  const selectedMailbox = useSelector((state: RootState) => state.mail.selectedMailboxId);
   const { t } = useTranslation();
   const isFetchingMails = useSelector((state: RootState) => state.mail.isFetchingMailboxes);
   const isLoadingMoreMessages = useSelector((state: RootState) => state.mail.isLoadingMoreMessages);
@@ -38,10 +42,11 @@ export default function MailList() {
   }, [mails]);
 
   // Move a message to another mailbox
-  const moveToMailbox = useCallback((e: React.MouseEvent, _mailbox: string) => {
+  const moveToMailbox = useCallback((e: React.MouseEvent, mailbox: string) => {
     e.preventDefault();
     setSelectedMails([]);
-  }, []);
+    dispatch(mailActions.changeMailbox({ mailbox, mails: selectedMails }));
+  }, [selectedMails]);
 
   // Mark all selected messages as read
   const markAsRead = useCallback(() => {
@@ -133,33 +138,20 @@ export default function MailList() {
                     <Folder size={18} />
                   </DropdownToggle>
                   <DropdownMenu end>
-                    <DropdownItem
-                      tag="a"
-                      href="/"
-                      onClick={(e) => moveToMailbox(e, 'draft')}
-                      className="d-flex align-items-center"
-                    >
-                      <Edit2 className="me-50" size={18} />
-                      <span>{t('MAIL.DRAFT')}</span>
-                    </DropdownItem>
-                    <DropdownItem
-                      tag="a"
-                      href="/"
-                      onClick={(e) => moveToMailbox(e, 'spam')}
-                      className="d-flex align-items-center"
-                    >
-                      <Info className="me-50" size={18} />
-                      <span>{t('MAIL.SPAM')}</span>
-                    </DropdownItem>
-                    <DropdownItem
-                      tag="a"
-                      href="/"
-                      onClick={(e) => moveToMailbox(e, 'trash')}
-                      className="d-flex align-items-center"
-                    >
-                      <Trash className="me-50" size={18} />
-                      <span>{t('COMMON.DELETE')}</span>
-                    </DropdownItem>
+                    {
+                      mailboxes.map((mailbox) => (
+                        mailbox.name !== selectedMailbox && (
+                          <DropdownItem
+                            tag="a"
+                            onClick={(e) => moveToMailbox(e, mailbox.name)}
+                            className="d-flex align-items-center"
+                          >
+                            {mailIcons[mailbox.name.toLowerCase()]}
+                            <span>{t(`MAIL.${mailbox.name}`)}</span>
+                          </DropdownItem>
+                        )
+                      ))
+                    }
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </li>

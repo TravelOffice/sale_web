@@ -423,6 +423,7 @@
         "DELETE_MAILS_WARNING_MESSAGE": "{{count}} mails will be deleted from TravelOffice system. Do you want to delete?",
         "PASSWORD": "Password",
         "CONFIGURE_MANUALLY": "I want to configure my email address manually",
-        "SIGN_IN_WITH": "Sign in with {{name}}"
+        "SIGN_IN_WITH": "Sign in with {{name}}",
+        "CHANGE_MAILBOX_SUCCESSFULLY": "{{count}} mail(s) have been move to {{folder}}"
     }
 }
