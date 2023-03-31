@@ -28,4 +28,5 @@ export interface MailPresenter {
   deleteMail: (request: DeleteMailRequest) => Promise<void>
   getMailServer: (mailAddress: string) => Promise<MailServer>
   autoLinkEmail: (request: AutoLinkEmailRequest) => Promise<MailAccount>
+  unlinkMailAccount: (mailAccount: MailAccount) => Promise<void>
 }

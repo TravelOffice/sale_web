@@ -4,7 +4,7 @@ import {
   getMailAccountsUseCase, getMailboxesUseCase, getMailMessagesUseCase,
   getMailThreadUseCase, linkMailUseCase, sendMailUseCase, uploadMailAttachmentUseCase,
   syncMailUseCase, searchMailUseCase, draftMailUseCase, deleteMailUseCase, getMailServerUseCase,
-  autoLinkEmailUseCase,
+  autoLinkEmailUseCase, unlinkMailAccountUseCase,
 } from '@domain/useCases';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
@@ -48,4 +48,8 @@ export default class MailPresenterImpl implements MailPresenter {
   getMailServer = async (mailAddress: string) => getMailServerUseCase.invoke(mailAddress);
 
   autoLinkEmail = async (request: AutoLinkEmailRequest) => autoLinkEmailUseCase.invoke(request);
+
+  unlinkMailAccount = async (
+    mailAccount: MailAccount,
+  ) => unlinkMailAccountUseCase.invoke(mailAccount);
 }

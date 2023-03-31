@@ -47,6 +47,8 @@ import { GetMailServerUseCase } from '@domain/useCases/interfaces/mail/GetMailSe
 import GetMailServerUseCaseImpl from '@domain/useCases/mail/GetMailServerUseCaseImpl';
 import { AutoLinkEmailUseCase } from '@domain/useCases/interfaces/mail/AutoLinkEmailUseCase';
 import AutoLinkEmailUseCaseImpl from '@domain/useCases/mail/AutoLinkEmailUseCaseImpl';
+import { UnlinkMailAccountUseCase } from '@domain/useCases/interfaces/mail/UnlinkMailAccountUseCase';
+import UnlinkMailAccountUseCaseImpl from '@domain/useCases/mail/UnlinkMailAccountUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -171,6 +173,7 @@ interface UseCases {
   deleteMailUseCase: DeleteMailUseCase,
   getMailServerUseCase: GetMailServerUseCase,
   autoLinkEmailUseCase: AutoLinkEmailUseCase,
+  unlinkMailAccountUseCase: UnlinkMailAccountUseCase,
 }
 
 const useCases: UseCases = {
@@ -236,6 +239,7 @@ const useCases: UseCases = {
   deleteMailUseCase: new DeleteMailUseCaseImpl(),
   getMailServerUseCase: new GetMailServerUseCaseImpl(),
   autoLinkEmailUseCase: new AutoLinkEmailUseCaseImpl(),
+  unlinkMailAccountUseCase: new UnlinkMailAccountUseCaseImpl(),
 };
 
 export const {
@@ -293,4 +297,5 @@ export const {
   deleteMailUseCase,
   getMailServerUseCase,
   autoLinkEmailUseCase,
+  unlinkMailAccountUseCase,
 } = useCases;

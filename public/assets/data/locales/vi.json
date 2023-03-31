@@ -56,7 +56,8 @@
         "YOU": "Bạn",
         "CHANGE_PASSWORD_BUTTON": "Đổi mật khẩu",
         "CHANGE_PASSWORD_TITLE": "Đổi mật khẩu",
-        "NEXT_STEP": "Tiếp theo"
+        "NEXT_STEP": "Tiếp theo",
+        "UNLINK": "Hủy liên kết"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -423,6 +424,9 @@
         "DELETE_MAILS_WARNING_MESSAGE": "{{count}} thư sẽ được xóa khỏi hệ thống TravelOffice. Bạn có muốn xóa?",
         "PASSWORD": "Mật khẩu",
         "CONFIGURE_MANUALLY": "Tôi muốn cấu hình thủ công",
-        "SIGN_IN_WITH": "Đăng nhập bằng {{name}}"
+        "SIGN_IN_WITH": "Đăng nhập bằng {{name}}",
+        "UNLINK_MAIL_ACCOUNT_SUCCESSFULLY": "Tài khoản {{mailAddress}} đã được gỡ bỏ.",
+        "UNLINK_MAIL_ACCOUNT": "Gỡ tài khoản?",
+        "UNLINK_MAIL_ACCOUNT_WARNING": "Bạn có chắc chắn muốn gỡ bỏ tài khoản này? Dữ liệu của bạn sẽ được đóng gói lại và xóa sau 7 ngày."
     }
 }

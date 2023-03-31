@@ -56,7 +56,8 @@
         "YOU": "You",
         "CHANGE_PASSWORD_BUTTON": "CHANGE PASSWORD",
         "CHANGE_PASSWORD_TITLE": "Change Password",
-        "NEXT_STEP": "Next step"
+        "NEXT_STEP": "Next step",
+        "UNLINK": "Unlink"
     },
     "LEAD": {
         "NAME": "Name",
@@ -423,6 +424,9 @@
         "DELETE_MAILS_WARNING_MESSAGE": "{{count}} mails will be deleted from TravelOffice system. Do you want to delete?",
         "PASSWORD": "Password",
         "CONFIGURE_MANUALLY": "I want to configure my email address manually",
-        "SIGN_IN_WITH": "Sign in with {{name}}"
+        "SIGN_IN_WITH": "Sign in with {{name}}",
+        "UNLINK_MAIL_ACCOUNT_SUCCESSFULLY": "Your mail account {{mailAddress}} has been disconnected.",
+        "UNLINK_MAIL_ACCOUNT": "Disconnect your mail account?",
+        "UNLINK_MAIL_ACCOUNT_WARNING": "Are you sure you want to unlink your mail account? Your email data will be archived and will be deleted after seven days."
     }
 }
