@@ -1,5 +1,5 @@
 import { TourTemplate } from '@domain/entities/TourTemplate';
-import { TourTemplateFilterParams } from '@features/TourTemplate/components/TourTemplateFilter';
+import { TourTemplateFilterParams } from '@features/Tour/Template/components/TourTemplateFilter';
 import i18n from 'i18next';
 /**
  * Generates an internationalized translation for tour-template-related content

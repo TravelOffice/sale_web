@@ -347,7 +347,8 @@
         "ROLE_REQUIRE_MESSAGE": "Role is required",
         "ROLE_INVALID_MESSAGE": "Please enter a valid role name",
         "REQUIRED_FIELD_MESSAGE": "{{field}} is required",
-        "MIN_VALUE_MESSAGE": "{{field}} must greater than {{value}}"
+        "MIN_VALUE_MESSAGE": "{{field}} must greater than {{value}}",
+        "REQUIRED_INTEGER_MESSAGE": "{{field}} must be an integer"
     },
     "TASK": {
         "TASKS_LIST": "Tasks",
@@ -530,5 +531,27 @@
         "POLICY_CONDITIONS_AND_EXTRA_FEE": "Policy conditions and extra fee",
         "CANCELLATION_TERMS": "Cancellation terms",
         "TOUR_PLAN": "Tour plan"
+    },
+    "DEPARTURE_TOUR": {
+        "DEPARTURE_TOUR": "Departure tour",
+        "CREATE": "Create new Departure Tour",
+        "TOUR_TEMPLATE": "Tour template",
+        "NAME": "Departure Tour name",
+        "DEPARTURE_DATE": "Departure date",
+        "TOUR_CATEGORY": "Tour category",
+        "VISITOR_COUNT": "Visitor count",
+        "OPEN_STATUS": "Open for sale",
+        "ADDITIONAL_SERVICES": "Additional services",
+        "SERVICE_NAME": "Service name",
+        "SERVICE_PRICE": "Service price",
+        "ADD_SERVICE": "Add service",
+        "CREATE_DEPARTURE_TOUR_SUCCESSFULLY": "Create Departure Tour Successfully",
+        "GROUP_TOUR": "Group tour",
+        "INDIVIDUAL_TOUR": "Individual tour",
+        "SHARED_TOUR": "Shared tour",
+        "INLAND": "Inland",
+        "INBOUND": "Inbound",
+        "OUTBOUND": "Outbound",
+        "SELECT_TOUR_TEMPLATE": "Select tour template"
     }
 }

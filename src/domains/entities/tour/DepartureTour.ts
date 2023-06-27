@@ -1,0 +1,33 @@
+import TourStatus from '@domain/entities/tour/TourStatus';
+import { TourTemplate } from './TourTemplate';
+
+export interface DepartureTour extends TourTemplate {
+  tourTemplate: string,
+  tourTemplateCode: string,
+  startDate: number,
+  status: TourStatus,
+  isOpen: boolean
+}
+
+export type CreateDepartureTourFormData = Pick<DepartureTour,
+'tourTemplate' |
+'tourTemplateCode' |
+'name' |
+'startDate' |
+'type' |
+'category' |
+'visitorCount' |
+'startingLocation' |
+'endingLocation' |
+'durationInDays' |
+'durationInNights' |
+'adultPrice' |
+'childUnder5Price' |
+'child5to7Price' |
+'child8to11Price' |
+'otherPrice' |
+'policiesAndRegulations' |
+'tourPlan' |
+'status' |
+'isOpen'
+>;

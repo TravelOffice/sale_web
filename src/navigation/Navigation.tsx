@@ -1,7 +1,8 @@
 import { MenuItem } from '@domain/entities/MenuLinkItem';
 import React from 'react';
 import {
-  Activity, Home, Mail,
+  Activity, File, Home, Mail,
+  MapPin,
   MessageSquare, Settings, Shield,
   ShoppingCart, User, UserCheck, Users, List,
 } from 'react-feather';
@@ -55,11 +56,25 @@ const Navigation : MenuItem[] = [
     navLink: '/apps/customer/list',
   },
   {
-    id: 'tour-templates',
-    title: 'Tour Template',
+    id: 'Tour',
+    title: 'Tour',
     requiredPermissions: [PERMISSIONS.get_tour_templates],
-    icon: <List size={12} />,
-    navLink: '/apps/tour-template/list',
+    icon: <MapPin size={20} />,
+    children: [
+      {
+        id: 'tour-templates',
+        title: 'Tour Template',
+        requiredPermissions: [PERMISSIONS.get_tour_templates],
+        icon: <List size={12} />,
+        navLink: '/apps/tour-template/list',
+      },
+      {
+        id: 'tour-departure',
+        title: 'Tour Departure',
+        icon: <File size={30} />,
+        navLink: '/apps/tour/departure',
+      },
+    ],
   },
   {
     id: 'leads',
