@@ -1,7 +1,7 @@
 import { leadRepository } from '@adapter/repositories';
-import { Lead, LeadStatusType } from '@domain/entities/Lead';
+import { Lead, LeadStatus } from '@domain/entities/Lead';
 import { GetAllLeadsUseCase } from '../interfaces/lead/GetAllLeadsUseCase';
 
 export default class GetAllLeadsUseCaseImpl implements GetAllLeadsUseCase {
-  invoke = async (status?: LeadStatusType): Promise<Lead[]> => leadRepository.getAllLeads(status);
+  invoke = async (status?: LeadStatus): Promise<Lead[]> => leadRepository.getAllLeads(status);
 }

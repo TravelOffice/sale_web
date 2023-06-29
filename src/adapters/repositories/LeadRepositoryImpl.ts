@@ -1,12 +1,11 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { Lead, LeadEnum, LeadStatusType } from '@domain/entities/Lead';
+import { Lead, LeadStatus } from '@domain/entities/Lead';
 import { LeadRepository } from './interfaces/LeadRepository';
 
 export default class LeadRepositoryImpl implements LeadRepository {
-  getAllLeads = async (status?: LeadStatusType) => {
+  getAllLeads = async (status?: LeadStatus) => {
     const response = await apiProvider.authorizedRequest.get('/leads', {
       queryParams: {
-        type: LeadEnum.LEAD,
         status,
       },
     });

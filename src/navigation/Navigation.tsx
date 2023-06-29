@@ -3,7 +3,7 @@ import React from 'react';
 import {
   Activity, Home, Mail,
   MessageSquare, Settings, Shield,
-  ShoppingCart, Target, User, UserCheck, Users,
+  ShoppingCart, User, UserCheck, Users,
 } from 'react-feather';
 import PERMISSIONS from '@utils/PermissionUtils';
 
@@ -64,13 +64,6 @@ const Navigation : MenuItem[] = [
     requiredPermissions: [PERMISSIONS.get_leads],
     icon: <User size={12} />,
     navLink: '/apps/lead/list',
-  },
-  {
-    id: 'opps',
-    title: 'Opportunity',
-    requiredPermissions: [PERMISSIONS.view_opportunities_of_tenant],
-    icon: <Target size={12} />,
-    navLink: '/apps/opp/list',
   },
   {
     id: 'customers',

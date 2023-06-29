@@ -2,10 +2,8 @@ import rootSaga from '@redux/rootSaga';
 import { authReducers } from '@redux/slices/authSlice';
 import { chatReducers } from '@redux/slices/chatSlice';
 import { layoutReducers } from '@redux/slices/layoutSlice';
-import { leadReducers } from '@redux/slices/leadSlice';
 import { navbarReducers } from '@redux/slices/navbarSlice';
 import { notificationReducers } from '@redux/slices/notificationSlice';
-import { opportunityReducers } from '@redux/slices/opportunitySlice';
 import { pageConnectionReducers } from '@redux/slices/pageConnectionSlice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
@@ -14,7 +12,6 @@ import { enableMapSet } from 'immer';
 import createSagaMiddleware from 'redux-saga';
 import client from '@graphql/client';
 import { mailReducers } from '@redux/slices/mailSlice';
-import { customerReducers } from './slices/customerSlice';
 import { userReducers } from './slices/userSlice';
 import { rolePermissionReducers } from './slices/rolePermissionSlice';
 
@@ -30,10 +27,7 @@ const combinedReducers = combineReducers({
   layout: layoutReducers,
   navbar: navbarReducers,
   chat: chatReducers,
-  lead: leadReducers,
-  opportunity: opportunityReducers,
   pageConnection: pageConnectionReducers,
-  customer: customerReducers,
   notification: notificationReducers,
   rolePermission: rolePermissionReducers,
   mail: mailReducers,
