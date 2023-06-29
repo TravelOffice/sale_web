@@ -4,8 +4,6 @@ import { GetUserInfoUseCase } from '@domain/useCases/interfaces/chat/GetUserInfo
 import { GetFacebookPagesUseCase } from '@domain/useCases/interfaces/facebook/GetFacebookPagesUseCase';
 import { GetNotificationsUseCase } from '@domain/useCases/interfaces/notification/GetNotificationsUseCase';
 import { SaveNotificationsUseCase } from '@domain/useCases/interfaces/notification/SaveNotificationsUseCase';
-import { CreateOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/CreateOpportunityUseCase';
-import { GetOpportunityUseCase } from '@domain/useCases/interfaces/opportunity/GetOpportunityUseCase';
 import { ConnectFacebookPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectFacebookPageUseCase';
 import { ConnectTelegramPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectTelegramPageUseCase';
 import { ConnectZaloPageUseCase } from '@domain/useCases/interfaces/pageConnection/ConnectZaloPageUseCase';
@@ -13,8 +11,6 @@ import { GetAllUsersUseCase } from '@domain/useCases/interfaces/user/GetAllUsers
 import { GetCurrentUserUseCase } from '@domain/useCases/interfaces/user/GetCurrentUserUseCase';
 import { GetZaloOAuthLinkUseCase } from '@domain/useCases/interfaces/zalo/GetZaloOAuthLinkUseCase';
 import GetNotificationsUseCaseImpl from '@domain/useCases/notification/GetNotificationsUseCaseImpl';
-import CreateOpportunityUseCaseImpl from '@domain/useCases/opportunity/CreateOpportunityUseCaseImpl';
-import GetOpportunityUseCaseImpl from '@domain/useCases/opportunity/GetOpportunityUseCaseImpl';
 import ConnectFacebookPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectFacebookPageUseCaseImpl';
 import ConnectTelegramPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectTelegramPageUseCaseImpl';
 import ConnectZaloPageUseCaseImpl from '@domain/useCases/pageConnection/ConnectZaloPageUseCaseImpl';
@@ -55,26 +51,16 @@ import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversations
 import SendAttachmentMessageUseCaseImpl from './chat/SendAttachmentMessageUseCaseImpl';
 import SendMessageUseCaseImpl from './chat/SendMessageUseCaseImpl';
 import SubscribeNewMessageUseCaseImpl from './chat/SubscribeNewMessageUseCaseImpl';
-import AddCustomerUseCaseImpl from './customer/AddCustomerUseCaseImpl';
-import GetAllCustomersUseCaseImpl from './customer/GetAllCustomersUseCaseImpl';
-import UpdateCustomerUseCaseImpl from './customer/UpdateCustomerUseCaseImpl';
 import { AdminGetPlatformConversationsUseCase } from './interfaces/chat/AdminGetPlatformConversationsUseCase';
 import { GetMessagesUseCase } from './interfaces/chat/GetMessagesUseCase';
 import { GetPlatformConversationsUseCase } from './interfaces/chat/GetPlatformConversationsUseCase';
 import { SendAttachmentMessageUseCase } from './interfaces/chat/SendAttachmentMessageUseCase';
 import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
 import { SubscribeNewMessageUseCase } from './interfaces/chat/SubscribeNewMessageUseCase';
-import { AddCustomerUseCase } from './interfaces/customer/AddCustomerUseCase';
-import { GetAllCustomersUseCase } from './interfaces/customer/GetAllCustomersUseCase';
-import { UpdateCustomerUseCase } from './interfaces/customer/UpdateCustomerUseCase';
 import { AddLeadUseCase } from './interfaces/lead/AddLeadUseCase';
 import { GetAllLeadsUseCase } from './interfaces/lead/GetAllLeadsUseCase';
 import { GetLeadUseCase } from './interfaces/lead/GetLeadUseCase';
 import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
-import { DeleteOpportunityUseCase } from './interfaces/opportunity/DeleteOpportunityUseCase';
-import { GetAllOpportunitiesUseCase } from './interfaces/opportunity/GetAllOpportunitiesUseCase';
-import { GetOpportunitiesByLeadUseCase } from './interfaces/opportunity/GetOpportunitiesByLeadUseCase';
-import { UpdateOpportunityUseCase } from './interfaces/opportunity/UpdateOpportunityUseCase';
 import { GetLinkedPagesUseCase } from './interfaces/pageConnection/GetLinkedPagesUseCase';
 import { UnlinkPageUseCase } from './interfaces/pageConnection/UnlinkPageUseCase';
 import { AddUserUseCase } from './interfaces/user/AddUserUseCase';
@@ -86,10 +72,6 @@ import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
 import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
 import GetLeadUseCaseImpl from './lead/GetLeadUseCaseImpl';
 import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
-import DeleteOpportunityUseCaseImpl from './opportunity/DeleteOpportunityUseCaseImpl';
-import GetAllOpportunitiesUseCaseImpl from './opportunity/GetAllOpportunitiesUseCaseImpl';
-import GetOpportunitiesByLeadUseCaseImpl from './opportunity/GetOpportunitiesByLeadUseCaseImpl';
-import UpdateOpportunityUseCaseImpl from './opportunity/UpdateOpportunityUseCaseImpl';
 import GetLinkedPagesUseCaseImpl from './pageConnection/GetLinkedPagesUseCaseImpl';
 import UnlinkPageUseCaseImpl from './pageConnection/UnlinkPageUseCaseImpl';
 import AddUserUseCaseImpl from './user/AddUserUseCaseImpl';
@@ -127,17 +109,6 @@ interface UseCases {
   unlinkPageUseCase: UnlinkPageUseCase,
   adminGetPlatformConversationsUseCase: AdminGetPlatformConversationsUseCase,
   manualAssignChatUseCase: ManualAssignChatUseCase,
-  // Opportunity
-  getAllOpportunitiesUseCase: GetAllOpportunitiesUseCase,
-  getOpportunitiesByLeadUseCase: GetOpportunitiesByLeadUseCase,
-  deleteOpportunityUseCase: DeleteOpportunityUseCase,
-  createOpportunityUseCase: CreateOpportunityUseCase,
-  updateOpportunityUseCase: UpdateOpportunityUseCase,
-  getOpportunityUseCase: GetOpportunityUseCase,
-  // Customer
-  getAllCustomersUseCase: GetAllCustomersUseCase,
-  addCustomerUseCase: AddCustomerUseCase,
-  updateCustomerUseCase: UpdateCustomerUseCase,
   // Zalo page
   getZaloOAuthLinkUseCase: GetZaloOAuthLinkUseCase,
   connectZaloPageUseCase: ConnectZaloPageUseCase,
@@ -198,17 +169,6 @@ const useCases: UseCases = {
   getLeadUseCase: new GetLeadUseCaseImpl(),
   addLeadUseCase: new AddLeadUseCaseImpl(),
   updateLeadUseCase: new UpdateLeadUseCaseImpl(),
-  // Opportunity use cases
-  getAllOpportunitiesUseCase: new GetAllOpportunitiesUseCaseImpl(),
-  getOpportunitiesByLeadUseCase: new GetOpportunitiesByLeadUseCaseImpl(),
-  deleteOpportunityUseCase: new DeleteOpportunityUseCaseImpl(),
-  updateOpportunityUseCase: new UpdateOpportunityUseCaseImpl(),
-  createOpportunityUseCase: new CreateOpportunityUseCaseImpl(),
-  getOpportunityUseCase: new GetOpportunityUseCaseImpl(),
-  // Customer use cases
-  getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
-  addCustomerUseCase: new AddCustomerUseCaseImpl(),
-  updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
   // User
   getCurrentUserUseCase: new GetCurrentUserUseCaseImpl(),
   getAllUsersUseCase: new GetAllUsersUseCaseImpl(),
@@ -255,17 +215,8 @@ export const {
   addLeadUseCase,
   updateLeadUseCase,
   connectFacebookPageUseCase,
-  getAllOpportunitiesUseCase,
-  getOpportunitiesByLeadUseCase,
-  updateOpportunityUseCase,
-  deleteOpportunityUseCase,
-  getAllCustomersUseCase,
-  addCustomerUseCase,
-  updateCustomerUseCase,
   getZaloOAuthLinkUseCase,
   connectZaloPageUseCase,
-  createOpportunityUseCase,
-  getOpportunityUseCase,
   getCurrentUserUseCase,
   getAllUsersUseCase,
   getUserUseCase,

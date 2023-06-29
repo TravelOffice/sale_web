@@ -10,10 +10,6 @@ import { MailPresenter } from '@adapter/presenters/interfaces/MailPresenter';
 import MailPresenterImpl from '@adapter/presenters/MailPresenterImpl';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 import LeadPresenterImpl from './LeadPresenterImpl';
-import { OpportunityPresenter } from './interfaces/OpportunityPresenter';
-import OpportunityPresenterImpl from './OpportunityPresenterImpl';
-import { CustomerPresenter } from './interfaces/CustomerPresenter';
-import CustomerPresenterImpl from './CustomerPresenterImpl';
 import { RolePermissionPresenter } from './interfaces/RolePermissionPresenter';
 import RolePermissionPresenterImpl from './RolePermissionPresenterImpl';
 
@@ -23,8 +19,6 @@ interface Presenters {
   chatPresenter: ChatPresenter,
   accountConnectionPresenter: AccountConnectionPresenter,
   leadPresenter: LeadPresenter,
-  opportunityPresenter: OpportunityPresenter,
-  customerPresenter: CustomerPresenter,
   notificationPresenter: NotificationPresenter,
   mailPresenter: MailPresenter,
 }
@@ -35,8 +29,6 @@ const presenters: Presenters = {
   chatPresenter: new ChatPresenterImpl(),
   accountConnectionPresenter: new AccountConnectionPresenterImpl(),
   leadPresenter: new LeadPresenterImpl(),
-  opportunityPresenter: new OpportunityPresenterImpl(),
-  customerPresenter: new CustomerPresenterImpl(),
   notificationPresenter: new NotificationPresenterImpl(),
   mailPresenter: new MailPresenterImpl(),
 };
@@ -47,8 +39,6 @@ export const {
   chatPresenter,
   accountConnectionPresenter,
   leadPresenter,
-  opportunityPresenter,
-  customerPresenter,
   notificationPresenter,
   mailPresenter,
 } = presenters;

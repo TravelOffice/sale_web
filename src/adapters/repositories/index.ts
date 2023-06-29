@@ -16,10 +16,6 @@ import { S3Repository } from './interfaces/S3Repository';
 import S3RepositoryImpl from './S3RepositoryImpl';
 import { LeadRepository } from './interfaces/LeadRepository';
 import LeadRepositoryImpl from './LeadRepositoryImpl';
-import { OpportunityRepository } from './interfaces/OpportunityRepository';
-import OpportunityRepositoryImpl from './OpportunityRepositoryImpl';
-import { CustomerRepository } from './interfaces/CustomerRepository';
-import CustomerRepositoryImpl from './CustomerRepositoryImpl';
 import RolePermissionRepository from './interfaces/RolePermissionRepository';
 import RolePermissionRepositoryImpl from './RolePermissionRepositoryImpl';
 
@@ -31,8 +27,6 @@ interface Repositories {
   s3Repository: S3Repository,
   leadRepository: LeadRepository,
   pageConnectionRepository: AccountConnectionRepository,
-  opportunityRepository: OpportunityRepository,
-  customerRepository: CustomerRepository,
   notificationRepository: NotificationRepository,
   rolePermissionRepository: RolePermissionRepository,
   mailRepository: MailRepository,
@@ -46,8 +40,6 @@ const repositories : Repositories = {
   s3Repository: new S3RepositoryImpl(),
   leadRepository: new LeadRepositoryImpl(),
   pageConnectionRepository: new AccountConnectionRepositoryImpl(),
-  opportunityRepository: new OpportunityRepositoryImpl(),
-  customerRepository: new CustomerRepositoryImpl(),
   notificationRepository: new NotificationRepositoryImpl(),
   rolePermissionRepository: new RolePermissionRepositoryImpl(),
   mailRepository: new MailRepositoryImpl(),
@@ -61,8 +53,6 @@ export const {
   s3Repository,
   leadRepository,
   pageConnectionRepository,
-  opportunityRepository,
-  customerRepository,
   notificationRepository,
   rolePermissionRepository,
   mailRepository,

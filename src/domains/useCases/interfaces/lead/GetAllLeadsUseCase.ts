@@ -1,5 +1,5 @@
-import { Lead, LeadStatusType } from '@domain/entities/Lead';
+import { Lead, LeadStatus } from '@domain/entities/Lead';
 
 export interface GetAllLeadsUseCase {
-  invoke: (status?: LeadStatusType) => Promise<Lead[]>
+  invoke: (status?: LeadStatus) => Promise<Lead[]>
 }
