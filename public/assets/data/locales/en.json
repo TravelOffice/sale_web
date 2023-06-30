@@ -56,7 +56,10 @@
         "YOU": "You",
         "CHANGE_PASSWORD_BUTTON": "CHANGE PASSWORD",
         "CHANGE_PASSWORD_TITLE": "Change Password",
-        "NEXT_STEP": "Next step"
+        "NEXT_STEP": "Next step",
+        "STATISTICS": "Statistics",
+        "NOTE": "Note",
+        "FILTER": "Filter"
     },
     "LEAD": {
         "NAME": "Name",
@@ -106,7 +109,22 @@
         "FIELD_IS_INVALID": "Please enter a valid {{field}} is a required field",
         "ADD_TASK": "Add task",
         "CONTACT": "Contact",
-        "PRIMARY": "Primary"
+        "PRIMARY": "Primary",
+        "PROCESSING": "Processing",
+        "CLOSED": "Closed",
+        "CANCEL": "Cancelled",
+        "LIST": "Lead list",
+        "CODE": "Code",
+        "DESIRED_TOUR": "Desired tour",
+        "ASSIGNEE": "Assignee",
+        "UNKNOWN_ASSIGNEE": "Unknown assignee",
+        "CREATOR": "Creator",
+        "DEPARTURE": "Departure",
+        "NUMBER_OF_PASSENGERS": "Number of passengers:",
+        "ADULT": "Adult",
+        "CHILDREN": "Children",
+        "START_DATE": "Start date",
+        "NO_NOTE": "No note"
     },
     "PAGE": {
         "SUCCESS": "Success",
