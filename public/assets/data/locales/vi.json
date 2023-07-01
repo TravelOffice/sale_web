@@ -59,7 +59,10 @@
         "NEXT_STEP": "Tiếp theo",
         "STATISTICS": "Thống kê",
         "NOTE": "Ghi chú",
-        "FILTER": "Lọc"
+        "FILTER": "Lọc",
+        "GUIDE": "Hướng dẫn",
+        "HOME": "Trang chủ",
+        "NAVIGATE_AFTER_CREATING": "Chuyển hướng sau khi tạo"
     },
     "LEAD": {
         "NAME": "Họ tên",
@@ -121,10 +124,23 @@
         "CREATOR": "Người tạo",
         "DEPARTURE": "Khởi hành từ",
         "NUMBER_OF_PASSENGERS": "Số khách",
+        "NUMBER_OF_ADULT_PASSENGERS": "Số người lớn",
+        "NUMBER_OF_CHILDREN_PASSENGERS": "Số trẻ em",
         "ADULT": "Người lớn",
         "CHILDREN": "Trẻ em",
-        "START_DATE": "Người khởi hành",
-        "NO_NOTE": "Chưa có ghi chú"
+        "START_DATE": "Ngày khởi hành",
+        "NO_NOTE": "Chưa có ghi chú",
+        "CUSTOMER_INFORMATION": "Thông tin khách hàng",
+        "HONORIFIC": "Xưng hô",
+        "TYPE": "Phân loại",
+        "INLAND": "Nội địa",
+        "INBOUND": "Inbound",
+        "OUTBOUND": "Outbound",
+        "TOUR_TYPE": "Phân loại tour",
+        "ACTION_KEEP_ADDING_LEAD": "Tiếp tục thêm mới",
+        "GO_TO_LEAD_DETAILS": "Đi đến chi tiết",
+        "GO_TO_LEAD_LIST": "Đi đến danh sách",
+        "GUIDE_CREATE_LEAD": "Các trường đánh dấu <strong>*</strong> không được để trống."
     },
     "PAGE": {
         "SUCCESS": "Hoàn thành",
@@ -286,7 +302,9 @@
         "FIRST_NAME_REQUIRE_MESSAGE": "Tên không được để trống",
         "LAST_NAME_REQUIRE_MESSAGE": "Họ không được để trống",
         "ROLE_REQUIRE_MESSAGE": "Role không được để trống",
-        "ROLE_INVALID_MESSAGE": "Role không hợp lệ"
+        "ROLE_INVALID_MESSAGE": "Role không hợp lệ",
+        "REQUIRED_FIELD_MESSAGE": "{{field}} không được để trống",
+        "MIN_VALUE_MESSAGE": "MESSAGE.MIN_VALUE_MESSAGE"
     },
     "TASK": {
         "LIST_TASKS": "Danh sách công việc",

@@ -1,5 +1,5 @@
 import { leadRepository } from '@adapter/repositories';
-import { Lead } from '@domain/entities/Lead';
+import { Lead } from '@domain/entities/lead/Lead';
 import { GetLeadUseCase } from '../interfaces/lead/GetLeadUseCase';
 
 export default class GetLeadUseCaseImpl implements GetLeadUseCase {

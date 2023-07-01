@@ -21,7 +21,7 @@ export interface Lead {
 
   // Contact
   name: string,
-  honorific: HonorificType,
+  honorific?: HonorificType,
   email: string,
   phoneNumber: string,
   address?: string,
@@ -52,3 +52,22 @@ export interface Lead {
   createdAt: number,
   updatedAt: number,
 }
+
+export type CreateLeadFormData = Pick<Lead,
+'email' |
+'name' |
+'phoneNumber' |
+'address' |
+'honorific' |
+'tourTemplateId' |
+'desiredTour' |
+'description' |
+'assigneeId' |
+'sourceId' |
+'numberOfAdultPassengers' |
+'numberOfChildrenPassengers' |
+'departure' |
+'startDate' |
+'type' |
+'tourType'
+>;

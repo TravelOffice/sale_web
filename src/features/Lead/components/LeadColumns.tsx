@@ -1,7 +1,7 @@
 import React from 'react';
 import i18n from '@config/i18n';
 import { TableColumn } from 'react-data-table-component';
-import { Lead, LeadStatus } from '@domain/entities/Lead';
+import { Lead, LeadStatus } from '@domain/entities/lead/Lead';
 import { Link } from 'react-router-dom';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,

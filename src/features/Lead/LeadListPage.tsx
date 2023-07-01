@@ -2,16 +2,18 @@ import React, { useMemo, useState } from 'react';
 import LeadStats from '@features/Lead/components/LeadStats';
 import { useQuery } from '@tanstack/react-query';
 import { leadPresenter } from '@adapter/presenters';
-import { LeadStatus } from '@domain/entities/Lead';
+import { LeadStatus } from '@domain/entities/lead/Lead';
 import {
+  Button,
   Card, CardBody, CardHeader, CardTitle,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import DataTable from 'react-data-table-component';
-import { ChevronDown } from 'react-feather';
+import { ChevronDown, Plus } from 'react-feather';
 import leadColumns from '@features/Lead/components/LeadColumns';
 import LeadFilter, { LeadFilterParams } from '@features/Lead/components/LeadFilter';
 import { filterLeads } from '@utils/LeadUtils';
+import { Link } from 'react-router-dom';
 
 export default function LeadListPage() {
   const [filterParams, setFilterParams] = useState<LeadFilterParams>();
@@ -55,6 +57,15 @@ export default function LeadListPage() {
               className="react-dataTable"
               columns={leadColumns}
               sortIcon={<ChevronDown />}
+              subHeader
+              subHeaderComponent={(
+                <Link to="/apps/lead/create">
+                  <Button color="primary">
+                    <Plus size={14} />
+                    <span className="align-middle ms-25">{i18n.t('COMMON.ADD')}</span>
+                  </Button>
+                </Link>
+              )}
               customStyles={{
                 cells: {
                   style: {

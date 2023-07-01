@@ -1,5 +1,5 @@
-import { Lead } from '@domain/entities/Lead';
+import { CreateLeadFormData, Lead } from '@domain/entities/lead/Lead';
 
 export interface AddLeadUseCase {
-  invoke: (lead: Lead) => Promise<Lead>
+  invoke: (formData: CreateLeadFormData) => Promise<Lead>
 }
