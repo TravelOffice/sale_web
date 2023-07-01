@@ -56,11 +56,14 @@
         "YOU": "Bạn",
         "CHANGE_PASSWORD_BUTTON": "Đổi mật khẩu",
         "CHANGE_PASSWORD_TITLE": "Đổi mật khẩu",
-        "NEXT_STEP": "Tiếp theo"
+        "NEXT_STEP": "Tiếp theo",
+        "STATISTICS": "Thống kê",
+        "NOTE": "Ghi chú",
+        "FILTER": "Lọc"
     },
     "LEAD": {
         "NAME": "Họ tên",
-        "PHONE": "SĐT chính",
+        "PHONE": "SĐT",
         "BIRTHDAY": "Ngày sinh",
         "NEW": "Mới",
         "QUALIFYING": "Đang duyệt",
@@ -106,7 +109,22 @@
         "FIELD_IS_INVALID": "{{field}} không được để trống hoặc sai định dạng",
         "ADD_TASK": "Thêm công việc",
         "CONTACT": "Liên hệ",
-        "PRIMARY": "Chính"
+        "PRIMARY": "Chính",
+        "PROCESSING": "Đang xử lý",
+        "CLOSED": "Đóng",
+        "CANCEL": "Hủy",
+        "LIST": "Danh sách Lead",
+        "CODE": "Mã",
+        "DESIRED_TOUR": "Tour yêu cầu",
+        "ASSIGNEE": "Người xử lý",
+        "UNKNOWN_ASSIGNEE": "Đang chờ phân công",
+        "CREATOR": "Người tạo",
+        "DEPARTURE": "Khởi hành từ",
+        "NUMBER_OF_PASSENGERS": "Số khách",
+        "ADULT": "Người lớn",
+        "CHILDREN": "Trẻ em",
+        "START_DATE": "Người khởi hành",
+        "NO_NOTE": "Chưa có ghi chú"
     },
     "PAGE": {
         "SUCCESS": "Hoàn thành",

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Col, Row } from 'reactstrap';
-import StatsHorizontal from '@components/Widgets/Stats/StatsHorizontal';
+import {
+  Card, CardBody, CardHeader, CardTitle, Row,
+} from 'reactstrap';
 import i18n from '@config/i18n';
 import {
-  Check, Clock, UserPlus, Users,
+  Check, Loader, UserPlus, Users, X,
 } from 'react-feather';
+import LeadStatsItem from '@features/Lead/components/LeadStatsItem';
 
 export interface LeadStatsProps {
   total: number,
@@ -19,47 +21,44 @@ export default function LeadStats(props: LeadStatsProps) {
     total, countNew, countProcessing, countClosed, countCancelled,
   } = props;
   return (
-    <Row>
-      <Col lg="2" sm="6">
-        <StatsHorizontal
-          color="primary"
-          statTitle={i18n.t('COMMON.TOTAL')}
-          icon={<Users size={20} />}
-          renderStats={<h3 className="fw-bolder mb-75">{total}</h3>}
-        />
-      </Col>
-      <Col lg="2" sm="6">
-        <StatsHorizontal
-          color="info"
-          statTitle={i18n.t('LEAD.NEW')}
-          icon={<UserPlus size={20} />}
-          renderStats={<h3 className="fw-bolder mb-75">{countNew}</h3>}
-        />
-      </Col>
-      <Col lg="2" sm="6">
-        <StatsHorizontal
-          color="warning"
-          statTitle={i18n.t('LEAD.QUALIFIED')}
-          icon={<Clock size={20} />}
-          renderStats={<h3 className="fw-bolder mb-75">{countProcessing}</h3>}
-        />
-      </Col>
-      <Col lg="2" sm="6">
-        <StatsHorizontal
-          color="success"
-          statTitle={i18n.t('LEAD.QUALIFYING')}
-          icon={<Check size={20} />}
-          renderStats={<h3 className="fw-bolder mb-75">{countClosed}</h3>}
-        />
-      </Col>
-      <Col lg="2" sm="6">
-        <StatsHorizontal
-          color="success"
-          statTitle={i18n.t('LEAD.TAKING_CARE')}
-          icon={<Check size={20} />}
-          renderStats={<h3 className="fw-bolder mb-75">{countCancelled}</h3>}
-        />
-      </Col>
-    </Row>
+    <Card className="card-statistics">
+      <CardHeader>
+        <CardTitle tag="h4">{i18n.t('COMMON.STATISTICS')}</CardTitle>
+      </CardHeader>
+      <CardBody className="statistics-body">
+        <Row>
+          <LeadStatsItem
+            color="light-primary"
+            icon={<Users size={20} />}
+            title={total.toString()}
+            subtitle={i18n.t('COMMON.TOTAL')}
+          />
+          <LeadStatsItem
+            color="light-info"
+            icon={<UserPlus size={20} />}
+            title={countNew.toString()}
+            subtitle={i18n.t('LEAD.NEW')}
+          />
+          <LeadStatsItem
+            color="light-warning"
+            icon={<Loader size={20} />}
+            title={countProcessing.toString()}
+            subtitle={i18n.t('LEAD.PROCESSING')}
+          />
+          <LeadStatsItem
+            color="light-success"
+            icon={<Check size={20} />}
+            title={countClosed.toString()}
+            subtitle={i18n.t('LEAD.CLOSED')}
+          />
+          <LeadStatsItem
+            color="light-danger"
+            icon={<X size={20} />}
+            title={countCancelled.toString()}
+            subtitle={i18n.t('LEAD.CANCEL')}
+          />
+        </Row>
+      </CardBody>
+    </Card>
   );
 }
