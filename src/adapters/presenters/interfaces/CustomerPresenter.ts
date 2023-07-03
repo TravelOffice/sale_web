@@ -1,4 +1,4 @@
-import { Lead } from '@domain/entities/Lead';
+import { Lead } from '@domain/entities/lead/Lead';
 import { Customer } from '@domain/entities/Customer';
 import { Booking } from '@domain/entities/Booking';
 

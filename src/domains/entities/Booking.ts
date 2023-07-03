@@ -1,4 +1,4 @@
-import { Note } from './note//Note';
+import { Note } from './note/Note';
 import { Task } from './task/Task';
 
 export enum BookingStatusEnum {

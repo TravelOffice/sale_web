@@ -59,7 +59,8 @@ export function filterCustomers(allCustomers: Customer[], params: CustomerFilter
 }
 
 /**
- * Generates an internationalized translation for customer-related content based on the specified type.
+ * Generates an internationalized translation for customer-related content
+ * based on the specified type.
  *
  * @param type - The type parameter used to determine the translation key.
  * @returns The internationalized translation string.

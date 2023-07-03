@@ -105,7 +105,12 @@ const customerColumns: TableColumn<Customer>[] = [
   {
     name: i18n.t('COMMON.NOTE'),
     maxWidth: '200px',
-    selector: (customer) => (customer.notes && customer.notes.length > 0 ? customer.notes[0].description : i18n.t('CUSTOMER.NO_NOTE').toString()),
+    selector: (customer) => {
+      if (customer.notes && customer.notes.length > 0) {
+        return customer.notes[customer.notes.length - 1].description;
+      }
+      return i18n.t('CUSTOMER.NO_NOTE').toString();
+    },
   },
   {
     name: i18n.t('COMMON.ACTIONS'),

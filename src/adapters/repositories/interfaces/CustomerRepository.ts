@@ -1,5 +1,5 @@
 import { Customer } from '@domain/entities/Customer';
-import { Lead } from '@domain/entities/Lead';
+import { Lead } from '@domain/entities/lead/Lead';
 import { Booking } from '@domain/entities/Booking';
 
 export interface CustomerRepository {
