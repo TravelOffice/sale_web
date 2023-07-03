@@ -10,6 +10,7 @@ import AppMail from '@features/Mail/AppMail';
 import LeadListPage from '@features/Lead/LeadListPage';
 import CreateLeadPage from '@features/Lead/CreateLeadPage';
 import EditLeadPage from '@features/Lead/EditLeadPage';
+import CustomerListPage from '@features/Customer/CustomerListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -62,6 +63,12 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/apps/lead/:leadId/edit',
     component: <EditLeadPage />,
+  },
+  {
+    path: '/apps/customer/list',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.get_customers],
+    component: <CustomerListPage />,
   },
   {
     path: '/admin/user/list',

@@ -12,6 +12,8 @@ import { MailRepository } from '@adapter/repositories/interfaces/MailRepository'
 import MailRepositoryImpl from '@adapter/repositories/MailRepositoryImpl';
 import { BookingRepository } from '@adapter/repositories/interfaces/BookingRepository';
 import BookingRepositoryImpl from '@adapter/repositories/BookingRepositoryImpl';
+import { CustomerRepository } from '@adapter/repositories/interfaces/CustomerRepository';
+import CustomerRepositoryImpl from '@adapter/repositories/CustomerRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
 import ChatRepositoryImpl from './ChatRepositoryImpl';
 import { S3Repository } from './interfaces/S3Repository';
@@ -33,9 +35,10 @@ interface Repositories {
   rolePermissionRepository: RolePermissionRepository,
   mailRepository: MailRepository,
   bookingRepository: BookingRepository,
+  customerRepository: CustomerRepository,
 }
 
-const repositories : Repositories = {
+const repositories: Repositories = {
   userRepository: new UserRepositoryImpl(),
   chatRepository: new ChatRepositoryImpl(),
   facebookRepository: new FacebookPageRepositoryImpl(),
@@ -47,6 +50,7 @@ const repositories : Repositories = {
   rolePermissionRepository: new RolePermissionRepositoryImpl(),
   mailRepository: new MailRepositoryImpl(),
   bookingRepository: new BookingRepositoryImpl(),
+  customerRepository: new CustomerRepositoryImpl(),
 };
 
 export const {
@@ -61,4 +65,5 @@ export const {
   rolePermissionRepository,
   mailRepository,
   bookingRepository,
+  customerRepository,
 } = repositories;

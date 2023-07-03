@@ -28,6 +28,12 @@ const PERMISSIONS = {
   update_user: 'update_user',
   delete_user: 'delete_user',
   view_all_users: 'view_all_users',
+  get_customers: 'get_customers',
+  get_customer: 'get_customer',
+  get_leads_of_customer: 'get_leads_of_customer',
+  get_booking_of_customer: 'get_booking_of_customer',
+  create_customer: 'create_customer',
+  update_customer: 'update_customer',
 };
 
 export default PERMISSIONS;
