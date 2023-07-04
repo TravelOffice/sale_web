@@ -1,5 +1,6 @@
 export interface Note {
   name: string,
   description: string,
-  createdDate: Date,
+  createdAt: Date,
+  updatedAt: Date,
 }

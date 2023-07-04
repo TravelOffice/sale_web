@@ -102,6 +102,18 @@ import SubscribeNewNotificationUseCaseImpl from './notification/SubscribeNewNoti
 import SaveNotificationsUseCaseImpl from './notification/SaveNotificationsUseCaseImpl';
 import { ClearNotificationsUseCase } from './interfaces/notification/ClearNotificationsUseCase';
 import ClearNotificationsUseCaseImpl from './notification/ClearNotificationsUseCaseImpl';
+import AddCustomerUseCaseImpl from './customer/AddCustomerUseCaseImpl';
+import GetAllCustomersUseCaseImpl from './customer/GetAllCustomersUseCaseImpl';
+import GetBookingsOfCustomerUseCaseImpl from './customer/GetBookingsOfCustomerUseCaseImpl';
+import GetCustomerUseCaseImpl from './customer/GetCustomerUseCaseImpl';
+import GetLeadsOfCustomerUseCaseImpl from './customer/GetLeadsOfCustomerUseCaseImpl';
+import UpdateCustomerUseCaseImpl from './customer/UpdateCustomerUseCaseImpl';
+import { AddCustomerUseCase } from './interfaces/customer/AddCustomerUseCase';
+import { GetAllCustomersUseCase } from './interfaces/customer/GetAllCustomersUseCase';
+import { GetBookingsOfCustomerUseCase } from './interfaces/customer/GetBookingsOfCustomerUseCase';
+import { GetCustomerUseCase } from './interfaces/customer/GetCustomerUseCase';
+import { GetLeadsOfCustomerUseCase } from './interfaces/customer/GetLeadsOfCustomerUseCase';
+import { UpdateCustomerUseCase } from './interfaces/customer/UpdateCustomerUseCase';
 
 interface UseCases {
   // Chat
@@ -164,6 +176,13 @@ interface UseCases {
   getBookings: GetBookingsUseCase,
   updateBooking: UpdateBookingUseCase,
   changeBookingStatus: ChangeBookingStatusUseCase,
+  // Customer
+  addCustomerUseCase: AddCustomerUseCase,
+  getAllCustomersUseCase: GetAllCustomersUseCase,
+  getBookingsOfCustomerUseCase: GetBookingsOfCustomerUseCase,
+  getCustomerUseCase: GetCustomerUseCase,
+  getLeadsOfCustomerUseCase: GetLeadsOfCustomerUseCase,
+  updateCustomerUseCase: UpdateCustomerUseCase,
 }
 
 const useCases: UseCases = {
@@ -226,6 +245,13 @@ const useCases: UseCases = {
   getBookings: new GetBookingsUseCaseImpl(),
   updateBooking: new UpdateBookingUseCaseImpl(),
   changeBookingStatus: new ChangeBookingStatusUseCaseImpl(),
+  // Customer
+  addCustomerUseCase: new AddCustomerUseCaseImpl(),
+  getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
+  getBookingsOfCustomerUseCase: new GetBookingsOfCustomerUseCaseImpl(),
+  getCustomerUseCase: new GetCustomerUseCaseImpl(),
+  getLeadsOfCustomerUseCase: new GetLeadsOfCustomerUseCaseImpl(),
+  updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
 };
 
 export const {
@@ -281,4 +307,10 @@ export const {
   getBookings,
   updateBooking,
   changeBookingStatus,
+  addCustomerUseCase,
+  getAllCustomersUseCase,
+  getBookingsOfCustomerUseCase,
+  getCustomerUseCase,
+  getLeadsOfCustomerUseCase,
+  updateCustomerUseCase,
 } = useCases;
