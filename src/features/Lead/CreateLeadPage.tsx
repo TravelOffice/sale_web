@@ -1,17 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import {
   Card, CardBody, CardHeader, CardTitle, Form, Row, Label, Col,
   Breadcrumb, BreadcrumbItem,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import { Link, useHistory } from 'react-router-dom';
-import { generateI18nForLead } from '@utils/LeadUtils';
+import { createLeadSchema, generateI18nForLead } from '@utils/LeadUtils';
 import { CreateLeadFormData, HonorificType, Lead } from '@domain/entities/lead/Lead';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { leadPresenter, userPresenter } from '@adapter/presenters';
-import { RoleEnum } from '@domain/entities/User';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { leadPresenter } from '@adapter/presenters';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormItemSelect from '@components/Form/FormItemSelect';
 import FormItemInput from '@components/Form/FormItemInput';
@@ -19,6 +17,7 @@ import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import toasty from '@components/Toasty/Toasty';
 import LoadingButton from '@components/LoadingButton/LoadingButton';
 import { Trans } from 'react-i18next';
+import { useAllSaleOptions } from '@hooks/users';
 
 const honorificOptions = [
   { label: generateI18nForLead(HonorificType.MR_OLD), value: HonorificType.MR_OLD },
@@ -40,36 +39,6 @@ const typeOptions = [
   { label: i18n.t('LEAD.INBOUND'), value: 'inbound' },
   { label: i18n.t('LEAD.OUTBOUND'), value: 'outbound' },
 ];
-
-const leadSchema = yup.object().shape({
-  email: yup.string()
-    .email(i18n.t('MESSAGE.EMAIL_INVALID_MESSAGE')),
-  name: yup.string()
-    .required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('LEAD.NAME') })),
-  phoneNumber: yup.string()
-    .required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('LEAD.PHONE') })),
-  address: yup.string(),
-  honorific: yup.string(),
-  tourTemplateId: yup.string(),
-  desiredTour: yup.string(),
-  description: yup.string(),
-  assigneeId: yup.string(),
-  sourceId: yup.string()
-    .required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('LEAD.SOURCE') })),
-  numberOfAdultPassengers: yup.number().integer()
-    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('LEAD.NUMBER_OF_ADULT_PASSENGERS'), value: 0 }))
-    .required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('LEAD.NUMBER_OF_ADULT_PASSENGERS') })),
-  numberOfChildrenPassengers: yup.number().integer()
-    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('LEAD.NUMBER_OF_CHILDREN_PASSENGERS'), value: 0 }))
-    .required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('LEAD.NUMBER_OF_CHILDREN_PASSENGERS') })),
-  departure: yup.string()
-    .required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('LEAD.DEPARTURE') })),
-  startDate: yup.string()
-    .required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('LEAD.START_DATE') })),
-  type: yup.string()
-    .required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('LEAD.TYPE') })),
-  tourType: yup.string(),
-});
 
 const defaultValues: CreateLeadFormData = {
   name: '',
@@ -95,20 +64,9 @@ export default function CreateLeadPage() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreateLeadFormData>({ resolver: yupResolver(leadSchema), defaultValues });
+  } = useForm<CreateLeadFormData>({ resolver: yupResolver(createLeadSchema), defaultValues });
 
-  const { data: allSales } = useQuery({
-    queryKey: ['allSales'],
-    queryFn: async () => {
-      const users = await userPresenter.getAllUsers();
-      return users.filter((user) => user.roles.includes(RoleEnum.SALE));
-    },
-  });
-
-  const saleOptions = useMemo(() => {
-    if (!allSales) return [];
-    return allSales.map((sale) => ({ label: `${sale.lastName} ${sale.firstName}`, value: sale.username }));
-  }, [allSales]);
+  const saleOptions = useAllSaleOptions();
 
   const queryClient = useQueryClient();
   const history = useHistory();
@@ -381,7 +339,13 @@ export default function CreateLeadPage() {
 
                 <Row>
                   <Col className="d-flex" md={{ size: 9, offset: 3 }}>
-                    <LoadingButton loading={createLeadMutation.isLoading} className="me-1" color="primary" type="submit">
+                    <LoadingButton
+                      loading={createLeadMutation.isLoading}
+                      className="me-1"
+                      color="primary"
+                      type="submit"
+                      disabled={createLeadMutation.isLoading}
+                    >
                       {i18n.t('COMMON.SUBMIT')}
                     </LoadingButton>
                   </Col>

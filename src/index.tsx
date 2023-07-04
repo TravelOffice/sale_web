@@ -16,6 +16,7 @@ import '@styles/core.scss';
 import '@styles/base/components.scss';
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const LazyApp = lazy(() => import('./features/App/App'));
 
