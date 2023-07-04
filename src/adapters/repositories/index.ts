@@ -10,6 +10,8 @@ import { NotificationRepository } from '@adapter/repositories/interfaces/Notific
 import NotificationRepositoryImpl from '@adapter/repositories/NotificationRepositoryImpl';
 import { MailRepository } from '@adapter/repositories/interfaces/MailRepository';
 import MailRepositoryImpl from '@adapter/repositories/MailRepositoryImpl';
+import { BookingRepository } from '@adapter/repositories/interfaces/BookingRepository';
+import BookingRepositoryImpl from '@adapter/repositories/BookingRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
 import ChatRepositoryImpl from './ChatRepositoryImpl';
 import { S3Repository } from './interfaces/S3Repository';
@@ -30,6 +32,7 @@ interface Repositories {
   notificationRepository: NotificationRepository,
   rolePermissionRepository: RolePermissionRepository,
   mailRepository: MailRepository,
+  bookingRepository: BookingRepository,
 }
 
 const repositories : Repositories = {
@@ -43,6 +46,7 @@ const repositories : Repositories = {
   notificationRepository: new NotificationRepositoryImpl(),
   rolePermissionRepository: new RolePermissionRepositoryImpl(),
   mailRepository: new MailRepositoryImpl(),
+  bookingRepository: new BookingRepositoryImpl(),
 };
 
 export const {
@@ -56,4 +60,5 @@ export const {
   notificationRepository,
   rolePermissionRepository,
   mailRepository,
+  bookingRepository,
 } = repositories;
