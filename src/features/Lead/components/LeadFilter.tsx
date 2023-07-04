@@ -5,8 +5,9 @@ import {
 import { LeadStatus } from '@domain/entities/lead/Lead';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import Select from 'react-select';
 import i18n from '@config/i18n';
+import FormItemInput from '@components/Form/FormItemInput';
+import FormItemSelect from '@components/Form/FormItemSelect';
 
 export interface LeadFilterParams {
   name?: string,
@@ -40,40 +41,20 @@ export default function LeadFilter(props: LeadFilterProps) {
       <Row>
         <Col>
           <Label>{t('LEAD.NAME')}</Label>
-          <Controller
-            control={control}
-            name="name"
-            render={({ field }) => (
-              <Input {...field} />
-            )}
-          />
+          <FormItemInput control={control} name="name" errors={{}} />
         </Col>
         <Col>
           <Label>{t('LEAD.PHONE')}</Label>
-          <Controller
-            control={control}
-            name="phoneNumber"
-            render={({ field }) => (
-              <Input {...field} />
-            )}
-          />
+          <FormItemInput control={control} name="phoneNumber" errors={{}} />
         </Col>
         <Col>
           <Label>{t('COMMON.STATUS')}</Label>
-          <Controller
+          <FormItemSelect
             control={control}
             name="status"
-            render={({ field: { onChange, value, ...rest } }) => (
-              <Select
-                {...rest}
-                options={statusOptions}
-                value={{
-                  label: statusOptions.find((option) => option.value === value)?.label,
-                  value,
-                }}
-                onChange={(newValue) => onChange(newValue?.value)}
-              />
-            )}
+            options={statusOptions}
+            isClearable
+            errors={{}}
           />
         </Col>
         <Col>

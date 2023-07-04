@@ -11,7 +11,9 @@ export interface FormItemSelectControllerProps<
   TFieldValues extends FieldValues,
   TFieldPath extends FieldPath<TFieldValues>,
 > extends FormItemProps<TFieldValues, TFieldPath> {
-  options: Array<{ label: string, value: UnpackNestedValue<PathValue<TFieldValues, TFieldPath>> }>
+  options: Array<{ label: string, value: UnpackNestedValue<PathValue<TFieldValues, TFieldPath>> }>,
+  selectClassName?: string,
+  isClearable?: boolean,
 }
 
 export default function FormItemSelect<
@@ -19,7 +21,7 @@ export default function FormItemSelect<
   TFieldPath extends FieldPath<TFieldValues>,
 >(props: FormItemSelectControllerProps<TFieldValues, TFieldPath>) {
   const {
-    errors, options, control, name, placeholder,
+    errors, options, control, name, placeholder, selectClassName, isClearable,
   } = props;
   return (
     <>
@@ -28,7 +30,7 @@ export default function FormItemSelect<
         name={name}
         render={({ field: { value, onChange, ...rest } }) => (
           <Select
-            className={classNames({ 'is-invalid': errors[name] })}
+            className={classNames(selectClassName, { 'is-invalid': errors[name] })}
             options={options}
             styles={{
               control: (provided) => (errors[name] ? { ...provided, borderColor: '#ea5455 !important' } : provided),
@@ -39,6 +41,7 @@ export default function FormItemSelect<
               value,
             } : undefined}
             onChange={(newValue) => onChange(newValue?.value)}
+            isClearable={isClearable}
             {...rest}
           />
         )}

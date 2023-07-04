@@ -71,3 +71,5 @@ export type CreateLeadFormData = Pick<Lead,
 'type' |
 'tourType'
 >;
+
+export type UpdateLeadFormData = CreateLeadFormData;

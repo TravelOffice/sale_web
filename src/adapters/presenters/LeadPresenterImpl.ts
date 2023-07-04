@@ -1,4 +1,6 @@
-import { CreateLeadFormData, Lead, LeadStatus } from '@domain/entities/lead/Lead';
+import {
+  CreateLeadFormData, LeadStatus, UpdateLeadFormData,
+} from '@domain/entities/lead/Lead';
 import {
   addLeadUseCase, getAllLeadsUseCase,
   getLeadUseCase, updateLeadUseCase,
@@ -12,5 +14,8 @@ export default class LeadPresenterImpl implements LeadPresenter {
 
     addLead = async (payload: CreateLeadFormData) => addLeadUseCase.invoke(payload);
 
-    updateLead = async (payload: Lead) => updateLeadUseCase.invoke(payload);
+    updateLead = async (
+      leadId: string,
+      formData: UpdateLeadFormData,
+    ) => updateLeadUseCase.invoke(leadId, formData);
 }

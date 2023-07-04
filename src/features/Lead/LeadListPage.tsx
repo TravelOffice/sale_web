@@ -2,7 +2,6 @@ import React, { useMemo, useState } from 'react';
 import LeadStats from '@features/Lead/components/LeadStats';
 import { useQuery } from '@tanstack/react-query';
 import { leadPresenter } from '@adapter/presenters';
-import { LeadStatus } from '@domain/entities/lead/Lead';
 import {
   Button,
   Card, CardBody, CardHeader, CardTitle,
@@ -12,25 +11,26 @@ import DataTable from 'react-data-table-component';
 import { ChevronDown, Plus } from 'react-feather';
 import leadColumns from '@features/Lead/components/LeadColumns';
 import LeadFilter, { LeadFilterParams } from '@features/Lead/components/LeadFilter';
-import { filterLeads } from '@utils/LeadUtils';
+import { countLeadData, filterLeads } from '@utils/LeadUtils';
 import { Link } from 'react-router-dom';
 
 export default function LeadListPage() {
   const [filterParams, setFilterParams] = useState<LeadFilterParams>();
-  const { data: allLeads, isFetching } = useQuery(['leads'], async () => leadPresenter.getAllLeads());
+  const { data: allLeads = [], isFetching } = useQuery(['leads'], async () => leadPresenter.getAllLeads());
   const leads = useMemo(() => {
     if (!allLeads) return [];
     if (!filterParams) return allLeads;
     return filterLeads(allLeads, filterParams);
   }, [allLeads, filterParams]);
+  const countData = useMemo(() => countLeadData(allLeads), [allLeads]);
   return (
     <div className="to-table-container">
       <LeadStats
-        total={leads.length}
-        countNew={leads.filter((lead) => lead.leadStatus === LeadStatus.NEW).length}
-        countProcessing={leads.filter((lead) => lead.leadStatus === LeadStatus.PROCESSING).length}
-        countClosed={leads.filter((lead) => lead.leadStatus === LeadStatus.CLOSED).length}
-        countCancelled={leads.filter((lead) => lead.leadStatus === LeadStatus.CANCEL).length}
+        total={countData.total}
+        countNew={countData.countNew}
+        countProcessing={countData.countProcessing}
+        countClosed={countData.countClosed}
+        countCancelled={countData.countCancelled}
       />
       <Card>
         <CardHeader>

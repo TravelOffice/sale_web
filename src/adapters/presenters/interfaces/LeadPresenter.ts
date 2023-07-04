@@ -1,8 +1,10 @@
-import { CreateLeadFormData, Lead, LeadStatus } from '@domain/entities/lead/Lead';
+import {
+  CreateLeadFormData, Lead, LeadStatus, UpdateLeadFormData,
+} from '@domain/entities/lead/Lead';
 
 export interface LeadPresenter {
-  addLead: (lead: CreateLeadFormData) => Promise<Lead>;
+  addLead: (formData: CreateLeadFormData) => Promise<Lead>;
   getLead: (leadId: string) => Promise<Lead>;
-  updateLead: (lead: Lead) => Promise<Lead>;
+  updateLead: (leadId: string, formData: UpdateLeadFormData) => Promise<Lead>;
   getAllLeads: (status?: LeadStatus) => Promise<Lead[]>
 }
