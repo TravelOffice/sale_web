@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {
   Col, Form, Input, Label, Row,
 } from 'reactstrap';
-import { LeadStatus } from '@domain/entities/Lead';
+import { LeadStatus } from '@domain/entities/lead/Lead';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import Select from 'react-select';

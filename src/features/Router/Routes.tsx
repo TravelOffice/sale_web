@@ -8,6 +8,7 @@ import Roles from '@features/Roles-Permissions/Roles/Role';
 import PERMISSIONS from '@utils/PermissionUtils';
 import AppMail from '@features/Mail/AppMail';
 import LeadListPage from '@features/Lead/LeadListPage';
+import CreateLeadPage from '@features/Lead/CreateLeadPage';
 
 const Routes : RoutePathConfig[] = [
   {
@@ -46,6 +47,10 @@ const Routes : RoutePathConfig[] = [
     exact: true,
     requiredPermissions: [PERMISSIONS.get_leads],
     component: <LeadListPage />,
+  },
+  {
+    path: '/apps/lead/create',
+    component: <CreateLeadPage />,
   },
   {
     path: '/admin/user/list',

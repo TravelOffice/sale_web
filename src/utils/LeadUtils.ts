@@ -1,4 +1,4 @@
-import { Lead } from '@domain/entities/Lead';
+import { Lead } from '@domain/entities/lead/Lead';
 import { LeadFilterParams } from '@features/Lead/components/LeadFilter';
 import i18n from '@config/i18n';
 

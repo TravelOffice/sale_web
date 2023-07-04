@@ -1,5 +1,5 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { Lead, LeadStatus } from '@domain/entities/Lead';
+import { CreateLeadFormData, Lead, LeadStatus } from '@domain/entities/lead/Lead';
 import { LeadRepository } from './interfaces/LeadRepository';
 
 export default class LeadRepositoryImpl implements LeadRepository {
@@ -17,9 +17,9 @@ export default class LeadRepositoryImpl implements LeadRepository {
     return response.data;
   }
 
-  addLead = async (lead: Lead) => {
-    await apiProvider.authorizedRequest.post('/leads', lead);
-    return lead;
+  addLead = async (formData: CreateLeadFormData) => {
+    const response = await apiProvider.authorizedRequest.post('/leads', formData);
+    return response.data;
   }
 
   updateLead = async (lead: Lead) => {
