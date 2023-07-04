@@ -10,7 +10,7 @@ import AppMail from '@features/Mail/AppMail';
 import LeadListPage from '@features/Lead/LeadListPage';
 import CreateLeadPage from '@features/Lead/CreateLeadPage';
 
-const Routes : RoutePathConfig[] = [
+const Routes: RoutePathConfig[] = [
   {
     path: '/',
     exact: true,
@@ -44,6 +44,12 @@ const Routes : RoutePathConfig[] = [
   },
   {
     path: '/apps/lead/list',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.get_leads],
+    component: <LeadListPage />,
+  },
+  {
+    path: '/apps/booking/list',
     exact: true,
     requiredPermissions: [PERMISSIONS.get_leads],
     component: <LeadListPage />,

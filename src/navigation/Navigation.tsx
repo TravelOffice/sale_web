@@ -28,7 +28,7 @@ const Navigation : MenuItem[] = [
     ],
   },
   {
-    header: 'Apps & Pages',
+    header: 'Communication',
   },
   {
     id: 'chat',
@@ -46,17 +46,13 @@ const Navigation : MenuItem[] = [
     navLink: '/apps/email',
   },
   {
-    id: 'user',
-    title: 'User',
-    icon: <Users size={20} />,
-    requiredPermissions: [PERMISSIONS.view_all_users],
-    navLink: '/admin/user/list',
+    header: 'Businesses',
   },
   {
-    id: 'settings',
-    title: 'Setting',
-    icon: <Settings size={12} />,
-    navLink: '/apps/account-settings',
+    id: 'customers',
+    title: 'Customer',
+    icon: <UserCheck size={12} />,
+    navLink: '/apps/customer/list',
   },
   {
     id: 'leads',
@@ -66,10 +62,21 @@ const Navigation : MenuItem[] = [
     navLink: '/apps/lead/list',
   },
   {
-    id: 'customers',
-    title: 'Customer',
-    icon: <UserCheck size={12} />,
-    navLink: '/apps/customer/list',
+    id: 'bookings',
+    title: 'Booking',
+    requiredPermissions: [PERMISSIONS.get_bookings],
+    icon: <ShoppingCart size={12} />,
+    navLink: '/apps/booking/list',
+  },
+  {
+    header: 'Administrators',
+  },
+  {
+    id: 'user',
+    title: 'User',
+    icon: <Users size={20} />,
+    requiredPermissions: [PERMISSIONS.view_all_users],
+    navLink: '/admin/user/list',
   },
   {
     id: 'roles-permissions',
@@ -77,6 +84,12 @@ const Navigation : MenuItem[] = [
     requiredPermissions: [PERMISSIONS.get_roles],
     icon: <Shield size={20} />,
     navLink: '/apps/admin/roles',
+  },
+  {
+    id: 'settings',
+    title: 'Setting',
+    icon: <Settings size={12} />,
+    navLink: '/apps/account-settings',
   },
 ];
 
