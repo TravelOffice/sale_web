@@ -1,0 +1,34 @@
+import { GetAllLeadsUseCase } from '@domain/useCases/interfaces/lead/GetAllLeadsUseCase';
+import { GetLeadUseCase } from '@domain/useCases/interfaces/lead/GetLeadUseCase';
+import { AddLeadUseCase } from '@domain/useCases/interfaces/lead/AddLeadUseCase';
+import { UpdateLeadUseCase } from '@domain/useCases/interfaces/lead/UpdateLeadUseCase';
+import { GetMyLeadsUseCase } from '@domain/useCases/interfaces/lead/GetMyLeadsUseCase';
+import GetAllLeadsUseCaseImpl from '@domain/useCases/lead/GetAllLeadsUseCaseImpl';
+import GetMyLeadsUseCaseImpl from '@domain/useCases/lead/GetMyLeadsUseCaseImpl';
+import GetLeadUseCaseImpl from '@domain/useCases/lead/GetLeadUseCaseImpl';
+import AddLeadUseCaseImpl from '@domain/useCases/lead/AddLeadUseCaseImpl';
+import UpdateLeadUseCaseImpl from '@domain/useCases/lead/UpdateLeadUseCaseImpl';
+
+interface LeadUseCases {
+  getAllLeadsUseCase: GetAllLeadsUseCase,
+  getMyLeadUseCase: GetMyLeadsUseCase,
+  getLeadUseCase: GetLeadUseCase,
+  addLeadUseCase: AddLeadUseCase,
+  updateLeadUseCase: UpdateLeadUseCase,
+}
+
+const useCases: LeadUseCases = {
+  getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
+  getMyLeadUseCase: new GetMyLeadsUseCaseImpl(),
+  getLeadUseCase: new GetLeadUseCaseImpl(),
+  addLeadUseCase: new AddLeadUseCaseImpl(),
+  updateLeadUseCase: new UpdateLeadUseCaseImpl(),
+};
+
+export const {
+  getAllLeadsUseCase,
+  getMyLeadUseCase,
+  getLeadUseCase,
+  addLeadUseCase,
+  updateLeadUseCase,
+} = useCases;
