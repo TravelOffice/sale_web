@@ -57,6 +57,14 @@ import GetBookingUseCaseImpl from '@domain/useCases/booking/GetBookingUseCaseImp
 import GetBookingsUseCaseImpl from '@domain/useCases/booking/GetBookingsUseCaseImpl';
 import UpdateBookingUseCaseImpl from '@domain/useCases/booking/UpdateBookingUseCaseImpl';
 import ChangeBookingStatusUseCaseImpl from '@domain/useCases/booking/ChangeBookingStatusUseCaseImpl';
+import GetAllTourTemplatesUseCaseImpl from '@domain/useCases/tourTemplate/GetAllTourTemplatesUseCaseImpl';
+import GetTourTemplateUseCaseImpl from '@domain/useCases/tourTemplate/GetTourTemplateUseCaseImpl';
+import AddTourTemplateUseCaseImpl from '@domain/useCases/tourTemplate/AddTourTemplateUseCaseImpl';
+import UpdateTourTemplateUseCaseImpl from '@domain/useCases/tourTemplate/UpdateTourTemplateUseCaseImpl';
+import { GetAllTourTemplatesUseCase } from '@domain/useCases/interfaces/tourTemplate/GetAllTourTemplatesUseCase';
+import { GetTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/GetTourTemplateUseCase';
+import { AddTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/AddTourTemplateUseCase';
+import { UpdateTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/UpdateTourTemplateUseCase';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -121,6 +129,11 @@ interface UseCases {
   unlinkPageUseCase: UnlinkPageUseCase,
   adminGetPlatformConversationsUseCase: AdminGetPlatformConversationsUseCase,
   manualAssignChatUseCase: ManualAssignChatUseCase,
+  // Tour Template
+  getAllTourTemplatesUseCase: GetAllTourTemplatesUseCase
+  getTourTemplateUseCase: GetTourTemplateUseCase
+  addTourTemplateUseCase: AddTourTemplateUseCase
+  updateTourTemplateUseCase: UpdateTourTemplateUseCase
   // Zalo page
   getZaloOAuthLinkUseCase: GetZaloOAuthLinkUseCase,
   connectZaloPageUseCase: ConnectZaloPageUseCase,
@@ -190,6 +203,11 @@ const useCases: UseCases = {
   unlinkPageUseCase: new UnlinkPageUseCaseImpl(),
   adminGetPlatformConversationsUseCase: new AdminGetPlatformConversationsUseCaseImpl(),
   manualAssignChatUseCase: new ManualAssignChatUseCaseImpl(),
+  // Tour Template use cases
+  getAllTourTemplatesUseCase: new GetAllTourTemplatesUseCaseImpl(),
+  getTourTemplateUseCase: new GetTourTemplateUseCaseImpl(),
+  addTourTemplateUseCase: new AddTourTemplateUseCaseImpl(),
+  updateTourTemplateUseCase: new UpdateTourTemplateUseCaseImpl(),
   // User
   getCurrentUserUseCase: new GetCurrentUserUseCaseImpl(),
   getAllUsersUseCase: new GetAllUsersUseCaseImpl(),
@@ -245,6 +263,10 @@ export const {
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
   getUserInfoUseCase,
+  getAllTourTemplatesUseCase,
+  getTourTemplateUseCase,
+  addTourTemplateUseCase,
+  updateTourTemplateUseCase,
   connectFacebookPageUseCase,
   getZaloOAuthLinkUseCase,
   connectZaloPageUseCase,

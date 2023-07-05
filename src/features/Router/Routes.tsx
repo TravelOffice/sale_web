@@ -11,6 +11,7 @@ import LeadListPage from '@features/Lead/LeadListPage';
 import CreateLeadPage from '@features/Lead/CreateLeadPage';
 import EditLeadPage from '@features/Lead/EditLeadPage';
 import CustomerListPage from '@features/Customer/CustomerListPage';
+import TourTemplateListPage from '@features/TourTemplate/TourTemplateListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -43,6 +44,12 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/apps/account-settings',
     component: <Settings />,
+  },
+  {
+    path: '/apps/tour-template/list',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.get_tour_templates],
+    component: <TourTemplateListPage />,
   },
   {
     path: '/apps/lead/list',

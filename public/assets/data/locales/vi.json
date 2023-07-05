@@ -476,5 +476,26 @@
         "CONFIGURE_MANUALLY": "Tôi muốn cấu hình thủ công",
         "SIGN_IN_WITH": "Đăng nhập bằng {{name}}",
         "CHANGE_MAILBOX_SUCCESSFULLY": "{{count}} mail đã được chuyển sang thư mục {{folder}}"
+    },
+    "TOUR_TEMPLATE": {
+        "LIST": "Danh sách tour mẫu",
+        "TYPE": "Loại tour",
+        "INBOUND": "Inbound",
+        "OUTBOUND": "Quốc tế",
+        "INLAND": "Nội địa",
+        "CODE": "Mã",
+        "NAME": "Tên tour mẫu",
+        "PRICE": "Thông tin giá",
+        "ADULT_PRICE": "Người lớn",
+        "CHILD_8_11_PRICE": "Trẻ em từ 8-11 tuổi",
+        "CHILD_5_7_PRICE": "Trẻ em từ 5-7 tuổi",
+        "CHILD_UNDER_5_PRICE": "Trẻ em dưới 5 tuổi",
+        "LOCATION": "Địa điểm",
+        "STARTING_LOCATION": "Xuất phát",
+        "ENDING_LOCATION": "Điểm đến",
+        "DURATION": "Thời gian",
+        "DURATION_IN_DAYS": "Số ngày",
+        "DURATION_IN_NIGHTS": "Số đêm",
+        "CREATOR": "Người tạo"
     }
 }

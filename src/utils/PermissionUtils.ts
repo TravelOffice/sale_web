@@ -35,6 +35,10 @@ const PERMISSIONS = {
   get_booking_of_customer: 'get_booking_of_customer',
   create_customer: 'create_customer',
   update_customer: 'update_customer',
+  get_tour_templates: 'get_tour_templates',
+  get_tour_template: 'get_tour_template',
+  create_tour_template: 'create_tour_template',
+  update_tour_template: 'update_tour_template',
 };
 
 export default PERMISSIONS;

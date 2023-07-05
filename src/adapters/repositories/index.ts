@@ -14,6 +14,8 @@ import { BookingRepository } from '@adapter/repositories/interfaces/BookingRepos
 import BookingRepositoryImpl from '@adapter/repositories/BookingRepositoryImpl';
 import { CustomerRepository } from '@adapter/repositories/interfaces/CustomerRepository';
 import CustomerRepositoryImpl from '@adapter/repositories/CustomerRepositoryImpl';
+import { TourTemplateRepository } from './interfaces/TourTemplateRepository';
+import TourTemplatePresenterImpl from './TourTemplateRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
 import ChatRepositoryImpl from './ChatRepositoryImpl';
 import { S3Repository } from './interfaces/S3Repository';
@@ -30,6 +32,7 @@ interface Repositories {
   zaloPageRepository: ZaloPageRepository,
   s3Repository: S3Repository,
   leadRepository: LeadRepository,
+  tourTemplateRepository: TourTemplateRepository,
   pageConnectionRepository: AccountConnectionRepository,
   notificationRepository: NotificationRepository,
   rolePermissionRepository: RolePermissionRepository,
@@ -45,6 +48,7 @@ const repositories: Repositories = {
   zaloPageRepository: new ZaloPageRepositoryImpl(),
   s3Repository: new S3RepositoryImpl(),
   leadRepository: new LeadRepositoryImpl(),
+  tourTemplateRepository: new TourTemplatePresenterImpl(),
   pageConnectionRepository: new AccountConnectionRepositoryImpl(),
   notificationRepository: new NotificationRepositoryImpl(),
   rolePermissionRepository: new RolePermissionRepositoryImpl(),
@@ -60,6 +64,7 @@ export const {
   zaloPageRepository,
   s3Repository,
   leadRepository,
+  tourTemplateRepository,
   pageConnectionRepository,
   notificationRepository,
   rolePermissionRepository,
