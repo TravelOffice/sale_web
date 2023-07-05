@@ -47,3 +47,9 @@ export const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase(
 // ** Converts HTML to string
 export const htmlToString = (html: string) => (html || '').replace(/<\/?[^>]+(>|$)/g, '') // Remove HTML tag
   .replaceAll('\n', ' ').replaceAll('\r\n', ' '); // Remove break line
+
+/**
+ * Utility function to convert a number to Vietnam currency (VND)
+ * @param num number
+ */
+export const formatVND = (num: number) => num.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });

@@ -476,5 +476,26 @@
         "CONFIGURE_MANUALLY": "I want to configure my email address manually",
         "SIGN_IN_WITH": "Sign in with {{name}}",
         "CHANGE_MAILBOX_SUCCESSFULLY": "{{count}} mail(s) have been move to {{folder}}"
+    },
+    "TOUR_TEMPLATE": {
+        "LIST": "Sample tour list",
+        "TYPE": "Type of tour",
+        "INBOUND": "Inbound",
+        "OUTBOUND": "Outbound",
+        "INLAND": "Inland",
+        "CODE": "Code",
+        "NAME": "Sample tour name",
+        "PRICE": "Price information",
+        "ADULT_PRICE": "Adult",
+        "CHILD_8_11_PRICE": "Children aged 8-11 years old",
+        "CHILD_5_7_PRICE": "Children aged 5-7 years old",
+        "CHILD_UNDER_5_PRICE": "Children under 5 years old",
+        "LOCATION": "Location",
+        "STARTING_LOCATION": "Starting location",
+        "ENDING_LOCATION": "Ending location",
+        "DURATION": "Duration",
+        "DURATION_IN_DAYS": "Duration in days",
+        "DURATION_IN_NIGHTS": "Duration in nights",
+        "CREATOR": "Creator"
     }
 }
