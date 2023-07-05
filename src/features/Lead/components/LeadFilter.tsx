@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import {
-  Col, Form, Input, Label, Row,
+  Col, Form, Label, Row,
 } from 'reactstrap';
 import { LeadStatus } from '@domain/entities/lead/Lead';
 import { useTranslation } from 'react-i18next';
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import i18n from '@config/i18n';
 import FormItemInput from '@components/Form/FormItemInput';
 import FormItemSelect from '@components/Form/FormItemSelect';
+import { useAllSales } from '@hooks/users';
+import { generateUserDisplayNameOption } from '@utils/UserUtils';
+import { useCurrentUser } from '@hooks/auth';
 
 export interface LeadFilterParams {
   name?: string,
@@ -31,11 +34,19 @@ const statusOptions = [
 export default function LeadFilter(props: LeadFilterProps) {
   const { onFilter } = props;
   const { t } = useTranslation();
-  const { control } = useForm<LeadFilterParams>();
+  const { control, setValue } = useForm<LeadFilterParams>();
   const values = useWatch({ control });
+  const { data: sales = [] } = useAllSales();
+  const currentUser = useCurrentUser();
+
   useEffect(() => {
     onFilter(values);
   }, [values]);
+
+  useEffect(() => {
+    setValue('assignee', currentUser?.username);
+  }, [currentUser]);
+
   return (
     <Form>
       <Row>
@@ -59,22 +70,28 @@ export default function LeadFilter(props: LeadFilterProps) {
         </Col>
         <Col>
           <Label>{t('LEAD.ASSIGNEE')}</Label>
-          <Controller
+          <FormItemSelect
             control={control}
             name="assignee"
-            render={({ field }) => (
-              <Input {...field} />
-            )}
+            errors={{}}
+            isClearable
+            options={sales.map((sale) => ({
+              label: generateUserDisplayNameOption(sale, currentUser),
+              value: sale.username,
+            }))}
           />
         </Col>
         <Col>
           <Label>{t('LEAD.CREATOR')}</Label>
-          <Controller
+          <FormItemSelect
             control={control}
             name="creator"
-            render={({ field }) => (
-              <Input {...field} />
-            )}
+            errors={{}}
+            isClearable
+            options={sales.map((sale) => ({
+              label: generateUserDisplayNameOption(sale, currentUser),
+              value: sale.username,
+            }))}
           />
         </Col>
       </Row>

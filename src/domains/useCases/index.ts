@@ -69,10 +69,6 @@ import { GetPlatformConversationsUseCase } from './interfaces/chat/GetPlatformCo
 import { SendAttachmentMessageUseCase } from './interfaces/chat/SendAttachmentMessageUseCase';
 import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
 import { SubscribeNewMessageUseCase } from './interfaces/chat/SubscribeNewMessageUseCase';
-import { AddLeadUseCase } from './interfaces/lead/AddLeadUseCase';
-import { GetAllLeadsUseCase } from './interfaces/lead/GetAllLeadsUseCase';
-import { GetLeadUseCase } from './interfaces/lead/GetLeadUseCase';
-import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
 import { GetLinkedPagesUseCase } from './interfaces/pageConnection/GetLinkedPagesUseCase';
 import { UnlinkPageUseCase } from './interfaces/pageConnection/UnlinkPageUseCase';
 import { AddUserUseCase } from './interfaces/user/AddUserUseCase';
@@ -80,10 +76,6 @@ import { GetUserUseCase } from './interfaces/user/GetUserUseCase';
 import { UpdateUserUseCase } from './interfaces/user/UpdateUserUseCase';
 import { GetAllPermissionsUseCase } from './interfaces/rolePermission/GetAllPermissionsUseCase';
 import { GetAllRolesUseCase } from './interfaces/rolePermission/GetAllRolesUseCase';
-import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
-import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
-import GetLeadUseCaseImpl from './lead/GetLeadUseCaseImpl';
-import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
 import GetLinkedPagesUseCaseImpl from './pageConnection/GetLinkedPagesUseCaseImpl';
 import UnlinkPageUseCaseImpl from './pageConnection/UnlinkPageUseCaseImpl';
 import AddUserUseCaseImpl from './user/AddUserUseCaseImpl';
@@ -123,10 +115,6 @@ interface UseCases {
   subscribeNewMessageUseCase: SubscribeNewMessageUseCase,
   getFacebookPagesUseCase: GetFacebookPagesUseCase,
   sendAttachmentMessageUseCase: SendAttachmentMessageUseCase,
-  getAllLeadsUseCase: GetAllLeadsUseCase
-  getLeadUseCase: GetLeadUseCase
-  addLeadUseCase: AddLeadUseCase
-  updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
   getUserInfoUseCase: GetUserInfoUseCase,
   getLinkedPagesUseCase: GetLinkedPagesUseCase,
@@ -202,11 +190,6 @@ const useCases: UseCases = {
   unlinkPageUseCase: new UnlinkPageUseCaseImpl(),
   adminGetPlatformConversationsUseCase: new AdminGetPlatformConversationsUseCaseImpl(),
   manualAssignChatUseCase: new ManualAssignChatUseCaseImpl(),
-  // Lead use cases
-  getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
-  getLeadUseCase: new GetLeadUseCaseImpl(),
-  addLeadUseCase: new AddLeadUseCaseImpl(),
-  updateLeadUseCase: new UpdateLeadUseCaseImpl(),
   // User
   getCurrentUserUseCase: new GetCurrentUserUseCaseImpl(),
   getAllUsersUseCase: new GetAllUsersUseCaseImpl(),
@@ -262,10 +245,6 @@ export const {
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
   getUserInfoUseCase,
-  getAllLeadsUseCase,
-  getLeadUseCase,
-  addLeadUseCase,
-  updateLeadUseCase,
   connectFacebookPageUseCase,
   getZaloOAuthLinkUseCase,
   connectZaloPageUseCase,
@@ -314,3 +293,5 @@ export const {
   getLeadsOfCustomerUseCase,
   updateCustomerUseCase,
 } = useCases;
+
+// leadUseCases

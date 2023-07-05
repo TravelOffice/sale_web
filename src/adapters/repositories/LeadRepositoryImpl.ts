@@ -14,6 +14,11 @@ export default class LeadRepositoryImpl implements LeadRepository {
     return response.data;
   }
 
+  getMyLeads = async () => {
+    const response = await apiProvider.authorizedRequest.get('/me/leads');
+    return response.data;
+  }
+
   getLead = async (leadId: string) => {
     const response = await apiProvider.authorizedRequest.get(`/leads/${leadId}`);
     return response.data;

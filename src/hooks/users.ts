@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { userPresenter } from '@adapter/presenters';
 import { RoleEnum } from '@domain/entities/User';
 import { useMemo } from 'react';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 // eslint-disable-next-line import/prefer-default-export
 export function useAllSales() {
@@ -19,7 +20,7 @@ export function useAllSaleOptions() {
   return useMemo(() => {
     if (!allSales) return [];
     return allSales.map((sale) => ({
-      label: `${sale.lastName} ${sale.firstName}`,
+      label: generateUserDisplayName(sale),
       value: sale.username,
     }));
   }, [allSales]);

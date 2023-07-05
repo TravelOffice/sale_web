@@ -7,4 +7,5 @@ export interface LeadRepository {
   updateLead(leadId: string, formData: UpdateLeadFormData): Promise<Lead>;
   getLead(leadId: string): Promise<Lead>;
   getAllLeads(status?: LeadStatus): Promise<Lead[]>;
+  getMyLeads(): Promise<Lead[]>;
 }

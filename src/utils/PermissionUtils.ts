@@ -6,6 +6,7 @@ const PERMISSIONS = {
   view_message: 'view_message',
   send_message: 'send_message',
   get_leads: 'get_leads',
+  get_my_leads: 'get_my_leads',
   get_lead: 'get_lead',
   create_lead: 'create_lead',
   update_lead: 'update_lead',

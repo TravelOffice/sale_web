@@ -47,7 +47,7 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/apps/lead/list',
     exact: true,
-    requiredPermissions: [PERMISSIONS.get_leads],
+    requiredPermissions: { any: [PERMISSIONS.get_leads, PERMISSIONS.get_my_leads] },
     component: <LeadListPage />,
   },
   {

@@ -6,5 +6,6 @@ export interface LeadPresenter {
   addLead: (formData: CreateLeadFormData) => Promise<Lead>;
   getLead: (leadId: string) => Promise<Lead>;
   updateLead: (leadId: string, formData: UpdateLeadFormData) => Promise<Lead>;
-  getAllLeads: (status?: LeadStatus) => Promise<Lead[]>
+  getAllLeads: (status?: LeadStatus) => Promise<Lead[]>;
+  getMyLeads: () => Promise<Lead[]>;
 }

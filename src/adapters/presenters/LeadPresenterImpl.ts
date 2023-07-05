@@ -2,20 +2,25 @@ import {
   CreateLeadFormData, LeadStatus, UpdateLeadFormData,
 } from '@domain/entities/lead/Lead';
 import {
-  addLeadUseCase, getAllLeadsUseCase,
-  getLeadUseCase, updateLeadUseCase,
-} from '@domain/useCases';
+  addLeadUseCase,
+  getAllLeadsUseCase,
+  getLeadUseCase,
+  getMyLeadUseCase,
+  updateLeadUseCase,
+} from '@domain/useCases/lead';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 
 export default class LeadPresenterImpl implements LeadPresenter {
-    getAllLeads = async (status?: LeadStatus) => getAllLeadsUseCase.invoke(status);
+  getAllLeads = async (status?: LeadStatus) => getAllLeadsUseCase.invoke(status);
 
-    getLead = async (leadId: string) => getLeadUseCase.invoke(leadId);
+  getMyLeads = async () => getMyLeadUseCase.invoke();
 
-    addLead = async (payload: CreateLeadFormData) => addLeadUseCase.invoke(payload);
+  getLead = async (leadId: string) => getLeadUseCase.invoke(leadId);
 
-    updateLead = async (
-      leadId: string,
-      formData: UpdateLeadFormData,
-    ) => updateLeadUseCase.invoke(leadId, formData);
+  addLead = async (payload: CreateLeadFormData) => addLeadUseCase.invoke(payload);
+
+  updateLead = async (
+    leadId: string,
+    formData: UpdateLeadFormData,
+  ) => updateLeadUseCase.invoke(leadId, formData);
 }

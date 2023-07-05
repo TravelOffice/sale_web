@@ -57,7 +57,7 @@ const Navigation : MenuItem[] = [
   {
     id: 'leads',
     title: 'Lead',
-    requiredPermissions: [PERMISSIONS.get_leads],
+    requiredPermissions: { any: [PERMISSIONS.get_leads, PERMISSIONS.get_my_leads] },
     icon: <User size={12} />,
     navLink: '/apps/lead/list',
   },
