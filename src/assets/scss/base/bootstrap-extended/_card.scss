@@ -404,6 +404,7 @@
 .card-statistics {
   .card-header {
     padding-left: 2.4rem;
+    padding-right: 2.4rem;
   }
   .statistics-body {
     padding: 2rem 2.4rem 2.8rem !important;
@@ -418,6 +419,11 @@
       }
     }
   }
+}
+
+.card-filter > * {
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
 }
 
 //--------------- Analytics Card ---------------

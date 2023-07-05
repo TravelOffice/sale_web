@@ -1,6 +1,6 @@
 import { CreateCustomerFormData, Customer, UpdateCustomerFormData } from '@domain/entities/customer/Customer';
-import { Booking } from '@domain/entities/Booking';
 import { Lead } from '@domain/entities/lead/Lead';
+import { Booking } from '@domain/entities/booking/Booking';
 
 export interface CustomerRepository {
   add(customer: CreateCustomerFormData): Promise<Customer>;

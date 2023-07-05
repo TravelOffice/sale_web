@@ -15,6 +15,7 @@ import CreateCustomerPage from '@features/Customer/CreateCustomerPage';
 import EditCustomerPage from '@features/Customer/CustomerDetailPage';
 import TourTemplateListPage from '@features/Tour/Template/TourTemplateListPage';
 import DepartureTour from '@features/Tour/Departure/DepartureTour';
+import BookingListPage from '@features/Booking/BookingListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -63,8 +64,8 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/apps/booking/list',
     exact: true,
-    requiredPermissions: [PERMISSIONS.get_leads],
-    component: <LeadListPage />,
+    requiredPermissions: [PERMISSIONS.get_bookings],
+    component: <BookingListPage />,
   },
   {
     path: '/apps/lead/create',
