@@ -4,7 +4,10 @@ import { useQuery } from '@tanstack/react-query';
 import { leadPresenter } from '@adapter/presenters';
 import {
   Button,
-  Card, CardBody, CardHeader, CardTitle,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import DataTable from 'react-data-table-component';
@@ -13,10 +16,17 @@ import leadColumns from '@features/Lead/components/LeadColumns';
 import LeadFilter, { LeadFilterParams } from '@features/Lead/components/LeadFilter';
 import { countLeadData, filterLeads } from '@utils/LeadUtils';
 import { Link } from 'react-router-dom';
+import { useAccessControl } from '@hooks/auth';
 
 export default function LeadListPage() {
   const [filterParams, setFilterParams] = useState<LeadFilterParams>();
-  const { data: allLeads = [], isFetching } = useQuery(['leads'], async () => leadPresenter.getAllLeads());
+  const { can } = useAccessControl();
+  const { data: allLeads = [], isFetching } = useQuery(['leads'], async () => {
+    if (can('get_leads')) {
+      return leadPresenter.getAllLeads();
+    }
+    return leadPresenter.getMyLeads();
+  });
   const leads = useMemo(() => {
     if (!allLeads) return [];
     if (!filterParams) return allLeads;

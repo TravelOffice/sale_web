@@ -6,6 +6,7 @@ const PERMISSIONS = {
   view_message: 'view_message',
   send_message: 'send_message',
   get_leads: 'get_leads',
+  get_my_leads: 'get_my_leads',
   get_lead: 'get_lead',
   create_lead: 'create_lead',
   update_lead: 'update_lead',
@@ -34,6 +35,10 @@ const PERMISSIONS = {
   get_booking_of_customer: 'get_booking_of_customer',
   create_customer: 'create_customer',
   update_customer: 'update_customer',
+  get_tour_templates: 'get_tour_templates',
+  get_tour_template: 'get_tour_template',
+  create_tour_template: 'create_tour_template',
+  update_tour_template: 'update_tour_template',
 };
 
 export default PERMISSIONS;

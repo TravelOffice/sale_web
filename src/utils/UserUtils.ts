@@ -1,4 +1,33 @@
 // eslint-disable-next-line import/prefer-default-export
+import { User } from '@domain/entities/User';
+import i18n from 'i18next';
+
 export function userHasPermission(userPermissions: string[], permission: string) {
   return userPermissions.includes(permission);
+}
+
+/**
+ * Generates the display name for the specified user.
+ *
+ * @param user - The user object for which to generate the display name.
+ * @returns The generated display name for the user.
+ */
+export function generateUserDisplayName(user: User) {
+  return `${user.firstName} ${user.lastName}`;
+}
+
+/**
+ * Generates the display name option for the specified user, with an additional
+ * label if the user is the current user.
+ *
+ * @param user - The user object for which to generate the display name option.
+ * @param currentUser - The current user object.
+\ * @returns The generated display name option for the user.
+ */
+export function generateUserDisplayNameOption(user: User, currentUser?: User) {
+  const displayName = generateUserDisplayName(user);
+  if (user.username !== currentUser?.username) {
+    return displayName;
+  }
+  return `${displayName} (${i18n.t('COMMON.ME')})`;
 }

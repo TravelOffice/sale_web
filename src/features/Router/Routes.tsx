@@ -11,6 +11,7 @@ import LeadListPage from '@features/Lead/LeadListPage';
 import CreateLeadPage from '@features/Lead/CreateLeadPage';
 import EditLeadPage from '@features/Lead/EditLeadPage';
 import CustomerListPage from '@features/Customer/CustomerListPage';
+import TourTemplateListPage from '@features/TourTemplate/TourTemplateListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -45,9 +46,15 @@ const Routes: RoutePathConfig[] = [
     component: <Settings />,
   },
   {
+    path: '/apps/tour-template/list',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.get_tour_templates],
+    component: <TourTemplateListPage />,
+  },
+  {
     path: '/apps/lead/list',
     exact: true,
-    requiredPermissions: [PERMISSIONS.get_leads],
+    requiredPermissions: { any: [PERMISSIONS.get_leads, PERMISSIONS.get_my_leads] },
     component: <LeadListPage />,
   },
   {

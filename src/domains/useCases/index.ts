@@ -57,6 +57,14 @@ import GetBookingUseCaseImpl from '@domain/useCases/booking/GetBookingUseCaseImp
 import GetBookingsUseCaseImpl from '@domain/useCases/booking/GetBookingsUseCaseImpl';
 import UpdateBookingUseCaseImpl from '@domain/useCases/booking/UpdateBookingUseCaseImpl';
 import ChangeBookingStatusUseCaseImpl from '@domain/useCases/booking/ChangeBookingStatusUseCaseImpl';
+import GetAllTourTemplatesUseCaseImpl from '@domain/useCases/tourTemplate/GetAllTourTemplatesUseCaseImpl';
+import GetTourTemplateUseCaseImpl from '@domain/useCases/tourTemplate/GetTourTemplateUseCaseImpl';
+import AddTourTemplateUseCaseImpl from '@domain/useCases/tourTemplate/AddTourTemplateUseCaseImpl';
+import UpdateTourTemplateUseCaseImpl from '@domain/useCases/tourTemplate/UpdateTourTemplateUseCaseImpl';
+import { GetAllTourTemplatesUseCase } from '@domain/useCases/interfaces/tourTemplate/GetAllTourTemplatesUseCase';
+import { GetTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/GetTourTemplateUseCase';
+import { AddTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/AddTourTemplateUseCase';
+import { UpdateTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/UpdateTourTemplateUseCase';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -69,10 +77,6 @@ import { GetPlatformConversationsUseCase } from './interfaces/chat/GetPlatformCo
 import { SendAttachmentMessageUseCase } from './interfaces/chat/SendAttachmentMessageUseCase';
 import { SendMessageUseCase } from './interfaces/chat/SendMessageUseCase';
 import { SubscribeNewMessageUseCase } from './interfaces/chat/SubscribeNewMessageUseCase';
-import { AddLeadUseCase } from './interfaces/lead/AddLeadUseCase';
-import { GetAllLeadsUseCase } from './interfaces/lead/GetAllLeadsUseCase';
-import { GetLeadUseCase } from './interfaces/lead/GetLeadUseCase';
-import { UpdateLeadUseCase } from './interfaces/lead/UpdateLeadUseCase';
 import { GetLinkedPagesUseCase } from './interfaces/pageConnection/GetLinkedPagesUseCase';
 import { UnlinkPageUseCase } from './interfaces/pageConnection/UnlinkPageUseCase';
 import { AddUserUseCase } from './interfaces/user/AddUserUseCase';
@@ -80,10 +84,6 @@ import { GetUserUseCase } from './interfaces/user/GetUserUseCase';
 import { UpdateUserUseCase } from './interfaces/user/UpdateUserUseCase';
 import { GetAllPermissionsUseCase } from './interfaces/rolePermission/GetAllPermissionsUseCase';
 import { GetAllRolesUseCase } from './interfaces/rolePermission/GetAllRolesUseCase';
-import AddLeadUseCaseImpl from './lead/AddLeadUseCaseImpl';
-import GetAllLeadsUseCaseImpl from './lead/GetAllLeadsUseCaseImpl';
-import GetLeadUseCaseImpl from './lead/GetLeadUseCaseImpl';
-import UpdateLeadUseCaseImpl from './lead/UpdateLeadUseCaseImpl';
 import GetLinkedPagesUseCaseImpl from './pageConnection/GetLinkedPagesUseCaseImpl';
 import UnlinkPageUseCaseImpl from './pageConnection/UnlinkPageUseCaseImpl';
 import AddUserUseCaseImpl from './user/AddUserUseCaseImpl';
@@ -123,16 +123,17 @@ interface UseCases {
   subscribeNewMessageUseCase: SubscribeNewMessageUseCase,
   getFacebookPagesUseCase: GetFacebookPagesUseCase,
   sendAttachmentMessageUseCase: SendAttachmentMessageUseCase,
-  getAllLeadsUseCase: GetAllLeadsUseCase
-  getLeadUseCase: GetLeadUseCase
-  addLeadUseCase: AddLeadUseCase
-  updateLeadUseCase: UpdateLeadUseCase
   connectFacebookPageUseCase: ConnectFacebookPageUseCase,
   getUserInfoUseCase: GetUserInfoUseCase,
   getLinkedPagesUseCase: GetLinkedPagesUseCase,
   unlinkPageUseCase: UnlinkPageUseCase,
   adminGetPlatformConversationsUseCase: AdminGetPlatformConversationsUseCase,
   manualAssignChatUseCase: ManualAssignChatUseCase,
+  // Tour Template
+  getAllTourTemplatesUseCase: GetAllTourTemplatesUseCase
+  getTourTemplateUseCase: GetTourTemplateUseCase
+  addTourTemplateUseCase: AddTourTemplateUseCase
+  updateTourTemplateUseCase: UpdateTourTemplateUseCase
   // Zalo page
   getZaloOAuthLinkUseCase: GetZaloOAuthLinkUseCase,
   connectZaloPageUseCase: ConnectZaloPageUseCase,
@@ -202,11 +203,11 @@ const useCases: UseCases = {
   unlinkPageUseCase: new UnlinkPageUseCaseImpl(),
   adminGetPlatformConversationsUseCase: new AdminGetPlatformConversationsUseCaseImpl(),
   manualAssignChatUseCase: new ManualAssignChatUseCaseImpl(),
-  // Lead use cases
-  getAllLeadsUseCase: new GetAllLeadsUseCaseImpl(),
-  getLeadUseCase: new GetLeadUseCaseImpl(),
-  addLeadUseCase: new AddLeadUseCaseImpl(),
-  updateLeadUseCase: new UpdateLeadUseCaseImpl(),
+  // Tour Template use cases
+  getAllTourTemplatesUseCase: new GetAllTourTemplatesUseCaseImpl(),
+  getTourTemplateUseCase: new GetTourTemplateUseCaseImpl(),
+  addTourTemplateUseCase: new AddTourTemplateUseCaseImpl(),
+  updateTourTemplateUseCase: new UpdateTourTemplateUseCaseImpl(),
   // User
   getCurrentUserUseCase: new GetCurrentUserUseCaseImpl(),
   getAllUsersUseCase: new GetAllUsersUseCaseImpl(),
@@ -262,10 +263,10 @@ export const {
   subscribeNewMessageUseCase,
   getFacebookPagesUseCase,
   getUserInfoUseCase,
-  getAllLeadsUseCase,
-  getLeadUseCase,
-  addLeadUseCase,
-  updateLeadUseCase,
+  getAllTourTemplatesUseCase,
+  getTourTemplateUseCase,
+  addTourTemplateUseCase,
+  updateTourTemplateUseCase,
   connectFacebookPageUseCase,
   getZaloOAuthLinkUseCase,
   connectZaloPageUseCase,
@@ -314,3 +315,5 @@ export const {
   getLeadsOfCustomerUseCase,
   updateCustomerUseCase,
 } = useCases;
+
+// leadUseCases

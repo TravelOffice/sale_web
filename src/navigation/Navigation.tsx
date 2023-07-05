@@ -3,7 +3,7 @@ import React from 'react';
 import {
   Activity, Home, Mail,
   MessageSquare, Settings, Shield,
-  ShoppingCart, User, UserCheck, Users,
+  ShoppingCart, User, UserCheck, Users, List,
 } from 'react-feather';
 import PERMISSIONS from '@utils/PermissionUtils';
 
@@ -55,9 +55,16 @@ const Navigation : MenuItem[] = [
     navLink: '/apps/customer/list',
   },
   {
+    id: 'tour-templates',
+    title: 'Tour Template',
+    requiredPermissions: [PERMISSIONS.get_tour_templates],
+    icon: <List size={12} />,
+    navLink: '/apps/tour-template/list',
+  },
+  {
     id: 'leads',
     title: 'Lead',
-    requiredPermissions: [PERMISSIONS.get_leads],
+    requiredPermissions: { any: [PERMISSIONS.get_leads, PERMISSIONS.get_my_leads] },
     icon: <User size={12} />,
     navLink: '/apps/lead/list',
   },
