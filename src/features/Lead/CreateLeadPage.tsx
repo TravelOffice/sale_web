@@ -70,7 +70,7 @@ export default function CreateLeadPage() {
         if (!leads) return [lead];
         return leads.concat(lead);
       });
-      history.push(`/apps/lead/${lead.code}/edit`);
+      history.push(`/apps/leads/${lead.code}/edit`);
     },
     onError: (error: Error) => {
       toasty.show({
@@ -92,7 +92,7 @@ export default function CreateLeadPage() {
           <Link to="/">{i18n.t('COMMON.HOME')}</Link>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <Link to="/apps/lead/list">Lead</Link>
+          <Link to="/apps/leads/list">Lead</Link>
         </BreadcrumbItem>
         <BreadcrumbItem active>
           <span>{i18n.t('LEAD.ADD_LEAD')}</span>

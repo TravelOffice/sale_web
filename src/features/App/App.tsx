@@ -12,7 +12,13 @@ import moment from 'moment';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Router from '../Router/Router';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
   const { i18n } = useTranslation();

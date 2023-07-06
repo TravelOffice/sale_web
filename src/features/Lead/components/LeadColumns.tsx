@@ -4,12 +4,12 @@ import { TableColumn } from 'react-data-table-component';
 import { Lead, LeadStatus } from '@domain/entities/lead/Lead';
 import { Link } from 'react-router-dom';
 import {
-  Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
+  Badge,
 } from 'reactstrap';
-import { Archive, MoreVertical, Trash2 } from 'react-feather';
 import moment from 'moment';
 import { generateEditableUrlForLead, generateI18nForLead } from '@utils/LeadUtils';
 import { formatPhoneNumber } from '@utils/Utils';
+import LeadItemActions from '@features/Lead/components/LeadItemActions';
 
 const leadStatusColors: Record<LeadStatus, string> = {
   NEW: 'light-primary',
@@ -50,11 +50,8 @@ const leadColumns: TableColumn<Lead>[] = [
       <div className="d-flex justify-content-left align-items-center">
         <div className="d-flex flex-column">
           <span className="fw-bolder text-primary">
-            <small
-              className="text-truncate text-muted"
-            >
-              {lead.honorific ? generateI18nForLead(lead.honorific) : ''}
-            </small>
+            <small className="text-truncate text-muted">{lead.honorific ? generateI18nForLead(lead.honorific) : ''}</small>
+            {' '}
             {lead.name}
           </span>
           <span>{formatPhoneNumber(lead.phoneNumber)}</span>
@@ -144,32 +141,7 @@ const leadColumns: TableColumn<Lead>[] = [
   {
     name: i18n.t('COMMON.ACTIONS'),
     maxWidth: '120px',
-    cell: (lead: Lead) => (
-      <div className="column-action">
-        <UncontrolledDropdown>
-          <DropdownToggle tag="div" className="btn btn-sm">
-            <MoreVertical size={14} className="cursor-pointer" />
-          </DropdownToggle>
-          <DropdownMenu container="body">
-            <DropdownItem tag={Link} className="w-100" to={generateEditableUrlForLead(lead)}>
-              <Archive size={14} className="me-50" />
-              <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
-            </DropdownItem>
-            <DropdownItem
-              tag="a"
-              href="/"
-              className="w-100"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <Trash2 size={14} className="me-50" />
-              <span className="align-middle">{i18n.t('COMMON.DELETE')}</span>
-            </DropdownItem>
-          </DropdownMenu>
-        </UncontrolledDropdown>
-      </div>
-    ),
+    cell: (lead: Lead) => <LeadItemActions lead={lead} />,
   },
 ];
 

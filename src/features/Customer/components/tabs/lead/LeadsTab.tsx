@@ -38,7 +38,7 @@ export default function LeadsTab() {
               sortIcon={<ChevronDown />}
               subHeader
               subHeaderComponent={(
-                <Link to="/apps/lead/create">
+                <Link to="/apps/leads/create">
                   <Button color="primary">
                     <Plus size={14} />
                     <span className="align-middle ms-25">{i18n.t('COMMON.ADD')}</span>

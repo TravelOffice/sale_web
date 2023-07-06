@@ -37,6 +37,7 @@ export function filterLeads(allLeads: Lead[], params: LeadFilterParams) {
     if (name && !lead.name.toLowerCase().includes(name.toLowerCase())) return false;
     if (phoneNumber && !lead.phoneNumber.includes(phoneNumber)) return false;
     if (status && lead.leadStatus !== status) return false;
+    if (assignee === '' && lead.assigneeId) return false;
     if (assignee && lead.assigneeId !== assignee) return false;
     return !(creator && !lead.creatorId.includes(creator) && !lead.creatorName.includes(creator));
   });
@@ -60,7 +61,7 @@ export function generateI18nForLead(type: string) {
  * @returns The editable URL for the lead.
  */
 export function generateEditableUrlForLead(lead: Lead) {
-  return `/apps/lead/${lead.code}/edit`;
+  return `/apps/leads/${lead.code}/edit`;
 }
 
 /**

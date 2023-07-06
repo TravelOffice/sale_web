@@ -8,5 +8,6 @@ export interface LeadPresenter {
   updateLead: (leadId: string, formData: UpdateLeadFormData) => Promise<Lead>;
   getAllLeads: (status?: LeadStatus) => Promise<Lead[]>;
   getMyLeads: () => Promise<Lead[]>;
-  getLeadsByCustomer: (customerId: string) => Promise<Lead[]>
+  getLeadsByCustomer: (customerId: string) => Promise<Lead[]>,
+  takeLead: (leadId: string, currentUserId: string) => Promise<void>,
 }

@@ -63,24 +63,24 @@ const Routes: RoutePathConfig[] = [
     component: <TourTemplateCreatePage />,
   },
   {
-    path: '/apps/lead/list',
+    path: '/apps/leads/list',
     exact: true,
     requiredPermissions: { any: [PERMISSIONS.get_leads, PERMISSIONS.get_my_leads] },
     component: <LeadListPage />,
+  },
+  {
+    path: '/apps/leads/create',
+    component: <CreateLeadPage />,
+  },
+  {
+    path: '/apps/leads/:leadId/edit',
+    component: <EditLeadPage />,
   },
   {
     path: '/apps/booking/list',
     exact: true,
     requiredPermissions: [PERMISSIONS.get_bookings],
     component: <BookingListPage />,
-  },
-  {
-    path: '/apps/lead/create',
-    component: <CreateLeadPage />,
-  },
-  {
-    path: '/apps/lead/:leadId/edit',
-    component: <EditLeadPage />,
   },
   {
     path: '/apps/customer/list',
