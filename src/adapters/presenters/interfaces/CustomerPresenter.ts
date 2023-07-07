@@ -1,11 +1,11 @@
-import { Lead } from '@domain/entities/lead/Lead';
-import { Customer } from '@domain/entities/Customer';
+import { CreateCustomerFormData, Customer, UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 import { Booking } from '@domain/entities/Booking';
+import { Lead } from '@domain/entities/lead/Lead';
 
 export interface CustomerPresenter {
-  addCustomer: (customer: Customer) => Promise<Customer>;
+  addCustomer: (customer: CreateCustomerFormData) => Promise<Customer>;
   getCustomer: (customerId: string) => Promise<Customer>;
-  updateCustomer: (customer: Customer) => Promise<Customer>;
+  updateCustomer: (customerId: string, customer: UpdateCustomerFormData) => Promise<Customer>;
   getAllCustomers: () => Promise<Customer[]>;
   getMyCustomers: () => Promise<Customer[]>;
   getLeadsOfCustomer: (customerId: string) => Promise<Lead[]>;

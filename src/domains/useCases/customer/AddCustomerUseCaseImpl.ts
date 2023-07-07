@@ -1,7 +1,9 @@
 import { customerRepository } from '@adapter/repositories';
-import { Customer } from '@domain/entities/Customer';
+import { CreateCustomerFormData, Customer } from '@domain/entities/customer/Customer';
 import { AddCustomerUseCase } from '@domain/useCases/interfaces/customer/AddCustomerUseCase';
 
 export default class AddCustomerUseCaseImpl implements AddCustomerUseCase {
-  invoke = async (customer: Customer): Promise<Customer> => customerRepository.add(customer);
+  invoke = async (
+    customer: CreateCustomerFormData,
+  ): Promise<Customer> => customerRepository.add(customer);
 }

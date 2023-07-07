@@ -1,5 +1,5 @@
 import { customerRepository } from '@adapter/repositories';
-import { Customer } from '@domain/entities/Customer';
+import { Customer } from '@domain/entities/customer/Customer';
 import { GetCustomerUseCase } from '@domain/useCases/interfaces/customer/GetCustomerUseCase';
 
 export default class GetCustomerUseCaseImpl implements GetCustomerUseCase {

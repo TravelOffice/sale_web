@@ -1,5 +1,5 @@
-import { Customer } from '@domain/entities/Customer';
+import { CreateCustomerFormData, Customer } from '@domain/entities/customer/Customer';
 
 export interface AddCustomerUseCase {
-  invoke: (customer: Customer) => Promise<Customer>
+  invoke: (customer: CreateCustomerFormData) => Promise<Customer>
 }

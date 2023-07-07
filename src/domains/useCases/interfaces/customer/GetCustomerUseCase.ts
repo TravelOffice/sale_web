@@ -1,4 +1,4 @@
-import { Customer } from '@domain/entities/Customer';
+import { Customer } from '@domain/entities/customer/Customer';
 
 export interface GetCustomerUseCase {
   invoke: (customerId: string) => Promise<Customer>

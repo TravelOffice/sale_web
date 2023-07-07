@@ -1,6 +1,6 @@
 import { apiProvider } from '@adapter/infrastructures';
 import { CustomerRepository } from '@adapter/repositories/interfaces/CustomerRepository';
-import { Customer } from '@domain/entities/Customer';
+import { CreateCustomerFormData, UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 
 export default class CustomerRepositoryImpl implements CustomerRepository {
   get = async (customerId: string) => {
@@ -9,13 +9,13 @@ export default class CustomerRepositoryImpl implements CustomerRepository {
   }
 
   add = async (customer:
-  Customer) => {
+  CreateCustomerFormData) => {
     const response = await apiProvider.authorizedRequest.post('/customers', customer);
     return response.data;
   }
 
-  update = async (customer: Customer) => {
-    const response = await apiProvider.authorizedRequest.put(`/customers/${customer.code}`, customer);
+  update = async (customerId: string, customer: UpdateCustomerFormData) => {
+    const response = await apiProvider.authorizedRequest.put(`/customers/${customerId}`, customer);
     return response.data;
   }
 

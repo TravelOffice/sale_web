@@ -6,11 +6,10 @@ import { Link } from 'react-router-dom';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
-import {
-  Archive, MoreVertical, Trash2,
-} from 'react-feather';
+import { Archive, MoreVertical, Trash2 } from 'react-feather';
 import moment from 'moment';
 import { generateEditableUrlForLead, generateI18nForLead } from '@utils/LeadUtils';
+import { formatPhoneNumber } from '@utils/Utils';
 
 const leadStatusColors: Record<LeadStatus, string> = {
   NEW: 'light-primary',
@@ -51,10 +50,14 @@ const leadColumns: TableColumn<Lead>[] = [
       <div className="d-flex justify-content-left align-items-center">
         <div className="d-flex flex-column">
           <span className="fw-bolder text-primary">
-            <small className="text-truncate text-muted">{lead.honorific ? generateI18nForLead(lead.honorific) : ''}</small>
+            <small
+              className="text-truncate text-muted"
+            >
+              {lead.honorific ? generateI18nForLead(lead.honorific) : ''}
+            </small>
             {lead.name}
           </span>
-          <span>{lead.phoneNumber}</span>
+          <span>{formatPhoneNumber(lead.phoneNumber)}</span>
         </div>
       </div>
     ),

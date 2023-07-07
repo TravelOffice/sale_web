@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import Select from 'react-select';
 import i18n from '@config/i18n';
-import { CustomerLevel } from '@domain/entities/Customer';
+import { CustomerLevel } from '@domain/entities/customer/Customer';
 
 export interface CustomerFilterParams {
   code?: string,

@@ -11,3 +11,7 @@ export const selectThemeColors = (theme: any) => ({
     neutral30: '#ededed', // for input hover border-color
   },
 });
+
+export const formatCurrency = (amount: number) => new Intl.NumberFormat('en-US').format(amount);
+
+export const formatPhoneNumber = (phoneStr: string) => phoneStr.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
