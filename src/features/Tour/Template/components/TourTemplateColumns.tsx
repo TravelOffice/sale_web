@@ -22,6 +22,8 @@ const tourTemplateColumns: TableColumn<TourTemplate>[] = [
   {
     name: i18n.t('TOUR_TEMPLATE.CODE'),
     width: '80px',
+    sortable: true,
+    sortField: 'code',
     cell: (tourTemplate: TourTemplate) => (
       <Link to={generateEditableUrlForTourTemplate(tourTemplate)} className="user_name text-truncate text-body">
         <span className="fw-bolder">{tourTemplate.code}</span>
@@ -31,11 +33,15 @@ const tourTemplateColumns: TableColumn<TourTemplate>[] = [
   {
     name: i18n.t('TOUR_TEMPLATE.NAME'),
     minWidth: '150px',
+    sortable: true,
+    sortField: 'name',
     cell: (tourTemplate: TourTemplate) => tourTemplate.name,
   },
   {
     name: i18n.t('TOUR_TEMPLATE.TYPE'),
     minWidth: '70px',
+    sortable: true,
+    sortField: 'type',
     cell: (tourTemplate: TourTemplate) => (
       <Badge className="text-capitalize" color={tourTemplateTypesColors[tourTemplate.type]} pill>
         {generateI18nForTourTemplate(tourTemplate.type)}
@@ -46,22 +52,30 @@ const tourTemplateColumns: TableColumn<TourTemplate>[] = [
     name: i18n.t('TOUR_TEMPLATE.STARTING_LOCATION'),
     minWidth: '150px',
     maxWidth: '180px',
+    sortable: true,
+    sortField: 'startingLocation',
     cell: (tourTemplate: TourTemplate) => tourTemplate.startingLocation,
   },
   {
     name: i18n.t('TOUR_TEMPLATE.ENDING_LOCATION'),
     minWidth: '150px',
     maxWidth: '180px',
+    sortable: true,
+    sortField: 'endingLocation',
     cell: (tourTemplate: TourTemplate) => tourTemplate.endingLocation,
   },
   {
     name: i18n.t('TOUR_TEMPLATE.DURATION_IN_DAYS'),
     minWidth: '150px',
+    sortable: true,
+    sortField: 'durationInDays',
     cell: (tourTemplate: TourTemplate) => tourTemplate.durationInDays,
   },
   {
     name: i18n.t('TOUR_TEMPLATE.DURATION_IN_NIGHTS'),
     minWidth: '150px',
+    sortable: true,
+    sortField: 'durationInNights',
     cell: (tourTemplate: TourTemplate) => tourTemplate.durationInNights,
   },
   {
