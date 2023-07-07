@@ -16,6 +16,8 @@ import { TourPresenter } from '@adapter/presenters/interfaces/TourPresenter';
 import TourPresenterImpl from '@adapter/presenters/TourPresenterImpl';
 import { BookingPresenter } from '@adapter/presenters/interfaces/BookingPresenter';
 import BookingPresenterImpl from '@adapter/presenters/BookingPresenterImpl';
+import { SourcePresenter } from '@adapter/presenters/interfaces/SourcePresenter';
+import SourcePresenterImpl from '@adapter/presenters/SourcePresenterImpl';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 import LeadPresenterImpl from './LeadPresenterImpl';
 import { RolePermissionPresenter } from './interfaces/RolePermissionPresenter';
@@ -33,6 +35,7 @@ interface Presenters {
   customerPresenter: CustomerPresenter,
   tourPresenter: TourPresenter,
   bookingPresenter: BookingPresenter,
+  sourcePresenter: SourcePresenter,
 }
 
 const presenters: Presenters = {
@@ -47,6 +50,7 @@ const presenters: Presenters = {
   customerPresenter: new CustomerPresenterImpl(),
   tourPresenter: new TourPresenterImpl(),
   bookingPresenter: new BookingPresenterImpl(),
+  sourcePresenter: new SourcePresenterImpl(),
 };
 
 export const {
@@ -61,4 +65,5 @@ export const {
   customerPresenter,
   tourPresenter,
   bookingPresenter,
+  sourcePresenter,
 } = presenters;

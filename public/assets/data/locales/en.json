@@ -143,7 +143,8 @@
     "ACTION_KEEP_ADDING_LEAD": "Keep adding new lead",
     "GO_TO_LEAD_DETAILS": "Go to details",
     "GO_TO_LEAD_LIST": "Go to lead list",
-    "GUIDE_CREATE_LEAD": "Fields marked with <strong>*</strong> must not be blank."
+    "GUIDE_CREATE_LEAD": "Fields marked with <strong>*</strong> must not be blank.",
+    "TOUR_TEMPLATE": "Tour template"
   },
   "PAGE": {
     "SUCCESS": "Success",

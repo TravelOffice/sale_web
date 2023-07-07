@@ -14,6 +14,8 @@ import { BookingRepository } from '@adapter/repositories/interfaces/BookingRepos
 import BookingRepositoryImpl from '@adapter/repositories/BookingRepositoryImpl';
 import { CustomerRepository } from '@adapter/repositories/interfaces/CustomerRepository';
 import CustomerRepositoryImpl from '@adapter/repositories/CustomerRepositoryImpl';
+import { SourceRepository } from '@adapter/repositories/interfaces/SourceRepository';
+import SourceRepositoryImpl from '@adapter/repositories/SourceRepositoryImpl';
 import { TourTemplateRepository } from './interfaces/TourTemplateRepository';
 import TourTemplatePresenterImpl from './TourTemplateRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
@@ -43,6 +45,7 @@ interface Repositories {
   bookingRepository: BookingRepository,
   customerRepository: CustomerRepository,
   tourRepository: TourRepository,
+  sourceRepository: SourceRepository,
 }
 
 const repositories: Repositories = {
@@ -60,6 +63,7 @@ const repositories: Repositories = {
   bookingRepository: new BookingRepositoryImpl(),
   customerRepository: new CustomerRepositoryImpl(),
   tourRepository: new TourRepositoryImpl(),
+  sourceRepository: new SourceRepositoryImpl(),
 };
 
 export const {
@@ -77,4 +81,5 @@ export const {
   bookingRepository,
   customerRepository,
   tourRepository,
+  sourceRepository,
 } = repositories;

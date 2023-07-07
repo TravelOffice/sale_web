@@ -90,23 +90,13 @@ export const honorificOptions = [
 ];
 
 /**
- * An array of source options for leads.
- */
-// TODO: Fetch sources from remote server
-export const sourceOptions = [
-  { label: 'Zalo', value: 'zalo' },
-  { label: 'Facebook', value: 'facebook' },
-  { label: 'Campaign', value: 'campaign' },
-];
-
-/**
  * An array of type options for leads.
  */
 // TODO: Fetch types from remote server
 export const typeOptions = [
-  { label: i18n.t('LEAD.INLAND'), value: 'inland' },
-  { label: i18n.t('LEAD.INBOUND'), value: 'inbound' },
-  { label: i18n.t('LEAD.OUTBOUND'), value: 'outbound' },
+  { label: i18n.t('LEAD.INLAND'), value: 'INLAND' },
+  { label: i18n.t('LEAD.INBOUND'), value: 'INBOUND' },
+  { label: i18n.t('LEAD.OUTBOUND'), value: 'OUTBOUND' },
 ];
 
 /**

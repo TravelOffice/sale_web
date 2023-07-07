@@ -82,7 +82,7 @@ const leadColumns: TableColumn<Lead>[] = [
         <br />
         <strong>{i18n.t('LEAD.DEPARTURE')}</strong>
         {': '}
-        {lead.departure}
+        {lead.departureName}
         <br />
         <strong>{i18n.t('LEAD.START_DATE')}</strong>
         {': '}
