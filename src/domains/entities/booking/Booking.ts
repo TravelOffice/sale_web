@@ -1,6 +1,9 @@
 import { Service } from '@domain/entities/booking/Service';
 import { Note } from '@domain/entities/note/Note';
 import { Task } from '@domain/entities/task/Task';
+import { Lead } from '@domain/entities/lead/Lead';
+import { Customer } from '@domain/entities/customer/Customer';
+import { TourTemplate } from '@domain/entities/TourTemplate';
 
 export enum BookingStatusEnum {
   INITIALIZED = 'INITIALIZED',
@@ -48,6 +51,18 @@ export interface Booking {
   canceledBy?: string,
   canceledAtPhase?: string,
   services: Service[],
+  tourTemplateId?: string,
+  departureDate?: string,
+  createdAt?: number,
+  updatedAt?: number,
+
+  /**
+   * Booking related items
+   * Such as Lead, Customer, TourTemplate
+   */
+  lead?: Lead,
+  customer?: Customer,
+  tourTemplate?: TourTemplate,
 
   /**
      * TODO: Temporary attributes
