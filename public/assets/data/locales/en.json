@@ -496,6 +496,11 @@
         "DURATION": "Duration",
         "DURATION_IN_DAYS": "Duration in days",
         "DURATION_IN_NIGHTS": "Duration in nights",
-        "CREATOR": "Creator"
+        "CREATOR": "Creator",
+        "POLICIES_AND_REGULATIONS": "Policies and regulations",
+        "INCLUSION_AND_EXCLUSION": "Inclusion and exclusion",
+        "POLICY_CONDITIONS_AND_EXTRA_FEE": "Policy conditions and extra fee",
+        "CANCELLATION_TERMS": "Cancellation terms",
+        "TOUR_PLAN": "Tour plan"
     }
 }

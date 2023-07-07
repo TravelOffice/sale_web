@@ -20,6 +20,7 @@ import {
 import { handleSearchColumns } from '@utils/CommonUtils';
 import { DEFAULT_PAGE_SIZE } from '@utils/Constants';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
+import { ExpandableRowsComponent } from 'react-data-table-component/dist/src/DataTable/types';
 
 export interface TableSelectOption {
   label: string,
@@ -40,6 +41,8 @@ export interface TableProps<T> {
   handleSelectChange?: (value: string) => void,
   selectOptions?: Array<TableSelectOption>,
   requirePermissions?: RequirePermissions,
+  expandableRows?: boolean,
+  expandableRowsComponent?: ExpandableRowsComponent<T>
 }
 
 type SortDirection = 'asc' | 'desc';
@@ -59,6 +62,8 @@ function Table<T>(props: TableProps<T>) {
     handleSelectChange,
     selectOptions,
     requirePermissions,
+    expandableRows,
+    expandableRowsComponent,
   } = props;
 
   // ** States
@@ -162,6 +167,8 @@ function Table<T>(props: TableProps<T>) {
           paginationComponent={CustomPagination}
           onRowClicked={onRowClicked}
           data={dataCurrentPage}
+          expandableRows={expandableRows}
+          expandableRowsComponent={expandableRowsComponent}
           subHeaderComponent={(
             <CustomHeader
               searchTerm={searchTerm}
