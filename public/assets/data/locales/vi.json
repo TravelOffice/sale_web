@@ -496,6 +496,11 @@
         "DURATION": "Thời gian",
         "DURATION_IN_DAYS": "Số ngày",
         "DURATION_IN_NIGHTS": "Số đêm",
-        "CREATOR": "Người tạo"
+        "CREATOR": "Người tạo",
+        "POLICIES_AND_REGULATIONS": "Chính sách và quy định",
+        "INCLUSION_AND_EXCLUSION": "Bao gồm và không bao gồm",
+        "POLICY_CONDITIONS_AND_EXTRA_FEE": "Điều khoản và phụ thu",
+        "CANCELLATION_TERMS": "Chính sách hoàn hủy",
+        "TOUR_PLAN": "Kế hoạch tour"
     }
 }
