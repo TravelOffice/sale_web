@@ -531,7 +531,9 @@
     "INCLUSION_AND_EXCLUSION": "Bao gồm và không bao gồm",
     "POLICY_CONDITIONS_AND_EXTRA_FEE": "Điều khoản và phụ thu",
     "CANCELLATION_TERMS": "Chính sách hoàn hủy",
-    "TOUR_PLAN": "Kế hoạch tour"
+    "TOUR_PLAN": "Kế hoạch tour",
+    "DAY": "Ngày",
+    "NIGHT": "Đêm"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Tour khởi hành",

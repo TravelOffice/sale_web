@@ -532,7 +532,9 @@
     "INCLUSION_AND_EXCLUSION": "Inclusion and exclusion",
     "POLICY_CONDITIONS_AND_EXTRA_FEE": "Policy conditions and extra fee",
     "CANCELLATION_TERMS": "Cancellation terms",
-    "TOUR_PLAN": "Tour plan"
+    "TOUR_PLAN": "Tour plan",
+    "DAY": "Day",
+    "NIGHT": "Night"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Departure tour",
