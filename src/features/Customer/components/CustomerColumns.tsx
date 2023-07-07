@@ -8,7 +8,8 @@ import {
 import { Archive, MoreVertical, Trash2 } from 'react-feather';
 import moment from 'moment';
 import { generateEditableUrlForCustomer, generateI18nForCustomer } from '@utils/CustomerUtils';
-import { Customer, CustomerLevel } from '@domain/entities/Customer';
+import { Customer, CustomerLevel } from '@domain/entities/customer/Customer';
+import { formatCurrency, formatPhoneNumber } from '@utils/Utils';
 
 const customerLevelColors: Record<CustomerLevel, string> = {
   STANDARD: 'light-success',
@@ -52,9 +53,9 @@ const customerColumns: TableColumn<Customer>[] = [
             >
               {customer.honorific ? generateI18nForCustomer(customer.honorific) : ''}
             </small>
-            {customer.name}
+            {` ${customer.name}`}
           </span>
-          <span>{customer.primaryPhoneNumber}</span>
+          <span>{formatPhoneNumber(customer.primaryPhoneNumber)}</span>
         </div>
       </div>
     ),
@@ -69,7 +70,7 @@ const customerColumns: TableColumn<Customer>[] = [
           {
             customer.assigneeId ? (
               <Link to={`/apps/users/${customer.assigneeId}`} className="user_name text-truncate text-body">
-                <span className="fw-bolder text-primary">{`${customer.assigneeName} - ${customer.assigneeId}`}</span>
+                <span className="fw-bolder text-primary">{customer.assigneeName}</span>
               </Link>
             ) : (
               i18n.t('CUSTOMER.EMPTY')
@@ -81,7 +82,7 @@ const customerColumns: TableColumn<Customer>[] = [
           <strong>{i18n.t('CUSTOMER.CREATOR')}</strong>
           {': '}
           <Link to={`/apps/users/${customer.creatorId}`} className="user_name text-truncate text-body">
-            <span className="fw-bolder text-primary">{`${customer.creatorName} - ${customer.creatorId}`}</span>
+            <span className="fw-bolder text-primary">{customer.creatorName}</span>
           </Link>
         </span>
         <br />
@@ -97,9 +98,11 @@ const customerColumns: TableColumn<Customer>[] = [
     name: i18n.t('CUSTOMER.REVENUE'),
     width: '200px',
     cell: (customer: Customer) => (
-      <span className="fw-bolder">
-        {new Intl.NumberFormat('en-US').format(customer.revenue ?? 9846413156)}
-      </span>
+      <div className="my-1">
+        <span className="fw-bolder">
+          {formatCurrency(customer.revenue ?? 9846413156)}
+        </span>
+      </div>
     ),
   },
   {

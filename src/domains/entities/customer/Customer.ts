@@ -1,5 +1,5 @@
-import { Task } from './task/Task';
-import { Note } from './note/Note';
+import { Task } from '../task/Task';
+import { Note } from '../note/Note';
 
 export enum SexType {
   MALE = 'MALE',
@@ -42,7 +42,7 @@ export enum CustomerType {
 export interface Customer {
   code: string,
   name: string,
-  honorific: HonorificType,
+  honorific?: HonorificType,
   birthday?: string,
   nationality?: string,
   sex?: SexType,
@@ -73,3 +73,33 @@ export interface Customer {
   createdAt: number,
   updatedAt: number,
 }
+
+export type CreateCustomerFormData = Pick<Customer,
+'email' |
+'primaryPhoneNumber' |
+'name' |
+'address' |
+'sex' |
+'honorific' |
+'level' |
+'socialLink'
+>;
+
+export type UpdateCustomerFormData = Pick<Customer,
+'email' |
+'primaryPhoneNumber' |
+'name' |
+'address' |
+'sex' |
+'honorific' |
+'level' |
+'socialLink' |
+'birthday' |
+'source' |
+'maritalStatus' |
+'interest' |
+'group' |
+'genitive' |
+'taxCode' |
+'tags'
+>;

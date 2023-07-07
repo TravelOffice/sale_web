@@ -12,6 +12,8 @@ import CreateLeadPage from '@features/Lead/CreateLeadPage';
 import EditLeadPage from '@features/Lead/EditLeadPage';
 import CustomerListPage from '@features/Customer/CustomerListPage';
 import TourTemplateListPage from '@features/TourTemplate/TourTemplateListPage';
+import CreateCustomerPage from '@features/Customer/CreateCustomerPage';
+import EditCustomerPage from '@features/Customer/CustomerDetailPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -76,6 +78,14 @@ const Routes: RoutePathConfig[] = [
     exact: true,
     requiredPermissions: [PERMISSIONS.get_customers],
     component: <CustomerListPage />,
+  },
+  {
+    path: '/apps/customer/create',
+    component: <CreateCustomerPage />,
+  },
+  {
+    path: '/apps/customer/:customerId/edit',
+    component: <EditCustomerPage />,
   },
   {
     path: '/admin/user/list',

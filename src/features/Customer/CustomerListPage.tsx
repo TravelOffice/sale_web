@@ -1,17 +1,18 @@
 import React, { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import {
-  Card, CardBody, CardHeader, CardTitle,
+  Button, Card, CardBody, CardHeader, CardTitle,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import DataTable from 'react-data-table-component';
-import { ChevronDown } from 'react-feather';
+import { ChevronDown, Plus } from 'react-feather';
 import CustomerStats from '@features/Customer/components/CustomerStats';
-import { Customer, CustomerLevel } from '@domain/entities/Customer';
+import { Customer, CustomerLevel } from '@domain/entities/customer/Customer';
 import { customerPresenter } from '@adapter/presenters';
 import { filterCustomers } from '@utils/CustomerUtils';
 import CustomerFilter, { CustomerFilterParams } from '@features/Customer/components/CustomerFilter';
 import customerColumns from '@features/Customer/components/CustomerColumns';
+import { Link } from 'react-router-dom';
 
 export default function CustomerListPage() {
   const [filterParams, setFilterParams] = useState<CustomerFilterParams>();
@@ -60,6 +61,15 @@ export default function CustomerListPage() {
               className="react-dataTable"
               columns={customerColumns}
               sortIcon={<ChevronDown />}
+              subHeader
+              subHeaderComponent={(
+                <Link to="/apps/customer/create">
+                  <Button color="primary">
+                    <Plus size={14} />
+                    <span className="align-middle ms-25">{i18n.t('COMMON.ADD')}</span>
+                  </Button>
+                </Link>
+              )}
               customStyles={{
                 cells: {
                   style: {

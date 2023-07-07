@@ -1,5 +1,5 @@
 import { CustomerPresenter } from '@adapter/presenters/interfaces/CustomerPresenter';
-import { Customer } from '@domain/entities/Customer';
+import { CreateCustomerFormData, UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 import {
   addCustomerUseCase,
   getAllCustomersUseCase,
@@ -10,7 +10,7 @@ import {
 } from '@domain/useCases';
 
 export default class CustomerPresenterImpl implements CustomerPresenter {
-  addCustomer = async (customer: Customer) => addCustomerUseCase.invoke(customer);
+  addCustomer = async (customer: CreateCustomerFormData) => addCustomerUseCase.invoke(customer);
 
   getAllCustomers = async () => getAllCustomersUseCase.invoke();
 
@@ -24,5 +24,7 @@ export default class CustomerPresenterImpl implements CustomerPresenter {
 
   getMyCustomers = async () => Promise.resolve([]);
 
-  updateCustomer = async (customer: Customer) => updateCustomerUseCase.invoke(customer);
+  updateCustomer = async (
+    customerId: string, customer: UpdateCustomerFormData,
+  ) => updateCustomerUseCase.invoke(customerId, customer);
 }
