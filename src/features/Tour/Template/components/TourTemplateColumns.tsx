@@ -21,7 +21,7 @@ const tourTemplateTypesColors: Record<TourType, string> = {
 const tourTemplateColumns: TableColumn<TourTemplate>[] = [
   {
     name: i18n.t('TOUR_TEMPLATE.CODE'),
-    width: '80px',
+    width: '110px',
     sortable: true,
     sortField: 'code',
     cell: (tourTemplate: TourTemplate) => (
@@ -32,14 +32,14 @@ const tourTemplateColumns: TableColumn<TourTemplate>[] = [
   },
   {
     name: i18n.t('TOUR_TEMPLATE.NAME'),
-    minWidth: '150px',
+    minWidth: '250px',
     sortable: true,
     sortField: 'name',
     cell: (tourTemplate: TourTemplate) => tourTemplate.name,
   },
   {
     name: i18n.t('TOUR_TEMPLATE.TYPE'),
-    minWidth: '70px',
+    minWidth: '200px',
     sortable: true,
     sortField: 'type',
     cell: (tourTemplate: TourTemplate) => (
@@ -49,38 +49,25 @@ const tourTemplateColumns: TableColumn<TourTemplate>[] = [
     ),
   },
   {
-    name: i18n.t('TOUR_TEMPLATE.STARTING_LOCATION'),
-    minWidth: '150px',
-    maxWidth: '180px',
+    name: i18n.t('TOUR_TEMPLATE.LOCATION'),
+    minWidth: '200px',
     sortable: true,
     sortField: 'startingLocation',
-    cell: (tourTemplate: TourTemplate) => tourTemplate.startingLocation,
+    cell: (tourTemplate: TourTemplate) => `${tourTemplate.startingLocation} - ${tourTemplate.endingLocation}`,
   },
   {
-    name: i18n.t('TOUR_TEMPLATE.ENDING_LOCATION'),
-    minWidth: '150px',
-    maxWidth: '180px',
-    sortable: true,
-    sortField: 'endingLocation',
-    cell: (tourTemplate: TourTemplate) => tourTemplate.endingLocation,
-  },
-  {
-    name: i18n.t('TOUR_TEMPLATE.DURATION_IN_DAYS'),
-    minWidth: '150px',
+    name: i18n.t('TOUR_TEMPLATE.DURATION'),
+    minWidth: '200px',
     sortable: true,
     sortField: 'durationInDays',
-    cell: (tourTemplate: TourTemplate) => tourTemplate.durationInDays,
-  },
-  {
-    name: i18n.t('TOUR_TEMPLATE.DURATION_IN_NIGHTS'),
-    minWidth: '150px',
-    sortable: true,
-    sortField: 'durationInNights',
-    cell: (tourTemplate: TourTemplate) => tourTemplate.durationInNights,
+    cell: (
+      tourTemplate: TourTemplate,
+    ) => `${tourTemplate.durationInDays}-${i18n.t('TOUR_TEMPLATE.DAY')}
+                 ${tourTemplate.durationInNights}-${i18n.t('TOUR_TEMPLATE.NIGHT')}`,
   },
   {
     name: i18n.t('COMMON.ACTIONS'),
-    maxWidth: '120px',
+    width: '110px',
     cell: (tourTemplate: TourTemplate) => (
       <div className="column-action">
         <UncontrolledDropdown>
