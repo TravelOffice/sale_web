@@ -588,6 +588,11 @@
     "ASSIGNEE": "Xử lý bởi",
     "NO_ASSIGNEE": "Chưa chỉ định",
     "CREATED_AT": "Tạo booking lúc",
-    "LEAD_CREATED_AT": "Tạo lead lúc"
+    "LEAD_CREATED_AT": "Tạo lead lúc",
+    "TOTAL_PASSENGERS": "Tổng",
+    "PAID": "Đã thanh toán",
+    "PAYMENT_INFO": "Thông tin thanh toán",
+    "MINUTES_FROM_CREATED_AT_TITLE": "Đã tạo",
+    "MINUTES_FROM_CREATED_AT": "{{days}} ngày {{hours}} giờ {{minutes}} phút trước"
   }
 }

@@ -43,8 +43,9 @@ export interface TableProps<T> {
   selectOptions?: Array<TableSelectOption>,
   requirePermissions?: RequirePermissions,
   expandableRows?: boolean,
-  expandableRowsComponent?: ExpandableRowsComponent<T>
-  extraButtons?: Array<ButtonProps>
+  expandableRowsComponent?: ExpandableRowsComponent<T>,
+  extraButtons?: Array<ButtonProps>,
+  customSearchHandler?: (row: T, searchTerm: string) => boolean,
 }
 
 type SortDirection = 'asc' | 'desc';
@@ -67,6 +68,7 @@ function Table<T>(props: TableProps<T>) {
     expandableRows,
     expandableRowsComponent,
     extraButtons,
+    customSearchHandler,
   } = props;
 
   // ** States
@@ -118,7 +120,12 @@ function Table<T>(props: TableProps<T>) {
   const { dataCurrentPage, totalRows } = useMemo(() => {
     let filteredData = [...data];
     filteredData = filteredData.filter(
-      (item: any) => handleSearchColumns(item, searchTerm, searchableColumns),
+      (item: any) => {
+        if (customSearchHandler) {
+          return customSearchHandler(item, searchTerm);
+        }
+        return handleSearchColumns(item, searchTerm, searchableColumns);
+      },
     );
     // Sort data by columns
     filteredData = filteredData.sort(

@@ -26,6 +26,8 @@ const bookingColumns: TableColumn<Booking>[] = [
   {
     name: i18n.t('BOOKING.CODE_TT'),
     width: '220px',
+    sortable: true,
+    sortField: 'code',
     cell: (booking: Booking) => {
       const { bookingStatus } = booking;
       return (
@@ -45,6 +47,8 @@ const bookingColumns: TableColumn<Booking>[] = [
   {
     name: i18n.t('BOOKING.CUSTOMER'),
     minWidth: '80px',
+    sortable: true,
+    sortField: 'customer',
     cell: (booking: Booking) => {
       const { customer } = booking;
       return (
@@ -72,16 +76,18 @@ const bookingColumns: TableColumn<Booking>[] = [
   {
     name: i18n.t('BOOKING.TOUR'),
     minWidth: '150px',
+    sortField: 'tourRelatedInfo',
     cell: (booking: Booking) => {
       const { tourTemplate } = booking;
       return (
         <div>
-          <Badge className="text-uppercase" color="light-secondary">
-            {i18n.t('BOOKING.TOUR_TEMPLATE')}
-          </Badge>
-          {' '}
-          {tourTemplate?.name}
-          <br />
+          <div className="text-primary">
+            <Badge className="text-uppercase" color="light-primary">
+              {i18n.t('BOOKING.TOUR_TEMPLATE')}
+            </Badge>
+            {' '}
+            {tourTemplate?.name}
+          </div>
           <div className="d-flex align-items-center">
             <Calendar size={14} />
             {' '}
@@ -97,27 +103,32 @@ const bookingColumns: TableColumn<Booking>[] = [
   {
     name: i18n.t('BOOKING.RELATED_INFO'),
     minWidth: '150px',
+    sortField: 'bookingRelatedInfo',
     cell: (booking: Booking) => {
       const { lead } = booking;
+      let passengersText = '';
+      if (lead) {
+        passengersText += `${lead?.numberOfAdultPassengers + lead?.numberOfChildrenPassengers} `;
+        passengersText += `(${lead.numberOfAdultPassengers} ${i18n.t('LEAD.ADULT')} `;
+        passengersText += `- ${lead.numberOfChildrenPassengers} ${i18n.t('LEAD.CHILDREN')})`;
+      }
       return (
         <div>
-          <Badge className="text-uppercase" color="light-secondary">
-            {lead ? lead.sourceName : 'N/A'}
-          </Badge>
+          {lead ? (
+            <Badge className="text-uppercase" color="light-primary">
+              {lead.sourceName}
+            </Badge>
+          ) : <></>}
+          {' '}
+          {`${i18n.t('BOOKING.ASSIGNEE')}: ${booking.assigneeId ?? i18n.t('BOOKING.NO_ASSIGNEE')}`}
           <br />
           {lead ? (
             <div className="d-flex align-items-center">
               <Users size={14} />
               {' '}
-              {lead.numberOfAdultPassengers}
+              {i18n.t('BOOKING.TOTAL_PASSENGERS')}
               {' '}
-              {i18n.t('LEAD.ADULT')}
-              {' '}
-              -
-              {' '}
-              {lead.numberOfChildrenPassengers}
-              {' '}
-              {i18n.t('LEAD.CHILDREN')}
+              {passengersText}
             </div>
           ) : <></>}
         </div>
@@ -127,7 +138,15 @@ const bookingColumns: TableColumn<Booking>[] = [
   {
     name: i18n.t('BOOKING.LAST_NOTE'),
     maxWidth: '200px',
-    selector: (booking) => booking.description || i18n.t('BOOKING.NO_NOTE').toString(),
+    sortable: true,
+    sortField: 'note',
+    selector: (booking) => {
+      const { notes } = booking;
+      if (notes && notes.length) {
+        return notes.pop()!.description;
+      }
+      return i18n.t('BOOKING.NO_NOTE').toString();
+    },
   },
   {
     name: i18n.t('COMMON.ACTIONS'),

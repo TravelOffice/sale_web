@@ -20,6 +20,7 @@ export default function Statistics(props: StatisticProps) {
         <Row>
           {items && items.map((item) => (
             <StatisticItem
+              key={`statistic-item-${item.subtitle}}`}
               color={item.color}
               icon={item.icon}
               title={item.title}
