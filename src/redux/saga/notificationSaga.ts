@@ -278,6 +278,7 @@ function* subscribeNewNotificationEvent() {
           break;
         case 'MAIL_NEW_EMAIL_RECEIVED': yield handleNewEmailReceived(notificationPayload);
           break;
+          // eslint-disable-next-line no-console
         default: console.error('Cannot resolve', type);
       }
     } catch (e) {

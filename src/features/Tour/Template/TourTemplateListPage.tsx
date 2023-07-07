@@ -6,14 +6,14 @@ import {
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import Table from '@components/Table/Table';
-import TourTemplateFilter, { TourTemplateFilterParams } from '@features/TourTemplate/components/TourTemplateFilter';
 import { filterTourTemplates } from '@utils/TourTemplateUtils';
-import tourTemplateColumns from '@features/TourTemplate/components/TourTemplateColumns';
 import { TourTemplate } from '@domain/entities/TourTemplate';
 import { HandleDataState } from '@redux/slices/others/HandleDataState';
 import { ExpanderComponentProps } from 'react-data-table-component/dist/src/DataTable/types';
 import { formatVND } from '@utils/CommonUtils';
 import moment from 'moment/moment';
+import tourTemplateColumns from '@features/Tour/Template/components/TourTemplateColumns';
+import TourTemplateFilter, { TourTemplateFilterParams } from './components/TourTemplateFilter';
 
 const ExpandableRowComponent: React.FC<ExpanderComponentProps<TourTemplate>> = (
   { data }:ExpanderComponentProps<TourTemplate>,

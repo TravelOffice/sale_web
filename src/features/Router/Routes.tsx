@@ -11,9 +11,10 @@ import LeadListPage from '@features/Lead/LeadListPage';
 import CreateLeadPage from '@features/Lead/CreateLeadPage';
 import EditLeadPage from '@features/Lead/EditLeadPage';
 import CustomerListPage from '@features/Customer/CustomerListPage';
-import TourTemplateListPage from '@features/TourTemplate/TourTemplateListPage';
 import CreateCustomerPage from '@features/Customer/CreateCustomerPage';
 import EditCustomerPage from '@features/Customer/CustomerDetailPage';
+import TourTemplateListPage from '@features/Tour/Template/TourTemplateListPage';
+import DepartureTour from '@features/Tour/Departure/DepartureTour';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -98,6 +99,11 @@ const Routes: RoutePathConfig[] = [
     exact: true,
     requiredPermissions: [PERMISSIONS.get_roles],
     component: <Roles />,
+  },
+  {
+    path: '/apps/tour/departure',
+    exact: true,
+    component: <DepartureTour />,
   },
   {
     path: '*',

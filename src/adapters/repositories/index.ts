@@ -24,6 +24,9 @@ import { LeadRepository } from './interfaces/LeadRepository';
 import LeadRepositoryImpl from './LeadRepositoryImpl';
 import RolePermissionRepository from './interfaces/RolePermissionRepository';
 import RolePermissionRepositoryImpl from './RolePermissionRepositoryImpl';
+// Tour
+import { TourRepository } from './interfaces/TourRepository';
+import TourRepositoryImpl from './TourRepositoryImpl';
 
 interface Repositories {
   userRepository: UserRepository,
@@ -39,6 +42,7 @@ interface Repositories {
   mailRepository: MailRepository,
   bookingRepository: BookingRepository,
   customerRepository: CustomerRepository,
+  tourRepository: TourRepository,
 }
 
 const repositories: Repositories = {
@@ -55,6 +59,7 @@ const repositories: Repositories = {
   mailRepository: new MailRepositoryImpl(),
   bookingRepository: new BookingRepositoryImpl(),
   customerRepository: new CustomerRepositoryImpl(),
+  tourRepository: new TourRepositoryImpl(),
 };
 
 export const {
@@ -71,4 +76,5 @@ export const {
   mailRepository,
   bookingRepository,
   customerRepository,
+  tourRepository,
 } = repositories;
