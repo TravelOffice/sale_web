@@ -21,7 +21,7 @@ export const handleSearchColumns = (
   if (!searchTerm) {
     return true;
   }
-  return columns.some((column: string) => row[column].includes(searchTerm));
+  return columns.some((column: string) => row[column].toString().includes(searchTerm));
 };
 
 /**
