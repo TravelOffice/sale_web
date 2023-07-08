@@ -532,9 +532,16 @@
     "INCLUSION_AND_EXCLUSION": "Inclusion and exclusion",
     "POLICY_CONDITIONS_AND_EXTRA_FEE": "Policy conditions and extra fee",
     "CANCELLATION_TERMS": "Cancellation terms",
-    "TOUR_PLAN": "Tour plan",
     "DAY": "Day",
-    "NIGHT": "Night"
+    "NIGHT": "Night",
+    "TOUR_PLAN": "Tour plan",
+    "CREATE_TOUR_TEMPLATE": "Create tour template",
+    "VISITOR_COUNT": "Visitor count",
+    "TOUR_TEMPLATE_INFO": "Tour template information",
+    "ADDITIONAL_SERVICES": "Additional services",
+    "SERVICE_NAME": "Service name",
+    "SERVICE_PRICE": "Service price",
+    "ADD_SERVICE": "Add service"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Departure tour",

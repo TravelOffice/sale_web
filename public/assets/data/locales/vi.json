@@ -531,9 +531,16 @@
     "INCLUSION_AND_EXCLUSION": "Bao gồm và không bao gồm",
     "POLICY_CONDITIONS_AND_EXTRA_FEE": "Điều khoản và phụ thu",
     "CANCELLATION_TERMS": "Chính sách hoàn hủy",
-    "TOUR_PLAN": "Kế hoạch tour",
     "DAY": "Ngày",
-    "NIGHT": "Đêm"
+    "NIGHT": "Đêm",
+    "TOUR_PLAN": "Kế hoạch tour",
+    "CREATE_TOUR_TEMPLATE": "Tạo tour template mới",
+    "VISITOR_COUNT": "Số lượng khách",
+    "TOUR_TEMPLATE_INFO": "Thông tin tour mẫu",
+    "ADDITIONAL_SERVICES": "Dịch vụ bổ sung",
+    "SERVICE_NAME": "Tên dịch vụ",
+    "SERVICE_PRICE": "Giá dịch vụ",
+    "ADD_SERVICE": "Thêm dịch vụ"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Tour khởi hành",

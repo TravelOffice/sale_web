@@ -15,6 +15,7 @@ import { ChevronDown } from 'react-feather';
 import ReactPaginate from 'react-paginate';
 // ** Reactstrap Imports
 import {
+  ButtonProps,
   Card,
 } from 'reactstrap';
 import { handleSearchColumns } from '@utils/CommonUtils';
@@ -43,6 +44,7 @@ export interface TableProps<T> {
   requirePermissions?: RequirePermissions,
   expandableRows?: boolean,
   expandableRowsComponent?: ExpandableRowsComponent<T>
+  extraButtons?: Array<ButtonProps>
 }
 
 type SortDirection = 'asc' | 'desc';
@@ -64,6 +66,7 @@ function Table<T>(props: TableProps<T>) {
     requirePermissions,
     expandableRows,
     expandableRowsComponent,
+    extraButtons,
   } = props;
 
   // ** States
@@ -181,6 +184,7 @@ function Table<T>(props: TableProps<T>) {
               handleSelectChange={handleSelectChange}
               selectOptions={selectOptions}
               requirePermissions={requirePermissions || []}
+              extraButtons={extraButtons}
             />
           )}
         />

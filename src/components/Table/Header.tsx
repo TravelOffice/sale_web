@@ -3,7 +3,7 @@ import React, { ChangeEvent } from 'react';
 import { RefreshCw } from 'react-feather';
 // ** Reactstrap Imports
 import {
-  Button, Col, Input, Row,
+  Button, ButtonProps, Col, Input, Row,
 } from 'reactstrap';
 import { useAccessControl } from '@hooks/auth';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
@@ -20,6 +20,7 @@ export interface CustomHeaderProps {
   handleSelectChange?: (e: string) => void,
   selectOptions?: Array<TableSelectOption>,
   requirePermissions: RequirePermissions,
+  extraButtons?: Array<ButtonProps>
 }
 
 export default function CustomHeader(props: CustomHeaderProps) {
@@ -34,6 +35,7 @@ export default function CustomHeader(props: CustomHeaderProps) {
     handleSelectChange,
     selectOptions,
     requirePermissions,
+    extraButtons,
   } = props;
   const { canAccess } = useAccessControl();
   const handleToggleSidebar = () => onToggleSidebar?.();
@@ -98,6 +100,13 @@ export default function CustomHeader(props: CustomHeaderProps) {
             </Button>
           </div>
           )}
+          {extraButtons && extraButtons.map((btn: ButtonProps) => (
+            <div className="d-flex align-items-center table-header-actions">
+              <Button className={btn.className} color={btn.color || 'primary'} onClick={btn.handleOnClick}>
+                {btn.name}
+              </Button>
+            </div>
+          ))}
         </Col>
       </Row>
     </div>

@@ -9,7 +9,7 @@ export enum TourType {
 }
 
 export interface TourTemplate {
-  code: string;
+  readonly code: string;
   name: string;
   type: TourType;
   visitorCount: number;
@@ -28,7 +28,7 @@ export interface TourTemplate {
     cancellationTerms?: string;
   };
   tourPlan: string;
-  createdAt: number;
-  updatedAt: number;
-  creator: string;
+  readonly createdAt: number;
+  readonly updatedAt: number;
+  readonly creator: string;
 }
