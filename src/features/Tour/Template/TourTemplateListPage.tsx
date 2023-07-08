@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { tourTemplatePresenter } from '@adapter/presenters';
 import {
+  ButtonProps,
   Card, CardBody, CardHeader, CardTitle,
 } from 'reactstrap';
 import i18n from '@config/i18n';
@@ -13,6 +14,7 @@ import { ExpanderComponentProps } from 'react-data-table-component/dist/src/Data
 import { formatVND } from '@utils/CommonUtils';
 import moment from 'moment/moment';
 import tourTemplateColumns from '@features/Tour/Template/components/TourTemplateColumns';
+import { useHistory } from 'react-router-dom';
 import TourTemplateFilter, { TourTemplateFilterParams } from './components/TourTemplateFilter';
 
 const ExpandableRowComponent: React.FC<ExpanderComponentProps<TourTemplate>> = (
@@ -62,6 +64,14 @@ export default function TourTemplateListPage() {
     return filterTourTemplates(allTourTemplates, filterParams);
   }, [allTourTemplates, filterParams]);
 
+  const history = useHistory();
+  const tourTemplateBtnArr:Array<ButtonProps> = [
+    {
+      name: i18n.t('COMMON.ADD'),
+      handleOnClick: () => { history.push('/apps/tour-templates/create'); },
+    },
+  ];
+
   return (
     <div className="to-table-container">
       <Card>
@@ -82,6 +92,7 @@ export default function TourTemplateListPage() {
         onRefresh={() => {}}
         expandableRows
         expandableRowsComponent={ExpandableRowComponent}
+        extraButtons={tourTemplateBtnArr}
       />
     </div>
   );

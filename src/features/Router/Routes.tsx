@@ -16,6 +16,7 @@ import EditCustomerPage from '@features/Customer/CustomerDetailPage';
 import TourTemplateListPage from '@features/Tour/Template/TourTemplateListPage';
 import DepartureTour from '@features/Tour/Departure/DepartureTour';
 import BookingListPage from '@features/Booking/BookingListPage';
+import TourTemplateCreatePage from '@features/Tour/Template/TourTemplateCreatePage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -54,6 +55,12 @@ const Routes: RoutePathConfig[] = [
     exact: true,
     requiredPermissions: [PERMISSIONS.get_tour_templates],
     component: <TourTemplateListPage />,
+  },
+  {
+    path: '/apps/tour-templates/create',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.create_tour_template],
+    component: <TourTemplateCreatePage />,
   },
   {
     path: '/apps/lead/list',
