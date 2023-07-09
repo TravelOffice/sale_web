@@ -19,6 +19,7 @@ import { UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 import {
   customerLevelOptions, maritalStatusOptions, sexOptions, updateCustomerSchema,
 } from '@utils/CustomerUtils';
+import { useAllSaleOptions } from '@hooks/users';
 
 export interface EditCustomerTabParams {
   customerId: string,
@@ -51,6 +52,7 @@ export default function DetailTab() {
     isLoading,
   } = useQuery(['customers', customerId], async () => customerPresenter.getCustomer(customerId));
   // const saleOptions = useAllSaleOptions();
+  const saleOptions = useAllSaleOptions();
 
   const {
     control,
@@ -163,6 +165,21 @@ export default function DetailTab() {
                             errors={errors}
                             placeholder={i18n.t('CUSTOMER.EMAIL')}
                             inputType="email"
+                          />
+                        </Col>
+                      </Row>
+
+                      <Row className="mb-1">
+                        <Label sm="3" for="assigneeId">
+                          {i18n.t('CUSTOMER.ASSIGNEE')}
+                        </Label>
+                        <Col sm="9">
+                          <FormItemSelect
+                            control={control}
+                            name="assigneeId"
+                            errors={errors}
+                            placeholder={i18n.t('CUSTOMER.ASSIGNEE')}
+                            options={saleOptions}
                           />
                         </Col>
                       </Row>

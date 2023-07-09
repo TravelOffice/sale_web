@@ -89,6 +89,7 @@ export type UpdateCustomerFormData = Pick<Customer,
 'email' |
 'primaryPhoneNumber' |
 'name' |
+'assigneeId' |
 'address' |
 'sex' |
 'honorific' |

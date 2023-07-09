@@ -1,9 +1,8 @@
-import {
-  CreateLeadFormData, LeadStatus, UpdateLeadFormData,
-} from '@domain/entities/lead/Lead';
+import { CreateLeadFormData, LeadStatus, UpdateLeadFormData } from '@domain/entities/lead/Lead';
 import {
   addLeadUseCase,
   getAllLeadsUseCase,
+  getLeadsByCustomerUseCase,
   getLeadUseCase,
   getMyLeadUseCase,
   updateLeadUseCase,
@@ -11,6 +10,8 @@ import {
 import { LeadPresenter } from './interfaces/LeadPresenter';
 
 export default class LeadPresenterImpl implements LeadPresenter {
+  getLeadsByCustomer = async (customerId: string) => getLeadsByCustomerUseCase.invoke(customerId);
+
   getAllLeads = async (status?: LeadStatus) => getAllLeadsUseCase.invoke(status);
 
   getMyLeads = async () => getMyLeadUseCase.invoke();

@@ -10,7 +10,8 @@ import i18n from '@config/i18n';
 import CustomerTabs from '@features/Customer/components/CustomerTabs';
 import CustomerInfoCard from '@features/Customer/components/CustomerInfoCard';
 import { Link } from 'react-router-dom';
-import DetailTab from '@features/Customer/components/DetailTab';
+import DetailTab from '@features/Customer/components/tabs/information/DetailTab';
+import LeadsTab from '@features/Customer/components/tabs/lead/LeadsTab';
 
 export interface Tab {
   id: string,
@@ -30,7 +31,7 @@ const tabs: Tab[] = [
     id: 'lead',
     icon: <User size={16} className="me-50" />,
     title: 'Lead',
-    pane: <div>Coming soon</div>,
+    pane: <LeadsTab />,
   },
   {
     id: 'booking',
