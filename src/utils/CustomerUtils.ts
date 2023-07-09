@@ -127,6 +127,7 @@ export const updateCustomerSchema = yup.object().shape({
   group: yup.string(),
   genitive: yup.string(),
   taxCode: yup.string(),
+  assigneeId: yup.string(),
 });
 
 /**

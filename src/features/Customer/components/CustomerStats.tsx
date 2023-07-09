@@ -3,7 +3,7 @@ import {
   Card, CardBody, CardHeader, CardTitle, Row,
 } from 'reactstrap';
 import i18n from '@config/i18n';
-import { Users } from 'react-feather';
+import { User } from 'react-feather';
 import CustomerStatsItem from '@features/Customer/components/CustomerStatsItem';
 
 export interface CustomerStatsProps {
@@ -26,25 +26,25 @@ export default function CustomerStats(props: CustomerStatsProps) {
         <Row>
           <CustomerStatsItem
             color="light-primary"
-            icon={<Users size={20} />}
+            icon={<User size={20} />}
             title={total.toString()}
             subtitle={i18n.t('COMMON.TOTAL')}
           />
           <CustomerStatsItem
             color="light-success"
-            icon={<Users size={20} />}
+            icon={<User size={20} />}
             title={countStandard.toString()}
             subtitle={i18n.t('CUSTOMER.STANDARD')}
           />
           <CustomerStatsItem
             color="light-warning"
-            icon={<Users size={20} />}
+            icon={<User size={20} />}
             title={countVip.toString()}
             subtitle={i18n.t('CUSTOMER.VIP')}
           />
           <CustomerStatsItem
             color="light-danger"
-            icon={<Users size={20} />}
+            icon={<User size={20} />}
             title={countVVip.toString()}
             subtitle={i18n.t('CUSTOMER.VVIP')}
           />

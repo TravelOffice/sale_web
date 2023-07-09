@@ -7,6 +7,10 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import Select from 'react-select';
 import i18n from '@config/i18n';
 import { CustomerLevel } from '@domain/entities/customer/Customer';
+import FormItemSelect from '@components/Form/FormItemSelect';
+import { generateUserDisplayNameOption } from '@utils/UserUtils';
+import { useAllSales } from '@hooks/users';
+import { useCurrentUser } from '@hooks/auth';
 
 export interface CustomerFilterParams {
   code?: string,
@@ -33,6 +37,9 @@ export default function CustomerFilter(props: CustomerFilterProps) {
   const { t } = useTranslation();
   const { control } = useForm<CustomerFilterParams>();
   const values = useWatch({ control });
+  const { data: sales = [] } = useAllSales();
+  const currentUser = useCurrentUser();
+
   useEffect(() => {
     onFilter(values);
   }, [values]);
@@ -70,13 +77,16 @@ export default function CustomerFilter(props: CustomerFilterProps) {
           />
         </Col>
         <Col>
-          <Label>{t('CUSTOMER.ASSIGNEE')}</Label>
-          <Controller
+          <Label>{t('LEAD.ASSIGNEE')}</Label>
+          <FormItemSelect
             control={control}
             name="assignee"
-            render={({ field }) => (
-              <Input {...field} />
-            )}
+            errors={{}}
+            isClearable
+            options={sales.map((sale) => ({
+              label: generateUserDisplayNameOption(sale, currentUser),
+              value: sale.username,
+            }))}
           />
         </Col>
         <Col>

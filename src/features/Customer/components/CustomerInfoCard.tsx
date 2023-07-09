@@ -87,7 +87,11 @@ export default function CustomerInfoCard() {
                     </Badge>
                     <div className="ms-75">
                       <h4 className="mb-0">{formatCurrency(customer?.revenue ?? 0)}</h4>
-                      <small>{i18n.t('CUSTOMER.REVENUE')}</small>
+                      <small>
+                        {i18n.t('CUSTOMER.REVENUE')}
+                        {' '}
+                        VND
+                      </small>
                     </div>
                   </div>
                 </div>
