@@ -39,6 +39,13 @@ export enum CustomerType {
   BUSINESS = 'BUSINESS',
 }
 
+interface LatesBooking {
+  id: string,
+  creatorId: string,
+  creatorName: string,
+  createdAt: number,
+}
+
 export interface Customer {
   code: string,
   name: string,
@@ -72,6 +79,7 @@ export interface Customer {
   revenue: number,
   createdAt: number,
   updatedAt: number,
+  latestBooking?: LatesBooking,
 }
 
 export type CreateCustomerFormData = Pick<Customer,

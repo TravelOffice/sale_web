@@ -17,7 +17,11 @@ import Skeleton from 'react-loading-skeleton';
 import { numberArrayOf } from '@utils/ArrayUtils';
 import { UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 import {
-  customerLevelOptions, maritalStatusOptions, sexOptions, updateCustomerSchema,
+  customerLevelOptions,
+  customerSourceOptions,
+  maritalStatusOptions,
+  sexOptions,
+  updateCustomerSchema,
 } from '@utils/CustomerUtils';
 import { useAllSaleOptions } from '@hooks/users';
 
@@ -200,7 +204,7 @@ export default function DetailTab() {
                       </Row>
 
                       <Row className="mb-1">
-                        <Label sm="3" for="address">
+                        <Label sm="3" for="sex">
                           {i18n.t('CUSTOMER.SEX')}
                         </Label>
                         <Col sm="3">
@@ -215,7 +219,7 @@ export default function DetailTab() {
                       </Row>
 
                       <Row className="mb-1">
-                        <Label sm="3" for="address">
+                        <Label sm="3" for="level">
                           {i18n.t('CUSTOMER.LEVEL')}
                         </Label>
                         <Col sm="3">
@@ -230,7 +234,7 @@ export default function DetailTab() {
                       </Row>
 
                       <Row className="mb-1">
-                        <Label sm="3" for="email">
+                        <Label sm="3" for="socialLink">
                           {i18n.t('CUSTOMER.SOCIAL')}
                         </Label>
                         <Col sm="9">
@@ -245,7 +249,7 @@ export default function DetailTab() {
                       </Row>
 
                       <Row className="mb-1">
-                        <Label sm="3" for="address">
+                        <Label sm="3" for="birthday">
                           {i18n.t('CUSTOMER.BIRTHDAY')}
                         </Label>
                         <Col sm="9">
@@ -260,16 +264,16 @@ export default function DetailTab() {
                       </Row>
 
                       <Row className="mb-1">
-                        <Label sm="3" for="address">
+                        <Label sm="3" for="source">
                           {i18n.t('CUSTOMER.SOURCE')}
                         </Label>
-                        <Col sm="9">
-                          <FormItemInput
+                        <Col sm="3">
+                          <FormItemSelect
                             control={control}
                             name="source"
                             errors={errors}
                             placeholder={i18n.t('CUSTOMER.SOURCE')}
-                            inputType="text"
+                            options={customerSourceOptions}
                           />
                         </Col>
                       </Row>

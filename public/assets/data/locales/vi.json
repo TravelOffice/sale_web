@@ -297,7 +297,7 @@
     "LEVEL": "Danh hiệu",
     "ASSIGNEE": "Người phụ trách",
     "CREATOR": "Người tạo",
-    "EMPTY": "",
+    "EMPTY": "Chưa có",
     "NO_NOTE": "Chưa có ghi chú",
     "REVENUE": "Doanh số",
     "ALL": "Tất cả",
@@ -327,7 +327,12 @@
     "HONORIFIC": "Xưng hô",
     "GO_TO_CUSTOMER_DETAILS": "Đi đến chi tiết",
     "GO_TO_CUSTOMER_LIST": "Đi đến danh sách",
-    "GUIDE_CREATE_CUSTOMER": "Các trường đánh dấu <strong>*</strong> không được để trống."
+    "GUIDE_CREATE_CUSTOMER": "Các trường đánh dấu <strong>*</strong> không được để trống.",
+    "LATEST_SALE": "Sale gần nhất",
+    "HISTORY": "Lịch sử chăm sóc",
+    "NOTE": "Ghi chú",
+    "CREATE_BOOKING": "Tạo booking",
+    "BOOKING": "Booking"
   },
   "MESSAGE": {
     "NAME_REQUIRE_MESSAGE": "Tên không được để trống",
