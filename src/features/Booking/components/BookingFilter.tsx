@@ -1,5 +1,10 @@
 import React, { useEffect } from 'react';
 import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
   Col, Form, Input, Label, Row,
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
@@ -7,6 +12,7 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import Select from 'react-select';
 import i18n from '@config/i18n';
 import { BookingStatusEnum } from '@domain/entities/booking/Booking';
+import { RefreshCw } from 'react-feather';
 
 export interface BookingFilterParams {
   name?: string,
@@ -36,7 +42,7 @@ const statusOptions = [
 export default function BookingFilter(props: BookingFilterProps) {
   const { onFilter } = props;
   const { t } = useTranslation();
-  const { control } = useForm<BookingFilterParams>();
+  const { control, reset } = useForm<BookingFilterParams>();
   const values = useWatch({ control });
 
   useEffect(() => {
@@ -45,56 +51,49 @@ export default function BookingFilter(props: BookingFilterProps) {
 
   return (
     <Form>
-      <Row>
-        {/* <Col> */}
-        {/*  <Label>{t('BOOKING.NAME')}</Label> */}
-        {/*  <Controller */}
-        {/*    control={control} */}
-        {/*    name="name" */}
-        {/*    render={({ field }) => ( */}
-        {/*      <Input {...field} /> */}
-        {/*    )} */}
-        {/*  /> */}
-        {/* </Col> */}
-        {/* <Col> */}
-        {/*  <Label>{t('BOOKING.PHONE')}</Label> */}
-        {/*  <Controller */}
-        {/*    control={control} */}
-        {/*    name="phoneNumber" */}
-        {/*    render={({ field }) => ( */}
-        {/*      <Input {...field} /> */}
-        {/*    )} */}
-        {/*  /> */}
-        {/* </Col> */}
-        <Col>
-          <Label>{t('BOOKING.CODE')}</Label>
-          <Controller
-            control={control}
-            name="code"
-            render={({ field }) => (
-              <Input {...field} />
-            )}
-          />
-        </Col>
-        <Col>
-          <Label>{t('COMMON.STATUS')}</Label>
-          <Controller
-            control={control}
-            name="status"
-            render={({ field: { onChange, value, ...rest } }) => (
-              <Select
-                {...rest}
-                options={statusOptions}
-                value={{
-                  label: statusOptions.find((option) => option.value === value)?.label,
-                  value,
-                }}
-                onChange={(newValue) => onChange(newValue?.value)}
+      <Card className="card-filter">
+        <CardHeader>
+          <CardTitle tag="h4">{i18n.t('COMMON.FILTER')}</CardTitle>
+          <Button color="primary" onClick={() => reset({})}>
+            <RefreshCw size={14} />
+            <span className="align-middle ms-25">{i18n.t('COMMON.FILTER_RESET')}</span>
+          </Button>
+        </CardHeader>
+        <CardBody className="card-filter-body">
+          <Row>
+            <Col>
+              <Label>{t('BOOKING.CODE')}</Label>
+              <Controller
+                control={control}
+                name="code"
+                render={({ field }) => (
+                  <Input {...field} />
+                )}
               />
-            )}
-          />
-        </Col>
-      </Row>
+            </Col>
+            <Col>
+              <Label>{t('COMMON.STATUS')}</Label>
+              <Controller
+                control={control}
+                name="status"
+                render={({ field: { onChange, value, ...rest } }) => (
+                  <Select
+                    {...rest}
+                    options={statusOptions}
+                    value={{
+                      label: statusOptions.find((option) => option.value === value)?.label,
+                      value,
+                    }}
+                    onChange={(newValue) => onChange(newValue?.value)}
+                    isClearable
+                  />
+                )}
+              />
+            </Col>
+          </Row>
+        </CardBody>
+      </Card>
+
     </Form>
   );
 }

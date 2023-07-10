@@ -53,8 +53,10 @@ export interface Booking {
   services: Service[],
   tourTemplateId?: string,
   departureDate?: string,
-  createdAt?: number,
-  updatedAt?: number,
+  readonly createdAt: number,
+  readonly updatedAt: number,
+  readonly totalPaid?: number, // Number of amount user has been paid
+  readonly totalPayment?: number, // Number of amount user has to pay
 
   /**
    * Booking related items
@@ -81,9 +83,7 @@ export interface Booking {
   promoCode?: string,
   discountMoney?: number,
   discountPercent?: number,
-  totalPayment?: number,
   // role
-  totalPaid?: number,
   description?: string,
   checkin?: number, // DateTime
   checkout?: number, // DateTime

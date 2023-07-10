@@ -21,7 +21,13 @@ export const handleSearchColumns = (
   if (!searchTerm) {
     return true;
   }
-  return columns.some((column: string) => row[column].toString().includes(searchTerm));
+  return columns.some((column: string) => {
+    const value = row[column];
+    if (typeof value === 'object') {
+      return JSON.stringify(value).includes(searchTerm);
+    }
+    return row[column].toString().includes(searchTerm);
+  });
 };
 
 /**

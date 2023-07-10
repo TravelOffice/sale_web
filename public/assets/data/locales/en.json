@@ -589,6 +589,11 @@
     "ASSIGNEE": "Assignee",
     "NO_ASSIGNEE": "N/A",
     "CREATED_AT": "Booking created at",
-    "LEAD_CREATED_AT": "Lead created at"
+    "LEAD_CREATED_AT": "Lead created at",
+    "TOTAL_PASSENGERS": "Total",
+    "PAID": "Paid",
+    "PAYMENT_INFO": "Payment",
+    "MINUTES_FROM_CREATED_AT_TITLE": "Created",
+    "MINUTES_FROM_CREATED_AT": "{{days}} days {{hours}} hours {{minutes}} mins ago"
   }
 }

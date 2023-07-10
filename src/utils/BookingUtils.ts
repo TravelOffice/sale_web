@@ -1,6 +1,7 @@
 import i18n from '@config/i18n';
 import { Booking } from '@domain/entities/booking/Booking';
 import { BookingFilterParams } from '@features/Booking/components/BookingFilter';
+import moment from 'moment';
 
 /**
  * Checks if the assignee matches the specified criteria in the given booking.
@@ -55,4 +56,30 @@ export function generateI18nForBooking(type: string) {
  */
 export function generateEditableUrlForBooking(booking: Booking) {
   return `/apps/booking/${booking.code}/edit`;
+}
+
+/**
+ * Convert booking data to searchable string
+ * @param booking Booking data
+ * @returns Searchable string
+ */
+export function toSearchableContent(booking: Booking) {
+  // Build serachable string
+  const status = generateI18nForBooking(booking.bookingStatus);
+  let searchableStr = `${booking.code} ${status} `;
+  const {
+    lead, customer, tourTemplate, notes,
+  } = booking;
+  if (customer) {
+    searchableStr += `${customer.name} ${customer.primaryPhoneNumber} `;
+  }
+
+  searchableStr += `${moment(booking.departureDate).format('DD/MM/YYYY')} `;
+  searchableStr += (notes && notes.length) ? notes.pop()!.description : i18n.t('BOOKING.NO_NOTE').toString();
+  if (tourTemplate) {
+    searchableStr += `${moment(booking.departureDate).add(booking.tourTemplate?.durationInDays, 'days').format('DD/MM/YYYY')} `;
+  }
+
+  if (lead) searchableStr += lead.sourceName;
+  return searchableStr.toLowerCase();
 }

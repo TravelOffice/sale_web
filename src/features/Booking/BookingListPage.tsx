@@ -6,21 +6,22 @@ import { Booking, BookingStatus } from '@domain/entities/booking/Booking';
 import Statistics from '@components/Statistics/Statistics';
 import { StatisticItemProps } from '@components/Statistics/StatisticItem';
 import {
-  Check, DollarSign, Loader, Plus, RefreshCw, Star, X,
+  Check, DollarSign, Loader, Plus, Star, X,
 } from 'react-feather';
 import { AvatarColor } from '@components/Avatar/Avatar';
 import {
-  Button, Card, CardBody, CardHeader, CardTitle, Col, Row,
+  Col, Row,
 } from 'reactstrap';
-import BookingFilter from '@features/Booking/components/BookingFilter';
+import BookingFilter, { BookingFilterParams } from '@features/Booking/components/BookingFilter';
 // import { Link } from 'react-router-dom';
 import bookingColumns from '@features/Booking/components/BookingColumns';
 import Table from '@components/Table/Table';
-import { useSelector } from 'react-redux';
-import { RootState } from '@redux/store';
 import { ExpanderComponentProps } from 'react-data-table-component';
 import { formatVND } from '@utils/CommonUtils';
 import moment from 'moment';
+import { filterBookings, toSearchableContent } from '@utils/BookingUtils';
+import { timeDiffAsI18nText } from '@utils/DateUtils';
+import { HandleDataState } from '@redux/slices/others/HandleDataState';
 
 type BookingStatisticSettings = {
   [key in BookingStatus]: { color: AvatarColor, icon: JSX.Element, hidden?: boolean }
@@ -69,9 +70,9 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
           {tourTemplate ? (
             <ul>
               <li>{`${i18n.t('TOUR_TEMPLATE.ADULT_PRICE')}: ${formatVND(tourTemplate.adultPrice)}`}</li>
-              {tourTemplate.child8to11Price && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_8_11_PRICE')}: ${formatVND(tourTemplate.child8to11Price)}`}</li>}
-              {tourTemplate.child5to7Price && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE')}: ${formatVND(tourTemplate.child5to7Price)}`}</li>}
-              {tourTemplate.childUnder5Price && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE')}: ${formatVND(tourTemplate.childUnder5Price)}`}</li>}
+              {tourTemplate.child8to11Price !== undefined && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_8_11_PRICE')}: ${formatVND(tourTemplate.child8to11Price)}`}</li>}
+              {tourTemplate.child5to7Price !== undefined && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE')}: ${formatVND(tourTemplate.child5to7Price)}`}</li>}
+              {tourTemplate.childUnder5Price !== undefined && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE')}: ${formatVND(tourTemplate.childUnder5Price)}`}</li>}
             </ul>
           ) : <span>N/A</span>}
         </Col>
@@ -79,63 +80,67 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
         <Col xl="6">
           <strong>{i18n.t('BOOKING.BOOKING_RELATED_INFORMATION')}</strong>
           <ul>
-            <li>{`${i18n.t('BOOKING.ASSIGNEE')}: ${data.assigneeId ?? i18n.t('BOOKING.NO_ASSIGNEE')}`}</li>
             <li>{`${i18n.t('BOOKING.CREATED_AT')}: ${moment(data.createdAt).format('DD/MM/YYYY')}`}</li>
             {lead ? (
               <li>{`${i18n.t('BOOKING.LEAD_CREATED_AT')}: ${moment(lead.createdAt).format('DD/MM/YYYY')}`}</li>
             ) : <></>}
+            <li>
+              {`${i18n.t('BOOKING.MINUTES_FROM_CREATED_AT_TITLE')}: ${timeDiffAsI18nText(new Date(), new Date(data.createdAt))}`}
+            </li>
           </ul>
         </Col>
       </Row>
 
-      <strong>{i18n.t('TOUR_TEMPLATE.CREATOR')}</strong>
+      <strong>{i18n.t('BOOKING.PAYMENT_INFO')}</strong>
+      <ul>
+        {(data.totalPaid !== undefined && data.totalPayment !== undefined)
+          ? <li>{`${i18n.t('BOOKING.PAID')}: ${formatVND(data.totalPaid)} / ${formatVND(data.totalPayment)}`}</li>
+          : <></>}
+      </ul>
     </div>
   );
 };
 
 export default function BookingListPage() {
-  const { data: bookings, isFetching } = useQuery(['bookings'], async () => bookingPresenter.getBookings());
+  const [filterParams, setFilterParams] = useState<BookingFilterParams>();
+  const {
+    data: bookings,
+    isFetching,
+    isFetched,
+    isError,
+  } = useQuery(['bookings'], async () => bookingPresenter.getBookings());
+  const fetchBookingsDataState: HandleDataState = useMemo(() => {
+    if (isFetching) return 'loading';
+    if (isFetched) return 'finished';
+    if (isError) return 'error';
+    return 'init';
+  }, [isFetching, isFetched, isError]);
 
   const filteredBookings = useMemo(() => {
     if (!bookings) return [];
-    return bookings;
-  }, [bookings]);
-
-  const fetchUsersState = useSelector(
-    (state: RootState) => state.user.fetchAllUsersState,
-  );
-
-  console.log(isFetching, useState);
-  console.log(bookings);
-
-  function resetFilterParams() {
-    // Clear all the filtered params
-  }
+    if (!filterParams) return bookings;
+    return filterBookings(bookings, filterParams);
+  }, [bookings, filterParams]);
 
   return (
     <>
-      <Statistics items={prepareStatisticalItems(filteredBookings)} />
-      <Card className="card-filter">
-        <CardHeader>
-          <CardTitle tag="h4">{i18n.t('COMMON.FILTER')}</CardTitle>
-          <Button color="primary" onClick={() => resetFilterParams()}>
-            <RefreshCw size={14} />
-            <span className="align-middle ms-25">{i18n.t('COMMON.FILTER_RESET')}</span>
-          </Button>
-        </CardHeader>
-        <CardBody className="card-filter-body">
-          <BookingFilter />
-        </CardBody>
-      </Card>
+      <Statistics items={prepareStatisticalItems(bookings || [])} />
+      <BookingFilter onFilter={(params) => setFilterParams(params)} />
       <Table<Booking>
         selectableRows={false}
         columns={bookingColumns}
-        fetchDataState={fetchUsersState}
-        searchableColumns={['email', 'phoneNumber']}
-        sortColumnDefault="createdAt"
-        data={bookings || []}
+        fetchDataState={fetchBookingsDataState}
+        searchableColumns={[]}
+        sortColumnDefault="code"
+        onPageChange={() => { }}
+        onRefresh={() => { }}
+        data={filteredBookings || []}
         expandableRows
         expandableRowsComponent={BookingExpandableRowComponent}
+        customSearchHandler={(booking: Booking, searchTerm: string) => {
+          const searchableContent = toSearchableContent(booking);
+          return searchableContent.includes(searchTerm.toLowerCase());
+        }}
       />
     </>
   );
