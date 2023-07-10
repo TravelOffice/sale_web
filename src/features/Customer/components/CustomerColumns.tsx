@@ -5,11 +5,13 @@ import { Link } from 'react-router-dom';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
-import { Archive, MoreVertical, Trash2 } from 'react-feather';
+import {
+  Archive, Calendar, MoreVertical, Phone, User,
+} from 'react-feather';
 import moment from 'moment';
-import { generateEditableUrlForCustomer, generateI18nForCustomer } from '@utils/CustomerUtils';
 import { Customer, CustomerLevel } from '@domain/entities/customer/Customer';
-import { formatCurrency, formatPhoneNumber } from '@utils/Utils';
+import { generateEditableUrlForCustomer, generateI18nForCustomer } from '@utils/CustomerUtils';
+import { formatCurrency } from '@utils/Utils';
 
 const customerLevelColors: Record<CustomerLevel, string> = {
   STANDARD: 'light-success',
@@ -20,77 +22,78 @@ const customerLevelColors: Record<CustomerLevel, string> = {
 const customerColumns: TableColumn<Customer>[] = [
   {
     name: i18n.t('CUSTOMER.CODE'),
-    maxWidth: '100px',
+    width: '80px',
     cell: (customer: Customer) => (
-      <Link to={generateEditableUrlForCustomer(customer)} className="user_name text-truncate text-body">
-        <span className="fw-bolder">{customer.code}</span>
-      </Link>
+      <div>
+        <Link to={generateEditableUrlForCustomer(customer)} className="text-truncate text-body text-center">
+          <span className="fw-bolder">{customer.code}</span>
+        </Link>
+      </div>
     ),
   },
   {
     name: i18n.t('CUSTOMER.LEVEL'),
-    width: '150px',
+    width: '120px',
     cell: (customer: Customer) => (
-      <Badge
-        className="text-capitalize"
-        color={customerLevelColors[customer.level ?? CustomerLevel.STANDARD]}
-        pill
-      >
-        {generateI18nForCustomer(customer.level ?? CustomerLevel.STANDARD)}
-      </Badge>
+      <div>
+        <Badge className="text-capitalize" color={customerLevelColors[customer.level]}>
+          {generateI18nForCustomer(customer.level)}
+        </Badge>
+      </div>
     ),
   },
   {
     name: i18n.t('CUSTOMER.NAME'),
-    minWidth: '150px',
-    maxWidth: '180px',
+    minWidth: '200px',
     cell: (customer: Customer) => (
       <div className="d-flex justify-content-left align-items-center">
         <div className="d-flex flex-column">
-          <span className="fw-bolder text-primary">
-            <small
-              className="text-truncate text-muted"
-            >
-              {customer.honorific ? generateI18nForCustomer(customer.honorific) : ''}
+          <span className="fw-bolder text-primary pb-0">
+            <User size={14} className="text-secondary" />
+            <small className="text-truncate text-muted">
+              {' '}
+              {customer.honorific ? `(${generateI18nForCustomer(customer.honorific)})` : ''}
             </small>
-            {` ${customer.name}`}
+            {' '}
+            {customer.name}
           </span>
-          <span>{formatPhoneNumber(customer.primaryPhoneNumber)}</span>
+          <span>
+            <Phone size={14} className="text-secondary" />
+            {' '}
+            {customer.primaryPhoneNumber}
+          </span>
         </div>
       </div>
     ),
   },
   {
-    name: i18n.t('CUSTOMER.ASSIGNEE'),
+    name: i18n.t('CUSTOMER.CREATOR'),
+    minWidth: '200px',
     cell: (customer: Customer) => (
-      <div className="my-1">
-        <span>
-          <strong>{i18n.t('CUSTOMER.ASSIGNEE')}</strong>
-          {': '}
-          {
-            customer.assigneeId ? (
-              <Link to={`/apps/users/${customer.assigneeId}`} className="user_name text-truncate text-body">
-                <span className="fw-bolder text-primary">{customer.assigneeName}</span>
-              </Link>
-            ) : (
-              i18n.t('CUSTOMER.EMPTY')
-            )
-          }
-        </span>
+      <div>
+        <User size={14} />
+        {' '}
+        <Link to={`/apps/users/${customer.creatorId}`} className="user_name text-truncate text-body">
+          <span className="fw-bolder text-primary">{customer.creatorName}</span>
+        </Link>
         <br />
         <span>
-          <strong>{i18n.t('CUSTOMER.CREATOR')}</strong>
-          {': '}
-          <Link to={`/apps/users/${customer.creatorId}`} className="user_name text-truncate text-body">
-            <span className="fw-bolder text-primary">{customer.creatorName}</span>
-          </Link>
-        </span>
-        <br />
-        <span>
-          <strong>{i18n.t('COMMON.CREATED_AT')}</strong>
-          {': '}
+          <Calendar size={14} />
+          {' '}
           {moment(customer.createdAt).format('hh:mm:ss DD/MM/YYYY')}
         </span>
+      </div>
+    ),
+  },
+  {
+    name: i18n.t('CUSTOMER.SOURCE'),
+    minWidth: '200px',
+    cell: (customer: Customer) => (
+      <div>
+        <Badge className="text-uppercase" color="light-secondary">
+          {customer.source}
+        </Badge>
+
       </div>
     ),
   },
@@ -106,16 +109,6 @@ const customerColumns: TableColumn<Customer>[] = [
     ),
   },
   {
-    name: i18n.t('COMMON.NOTE'),
-    maxWidth: '200px',
-    selector: (customer) => {
-      if (customer.notes && customer.notes.length > 0) {
-        return customer.notes[customer.notes.length - 1].description;
-      }
-      return i18n.t('CUSTOMER.NO_NOTE').toString();
-    },
-  },
-  {
     name: i18n.t('COMMON.ACTIONS'),
     maxWidth: '120px',
     cell: (customer: Customer) => (
@@ -128,17 +121,6 @@ const customerColumns: TableColumn<Customer>[] = [
             <DropdownItem tag={Link} className="w-100" to={generateEditableUrlForCustomer(customer)}>
               <Archive size={14} className="me-50" />
               <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
-            </DropdownItem>
-            <DropdownItem
-              tag="a"
-              href="/"
-              className="w-100"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <Trash2 size={14} className="me-50" />
-              <span className="align-middle">{i18n.t('COMMON.DELETE')}</span>
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>

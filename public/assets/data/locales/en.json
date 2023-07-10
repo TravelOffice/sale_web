@@ -295,7 +295,7 @@
     "LEVEL": "Level",
     "ASSIGNEE": "Assignee",
     "CREATOR": "Creator",
-    "EMPTY": "",
+    "EMPTY": "None",
     "NO_NOTE": "No note",
     "REVENUE": "Revenue",
     "PHONE": "Phone",
@@ -326,9 +326,11 @@
     "GO_TO_CUSTOMER_DETAILS": "Go to details",
     "GO_TO_CUSTOMER_LIST": "Go to customer list",
     "GUIDE_CREATE_CUSTOMER": "Fields marked with <strong>*</strong> must not be blank.",
-    "UPDATE_TASKS_SUCCESSFULLY": "Tasks updated successfully",
-    "DISCARD_TASK_WARNING_TITLE": "Discard all tasks changes?",
-    "DISCARD_TASK_WARNING_MESSAGE": "All changes of the tasks will be discard. Do you want to continue?"
+    "LATEST_SALE": "Latest sale",
+    "HISTORY": "History",
+    "NOTE": "Note",
+    "CREATE_BOOKING": "Creating booking",
+    "BOOKING": "Booking"
   },
   "MESSAGE": {
     "NAME_REQUIRE_MESSAGE": "Name is required",

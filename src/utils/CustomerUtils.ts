@@ -1,6 +1,6 @@
 import i18n from '@config/i18n';
 import {
-  Customer, CustomerLevel, MaritalStatus, SexType,
+  Customer, CustomerLevel, MaritalStatus, SexType, SourceType,
 } from '@domain/entities/customer/Customer';
 import { CustomerFilterParams } from '@features/Customer/components/CustomerFilter';
 import * as yup from 'yup';
@@ -155,4 +155,16 @@ export const customerLevelOptions = [
 export const maritalStatusOptions = [
   { label: generateI18nForCustomer(MaritalStatus.SINGLE), value: MaritalStatus.SINGLE },
   { label: generateI18nForCustomer(MaritalStatus.MARRIED), value: MaritalStatus.MARRIED },
+];
+
+/**
+ * An array of source options for customers.
+ */
+// TODO: Fetch sources from remote server
+export const customerSourceOptions = [
+  { label: 'Social', value: SourceType.SOCIAL },
+  { label: 'Website', value: SourceType.WEBSITE },
+  { label: 'Advertisement', value: SourceType.ADVERTISEMENT },
+  { label: 'Event', value: SourceType.EVENT },
+  { label: 'Other', value: SourceType.OTHER },
 ];
