@@ -65,11 +65,13 @@ import { GetAllTourTemplatesUseCase } from '@domain/useCases/interfaces/tourTemp
 import { GetTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/GetTourTemplateUseCase';
 import { AddTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/AddTourTemplateUseCase';
 import { UpdateTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/UpdateTourTemplateUseCase';
-import { CreateDepartureTourUseCase } from '@domain/useCases/interfaces/tour/CreateDepartureTourUseCase';
-import { GetAllToursTemplateUseCase } from '@domain/useCases/interfaces/tour/GetAllToursTemplateUseCase';
-import { GetAllToursLocationUseCase } from '@domain/useCases/interfaces/tour/GetAllToursLocationUseCase';
 import { GetAllSourcesUseCase } from '@domain/useCases/interfaces/source/GetAllSourcesUseCase';
 import GetAllSourcesUseCaseImpl from '@domain/useCases/source/GetAllSourcesUseCaseImpl';
+import GetAllReceiptsUseCaseImpl from '@domain/useCases/receipt/GetAllReceiptsUseCaseImpl';
+import { CreateDepartureTourUseCase } from '@domain/useCases/interfaces/tour/CreateDepartureTourUseCase';
+import { GetAllReceiptsUseCase } from '@domain/useCases/interfaces/receipt/GetAllReceiptsTemplateUseCase';
+import { GetAllToursLocationUseCase } from '@domain/useCases/interfaces/tour/GetAllToursLocationUseCase';
+import { GetAllToursTemplateUseCase } from '@domain/useCases/interfaces/tour/GetAllToursTemplateUseCase';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -199,6 +201,8 @@ interface UseCases {
   getAllToursLocationUseCase: GetAllToursLocationUseCase,
   // Source
   getAllSourcesUseCase: GetAllSourcesUseCase,
+  // Receipt
+  getAllReceiptsUseCase: GetAllReceiptsUseCase
 }
 
 const useCases: UseCases = {
@@ -274,6 +278,8 @@ const useCases: UseCases = {
   getAllToursLocationUseCase: new GetAllToursLocationUseCaseImpl(),
   // Source
   getAllSourcesUseCase: new GetAllSourcesUseCaseImpl(),
+  // Receipt
+  getAllReceiptsUseCase: new GetAllReceiptsUseCaseImpl(),
 };
 
 export const {
@@ -340,4 +346,6 @@ export const {
   getAllToursTemplateUseCase,
   getAllToursLocationUseCase,
   getAllSourcesUseCase,
+  // Receipt
+  getAllReceiptsUseCase,
 } = useCases;

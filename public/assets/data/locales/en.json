@@ -624,5 +624,16 @@
     "CUSTOMER_INFORMATION":"Customer information",
     "DEPARTURE_DATE_PLACEHOLDER": "Select departure date",
     "CREATE_BOOKING_SUCCESSFULLY": "Create booking successfully"
+  },
+  "RECEIPT": {
+    "CODE": "Code",
+    "CREATED_DATE": "Created at",
+    "AMOUNT": "Amount",
+    "DESCRIPTION": "Description",
+    "PAYMENT_METHOD": "Payment method",
+    "STATUS": "Status",
+    "OPEN": "Open",
+    "CLOSED": "Closed",
+    "CREATED_DATE_RANGE": "Created at range"
   }
 }
