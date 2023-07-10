@@ -1,5 +1,7 @@
 const PERMISSIONS = {
   get_bookings: 'get_bookings',
+  create_booking: 'create_booking',
+  update_booking: 'update_booking',
   assign_chat: 'assign_chat',
   view_all_conversations: 'view_all_conversations',
   view_assigned_conversations: 'view_assigned_conversations',

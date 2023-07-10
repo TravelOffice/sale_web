@@ -42,7 +42,12 @@ const statusOptions = [
 export default function BookingFilter(props: BookingFilterProps) {
   const { onFilter } = props;
   const { t } = useTranslation();
-  const { control, reset } = useForm<BookingFilterParams>();
+  const { control, reset } = useForm<BookingFilterParams>({
+    defaultValues: {
+      code: '',
+      status: '',
+    },
+  });
   const values = useWatch({ control });
 
   useEffect(() => {
@@ -54,7 +59,7 @@ export default function BookingFilter(props: BookingFilterProps) {
       <Card className="card-filter">
         <CardHeader>
           <CardTitle tag="h4">{i18n.t('COMMON.FILTER')}</CardTitle>
-          <Button color="primary" onClick={() => reset({})}>
+          <Button color="primary" onClick={() => reset()}>
             <RefreshCw size={14} />
             <span className="align-middle ms-25">{i18n.t('COMMON.FILTER_RESET')}</span>
           </Button>

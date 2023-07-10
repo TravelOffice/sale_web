@@ -88,7 +88,7 @@ const Navigation : MenuItem[] = [
     title: 'Booking',
     requiredPermissions: [PERMISSIONS.get_bookings],
     icon: <ShoppingCart size={12} />,
-    navLink: '/apps/booking/list',
+    navLink: '/apps/bookings/list',
   },
   {
     header: 'Administrators',

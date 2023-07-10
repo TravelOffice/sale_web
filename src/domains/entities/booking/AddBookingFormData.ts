@@ -17,5 +17,8 @@ export interface AddBookingFormData {
   // Expected begin date of trip
   departureDate: string,
   // Reference to Sale model, each Sale is identified by pk+sk pair
-  assigneeId: string
+  assigneeId: string,
+  // Reference to Source model
+  // For example, source can be Facebook, CallCenter, Social, etc
+  sourceId: string,
 }

@@ -10,10 +10,11 @@ import {
 } from 'react-feather';
 import { AvatarColor } from '@components/Avatar/Avatar';
 import {
+  ButtonProps,
   Col, Row,
 } from 'reactstrap';
 import BookingFilter, { BookingFilterParams } from '@features/Booking/components/BookingFilter';
-// import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import bookingColumns from '@features/Booking/components/BookingColumns';
 import Table from '@components/Table/Table';
 import { ExpanderComponentProps } from 'react-data-table-component';
@@ -122,6 +123,14 @@ export default function BookingListPage() {
     return filterBookings(bookings, filterParams);
   }, [bookings, filterParams]);
 
+  const history = useHistory();
+  const additionalActionButtons: Array<ButtonProps> = useMemo(() => [
+    {
+      name: i18n.t('COMMON.ADD'),
+      handleOnClick: () => { history.push('/apps/bookings/create'); },
+    },
+  ], []);
+
   return (
     <>
       <Statistics items={prepareStatisticalItems(bookings || [])} />
@@ -141,6 +150,7 @@ export default function BookingListPage() {
           const searchableContent = toSearchableContent(booking);
           return searchableContent.includes(searchTerm.toLowerCase());
         }}
+        extraButtons={additionalActionButtons}
       />
     </>
   );

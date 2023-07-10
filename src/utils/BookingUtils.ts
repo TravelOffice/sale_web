@@ -55,7 +55,7 @@ export function generateI18nForBooking(type: string) {
  * @returns The editable URL for the booking.
  */
 export function generateEditableUrlForBooking(booking: Booking) {
-  return `/apps/booking/${booking.code}/edit`;
+  return `/apps/bookings/${booking.code}/edit`;
 }
 
 /**

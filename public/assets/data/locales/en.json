@@ -601,6 +601,26 @@
     "PAID": "Paid",
     "PAYMENT_INFO": "Payment",
     "MINUTES_FROM_CREATED_AT_TITLE": "Created",
-    "MINUTES_FROM_CREATED_AT": "{{days}} days {{hours}} hours {{minutes}} mins ago"
+    "MINUTES_FROM_CREATED_AT": "{{days}} days {{hours}} hours {{minutes}} mins ago",
+    "BOOKING_TITLE": "Booking",
+    "CREATE_BOOKING": "Create booking",
+    "FORM": {
+      "EMAIL": "Email",
+      "PHONE": "Phone",
+      "HONORIFIC": "Honorific",
+      "FULL_NAME": "Full name",
+      "SOURCE": "Source",
+      "TOUR_TYPE": "Tour type",
+      "DEPARTURE_DATE": "Departure date",
+      "ADDRESS": "Address"
+    },
+    "BOOKING_INFORMATION": "Booking information",
+    "SOLO": "Solo",
+    "SHARED": "Shared",
+    "GROUP": "Group",
+    "CREATE": "Create new",
+    "CUSTOMER_INFORMATION":"Customer information",
+    "DEPARTURE_DATE_PLACEHOLDER": "Select departure date",
+    "CREATE_BOOKING_SUCCESSFULLY": "Create booking successfully"
   }
 }
