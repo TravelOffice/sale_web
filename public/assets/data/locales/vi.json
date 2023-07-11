@@ -550,7 +550,9 @@
     "ADDITIONAL_SERVICES": "Dịch vụ bổ sung",
     "SERVICE_NAME": "Tên dịch vụ",
     "SERVICE_PRICE": "Giá dịch vụ",
-    "ADD_SERVICE": "Thêm dịch vụ"
+    "ADD_SERVICE": "Thêm dịch vụ",
+    "EDIT_TOUR_TEMPLATE": "Chỉnh sửa tour mẫu",
+    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Chỉnh sửa tour mẫu thành công"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Tour khởi hành",

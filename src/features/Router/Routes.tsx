@@ -18,6 +18,7 @@ import DepartureTour from '@features/Tour/Departure/DepartureTour';
 import BookingListPage from '@features/Booking/BookingListPage';
 import TourTemplateCreatePage from '@features/Tour/Template/TourTemplateCreatePage';
 import BookingCreatePage from '@features/Booking/CreateBookingPage';
+import TourTemplateEditPage from '@features/Tour/Template/TourTemplateEditPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -62,6 +63,12 @@ const Routes: RoutePathConfig[] = [
     exact: true,
     requiredPermissions: [PERMISSIONS.create_tour_template],
     component: <TourTemplateCreatePage />,
+  },
+  {
+    path: '/apps/tour-templates/:tourTemplateId/edit',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.update_tour_template],
+    component: <TourTemplateEditPage />,
   },
   {
     path: '/apps/leads/list',

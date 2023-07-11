@@ -4,6 +4,10 @@ import { TourTemplate } from '@domain/entities/TourTemplate';
 
 export default class UpdateTourTemplateUseCaseImpl implements UpdateTourTemplateUseCase {
   invoke = async (
+    tourTemplateId: string,
     tourTemplate: TourTemplate,
-  ) : Promise<TourTemplate> => tourTemplateRepository.updateTourTemplate(tourTemplate);
+  ): Promise<TourTemplate> => tourTemplateRepository.updateTourTemplate(
+    tourTemplateId,
+    tourTemplate,
+  );
 }

@@ -18,8 +18,8 @@ export default class TourTemplateRepositoryImpl implements TourTemplateRepositor
     return response.data;
   }
 
-  updateTourTemplate = async (tourTemplate: TourTemplate) => {
-    const response = await apiProvider.authorizedRequest.put('/tour-templates', tourTemplate);
+  updateTourTemplate = async (tourTemplateId: string, tourTemplate: TourTemplate) => {
+    const response = await apiProvider.authorizedRequest.put(`/tour-templates/${tourTemplateId}`, tourTemplate);
     return response.data;
   }
 }
