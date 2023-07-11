@@ -14,4 +14,6 @@ export interface LeadRepository {
   getMyLeads(): Promise<Lead[]>;
 
   getLeadsByCustomer(customerId: string): Promise<Lead[]>;
+
+  takeLead(leadId: string, currentUserId: string): Promise<void>;
 }

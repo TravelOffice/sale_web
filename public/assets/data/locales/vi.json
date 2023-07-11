@@ -65,7 +65,8 @@
     "NAVIGATE_AFTER_CREATING": "Chuyển hướng sau khi tạo",
     "ME": "Tôi",
     "FILTER_RESET": "Xóa bộ lọc",
-    "EXPORT": "Xuất file"
+    "EXPORT": "Xuất file",
+    "PROCESSING": "Đang xử lý"
   },
   "LEAD": {
     "NAME": "Họ tên",
@@ -144,7 +145,10 @@
     "GO_TO_LEAD_DETAILS": "Đi đến chi tiết",
     "GO_TO_LEAD_LIST": "Đi đến danh sách",
     "GUIDE_CREATE_LEAD": "Các trường đánh dấu <strong>*</strong> không được để trống.",
-    "TOUR_TEMPLATE": "Tour mẫu"
+    "TOUR_TEMPLATE": "Tour mẫu",
+    "NOT_ASSIGNED": "Chưa được phân công",
+    "TAKE_CARE": "Nhận chăm sóc",
+    "TAKING_LEAD_SUCCESSFULLY": "Đã nhận lead {{leadName}} thành công"
   },
   "PAGE": {
     "SUCCESS": "Hoàn thành",

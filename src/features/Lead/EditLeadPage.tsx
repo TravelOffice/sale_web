@@ -100,7 +100,7 @@ export default function EditLeadPage() {
           <Link to="/">{i18n.t('COMMON.HOME')}</Link>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <Link to="/apps/lead/list">Lead</Link>
+          <Link to="/apps/leads/list">Lead</Link>
         </BreadcrumbItem>
         <BreadcrumbItem active>
           <span>{i18n.t('LEAD.EDIT_LEAD')}</span>

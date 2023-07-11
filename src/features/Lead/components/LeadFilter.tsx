@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   Col, Form, Label, Row,
 } from 'reactstrap';
@@ -39,6 +39,17 @@ export default function LeadFilter(props: LeadFilterProps) {
   const { data: sales = [] } = useAllSales();
   const currentUser = useCurrentUser();
 
+  const saleOptions = useMemo(() => {
+    const options = [{
+      label: i18n.t('LEAD.NOT_ASSIGNED'),
+      value: '',
+    }];
+    return options.concat(sales.map((sale) => ({
+      label: generateUserDisplayNameOption(sale, currentUser),
+      value: sale.username,
+    })));
+  }, [sales]);
+
   useEffect(() => {
     onFilter(values);
   }, [values]);
@@ -75,10 +86,7 @@ export default function LeadFilter(props: LeadFilterProps) {
             name="assignee"
             errors={{}}
             isClearable
-            options={sales.map((sale) => ({
-              label: generateUserDisplayNameOption(sale, currentUser),
-              value: sale.username,
-            }))}
+            options={saleOptions}
           />
         </Col>
         <Col>

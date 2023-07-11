@@ -5,6 +5,7 @@ import {
   getLeadsByCustomerUseCase,
   getLeadUseCase,
   getMyLeadUseCase,
+  takeLeadUseCase,
   updateLeadUseCase,
 } from '@domain/useCases/lead';
 import { LeadPresenter } from './interfaces/LeadPresenter';
@@ -24,4 +25,9 @@ export default class LeadPresenterImpl implements LeadPresenter {
     leadId: string,
     formData: UpdateLeadFormData,
   ) => updateLeadUseCase.invoke(leadId, formData);
+
+  takeLead = async (
+    leadId: string,
+    currentUserId: string,
+  ) => takeLeadUseCase.invoke(leadId, currentUserId);
 }

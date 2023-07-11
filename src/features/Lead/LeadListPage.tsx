@@ -28,10 +28,12 @@ export default function LeadListPage() {
     return leadPresenter.getMyLeads();
   });
   const leads = useMemo(() => {
+    console.log('memo', allLeads);
     if (!allLeads) return [];
     if (!filterParams) return allLeads;
     return filterLeads(allLeads, filterParams);
   }, [allLeads, filterParams]);
+  console.log('allLeads', allLeads);
   const countData = useMemo(() => countLeadData(allLeads), [allLeads]);
   return (
     <div className="to-table-container">
@@ -69,7 +71,7 @@ export default function LeadListPage() {
               sortIcon={<ChevronDown />}
               subHeader
               subHeaderComponent={(
-                <Link to="/apps/lead/create">
+                <Link to="/apps/leads/create">
                   <Button color="primary">
                     <Plus size={14} />
                     <span className="align-middle ms-25">{i18n.t('COMMON.ADD')}</span>

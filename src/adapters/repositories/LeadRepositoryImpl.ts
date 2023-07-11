@@ -36,4 +36,11 @@ export default class LeadRepositoryImpl implements LeadRepository {
     const response = await apiProvider.authorizedRequest.get(`/customers/${customerId}/leads`);
     return response.data;
   }
+
+  takeLead = async (leadId: string, currentUserId: string) => {
+    const response = await apiProvider.authorizedRequest.put(`/leads/${leadId}/assignee`, {
+      assignee: currentUserId,
+    });
+    return response.data;
+  }
 }
