@@ -10,4 +10,5 @@ export interface FormItemProps<
   name: TFieldPath,
   errors: FieldErrors,
   placeholder?: string,
+  disabled?: boolean,
 }

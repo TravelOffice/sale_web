@@ -3,7 +3,6 @@ import LeadStats from '@features/Lead/components/LeadStats';
 import { useQuery } from '@tanstack/react-query';
 import { leadPresenter } from '@adapter/presenters';
 import {
-  Button,
   Card,
   CardBody,
   CardHeader,
@@ -11,17 +10,17 @@ import {
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import DataTable from 'react-data-table-component';
-import { ChevronDown, Plus } from 'react-feather';
+import { ChevronDown } from 'react-feather';
 import leadColumns from '@features/Lead/components/LeadColumns';
 import LeadFilter, { LeadFilterParams } from '@features/Lead/components/LeadFilter';
 import { countLeadData, filterLeads } from '@utils/LeadUtils';
-import { Link } from 'react-router-dom';
 import { useAccessControl } from '@hooks/auth';
+import LeadDataTableHeader from '@features/Lead/components/LeadDataTableHeader';
 
 export default function LeadListPage() {
   const [filterParams, setFilterParams] = useState<LeadFilterParams>();
   const { can } = useAccessControl();
-  const { data: allLeads = [], isFetching } = useQuery(['leads'], async () => {
+  const { data: allLeads = [], isFetching, refetch } = useQuery(['leads'], async () => {
     if (can('get_leads')) {
       return leadPresenter.getAllLeads();
     }
@@ -32,6 +31,7 @@ export default function LeadListPage() {
     if (!filterParams) return allLeads;
     return filterLeads(allLeads, filterParams);
   }, [allLeads, filterParams]);
+
   const countData = useMemo(() => countLeadData(allLeads), [allLeads]);
   return (
     <div className="to-table-container">
@@ -69,12 +69,7 @@ export default function LeadListPage() {
               sortIcon={<ChevronDown />}
               subHeader
               subHeaderComponent={(
-                <Link to="/apps/leads/create">
-                  <Button color="primary">
-                    <Plus size={14} />
-                    <span className="align-middle ms-25">{i18n.t('COMMON.ADD')}</span>
-                  </Button>
-                </Link>
+                <LeadDataTableHeader loading={isFetching} onRefresh={() => refetch()} />
               )}
               customStyles={{
                 cells: {

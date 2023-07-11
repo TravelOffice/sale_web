@@ -68,7 +68,8 @@
     "EXPORT": "Xuất file",
     "PROCESSING": "Đang xử lý",
     "QUANTITY": "Số lượng",
-    "INDEX": "STT"
+    "INDEX": "STT",
+    "ACCEPT": "Đồng ý"
   },
   "LEAD": {
     "NAME": "Họ tên",
@@ -150,7 +151,11 @@
     "TOUR_TEMPLATE": "Tour mẫu",
     "NOT_ASSIGNED": "Chưa được phân công",
     "TAKE_CARE": "Nhận chăm sóc",
-    "TAKING_LEAD_SUCCESSFULLY": "Đã nhận lead {{leadName}} thành công"
+    "TAKING_LEAD_SUCCESSFULLY": "Đã nhận lead {{leadName}} thành công",
+    "CANCEL_LEAD": "Hủy lead",
+    "CANCEL_LEAD_WARNING_MESSAGE": "Đánh dấu lead là đã hủy. Lead đã hủy không thể chỉnh sửa hay tạo lại được nữa. Bạn có chắc chắn muốn hủy lead này?",
+    "CANCEL_LEAD_SUCCESSFULLY": "Đã hủy lead {{leadName}}",
+    "CANCELLED_REASON": "Lý do hủy"
   },
   "PAGE": {
     "SUCCESS": "Hoàn thành",

@@ -1,6 +1,7 @@
 import {
   CreateLeadFormData, Lead, LeadStatus, UpdateLeadFormData,
 } from '@domain/entities/lead/Lead';
+import { CancelLeadFormData } from '@domain/entities/lead/CancelLeadFormData';
 
 export interface LeadPresenter {
   addLead: (formData: CreateLeadFormData) => Promise<Lead>;
@@ -10,4 +11,5 @@ export interface LeadPresenter {
   getMyLeads: () => Promise<Lead[]>;
   getLeadsByCustomer: (customerId: string) => Promise<Lead[]>,
   takeLead: (leadId: string, currentUserId: string) => Promise<void>,
+  cancelLead: (leadId: string, formData: CancelLeadFormData) => Promise<void>,
 }

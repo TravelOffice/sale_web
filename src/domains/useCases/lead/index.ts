@@ -12,6 +12,8 @@ import { GetLeadsOfCustomerUseCase } from '@domain/useCases/interfaces/customer/
 import GetLeadsByCustomerUseCase from '@domain/useCases/lead/GetLeadsByCustomerUseCaseImpl';
 import { TakeLeadUseCase } from '@domain/useCases/interfaces/lead/TakeLeadUseCase';
 import TakeLeadUseCaseImpl from '@domain/useCases/lead/TakeLeadUseCaseImpl';
+import { CancelLeadUseCase } from '@domain/useCases/interfaces/lead/CancelLeadUseCase';
+import CancelLeadUseCaseImpl from '@domain/useCases/lead/CancelLeadUseCaseImpl';
 
 interface LeadUseCases {
   getAllLeadsUseCase: GetAllLeadsUseCase,
@@ -21,6 +23,7 @@ interface LeadUseCases {
   updateLeadUseCase: UpdateLeadUseCase,
   getLeadsByCustomerUseCase: GetLeadsOfCustomerUseCase,
   takeLeadUseCase: TakeLeadUseCase,
+  cancelLeadUseCase: CancelLeadUseCase,
 }
 
 const useCases: LeadUseCases = {
@@ -31,6 +34,7 @@ const useCases: LeadUseCases = {
   updateLeadUseCase: new UpdateLeadUseCaseImpl(),
   getLeadsByCustomerUseCase: new GetLeadsByCustomerUseCase(),
   takeLeadUseCase: new TakeLeadUseCaseImpl(),
+  cancelLeadUseCase: new CancelLeadUseCaseImpl(),
 };
 
 export const {
@@ -41,4 +45,5 @@ export const {
   updateLeadUseCase,
   getLeadsByCustomerUseCase,
   takeLeadUseCase,
+  cancelLeadUseCase,
 } = useCases;

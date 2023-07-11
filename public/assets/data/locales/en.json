@@ -68,7 +68,8 @@
     "FILTER_RESET": "Reset",
     "PROCESSING": "Processing",
     "QUANTITY": "Quantity",
-    "INDEX": "INDEX"
+    "INDEX": "INDEX",
+    "ACCEPT": "Accept"
   },
   "LEAD": {
     "NAME": "Name",
@@ -129,7 +130,7 @@
     "UNKNOWN_ASSIGNEE": "Unknown assignee",
     "CREATOR": "Creator",
     "DEPARTURE": "Departure",
-    "NUMBER_OF_PASSENGERS": "Number of passengers:",
+    "NUMBER_OF_PASSENGERS": "Number of passengers",
     "NUMBER_OF_ADULT_PASSENGERS": "Number of adult passengers",
     "NUMBER_OF_CHILDREN_PASSENGERS": "Number of children passengers",
     "ADULT": "Adult",
@@ -150,7 +151,11 @@
     "TOUR_TEMPLATE": "Tour template",
     "NOT_ASSIGNED": "Not assigned",
     "TAKE_CARE": "Take care",
-    "TAKING_LEAD_SUCCESSFULLY": "Taking lead {{leadName}} successfully"
+    "TAKING_LEAD_SUCCESSFULLY": "Taking lead {{leadName}} successfully",
+    "CANCEL_LEAD": "Cancel lead",
+    "CANCEL_LEAD_WARNING_MESSAGE": "This action will mark this lead as cancelled. The lead will be inactive and can not be editable or re-creatable. Are you sure you want to proceed with canceling this lead?",
+    "CANCEL_LEAD_SUCCESSFULLY": "Lead {{leadName}} has been cancelled!",
+    "CANCELLED_REASON": "Cancelled reason"
   },
   "PAGE": {
     "SUCCESS": "Success",
