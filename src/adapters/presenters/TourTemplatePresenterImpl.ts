@@ -14,5 +14,8 @@ export default class TourTemplatePresenterImpl implements TourTemplatePresenter 
 
     addTourTemplate = async (payload: TourTemplate) => addTourTemplateUseCase.invoke(payload);
 
-    updateTourTemplate = async (payload: TourTemplate) => updateTourTemplateUseCase.invoke(payload);
+    updateTourTemplate = async (
+      tourTemplateId: string,
+      formData: TourTemplate,
+    ) => updateTourTemplateUseCase.invoke(tourTemplateId, formData);
 }

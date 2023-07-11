@@ -548,7 +548,9 @@
     "ADDITIONAL_SERVICES": "Additional services",
     "SERVICE_NAME": "Service name",
     "SERVICE_PRICE": "Service price",
-    "ADD_SERVICE": "Add service"
+    "ADD_SERVICE": "Add service",
+    "EDIT_TOUR_TEMPLATE": "Update tour template",
+    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Edit tour template successfully"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Departure tour",
