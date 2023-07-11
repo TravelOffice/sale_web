@@ -5,8 +5,10 @@ import {
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import { Link, useHistory } from 'react-router-dom';
-import { createLeadSchema, generateI18nForLead } from '@utils/LeadUtils';
-import { CreateLeadFormData, HonorificType, Lead } from '@domain/entities/lead/Lead';
+import {
+  createLeadSchema, honorificOptions, typeOptions,
+} from '@utils/LeadUtils';
+import { CreateLeadFormData, Lead } from '@domain/entities/lead/Lead';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { leadPresenter } from '@adapter/presenters';
 import { useForm } from 'react-hook-form';
@@ -18,27 +20,9 @@ import toasty from '@components/Toasty/Toasty';
 import LoadingButton from '@components/LoadingButton/LoadingButton';
 import { Trans } from 'react-i18next';
 import { useAllSaleOptions } from '@hooks/users';
-
-const honorificOptions = [
-  { label: generateI18nForLead(HonorificType.MR_OLD), value: HonorificType.MR_OLD },
-  { label: generateI18nForLead(HonorificType.MRS_OLD), value: HonorificType.MRS_OLD },
-  { label: generateI18nForLead(HonorificType.MR_YOUNG), value: HonorificType.MR_YOUNG },
-  { label: generateI18nForLead(HonorificType.MRS_YOUNG), value: HonorificType.MRS_YOUNG },
-];
-
-// TODO: Fetch sources from remote server
-const sourceOptions = [
-  { label: 'Zalo', value: 'zalo' },
-  { label: 'Facebook', value: 'facebook' },
-  { label: 'Campaign', value: 'campaign' },
-];
-
-// TODO: Fetch types from remote server
-const typeOptions = [
-  { label: i18n.t('LEAD.INLAND'), value: 'inland' },
-  { label: i18n.t('LEAD.INBOUND'), value: 'inbound' },
-  { label: i18n.t('LEAD.OUTBOUND'), value: 'outbound' },
-];
+import { useTourTemplateOptions } from '@hooks/tourTemplate';
+import { useTourLocationOptions } from '@hooks/tourLocation';
+import { useSourceOptions } from '@hooks/source';
 
 const defaultValues: CreateLeadFormData = {
   name: '',
@@ -67,6 +51,9 @@ export default function CreateLeadPage() {
   } = useForm<CreateLeadFormData>({ resolver: yupResolver(createLeadSchema), defaultValues });
 
   const saleOptions = useAllSaleOptions();
+  const tourTemplateOptions = useTourTemplateOptions();
+  const departureOptions = useTourLocationOptions();
+  const sourceOptions = useSourceOptions();
 
   const queryClient = useQueryClient();
   const history = useHistory();
@@ -198,6 +185,22 @@ export default function CreateLeadPage() {
                 </div>
 
                 <Row className="mb-1">
+                  <Label sm="3" for="tourTemplateId">
+                    {i18n.t('LEAD.TOUR_TEMPLATE')}
+                  </Label>
+                  <Col sm="9">
+                    <FormItemSelect
+                      control={control}
+                      name="tourTemplateId"
+                      errors={errors}
+                      placeholder={i18n.t('LEAD.TOUR_TEMPLATE')}
+                      isClearable
+                      options={tourTemplateOptions}
+                    />
+                  </Col>
+                </Row>
+
+                <Row className="mb-1">
                   <Label sm="3" for="desiredTour">
                     {i18n.t('LEAD.DESIRED_TOUR')}
                   </Label>
@@ -233,12 +236,12 @@ export default function CreateLeadPage() {
                     <span className="text-danger">*</span>
                   </Label>
                   <Col sm="9">
-                    <FormItemInput
+                    <FormItemSelect
                       control={control}
                       name="departure"
                       errors={errors}
                       placeholder={i18n.t('LEAD.DEPARTURE')}
-                      inputType="text"
+                      options={departureOptions}
                     />
                   </Col>
                 </Row>
@@ -316,6 +319,7 @@ export default function CreateLeadPage() {
                       control={control}
                       name="assigneeId"
                       errors={errors}
+                      isClearable
                       placeholder={i18n.t('LEAD.ASSIGNEE')}
                       options={saleOptions}
                     />

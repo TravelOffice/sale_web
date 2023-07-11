@@ -16,11 +16,14 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { leadPresenter } from '@adapter/presenters';
 import { useAllSaleOptions } from '@hooks/users';
 import {
-  honorificOptions, sourceOptions, typeOptions, updateLeadSchema,
+  honorificOptions, typeOptions, updateLeadSchema,
 } from '@utils/LeadUtils';
 import toasty from '@components/Toasty/Toasty';
 import Skeleton from 'react-loading-skeleton';
 import { numberArrayOf } from '@utils/ArrayUtils';
+import { useTourTemplateOptions } from '@hooks/tourTemplate';
+import { useTourLocationOptions } from '@hooks/tourLocation';
+import { useSourceOptions } from '@hooks/source';
 
 export interface EditLeadPageParams {
   leadId: string,
@@ -50,6 +53,9 @@ export default function EditLeadPage() {
   const { leadId } = useParams<EditLeadPageParams>();
   const { data: lead, isLoading } = useQuery(['leads', leadId], async () => leadPresenter.getLead(leadId));
   const saleOptions = useAllSaleOptions();
+  const tourTemplateOptions = useTourTemplateOptions();
+  const departureOptions = useTourLocationOptions();
+  const sourceOptions = useSourceOptions();
 
   const {
     control,
@@ -60,6 +66,7 @@ export default function EditLeadPage() {
 
   useEffect(() => {
     if (lead) reset(lead);
+    console.log(lead);
   }, [lead]);
 
   const updateLeadMutation = useMutation({
@@ -191,6 +198,22 @@ export default function EditLeadPage() {
                       </div>
 
                       <Row className="mb-1">
+                        <Label sm="3" for="tourTemplateId">
+                          {i18n.t('LEAD.TOUR_TEMPLATE')}
+                        </Label>
+                        <Col sm="9">
+                          <FormItemSelect
+                            control={control}
+                            name="tourTemplateId"
+                            errors={errors}
+                            placeholder={i18n.t('LEAD.TOUR_TEMPLATE')}
+                            isClearable
+                            options={tourTemplateOptions}
+                          />
+                        </Col>
+                      </Row>
+
+                      <Row className="mb-1">
                         <Label sm="3" for="desiredTour">
                           {i18n.t('LEAD.DESIRED_TOUR')}
                         </Label>
@@ -226,12 +249,12 @@ export default function EditLeadPage() {
                           <span className="text-danger">*</span>
                         </Label>
                         <Col sm="9">
-                          <FormItemInput
+                          <FormItemSelect
                             control={control}
                             name="departure"
                             errors={errors}
                             placeholder={i18n.t('LEAD.DEPARTURE')}
-                            inputType="text"
+                            options={departureOptions}
                           />
                         </Col>
                       </Row>

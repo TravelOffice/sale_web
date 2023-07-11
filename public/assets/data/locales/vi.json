@@ -143,7 +143,8 @@
     "ACTION_KEEP_ADDING_LEAD": "Tiếp tục thêm mới",
     "GO_TO_LEAD_DETAILS": "Đi đến chi tiết",
     "GO_TO_LEAD_LIST": "Đi đến danh sách",
-    "GUIDE_CREATE_LEAD": "Các trường đánh dấu <strong>*</strong> không được để trống."
+    "GUIDE_CREATE_LEAD": "Các trường đánh dấu <strong>*</strong> không được để trống.",
+    "TOUR_TEMPLATE": "Tour mẫu"
   },
   "PAGE": {
     "SUCCESS": "Hoàn thành",
