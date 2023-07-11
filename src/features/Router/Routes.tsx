@@ -17,6 +17,7 @@ import TourTemplateListPage from '@features/Tour/Template/TourTemplateListPage';
 import DepartureTour from '@features/Tour/Departure/DepartureTour';
 import BookingListPage from '@features/Booking/BookingListPage';
 import TourTemplateCreatePage from '@features/Tour/Template/TourTemplateCreatePage';
+import BookingCreatePage from '@features/Booking/CreateBookingPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -77,10 +78,16 @@ const Routes: RoutePathConfig[] = [
     component: <EditLeadPage />,
   },
   {
-    path: '/apps/booking/list',
+    path: '/apps/bookings/list',
     exact: true,
     requiredPermissions: [PERMISSIONS.get_bookings],
     component: <BookingListPage />,
+  },
+  {
+    path: '/apps/bookings/create',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.create_booking],
+    component: <BookingCreatePage />,
   },
   {
     path: '/apps/customer/list',

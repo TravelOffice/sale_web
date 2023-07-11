@@ -65,6 +65,11 @@ import { GetAllTourTemplatesUseCase } from '@domain/useCases/interfaces/tourTemp
 import { GetTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/GetTourTemplateUseCase';
 import { AddTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/AddTourTemplateUseCase';
 import { UpdateTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/UpdateTourTemplateUseCase';
+import { CreateDepartureTourUseCase } from '@domain/useCases/interfaces/tour/CreateDepartureTourUseCase';
+import { GetAllToursTemplateUseCase } from '@domain/useCases/interfaces/tour/GetAllToursTemplateUseCase';
+import { GetAllToursLocationUseCase } from '@domain/useCases/interfaces/tour/GetAllToursLocationUseCase';
+import { GetAllSourcesUseCase } from '@domain/useCases/interfaces/source/GetAllSourcesUseCase';
+import GetAllSourcesUseCaseImpl from '@domain/useCases/source/GetAllSourcesUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -177,10 +182,10 @@ interface UseCases {
   // Booking
   addBookingUseCase: AddBookingUseCase,
   addBookingFromLeadUseCase: AddBookingFromLeadUseCase,
-  getBooking: GetBookingUseCase,
-  getBookings: GetBookingsUseCase,
-  updateBooking: UpdateBookingUseCase,
-  changeBookingStatus: ChangeBookingStatusUseCase,
+  getBookingUseCase: GetBookingUseCase,
+  getBookingsUseCase: GetBookingsUseCase,
+  updateBookingUseCase: UpdateBookingUseCase,
+  changeBookingStatusUseCase: ChangeBookingStatusUseCase,
   // Customer
   addCustomerUseCase: AddCustomerUseCase,
   getAllCustomersUseCase: GetAllCustomersUseCase,
@@ -189,9 +194,11 @@ interface UseCases {
   getLeadsOfCustomerUseCase: GetLeadsOfCustomerUseCase,
   updateCustomerUseCase: UpdateCustomerUseCase,
   // Tour
-  createDepartureTourUseCase: CreateDepartureTourUseCaseImpl
-  getAllToursTemplateUseCase: GetAllToursTemplateUseCaseImpl
-  getAllToursLocationUseCase: GetAllToursLocationUseCaseImpl
+  createDepartureTourUseCase: CreateDepartureTourUseCase,
+  getAllToursTemplateUseCase: GetAllToursTemplateUseCase,
+  getAllToursLocationUseCase: GetAllToursLocationUseCase,
+  // Source
+  getAllSourcesUseCase: GetAllSourcesUseCase,
 }
 
 const useCases: UseCases = {
@@ -250,10 +257,10 @@ const useCases: UseCases = {
   // Booking
   addBookingUseCase: new AddBookingUseCaseImpl(),
   addBookingFromLeadUseCase: new AddBookingFromLeadUseCaseImpl(),
-  getBooking: new GetBookingUseCaseImpl(),
-  getBookings: new GetBookingsUseCaseImpl(),
-  updateBooking: new UpdateBookingUseCaseImpl(),
-  changeBookingStatus: new ChangeBookingStatusUseCaseImpl(),
+  getBookingUseCase: new GetBookingUseCaseImpl(),
+  getBookingsUseCase: new GetBookingsUseCaseImpl(),
+  updateBookingUseCase: new UpdateBookingUseCaseImpl(),
+  changeBookingStatusUseCase: new ChangeBookingStatusUseCaseImpl(),
   // Customer
   addCustomerUseCase: new AddCustomerUseCaseImpl(),
   getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
@@ -265,6 +272,8 @@ const useCases: UseCases = {
   createDepartureTourUseCase: new CreateDepartureTourUseCaseImpl(),
   getAllToursTemplateUseCase: new GetAllToursTemplateUseCaseImpl(),
   getAllToursLocationUseCase: new GetAllToursLocationUseCaseImpl(),
+  // Source
+  getAllSourcesUseCase: new GetAllSourcesUseCaseImpl(),
 };
 
 export const {
@@ -316,10 +325,10 @@ export const {
   changeMailboxUseCase,
   addBookingUseCase,
   addBookingFromLeadUseCase,
-  getBooking,
-  getBookings,
-  updateBooking,
-  changeBookingStatus,
+  getBookingUseCase,
+  getBookingsUseCase,
+  updateBookingUseCase,
+  changeBookingStatusUseCase,
   addCustomerUseCase,
   getAllCustomersUseCase,
   getBookingsOfCustomerUseCase,
@@ -330,6 +339,5 @@ export const {
   createDepartureTourUseCase,
   getAllToursTemplateUseCase,
   getAllToursLocationUseCase,
+  getAllSourcesUseCase,
 } = useCases;
-
-// leadUseCases

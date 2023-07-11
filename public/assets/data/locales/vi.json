@@ -603,6 +603,26 @@
     "PAID": "Đã thanh toán",
     "PAYMENT_INFO": "Thông tin thanh toán",
     "MINUTES_FROM_CREATED_AT_TITLE": "Đã tạo",
-    "MINUTES_FROM_CREATED_AT": "{{days}} ngày {{hours}} giờ {{minutes}} phút trước"
+    "MINUTES_FROM_CREATED_AT": "{{days}} ngày {{hours}} giờ {{minutes}} phút trước",
+    "BOOKING_TITLE": "Booking",
+    "CREATE_BOOKING": "Tạo booking",
+    "FORM": {
+      "EMAIL": "Email",
+      "PHONE": "SĐT",
+      "HONORIFIC": "Danh xưng",
+      "FULL_NAME": "Họ tên",
+      "SOURCE": "Nguồn",
+      "TOUR_TYPE": "Loại tour",
+      "DEPARTURE_DATE": "Ngày khởi hành",
+      "ADDRESS": "Địa chỉ"
+    },
+    "BOOKING_INFORMATION": "Thông tin booking",
+    "SOLO": "Lẻ",
+    "SHARED": "Ghép",
+    "GROUP": "Nhóm",
+    "CREATE": "Tạo mới",
+    "CUSTOMER_INFORMATION":"Thông tin khách hàng",
+    "DEPARTURE_DATE_PLACEHOLDER": "Chọn ngày khởi hành",
+    "CREATE_BOOKING_SUCCESSFULLY": "Tạo booking thành công"
   }
 }

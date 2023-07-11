@@ -85,7 +85,7 @@ const CustomerExpandableRowComponent: React.FC<ExpanderComponentProps<Customer>>
                 {i18n.t('CUSTOMER.BOOKING')}
                 :
                 {' '}
-                <Link to={`/apps/booking/${data.latestBooking.id}`} className="user_name text-truncate text-body">
+                <Link to={`/apps/bookings/${data.latestBooking.id}`} className="user_name text-truncate text-body">
                   <span className="fw-bolder text-primary">{data.latestBooking.id}</span>
                 </Link>
               </li>

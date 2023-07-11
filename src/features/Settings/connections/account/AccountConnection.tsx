@@ -4,7 +4,7 @@ import {
 } from 'reactstrap';
 import LinkPage from '@features/Settings/connections/account/LinkPage';
 import Images from '@themes/Images';
-import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
+import FacebookLogin from 'to-react-facebook-login/dist/facebook-login-render-props';
 import { Link as LinkIcon } from 'react-feather';
 import SelectFacebookPageModal from '@features/Settings/connections/account/SelectFacebookPageModal';
 import LinkTelegramModal from '@features/Settings/connections/account/LinkTelegramModal';

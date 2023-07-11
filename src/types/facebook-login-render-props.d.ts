@@ -1,4 +1,4 @@
-declare module 'react-facebook-login/dist/facebook-login-render-props' {
+declare module 'to-react-facebook-login/dist/facebook-login-render-props' {
   export interface RenderProps {
     onClick: Function;
     isDisabled: boolean;
@@ -51,8 +51,6 @@ declare module 'react-facebook-login/dist/facebook-login-render-props' {
     isProcessing?: boolean;
   }
 
-  export default class ReactFacebookLogin extends React.PureComponent<
-  ReactFacebookLoginProps,
-  ReactFacebookLoginState
-  > {}
+  export default class ReactFacebookLogin extends
+    React.PureComponent<ReactFacebookLoginProps, ReactFacebookLoginState> { }
 }
