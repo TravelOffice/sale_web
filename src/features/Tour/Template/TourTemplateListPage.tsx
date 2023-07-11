@@ -53,7 +53,7 @@ const TourTemplateExpandableRow: React.FC<ExpanderComponentProps<TourTemplate>> 
 export default function TourTemplateListPage() {
   const [filterParams, setFilterParams] = useState<TourTemplateFilterParams>();
   const {
-    data: allTourTemplates, isFetching, isFetched, isError,
+    data: allTourTemplates, isFetching, isFetched, isError, refetch,
   } = useQuery(
     ['tour-templates'], async () => tourTemplatePresenter.getAllTourTemplates(),
   );
@@ -109,7 +109,7 @@ export default function TourTemplateListPage() {
         searchableColumns={['code', 'name', 'type', 'startingLocation', 'endingLocation', 'durationInDays', 'durationInNights']}
         sortColumnDefault="code"
         onPageChange={() => {}}
-        onRefresh={() => {}}
+        onRefresh={() => { refetch(); }}
         expandableRows
         expandableRowsComponent={TourTemplateExpandableRow}
         extraButtons={tourTemplateBtnArr}

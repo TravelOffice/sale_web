@@ -626,5 +626,16 @@
     "CUSTOMER_INFORMATION":"Thông tin khách hàng",
     "DEPARTURE_DATE_PLACEHOLDER": "Chọn ngày khởi hành",
     "CREATE_BOOKING_SUCCESSFULLY": "Tạo booking thành công"
+  },
+  "RECEIPT": {
+    "CODE": "Mã",
+    "CREATED_DATE": "Ngày tạo",
+    "AMOUNT": "Tổng số tiền",
+    "DESCRIPTION": "Nội dung",
+    "PAYMENT_METHOD": "Phương thức thanh toán",
+    "STATUS": "Trạng thái",
+    "OPEN": "Mở",
+    "CLOSED": "Đóng",
+    "CREATED_DATE_RANGE": "Thời gian tạo"
   }
 }

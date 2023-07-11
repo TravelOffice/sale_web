@@ -4,7 +4,7 @@ import {
   Activity, File, Home, Mail,
   MapPin,
   MessageSquare, Settings, Shield,
-  ShoppingCart, User, UserCheck, Users, List,
+  ShoppingCart, User, UserCheck, Users, List, BookOpen,
 } from 'react-feather';
 import PERMISSIONS from '@utils/PermissionUtils';
 
@@ -56,7 +56,7 @@ const Navigation : MenuItem[] = [
     navLink: '/apps/customer/list',
   },
   {
-    id: 'Tour',
+    id: 'tour',
     title: 'Tour',
     requiredPermissions: [PERMISSIONS.get_tour_templates],
     icon: <MapPin size={20} />,
@@ -75,6 +75,12 @@ const Navigation : MenuItem[] = [
         navLink: '/apps/tour/departure',
       },
     ],
+  },
+  {
+    id: 'receipt',
+    title: 'Receipt',
+    icon: <BookOpen size={12} />,
+    navLink: '/apps/receipt',
   },
   {
     id: 'leads',
