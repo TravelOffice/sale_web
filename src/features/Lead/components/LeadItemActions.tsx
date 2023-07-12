@@ -4,7 +4,7 @@ import {
   DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
 import {
-  Archive, ArrowUpRight, MoreVertical, Trash2,
+  Archive, ArrowUpRight, MoreVertical, Plus, Trash2,
 } from 'react-feather';
 import { Link, useHistory } from 'react-router-dom';
 import { generateEditableUrlForLead } from '@utils/LeadUtils';
@@ -13,6 +13,7 @@ import { useMutation } from '@tanstack/react-query';
 import { leadPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import { useCurrentUser } from '@hooks/auth';
+import { generateCreateBookingFromLeadUrl } from '@utils/BookingUtils';
 
 export interface LeadItemActionsProps {
   lead: Lead,
@@ -56,6 +57,10 @@ export default function LeadItemActions(props: LeadItemActionsProps) {
               </DropdownItem>
             )
           }
+          <DropdownItem tag={Link} className="w-100" to={generateCreateBookingFromLeadUrl(lead.code)}>
+            <Plus size={14} className="me-50" />
+            <span className="align-middle">{i18n.t('BOOKING.CREATE_BOOKING_FROM_LEAD')}</span>
+          </DropdownItem>
           <DropdownItem tag={Link} className="w-100" to={generateEditableUrlForLead(lead)}>
             <Archive size={14} className="me-50" />
             <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>

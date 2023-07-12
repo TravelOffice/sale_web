@@ -1,9 +1,9 @@
 // ** React Imports
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 // ** Third Party Components
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import i18n from '@config/i18n';
 // ** Reactstrap Imports
 import {
@@ -28,26 +28,19 @@ import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/libs/input-number/input-number.scss';
 import '@styles/react/libs/editor/editor.scss';
 import {
-  bookingPresenter, sourcePresenter, tourTemplatePresenter, userPresenter,
+  bookingPresenter, leadPresenter, tourTemplatePresenter, userPresenter,
 } from '@adapter/presenters';
 import { useMutation, useQueries } from '@tanstack/react-query';
 import toasty from '@components/Toasty/Toasty';
-import { AddBookingFormData } from '@domain/entities/booking/AddBookingFormData';
-import { HonorificType } from '@domain/entities/customer/Customer';
 import { BookingTourType, BookingTourTypeEnum, tourTypes } from '@domain/entities/booking/Booking';
 import { Link, useHistory } from 'react-router-dom';
 import FormItemSelect from '@components/Form/FormItemSelect';
-import { generateI18nForLead } from '@utils/LeadUtils';
 import { generateI18nForBooking } from '@utils/BookingUtils';
 import { RoleEnum } from '@domain/entities/User';
 import moment from 'moment';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
-
-const honorificOptions = Object
-  .keys(HonorificType)
-  .map((honorific) => (
-    { label: generateI18nForLead(honorific), value: honorific as HonorificType }
-  ));
+import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingFromLeadFormData';
+import useQueryParams from '@hooks/useQueryParams';
 
 const tourTypeOptions = Object
   .keys(BookingTourTypeEnum)
@@ -55,24 +48,7 @@ const tourTypeOptions = Object
     { label: generateI18nForBooking(tourType), value: tourType as BookingTourType }
   ));
 
-const customerSchema = yup.object().shape({
-  email: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.EMAIL') })),
-  phone: yup
-    .string()
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.PHONE') })),
-  honorific: yup
-    .string()
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.HONORIFIC') })),
-  fullName: yup
-    .string()
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.FULL_NAME') })),
-  address: yup
-    .string()
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.ADDRESS') })),
-});
-
 const schema = yup.object().shape({
-  customer: customerSchema,
   departureDate: yup
     .date()
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.DEPARTURE_DATE') })),
@@ -86,20 +62,12 @@ const schema = yup.object().shape({
   assigneeId: yup
     .string()
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.ASSIGNEE') })),
-  sourceId: yup
+  leadId: yup
     .string()
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.SOURCE') })),
 });
 
-const initialFormData: AddBookingFormData = {
-  // Customer information, new customer will be created in database if not existed
-  customer: {
-    email: '',
-    phone: '',
-    honorific: HonorificType.MR_YOUNG,
-    fullName: '',
-    address: '',
-  },
+const initialFormData: AddBookingFromLeadFormData = {
   // Reference to TourTemplate model, each TourTemplate is identified by pk+sk pair
   tourTemplateId: '',
   // One kind of ['shared', 'group', 'solo']
@@ -110,11 +78,14 @@ const initialFormData: AddBookingFormData = {
   assigneeId: '',
   // Reference to Source model
   // For example, source can be Facebook, CallCenter, Social, etc
-  sourceId: '',
+  leadId: '',
+  services: [],
 };
 
-const BookingCreatePage = () => {
+const BookingCreateFromLeadPage = () => {
   const history = useHistory();
+  const searchParams = useQueryParams();
+  const leadId = searchParams.get('leadId');
   /**
    * Fetch related data for booking, such as tour templates, sales, etc
    * @returns {Object} { isLoading: boolean, relatedData: Array }
@@ -124,7 +95,6 @@ const BookingCreatePage = () => {
       {
         queryKey: ['tour-templates'],
         queryFn: tourTemplatePresenter.getAllTourTemplates,
-        refetchOnWindowFocus: false,
       },
       {
         queryKey: ['sales'],
@@ -132,9 +102,11 @@ const BookingCreatePage = () => {
           const allUsers = await userPresenter.getAllUsers();
           return allUsers.filter((user) => user.roles.includes(RoleEnum.SALE));
         },
-        refetchOnWindowFocus: false,
       },
-      { queryKey: ['sources'], queryFn: sourcePresenter.getAll, refetchOnWindowFocus: false },
+      {
+        queryKey: ['leads'],
+        queryFn: async () => leadPresenter.getAllLeads(),
+      },
     ],
   });
 
@@ -143,7 +115,7 @@ const BookingCreatePage = () => {
   const [
     tourTemplateData,
     salesData,
-    sourcesData,
+    leadsData,
   ] = relatedData;
   const tourTemplateOptions = useMemo(
     () => tourTemplateData.data?.map((tourTemplate) => ({
@@ -158,10 +130,15 @@ const BookingCreatePage = () => {
     value: sale.username,
   })), [salesData]);
 
-  const sourceOptions = useMemo(() => sourcesData.data?.map((source) => ({
-    label: source.name,
-    value: source.code,
-  })), [sourcesData]);
+  const leadOptions = useMemo(() => leadsData.data?.map((lead) => ({
+    label: `${lead.name} (${lead.code})`,
+    value: lead.code,
+  })), [leadsData]);
+
+  const lead = useMemo(
+    () => leadsData.data?.find((l) => l.code === leadId),
+    [leadsData, leadId],
+  );
 
   // Fetching related data flag
   // Submit button will be disabled if fetching related data
@@ -169,16 +146,22 @@ const BookingCreatePage = () => {
 
   const {
     handleSubmit,
-    reset,
     control,
     formState: { errors },
-  } = useForm<AddBookingFormData>({
+    setValue,
+  } = useForm<AddBookingFromLeadFormData>({
     resolver: yupResolver(schema),
     defaultValues: initialFormData,
   });
 
+  useEffect(() => {
+    if (leadId) {
+      setValue('leadId', leadId || '');
+    }
+  }, [leadId]);
+
   const { isLoading, mutate } = useMutation({
-    mutationFn: bookingPresenter.createBooking,
+    mutationFn: bookingPresenter.createBookingFromLead,
     onSuccess: () => {
       // Show success toast
       toasty.show({
@@ -208,12 +191,11 @@ const BookingCreatePage = () => {
    * New booking data filled from form will be sent to server
    * @param data Booking data
    */
-  const onSubmit = (data: AddBookingFormData) => mutate(data);
+  const onSubmit = (data: AddBookingFromLeadFormData) => mutate(data);
 
-  //* Handle reset form
-  //* All the input will be reset to initial value
-  const handleReset = () => {
-    reset(initialFormData);
+  //* Cancel button click handler
+  const handleCancel = () => {
+    history.goBack();
   };
 
   return (
@@ -226,7 +208,7 @@ const BookingCreatePage = () => {
           <Link to="/apps/bookings/list">{i18n.t('BOOKING.BOOKING_TITLE')}</Link>
         </BreadcrumbItem>
         <BreadcrumbItem active>
-          <span>{i18n.t('BOOKING.CREATE')}</span>
+          <span>{i18n.t('BOOKING.CREATE_FROM_LEAD')}</span>
         </BreadcrumbItem>
       </Breadcrumb>
       <Card>
@@ -236,6 +218,27 @@ const BookingCreatePage = () => {
         <CardBody>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div>
+              <Row>
+                <Col md={6}>
+                  <div className="mb-1">
+                    <Label className="form-label" for="leadId">
+                      {i18n.t('BOOKING.FORM.LEAD')}
+                      {' '}
+                      <span className="text-danger">{' *'}</span>
+                    </Label>
+                    <FormItemSelect
+                      control={control}
+                      name="leadId"
+                      errors={errors}
+                      selectClassName="flex-fill"
+                      options={leadOptions || []}
+                      isDisabled
+                    />
+                    {errors.leadId
+                      && <FormFeedback>{errors.leadId?.message}</FormFeedback>}
+                  </div>
+                </Col>
+              </Row>
               {/* Customer information section */}
               <div className="divider divider-start divider-primary">
                 <div className="divider-text text-primary fw-bolder">{i18n.t('BOOKING.CUSTOMER_INFORMATION')}</div>
@@ -248,15 +251,7 @@ const BookingCreatePage = () => {
                       {' '}
                       <span className="text-danger">{' *'}</span>
                     </Label>
-                    <Controller
-                      name="customer.email"
-                      control={control}
-                      render={({ field }) => (
-                        <Input {...field} id="customer.email" invalid={!!errors.customer?.email} />
-                      )}
-                    />
-                    {errors.customer?.email
-                      && <FormFeedback>{errors.customer?.email.message}</FormFeedback>}
+                    <Input value={lead?.email} disabled id="customer.email" />
                   </div>
                 </Col>
               </Row>
@@ -268,73 +263,19 @@ const BookingCreatePage = () => {
                       {' '}
                       <span className="text-danger">{' *'}</span>
                     </Label>
-                    <Controller
-                      name="customer.phone"
-                      control={control}
-                      render={({ field }) => (
-                        <Input {...field} id="customer.phone" invalid={!!errors.customer?.phone} />
-                      )}
-                    />
-                    {errors.customer?.phone
-                      && <FormFeedback>{errors.customer?.phone.message}</FormFeedback>}
+                    <Input value={lead?.phoneNumber} disabled id="customer.phone" />
                   </div>
                 </Col>
               </Row>
               <Row>
-                <Col lg={4}>
-                  <div className="mb-1">
-                    <Label className="form-label" for="customer.honorific">
-                      {i18n.t('BOOKING.FORM.HONORIFIC')}
-                      {' '}
-                      <span className="text-danger">{' *'}</span>
-                    </Label>
-                    <FormItemSelect
-                      control={control}
-                      name="customer.honorific"
-                      errors={errors}
-                      selectClassName="flex-fill"
-                      options={honorificOptions}
-                    />
-                    {errors.customer?.honorific
-                      && <FormFeedback>{errors.customer?.honorific.message}</FormFeedback>}
-                  </div>
-                </Col>
-                <Col lg={8}>
+                <Col lg={12}>
                   <div className="mb-1">
                     <Label className="form-label" for="customer.fullName">
                       {i18n.t('BOOKING.FORM.FULL_NAME')}
                       {' '}
                       <span className="text-danger">{' *'}</span>
                     </Label>
-                    <Controller
-                      name="customer.fullName"
-                      control={control}
-                      render={({ field }) => (
-                        <Input {...field} id="customer.fullName" invalid={!!errors.customer?.fullName} />
-                      )}
-                    />
-                    {errors.customer?.fullName
-                      && <FormFeedback>{errors.customer?.fullName.message}</FormFeedback>}
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col md={12}>
-                  <div className="mb-1">
-                    <Label className="form-label" for="customer.address">
-                      {i18n.t('BOOKING.FORM.ADDRESS')}
-                      {' '}
-                      <span className="text-danger">{' *'}</span>
-                    </Label>
-                    <Controller
-                      name="customer.address"
-                      control={control}
-                      render={({ field }) => (
-                        <Input {...field} id="customer.address" invalid={!!errors.customer?.address} />
-                      )}
-                    />
-                    {errors.customer?.address
-                      && <FormFeedback>{errors.customer?.address.message}</FormFeedback>}
+                    <Input value={lead?.name} disabled id="customer.fullName" />
                   </div>
                 </Col>
               </Row>
@@ -343,7 +284,7 @@ const BookingCreatePage = () => {
                 <div className="divider-text text-primary fw-bolder">{i18n.t('BOOKING.BOOKING_INFORMATION')}</div>
               </div>
               <Row>
-                <Col lg={4}>
+                <Col lg={6}>
                   <div className="mb-1">
                     <Label className="form-label" for="tourTemplateId">
                       {i18n.t('BOOKING.TOUR_TEMPLATE')}
@@ -359,7 +300,7 @@ const BookingCreatePage = () => {
                     />
                   </div>
                 </Col>
-                <Col lg={4}>
+                <Col lg={6}>
                   <div className="mb-1">
                     <Label className="form-label" for="tourType">
                       {i18n.t('BOOKING.FORM.TOUR_TYPE')}
@@ -377,24 +318,7 @@ const BookingCreatePage = () => {
                 </Col>
               </Row>
               <Row>
-                <Col lg={4}>
-                  <div className="mb-1">
-                    <Label className="form-label" for="sourceId">
-                      {i18n.t('BOOKING.FORM.SOURCE')}
-                      {' '}
-                      <span className="text-danger">{' *'}</span>
-                    </Label>
-                    {/* TODO: Show source list as Select since source_service is implemented */}
-                    <FormItemSelect
-                      control={control}
-                      name="sourceId"
-                      errors={errors}
-                      selectClassName="flex-fill"
-                      options={sourceOptions || []}
-                    />
-                  </div>
-                </Col>
-                <Col lg={4}>
+                <Col lg={6}>
                   <div className="mb-1">
                     <Label className="form-label" for="assigneeId">
                       {i18n.t('BOOKING.ASSIGNEE')}
@@ -410,7 +334,7 @@ const BookingCreatePage = () => {
                     />
                   </div>
                 </Col>
-                <Col lg={4}>
+                <Col lg={6}>
                   <div className="mb-1">
                     <Label className="form-label" for="departureDate">
                       {i18n.t('BOOKING.FORM.DEPARTURE_DATE')}
@@ -430,7 +354,7 @@ const BookingCreatePage = () => {
               </Row>
             </div>
             <div className="d-flex justify-content-end">
-              <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
+              <Button type="reset" color="danger" className="me-1" outline onClick={handleCancel}>
                 {i18n.t('COMMON.CANCEL')}
               </Button>
               <Button type="submit" className="me-1" color="primary">
@@ -451,4 +375,4 @@ const BookingCreatePage = () => {
   );
 };
 
-export default BookingCreatePage;
+export default BookingCreateFromLeadPage;

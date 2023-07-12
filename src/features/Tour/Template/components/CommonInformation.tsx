@@ -82,7 +82,7 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
             )}
           />
           {errors.visitorCount
-                            && <FormFeedback>{errors.visitorCount.message}</FormFeedback>}
+            && <FormFeedback>{errors.visitorCount.message}</FormFeedback>}
         </div>
       </Col>
     </Row>
@@ -120,7 +120,7 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
           </Label>
           <div className="d-flex">
             <InputGroup>
-              <InputGroupText>Ending Location</InputGroupText>
+              <InputGroupText>{i18n.t('TOUR_TEMPLATE.ENDING_LOCATION')}</InputGroupText>
               <FormItemSelect
                 control={control}
                 name="endingLocation"
@@ -159,7 +159,7 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
                       className={`text-end ${errors.durationInDays && 'is-invalid'}`}
                     />
                     {errors.durationInDays
-                            && <FormFeedback>{errors.durationInDays.message}</FormFeedback>}
+                      && <FormFeedback>{errors.durationInDays.message}</FormFeedback>}
                   </InputGroup>
                 )}
               />
@@ -178,7 +178,7 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
                       className={`text-end ${errors.durationInNights && 'is-invalid'}`}
                     />
                     {errors.durationInNights
-                            && <FormFeedback>{errors.durationInNights.message}</FormFeedback>}
+                      && <FormFeedback>{errors.durationInNights.message}</FormFeedback>}
                   </InputGroup>
                 )}
               />

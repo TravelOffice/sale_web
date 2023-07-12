@@ -614,16 +614,19 @@
       "SOURCE": "Source",
       "TOUR_TYPE": "Tour type",
       "DEPARTURE_DATE": "Departure date",
-      "ADDRESS": "Address"
+      "ADDRESS": "Address",
+      "LEAD": "Given lead"
     },
     "BOOKING_INFORMATION": "Booking information",
     "SOLO": "Solo",
     "SHARED": "Shared",
     "GROUP": "Group",
     "CREATE": "Create new",
+    "CREATE_FROM_LEAD": "Create new from lead",
     "CUSTOMER_INFORMATION":"Customer information",
     "DEPARTURE_DATE_PLACEHOLDER": "Select departure date",
-    "CREATE_BOOKING_SUCCESSFULLY": "Create booking successfully"
+    "CREATE_BOOKING_SUCCESSFULLY": "Create booking successfully",
+    "CREATE_BOOKING_FROM_LEAD": "Create booking"
   },
   "RECEIPT": {
     "CODE": "Code",

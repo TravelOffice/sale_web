@@ -616,16 +616,19 @@
       "SOURCE": "Nguồn",
       "TOUR_TYPE": "Loại tour",
       "DEPARTURE_DATE": "Ngày khởi hành",
-      "ADDRESS": "Địa chỉ"
+      "ADDRESS": "Địa chỉ",
+      "LEAD": "Lead chỉ định"
     },
     "BOOKING_INFORMATION": "Thông tin booking",
     "SOLO": "Lẻ",
     "SHARED": "Ghép",
     "GROUP": "Nhóm",
     "CREATE": "Tạo mới",
+    "CREATE_FROM_LEAD": "Tạo booking từ lead",
     "CUSTOMER_INFORMATION":"Thông tin khách hàng",
     "DEPARTURE_DATE_PLACEHOLDER": "Chọn ngày khởi hành",
-    "CREATE_BOOKING_SUCCESSFULLY": "Tạo booking thành công"
+    "CREATE_BOOKING_SUCCESSFULLY": "Tạo booking thành công",
+    "CREATE_BOOKING_FROM_LEAD": "Tạo booking"
   },
   "RECEIPT": {
     "CODE": "Mã",
