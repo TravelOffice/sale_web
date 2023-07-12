@@ -59,6 +59,15 @@ export function generateEditableUrlForBooking(booking: Booking) {
 }
 
 /**
+ * Generates a URL to create a booking from a lead.
+ * @param leadId Lead id
+ * @returns Url to create booking from lead
+ */
+export function generateCreateBookingFromLeadUrl(leadId: string) {
+  return `/apps/bookings/create-from-lead?leadId=${leadId}`;
+}
+
+/**
  * Convert booking data to searchable string
  * @param booking Booking data
  * @returns Searchable string
