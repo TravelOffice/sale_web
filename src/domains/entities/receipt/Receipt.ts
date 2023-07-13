@@ -12,17 +12,32 @@ export interface Receipt {
   customerName?: string,
   amount: number,
   description: string,
-  note?: string,
-  creatorId: string,
-  creatorName: string,
-  createdAt: number,
-  updatedAt: number
+  note: string,
+  readonly creatorId: string,
+  readonly creatorName: string,
+  readonly createdAt: number,
+  readonly updatedAt: number
 }
 
-export type CreateReceiptFormData = Pick<Receipt,
-'code' |
+export type ReceiptCreateFormData = Pick<Receipt,
 'paymentMethod' |
 'amount' |
 'description' |
 'note'
 >;
+
+export interface ReceiptUpdateFormData {
+  code?: string,
+  paymentMethod: string,
+  amount: number,
+  description: string,
+  note: string,
+  status?: ReceiptStatus
+}
+
+export type ReceiptFormData = ReceiptCreateFormData | ReceiptUpdateFormData;
+
+export type ReceiptStatusType = keyof typeof ReceiptStatus;
+export const receiptStatusTypes: ReceiptStatusType[] = Object.keys(
+  ReceiptStatus,
+) as Array<ReceiptStatusType>;

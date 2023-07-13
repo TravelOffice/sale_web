@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { receiptPresenter } from '@adapter/presenters';
 import {
   ButtonProps,
-  Card, CardBody, CardHeader, CardTitle,
+  Card, CardBody, CardHeader, CardTitle, Col, Row,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import Table from '@components/Table/Table';
@@ -11,22 +11,42 @@ import { HandleDataState } from '@redux/slices/others/HandleDataState';
 import { Receipt } from '@domain/entities/receipt/Receipt';
 import receiptColumns from '@features/Receipt/components/ReceiptColumns';
 import moment from 'moment';
+import ReceiptSidebar from '@features/Receipt/components/ReceiptSidebar';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@redux/store';
+import { receiptActions } from '@redux/slices/receiptSlice';
+import DeleteReceiptModal from '@features/Receipt/components/DeleteReceiptModal';
+import { ExpanderComponentProps } from 'react-data-table-component';
 import ReceiptFilter, { ReceiptFilterParams } from './components/ReceiptFilter';
 
 export default function ReceiptListPage() {
+  const dispatch = useDispatch();
   const dateFormat = 'YYYY-MM-DD';
   const [filterParams, setFilterParams] = useState<ReceiptFilterParams>();
   const {
     data: allReceipts, isFetching, isFetched, isError, refetch,
   } = useQuery(
-    ['tour-templates'], async () => receiptPresenter.getAllReceipts(),
+    ['receipts'], async () => receiptPresenter.getAllReceipts(),
   );
-  const fetchTourTemplatesState: HandleDataState = useMemo(() => {
+  const fetchReceiptsState: HandleDataState = useMemo(() => {
     if (isFetching) return 'loading';
     if (isFetched) return 'finished';
     if (isError) return 'error';
     return 'init';
   }, [isFetching, isFetched, isError]);
+
+  const openSidebar = useSelector((state: RootState) => state.receipt.openSidebar);
+  const openDeletionWarning = useSelector((state: RootState) => state.receipt.openDeleteDialog);
+  const selectedReceipt = useSelector((state: RootState) => state.receipt.selectedReceipt);
+  const {
+    unSelectReceipt,
+    setOpenSidebar: setOpenSidebarAction,
+    setOpenDeleteDialog,
+  } = receiptActions;
+  const setOpenSidebar = (open: boolean) => dispatch(setOpenSidebarAction(open));
+  const toggleReceiptSidebar = () => setOpenSidebar(!openSidebar);
+  const setOpenDeletionWarning = (open: boolean) => dispatch(setOpenDeleteDialog(open));
+  const toggleDeletionWarningDialog = () => setOpenSidebar(!openDeletionWarning);
 
   /**
    * Filters an array of receipts based on the provided filter parameters.
@@ -40,16 +60,16 @@ export default function ReceiptListPage() {
     params: ReceiptFilterParams,
   ) => {
     const {
-      code, receiptStatus, dateRange, description, paymentMethod,
+      code, status, dateRange, description, paymentMethod,
     } = params;
 
     return receipts.filter(
       (item: Receipt) => {
-        if (code && !item.code.toLowerCase().includes(code.toLowerCase())) {
+        if (code && !item.code?.toLowerCase().includes(code.toLowerCase())) {
           return false;
         }
 
-        if (receiptStatus && !item.status.includes(receiptStatus)) {
+        if (status && !item.status.includes(status)) {
           return false;
         }
 
@@ -83,9 +103,47 @@ export default function ReceiptListPage() {
   const receiptBtnArr:Array<ButtonProps> = [
     {
       name: i18n.t('COMMON.ADD'),
-      handleOnClick: () => {},
+      handleOnClick: () => {
+        dispatch(unSelectReceipt());
+        toggleReceiptSidebar();
+      },
     },
   ];
+
+  const onCreateOrUpdateSuccess = () => {
+    dispatch(unSelectReceipt());
+    refetch();
+  };
+
+  const onDeleteSuccess = () => {
+    dispatch(unSelectReceipt());
+    refetch();
+  };
+
+  const ReceiptExpandableRowComponent: React.FC<ExpanderComponentProps<Receipt>> = (
+    { data }: ExpanderComponentProps<Receipt>,
+  ) => (
+    <div className="container py-xxl-1">
+      <Row>
+        <Col xl="6">
+          <ul>
+            <li>
+              {i18n.t('RECEIPT.DESCRIPTION')}
+              :
+              {' '}
+              <span className="fw-bolder text-primary">{data.description}</span>
+            </li>
+            <li>
+              {i18n.t('RECEIPT.NOTE')}
+              :
+              {' '}
+              <span className="fw-bolder text-primary">{data.note}</span>
+            </li>
+          </ul>
+        </Col>
+      </Row>
+    </div>
+  );
 
   return (
     <div className="to-table-container">
@@ -99,13 +157,30 @@ export default function ReceiptListPage() {
       </Card>
       <Table<Receipt>
         data={receipts}
-        fetchDataState={fetchTourTemplatesState}
+        fetchDataState={fetchReceiptsState}
         columns={receiptColumns}
         searchableColumns={['code', 'createdAt', 'receiptStatus', 'amount', 'description']}
-        sortColumnDefault="code"
+        sortColumnDefault="createdAt"
         onPageChange={() => {}}
-        onRefresh={() => { refetch(); }}
+        onRefresh={refetch}
         extraButtons={receiptBtnArr}
+        expandableRows
+        expandableRowsComponent={ReceiptExpandableRowComponent}
+      />
+      <ReceiptSidebar
+        open={openSidebar}
+        setOpenSidebar={setOpenSidebar}
+        toggleSidebar={toggleReceiptSidebar}
+        receipt={selectedReceipt}
+        onClosed={() => dispatch(unSelectReceipt())}
+        callback={onCreateOrUpdateSuccess}
+      />
+      <DeleteReceiptModal
+        receipt={selectedReceipt}
+        openDeletionWarning={openDeletionWarning}
+        setOpenDeletionWarning={setOpenDeletionWarning}
+        toggleDeletionWarningDialog={toggleDeletionWarningDialog}
+        callback={onDeleteSuccess}
       />
     </div>
   );

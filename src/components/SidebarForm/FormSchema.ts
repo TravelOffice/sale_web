@@ -7,7 +7,7 @@ import { BaseSchema } from 'yup';
 import { InputType as ReactstrapInputType } from 'reactstrap/types/lib/Input';
 import { SelectOption } from '@components/SidebarForm/SelectOption';
 
-type InputType = ReactstrapInputType | 'creatable-select';
+type InputType = ReactstrapInputType | 'creatable-select' | 'currency-input';
 
 export type InputSchema<T, TName extends Path<T>> = {
   required: boolean,

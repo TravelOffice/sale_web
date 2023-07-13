@@ -634,6 +634,12 @@
     "STATUS": "Status",
     "OPEN": "Open",
     "CLOSED": "Closed",
-    "CREATED_DATE_RANGE": "Created at range"
+    "CREATED_DATE_RANGE": "Created at range",
+    "NOTE": "Note",
+    "CREATE_RECEIPT_SUCCESSFULLY": "Create receipt successfully",
+    "UPDATE_RECEIPT_SUCCESSFULLY": "Update receipt successfully",
+    "DELETE_RECEIPT_SUCCESSFULLY": "Delete receipt successfully",
+    "DELETE_RECEIPT_WARNING_TITLE": "Delete receipt",
+    "DELETE_RECEIPT_WARNING_MESSAGE": "Receipt will be deleted from system. Do you want to delete?"
   }
 }
