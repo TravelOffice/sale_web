@@ -66,7 +66,6 @@ export default function EditLeadPage() {
 
   useEffect(() => {
     if (lead) reset(lead);
-    console.log(lead);
   }, [lead]);
 
   const updateLeadMutation = useMutation({

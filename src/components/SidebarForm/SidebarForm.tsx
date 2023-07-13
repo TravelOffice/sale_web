@@ -52,6 +52,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import RightSideBar, { RightSideBarProps } from '@components/RightSideBar/RightSideBar';
 import FormCreatableSelect from '@components/SidebarForm/FormCreatableSelect';
+import { FormCurrencyInput } from '@components/SidebarForm/FormCurrencyInput';
 
 export type FormSchema<T> = {
   [K in Path<T>]: InputSchema<T, K>
@@ -128,6 +129,19 @@ function renderInput<T, TName extends Path<T>>(
         key={name}
         name={name}
         control={control}
+        {...schema}
+      />
+    );
+  }
+
+  // Render currency input
+  if (schema.type === 'currency-input') {
+    return (
+      <FormCurrencyInput
+        key={name}
+        name={name}
+        control={control}
+        fieldError={fieldError}
         {...schema}
       />
     );

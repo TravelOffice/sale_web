@@ -28,12 +28,10 @@ export default function LeadListPage() {
     return leadPresenter.getMyLeads();
   });
   const leads = useMemo(() => {
-    console.log('memo', allLeads);
     if (!allLeads) return [];
     if (!filterParams) return allLeads;
     return filterLeads(allLeads, filterParams);
   }, [allLeads, filterParams]);
-  console.log('allLeads', allLeads);
   const countData = useMemo(() => countLeadData(allLeads), [allLeads]);
   return (
     <div className="to-table-container">

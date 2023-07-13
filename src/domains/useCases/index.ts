@@ -72,6 +72,12 @@ import { CreateDepartureTourUseCase } from '@domain/useCases/interfaces/tour/Cre
 import { GetAllReceiptsUseCase } from '@domain/useCases/interfaces/receipt/GetAllReceiptsTemplateUseCase';
 import { GetAllToursLocationUseCase } from '@domain/useCases/interfaces/tour/GetAllToursLocationUseCase';
 import { GetAllToursTemplateUseCase } from '@domain/useCases/interfaces/tour/GetAllToursTemplateUseCase';
+import CreateReceiptUseCaseImpl from '@domain/useCases/receipt/CreateReceiptUseCaseImpl';
+import { CreateReceiptUseCase } from '@domain/useCases/interfaces/receipt/CreateReceiptUseCase';
+import { UpdateReceiptUseCase } from '@domain/useCases/interfaces/receipt/UpdateReceiptUseCase';
+import UpdateReceiptUseCaseImpl from '@domain/useCases/receipt/UpdateReceiptUseCaseImpl';
+import { DeleteReceiptUseCase } from '@domain/useCases/interfaces/receipt/DeleteReceiptUseCase';
+import DeleteReceiptUseCaseImpl from '@domain/useCases/receipt/DeleteReceiptUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -202,7 +208,10 @@ interface UseCases {
   // Source
   getAllSourcesUseCase: GetAllSourcesUseCase,
   // Receipt
-  getAllReceiptsUseCase: GetAllReceiptsUseCase
+  getAllReceiptsUseCase: GetAllReceiptsUseCase,
+  createReceiptUseCase: CreateReceiptUseCase,
+  updateReceiptUseCase: UpdateReceiptUseCase,
+  deleteReceiptUseCase: DeleteReceiptUseCase
 }
 
 const useCases: UseCases = {
@@ -280,6 +289,9 @@ const useCases: UseCases = {
   getAllSourcesUseCase: new GetAllSourcesUseCaseImpl(),
   // Receipt
   getAllReceiptsUseCase: new GetAllReceiptsUseCaseImpl(),
+  createReceiptUseCase: new CreateReceiptUseCaseImpl(),
+  updateReceiptUseCase: new UpdateReceiptUseCaseImpl(),
+  deleteReceiptUseCase: new DeleteReceiptUseCaseImpl(),
 };
 
 export const {
@@ -348,4 +360,7 @@ export const {
   getAllSourcesUseCase,
   // Receipt
   getAllReceiptsUseCase,
+  createReceiptUseCase,
+  updateReceiptUseCase,
+  deleteReceiptUseCase,
 } = useCases;

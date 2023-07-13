@@ -14,7 +14,7 @@ import moment from 'moment/moment';
 export interface ReceiptFilterParams {
   code?: string,
   paymentMethod?: string,
-  receiptStatus?: ReceiptStatus,
+  status?: ReceiptStatus,
   description?: string,
   dateRange?: Date[],
 }
@@ -54,7 +54,7 @@ export default function ReceiptFilter(props: ReceiptFilterProps) {
           <Label>{t('RECEIPT.STATUS')}</Label>
           <Controller
             control={control}
-            name="receiptStatus"
+            name="status"
             render={({ field: { onChange, value, ...rest } }) => (
               <Select
                 {...rest}

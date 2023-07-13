@@ -639,6 +639,11 @@
     "STATUS": "Trạng thái",
     "OPEN": "Mở",
     "CLOSED": "Đóng",
-    "CREATED_DATE_RANGE": "Thời gian tạo"
+    "CREATED_DATE_RANGE": "Thời gian tạo",
+    "NOTE": "Ghi chú",
+    "CREATE_RECEIPT_SUCCESSFULLY": "Tạo phiếu thu thành công",
+    "UPDATE_RECEIPT_SUCCESSFULLY": "Cập nhật phiếu thu thành công",
+    "DELETE_RECEIPT_WARNING_TITLE": "Xoá phiếu thu",
+    "DELETE_RECEIPT_WARNING_MESSAGE": "Phiếu thu sẽ được xóa khỏi hệ thống. Bạn có muốn xóa phiếu thu?"
   }
 }

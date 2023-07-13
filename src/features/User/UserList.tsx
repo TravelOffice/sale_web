@@ -27,7 +27,7 @@ const UserList = () => {
         </Col>
         <Col lg="3" sm="6">
           <StatsHorizontal
-            color="danger"
+            color="success"
             statTitle={i18n.t('USER.ONLINE')}
             icon={<User size={20} />}
             renderStats={(
@@ -36,7 +36,7 @@ const UserList = () => {
         </Col>
         <Col lg="3" sm="6">
           <StatsHorizontal
-            color="success"
+            color="danger"
             statTitle={i18n.t('USER.OFFLINE')}
             icon={<UserCheck size={20} />}
             renderStats={<h3 className="fw-bolder mb-75">{allUsers.filter((user) => user.status === UserStatusEnum.offline).length}</h3>}
