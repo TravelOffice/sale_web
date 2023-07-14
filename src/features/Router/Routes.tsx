@@ -21,6 +21,7 @@ import BookingCreatePage from '@features/Booking/BookingCreatePage';
 import TourTemplateEditPage from '@features/Tour/Template/TourTemplateEditPage';
 import ReceiptListPage from '@features/Receipt/ReceiptListPage';
 import BookingCreateFromLeadPage from '@features/Booking/BookingCreateFromLeadPage';
+import SupplierListPage from '@features/Supplier/SupplierListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -55,7 +56,7 @@ const Routes: RoutePathConfig[] = [
     component: <Settings />,
   },
   {
-    path: '/apps/tour-template/list',
+    path: '/apps/tour-templates/list',
     exact: true,
     requiredPermissions: [PERMISSIONS.get_tour_templates],
     component: <TourTemplateListPage />,
@@ -139,6 +140,12 @@ const Routes: RoutePathConfig[] = [
     path: '/apps/receipt',
     exact: true,
     component: <ReceiptListPage />,
+  },
+  {
+    path: '/apps/suppliers/list',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.get_suppliers],
+    component: <SupplierListPage />,
   },
   {
     path: '*',
