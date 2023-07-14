@@ -29,7 +29,7 @@ import LeadRepositoryImpl from './LeadRepositoryImpl';
 import RolePermissionRepository from './interfaces/RolePermissionRepository';
 import RolePermissionRepositoryImpl from './RolePermissionRepositoryImpl';
 // Tour
-import { TourRepository } from './interfaces/TourRepository';
+import { DepartureTourRepository } from './interfaces/DepartureTourRepository';
 import TourRepositoryImpl from './TourRepositoryImpl';
 
 interface Repositories {
@@ -46,7 +46,7 @@ interface Repositories {
   mailRepository: MailRepository,
   bookingRepository: BookingRepository,
   customerRepository: CustomerRepository,
-  tourRepository: TourRepository,
+  tourRepository: DepartureTourRepository,
   sourceRepository: SourceRepository,
   receiptRepository: ReceiptRepository
 }

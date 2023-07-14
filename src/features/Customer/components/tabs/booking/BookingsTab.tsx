@@ -28,13 +28,16 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
           <strong>{i18n.t('TOUR_TEMPLATE.PRICE')}</strong>
           {tourTemplate ? (
             <ul>
-              <li>{`${i18n.t('TOUR_TEMPLATE.ADULT_PRICE')}: ${formatVND(tourTemplate.adultPrice)}`}</li>
-              {tourTemplate.child8to11Price
-                && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_8_11_PRICE')}: ${formatVND(tourTemplate.child8to11Price)}`}</li>}
-              {tourTemplate.child5to7Price
-                && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE')}: ${formatVND(tourTemplate.child5to7Price)}`}</li>}
-              {tourTemplate.childUnder5Price
-                && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE')}: ${formatVND(tourTemplate.childUnder5Price)}`}</li>}
+              {
+                tourTemplate.services.map((service) => (
+                  <li>
+                    {service.name}
+                    :
+                    {' '}
+                    {formatVND(service.price)}
+                  </li>
+                ))
+              }
             </ul>
           ) : <span>N/A</span>}
         </Col>

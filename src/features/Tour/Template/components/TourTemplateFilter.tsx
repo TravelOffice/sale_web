@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import Select from 'react-select';
 import i18n from '@config/i18n';
-import { TourType } from '@domain/entities/TourTemplate';
+import TourType from '@domain/entities/tour/TourType';
 
 export interface TourTemplateFilterParams {
   name?: string,

@@ -1,6 +1,6 @@
 import { apiProvider } from '@adapter/infrastructures';
 import { TourTemplateRepository } from '@adapter/repositories/interfaces/TourTemplateRepository';
-import { TourTemplate } from '@domain/entities/TourTemplate';
+import { TourTemplate } from '@domain/entities/tour/TourTemplate';
 
 export default class TourTemplateRepositoryImpl implements TourTemplateRepository {
   getAllTourTemplates = async () => {

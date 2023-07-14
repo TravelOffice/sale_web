@@ -1,8 +1,8 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { DepartureTour } from '@domain/entities/tour';
-import { TourRepository } from './interfaces/TourRepository';
+import { CreateTourTemplateFormData } from '@domain/entities/tour';
+import { DepartureTourRepository } from './interfaces/DepartureTourRepository';
 
-export default class TourRepositoryImpl implements TourRepository {
+export default class TourRepositoryImpl implements DepartureTourRepository {
   getAllToursTemplate = async () => {
     const response = await apiProvider.authorizedRequest.get('/tour-templates');
     return response.data;
@@ -13,7 +13,7 @@ export default class TourRepositoryImpl implements TourRepository {
     return response.data;
   }
 
-  createDepartureTour = async (departureTour :DepartureTour) => {
+  createDepartureTour = async (departureTour: CreateTourTemplateFormData) => {
     const response = await apiProvider.authorizedRequest.post('/departure-tours', departureTour);
     return response.data;
   }

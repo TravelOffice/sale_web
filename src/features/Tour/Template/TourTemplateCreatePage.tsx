@@ -7,19 +7,13 @@ import { useForm } from 'react-hook-form';
 import i18n from '@config/i18n';
 // ** Reactstrap Imports
 import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Form,
-  Spinner,
+  Button, Card, CardBody, CardHeader, CardTitle, Form, Spinner,
 } from 'reactstrap';
 
 import { ContentState, EditorState } from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
 import { TourServicePrice } from '@domain/entities/tour';
-import { TourTemplate, TourType } from '@domain/entities/TourTemplate';
+import { TourTemplate } from '@domain/entities/tour/TourTemplate';
 import AdditionalServiceItem from '@features/Tour/Template/components/AdditionalServiceItem';
 
 // ** Styles
@@ -32,6 +26,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import CommonInformation from '@features/Tour/Template/components/CommonInformation';
 import PoliciesAndRegulations from '@features/Tour/Template/components/PoliciesAndRegulations';
 import toasty from '@components/Toasty/Toasty';
+import TourType from '@domain/entities/tour/TourType';
 
 // otherPrice schema
 const otherPriceSchema = yup.object().shape({
@@ -107,7 +102,7 @@ const TourTemplateCreatePage = () => {
   const [tourPlan, setTourPlan] = useState(EditorState.createEmpty());
 
   // Other state
-  const [otherPrices, setOtherPrices] = useState<TourServicePrice[]>([]);
+  const [services, setServices] = useState<TourServicePrice[]>([]);
 
   const {
     handleSubmit,
@@ -124,11 +119,10 @@ const TourTemplateCreatePage = () => {
       endingLocation: '',
       durationInDays: 0,
       durationInNights: 0,
-      adultPrice: 0,
-      childUnder5Price: 0,
-      child5to7Price: 0,
-      child8to11Price: 0,
-      otherPrice: [],
+      services: [{
+        name: '',
+        price: 0,
+      }],
       policiesAndRegulations: {},
     },
   });
@@ -162,9 +156,6 @@ const TourTemplateCreatePage = () => {
   }, [isSuccess, isError, error]);
   const onSubmit = (data: TourTemplate) => {
     const dataToAdd = data;
-    if (data.otherPrice && data.otherPrice.length === 0) {
-      delete dataToAdd.otherPrice;
-    }
     mutate(dataToAdd);
   };
 
@@ -173,7 +164,7 @@ const TourTemplateCreatePage = () => {
     setCancellationTerms(stringToEditorState(''));
     setPolicyConditionsAndExtraFee(stringToEditorState(''));
     setTourPlan(stringToEditorState(''));
-    setOtherPrices([]);
+    setServices([]);
     reset();
   };
 
@@ -197,10 +188,10 @@ const TourTemplateCreatePage = () => {
           />
           {/* Additional Services */}
           <AdditionalServiceItem
-            services={otherPrices}
+            services={services}
             control={control}
             errors={errors}
-            setServices={setOtherPrices}
+            setServices={setServices}
           />
           {/* Policies, Regulations and Tour Plan */}
           <PoliciesAndRegulations
@@ -220,14 +211,14 @@ const TourTemplateCreatePage = () => {
               {i18n.t('COMMON.CANCEL')}
             </Button>
             <Button type="submit" className="me-1" color="primary">
-              { !isLoading ? i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE') : i18n.t('COMMON.LOADING')}
-              { isLoading ? (
+              {!isLoading ? i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE') : i18n.t('COMMON.LOADING')}
+              {isLoading ? (
                 <Spinner
                   style={{ width: '0.7rem', height: '0.7rem' }}
                   type="grow"
                   color="light"
                 />
-              ) : null }
+              ) : null}
             </Button>
           </div>
         </Form>

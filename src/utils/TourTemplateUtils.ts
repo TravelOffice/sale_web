@@ -1,6 +1,7 @@
-import { TourTemplate } from '@domain/entities/TourTemplate';
 import { TourTemplateFilterParams } from '@features/Tour/Template/components/TourTemplateFilter';
 import i18n from 'i18next';
+import { TourTemplate } from '@domain/entities/tour';
+
 /**
  * Generates an internationalized translation for tour-template-related content
  * based on the specified type.
@@ -33,11 +34,11 @@ export function filterTourTemplates(
       if (name && !item.name.toLowerCase().includes(name.toLowerCase())) return false;
       if (type && !item.type.includes(type)) return false;
       if (startingLocation
-          && !item.startingLocation.toLowerCase().includes(startingLocation.toLowerCase())) {
+        && !item.startingLocation.toLowerCase().includes(startingLocation.toLowerCase())) {
         return false;
       }
       if (endingLocation
-          && !item.endingLocation.toLowerCase().includes(endingLocation.toLowerCase())) {
+        && !item.endingLocation.toLowerCase().includes(endingLocation.toLowerCase())) {
         return false;
       }
       if (durationInDays && durationInDays !== item.durationInDays) return false;

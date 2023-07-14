@@ -2,9 +2,7 @@ import React from 'react';
 import { Trash } from 'react-feather';
 import { Control, Controller } from 'react-hook-form';
 import {
-  Button,
-  Col,
-  FormFeedback, Input, InputGroup, InputGroupText, Row,
+  Button, Col, FormFeedback, Input, InputGroup, InputGroupText, Row,
 } from 'reactstrap';
 import CurrencyInput from 'react-currency-input-field';
 import { convertCurrencyToNumber } from '@utils/CurrencyUtils';
@@ -51,7 +49,7 @@ const AdditionalServiceItem: React.FC<AdditionalServiceItemProps> = ({
         <div
           className="divider-text text-primary fw-bolder"
         >
-          {i18n.t('DEPARTURE_TOUR.ADDITIONAL_SERVICES')}
+          {i18n.t('TOUR_TEMPLATE.PRICE')}
         </div>
       </div>
       {services.map((service, index) => (
@@ -61,24 +59,23 @@ const AdditionalServiceItem: React.FC<AdditionalServiceItemProps> = ({
             <Col md={4} className="mb-1">
               <Controller
                 control={control}
-                name={`otherPrice.${index}.name`}
-                defaultValue={service.name}
+                name={`services.${index}.name`}
                 render={({ field: { onChange, ...rest } }) => (
                   <InputGroup>
                     <InputGroupText>{i18n.t('TOUR_TEMPLATE.SERVICE_NAME')}</InputGroupText>
                     <Input
                       {...rest}
-                      invalid={!!errors.otherPrice?.[index]?.name}
+                      invalid={!!errors.services?.[index]?.name}
                       onChange={(e) => {
                         handleServiceNameChange(e, index);
                         onChange(e);
                       }}
                     />
-                    {errors.otherPrice?.[index]?.name
+                    {errors.services?.[index]?.name
                       && (
-                      <FormFeedback>
-                        {errors.otherPrice?.[index]?.name?.message}
-                      </FormFeedback>
+                        <FormFeedback>
+                          {errors.services?.[index]?.name?.message}
+                        </FormFeedback>
                       )}
                   </InputGroup>
                 )}
@@ -87,14 +84,13 @@ const AdditionalServiceItem: React.FC<AdditionalServiceItemProps> = ({
             <Col md={4}>
               <Controller
                 control={control}
-                name={`otherPrice.${index}.price`}
-                defaultValue={service.price}
+                name={`services.${index}.price`}
                 render={({ field: { onChange, ...rest } }) => (
                   <InputGroup>
                     <InputGroupText>{i18n.t('TOUR_TEMPLATE.SERVICE_PRICE')}</InputGroupText>
                     <CurrencyInput
                       {...rest}
-                      className={`form-control text-end ${errors.otherPrice?.[index]?.price && 'is-invalid'}`}
+                      className={`form-control text-end ${errors.services?.[index]?.price && 'is-invalid'}`}
                       onValueChange={(newValue) => {
                         const numericValue = convertCurrencyToNumber(newValue);
                         handleServicePriceChange(numericValue, index);
@@ -104,10 +100,10 @@ const AdditionalServiceItem: React.FC<AdditionalServiceItemProps> = ({
                       groupSeparator=","
                     />
                     <InputGroupText>VND</InputGroupText>
-                    {errors.otherPrice?.[index]?.price && (
-                    <FormFeedback>
-                      {errors.otherPrice?.[index]?.price?.message}
-                    </FormFeedback>
+                    {errors.services?.[index]?.price && (
+                      <FormFeedback>
+                        {errors.services?.[index]?.price?.message}
+                      </FormFeedback>
                     )}
                   </InputGroup>
                 )}

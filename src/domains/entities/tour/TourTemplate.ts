@@ -4,7 +4,7 @@ import TourType from './TourType';
 
 export interface TourTemplate {
   name: string,
-  code: string,
+  readonly code: string;
   category: TourCategory,
   type: TourType,
   visitorCount: number,
@@ -12,15 +12,28 @@ export interface TourTemplate {
   endingLocation: string,
   durationInDays: number,
   durationInNights: number,
-  adultPrice: number,
-  childUnder5Price?: number,
-  child5to7Price?: number,
-  child8to11Price?: number,
-  otherPrice?: TourServicePrice[],
+  services: TourServicePrice[],
   policiesAndRegulations: {
     inclusionAndExclusion?: string,
     policyConditionsAndExtraFee?: string,
     cancellationTerms?: string
   },
   tourPlan: string,
+  readonly createdAt: number;
+  readonly updatedAt: number;
+  readonly creator: string;
 }
+
+export type CreateTourTemplateFormData = Pick<TourTemplate,
+'name' |
+'type' |
+'category' |
+'visitorCount' |
+'startingLocation' |
+'endingLocation' |
+'durationInDays' |
+'durationInNights' |
+'services' |
+'policiesAndRegulations' |
+'tourPlan'
+>;

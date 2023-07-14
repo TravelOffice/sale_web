@@ -6,26 +6,19 @@ import { useForm } from 'react-hook-form';
 import i18n from '@config/i18n';
 // ** Reactstrap Imports
 import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Form,
-  Spinner,
+  Button, Card, CardBody, CardHeader, CardTitle, Form, Spinner,
 } from 'reactstrap';
 
 import { ContentState, EditorState } from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
 import { TourServicePrice } from '@domain/entities/tour';
-import { TourTemplate, TourType } from '@domain/entities/TourTemplate';
+import { TourTemplate } from '@domain/entities/tour/TourTemplate';
 import AdditionalServiceItem from '@features/Tour/Template/components/AdditionalServiceItem';
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/libs/input-number/input-number.scss';
 import '@styles/react/libs/editor/editor.scss';
-import PriceInformation from '@features/Tour/Template/components/PriceInformation';
 import { tourPresenter, tourTemplatePresenter } from '@adapter/presenters';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import CommonInformation from '@features/Tour/Template/components/CommonInformation';
@@ -33,6 +26,7 @@ import PoliciesAndRegulations from '@features/Tour/Template/components/PoliciesA
 import toasty from '@components/Toasty/Toasty';
 import { useParams } from 'react-router-dom';
 import { validateTourSchema } from '@features/Tour/validateSchemas/validateSchema';
+import TourType from '@domain/entities/tour/TourType';
 
 export interface TourTemplateEditPageParams {
   tourTemplateId: string,
@@ -84,11 +78,7 @@ const TourTemplateEditPage = () => {
       endingLocation: '',
       durationInDays: 0,
       durationInNights: 0,
-      adultPrice: 0,
-      childUnder5Price: 0,
-      child5to7Price: 0,
-      child8to11Price: 0,
-      otherPrice: [],
+      services: [],
       policiesAndRegulations: {},
     },
   });
@@ -128,9 +118,6 @@ const TourTemplateEditPage = () => {
 
   const onSubmit = (data: TourTemplate) => {
     const dataToUpdate = data;
-    if (data.otherPrice && data.otherPrice.length === 0) {
-      delete dataToUpdate.otherPrice;
-    }
     updateTourTemplateMutation.mutate(dataToUpdate);
   };
 
@@ -155,11 +142,6 @@ const TourTemplateEditPage = () => {
             control={control}
             errors={errors}
             toursLocation={toursLocation}
-          />
-          {/* Price Information */}
-          <PriceInformation
-            control={control}
-            errors={errors}
           />
           {/* Additional Services */}
           <AdditionalServiceItem
@@ -186,14 +168,14 @@ const TourTemplateEditPage = () => {
               {i18n.t('COMMON.CANCEL')}
             </Button>
             <Button type="submit" className="me-1" color="primary">
-              { !updateTourTemplateMutation.isLoading ? i18n.t('COMMON.UPDATE') : i18n.t('COMMON.LOADING')}
-              { updateTourTemplateMutation.isLoading ? (
+              {!updateTourTemplateMutation.isLoading ? i18n.t('COMMON.UPDATE') : i18n.t('COMMON.LOADING')}
+              {updateTourTemplateMutation.isLoading ? (
                 <Spinner
                   style={{ width: '0.7rem', height: '0.7rem' }}
                   type="grow"
                   color="light"
                 />
-              ) : null }
+              ) : null}
             </Button>
           </div>
         </Form>

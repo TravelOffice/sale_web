@@ -21,11 +21,7 @@ export type CreateDepartureTourFormData = Pick<DepartureTour,
 'endingLocation' |
 'durationInDays' |
 'durationInNights' |
-'adultPrice' |
-'childUnder5Price' |
-'child5to7Price' |
-'child8to11Price' |
-'otherPrice' |
+'services' |
 'policiesAndRegulations' |
 'tourPlan' |
 'status' |
