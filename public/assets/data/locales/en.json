@@ -66,7 +66,8 @@
     "ME": "Me",
     "EXPORT": "Export",
     "FILTER_RESET": "Reset",
-    "PROCESSING": "Processing"
+    "PROCESSING": "Processing",
+    "INDEX": "INDEX"
   },
   "LEAD": {
     "NAME": "Name",
@@ -644,5 +645,29 @@
     "DELETE_RECEIPT_SUCCESSFULLY": "Delete receipt successfully",
     "DELETE_RECEIPT_WARNING_TITLE": "Delete receipt",
     "DELETE_RECEIPT_WARNING_MESSAGE": "Receipt will be deleted from system. Do you want to delete?"
+  },
+  "SUPPLIER": {
+    "NAME": "Supplier name",
+    "BRAND_NAME": "Brand name",
+    "ESTABLISHMENT_YEAR": "Establishment year",
+    "CITY": "City",
+    "DISTRICT": "District",
+    "ADDRESS": "Address",
+    "TAX_ID": "Tax ID number",
+    "NOTE": "Note",
+    "QUOTE_MANAGEMENT": "Quotation management",
+    "QUOTE_YEAR": "Year",
+    "QUOTE_LINK": "Quotation link",
+    "QUOTE_DESCRIPTION": "Quotation description",
+    "PAYMENT_INFO": "Payment information",
+    "BANK_NAME": "Bank name",
+    "BANK_ACCOUNT": "Bank account name",
+    "BANK_ACCOUNT_NUMBER": "Bank account number",
+    "BANK_BRANCH": "Bank branch",
+    "CONTACT_LIST": "Contact list",
+    "CONTACT_INFORMATION": "Contact information",
+    "CONTACT_NAME": "Contact name",
+    "CONTACT_PHONE_NUMBER": "Phone number",
+    "CONTACT_EMAIL": "Email"
   }
 }

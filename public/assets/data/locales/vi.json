@@ -66,7 +66,8 @@
     "ME": "Tôi",
     "FILTER_RESET": "Xóa bộ lọc",
     "EXPORT": "Xuất file",
-    "PROCESSING": "Đang xử lý"
+    "PROCESSING": "Đang xử lý",
+    "INDEX": "STT"
   },
   "LEAD": {
     "NAME": "Họ tên",
@@ -645,5 +646,29 @@
     "UPDATE_RECEIPT_SUCCESSFULLY": "Cập nhật phiếu thu thành công",
     "DELETE_RECEIPT_WARNING_TITLE": "Xoá phiếu thu",
     "DELETE_RECEIPT_WARNING_MESSAGE": "Phiếu thu sẽ được xóa khỏi hệ thống. Bạn có muốn xóa phiếu thu?"
+  },
+  "SUPPLIER": {
+    "NAME": "Tên nhà cung cấp",
+    "BRAND_NAME": "Tên thương hiệu",
+    "ESTABLISHMENT_YEAR": "Năm thành lập",
+    "CITY": "Tỉnh/Thành phố",
+    "DISTRICT": "Quận/Huyện",
+    "ADDRESS": "Địa chỉ",
+    "TAX_ID": "Mã số thuế",
+    "NOTE": "Ghi chú",
+    "QUOTE_MANAGEMENT": "Quản lý báo giá",
+    "QUOTE_YEAR": "Năm",
+    "QUOTE_LINK": "Link báo giá",
+    "QUOTE_DESCRIPTION": "Mô tả báo giá",
+    "PAYMENT_INFO": "Thông tin thanh toán",
+    "BANK_NAME": "Tên ngân hàng",
+    "BANK_ACCOUNT": "Tên tài khoản",
+    "BANK_ACCOUNT_NUMBER": "Số tài khoản",
+    "BANK_BRANCH": "Chi nhánh",
+    "CONTACT_LIST": "Danh sách liên hệ",
+    "CONTACT_INFORMATION": "Thông tin liên hệ",
+    "CONTACT_NAME": "Họ và tên",
+    "CONTACT_PHONE_NUMBER": "Số điện thoại",
+    "CONTACT_EMAIL": "Email"
   }
 }

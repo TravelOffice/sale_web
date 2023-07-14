@@ -78,6 +78,14 @@ import { UpdateReceiptUseCase } from '@domain/useCases/interfaces/receipt/Update
 import UpdateReceiptUseCaseImpl from '@domain/useCases/receipt/UpdateReceiptUseCaseImpl';
 import { DeleteReceiptUseCase } from '@domain/useCases/interfaces/receipt/DeleteReceiptUseCase';
 import DeleteReceiptUseCaseImpl from '@domain/useCases/receipt/DeleteReceiptUseCaseImpl';
+import { GetAllSuppliersUseCase } from '@domain/useCases/interfaces/supplier/GetAllSuppliersUseCase';
+import { UpdateSupplierUseCase } from '@domain/useCases/interfaces/supplier/UpdateSupplierUseCase';
+import { AddSupplierUseCase } from '@domain/useCases/interfaces/supplier/AddSupplierUseCase';
+import { GetSupplierUseCase } from '@domain/useCases/interfaces/supplier/GetSupplierUseCase';
+import GetAllSuppliersUseCaseImpl from '@domain/useCases/supplier/GetAllSuppliersUseCaseImpl';
+import AddSupplierUseCaseImpl from '@domain/useCases/supplier/AddSupplierUseCaseImpl';
+import UpdateSupplierUseCaseImpl from '@domain/useCases/supplier/UpdateSupplierUseCaseImpl';
+import GetSupplierUseCaseImpl from '@domain/useCases/supplier/GetSupplierUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -212,6 +220,11 @@ interface UseCases {
   createReceiptUseCase: CreateReceiptUseCase,
   updateReceiptUseCase: UpdateReceiptUseCase,
   deleteReceiptUseCase: DeleteReceiptUseCase
+  // Supplier
+  getAllSuppliersUseCase: GetAllSuppliersUseCase,
+  addSupplierUseCase: AddSupplierUseCase,
+  updateSupplierUseCase: UpdateSupplierUseCase,
+  getSupplierUseCase: GetSupplierUseCase
 }
 
 const useCases: UseCases = {
@@ -292,6 +305,11 @@ const useCases: UseCases = {
   createReceiptUseCase: new CreateReceiptUseCaseImpl(),
   updateReceiptUseCase: new UpdateReceiptUseCaseImpl(),
   deleteReceiptUseCase: new DeleteReceiptUseCaseImpl(),
+  // Supplier
+  getAllSuppliersUseCase: new GetAllSuppliersUseCaseImpl(),
+  addSupplierUseCase: new AddSupplierUseCaseImpl(),
+  updateSupplierUseCase: new UpdateSupplierUseCaseImpl(),
+  getSupplierUseCase: new GetSupplierUseCaseImpl(),
 };
 
 export const {
@@ -363,4 +381,9 @@ export const {
   createReceiptUseCase,
   updateReceiptUseCase,
   deleteReceiptUseCase,
+  // Supplier
+  getAllSuppliersUseCase,
+  addSupplierUseCase,
+  updateSupplierUseCase,
+  getSupplierUseCase,
 } = useCases;

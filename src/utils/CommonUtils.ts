@@ -26,7 +26,7 @@ export const handleSearchColumns = (
     if (typeof value === 'object') {
       return JSON.stringify(value).includes(searchTerm);
     }
-    return row[column].toString().includes(searchTerm);
+    return row[column] && row[column].toString().includes(searchTerm);
   });
 };
 

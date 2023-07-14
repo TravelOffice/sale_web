@@ -41,6 +41,10 @@ const PERMISSIONS = {
   get_tour_template: 'get_tour_template',
   create_tour_template: 'create_tour_template',
   update_tour_template: 'update_tour_template',
+  get_suppliers: 'get_suppliers',
+  get_supplier: 'get_supplier',
+  create_supplier: 'create_supplier',
+  update_supplier: 'update_supplier',
 };
 
 export default PERMISSIONS;
