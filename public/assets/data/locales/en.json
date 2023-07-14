@@ -575,6 +575,31 @@
     "OUTBOUND": "Outbound",
     "SELECT_TOUR_TEMPLATE": "Select tour template"
   },
+  "TOURS_OPERATION": {
+    "NAV": {
+      "ALL": "All",
+      "MY": "My"
+    },
+    "OPERATE": "Operate",
+    "OPERATOR": "Operator",
+    "CODE_TT": "Code/Information",
+    "TOUR_INFORMATION": "Tour information",
+    "TOUR_LOCATION": "Locations",
+    "PASSENGERS": "Number of passengers",
+    "PROCESS": "Process",
+    "WAITING_FOR_OPERATION": "Waiting",
+    "PROCESSING": "Processing",
+    "TRANSFERRED": "Transferred",
+    "COMPLETED": "Completed",
+    "LOADING_NOTIFICATION": "Hang tight, loading tours may take longer than expected. Take some rest till all are loaded ✈",
+    "FILTER": {
+      "CODE": "Code",
+      "OPERATION_STATUS": "Operation status",
+      "NAME": "Name",
+      "STARTING_LOCATION": "Starting location",
+      "ENDING_LOCATION": "Ending location"
+    }
+  },
   "BOOKING": {
     "TOUR_TEMPLATE": "Tour template",
     "INITIALIZED": "Initialized",

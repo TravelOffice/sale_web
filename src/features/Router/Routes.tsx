@@ -22,6 +22,8 @@ import TourTemplateEditPage from '@features/Tour/Template/TourTemplateEditPage';
 import ReceiptListPage from '@features/Receipt/ReceiptListPage';
 import BookingCreateFromLeadPage from '@features/Booking/BookingCreateFromLeadPage';
 import SupplierListPage from '@features/Supplier/SupplierListPage';
+import CommingSoon from '@components/CommingSoon/CommingSoon';
+import ToursOperationMain from '@features/ToursOperation/ToursOperationMain';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -30,9 +32,9 @@ const Routes: RoutePathConfig[] = [
     component: <NotFound />,
   },
   {
-    path: '/dashboard',
+    path: '/apps/dashboard',
     exact: true,
-    component: <NotFound />,
+    component: <CommingSoon />,
   },
   {
     path: '/apps/chat',
@@ -146,6 +148,11 @@ const Routes: RoutePathConfig[] = [
     exact: true,
     requiredPermissions: [PERMISSIONS.get_suppliers],
     component: <SupplierListPage />,
+  },
+  {
+    path: '/apps/tours-operation',
+    exact: true,
+    component: <ToursOperationMain />,
   },
   {
     path: '*',

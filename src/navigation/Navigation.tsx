@@ -8,25 +8,12 @@ import {
 } from 'react-feather';
 import PERMISSIONS from '@utils/PermissionUtils';
 
-const Navigation : MenuItem[] = [
+const Navigation: MenuItem[] = [
   {
     id: 'dashboards',
     title: 'Dashboards',
     icon: <Home />,
-    children: [
-      {
-        id: 'analyticsDash',
-        title: 'Analytics',
-        icon: <Activity />,
-        navLink: '/dashboard/analytics',
-      },
-      {
-        id: 'eCommerceDash',
-        title: 'eCommerce',
-        icon: <ShoppingCart />,
-        navLink: '/dashboard/ecommerce',
-      },
-    ],
+    navLink: '/apps/dashboard',
   },
   {
     header: 'Communication',
@@ -102,6 +89,12 @@ const Navigation : MenuItem[] = [
     requiredPermissions: [PERMISSIONS.get_suppliers],
     icon: <Truck size={12} />,
     navLink: '/apps/suppliers/list',
+  },
+  {
+    id: 'tours-operation',
+    title: 'Tours Operation',
+    icon: <Activity />,
+    navLink: '/apps/tours-operation',
   },
   {
     header: 'Administrators',

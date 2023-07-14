@@ -139,6 +139,8 @@ import { UpdateCustomerUseCase } from './interfaces/customer/UpdateCustomerUseCa
 import CreateDepartureTourUseCaseImpl from './tour/CreateDepartureTourUseCaseImpl';
 import GetAllToursTemplateUseCaseImpl from './tour/GetAllToursTemplateUseCaseImpl';
 import GetAllToursLocationUseCaseImpl from './tour/GetAllToursLocationUseCaseImpl';
+import { GetAllDepartureToursUseCase } from './interfaces/tour/GetAllDepartureToursUseCase';
+import GetAllDepartureToursUseCaseImpl from './tour/GetAllDepartureToursUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -213,6 +215,7 @@ interface UseCases {
   createDepartureTourUseCase: CreateDepartureTourUseCase,
   getAllToursTemplateUseCase: GetAllToursTemplateUseCase,
   getAllToursLocationUseCase: GetAllToursLocationUseCase,
+  getAllDepartureToursUseCase: GetAllDepartureToursUseCase,
   // Source
   getAllSourcesUseCase: GetAllSourcesUseCase,
   // Receipt
@@ -298,6 +301,7 @@ const useCases: UseCases = {
   createDepartureTourUseCase: new CreateDepartureTourUseCaseImpl(),
   getAllToursTemplateUseCase: new GetAllToursTemplateUseCaseImpl(),
   getAllToursLocationUseCase: new GetAllToursLocationUseCaseImpl(),
+  getAllDepartureToursUseCase: new GetAllDepartureToursUseCaseImpl(),
   // Source
   getAllSourcesUseCase: new GetAllSourcesUseCaseImpl(),
   // Receipt
@@ -372,6 +376,7 @@ export const {
   getLeadsOfCustomerUseCase,
   updateCustomerUseCase,
   // Tour
+  getAllDepartureToursUseCase,
   createDepartureTourUseCase,
   getAllToursTemplateUseCase,
   getAllToursLocationUseCase,

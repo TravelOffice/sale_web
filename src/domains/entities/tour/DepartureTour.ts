@@ -1,4 +1,5 @@
 import TourStatus from '@domain/entities/tour/TourStatus';
+import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 import { TourTemplate } from './TourTemplate';
 
 export interface DepartureTour extends TourTemplate {
@@ -6,7 +7,13 @@ export interface DepartureTour extends TourTemplate {
   tourTemplateCode: string,
   startDate: number,
   status: TourStatus,
-  isOpen: boolean
+  isOpen: boolean,
+  operationStatus: TourOperationStatus
+}
+
+export interface ExtendedDepartureTour extends DepartureTour {
+  startingLocationName: string,
+  endingLocationName: string,
 }
 
 export type CreateDepartureTourFormData = Pick<DepartureTour,
