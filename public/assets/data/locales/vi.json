@@ -577,6 +577,31 @@
     "OUTBOUND": "Tour nước ngoài",
     "SELECT_TOUR_TEMPLATE": "Chọn tour template"
   },
+  "TOURS_OPERATION": {
+    "NAV": {
+      "ALL": "Tất cả",
+      "MY": "Của tôi"
+    },
+    "OPERATE": "Điều hành",
+    "OPERATOR": "Điều hành viên",
+    "CODE_TT": "Code/TT",
+    "TOUR_INFORMATION": "Thông tin chuyến đi",
+    "TOUR_LOCATION": "Điểm đi/đến",
+    "PASSENGERS": "Số lượng hành khách",
+    "PROCESS": "Thao tác",
+    "WAITING_FOR_OPERATION": "Chờ xử lý",
+    "PROCESSING": "Đang xử lý",
+    "TRANSFERRED": "Bàn giao",
+    "COMPLETED": "Hoàn thành",
+    "LOADING_NOTIFICATION": "Tải xuống danh sách tour có thể lâu hơn dự kiến. Phiền bạn vui lòng chờ đến khi hoàn tất ✈",
+    "FILTER": {
+      "CODE": "Mã",
+      "OPERATION_STATUS": "Trạng thái điều hành",
+      "NAME": "Tên",
+      "STARTING_LOCATION": "Điểm đi",
+      "ENDING_LOCATION": "Điểm đến"
+    }
+  },
   "BOOKING": {
     "TOUR_TEMPLATE": "Chuyến đi mẫu",
     "INITIALIZED": "Mới tạo",
