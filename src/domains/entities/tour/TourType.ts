@@ -1,7 +1,7 @@
-enum TourTypes {
+enum TourType {
   INBOUND = 'INBOUND',
   INLAND = 'INLAND',
   OUTBOUND = 'OUTBOUND',
 }
 
-export default TourTypes;
+export default TourType;

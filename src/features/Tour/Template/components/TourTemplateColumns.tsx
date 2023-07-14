@@ -1,16 +1,14 @@
 import React from 'react';
 import i18n from '@config/i18n';
 import { TableColumn } from 'react-data-table-component';
-import { TourTemplate, TourType } from '@domain/entities/TourTemplate';
+import { TourTemplate } from '@domain/entities/tour/TourTemplate';
 import { Link } from 'react-router-dom';
-import {
-  generateEditableUrlForTourTemplate,
-  generateI18nForTourTemplate,
-} from '@utils/TourTemplateUtils';
+import { generateEditableUrlForTourTemplate, generateI18nForTourTemplate } from '@utils/TourTemplateUtils';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
 import { Archive, MoreVertical, Trash2 } from 'react-feather';
+import TourType from '@domain/entities/tour/TourType';
 
 const tourTemplateTypesColors: Record<TourType, string> = {
   INBOUND: 'light-primary',

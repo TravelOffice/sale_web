@@ -3,7 +3,7 @@ import { Note } from '@domain/entities/note/Note';
 import { Task } from '@domain/entities/task/Task';
 import { Lead } from '@domain/entities/lead/Lead';
 import { Customer } from '@domain/entities/customer/Customer';
-import { TourTemplate } from '@domain/entities/TourTemplate';
+import { TourTemplate } from '@domain/entities/tour/TourTemplate';
 
 export enum BookingStatusEnum {
   INITIALIZED = 'INITIALIZED',
@@ -67,9 +67,9 @@ export interface Booking {
   tourTemplate?: TourTemplate,
 
   /**
-     * TODO: Temporary attributes
-     * These attrs will be updated later
-     */
+   * TODO: Temporary attributes
+   * These attrs will be updated later
+   */
   requestedCode?: string,
   bookingCode?: string,
   labelId?: string,

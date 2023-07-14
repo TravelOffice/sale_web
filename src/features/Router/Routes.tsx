@@ -14,7 +14,7 @@ import CustomerListPage from '@features/Customer/CustomerListPage';
 import CreateCustomerPage from '@features/Customer/CreateCustomerPage';
 import EditCustomerPage from '@features/Customer/CustomerDetailPage';
 import TourTemplateListPage from '@features/Tour/Template/TourTemplateListPage';
-import DepartureTour from '@features/Tour/Departure/DepartureTour';
+import CreateDepartureTour from '@features/Tour/Departure/CreateDepartureTour';
 import BookingListPage from '@features/Booking/BookingListPage';
 import TourTemplateCreatePage from '@features/Tour/Template/TourTemplateCreatePage';
 import BookingCreatePage from '@features/Booking/BookingCreatePage';
@@ -133,7 +133,7 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/apps/tour/departure',
     exact: true,
-    component: <DepartureTour />,
+    component: <CreateDepartureTour />,
   },
   {
     path: '/apps/receipt',

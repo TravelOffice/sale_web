@@ -5,7 +5,7 @@ import {
 import FormItemSelect from '@components/Form/FormItemSelect';
 import i18n from '@config/i18n';
 import { Controller } from 'react-hook-form';
-import { TourType } from '@domain/entities/TourTemplate';
+import TourType from '@domain/entities/tour/TourType';
 import { TourLocation } from '@domain/entities/tour';
 
 const tourTypeOptions = [

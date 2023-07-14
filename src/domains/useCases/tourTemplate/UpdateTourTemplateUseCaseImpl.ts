@@ -1,6 +1,6 @@
 import { tourTemplateRepository } from '@adapter/repositories';
 import { UpdateTourTemplateUseCase } from '@domain/useCases/interfaces/tourTemplate/UpdateTourTemplateUseCase';
-import { TourTemplate } from '@domain/entities/TourTemplate';
+import { TourTemplate } from '@domain/entities/tour/TourTemplate';
 
 export default class UpdateTourTemplateUseCaseImpl implements UpdateTourTemplateUseCase {
   invoke = async (

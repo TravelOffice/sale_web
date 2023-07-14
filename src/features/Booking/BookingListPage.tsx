@@ -9,10 +9,7 @@ import {
   Check, DollarSign, Loader, Plus, Star, X,
 } from 'react-feather';
 import { AvatarColor } from '@components/Avatar/Avatar';
-import {
-  ButtonProps,
-  Col, Row,
-} from 'reactstrap';
+import { ButtonProps, Col, Row } from 'reactstrap';
 import BookingFilter, { BookingFilterParams } from '@features/Booking/components/BookingFilter';
 import { useHistory } from 'react-router-dom';
 import bookingColumns from '@features/Booking/components/BookingColumns';
@@ -70,10 +67,16 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
           <strong>{i18n.t('TOUR_TEMPLATE.PRICE')}</strong>
           {tourTemplate ? (
             <ul>
-              <li>{`${i18n.t('TOUR_TEMPLATE.ADULT_PRICE')}: ${formatVND(tourTemplate.adultPrice)}`}</li>
-              {tourTemplate.child8to11Price !== undefined && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_8_11_PRICE')}: ${formatVND(tourTemplate.child8to11Price)}`}</li>}
-              {tourTemplate.child5to7Price !== undefined && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE')}: ${formatVND(tourTemplate.child5to7Price)}`}</li>}
-              {tourTemplate.childUnder5Price !== undefined && <li>{`${i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE')}: ${formatVND(tourTemplate.childUnder5Price)}`}</li>}
+              {
+                tourTemplate.services.map((service) => (
+                  <li>
+                    {service.name}
+                    :
+                    {' '}
+                    {formatVND(service.price)}
+                  </li>
+                ))
+              }
             </ul>
           ) : <span>N/A</span>}
         </Col>
@@ -127,7 +130,9 @@ export default function BookingListPage() {
   const additionalActionButtons: Array<ButtonProps> = useMemo(() => [
     {
       name: i18n.t('COMMON.ADD'),
-      handleOnClick: () => { history.push('/apps/bookings/create'); },
+      handleOnClick: () => {
+        history.push('/apps/bookings/create');
+      },
     },
   ], []);
 
@@ -141,8 +146,10 @@ export default function BookingListPage() {
         fetchDataState={fetchBookingsDataState}
         searchableColumns={[]}
         sortColumnDefault="code"
-        onPageChange={() => { }}
-        onRefresh={() => { }}
+        onPageChange={() => {
+        }}
+        onRefresh={() => {
+        }}
         data={filteredBookings || []}
         expandableRows
         expandableRowsComponent={BookingExpandableRowComponent}

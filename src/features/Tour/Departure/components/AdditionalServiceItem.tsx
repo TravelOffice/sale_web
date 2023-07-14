@@ -2,9 +2,7 @@ import React from 'react';
 import { Trash } from 'react-feather';
 import { Control, Controller } from 'react-hook-form';
 import {
-  Button,
-  Col,
-  FormFeedback, Input, InputGroup, InputGroupText, Row,
+  Button, Col, FormFeedback, Input, InputGroup, InputGroupText, Row,
 } from 'reactstrap';
 import CurrencyInput from 'react-currency-input-field';
 import { convertCurrencyToNumber } from '@utils/CurrencyUtils';
@@ -51,7 +49,7 @@ const AdditionalServiceItem: React.FC<AdditionalServiceItemProps> = ({
         <div
           className="divider-text text-primary fw-bolder"
         >
-          {i18n.t('DEPARTURE_TOUR.ADDITIONAL_SERVICES')}
+          {i18n.t('TOUR_TEMPLATE.PRICE')}
         </div>
       </div>
       {services.map((service, index) => (
@@ -76,9 +74,9 @@ const AdditionalServiceItem: React.FC<AdditionalServiceItemProps> = ({
                     />
                     {errors.otherPrice?.[index]?.name
                       && (
-                      <FormFeedback>
-                        {errors.otherPrice?.[index]?.name?.message}
-                      </FormFeedback>
+                        <FormFeedback>
+                          {errors.otherPrice?.[index]?.name?.message}
+                        </FormFeedback>
                       )}
                   </InputGroup>
                 )}
@@ -105,9 +103,9 @@ const AdditionalServiceItem: React.FC<AdditionalServiceItemProps> = ({
                     />
                     <InputGroupText>VND</InputGroupText>
                     {errors.otherPrice?.[index]?.price && (
-                    <FormFeedback>
-                      {errors.otherPrice?.[index]?.price?.message}
-                    </FormFeedback>
+                      <FormFeedback>
+                        {errors.otherPrice?.[index]?.price?.message}
+                      </FormFeedback>
                     )}
                   </InputGroup>
                 )}
