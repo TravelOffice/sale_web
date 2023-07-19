@@ -1,4 +1,4 @@
-import { SupplierServiceType } from './SupplierServiceType';
+import { SupplierServiceType } from '@domain/entities/supplier/SupplierServiceType';
 import { Quote } from './Quote';
 import { PaymentInfo } from './PaymentInfo';
 import { Contact } from './Contact';

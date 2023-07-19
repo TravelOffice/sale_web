@@ -1,7 +1,7 @@
 import React from 'react';
 import i18n from '@config/i18n';
 import { TableColumn } from 'react-data-table-component';
-import { Quote, Supplier } from '@domain/entities/supplier';
+import { Supplier } from '@domain/entities/supplier';
 import { Link } from 'react-router-dom';
 import {
   generateEditableUrlForSupplier,
@@ -13,7 +13,7 @@ import { Archive, MoreVertical, Trash2 } from 'react-feather';
 
 const supplierColumns: TableColumn<Supplier>[] = [
   {
-    name: i18n.t('COMMON.INDEX'),
+    name: i18n.t('SUPPLIER.CODE'),
     width: '130px',
     sortable: true,
     sortField: 'code',
@@ -31,22 +31,9 @@ const supplierColumns: TableColumn<Supplier>[] = [
     cell: (supplier: Supplier) => supplier.name,
   },
   {
-    name: i18n.t('SUPPLIER.QUOTE_LINK'),
-    minWidth: '200px',
-    sortable: true,
-    sortField: 'type',
-    cell: (supplier: Supplier) => (
-      supplier.quotes.map((item: Quote) => (
-        <a href={item.link} target="_blank" rel="noreferrer">
-          {item.link}
-        </a>
-      ))
-    ),
-  },
-  {
     name: i18n.t('SUPPLIER.ADDRESS'),
     minWidth: '200px',
-    cell: (supplier: Supplier) => `${supplier.address}`,
+    cell: (supplier: Supplier) => `${supplier.address}, ${supplier.district}, ${supplier.city}`,
   },
   {
     name: i18n.t('COMMON.ACTIONS'),

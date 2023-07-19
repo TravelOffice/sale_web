@@ -3,6 +3,8 @@ import { ExpanderComponentProps } from 'react-data-table-component/dist/src/Data
 import { Supplier } from '@domain/entities/supplier';
 import { Col, Row } from 'reactstrap';
 import i18n from '@config/i18n';
+import { ContentState, Editor, EditorState } from 'draft-js';
+import htmlToDraft from 'html-to-draftjs';
 
 const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
   { data: supplier }:ExpanderComponentProps<Supplier>,
@@ -40,7 +42,15 @@ const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
         <br />
         <strong>{i18n.t('SUPPLIER.NOTE')}</strong>
         {': '}
-        {supplier.note}
+        <Editor
+          onChange={() => {}}
+          readOnly
+          editorState={
+            EditorState.createWithContent(
+              ContentState.createFromBlockArray(htmlToDraft(supplier.note || '').contentBlocks),
+            )
+          }
+        />
         <br />
       </Col>
       <Col md={7}>
@@ -57,7 +67,7 @@ const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
           <tbody className="table-hover table-striped">
             {supplier.quotes && supplier.quotes.map((quote, index) => (
               <tr key={index.toString()}>
-                <td>{index}</td>
+                <td className="text-center">{index}</td>
                 <td>{quote.year}</td>
                 <td><a href={quote.link} target="_blank" rel="noreferrer">{quote.link}</a></td>
                 <td>{quote.description}</td>
@@ -77,26 +87,22 @@ const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
           <tbody className="table-hover table-striped">
             {supplier.paymentInfo && supplier.paymentInfo.map((paymentInfo, index) => (
               <tr key={index.toString()}>
-                <td>{index}</td>
+                <td className="text-center">{index + 1}</td>
                 <td>
                   <b>{i18n.t('SUPPLIER.BANK_NAME')}</b>
-                  :
+                  {': '}
                   {paymentInfo.bankName || ''}
-                </td>
-                <br />
-                <td>
-                  <b>{i18n.t('SUPPLIER.ACCOUNT_NAME')}</b>
-                  :
+                  <br />
+                  <b>{i18n.t('SUPPLIER.BANK_ACCOUNT_NAME')}</b>
+                  {': '}
                   {paymentInfo.accountName || ''}
-                </td>
-                <td>
+                  <br />
                   <b>{i18n.t('SUPPLIER.BANK_ACCOUNT_NUMBER')}</b>
-                  :
+                  {': '}
                   {paymentInfo.accountNumber || ''}
-                </td>
-                <td>
+                  <br />
                   <b>{i18n.t('SUPPLIER.BANK_BRANCH')}</b>
-                  :
+                  {': '}
                   {paymentInfo.bankBranch || ''}
                 </td>
               </tr>
@@ -115,7 +121,7 @@ const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
           <tbody className="table-hover table-striped">
             {supplier.contacts && supplier.contacts.map((contact, index) => (
               <tr key={index.toString()}>
-                <td>{index}</td>
+                <td className="text-center">{index + 1}</td>
                 <td>
                   <b>{i18n.t('SUPPLIER.CONTACT_NAME')}</b>
                   {': '}
