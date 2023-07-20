@@ -1,4 +1,4 @@
-import { tourPresenter } from '@adapter/presenters';
+import { tourPresenter, userPresenter } from '@adapter/presenters';
 import Table from '@components/Table/Table';
 import i18n from '@config/i18n';
 import { ExtendedDepartureTour, TourLocation } from '@domain/entities/tour';
@@ -6,7 +6,7 @@ import departureTourColumns from '@features/ToursOperation/DepartureTour/compone
 import DepartureTourFilter, { DepartureTourFilterParams } from '@features/ToursOperation/DepartureTour/components/DepartureTourFilter';
 import { HandleDataState } from '@redux/slices/others/HandleDataState';
 import { useQueries } from '@tanstack/react-query';
-import { filterDepartureTours, toSearchableContent } from '@utils/TousOperationUtils';
+import { canUserBeOperator, filterDepartureTours, toSearchableContent } from '@utils/TousOperationUtils';
 import React, { useMemo, useState } from 'react';
 import { ExpanderComponentProps } from 'react-data-table-component';
 import { Info, User } from 'react-feather';
@@ -17,13 +17,13 @@ import {
   Col, Row,
 } from 'reactstrap';
 
+// Expandable component UI that show detailed data of each departure tour
 type InternalComponentProps = ExpanderComponentProps<ExtendedDepartureTour>;
-
-// Expandable component UI
 const TourDepartureExpandableRowComponent: React.FC<InternalComponentProps> = (
   { data }: InternalComponentProps,
 ) => {
   console.log(data);
+  // TODO: Implement this component later when the feature is ready
   return (
     <div className="container py-xxl-1">
       <Row>
@@ -64,6 +64,14 @@ export default function DepartureTourListPage() {
         queryKey: ['toursLocation'],
         queryFn: tourPresenter.getAllToursLocation,
       },
+      // * Force getting all operator users to use in tour table
+      {
+        queryKey: ['operators'],
+        queryFn: async () => {
+          const users = await userPresenter.getAllUsers();
+          return users.filter((user) => canUserBeOperator(user));
+        },
+      },
     ],
   });
 
@@ -90,7 +98,7 @@ export default function DepartureTourListPage() {
   }, [isFetching, isFetched, isError]);
 
   const filteredDepartureTours = useMemo(() => {
-    if (!departureTours) return [] as ExtendedDepartureTour[];
+    if (!departureTours) return [];
     const extendedDepTours = departureTours.map((depTour) => ({
       ...depTour,
       startingLocationName: fromIdToTourLocationName(depTour.startingLocation, tourLocations || []),
@@ -99,7 +107,7 @@ export default function DepartureTourListPage() {
 
     if (!filterParams) return extendedDepTours;
     return filterDepartureTours(extendedDepTours, filterParams);
-  }, [departureTours, filterParams]);
+  }, [departureTours, tourLocations, filterParams]);
 
   const history = useHistory();
   const additionalActionButtons: Array<ButtonProps> = useMemo(() => [

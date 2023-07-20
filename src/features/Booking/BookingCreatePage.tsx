@@ -30,7 +30,7 @@ import '@styles/react/libs/editor/editor.scss';
 import {
   bookingPresenter, sourcePresenter, tourTemplatePresenter, userPresenter,
 } from '@adapter/presenters';
-import { useMutation, useQueries } from '@tanstack/react-query';
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import toasty from '@components/Toasty/Toasty';
 import { AddBookingFormData } from '@domain/entities/booking/AddBookingFormData';
 import { HonorificType } from '@domain/entities/customer/Customer';
@@ -39,7 +39,7 @@ import { Link, useHistory } from 'react-router-dom';
 import FormItemSelect from '@components/Form/FormItemSelect';
 import { generateI18nForLead } from '@utils/LeadUtils';
 import { generateI18nForBooking } from '@utils/BookingUtils';
-import { RoleEnum } from '@domain/entities/User';
+import { RoleEnum, User } from '@domain/entities/User';
 import moment from 'moment';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 
@@ -115,6 +115,7 @@ const initialFormData: AddBookingFormData = {
 
 const BookingCreatePage = () => {
   const history = useHistory();
+  const queryClient = useQueryClient();
   /**
    * Fetch related data for booking, such as tour templates, sales, etc
    * @returns {Object} { isLoading: boolean, relatedData: Array }
@@ -124,7 +125,6 @@ const BookingCreatePage = () => {
       {
         queryKey: ['tour-templates'],
         queryFn: tourTemplatePresenter.getAllTourTemplates,
-        refetchOnWindowFocus: false,
       },
       {
         queryKey: ['sales'],
@@ -132,9 +132,14 @@ const BookingCreatePage = () => {
           const allUsers = await userPresenter.getAllUsers();
           return allUsers.filter((user) => user.roles.includes(RoleEnum.SALE));
         },
-        refetchOnWindowFocus: false,
+        // Data from `users` query can be get from User list page before
+        // So, we can get data from query cache to avoid fetching data from server again
+        initialData: () => {
+          const allUsers = queryClient.getQueryData(['users']) as User[] | undefined;
+          return allUsers?.filter((user) => user.roles.includes(RoleEnum.SALE));
+        },
       },
-      { queryKey: ['sources'], queryFn: sourcePresenter.getAll, refetchOnWindowFocus: false },
+      { queryKey: ['sources'], queryFn: sourcePresenter.getAll },
     ],
   });
 

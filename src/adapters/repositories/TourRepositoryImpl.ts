@@ -22,4 +22,14 @@ export default class TourRepositoryImpl implements DepartureTourRepository {
     const response = await apiProvider.authorizedRequest.get('/departure-tours');
     return response.data;
   }
+
+  takeCareTour = async (departureTourId: string) => {
+    const response = await apiProvider.authorizedRequest.put('/me/take-care-tour', { departureTourId });
+    return response.data;
+  }
+
+  assignTourOperator = async (departureTourId: string, assigneeId: string) => {
+    const response = await apiProvider.authorizedRequest.put(`/departure-tours/${departureTourId}/assignee`, { assigneeId });
+    return response.data;
+  }
 }

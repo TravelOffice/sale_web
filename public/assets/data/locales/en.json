@@ -69,7 +69,8 @@
     "PROCESSING": "Processing",
     "QUANTITY": "Quantity",
     "INDEX": "INDEX",
-    "ACCEPT": "Accept"
+    "ACCEPT": "Accept",
+    "CONFIRM": "Confirm"
   },
   "LEAD": {
     "NAME": "Name",
@@ -590,11 +591,11 @@
     },
     "OPERATE": "Operate",
     "OPERATOR": "Operator",
-    "CODE_TT": "Code/Information",
+    "CODE_TT": "Code/Status",
     "TOUR_INFORMATION": "Tour information",
     "TOUR_LOCATION": "Locations",
     "PASSENGERS": "Number of passengers",
-    "PROCESS": "Process",
+    "OPERATION_ACTION": "Operation Action",
     "WAITING_FOR_OPERATION": "Waiting",
     "PROCESSING": "Processing",
     "TRANSFERRED": "Transferred",
@@ -606,7 +607,14 @@
       "NAME": "Name",
       "STARTING_LOCATION": "Starting location",
       "ENDING_LOCATION": "Ending location"
-    }
+    },
+    "SELF_RECEIVE_OPERATE": "Self receive",
+    "SELF_RECEIVE_OPERATE_SUCCESSFULLY": "Self receive operate successfully",
+    "OPERATOR_NOT_ASSIGNED": "Not assigned",
+    "CONFIRM_SELF_RECEIVE_TOUR": "Do you want to self receive this tour?",
+    "CONFIRM_SELF_RECEIVE_TOUR_DESCRIPTION": "You will be assigned to this tour and can start operating it.",
+    "ASSIGN_OPERATOR_SUCCESSFULLY": "Assign operator successfully",
+    "VIEW_ONLY": "View"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Tour template",

@@ -69,7 +69,8 @@
     "PROCESSING": "Đang xử lý",
     "QUANTITY": "Số lượng",
     "INDEX": "STT",
-    "ACCEPT": "Đồng ý"
+    "ACCEPT": "Đồng ý",
+    "CONFIRM": "Xác nhận"
   },
   "LEAD": {
     "NAME": "Họ tên",
@@ -594,11 +595,11 @@
     },
     "OPERATE": "Điều hành",
     "OPERATOR": "Điều hành viên",
-    "CODE_TT": "Code/TT",
+    "CODE_TT": "Code/TTĐH",
     "TOUR_INFORMATION": "Thông tin chuyến đi",
     "TOUR_LOCATION": "Điểm đi/đến",
     "PASSENGERS": "Số lượng hành khách",
-    "PROCESS": "Thao tác",
+    "OPERATION_ACTION": "Hành động ĐH",
     "WAITING_FOR_OPERATION": "Chờ xử lý",
     "PROCESSING": "Đang xử lý",
     "TRANSFERRED": "Bàn giao",
@@ -610,7 +611,14 @@
       "NAME": "Tên",
       "STARTING_LOCATION": "Điểm đi",
       "ENDING_LOCATION": "Điểm đến"
-    }
+    },
+    "SELF_RECEIVE_OPERATE": "Nhận điều hành",
+    "SELF_RECEIVE_OPERATE_SUCCESSFULLY": "Nhận điều hành thành công",
+    "OPERATOR_NOT_ASSIGNED": "Chưa chỉ định",
+    "CONFIRM_SELF_RECEIVE_TOUR": "Bạn có muốn nhận điều hành chuyến đi này?",
+    "CONFIRM_SELF_RECEIVE_TOUR_DESCRIPTION": "Bạn sẽ trở thành điều hành viên của chuyến đi này và có thể thực hiện các hành động điều hành.",
+    "ASSIGN_OPERATOR_SUCCESSFULLY": "Chỉ định điều hành viên thành công",
+    "VIEW_ONLY": "Xem chi tiết"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Chuyến đi mẫu",
