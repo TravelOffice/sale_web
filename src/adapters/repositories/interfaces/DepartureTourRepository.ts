@@ -1,5 +1,5 @@
 import {
-  CreateTourTemplateFormData,
+  CreateDepartureTourFormData,
   DepartureTour,
   TourLocation,
   TourTemplate,
@@ -9,5 +9,5 @@ export interface DepartureTourRepository {
   getAllDepartureTours: () => Promise<DepartureTour[]>,
   getAllToursTemplate: () => Promise<TourTemplate[]>,
   getAllToursLocation: () => Promise<TourLocation[]>,
-  createDepartureTour: (departureTour: CreateTourTemplateFormData) => Promise<DepartureTour>,
+  createDepartureTour(formData: CreateDepartureTourFormData): Promise<DepartureTour>
 }

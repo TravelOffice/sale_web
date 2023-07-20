@@ -96,7 +96,7 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
           </Label>
           <div className="d-flex">
             <InputGroup>
-              <InputGroupText>Starting Location</InputGroupText>
+              <InputGroupText>{i18n.t('TOUR_TEMPLATE.STARTING_LOCATION')}</InputGroupText>
               <FormItemSelect
                 control={control}
                 name="startingLocation"

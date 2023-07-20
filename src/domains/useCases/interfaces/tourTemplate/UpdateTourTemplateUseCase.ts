@@ -1,5 +1,8 @@
-import { TourTemplate } from '@domain/entities/tour/TourTemplate';
+import { TourTemplate, UpdateTourTemplateFormData } from '@domain/entities/tour/TourTemplate';
 
 export interface UpdateTourTemplateUseCase {
-  invoke: (tourTemplateId: string, tourTemplate: TourTemplate) => Promise<TourTemplate>
+  invoke: (
+    tourTemplateId: string,
+    tourTemplate: UpdateTourTemplateFormData,
+  ) => Promise<TourTemplate>
 }

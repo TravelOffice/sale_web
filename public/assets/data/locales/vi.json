@@ -553,7 +553,10 @@
     "SERVICE_PRICE": "Giá dịch vụ",
     "ADD_SERVICE": "Thêm dịch vụ",
     "EDIT_TOUR_TEMPLATE": "Chỉnh sửa tour mẫu",
-    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Chỉnh sửa tour mẫu thành công"
+    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Chỉnh sửa tour mẫu thành công",
+    "CREATE_TOUR_TEMPLATE_SUCCESSFULLY": "Tạo mới tour mẫu thành công",
+    "CATEGORY": "Danh mục",
+    "SELECT_TOUR_TYPE": "Chọn loại tour"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Tour khởi hành",
@@ -575,7 +578,8 @@
     "INLAND": "Tour trong nước",
     "INBOUND": "Tour inbound",
     "OUTBOUND": "Tour nước ngoài",
-    "SELECT_TOUR_TEMPLATE": "Chọn tour template"
+    "SELECT_TOUR_TEMPLATE": "Chọn tour template",
+    "START_DATE": "Ngày khởi hành"
   },
   "TOURS_OPERATION": {
     "NAV": {

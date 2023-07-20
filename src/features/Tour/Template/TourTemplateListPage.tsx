@@ -1,6 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { tourPresenter, tourTemplatePresenter } from '@adapter/presenters';
 import {
   ButtonProps, Card, CardBody, CardHeader, CardTitle, Col, Row,
 } from 'reactstrap';
@@ -14,7 +12,9 @@ import { formatVND } from '@utils/CommonUtils';
 import moment from 'moment/moment';
 import tourTemplateColumns from '@features/Tour/Template/components/TourTemplateColumns';
 import { useHistory } from 'react-router-dom';
-import { TourLocation } from '@domain/entities/tour';
+import { useTourLocations } from '@hooks/tourLocation';
+import { findTourLocationNameByCode } from '@utils/TourLocationUtils';
+import { useTourTemplates } from '@hooks/tourTemplate';
 import TourTemplateFilter, { TourTemplateFilterParams } from './components/TourTemplateFilter';
 
 const TourTemplateExpandableRow: React.FC<ExpanderComponentProps<TourTemplate>> = (
@@ -57,19 +57,11 @@ const TourTemplateExpandableRow: React.FC<ExpanderComponentProps<TourTemplate>> 
 
 export default function TourTemplateListPage() {
   const [filterParams, setFilterParams] = useState<TourTemplateFilterParams>();
+  const history = useHistory();
   const {
     data: allTourTemplates, isFetching, isFetched, isError, refetch,
-  } = useQuery(
-    ['tour-templates'], async () => tourTemplatePresenter.getAllTourTemplates(),
-  );
-  const { data: toursLocationData } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
-  const getLocationFromCode = (code: string) => {
-    if (!toursLocationData) return '';
-    const location = toursLocationData.find(
-      (item: TourLocation) => item.code === code,
-    ) as TourLocation;
-    return location ? location.name : '';
-  };
+  } = useTourTemplates();
+  const { data: tourLocations = [] } = useTourLocations();
 
   const fetchTourTemplatesState: HandleDataState = useMemo(() => {
     if (isFetching) return 'loading';
@@ -78,18 +70,20 @@ export default function TourTemplateListPage() {
     return 'init';
   }, [isFetching, isFetched, isError]);
 
-  const tourTemplates = useMemo(() => {
+  const tourTemplatesWithLocation = useMemo(() => {
     if (!allTourTemplates) return [];
-    const tourTemplateList: Array<TourTemplate> = allTourTemplates?.map((item: TourTemplate) => ({
-      ...item,
-      startingLocation: getLocationFromCode(item.startingLocation),
-      endingLocation: getLocationFromCode(item.endingLocation),
-    }) as TourTemplate);
-    if (!filterParams) return tourTemplateList;
-    return filterTourTemplates(tourTemplateList, filterParams);
-  }, [allTourTemplates, filterParams]);
+    return allTourTemplates.map((tourTemplate) => ({
+      ...tourTemplate,
+      startingLocation: findTourLocationNameByCode(tourLocations, tourTemplate.startingLocation),
+      endingLocation: findTourLocationNameByCode(tourLocations, tourTemplate.endingLocation),
+    }));
+  }, [allTourTemplates, tourLocations]);
 
-  const history = useHistory();
+  const tourTemplates = useMemo(() => {
+    if (!filterParams) return tourTemplatesWithLocation;
+    return filterTourTemplates(tourTemplatesWithLocation, filterParams);
+  }, [tourTemplatesWithLocation, filterParams]);
+
   const tourTemplateBtnArr: Array<ButtonProps> = [
     {
       name: i18n.t('COMMON.ADD'),
@@ -117,9 +111,7 @@ export default function TourTemplateListPage() {
         sortColumnDefault="code"
         onPageChange={() => {
         }}
-        onRefresh={() => {
-          refetch();
-        }}
+        onRefresh={refetch}
         expandableRows
         expandableRowsComponent={TourTemplateExpandableRow}
         extraButtons={tourTemplateBtnArr}

@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 // ** Third Party Components
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -12,32 +12,20 @@ import {
 
 import { ContentState, EditorState } from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
-import { CreateDepartureTourFormData, TourServicePrice } from '@domain/entities/tour';
+import { CreateDepartureTourFormData } from '@domain/entities/tour';
 import TourType from '@domain/entities/tour/TourType';
-import { useDispatch, useSelector } from 'react-redux';
-import { tourActions } from '@redux/slices/tourSlice';
 import TourStatus from '@domain/entities/tour/TourStatus';
-import { RootState } from '@redux/store';
-import AdditionalServiceItem from '@features/Tour/Departure/components/AdditionalServiceItem';
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/libs/input-number/input-number.scss';
 import '@styles/react/libs/editor/editor.scss';
 import { tourPresenter } from '@adapter/presenters';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import CommonInformation from '@features/Tour/Departure/components/CommonInformation';
-import PoliciesAndRegulations from '@features/Tour/Departure/components/PoliciesAndRegulations';
-
-// otherPrice schema
-const otherPriceSchema = yup.object().shape({
-  name: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.SERVICE_NAME') })),
-  price: yup
-    .number()
-    .integer()
-    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('DEPARTURE_TOUR.SERVICE_PRICE'), value: 0 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.SERVICE_PRICE') })),
-});
+import PoliciesAndRegulations from '@features/Tour/components/PoliciesAndRegulations';
+import Services from '@features/Tour/Departure/components/Services';
+import toasty from '@components/Toasty/Toasty';
 
 const schema = yup.object().shape({
   tourTemplateCode: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.TOUR_TEMPLATE') })),
@@ -63,23 +51,22 @@ const schema = yup.object().shape({
     .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.DURATION_IN_NIGHTS'), value: 0 }))
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.DURATION_IN_NIGHTS') })),
   status: yup.string().required('Please select Open status'),
-  adultPrice: yup
-    .number()
-    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.ADULT_PRICE') }))
-    .min(1, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.ADULT_PRICE'), value: 1 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.ADULT_PRICE') })),
-  otherPrice: yup.array().of(otherPriceSchema).required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.ADDITIONAL_SERVICES') })),
+  services: yup.array().of(
+    yup.object().shape({
+      name: yup.string()
+        .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.SERVICE_NAME') })),
+      price: yup.number()
+        .integer()
+        .moreThan(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.SERVICE_PRICE'), value: 0 }))
+        .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.SERVICE_PRICE') })),
+    }),
+  ),
 });
 
 const CreateDepartureTour = () => {
-  const dispatch = useDispatch();
-
   // Fetch tour template and location data
-  const { data: toursTemplateData } = useQuery(['toursTemplate'], async () => tourPresenter.getAllToursTemplate());
-  const toursTemplate = useMemo(() => toursTemplateData || [], [toursTemplateData]);
-  const { data: toursLocationData } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
-  const toursLocation = useMemo(() => toursLocationData || [], [toursLocationData]);
-  const createLoading = useSelector((state: RootState) => state.tour.createDepartureTourLoading);
+  const { data: tourTemplates = [] } = useQuery(['toursTemplate'], async () => tourPresenter.getAllToursTemplate());
+  const { data: tourLocations = [] } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
 
   // Editor State
   const [
@@ -95,9 +82,6 @@ const CreateDepartureTour = () => {
     setCancellationTerms,
   ] = useState(EditorState.createEmpty());
   const [tourPlan, setTourPlan] = useState(EditorState.createEmpty());
-
-  // Other state
-  const [services, serServices] = useState<TourServicePrice[]>([]);
 
   const {
     handleSubmit,
@@ -118,7 +102,6 @@ const CreateDepartureTour = () => {
       durationInDays: 0,
       durationInNights: 0,
       status: TourStatus.ONSALE,
-      services: [],
       policiesAndRegulations: {},
     },
   });
@@ -132,7 +115,7 @@ const CreateDepartureTour = () => {
 
   const handleToursTemplateChange = (tourTemplateCode: string) => {
     // Set values for all form fields based on the selected toursTemplate data
-    const tourTemplate = toursTemplate.find((tour) => tour.code === tourTemplateCode);
+    const tourTemplate = tourTemplates.find((tour) => tour.code === tourTemplateCode);
     const initDataByTemplate = {
       ...tourTemplate,
       tourTemplate: tourTemplate?.name || '',
@@ -145,7 +128,7 @@ const CreateDepartureTour = () => {
     });
 
     // Set other value
-    serServices(tourTemplate?.services || []);
+    setValue('services', tourTemplate?.services || []);
     setInclusionAndExclusion(stringToEditorState(
       initDataByTemplate.policiesAndRegulations.inclusionAndExclusion,
     ));
@@ -160,12 +143,30 @@ const CreateDepartureTour = () => {
     ));
   };
 
+  const { mutate, isLoading } = useMutation({
+    mutationFn: tourPresenter.createDepartureTour,
+    onSuccess: () => {
+      toasty.show({
+        title: i18n.t('COMMON.SUCCESS'),
+        type: 'success',
+        message: i18n.t('DEPARTURE_TOUR.CREATE_DEPARTURE_TOUR_SUCCESSFULLY'),
+      });
+    },
+    onError: (error: Error) => {
+      toasty.show({
+        title: i18n.t('COMMON.ERROR'),
+        type: 'error',
+        message: error.message,
+      });
+    },
+  });
+
   const onSubmit = (data: CreateDepartureTourFormData) => {
     const dataToAdd = {
       ...data,
       status: data.isOpen ? TourStatus.ONSALE : TourStatus.CLOSED,
     };
-    dispatch(tourActions.createDepartureTour(dataToAdd));
+    mutate(dataToAdd);
   };
 
   const handleReset = () => {
@@ -173,7 +174,6 @@ const CreateDepartureTour = () => {
     setCancellationTerms(stringToEditorState(''));
     setPolicyConditionsAndExtraFee(stringToEditorState(''));
     setTourPlan(stringToEditorState(''));
-    serServices([]);
     reset();
   };
 
@@ -188,16 +188,14 @@ const CreateDepartureTour = () => {
           <CommonInformation
             control={control}
             errors={errors}
-            toursLocation={toursLocation}
-            toursTemplate={toursTemplate}
+            toursLocation={tourLocations}
+            toursTemplate={tourTemplates}
             onToursTemplateChange={handleToursTemplateChange}
           />
           {/* Additional Services */}
-          <AdditionalServiceItem
-            services={services}
+          <Services
             control={control}
             errors={errors}
-            setServices={serServices}
           />
           {/* Policies, Regulations and Tour Plan */}
           <PoliciesAndRegulations
@@ -216,9 +214,9 @@ const CreateDepartureTour = () => {
             <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
               {i18n.t('COMMON.CANCEL')}
             </Button>
-            <Button type="submit" className="me-1" color="primary">
-              {!createLoading ? i18n.t('DEPARTURE_TOUR.CREATE') : i18n.t('COMMON.LOADING')}
-              {createLoading ? (
+            <Button type="submit" className="me-1" color="primary" disabled={isLoading}>
+              {!isLoading ? i18n.t('DEPARTURE_TOUR.CREATE') : i18n.t('COMMON.LOADING')}
+              {isLoading ? (
                 <Spinner
                   style={{ width: '0.7rem', height: '0.7rem' }}
                   type="grow"

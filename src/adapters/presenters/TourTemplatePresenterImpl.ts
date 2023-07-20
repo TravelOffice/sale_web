@@ -1,4 +1,4 @@
-import { CreateTourTemplateFormData, TourTemplate } from '@domain/entities/tour/TourTemplate';
+import { CreateTourTemplateFormData, UpdateTourTemplateFormData } from '@domain/entities/tour/TourTemplate';
 import {
   addTourTemplateUseCase,
   getAllTourTemplatesUseCase,
@@ -20,6 +20,6 @@ export default class TourTemplatePresenterImpl implements TourTemplatePresenter 
 
   updateTourTemplate = async (
     tourTemplateId: string,
-    formData: TourTemplate,
+    formData: UpdateTourTemplateFormData,
   ) => updateTourTemplateUseCase.invoke(tourTemplateId, formData);
 }

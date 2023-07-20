@@ -13,8 +13,8 @@ export default class TourRepositoryImpl implements DepartureTourRepository {
     return response.data;
   }
 
-  createDepartureTour = async (departureTour: CreateTourTemplateFormData) => {
-    const response = await apiProvider.authorizedRequest.post('/departure-tours', departureTour);
+  createDepartureTour = async (formData: CreateTourTemplateFormData) => {
+    const response = await apiProvider.authorizedRequest.post('/departure-tours', formData);
     return response.data;
   }
 
