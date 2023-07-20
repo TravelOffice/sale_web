@@ -20,6 +20,8 @@ import { ReceiptRepository } from '@adapter/repositories/interfaces/ReceiptRepos
 import ReceiptRepositoryImpl from '@adapter/repositories/ReceiptRepositoryImpl';
 import { SupplierRepository } from '@adapter/repositories/interfaces/SupplierRepository';
 import SupplierRepositoryImpl from '@adapter/repositories/SupplierImpl';
+import { PaymentVoucherRepository } from '@adapter/repositories/interfaces/PaymentVoucherRepository';
+import PaymentVoucherRepositoryImpl from '@adapter/repositories/PaymentVoucherRepositoryImpl';
 import { TourTemplateRepository } from './interfaces/TourTemplateRepository';
 import TourTemplatePresenterImpl from './TourTemplateRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
@@ -52,6 +54,7 @@ interface Repositories {
   sourceRepository: SourceRepository,
   receiptRepository: ReceiptRepository,
   supplierRepository: SupplierRepository
+  paymentVoucherRepository: PaymentVoucherRepository
 }
 
 const repositories: Repositories = {
@@ -72,6 +75,7 @@ const repositories: Repositories = {
   sourceRepository: new SourceRepositoryImpl(),
   receiptRepository: new ReceiptRepositoryImpl(),
   supplierRepository: new SupplierRepositoryImpl(),
+  paymentVoucherRepository: new PaymentVoucherRepositoryImpl(),
 };
 
 export const {
@@ -92,4 +96,5 @@ export const {
   sourceRepository,
   receiptRepository,
   supplierRepository,
+  paymentVoucherRepository,
 } = repositories;

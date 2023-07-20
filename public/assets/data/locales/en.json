@@ -694,5 +694,24 @@
     "CONTACT_NAME": "Contact name",
     "CONTACT_PHONE_NUMBER": "Phone number",
     "CONTACT_EMAIL": "Email"
+  },
+  "PAYMENT_VOUCHER": {
+    "CODE": "Code",
+    "CREATED_DATE": "Created date",
+    "DEADLINE": "Deadline",
+    "AMOUNT": "Amount",
+    "STATUS": "Status",
+    "RECEIVER": "Receiver",
+    "CREATED_DATE_RANGE": "Created at range",
+    "DUE_DATE_RANGE": "Deadline date range",
+    "DESCRIPTION": "Description",
+    "CREATOR": "Creator",
+    "NOTE": "Note",
+    "SIGNED": "Signed",
+    "APPROVED": "Approved",
+    "TRANSFERRED": "Transferred",
+    "WAIT_FOR_APPROVAL": "Waiting for approval",
+    "WAIT_FOR_TRANSFER": "Waiting for transfer",
+    "WAIT_FOR_SIGN": "Waiting for sign"
   }
 }

@@ -1,4 +1,5 @@
 import i18n from '@config/i18n';
+import moment from 'moment/moment';
 
 // ** Checks if the passed date is today
 export const isToday = (date: Date) => {
@@ -36,4 +37,28 @@ export const timeDiffAsI18nText = (from: Date, to: Date) => {
   const minutes = Math.floor(diff / (1000 * 60)) % 60;
 
   return i18n.t('BOOKING.MINUTES_FROM_CREATED_AT', { days, hours, minutes });
+};
+
+/**
+ * Checks if a given date falls within a specified date range.
+ *
+ * @param itemDate - The date to check if it falls within the range.
+ * @param range - The date range specified as an array of two Date objects [startDate, endDate].
+ * @returns True if the itemDate is within the specified range, false otherwise.
+ */
+export const isDateInRange = (itemDate: string | number | undefined, range: Date[]): boolean => {
+  // If the itemDate is not provided, it cannot be within the range, so return false.
+  if (!itemDate) return false;
+
+  // Convert the start and end date of the range to moment instances for comparison.
+  const startDate = moment(range[0]);
+  const endDate = moment(range[1]);
+
+  // Convert the itemDate to a moment instance and set the time to the start of the day.
+  const actualDate = moment(itemDate).startOf('day');
+
+  // Use moment's isBetween method to check if the actualDate falls within the range.
+  // The 'day' argument specifies that the comparison should be done at a day granularity,
+  // and '[]' includes both start and end dates in the comparison.
+  return actualDate.isBetween(startDate, endDate, 'day', '[]');
 };

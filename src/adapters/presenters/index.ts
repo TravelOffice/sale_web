@@ -20,6 +20,8 @@ import { SourcePresenter } from '@adapter/presenters/interfaces/SourcePresenter'
 import SourcePresenterImpl from '@adapter/presenters/SourcePresenterImpl';
 import { SupplierPresenter } from '@adapter/presenters/interfaces/SupplierPresenter';
 import SupplierPresenterImpl from '@adapter/presenters/SupplierPresenterImpl';
+import { PaymentVoucherPresenter } from '@adapter/presenters/interfaces/PaymentVoucherPresenter';
+import PaymentVoucherPresenterImpl from '@adapter/presenters/PaymentVoucherPresenterImpl';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 import LeadPresenterImpl from './LeadPresenterImpl';
 import { RolePermissionPresenter } from './interfaces/RolePermissionPresenter';
@@ -42,6 +44,7 @@ interface Presenters {
   sourcePresenter: SourcePresenter,
   receiptPresenter: ReceiptPresenter,
   supplierPresenter: SupplierPresenter
+  paymentVoucherPresenter: PaymentVoucherPresenter
 }
 
 const presenters: Presenters = {
@@ -59,6 +62,7 @@ const presenters: Presenters = {
   sourcePresenter: new SourcePresenterImpl(),
   receiptPresenter: new ReceiptPresenterImpl(),
   supplierPresenter: new SupplierPresenterImpl(),
+  paymentVoucherPresenter: new PaymentVoucherPresenterImpl(),
 };
 
 export const {
@@ -76,4 +80,5 @@ export const {
   sourcePresenter,
   receiptPresenter,
   supplierPresenter,
+  paymentVoucherPresenter,
 } = presenters;
