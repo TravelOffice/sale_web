@@ -551,7 +551,10 @@
     "SERVICE_PRICE": "Service price",
     "ADD_SERVICE": "Add service",
     "EDIT_TOUR_TEMPLATE": "Update tour template",
-    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Edit tour template successfully"
+    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Edit tour template successfully",
+    "CREATE_TOUR_TEMPLATE_SUCCESSFULLY": "Create tour template successfully",
+    "CATEGORY": "Category",
+    "SELECT_TOUR_TYPE": "Select tour type"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Departure tour",
@@ -573,7 +576,8 @@
     "INLAND": "Inland",
     "INBOUND": "Inbound",
     "OUTBOUND": "Outbound",
-    "SELECT_TOUR_TEMPLATE": "Select tour template"
+    "SELECT_TOUR_TEMPLATE": "Select tour template",
+    "START_DATE": "Start date"
   },
   "TOURS_OPERATION": {
     "NAV": {

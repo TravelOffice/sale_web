@@ -1,90 +1,98 @@
 // ** React Imports
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 // ** Third Party Components
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import i18n from '@config/i18n';
 // ** Reactstrap Imports
 import {
   Button, Card, CardBody, CardHeader, CardTitle, Form, Spinner,
 } from 'reactstrap';
-
-import { ContentState, EditorState } from 'draft-js';
-import htmlToDraft from 'html-to-draftjs';
-import { TourServicePrice } from '@domain/entities/tour';
-import { TourTemplate } from '@domain/entities/tour/TourTemplate';
-import AdditionalServiceItem from '@features/Tour/Template/components/AdditionalServiceItem';
+import { CreateTourTemplateFormData } from '@domain/entities/tour';
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/libs/input-number/input-number.scss';
 import '@styles/react/libs/editor/editor.scss';
-import PriceInformation from '@features/Tour/Template/components/PriceInformation';
-import { tourPresenter, tourTemplatePresenter } from '@adapter/presenters';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { tourTemplatePresenter } from '@adapter/presenters';
+import { useMutation } from '@tanstack/react-query';
 import CommonInformation from '@features/Tour/Template/components/CommonInformation';
-import PoliciesAndRegulations from '@features/Tour/Template/components/PoliciesAndRegulations';
 import toasty from '@components/Toasty/Toasty';
 import TourType from '@domain/entities/tour/TourType';
-
-// otherPrice schema
-const otherPriceSchema = yup.object().shape({
-  name: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.SERVICE_NAME') })),
-  price: yup
-    .number()
-    .integer()
-    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.SERVICE_PRICE'), value: 0 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.SERVICE_PRICE') })),
-});
-
-const schema = yup.object().shape({
-  name: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.NAME') })),
-  type: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.TYPE') })),
-  visitorCount: yup
-    .number()
-    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.VISITOR_COUNT') }))
-    .min(1, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.VISITOR_COUNT'), value: 1 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.VISITOR_COUNT') })),
-  startingLocation: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.STARTING_LOCATION') })),
-  endingLocation: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.ENDING_LOCATION') })),
-  durationInDays: yup
-    .number()
-    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.DURATION_IN_DAYS') }))
-    .min(1, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.DURATION_IN_DAYS'), value: 1 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.DURATION_IN_DAYS') })),
-  durationInNights: yup
-    .number()
-    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.DURATION_IN_NIGHTS') }))
-    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.DURATION_IN_NIGHTS'), value: 0 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.DURATION_IN_NIGHTS') })),
-  adultPrice: yup
-    .number()
-    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.ADULT_PRICE') }))
-    .min(1, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.ADULT_PRICE'), value: 1 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.ADULT_PRICE') })),
-  childUnder5Price: yup
-    .number()
-    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.CHILD_UNDER_5_PRICE') }))
-    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.CHILD_UNDER_5_PRICE'), value: 0 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.CHILD_UNDER_5_PRICE') })),
-  child5to7Price: yup
-    .number()
-    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE') }))
-    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE'), value: 0 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE') })),
-  child8to11Price: yup
-    .number()
-    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.CHILD_8_11_PRICE') }))
-    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.CHILD_8_11_PRICE'), value: 0 }))
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.CHILD_8_11_PRICE') })),
-  otherPrice: yup.array().of(otherPriceSchema).optional(),
-});
+import { useTourLocations } from '@hooks/tourLocation';
+import { validateTourSchema } from '@features/Tour/validateSchemas/validateSchema';
+import PoliciesAndRegulations from '@features/Tour/components/PoliciesAndRegulations';
+import { EditorState } from 'draft-js';
+import Services from '@features/Tour/Template/components/Services';
 
 const TourTemplateCreatePage = () => {
   // Fetch location data
-  const { data: toursLocationData } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
-  const toursLocation = useMemo(() => toursLocationData || [], [toursLocationData]);
+  const { data: tourLocations = [] } = useTourLocations();
+
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm<CreateTourTemplateFormData>({
+    resolver: yupResolver(validateTourSchema),
+    defaultValues: {
+      name: '',
+      type: TourType.INBOUND,
+      visitorCount: 0,
+      startingLocation: '',
+      endingLocation: '',
+      durationInDays: 0,
+      durationInNights: 0,
+      services: [
+        {
+          name: i18n.t('TOUR_TEMPLATE.ADULT_PRICE'),
+          price: 0,
+        },
+        {
+          name: i18n.t('TOUR_TEMPLATE.CHILD_UNDER_5_PRICE'),
+          price: 0,
+        },
+        {
+          name: i18n.t('TOUR_TEMPLATE.CHILD_5_7_PRICE'),
+          price: 0,
+        },
+        {
+          name: i18n.t('TOUR_TEMPLATE.CHILD_8_11_PRICE'),
+          price: 0,
+        },
+      ],
+      policiesAndRegulations: {},
+    },
+  });
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (
+      formData: CreateTourTemplateFormData,
+    ) => tourTemplatePresenter.addTourTemplate(formData),
+    onSuccess: () => {
+      toasty.show({
+        title: i18n.t('COMMON.SUCCESS'),
+        type: 'success',
+        message: i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE_SUCCESSFULLY'),
+      });
+    },
+    onError: (error: Error) => {
+      toasty.show({
+        title: i18n.t('COMMON.ERROR'),
+        type: 'error',
+        message: error.message,
+      });
+    },
+  });
+
+  const onSubmit = useCallback((data: CreateTourTemplateFormData) => {
+    mutate(data);
+  }, []);
+
+  const handleReset = () => {
+    reset();
+  };
 
   // Editor State
   const [
@@ -101,73 +109,6 @@ const TourTemplateCreatePage = () => {
   ] = useState(EditorState.createEmpty());
   const [tourPlan, setTourPlan] = useState(EditorState.createEmpty());
 
-  // Other state
-  const [services, setServices] = useState<TourServicePrice[]>([]);
-
-  const {
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-  } = useForm<TourTemplate>({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      name: '',
-      type: TourType.INBOUND,
-      visitorCount: 0,
-      startingLocation: '',
-      endingLocation: '',
-      durationInDays: 0,
-      durationInNights: 0,
-      services: [{
-        name: '',
-        price: 0,
-      }],
-      policiesAndRegulations: {},
-    },
-  });
-
-  const stringToEditorState = (value?: string) => {
-    // Convert the HTML string to Draft.js content
-    const contentBlock = htmlToDraft(value || '').contentBlocks;
-    const contentState = ContentState.createFromBlockArray(contentBlock);
-    return EditorState.createWithContent(contentState);
-  };
-
-  const {
-    isSuccess, isLoading, isError, error, mutate,
-  } = useMutation(tourTemplatePresenter.addTourTemplate);
-
-  useMemo(() => {
-    if (isError) {
-      toasty.show({
-        title: i18n.t('COMMON.ERROR'),
-        type: 'error',
-        message: `${error}`,
-      });
-    }
-    if (isSuccess) {
-      toasty.show({
-        title: i18n.t('COMMON.SUCCESS'),
-        type: 'success',
-        message: i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE_SUCCESSFULLY'),
-      });
-    }
-  }, [isSuccess, isError, error]);
-  const onSubmit = (data: TourTemplate) => {
-    const dataToAdd = data;
-    mutate(dataToAdd);
-  };
-
-  const handleReset = () => {
-    setInclusionAndExclusion(stringToEditorState(''));
-    setCancellationTerms(stringToEditorState(''));
-    setPolicyConditionsAndExtraFee(stringToEditorState(''));
-    setTourPlan(stringToEditorState(''));
-    setServices([]);
-    reset();
-  };
-
   return (
     <Card>
       <CardHeader>
@@ -179,20 +120,9 @@ const TourTemplateCreatePage = () => {
           <CommonInformation
             control={control}
             errors={errors}
-            toursLocation={toursLocation}
+            toursLocation={tourLocations}
           />
-          {/* Price Information */}
-          <PriceInformation
-            control={control}
-            errors={errors}
-          />
-          {/* Additional Services */}
-          <AdditionalServiceItem
-            services={services}
-            control={control}
-            errors={errors}
-            setServices={setServices}
-          />
+          <Services control={control} errors={errors} />
           {/* Policies, Regulations and Tour Plan */}
           <PoliciesAndRegulations
             control={control}
@@ -210,7 +140,7 @@ const TourTemplateCreatePage = () => {
             <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
               {i18n.t('COMMON.CANCEL')}
             </Button>
-            <Button type="submit" className="me-1" color="primary">
+            <Button type="submit" className="me-1" color="primary" disabled={isLoading}>
               {!isLoading ? i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE') : i18n.t('COMMON.LOADING')}
               {isLoading ? (
                 <Spinner

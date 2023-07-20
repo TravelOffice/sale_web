@@ -7,7 +7,6 @@ import notificationSaga from '@redux/saga/notificationSaga';
 import mailSaga from '@redux/saga/mailSaga';
 import userSaga from './saga/userSaga';
 import rolePermissionSaga from './saga/rolePermission';
-import tourSaga from './saga/tourSaga';
 
 // eslint-disable-next-line require-yield
 function* log(action: PayloadAction) {
@@ -29,6 +28,5 @@ export default function* rootSaga() {
     notificationSaga(),
     rolePermissionSaga(),
     mailSaga(),
-    tourSaga(),
   ]);
 }

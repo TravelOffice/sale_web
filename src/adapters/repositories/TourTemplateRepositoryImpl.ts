@@ -1,6 +1,6 @@
 import { apiProvider } from '@adapter/infrastructures';
 import { TourTemplateRepository } from '@adapter/repositories/interfaces/TourTemplateRepository';
-import { TourTemplate } from '@domain/entities/tour/TourTemplate';
+import { TourTemplate, UpdateTourTemplateFormData } from '@domain/entities/tour/TourTemplate';
 
 export default class TourTemplateRepositoryImpl implements TourTemplateRepository {
   getAllTourTemplates = async () => {
@@ -18,7 +18,7 @@ export default class TourTemplateRepositoryImpl implements TourTemplateRepositor
     return response.data;
   }
 
-  updateTourTemplate = async (tourTemplateId: string, tourTemplate: TourTemplate) => {
+  updateTourTemplate = async (tourTemplateId: string, tourTemplate: UpdateTourTemplateFormData) => {
     const response = await apiProvider.authorizedRequest.put(`/tour-templates/${tourTemplateId}`, tourTemplate);
     return response.data;
   }

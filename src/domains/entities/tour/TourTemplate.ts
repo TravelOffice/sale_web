@@ -37,3 +37,5 @@ export type CreateTourTemplateFormData = Pick<TourTemplate,
 'policiesAndRegulations' |
 'tourPlan'
 >;
+
+export type UpdateTourTemplateFormData = CreateTourTemplateFormData;

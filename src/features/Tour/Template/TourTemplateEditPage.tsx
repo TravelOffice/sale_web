@@ -9,11 +9,7 @@ import {
   Button, Card, CardBody, CardHeader, CardTitle, Form, Spinner,
 } from 'reactstrap';
 
-import { ContentState, EditorState } from 'draft-js';
-import htmlToDraft from 'html-to-draftjs';
-import { TourServicePrice } from '@domain/entities/tour';
-import { TourTemplate } from '@domain/entities/tour/TourTemplate';
-import AdditionalServiceItem from '@features/Tour/Template/components/AdditionalServiceItem';
+import { UpdateTourTemplateFormData } from '@domain/entities/tour';
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
@@ -22,11 +18,14 @@ import '@styles/react/libs/editor/editor.scss';
 import { tourPresenter, tourTemplatePresenter } from '@adapter/presenters';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import CommonInformation from '@features/Tour/Template/components/CommonInformation';
-import PoliciesAndRegulations from '@features/Tour/Template/components/PoliciesAndRegulations';
 import toasty from '@components/Toasty/Toasty';
 import { useParams } from 'react-router-dom';
 import { validateTourSchema } from '@features/Tour/validateSchemas/validateSchema';
 import TourType from '@domain/entities/tour/TourType';
+import PoliciesAndRegulations from '@features/Tour/components/PoliciesAndRegulations';
+import { EditorState } from 'draft-js';
+import { stringToEditorState } from '@utils/EditorUtils';
+import Services from '@features/Tour/Template/components/Services';
 
 export interface TourTemplateEditPageParams {
   tourTemplateId: string,
@@ -60,15 +59,12 @@ const TourTemplateEditPage = () => {
   ] = useState(EditorState.createEmpty());
   const [tourPlan, setTourPlan] = useState(EditorState.createEmpty());
 
-  // Other state
-  const [otherPrices, setOtherPrices] = useState<TourServicePrice[]>([]);
-
   const {
     handleSubmit,
     reset,
     control,
     formState: { errors },
-  } = useForm<TourTemplate>({
+  } = useForm<UpdateTourTemplateFormData>({
     resolver: yupResolver(validateTourSchema),
     defaultValues: {
       name: '',
@@ -84,20 +80,42 @@ const TourTemplateEditPage = () => {
   });
 
   useEffect(() => {
-    if (tourTemplate) reset(tourTemplate);
-  }, [tourTemplate]);
+    if (tourTemplate) {
+      reset(tourTemplate);
+      const {
+        policiesAndRegulations,
+        tourPlan: tourTemplatePlan,
+      } = tourTemplate;
+      const {
+        inclusionAndExclusion: tourTemplateInclusionAndExclusion,
+        cancellationTerms: tourTemplateCancellationTerms,
+        policyConditionsAndExtraFee: tourTemplatePolicyConditionsAndExtraFee,
+      } = policiesAndRegulations;
 
-  const stringToEditorState = (value?: string) => {
-    // Convert the HTML string to Draft.js content
-    const contentBlock = htmlToDraft(value || '').contentBlocks;
-    const contentState = ContentState.createFromBlockArray(contentBlock);
-    return EditorState.createWithContent(contentState);
-  };
+      if (tourTemplateInclusionAndExclusion) {
+        setInclusionAndExclusion(stringToEditorState(tourTemplateInclusionAndExclusion));
+      }
+
+      if (tourTemplateCancellationTerms) {
+        setCancellationTerms(stringToEditorState(tourTemplateCancellationTerms));
+      }
+
+      if (tourTemplatePolicyConditionsAndExtraFee) {
+        setPolicyConditionsAndExtraFee(
+          stringToEditorState(tourTemplatePolicyConditionsAndExtraFee),
+        );
+      }
+
+      if (tourPlan) {
+        setTourPlan(stringToEditorState(tourTemplatePlan));
+      }
+    }
+  }, [tourTemplate]);
 
   const updateTourTemplateMutation = useMutation({
     mutationKey: ['updateTourTemplate'],
     mutationFn: async (
-      formData: TourTemplate,
+      formData: UpdateTourTemplateFormData,
     ) => tourTemplatePresenter.updateTourTemplate(tourTemplateId, formData),
     onSuccess: (updatedTourTemplate) => {
       queryClient.setQueryData(['tourTemplate', tourTemplateId], updatedTourTemplate);
@@ -116,17 +134,11 @@ const TourTemplateEditPage = () => {
     },
   });
 
-  const onSubmit = (data: TourTemplate) => {
-    const dataToUpdate = data;
-    updateTourTemplateMutation.mutate(dataToUpdate);
+  const onSubmit = (data: UpdateTourTemplateFormData) => {
+    updateTourTemplateMutation.mutate(data);
   };
 
   const handleReset = () => {
-    setInclusionAndExclusion(stringToEditorState(''));
-    setCancellationTerms(stringToEditorState(''));
-    setPolicyConditionsAndExtraFee(stringToEditorState(''));
-    setTourPlan(stringToEditorState(''));
-    setOtherPrices([]);
     reset();
   };
 
@@ -144,11 +156,9 @@ const TourTemplateEditPage = () => {
             toursLocation={toursLocation}
           />
           {/* Additional Services */}
-          <AdditionalServiceItem
-            services={otherPrices}
+          <Services
             control={control}
             errors={errors}
-            setServices={setOtherPrices}
           />
           {/* Policies, Regulations and Tour Plan */}
           <PoliciesAndRegulations
