@@ -4,7 +4,7 @@ import {
   Activity, File, Home, Mail,
   MapPin,
   MessageSquare, Settings, Shield,
-  ShoppingCart, User, UserCheck, Users, List, BookOpen, Truck,
+  ShoppingCart, User, UserCheck, Users, List, FilePlus, FileMinus, Truck,
 } from 'react-feather';
 import PERMISSIONS from '@utils/PermissionUtils';
 
@@ -66,8 +66,14 @@ const Navigation: MenuItem[] = [
   {
     id: 'receipt',
     title: 'Receipt',
-    icon: <BookOpen size={12} />,
+    icon: <FilePlus size={12} />,
     navLink: '/apps/receipt',
+  },
+  {
+    id: 'payment-voucher',
+    title: 'Payment Voucher',
+    icon: <FileMinus size={12} />,
+    navLink: '/apps/payment-voucher',
   },
   {
     id: 'leads',

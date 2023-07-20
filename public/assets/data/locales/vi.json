@@ -695,5 +695,24 @@
     "CONTACT_NAME": "Họ và tên",
     "CONTACT_PHONE_NUMBER": "Số điện thoại",
     "CONTACT_EMAIL": "Email"
+  },
+  "PAYMENT_VOUCHER": {
+    "CODE": "Mã",
+    "CREATED_DATE": "Ngày tạo",
+    "DEADLINE": "Hạn chót",
+    "AMOUNT": "Số tiền",
+    "STATUS": "Trạng thái",
+    "RECEIVER": "Người nhận",
+    "CREATED_DATE_RANGE": "Khoảng ngày tạo",
+    "DUE_DATE_RANGE": "Khoảng hạn chót",
+    "DESCRIPTION": "Mô tả",
+    "CREATOR": "Người tạo",
+    "NOTE": "Ghi chú",
+    "SIGNED": "Đã ký",
+    "APPROVED": "Đã duyệt",
+    "TRANSFERRED": "Đã chuyển tiền",
+    "WAIT_FOR_APPROVAL": "Chờ duyệt",
+    "WAIT_FOR_TRANSFER": "Chờ chuyển tiền",
+    "WAIT_FOR_SIGN": "Chờ ký duyệt"
   }
 }

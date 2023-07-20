@@ -86,6 +86,16 @@ import GetAllSuppliersUseCaseImpl from '@domain/useCases/supplier/GetAllSupplier
 import AddSupplierUseCaseImpl from '@domain/useCases/supplier/AddSupplierUseCaseImpl';
 import UpdateSupplierUseCaseImpl from '@domain/useCases/supplier/UpdateSupplierUseCaseImpl';
 import GetSupplierUseCaseImpl from '@domain/useCases/supplier/GetSupplierUseCaseImpl';
+import {
+  GetAllPaymentVouchersUseCase,
+} from '@domain/useCases/interfaces/paymentVoucher/GetAllPaymentVouchersTemplateUseCase';
+import { CreatePaymentVoucherUseCase } from '@domain/useCases/interfaces/paymentVoucher/CreatePaymentVoucherUseCase';
+import { UpdatePaymentVoucherUseCase } from '@domain/useCases/interfaces/paymentVoucher/UpdatePaymentVoucherUseCase';
+import { DeletePaymentVoucherUseCase } from '@domain/useCases/interfaces/paymentVoucher/DeletePaymentVoucherUseCase';
+import GetAllPaymentVouchersUseCaseImpl from '@domain/useCases/paymentVoucher/GetAllPaymentVouchersUseCaseImpl';
+import CreatePaymentVoucherUseCaseImpl from '@domain/useCases/paymentVoucher/CreatePaymentVoucherUseCaseImpl';
+import UpdatePaymentVoucherUseCaseImpl from '@domain/useCases/paymentVoucher/UpdatePaymentVoucherUseCaseImpl';
+import DeletePaymentVoucherUseCaseImpl from '@domain/useCases/paymentVoucher/DeletePaymentVoucherUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -228,6 +238,11 @@ interface UseCases {
   addSupplierUseCase: AddSupplierUseCase,
   updateSupplierUseCase: UpdateSupplierUseCase,
   getSupplierUseCase: GetSupplierUseCase
+  // Payment Voucher
+  getAllPaymentVouchersUseCase: GetAllPaymentVouchersUseCase,
+  createPaymentVoucherUseCase: CreatePaymentVoucherUseCase,
+  updatePaymentVoucherUseCase: UpdatePaymentVoucherUseCase,
+  deletePaymentVoucherUseCase: DeletePaymentVoucherUseCase
 }
 
 const useCases: UseCases = {
@@ -314,6 +329,11 @@ const useCases: UseCases = {
   addSupplierUseCase: new AddSupplierUseCaseImpl(),
   updateSupplierUseCase: new UpdateSupplierUseCaseImpl(),
   getSupplierUseCase: new GetSupplierUseCaseImpl(),
+  // PaymentVoucher
+  getAllPaymentVouchersUseCase: new GetAllPaymentVouchersUseCaseImpl(),
+  createPaymentVoucherUseCase: new CreatePaymentVoucherUseCaseImpl(),
+  updatePaymentVoucherUseCase: new UpdatePaymentVoucherUseCaseImpl(),
+  deletePaymentVoucherUseCase: new DeletePaymentVoucherUseCaseImpl(),
 };
 
 export const {
@@ -391,4 +411,9 @@ export const {
   addSupplierUseCase,
   updateSupplierUseCase,
   getSupplierUseCase,
+  // Payment Voucher
+  getAllPaymentVouchersUseCase,
+  createPaymentVoucherUseCase,
+  updatePaymentVoucherUseCase,
+  deletePaymentVoucherUseCase,
 } = useCases;

@@ -24,6 +24,7 @@ import BookingCreateFromLeadPage from '@features/Booking/BookingCreateFromLeadPa
 import SupplierListPage from '@features/Supplier/SupplierListPage';
 import CommingSoon from '@components/CommingSoon/CommingSoon';
 import ToursOperationMain from '@features/ToursOperation/ToursOperationMain';
+import PaymentVoucherListPage from '@features/PaymentVoucher/PaymentVoucherListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -153,6 +154,11 @@ const Routes: RoutePathConfig[] = [
     path: '/apps/tours-operation',
     exact: true,
     component: <ToursOperationMain />,
+  },
+  {
+    path: '/apps/payment-voucher',
+    exact: true,
+    component: <PaymentVoucherListPage />,
   },
   {
     path: '*',
