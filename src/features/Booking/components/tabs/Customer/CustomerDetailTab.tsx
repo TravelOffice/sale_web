@@ -2,7 +2,6 @@ import React, { useCallback, useEffect } from 'react';
 import {
   Card, CardBody, CardHeader, CardTitle, Col, Form, Label, Row,
 } from 'reactstrap';
-import { useParams } from 'react-router-dom';
 import i18n from '@config/i18n';
 import FormItemSelect from '@components/Form/FormItemSelect';
 import FormItemInput from '@components/Form/FormItemInput';
@@ -10,51 +9,31 @@ import LoadingButton from '@components/LoadingButton/LoadingButton';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { customerPresenter } from '@adapter/presenters';
+import { bookingPresenter, customerPresenter } from '@adapter/presenters';
 import { honorificOptions } from '@utils/LeadUtils';
 import toasty from '@components/Toasty/Toasty';
-import Skeleton from 'react-loading-skeleton';
-import { numberArrayOf } from '@utils/ArrayUtils';
 import { UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 import {
-  customerLevelOptions,
-  customerSourceOptions,
-  maritalStatusOptions,
-  sexOptions,
-  updateCustomerSchema,
+  customerLevelOptions, maritalStatusOptions, sexOptions, updateCustomerSchema,
 } from '@utils/CustomerUtils';
 import { useAllSaleOptions } from '@hooks/users';
+import { Booking } from '@domain/entities/booking/Booking';
+import { useParams } from 'react-router-dom';
+import { EditBookingTabParams } from '@features/Booking/components/tabs/information/BookingDetailTab';
+import renderSkeleton from '@components/Skeleton/Skeleton';
 
-export interface EditCustomerTabParams {
-  customerId: string,
+export interface CustomerDetailTabProps {
+  booking?: Booking,
+  isLoading: boolean,
 }
 
-function renderSkeleton() {
-  return (
-    <>
-      {
-        numberArrayOf(10).map((key) => (
-          <Row className="mb-1" key={key}>
-            <Col sm="3">
-              <Skeleton height={36} />
-            </Col>
-            <Col sm="9">
-              <Skeleton height={36} />
-            </Col>
-          </Row>
-        ))
-      }
-    </>
-  );
-}
-
-export default function DetailTab() {
+export default function CustomerDetailTab() {
   const queryClient = useQueryClient();
-  const { customerId } = useParams<EditCustomerTabParams>();
+  const { bookingId } = useParams<EditBookingTabParams>();
   const {
-    data: customer,
+    data: booking,
     isLoading,
-  } = useQuery(['customers', customerId], async () => customerPresenter.getCustomer(customerId));
+  } = useQuery(['bookings', bookingId], async () => bookingPresenter.getBooking(bookingId));
   // const saleOptions = useAllSaleOptions();
   const saleOptions = useAllSaleOptions();
 
@@ -66,16 +45,19 @@ export default function DetailTab() {
   } = useForm<UpdateCustomerFormData>({ resolver: yupResolver(updateCustomerSchema) });
 
   useEffect(() => {
-    if (customer) reset(customer);
-  }, [customer]);
+    if (booking) reset(booking.customer);
+  }, [booking]);
 
   const updateCustomerMutation = useMutation({
     mutationKey: ['updateCustomer'],
     mutationFn: async (
       formData: UpdateCustomerFormData,
-    ) => customerPresenter.updateCustomer(customerId, formData),
+    ) => customerPresenter.updateCustomer(booking?.customerId!, formData),
     onSuccess: (newCustomer) => {
-      queryClient.setQueryData(['customers', customerId], newCustomer);
+      queryClient.setQueryData(['bookings', bookingId], {
+        ...booking,
+        customer: newCustomer,
+      });
       toasty.show({
         type: 'success',
         title: i18n.t('COMMON.SUCCESS'),
@@ -207,7 +189,7 @@ export default function DetailTab() {
                         <Label sm="3" for="sex">
                           {i18n.t('CUSTOMER.SEX')}
                         </Label>
-                        <Col sm="3">
+                        <Col sm="4">
                           <FormItemSelect
                             control={control}
                             name="sex"
@@ -222,7 +204,7 @@ export default function DetailTab() {
                         <Label sm="3" for="level">
                           {i18n.t('CUSTOMER.LEVEL')}
                         </Label>
-                        <Col sm="3">
+                        <Col sm="4">
                           <FormItemSelect
                             control={control}
                             name="level"
@@ -264,25 +246,10 @@ export default function DetailTab() {
                       </Row>
 
                       <Row className="mb-1">
-                        <Label sm="3" for="source">
-                          {i18n.t('CUSTOMER.SOURCE')}
-                        </Label>
-                        <Col sm="3">
-                          <FormItemSelect
-                            control={control}
-                            name="source"
-                            errors={errors}
-                            placeholder={i18n.t('CUSTOMER.SOURCE')}
-                            options={customerSourceOptions}
-                          />
-                        </Col>
-                      </Row>
-
-                      <Row className="mb-1">
                         <Label sm="3" for="name">
                           {i18n.t('CUSTOMER.MARITAL_STATUS')}
                         </Label>
-                        <Col sm="3">
+                        <Col sm="4">
                           <FormItemSelect
                             control={control}
                             name="maritalStatus"

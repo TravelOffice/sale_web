@@ -1,16 +1,13 @@
 import React, { useCallback } from 'react';
 import {
-  Card, CardBody, CardHeader, CardTitle, Form, Row, Label, Col,
-  Breadcrumb, BreadcrumbItem,
+  Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, CardTitle, Col, Form, Label, Row,
 } from 'reactstrap';
 import i18n from '@config/i18n';
-import { Link, useHistory } from 'react-router-dom';
-import {
-  createLeadSchema, honorificOptions, typeOptions,
-} from '@utils/LeadUtils';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { createLeadSchema, honorificOptions, typeOptions } from '@utils/LeadUtils';
 import { CreateLeadFormData, Lead } from '@domain/entities/lead/Lead';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { leadPresenter } from '@adapter/presenters';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { customerPresenter, leadPresenter } from '@adapter/presenters';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormItemSelect from '@components/Form/FormItemSelect';
@@ -23,27 +20,29 @@ import { useAllSaleOptions } from '@hooks/users';
 import { useTourTemplateOptions } from '@hooks/tourTemplate';
 import { useTourLocationOptions } from '@hooks/tourLocation';
 import { useSourceOptions } from '@hooks/source';
-
-const defaultValues: CreateLeadFormData = {
-  name: '',
-  email: '',
-  startDate: new Date().toISOString(),
-  numberOfChildrenPassengers: 0,
-  numberOfAdultPassengers: 0,
-  departure: '',
-  desiredTour: '',
-  assigneeId: undefined,
-  phoneNumber: '',
-  tourTemplateId: undefined,
-  honorific: undefined,
-  type: '',
-  sourceId: '',
-  description: '',
-  tourType: '',
-  address: '',
-};
+import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/CustomerDetailTab';
 
 export default function CreateLeadPage() {
+  const { customerId } = useParams<EditCustomerTabParams>();
+  const { data: customer } = useQuery(['customers', customerId], async () => customerPresenter.getCustomer(customerId));
+  const defaultValues: CreateLeadFormData = {
+    name: customer?.name ?? '',
+    email: customer?.email ?? '',
+    startDate: new Date().toISOString(),
+    numberOfChildrenPassengers: 0,
+    numberOfAdultPassengers: 0,
+    departure: '',
+    desiredTour: '',
+    assigneeId: undefined,
+    phoneNumber: customer?.primaryPhoneNumber ?? '',
+    tourTemplateId: undefined,
+    honorific: customer?.honorific,
+    type: '',
+    sourceId: '',
+    description: '',
+    tourType: '',
+    address: customer?.address ?? '',
+  };
   const {
     control,
     handleSubmit,

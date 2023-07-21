@@ -76,7 +76,7 @@ export default function CreateCustomerPage() {
         if (!customers) return [customer];
         return customers.concat(customer);
       });
-      history.push(`/apps/customer/${customer.code}/edit`);
+      history.push(`/apps/customers/${customer.code}/edit`);
     },
     onError: (error: Error) => {
       toasty.show({
@@ -98,7 +98,7 @@ export default function CreateCustomerPage() {
           <Link to="/">{i18n.t('COMMON.HOME')}</Link>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <Link to="/apps/customer/list">Lead</Link>
+          <Link to="/apps/customers/list">Customer</Link>
         </BreadcrumbItem>
         <BreadcrumbItem active>
           <span>{i18n.t('CUSTOMER.ADD_CUSTOMER')}</span>

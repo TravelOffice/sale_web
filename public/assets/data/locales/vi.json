@@ -67,6 +67,7 @@
     "FILTER_RESET": "Xóa bộ lọc",
     "EXPORT": "Xuất file",
     "PROCESSING": "Đang xử lý",
+    "QUANTITY": "Số lượng",
     "INDEX": "STT"
   },
   "LEAD": {
@@ -655,10 +656,19 @@
     "GROUP": "Nhóm",
     "CREATE": "Tạo mới",
     "CREATE_FROM_LEAD": "Tạo booking từ lead",
-    "CUSTOMER_INFORMATION":"Thông tin khách hàng",
+    "CUSTOMER_INFORMATION": "Thông tin khách hàng",
     "DEPARTURE_DATE_PLACEHOLDER": "Chọn ngày khởi hành",
     "CREATE_BOOKING_SUCCESSFULLY": "Tạo booking thành công",
-    "CREATE_BOOKING_FROM_LEAD": "Tạo booking"
+    "CREATE_BOOKING_FROM_LEAD": "Tạo booking",
+    "DEPARTURE_DATE": "Ngày khởi hành",
+    "EDIT_BOOKING": "Cập nhật Booking",
+    "SERVICE_LIST": "Bảng kê dịch vụ",
+    "QUANTITY": "Số lượng",
+    "TAX": "VAT",
+    "BEFORE_TAX": "Trước thuế",
+    "AFTER_TAX": "Sau thuế",
+    "TOTAL_PAYMENT": "Tổng thanh toán",
+    "EDIT_BOOKING_SUCCESSFULLY": "Đã cập nhật booking {{bookingCode}}"
   },
   "RECEIPT": {
     "CODE": "Mã",

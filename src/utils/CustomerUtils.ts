@@ -83,7 +83,7 @@ export function generateI18nForCustomer(type?: string) {
  * @returns The editable URL for the customer.
  */
 export function generateEditableUrlForCustomer(customer: Customer) {
-  return `/apps/customer/${customer.code}/edit`;
+  return `/apps/customers/${customer.code}/edit`;
 }
 
 /**

@@ -1,7 +1,9 @@
 import i18n from '@config/i18n';
-import { Booking } from '@domain/entities/booking/Booking';
+import { Booking, tourTypes } from '@domain/entities/booking/Booking';
 import { BookingFilterParams } from '@features/Booking/components/BookingFilter';
 import moment from 'moment';
+import * as yup from 'yup';
+import { Service } from '@domain/entities/booking/Service';
 
 /**
  * Checks if the assignee matches the specified criteria in the given booking.
@@ -91,4 +93,57 @@ export function toSearchableContent(booking: Booking) {
 
   if (lead) searchableStr += lead.sourceName;
   return searchableStr.toLowerCase();
+}
+
+const validateServiceSchema = yup.object().shape({
+  serviceName: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.SERVICE_NAME') })),
+  price: yup
+    .number()
+    .integer()
+    .min(0, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.SERVICE_PRICE'), value: 0 }))
+    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.SERVICE_PRICE') })),
+  quantity: yup
+    .number()
+    .integer()
+    .min(1, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('TOUR_TEMPLATE.SERVICE_PRICE'), value: 0 }))
+    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('TOUR_TEMPLATE.SERVICE_PRICE') })),
+});
+
+export const updateBookingSchema = yup.object().shape({
+  departureDate: yup
+    .date()
+    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.DEPARTURE_DATE') })),
+  tourType: yup
+    .string()
+    .oneOf(tourTypes)
+    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.TOUR_TYPE') })),
+  tourTemplateId: yup
+    .string()
+    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.TOUR_TEMPLATE') })),
+  assigneeId: yup
+    .string()
+    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.ASSIGNEE') })),
+  sourceId: yup
+    .string()
+    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.SOURCE') })),
+  services: yup.array().of(validateServiceSchema).optional(),
+});
+
+export function calculateBeforeVAT(price: number, quantity: number): number {
+  return price * quantity;
+}
+
+export function calculateAfterVAT(price: number, quantity: number, tax: number): number {
+  const result = price * quantity * (100 + tax);
+  return result / 100;
+}
+
+export function calculatePaymentTotal(services: Service[]): number {
+  let total = 0;
+  if (services) {
+    services.forEach((service) => {
+      total += calculateAfterVAT(service.price, service.quantity, service.tax);
+    });
+  }
+  return total;
 }

@@ -39,7 +39,7 @@ const TourTemplateExpandableRow: React.FC<ExpanderComponentProps<TourTemplate>> 
         <br />
         <strong>{i18n.t('TOUR_TEMPLATE.CREATOR')}</strong>
         <ul>
-          <li>{`${i18n.t('TOUR_TEMPLATE.CREATOR')}: ${data.creator}`}</li>
+          <li>{`${i18n.t('TOUR_TEMPLATE.CREATOR')}: ${data.creatorName}`}</li>
           <li>{`${i18n.t('COMMON.CREATED_AT')}: ${moment(data.createdAt).format('DD/MM/YYYY')}`}</li>
         </ul>
       </Col>

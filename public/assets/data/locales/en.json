@@ -67,6 +67,7 @@
     "EXPORT": "Export",
     "FILTER_RESET": "Reset",
     "PROCESSING": "Processing",
+    "QUANTITY": "Quantity",
     "INDEX": "INDEX"
   },
   "LEAD": {
@@ -291,6 +292,8 @@
     "TRADED": "Traded",
     "ADD_CUSTOMER": "Add customer",
     "EDIT_CUSTOMER": "Edit customer",
+    "ADD_CUSTOMER_SUCCESSFULLY": "Create customer {{customerName}} successfully",
+    "EDIT_CUSTOMER_SUCCESSFULLY": "Update customer {{customerName}} successfully",
     "TOTAL": "Total",
     "STANDARD": "Standard",
     "VIP": "Vip",
@@ -551,10 +554,7 @@
     "SERVICE_PRICE": "Service price",
     "ADD_SERVICE": "Add service",
     "EDIT_TOUR_TEMPLATE": "Update tour template",
-    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Edit tour template successfully",
-    "CREATE_TOUR_TEMPLATE_SUCCESSFULLY": "Create tour template successfully",
-    "CATEGORY": "Category",
-    "SELECT_TOUR_TYPE": "Select tour type"
+    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Edit tour template successfully"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Departure tour",
@@ -576,8 +576,7 @@
     "INLAND": "Inland",
     "INBOUND": "Inbound",
     "OUTBOUND": "Outbound",
-    "SELECT_TOUR_TEMPLATE": "Select tour template",
-    "START_DATE": "Start date"
+    "SELECT_TOUR_TEMPLATE": "Select tour template"
   },
   "TOURS_OPERATION": {
     "NAV": {
@@ -653,10 +652,18 @@
     "GROUP": "Group",
     "CREATE": "Create new",
     "CREATE_FROM_LEAD": "Create new from lead",
-    "CUSTOMER_INFORMATION":"Customer information",
+    "CUSTOMER_INFORMATION": "Customer information",
     "DEPARTURE_DATE_PLACEHOLDER": "Select departure date",
     "CREATE_BOOKING_SUCCESSFULLY": "Create booking successfully",
-    "CREATE_BOOKING_FROM_LEAD": "Create booking"
+    "CREATE_BOOKING_FROM_LEAD": "Create booking",
+    "EDIT_BOOKING": "Edit Booking",
+    "SERVICE_LIST": "Service list",
+    "QUANTITY": "Quantity",
+    "TAX": "Tax",
+    "BEFORE_TAX": "Before tax",
+    "AFTER_TAX": "After tax",
+    "TOTAL_PAYMENT": "Total Payment",
+    "EDIT_BOOKING_SUCCESSFULLY": "Edit booking {{bookingCode}} successfully"
   },
   "RECEIPT": {
     "CODE": "Code",

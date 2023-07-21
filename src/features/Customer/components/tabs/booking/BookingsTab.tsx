@@ -15,7 +15,7 @@ import { ExpanderComponentProps } from 'react-data-table-component';
 import { formatVND } from '@utils/CommonUtils';
 import moment from 'moment';
 import { useParams } from 'react-router-dom';
-import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/DetailTab';
+import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/CustomerDetailTab';
 
 const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> = (
   { data }: ExpanderComponentProps<Booking>,

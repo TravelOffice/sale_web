@@ -33,10 +33,6 @@ export interface Booking {
   code: string, // Format BK+<number>
   tourLeadId?: string, // Sk value of Lead item
   customerId: string, // Sk value of Customer item
-  customerInfo: { // Customer information at the time booking created
-    phone: string
-    email: string
-  },
   tourType: BookingTourType,
   deletedAt?: number,
   deletedBy?: string,
@@ -45,6 +41,7 @@ export interface Booking {
   bookingStatus: BookingStatus,
   paymentStatus: BookingPaymentStatus,
   assigneeId?: string,
+  assigneeName?: string,
   canceledAt?: number,
   canceledReason?: string,
   canceledNote?: string,
@@ -74,6 +71,7 @@ export interface Booking {
   bookingCode?: string,
   labelId?: string,
   sourceId?: string,
+  sourceName?: string,
   creatorId?: string,
   creatorName?: string,
   requestStatus?: string,

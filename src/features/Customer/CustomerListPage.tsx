@@ -123,7 +123,7 @@ export default function CustomerListPage() {
   );
 
   const goToCreateCustomerPage = () => {
-    hitory.push('/apps/customer/create');
+    hitory.push('/apps/customers/create');
   };
 
   return (

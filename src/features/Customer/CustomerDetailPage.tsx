@@ -10,7 +10,7 @@ import i18n from '@config/i18n';
 import CustomerTabs from '@features/Customer/components/CustomerTabs';
 import CustomerInfoCard from '@features/Customer/components/CustomerInfoCard';
 import { Link } from 'react-router-dom';
-import DetailTab from '@features/Customer/components/tabs/information/DetailTab';
+import CustomerDetailTab from '@features/Customer/components/tabs/information/CustomerDetailTab';
 import LeadsTab from '@features/Customer/components/tabs/lead/LeadsTab';
 
 export interface Tab {
@@ -25,7 +25,7 @@ const tabs: Tab[] = [
     id: 'information',
     icon: <List size={16} className="me-50" />,
     title: i18n.t('COMMON.INFORMATION'),
-    pane: <DetailTab />,
+    pane: <CustomerDetailTab />,
   },
   {
     id: 'lead',
@@ -51,7 +51,7 @@ export default function CustomerDetail() {
             <Link to="/">{i18n.t('COMMON.HOME')}</Link>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <Link to="/apps/customer/list">Customer</Link>
+            <Link to="/apps/customers/list">Customer</Link>
           </BreadcrumbItem>
           <BreadcrumbItem active>
             <span>{i18n.t('CUSTOMER.EDIT_CUSTOMER')}</span>
