@@ -1,10 +1,22 @@
 import { MenuItem } from '@domain/entities/MenuLinkItem';
 import React from 'react';
 import {
-  Activity, File, Home, Mail,
+  Activity,
+  File,
+  FileMinus,
+  FilePlus,
+  Home,
+  List,
+  Mail,
   MapPin,
-  MessageSquare, Settings, Shield,
-  ShoppingCart, User, UserCheck, Users, List, FilePlus, FileMinus, Truck,
+  MessageSquare,
+  Settings,
+  Shield,
+  ShoppingCart,
+  Truck,
+  User,
+  UserCheck,
+  Users,
 } from 'react-feather';
 import PERMISSIONS from '@utils/PermissionUtils';
 
@@ -40,7 +52,7 @@ const Navigation: MenuItem[] = [
     id: 'customers',
     title: 'Customer',
     icon: <UserCheck size={12} />,
-    navLink: '/apps/customer/list',
+    navLink: '/apps/customers/list',
   },
   {
     id: 'tour',

@@ -43,8 +43,7 @@ export function filterTourTemplates(
       }
       if (durationInDays && durationInDays !== item.durationInDays) return false;
       if (durationInNights && durationInNights !== item.durationInNights) return false;
-      if (creator && !item.creator.includes(creator.toLowerCase())) return false;
-      return true;
+      return !(creator && !item.creatorId.includes(creator.toLowerCase()));
     },
   );
 }

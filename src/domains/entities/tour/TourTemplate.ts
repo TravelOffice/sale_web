@@ -19,9 +19,10 @@ export interface TourTemplate {
     cancellationTerms?: string
   },
   tourPlan: string,
-  readonly createdAt: number;
-  readonly updatedAt: number;
-  readonly creator: string;
+  readonly createdAt: number,
+  readonly updatedAt: number,
+  readonly creatorId: string,
+  readonly creatorName: string,
 }
 
 export type CreateTourTemplateFormData = Pick<TourTemplate,

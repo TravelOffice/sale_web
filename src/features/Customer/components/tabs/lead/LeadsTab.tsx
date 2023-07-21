@@ -8,7 +8,7 @@ import i18n from '@config/i18n';
 import DataTable from 'react-data-table-component';
 import { ChevronDown, Plus } from 'react-feather';
 import { Link, useParams } from 'react-router-dom';
-import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/DetailTab';
+import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/CustomerDetailTab';
 import leadColumns from '@features/Customer/components/tabs/lead/leadColumns';
 
 export default function LeadsTab() {
@@ -38,7 +38,7 @@ export default function LeadsTab() {
               sortIcon={<ChevronDown />}
               subHeader
               subHeaderComponent={(
-                <Link to="/apps/leads/create">
+                <Link to={`/apps/customers/${customerId}/leads/create`}>
                   <Button color="primary">
                     <Plus size={14} />
                     <span className="align-middle ms-25">{i18n.t('COMMON.ADD')}</span>

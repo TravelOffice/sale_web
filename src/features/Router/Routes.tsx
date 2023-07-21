@@ -20,6 +20,7 @@ import TourTemplateCreatePage from '@features/Tour/Template/TourTemplateCreatePa
 import BookingCreatePage from '@features/Booking/BookingCreatePage';
 import TourTemplateEditPage from '@features/Tour/Template/TourTemplateEditPage';
 import ReceiptListPage from '@features/Receipt/ReceiptListPage';
+import BookingDetail from '@features/Booking/BookingDetailPage';
 import BookingCreateFromLeadPage from '@features/Booking/BookingCreateFromLeadPage';
 import SupplierListPage from '@features/Supplier/SupplierListPage';
 import CommingSoon from '@components/CommingSoon/CommingSoon';
@@ -109,18 +110,28 @@ const Routes: RoutePathConfig[] = [
     component: <BookingCreateFromLeadPage />,
   },
   {
-    path: '/apps/customer/list',
+    path: '/apps/bookings/:bookingId/edit',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.update_booking],
+    component: <BookingDetail />,
+  },
+  {
+    path: '/apps/customers/list',
     exact: true,
     requiredPermissions: [PERMISSIONS.get_customers],
     component: <CustomerListPage />,
   },
   {
-    path: '/apps/customer/create',
+    path: '/apps/customers/create',
     component: <CreateCustomerPage />,
   },
   {
-    path: '/apps/customer/:customerId/edit',
+    path: '/apps/customers/:customerId/edit',
     component: <EditCustomerPage />,
+  },
+  {
+    path: '/apps/customers/:customerId/leads/create',
+    component: <CreateLeadPage />,
   },
   {
     path: '/admin/user/list',

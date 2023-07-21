@@ -2,7 +2,8 @@ import { apiProvider } from '@adapter/infrastructures';
 import { BookingRepository } from '@adapter/repositories/interfaces/BookingRepository';
 import { AddBookingFormData } from '@domain/entities/booking/AddBookingFormData';
 import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingFromLeadFormData';
-import { Booking, BookingStatus } from '@domain/entities/booking/Booking';
+import { BookingStatus } from '@domain/entities/booking/Booking';
+import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
 
 export default class BookingRepositoryImpl implements BookingRepository {
   /**
@@ -55,11 +56,12 @@ export default class BookingRepositoryImpl implements BookingRepository {
 
   /**
    * Update booking to system
+   * @param bookingId The ID of booking
    * @param booking New booking information
    */
-  updateBooking = async (booking: Booking) => {
-    await apiProvider.authorizedRequest.put('/bookings', booking);
-    return booking;
+  updateBooking = async (bookingId: string, booking: UpdateBookingFormData) => {
+    const response = await apiProvider.authorizedRequest.put(`/bookings/${bookingId}`, booking);
+    return response.data;
   }
 
   /**

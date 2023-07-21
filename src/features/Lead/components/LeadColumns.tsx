@@ -3,9 +3,7 @@ import i18n from '@config/i18n';
 import { TableColumn } from 'react-data-table-component';
 import { Lead, LeadStatus } from '@domain/entities/lead/Lead';
 import { Link } from 'react-router-dom';
-import {
-  Badge,
-} from 'reactstrap';
+import { Badge } from 'reactstrap';
 import moment from 'moment';
 import { generateEditableUrlForLead, generateI18nForLead } from '@utils/LeadUtils';
 import { formatPhoneNumber } from '@utils/Utils';
@@ -35,7 +33,7 @@ function renderTour(lead: Lead) {
 const leadColumns: TableColumn<Lead>[] = [
   {
     name: i18n.t('LEAD.CODE'),
-    width: '80px',
+    width: '100px',
     cell: (lead: Lead) => (
       <Link to={generateEditableUrlForLead(lead)} className="user_name text-truncate text-body">
         <span className="fw-bolder">{lead.code}</span>
@@ -50,7 +48,11 @@ const leadColumns: TableColumn<Lead>[] = [
       <div className="d-flex justify-content-left align-items-center">
         <div className="d-flex flex-column">
           <span className="fw-bolder text-primary">
-            <small className="text-truncate text-muted">{lead.honorific ? generateI18nForLead(lead.honorific) : ''}</small>
+            <small
+              className="text-truncate text-muted"
+            >
+              {lead.honorific ? generateI18nForLead(lead.honorific) : ''}
+            </small>
             {' '}
             {lead.name}
           </span>

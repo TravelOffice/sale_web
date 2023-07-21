@@ -11,7 +11,7 @@ import {
 import moment from 'moment';
 import { Customer, CustomerLevel } from '@domain/entities/customer/Customer';
 import { generateEditableUrlForCustomer, generateI18nForCustomer } from '@utils/CustomerUtils';
-import { formatCurrency } from '@utils/Utils';
+import { formatVND } from '@utils/CommonUtils';
 
 const customerLevelColors: Record<CustomerLevel, string> = {
   STANDARD: 'light-success',
@@ -22,7 +22,7 @@ const customerLevelColors: Record<CustomerLevel, string> = {
 const customerColumns: TableColumn<Customer>[] = [
   {
     name: i18n.t('CUSTOMER.CODE'),
-    width: '80px',
+    width: '100px',
     cell: (customer: Customer) => (
       <div>
         <Link to={generateEditableUrlForCustomer(customer)} className="text-truncate text-body text-center">
@@ -103,7 +103,7 @@ const customerColumns: TableColumn<Customer>[] = [
     cell: (customer: Customer) => (
       <div className="my-1">
         <span className="fw-bolder">
-          {formatCurrency(customer.revenue ?? 9846413156)}
+          {formatVND(customer.revenue ?? 0)}
         </span>
       </div>
     ),

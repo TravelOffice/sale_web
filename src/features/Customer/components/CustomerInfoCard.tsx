@@ -1,19 +1,16 @@
 import React from 'react';
-import {
-  Badge, Card, CardBody, Col, Row,
-} from 'reactstrap';
+import { Badge, Card, CardBody } from 'reactstrap';
 import { Link, useParams } from 'react-router-dom';
 import i18n from '@config/i18n';
 import { useQuery } from '@tanstack/react-query';
 import { customerPresenter } from '@adapter/presenters';
-import Skeleton from 'react-loading-skeleton';
-import { numberArrayOf } from '@utils/ArrayUtils';
 import { CustomerLevel } from '@domain/entities/customer/Customer';
 import { Phone } from 'react-feather';
 import { generateI18nForCustomer } from '@utils/CustomerUtils';
 import { Autosum20Filled } from '@fluentui/react-icons';
 import { formatCurrency, formatPhoneNumber } from '@utils/Utils';
 import moment from 'moment/moment';
+import renderSkeleton from '@components/Skeleton/Skeleton';
 
 export interface EditCustomerPageParams {
   customerId: string,
@@ -24,25 +21,6 @@ const customerLevelColors: Record<CustomerLevel, string> = {
   VIP: 'light-warning',
   VVIP: 'light-danger',
 };
-
-function renderSkeleton() {
-  return (
-    <>
-      {
-        numberArrayOf(10).map((key) => (
-          <Row className="mb-1" key={key}>
-            <Col sm="3">
-              <Skeleton height={36} />
-            </Col>
-            <Col sm="9">
-              <Skeleton height={36} />
-            </Col>
-          </Row>
-        ))
-      }
-    </>
-  );
-}
 
 // const color: string = customerLevelColors[row.level! || CustomerLevel.STANDARD];
 export default function CustomerInfoCard() {
@@ -65,9 +43,9 @@ export default function CustomerInfoCard() {
                 <div className="user-avatar-section">
                   <div className="d-flex align-items-center flex-column">
                     <div className="d-flex flex-column align-items-center text-center">
-                      <h4>
+                      <h1>
                         {customer?.name}
-                      </h4>
+                      </h1>
                     </div>
                   </div>
                 </div>
