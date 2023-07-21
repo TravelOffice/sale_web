@@ -1,59 +1,19 @@
 import React, { useMemo, useState } from 'react';
 import {
-  ButtonProps, Card, CardBody, CardHeader, CardTitle, Col, Row,
+  ButtonProps, Card, CardBody, CardHeader, CardTitle,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import Table from '@components/Table/Table';
 import { filterTourTemplates } from '@utils/TourTemplateUtils';
 import { TourTemplate } from '@domain/entities/tour/TourTemplate';
 import { HandleDataState } from '@redux/slices/others/HandleDataState';
-import { ExpanderComponentProps } from 'react-data-table-component/dist/src/DataTable/types';
-import { formatVND } from '@utils/CommonUtils';
-import moment from 'moment/moment';
 import tourTemplateColumns from '@features/Tour/Template/components/TourTemplateColumns';
 import { useHistory } from 'react-router-dom';
 import { useTourLocations } from '@hooks/tourLocation';
 import { findTourLocationNameByCode } from '@utils/TourLocationUtils';
 import { useTourTemplates } from '@hooks/tourTemplate';
+import TourTemplateExpandableRow from './components/TourTemplateExpandableRow';
 import TourTemplateFilter, { TourTemplateFilterParams } from './components/TourTemplateFilter';
-
-const TourTemplateExpandableRow: React.FC<ExpanderComponentProps<TourTemplate>> = (
-  { data }: ExpanderComponentProps<TourTemplate>,
-) => (
-  <div className="container py-xxl-1">
-    <Row>
-      <Col md={6}>
-        <strong>{i18n.t('TOUR_TEMPLATE.PRICE')}</strong>
-        <ul>
-          {
-            data.services.map((service) => (
-              <li>
-                {service.name}
-                :
-                {' '}
-                {formatVND(service.price)}
-              </li>
-            ))
-          }
-        </ul>
-        <br />
-        <strong>{i18n.t('TOUR_TEMPLATE.CREATOR')}</strong>
-        <ul>
-          <li>{`${i18n.t('TOUR_TEMPLATE.CREATOR')}: ${data.creatorName}`}</li>
-          <li>{`${i18n.t('COMMON.CREATED_AT')}: ${moment(data.createdAt).format('DD/MM/YYYY')}`}</li>
-        </ul>
-      </Col>
-      <Col md={6}>
-        <strong>{i18n.t('TOUR_TEMPLATE.POLICIES_AND_REGULATIONS')}</strong>
-        <ul>
-          <li>{`${i18n.t('TOUR_TEMPLATE.INCLUSION_AND_EXCLUSION')}: ${data.policiesAndRegulations.inclusionAndExclusion || ''}`}</li>
-          <li>{`${i18n.t('TOUR_TEMPLATE.POLICY_CONDITIONS_AND_EXTRA_FEE')}: ${data.policiesAndRegulations.policyConditionsAndExtraFee || ''}`}</li>
-          <li>{`${i18n.t('TOUR_TEMPLATE.CANCELLATION_TERMS')}: ${data.policiesAndRegulations.cancellationTerms || ''}`}</li>
-        </ul>
-      </Col>
-    </Row>
-  </div>
-);
 
 export default function TourTemplateListPage() {
   const [filterParams, setFilterParams] = useState<TourTemplateFilterParams>();
