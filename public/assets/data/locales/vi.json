@@ -734,7 +734,8 @@
     "REQUIRED_CONTACT_EMAIL": "Yêu cầu giá trị nhập vào là email",
     "REQUIRED_CONTACT_PHONE_NUMBER": "Yêu cầu giá trị nhập vào là số điện thoại",
     "REQUIRED_BANK_ACCOUNT_NUMBER": "Yêu cầu giá trị nhập vào là số tài khoản ngân hàng",
-    "CREATE_SUPPLIER_SUCCESSFULLY": "Thêm mới nhà cung cấp thành công"
+    "CREATE_SUPPLIER_SUCCESSFULLY": "Thêm mới nhà cung cấp thành công",
+    "EDIT_SUPPLIER_SUCCESSFULLY": "Cập nhật thông tin nhà cung cấp thành công"
   },
   "PAYMENT_VOUCHER": {
     "CODE": "Mã",

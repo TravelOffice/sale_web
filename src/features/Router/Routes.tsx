@@ -27,6 +27,7 @@ import CommingSoon from '@components/CommingSoon/CommingSoon';
 import ToursOperationMain from '@features/ToursOperation/ToursOperationMain';
 import SupplierCreatePage from '@features/Supplier/SupplierCreatePage';
 import PaymentVoucherListPage from '@features/PaymentVoucher/PaymentVoucherListPage';
+import SupplierEditPage from '@features/Supplier/SupplierEditPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -163,15 +164,21 @@ const Routes: RoutePathConfig[] = [
     component: <SupplierListPage />,
   },
   {
-    path: '/apps/tours-operation',
-    exact: true,
-    component: <ToursOperationMain />,
-  },
-  {
     path: '/apps/suppliers/create',
     exact: true,
     requiredPermissions: [PERMISSIONS.create_supplier],
     component: <SupplierCreatePage />,
+  },
+  {
+    path: '/apps/suppliers/:supplierId/edit',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.update_supplier],
+    component: <SupplierEditPage />,
+  },
+  {
+    path: '/apps/tours-operation',
+    exact: true,
+    component: <ToursOperationMain />,
   },
   {
     path: '/apps/payment-voucher',

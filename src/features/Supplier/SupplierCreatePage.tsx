@@ -6,21 +6,11 @@ import { useForm } from 'react-hook-form';
 import i18n from '@config/i18n';
 // ** Reactstrap Imports
 import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Form,
-  Spinner,
+  Button, Card, CardBody, CardHeader, CardTitle, Form, Spinner,
 } from 'reactstrap';
 
-import { ContentState, EditorState } from 'draft-js';
-import htmlToDraft from 'html-to-draftjs';
-import {
-  Contact,
-  CreateSupplierFormData, PaymentInfo, Quote, Supplier,
-} from '@domain/entities/supplier';
+import { EditorState } from 'draft-js';
+import { CreateSupplierFormData, Supplier } from '@domain/entities/supplier';
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
@@ -29,18 +19,14 @@ import '@styles/react/libs/editor/editor.scss';
 import { supplierPresenter } from '@adapter/presenters';
 import { useMutation } from '@tanstack/react-query';
 import toasty from '@components/Toasty/Toasty';
-import {
-  supplierValidateSchema,
-} from '@features/Supplier/validateSchemas/supplierValidateSchema';
+import { supplierValidateSchema } from '@features/Supplier/validateSchemas/supplierValidateSchema';
 import SupplierCommonInfo from '@features/Supplier/components/SupplierCommonInfo';
 import SupplierQuote from '@features/Supplier/components/SupplierQuote';
 import SupplierPaymentInfo from '@features/Supplier/components/SupplierPaymentInfo';
 import SupplierContact from '@features/Supplier/components/SupplierContact';
+import { stringToEditorState } from '@utils/EditorUtils';
 
 const SupplierCreatePage = () => {
-  const [quotes, setQuotes] = useState<Quote[]>([]);
-  const [paymentInfo, setPaymentInfo] = useState<PaymentInfo[]>([]);
-  const [contacts, setContacts] = useState<Contact[]>([]);
   const [
     note,
     setNote,
@@ -70,13 +56,6 @@ const SupplierCreatePage = () => {
       paymentInfo: [],
     },
   });
-
-  const stringToEditorState = (value?: string) => {
-    // Convert the HTML string to Draft.js content
-    const contentBlock = htmlToDraft(value || '').contentBlocks;
-    const contentState = ContentState.createFromBlockArray(contentBlock);
-    return EditorState.createWithContent(contentState);
-  };
 
   const { isLoading, mutate: createSupplierMutation } = useMutation({
     mutationFn: supplierPresenter.addSupplier,
@@ -114,22 +93,16 @@ const SupplierCreatePage = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <SupplierCommonInfo control={control} errors={errors} note={note} setNote={setNote} />
           <SupplierQuote
-            quotes={quotes}
             control={control}
             errors={errors}
-            setQuotes={setQuotes}
           />
           <SupplierPaymentInfo
-            paymentInfo={paymentInfo}
             control={control}
             errors={errors}
-            setPaymentInfo={setPaymentInfo}
           />
           <SupplierContact
-            contacts={contacts}
             control={control}
             errors={errors}
-            setContacts={setContacts}
           />
           <div className="d-flex justify-content-end">
             <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>

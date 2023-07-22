@@ -1,4 +1,4 @@
-import { CreateSupplierFormData, Supplier } from '@domain/entities/supplier';
+import { CreateSupplierFormData, UpdateSupplierFormData } from '@domain/entities/supplier';
 import {
   addSupplierUseCase, getAllSuppliersUseCase,
   getSupplierUseCase, updateSupplierUseCase,
@@ -16,6 +16,6 @@ export default class SupplierPresenterImpl implements SupplierPresenter {
 
     updateSupplier = async (
       supplierId: string,
-      formData: Supplier,
+      formData: UpdateSupplierFormData,
     ) => updateSupplierUseCase.invoke(supplierId, formData);
 }

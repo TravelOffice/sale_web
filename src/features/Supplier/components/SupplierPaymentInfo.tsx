@@ -1,20 +1,15 @@
 import React from 'react';
 import { Trash } from 'react-feather';
-import { Control, Controller } from 'react-hook-form';
-import {
-  Button,
-  Col,
-  FormFeedback, Input, InputGroup, InputGroupText, Row,
-} from 'reactstrap';
+import { Control, FieldErrors, useFieldArray } from 'react-hook-form';
+import { Button, Col, Row } from 'reactstrap';
 import i18n from '@config/i18n';
-import { PaymentInfo } from '@domain/entities/supplier';
+import { Supplier } from '@domain/entities/supplier';
 import FormItemSelect from '@components/Form/FormItemSelect';
+import FormItemInputGroup from '@components/Form/FormItemInputGroup';
 
 type PaymentInfoItemProps = {
-  paymentInfo: PaymentInfo[];
-  setPaymentInfo: (paymentInfo: PaymentInfo[]) => void
-  control: Control<any, any>;
-  errors: { [p: string]: any };
+  control: Control<Supplier>,
+  errors: FieldErrors<Supplier>,
 };
 
 const bankOptions = [
@@ -36,28 +31,10 @@ const bankOptions = [
 ];
 
 const SupplierPaymentInfo: React.FC<PaymentInfoItemProps> = ({
-  paymentInfo,
-  setPaymentInfo,
   control,
   errors,
 }) => {
-  const handlePaymentInfoChange = (value: number | string, index: number, type: string) => {
-    const updatedPaymentInfo = [...paymentInfo];
-    updatedPaymentInfo[index] = { ...updatedPaymentInfo[index], [type]: value };
-    setPaymentInfo(updatedPaymentInfo);
-  };
-
-  const handleAddPaymentInfo = () => {
-    setPaymentInfo([...paymentInfo, {
-      bankName: '', accountName: '', accountNumber: '', bankBranch: '',
-    }]);
-  };
-
-  const handleRemovePaymentInfo = (index: number) => {
-    const updatedPaymentInfo = [...paymentInfo];
-    updatedPaymentInfo.splice(index, 1);
-    setPaymentInfo(updatedPaymentInfo);
-  };
+  const { fields, remove, append } = useFieldArray({ control, name: 'paymentInfo' });
 
   return (
     <div className="mt-2 mb-4">
@@ -66,8 +43,8 @@ const SupplierPaymentInfo: React.FC<PaymentInfoItemProps> = ({
           {i18n.t('SUPPLIER.PAYMENT_INFO_LIST')}
         </div>
       </div>
-      {paymentInfo.map((info, index) => (
-        <div key={index.toString()}>
+      {fields.map((item, index) => (
+        <div key={item.id}>
           <Row className="mb-1">
             <Col md={2}>
               <FormItemSelect
@@ -79,88 +56,34 @@ const SupplierPaymentInfo: React.FC<PaymentInfoItemProps> = ({
               />
             </Col>
             <Col md={3}>
-              <Controller
+              <FormItemInputGroup
+                label={i18n.t('SUPPLIER.BANK_BRANCH')}
                 control={control}
                 name={`paymentInfo.${index}.bankBranch`}
-                defaultValue={info.bankBranch}
-                render={({ field: { onChange, ...rest } }) => (
-                  <InputGroup>
-                    <InputGroupText>{i18n.t('SUPPLIER.BANK_BRANCH')}</InputGroupText>
-                    <Input
-                      {...rest}
-                      invalid={!!errors.paymentInfo?.[index]?.bankBranch}
-                      onChange={(e) => {
-                        handlePaymentInfoChange(e.target.value, index, 'bankBranch');
-                        onChange(e);
-                      }}
-                    />
-                    {errors.paymentInfo?.[index]?.bankBranch
-                            && (
-                            <FormFeedback>
-                              {errors.paymentInfo?.[index]?.bankBranch?.message}
-                            </FormFeedback>
-                            )}
-                  </InputGroup>
-                )}
+                errors={errors}
               />
             </Col>
             <Col md={3}>
-              <Controller
+              <FormItemInputGroup
+                label={i18n.t('SUPPLIER.BANK_ACCOUNT_NAME')}
                 control={control}
                 name={`paymentInfo.${index}.accountName`}
-                defaultValue={info.accountName}
-                render={({ field: { onChange, ...rest } }) => (
-                  <InputGroup>
-                    <InputGroupText>{i18n.t('SUPPLIER.BANK_ACCOUNT_NAME')}</InputGroupText>
-                    <Input
-                      {...rest}
-                      invalid={!!errors.paymentInfo?.[index]?.accountName}
-                      onChange={(e) => {
-                        handlePaymentInfoChange(e.target.value, index, 'accountName');
-                        onChange(e);
-                      }}
-                    />
-                    {errors.paymentInfo?.[index]?.accountName
-                            && (
-                            <FormFeedback>
-                              {errors.paymentInfo?.[index]?.accountName?.message}
-                            </FormFeedback>
-                            )}
-                  </InputGroup>
-                )}
+                errors={errors}
               />
             </Col>
             <Col md={3}>
-              <Controller
+              <FormItemInputGroup
+                label={i18n.t('SUPPLIER.BANK_ACCOUNT_NUMBER')}
                 control={control}
                 name={`paymentInfo.${index}.accountNumber`}
-                defaultValue={info.accountNumber}
-                render={({ field: { onChange, ...rest } }) => (
-                  <InputGroup>
-                    <InputGroupText>{i18n.t('SUPPLIER.BANK_ACCOUNT_NUMBER')}</InputGroupText>
-                    <Input
-                      {...rest}
-                      invalid={!!errors.paymentInfo?.[index]?.accountNumber}
-                      onChange={(e) => {
-                        handlePaymentInfoChange(e.target.value, index, 'accountNumber');
-                        onChange(e);
-                      }}
-                    />
-                    {errors.paymentInfo?.[index]?.accountNumber
-                            && (
-                            <FormFeedback>
-                              {errors.paymentInfo?.[index]?.accountNumber?.message}
-                            </FormFeedback>
-                            )}
-                  </InputGroup>
-                )}
+                errors={errors}
               />
             </Col>
             <Col md={1}>
               <Button
                 type="button"
                 className="btn-icon"
-                onClick={() => handleRemovePaymentInfo(index)}
+                onClick={() => remove(index)}
                 color="danger"
               >
                 <Trash size={16} />
@@ -169,7 +92,13 @@ const SupplierPaymentInfo: React.FC<PaymentInfoItemProps> = ({
           </Row>
         </div>
       ))}
-      <Button type="button" onClick={handleAddPaymentInfo}>
+      <Button
+        type="button"
+        color="primary"
+        onClick={() => append({
+          bankName: '', bankBranch: '', accountName: '', accountNumber: '',
+        })}
+      >
         {i18n.t('SUPPLIER.ADD_PAYMENT_INFO')}
       </Button>
     </div>
