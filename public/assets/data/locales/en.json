@@ -680,7 +680,8 @@
     "UPDATE_RECEIPT_SUCCESSFULLY": "Update receipt successfully",
     "DELETE_RECEIPT_SUCCESSFULLY": "Delete receipt successfully",
     "DELETE_RECEIPT_WARNING_TITLE": "Delete receipt",
-    "DELETE_RECEIPT_WARNING_MESSAGE": "Receipt will be deleted from system. Do you want to delete?"
+    "DELETE_RECEIPT_WARNING_MESSAGE": "Receipt will be deleted from system. Do you want to delete?",
+    "EDIT_SUPPLIER_SUCCESSFULLY": "Update supplier successfully"
   },
   "SUPPLIER": {
     "CODE": "Code",

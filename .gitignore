@@ -41,3 +41,4 @@ infrastructures/environments/**/output.tf
 
 # env
 .env
+.env.development
