@@ -31,3 +31,23 @@ export interface PaymentVoucher {
   readonly createdAt: number,
   readonly updatedAt: number
 }
+
+export type CreatePaymentVoucherForm = Pick<PaymentVoucher,
+'amount' |
+'receiver' |
+'description' |
+'note' |
+'bookingId' |
+'deadline' |
+'method' |
+'signGroup' |
+'includeTax' |
+'quickApproval'
+> & {
+  attachment: FileList
+};
+
+export type PaymentVoucherMethodType = keyof typeof PaymentVoucherMethod;
+export const paymentVoucherMethodTypes: PaymentVoucherMethodType[] = Object.keys(
+  PaymentVoucherMethod,
+) as Array<PaymentVoucherMethodType>;

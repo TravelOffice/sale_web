@@ -96,6 +96,8 @@ import GetAllPaymentVouchersUseCaseImpl from '@domain/useCases/paymentVoucher/Ge
 import CreatePaymentVoucherUseCaseImpl from '@domain/useCases/paymentVoucher/CreatePaymentVoucherUseCaseImpl';
 import UpdatePaymentVoucherUseCaseImpl from '@domain/useCases/paymentVoucher/UpdatePaymentVoucherUseCaseImpl';
 import DeletePaymentVoucherUseCaseImpl from '@domain/useCases/paymentVoucher/DeletePaymentVoucherUseCaseImpl';
+import { UploadPaymentVoucherFileUseCase } from '@domain/useCases/interfaces/paymentVoucher/SendAttachmentMessageUseCase';
+import UploadPaymentVoucherFileUseCaseImpl from '@domain/useCases/paymentVoucher/UploadPaymentVoucherFileUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -242,7 +244,8 @@ interface UseCases {
   getAllPaymentVouchersUseCase: GetAllPaymentVouchersUseCase,
   createPaymentVoucherUseCase: CreatePaymentVoucherUseCase,
   updatePaymentVoucherUseCase: UpdatePaymentVoucherUseCase,
-  deletePaymentVoucherUseCase: DeletePaymentVoucherUseCase
+  deletePaymentVoucherUseCase: DeletePaymentVoucherUseCase,
+  uploadPaymentVoucherFileUseCase: UploadPaymentVoucherFileUseCase,
 }
 
 const useCases: UseCases = {
@@ -334,6 +337,7 @@ const useCases: UseCases = {
   createPaymentVoucherUseCase: new CreatePaymentVoucherUseCaseImpl(),
   updatePaymentVoucherUseCase: new UpdatePaymentVoucherUseCaseImpl(),
   deletePaymentVoucherUseCase: new DeletePaymentVoucherUseCaseImpl(),
+  uploadPaymentVoucherFileUseCase: new UploadPaymentVoucherFileUseCaseImpl(),
 };
 
 export const {
@@ -416,4 +420,5 @@ export const {
   createPaymentVoucherUseCase,
   updatePaymentVoucherUseCase,
   deletePaymentVoucherUseCase,
+  uploadPaymentVoucherFileUseCase,
 } = useCases;

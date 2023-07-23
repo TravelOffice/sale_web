@@ -73,7 +73,7 @@ const paymentVoucherColumns: TableColumn<PaymentVoucher>[] = [
     sortField: 'status',
     cell: (paymentVoucher: PaymentVoucher) => (
       <Badge className="text-capitalize" color={paymentVoucherTypesColors[paymentVoucher.status]} pill>
-        {i18n.t(`PAYMENT_VOUCHER.${paymentVoucher}`)}
+        {i18n.t(`PAYMENT_VOUCHER.${paymentVoucher.status}`)}
       </Badge>
     ),
   },
@@ -85,13 +85,13 @@ const paymentVoucherColumns: TableColumn<PaymentVoucher>[] = [
     cell: (paymentVoucher: PaymentVoucher) => (
       <div>
         <span>
-          {`${i18n.t('PAYMENT_VOUCHER.CREATED_DATE')}:${'\t'.repeat(3)}`}
+          {`${i18n.t('PAYMENT_VOUCHER.CREATED_DATE')}: `}
           {formatDate(paymentVoucher.createdAt)}
         </span>
         <br />
         { paymentVoucher.deadline && (
         <span>
-          {`${i18n.t('PAYMENT_VOUCHER.DEADLINE')}${'\t'.repeat(3)}`}
+          {`${i18n.t('PAYMENT_VOUCHER.DEADLINE')}: `}
           {formatDate(paymentVoucher.deadline)}
         </span>
         )}

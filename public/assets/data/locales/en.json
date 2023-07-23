@@ -712,6 +712,16 @@
     "TRANSFERRED": "Transferred",
     "WAIT_FOR_APPROVAL": "Waiting for approval",
     "WAIT_FOR_TRANSFER": "Waiting for transfer",
-    "WAIT_FOR_SIGN": "Waiting for sign"
+    "WAIT_FOR_SIGN": "Waiting for sign",
+    "CREATE_PAYMENT_VOUCHER": "Create payment voucher",
+    "INCLUDE_TAX": "Include tax",
+    "SIGN_GROUP": "Sign group",
+    "METHOD": "Method",
+    "CASH": "Cash",
+    "TRANSFER": "Transfer",
+    "QUICk_APPROVE": "Quick approve",
+    "ATTACHMENT": "Attachment",
+    "BOOKING": "Booking ID",
+    "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Payment voucher created successfully"
   }
 }

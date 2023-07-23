@@ -713,6 +713,16 @@
     "TRANSFERRED": "Đã chuyển tiền",
     "WAIT_FOR_APPROVAL": "Chờ duyệt",
     "WAIT_FOR_TRANSFER": "Chờ chuyển tiền",
-    "WAIT_FOR_SIGN": "Chờ ký duyệt"
+    "WAIT_FOR_SIGN": "Chờ ký duyệt",
+    "CREATE_PAYMENT_VOUCHER": "Tạo phiếu chi",
+    "INCLUDE_TAX": "Bao gồm thuế",
+    "SIGN_GROUP": "Nhóm ký",
+    "METHOD": "Phương thức",
+    "CASH": "Tiền mặt",
+    "TRANSFER": "Chuyển khoản",
+    "QUICk_APPROVE": "Duyệt nhanh",
+    "ATTACHMENT": "Đính kèm",
+    "BOOKING": "Mã đặt phòng",
+    "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Tạo phiếu chi thành công"
   }
 }
