@@ -13,12 +13,18 @@ import PaymentVoucherFilter, {
 } from '@features/PaymentVoucher/components/PaymentVoucherFilter';
 import filterPaymentVouchers from '@utils/PaymentVoucherUtils';
 import { usePaymentVouchers } from '@hooks/paymentVoucher';
+import PaymentVoucherCreatePage from '@features/PaymentVoucher/components/CreatePaymentVoucher';
 
 export default function PaymentVoucherListPage() {
   const [filterParams, setFilterParams] = useState<PaymentVoucherFilterParams>();
   const {
     data: allPaymentVouchers, isFetching, isFetched, isError, refetch,
   } = usePaymentVouchers();
+  const [createFormModal, setCreateFormModal] = useState(false);
+
+  const toggleCreateFormModal = () => {
+    setCreateFormModal(!createFormModal);
+  };
 
   const fetchPaymentVouchersState: HandleDataState = useMemo(() => {
     if (isFetching) return 'loading';
@@ -30,7 +36,7 @@ export default function PaymentVoucherListPage() {
   const paymentVoucherBtnArr: Array<ButtonProps> = [
     {
       name: i18n.t('COMMON.ADD'),
-      handleOnClick: () => {},
+      handleOnClick: () => toggleCreateFormModal(),
     },
   ];
 
@@ -67,6 +73,24 @@ export default function PaymentVoucherListPage() {
               {' '}
               <span className="fw-bolder text-primary">{data.creatorName}</span>
             </li>
+            {
+              data.attachment && (
+              <li>
+                {i18n.t('PAYMENT_VOUCHER.ATTACHMENT')}
+                :
+                {' '}
+                <a href={data.attachment} className="user_name text-truncate text-body" target="_blank" rel="noopener noreferrer">
+                  <span className="fw-bolder text-primary">
+                    {
+                    decodeURIComponent(
+                      new URL(data.attachment).pathname.split('/').pop() || data.attachment,
+                    )
+                  }
+                  </span>
+                </a>
+              </li>
+              )
+            }
           </ul>
         </Col>
       </Row>
@@ -94,6 +118,10 @@ export default function PaymentVoucherListPage() {
         extraButtons={paymentVoucherBtnArr}
         expandableRows
         expandableRowsComponent={PaymentVoucherExpandableRowComponent}
+      />
+      <PaymentVoucherCreatePage
+        createFormModal={createFormModal}
+        toggleCreateFormModal={toggleCreateFormModal}
       />
     </div>
   );

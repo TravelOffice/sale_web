@@ -1,0 +1,280 @@
+import {
+  Button,
+  Col,
+  Form,
+  FormFeedback,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+  Spinner,
+} from 'reactstrap';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import {
+  CreatePaymentVoucherForm,
+  PaymentVoucherMethod, paymentVoucherMethodTypes,
+} from '@domain/entities/paymentVoucher/PaymentVoucher';
+import i18n from '@config/i18n';
+import FormItemInput from '@components/Form/FormItemInput';
+import FormItemDatePicker from '@components/Form/FormItemDatePicker';
+import CurrencyInput from 'react-currency-input-field';
+import { convertCurrencyToNumber } from '@utils/CurrencyUtils';
+import FormItemSelect from '@components/Form/FormItemSelect';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
+import FormItemFileInput from '@components/Form/FormItemFileInput';
+import { PAYMENT_VOUCHER_QUERY_KEY, useCreatePaymentVoucherMutation } from '@hooks/paymentVoucher';
+import { useQueryClient } from '@tanstack/react-query';
+
+interface PaymentVoucherCreatePageProps {
+  createFormModal: boolean,
+  toggleCreateFormModal: () => void
+}
+
+const methodOptions = [
+  { label: i18n.t('PAYMENT_VOUCHER.CASH'), value: PaymentVoucherMethod.CASH },
+  { label: i18n.t('PAYMENT_VOUCHER.TRANSFER'), value: PaymentVoucherMethod.TRANSFER },
+];
+
+const schema = yup.object().shape({
+  amount: yup
+    .number()
+    .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('PAYMENT_VOUCHER.AMOUNT') }))
+    .min(1, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('PAYMENT_VOUCHER.AMOUNT'), value: 1 })),
+  receiver: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('PAYMENT_VOUCHER.RECEIVER') })),
+  description: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('PAYMENT_VOUCHER.DESCRIPTION') })),
+  method: yup.string()
+    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('PAYMENT_VOUCHER.METHOD') }))
+    .oneOf(paymentVoucherMethodTypes, i18n.t('MESSAGE.INVALID_MESSAGE')),
+  signGroup: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('PAYMENT_VOUCHER.SIGN_GROUP') })),
+});
+
+const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
+  const queryClient = useQueryClient();
+  const { createFormModal, toggleCreateFormModal } = props;
+
+  const {
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm<CreatePaymentVoucherForm>({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      amount: 0,
+      includeTax: false,
+      quickApproval: false,
+    },
+  });
+  const handleReset = () => {
+    toggleCreateFormModal();
+    reset();
+  };
+
+  const { createPaymentVoucherMutate, isLoading } = useCreatePaymentVoucherMutation(
+    () => {
+      handleReset();
+      queryClient.invalidateQueries([PAYMENT_VOUCHER_QUERY_KEY]);
+    },
+  );
+
+  const onSubmit = (data: CreatePaymentVoucherForm) => {
+    createPaymentVoucherMutate(data);
+  };
+
+  return (
+    <div className="demo-inline-spacing">
+      <div>
+        <Modal isOpen={createFormModal} toggle={() => toggleCreateFormModal()} className="modal-dialog-centered">
+          <Form onSubmit={handleSubmit(onSubmit)}>
+
+            <ModalHeader toggle={() => toggleCreateFormModal()}>
+              {i18n.t('PAYMENT_VOUCHER.CREATE_PAYMENT_VOUCHER')}
+            </ModalHeader>
+            <ModalBody>
+              <Row>
+                <Col md={5}>
+                  <div className="mb-2">
+                    <Label className="form-label" for="amount">
+                      {i18n.t('PAYMENT_VOUCHER.AMOUNT')}
+                      {' '}
+                      <span className="text-danger">{' *'}</span>
+                    </Label>
+                    <Controller
+                      name="amount"
+                      control={control}
+                      render={({ field: { onChange, ...rest } }) => (
+                        <CurrencyInput
+                          {...rest}
+                          className={`form-control text-end ${errors.amount && 'is-invalid'}`}
+                          onValueChange={(newValue) => {
+                            const numericValue = convertCurrencyToNumber(newValue);
+                            onChange(numericValue);
+                          }}
+                          decimalSeparator="."
+                          groupSeparator=","
+                        />
+                      )}
+                    />
+                    {errors.amount
+                        && <FormFeedback>{errors.amount.message}</FormFeedback>}
+                  </div>
+                </Col>
+                <Col md={7}>
+                  <div className="mb-2">
+                    <Label className="form-label" for="receiver">
+                      {i18n.t('PAYMENT_VOUCHER.RECEIVER')}
+                      {' '}
+                      <span className="text-danger">{' *'}</span>
+                    </Label>
+                    <FormItemInput
+                      control={control}
+                      errors={errors}
+                      name="receiver"
+                    />
+                  </div>
+                </Col>
+              </Row>
+              <div className="mb-2">
+                <Label className="form-label" for="description">
+                  {i18n.t('PAYMENT_VOUCHER.DESCRIPTION')}
+                  {' '}
+                  <span className="text-danger">{' *'}</span>
+                </Label>
+                <FormItemInput
+                  inputType="textarea"
+                  control={control}
+                  errors={errors}
+                  name="description"
+                />
+              </div>
+              <div className="mb-2">
+                <Label className="form-label" for="note">
+                  {i18n.t('PAYMENT_VOUCHER.NOTE')}
+                </Label>
+                <FormItemInput
+                  inputType="textarea"
+                  control={control}
+                  errors={errors}
+                  name="note"
+                />
+              </div>
+              <div className="mb-2">
+                <Label className="form-label" for="bookingId">
+                  {i18n.t('PAYMENT_VOUCHER.BOOKING')}
+                </Label>
+                <FormItemInput
+                  control={control}
+                  errors={errors}
+                  name="bookingId"
+                />
+              </div>
+              <Row>
+                <Col md={6}>
+                  <div className="mb-2">
+                    <Label className="form-label" for="deadline">
+                      {i18n.t('PAYMENT_VOUCHER.DEADLINE')}
+                    </Label>
+                    <FormItemDatePicker
+                      control={control}
+                      errors={errors}
+                      name="deadline"
+                    />
+                  </div>
+                </Col>
+                <Col md={6}>
+                  <div className="mb-2">
+                    <Label className="form-label" for="method">
+                      {i18n.t('PAYMENT_VOUCHER.METHOD')}
+                      {' '}
+                      <span className="text-danger">{' *'}</span>
+                    </Label>
+                    <FormItemSelect
+                      control={control}
+                      name="method"
+                      options={methodOptions}
+                      isClearable
+                      errors={errors}
+                    />
+                  </div>
+                </Col>
+              </Row>
+              <Row>
+                <div className="mb-2">
+                  <Label className="form-label" for="signGroup">
+                    {i18n.t('PAYMENT_VOUCHER.SIGN_GROUP')}
+                    {' '}
+                    <span className="text-danger">{' *'}</span>
+                  </Label>
+                  <FormItemInput
+                    control={control}
+                    errors={errors}
+                    name="signGroup"
+                  />
+                </div>
+                <Row>
+                  <Col className="mb-2">
+                    <FormItemInput
+                      inputType="checkbox"
+                      control={control}
+                      name="includeTax"
+                      errors={{}}
+                    />
+                    <Label className="form-label" for="includeTax">
+                        &nbsp;
+                      {i18n.t('PAYMENT_VOUCHER.INCLUDE_TAX')}
+                    </Label>
+                  </Col>
+                  <Col className="mb-2">
+                    <FormItemInput
+                      inputType="checkbox"
+                      control={control}
+                      name="quickApproval"
+                      errors={{}}
+                    />
+                    <Label className="form-label" for="quickApproval">
+                        &nbsp;
+                      {i18n.t('PAYMENT_VOUCHER.QUICk_APPROVE')}
+                    </Label>
+                  </Col>
+                </Row>
+              </Row>
+              <div className="mb-2">
+                <Label className="form-label" for="attachment">
+                  {i18n.t('PAYMENT_VOUCHER.ATTACHMENT')}
+                </Label>
+                <FormItemFileInput
+                  control={control}
+                  errors={errors}
+                  name="attachment"
+                />
+              </div>
+            </ModalBody>
+            <ModalFooter>
+              <div className="d-flex justify-content-end">
+                <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
+                  {i18n.t('COMMON.CANCEL')}
+                </Button>
+                <Button type="submit" className="me-1" color="primary">
+                  {!isLoading ? i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE') : i18n.t('COMMON.LOADING')}
+                  {isLoading ? (
+                    <Spinner
+                      style={{ width: '0.7rem', height: '0.7rem' }}
+                      type="grow"
+                      color="light"
+                    />
+                  ) : null}
+                </Button>
+              </div>
+            </ModalFooter>
+          </Form>
+        </Modal>
+      </div>
+    </div>
+  );
+};
+
+export default PaymentVoucherCreatePage;

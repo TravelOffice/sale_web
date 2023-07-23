@@ -5,6 +5,7 @@ import {
   deletePaymentVoucherUseCase,
   getAllPaymentVouchersUseCase,
   updatePaymentVoucherUseCase,
+  uploadPaymentVoucherFileUseCase,
 } from '@domain/useCases';
 
 export default class PaymentVoucherPresenterImpl implements PaymentVoucherPresenter {
@@ -21,4 +22,8 @@ export default class PaymentVoucherPresenterImpl implements PaymentVoucherPresen
     deletePaymentVoucher = async (
       id: string,
     ) => deletePaymentVoucherUseCase.invoke(id);
+
+    uploadPaymentVoucherAttachment = async (
+      file: File,
+    ) => uploadPaymentVoucherFileUseCase.invoke(file)
 }
