@@ -1,6 +1,20 @@
-import React, { useCallback, useEffect } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import {
-  Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, CardTitle, Col, Form, Label, Row,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  Col,
+  Form,
+  Input,
+  Label,
+  Row,
 } from 'reactstrap';
 import { Link, useParams } from 'react-router-dom';
 import i18n from '@config/i18n';
@@ -10,13 +24,17 @@ import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import LoadingButton from '@components/LoadingButton/LoadingButton';
 import { Trans } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { UpdateLeadFormData } from '@domain/entities/lead/Lead';
+import { LeadStatus, UpdateLeadFormData } from '@domain/entities/lead/Lead';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { leadPresenter } from '@adapter/presenters';
 import { useAllSaleOptions } from '@hooks/users';
 import {
-  honorificOptions, typeOptions, updateLeadSchema,
+  generateI18nForLead,
+  honorificOptions,
+  leadStatusColors,
+  typeOptions,
+  updateLeadSchema,
 } from '@utils/LeadUtils';
 import toasty from '@components/Toasty/Toasty';
 import Skeleton from 'react-loading-skeleton';
@@ -24,6 +42,7 @@ import { numberArrayOf } from '@utils/ArrayUtils';
 import { useTourTemplateOptions } from '@hooks/tourTemplate';
 import { useTourLocationOptions } from '@hooks/tourLocation';
 import { useSourceOptions } from '@hooks/source';
+import CancelLeadModal from '@features/Lead/components/CancelLeadModal';
 
 export interface EditLeadPageParams {
   leadId: string,
@@ -49,6 +68,7 @@ function renderSkeleton() {
 }
 
 export default function EditLeadPage() {
+  const [showCancelLeadDialog, setShowCancelLeadDialog] = useState(false);
   const queryClient = useQueryClient();
   const { leadId } = useParams<EditLeadPageParams>();
   const { data: lead, isLoading } = useQuery(['leads', leadId], async () => leadPresenter.getLead(leadId));
@@ -56,6 +76,14 @@ export default function EditLeadPage() {
   const tourTemplateOptions = useTourTemplateOptions();
   const departureOptions = useTourLocationOptions();
   const sourceOptions = useSourceOptions();
+
+  // if the lead is not loaded, then it is not editable
+  // if the lead is loaded, then it is editable if the lead status is not CANCEL or CLOSED
+  const editable = useMemo(() => {
+    if (!lead) return false;
+    const { leadStatus } = lead;
+    return leadStatus !== LeadStatus.CANCEL && leadStatus !== LeadStatus.CLOSED;
+  }, [lead]);
 
   const {
     control,
@@ -88,7 +116,6 @@ export default function EditLeadPage() {
     },
   });
 
-  // const history = useHistory();
   const handleOnSubmit = useCallback((formData: UpdateLeadFormData) => {
     updateLeadMutation.mutate(formData);
   }, []);
@@ -110,7 +137,17 @@ export default function EditLeadPage() {
           <Col sm={8}>
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">{i18n.t('LEAD.EDIT_LEAD')}</CardTitle>
+                <CardTitle tag="h4">
+                  {i18n.t('LEAD.EDIT_LEAD')}
+                  {' '}
+                  {
+                    !!lead && (
+                      <Badge className="text-capitalize" color={leadStatusColors[lead.leadStatus]} pill>
+                        {generateI18nForLead(lead.leadStatus)}
+                      </Badge>
+                    )
+                  }
+                </CardTitle>
               </CardHeader>
               <CardBody>
                 {
@@ -132,6 +169,7 @@ export default function EditLeadPage() {
                             name="honorific"
                             errors={errors}
                             placeholder={i18n.t('LEAD.HONORIFIC')}
+                            disabled={!editable}
                             options={honorificOptions}
                           />
                         </Col>
@@ -141,6 +179,7 @@ export default function EditLeadPage() {
                             name="name"
                             errors={errors}
                             placeholder={i18n.t('LEAD.NAME')}
+                            disabled={!editable}
                             inputType="text"
                           />
                         </Col>
@@ -157,6 +196,7 @@ export default function EditLeadPage() {
                             name="phoneNumber"
                             errors={errors}
                             placeholder={i18n.t('LEAD.PHONE')}
+                            disabled={!editable}
                             inputType="tel"
                           />
                         </Col>
@@ -172,6 +212,7 @@ export default function EditLeadPage() {
                             name="email"
                             errors={errors}
                             placeholder={i18n.t('LEAD.EMAIL')}
+                            disabled={!editable}
                             inputType="email"
                           />
                         </Col>
@@ -187,6 +228,7 @@ export default function EditLeadPage() {
                             name="address"
                             errors={errors}
                             placeholder={i18n.t('LEAD.ADDRESS')}
+                            disabled={!editable}
                             inputType="text"
                           />
                         </Col>
@@ -207,6 +249,7 @@ export default function EditLeadPage() {
                             errors={errors}
                             placeholder={i18n.t('LEAD.TOUR_TEMPLATE')}
                             isClearable
+                            disabled={!editable}
                             options={tourTemplateOptions}
                           />
                         </Col>
@@ -222,6 +265,7 @@ export default function EditLeadPage() {
                             name="desiredTour"
                             errors={errors}
                             placeholder={i18n.t('LEAD.DESIRED_TOUR')}
+                            disabled={!editable}
                             inputType="text"
                           />
                         </Col>
@@ -237,6 +281,7 @@ export default function EditLeadPage() {
                             control={control}
                             name="startDate"
                             errors={errors}
+                            disabled={!editable}
                             placeholder={i18n.t('LEAD.START_DATE')}
                           />
                         </Col>
@@ -253,6 +298,7 @@ export default function EditLeadPage() {
                             name="departure"
                             errors={errors}
                             placeholder={i18n.t('LEAD.DEPARTURE')}
+                            disabled={!editable}
                             options={departureOptions}
                           />
                         </Col>
@@ -269,6 +315,7 @@ export default function EditLeadPage() {
                             name="type"
                             errors={errors}
                             options={typeOptions}
+                            disabled={!editable}
                             placeholder={i18n.t('LEAD.TYPE')}
                           />
                         </Col>
@@ -285,6 +332,7 @@ export default function EditLeadPage() {
                             name="numberOfAdultPassengers"
                             errors={errors}
                             placeholder={i18n.t('LEAD.NUMBER_OF_ADULT_PASSENGERS')}
+                            disabled={!editable}
                             inputType="number"
                           />
                         </Col>
@@ -301,6 +349,7 @@ export default function EditLeadPage() {
                             name="numberOfChildrenPassengers"
                             errors={errors}
                             placeholder={i18n.t('LEAD.NUMBER_OF_CHILDREN_PASSENGERS')}
+                            disabled={!editable}
                             inputType="number"
                           />
                         </Col>
@@ -317,6 +366,7 @@ export default function EditLeadPage() {
                             name="sourceId"
                             errors={errors}
                             placeholder={i18n.t('LEAD.SOURCE')}
+                            disabled={!editable}
                             options={sourceOptions}
                           />
                         </Col>
@@ -332,8 +382,27 @@ export default function EditLeadPage() {
                             name="assigneeId"
                             errors={errors}
                             placeholder={i18n.t('LEAD.ASSIGNEE')}
+                            disabled={!editable}
                             options={saleOptions}
                           />
+                        </Col>
+                      </Row>
+
+                      <Row className="mb-1">
+                        <Label sm="3" for="creator">
+                          {i18n.t('LEAD.CREATOR')}
+                        </Label>
+                        <Col sm="9">
+                          <Input id="creator" disabled value={lead?.creatorName} />
+                        </Col>
+                      </Row>
+
+                      <Row className="mb-1">
+                        <Label sm="3" for="cancelledReason">
+                          {i18n.t('LEAD.CANCELLED_REASON')}
+                        </Label>
+                        <Col sm="9">
+                          <Input id="cancelledReason" type="textarea" disabled value={lead?.cancelledReason} />
                         </Col>
                       </Row>
 
@@ -347,6 +416,7 @@ export default function EditLeadPage() {
                             name="description"
                             errors={errors}
                             placeholder={i18n.t('LEAD.DESCRIPTION')}
+                            disabled={!editable}
                             inputType="textarea"
                           />
                         </Col>
@@ -361,8 +431,15 @@ export default function EditLeadPage() {
                             type="submit"
                             disabled={updateLeadMutation.isLoading}
                           >
-                            {i18n.t('COMMON.SUBMIT')}
+                            {i18n.t('COMMON.SAVE_CHANGES')}
                           </LoadingButton>
+                          <Button
+                            className="me-1"
+                            color="danger"
+                            onClick={() => setShowCancelLeadDialog(true)}
+                          >
+                            {i18n.t('LEAD.CANCEL_LEAD')}
+                          </Button>
                         </Col>
                       </Row>
                     </>
@@ -387,6 +464,14 @@ export default function EditLeadPage() {
           </Col>
         </Row>
       </Form>
+      <CancelLeadModal
+        leadId={leadId}
+        lead={lead}
+        toggle={() => setShowCancelLeadDialog(!showCancelLeadDialog)}
+        isOpen={showCancelLeadDialog}
+        className="modal-dialog-centered"
+        modalClassName="danger"
+      />
     </div>
   );
 }

@@ -1,5 +1,8 @@
 import { apiProvider } from '@adapter/infrastructures';
-import { CreateLeadFormData, LeadStatus, UpdateLeadFormData } from '@domain/entities/lead/Lead';
+import {
+  CreateLeadFormData, LeadStatus, UpdateLeadFormData,
+} from '@domain/entities/lead/Lead';
+import { CancelLeadFormData } from '@domain/entities/lead/CancelLeadFormData';
 import { LeadRepository } from './interfaces/LeadRepository';
 
 export default class LeadRepositoryImpl implements LeadRepository {
@@ -42,5 +45,9 @@ export default class LeadRepositoryImpl implements LeadRepository {
       assignee: currentUserId,
     });
     return response.data;
+  }
+
+  cancelLead = async (leadId: string, formData: CancelLeadFormData) => {
+    await apiProvider.authorizedRequest.put(`/leads/${leadId}/cancel`, formData);
   }
 }

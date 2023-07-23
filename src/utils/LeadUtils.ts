@@ -137,3 +137,10 @@ export const createLeadSchema = yup.object().shape({
  * Validation schema for updating a lead.
  */
 export const updateLeadSchema = createLeadSchema;
+
+export const leadStatusColors: Record<LeadStatus, string> = {
+  NEW: 'light-primary',
+  PROCESSING: 'light-warning',
+  CLOSED: 'light-success',
+  CANCEL: 'light-danger',
+};

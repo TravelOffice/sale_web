@@ -17,7 +17,7 @@ export default function FormItemInput<
   TFieldPath extends FieldPath<TFieldValues>,
 >(props: FormItemInputProps<TFieldValues, TFieldPath>) {
   const {
-    control, errors, name, inputType, placeholder,
+    control, errors, name, inputType, placeholder, disabled,
   } = props;
   return (
     <>
@@ -30,6 +30,7 @@ export default function FormItemInput<
             id={name}
             placeholder={placeholder}
             invalid={!!errors[name]}
+            disabled={disabled}
             {...field}
           />
         )}

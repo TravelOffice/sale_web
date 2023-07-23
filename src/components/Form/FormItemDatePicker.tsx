@@ -18,8 +18,9 @@ export default function FormItemDatePicker<
   TFieldPath extends FieldPath<TFieldValues>,
 >(props: FormItemDatePickerProps<TFieldValues, TFieldPath>) {
   const {
-    control, errors, name, placeholder,
+    control, errors, name, placeholder, disabled,
   } = props;
+
   return (
     <>
       <Controller
@@ -35,6 +36,7 @@ export default function FormItemDatePicker<
             }}
             value={value}
             onChange={(dates) => onChange(dates[0])}
+            disabled={disabled}
             {...rest}
           />
         )}
