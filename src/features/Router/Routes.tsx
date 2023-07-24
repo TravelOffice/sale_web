@@ -30,6 +30,7 @@ import SupplierEditPage from '@features/Supplier/SupplierEditPage';
 import DepartureTourListPage from '@features/Tour/Departure/DepartureTourListPage';
 import DepartureTourCreatePage from '@features/Tour/Departure/DepartureTourCreatePage';
 import DepartureTourEditPage from '@features/Tour/Departure/DepartureTourEditPage';
+import ToursOperationDetail from '@features/ToursOperation/ToursOperationDetail';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -192,6 +193,11 @@ const Routes: RoutePathConfig[] = [
     path: '/apps/tours-operation',
     exact: true,
     component: <ToursOperationMain />,
+  },
+  {
+    path: '/apps/tours-operation/:tourId/operate',
+    exact: true,
+    component: <ToursOperationDetail />,
   },
   {
     path: '/apps/payment-voucher',
