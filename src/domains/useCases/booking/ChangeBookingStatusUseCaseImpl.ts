@@ -1,6 +1,6 @@
 import { BookingStatus } from '@domain/entities/booking/Booking';
 import { bookingRepository } from '@adapter/repositories';
-import { ChangeBookingStatusUseCase } from '@domain/useCases/interfaces/booking/ChangeBookingStatusUseCase';
+import { ChangeBookingStatusUseCase } from '@domain/useCases/booking/interfaces/ChangeBookingStatusUseCase';
 
 export default class ChangeBookingStatusUseCaseImpl implements ChangeBookingStatusUseCase {
   invoke = async (

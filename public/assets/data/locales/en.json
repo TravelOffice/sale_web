@@ -70,7 +70,8 @@
     "QUANTITY": "Quantity",
     "INDEX": "INDEX",
     "ACCEPT": "Accept",
-    "CONFIRM": "Confirm"
+    "CONFIRM": "Confirm",
+    "CREATE": "Create"
   },
   "LEAD": {
     "NAME": "Name",
@@ -685,7 +686,20 @@
     "BEFORE_TAX": "Before tax",
     "AFTER_TAX": "After tax",
     "TOTAL_PAYMENT": "Total Payment",
-    "EDIT_BOOKING_SUCCESSFULLY": "Edit booking {{bookingCode}} successfully"
+    "EDIT_BOOKING_SUCCESSFULLY": "Edit booking {{bookingCode}} successfully",
+    "NOTE_TITLE": "Note title",
+    "NOTE_DESCRIPTION": "Note description",
+    "CREATE_NOTE": "Create note",
+    "CREATE_NOTE_SUCCESSFULLY": "Create note successfully",
+    "CREATE_NOTE_FAILED": "Create note failed",
+    "NOTE_TYPE_CALL": "Call",
+    "NOTE_TYPE_EMAIL": "Email",
+    "NOTE_TYPE_SMS": "SMS",
+    "NOTE_TYPE_ZALO": "Zalo",
+    "NOTE_TYPE_OTHERS": "Others",
+    "NOTE_TYPE": "Note type",
+    "ADD_NOTE": "Add new note",
+    "NOTES": "Notes"
   },
   "RECEIPT": {
     "CODE": "Code",

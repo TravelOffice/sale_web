@@ -2,6 +2,7 @@ import { AddBookingFormData } from '@domain/entities/booking/AddBookingFormData'
 import { Booking, BookingStatus } from '@domain/entities/booking/Booking';
 import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingFromLeadFormData';
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
+import { CreateNoteFormData, Note } from '@domain/entities/note/Note';
 
 export interface BookingRepository {
   addBooking(bookingFormData: AddBookingFormData): Promise<Booking>;
@@ -15,4 +16,6 @@ export interface BookingRepository {
   updateBooking(bookingId: string, booking: UpdateBookingFormData): Promise<Booking>;
 
   changeStatus(bookingId: string, status: BookingStatus, reason?: string): Promise<Booking>;
+
+  addNote(bookingId: string, formData: CreateNoteFormData): Promise<Note>
 }

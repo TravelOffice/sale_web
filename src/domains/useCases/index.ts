@@ -45,18 +45,6 @@ import { AutoLinkEmailUseCase } from '@domain/useCases/interfaces/mail/AutoLinkE
 import AutoLinkEmailUseCaseImpl from '@domain/useCases/mail/AutoLinkEmailUseCaseImpl';
 import ChangeMailboxUseCaseImpl from '@domain/useCases/mail/ChangeMailboxUseCaseImpl';
 import { ChangeMailboxUseCase } from '@domain/useCases/interfaces/mail/ChangeMailboxUseCase';
-import { AddBookingUseCase } from '@domain/useCases/interfaces/booking/AddBookingUseCase';
-import { AddBookingFromLeadUseCase } from '@domain/useCases/interfaces/booking/AddBookingFromLeadUseCase';
-import { GetBookingsUseCase } from '@domain/useCases/interfaces/booking/GetBookingsUseCase';
-import { GetBookingUseCase } from '@domain/useCases/interfaces/booking/GetBookingUseCase';
-import { UpdateBookingUseCase } from '@domain/useCases/interfaces/booking/UpdateBookingUseCase';
-import { ChangeBookingStatusUseCase } from '@domain/useCases/interfaces/booking/ChangeBookingStatusUseCase';
-import AddBookingUseCaseImpl from '@domain/useCases/booking/AddBookingUseCaseImpl';
-import AddBookingFromLeadUseCaseImpl from '@domain/useCases/booking/AddBookingFromLeadUseCaseImpl';
-import GetBookingUseCaseImpl from '@domain/useCases/booking/GetBookingUseCaseImpl';
-import GetBookingsUseCaseImpl from '@domain/useCases/booking/GetBookingsUseCaseImpl';
-import UpdateBookingUseCaseImpl from '@domain/useCases/booking/UpdateBookingUseCaseImpl';
-import ChangeBookingStatusUseCaseImpl from '@domain/useCases/booking/ChangeBookingStatusUseCaseImpl';
 import GetAllTourTemplatesUseCaseImpl from '@domain/useCases/tourTemplate/GetAllTourTemplatesUseCaseImpl';
 import GetTourTemplateUseCaseImpl from '@domain/useCases/tourTemplate/GetTourTemplateUseCaseImpl';
 import AddTourTemplateUseCaseImpl from '@domain/useCases/tourTemplate/AddTourTemplateUseCaseImpl';
@@ -218,12 +206,7 @@ interface UseCases {
   autoLinkEmailUseCase: AutoLinkEmailUseCase,
   changeMailboxUseCase: ChangeMailboxUseCase,
   // Booking
-  addBookingUseCase: AddBookingUseCase,
-  addBookingFromLeadUseCase: AddBookingFromLeadUseCase,
-  getBookingUseCase: GetBookingUseCase,
-  getBookingsUseCase: GetBookingsUseCase,
-  updateBookingUseCase: UpdateBookingUseCase,
-  changeBookingStatusUseCase: ChangeBookingStatusUseCase,
+
   // Customer
   addCustomerUseCase: AddCustomerUseCase,
   getAllCustomersUseCase: GetAllCustomersUseCase,
@@ -313,13 +296,6 @@ const useCases: UseCases = {
   getMailServerUseCase: new GetMailServerUseCaseImpl(),
   autoLinkEmailUseCase: new AutoLinkEmailUseCaseImpl(),
   changeMailboxUseCase: new ChangeMailboxUseCaseImpl(),
-  // Booking
-  addBookingUseCase: new AddBookingUseCaseImpl(),
-  addBookingFromLeadUseCase: new AddBookingFromLeadUseCaseImpl(),
-  getBookingUseCase: new GetBookingUseCaseImpl(),
-  getBookingsUseCase: new GetBookingsUseCaseImpl(),
-  updateBookingUseCase: new UpdateBookingUseCaseImpl(),
-  changeBookingStatusUseCase: new ChangeBookingStatusUseCaseImpl(),
   // Customer
   addCustomerUseCase: new AddCustomerUseCaseImpl(),
   getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
@@ -403,12 +379,6 @@ export const {
   getMailServerUseCase,
   autoLinkEmailUseCase,
   changeMailboxUseCase,
-  addBookingUseCase,
-  addBookingFromLeadUseCase,
-  getBookingUseCase,
-  getBookingsUseCase,
-  updateBookingUseCase,
-  changeBookingStatusUseCase,
   addCustomerUseCase,
   getAllCustomersUseCase,
   getBookingsOfCustomerUseCase,

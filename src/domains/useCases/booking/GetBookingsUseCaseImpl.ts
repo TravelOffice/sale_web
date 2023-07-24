@@ -1,5 +1,5 @@
 import { bookingRepository } from '@adapter/repositories';
-import { GetBookingsUseCase } from '@domain/useCases/interfaces/booking/GetBookingsUseCase';
+import { GetBookingsUseCase } from '@domain/useCases/booking/interfaces/GetBookingsUseCase';
 import { BookingStatus } from '@domain/entities/booking/Booking';
 
 export default class GetBookingsUseCaseImpl implements GetBookingsUseCase {
