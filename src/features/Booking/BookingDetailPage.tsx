@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { List, ShoppingCart, User } from 'react-feather';
+import { Activity, List, User } from 'react-feather';
 import {
   Breadcrumb, BreadcrumbItem, Col, Row, TabContent, TabPane,
 } from 'reactstrap';
@@ -12,6 +12,7 @@ import BookingTabs from '@features/Booking/components/BookingTabs';
 import BookingInfoCard from '@features/Booking/components/BookingInfoCard';
 import BookingDetailTab from '@features/Booking/components/tabs/information/BookingDetailTab';
 import CustomerDetailTab from '@features/Booking/components/tabs/Customer/CustomerDetailTab';
+import BookingNotes from '@features/Booking/components/tabs/notes/BookingNotes';
 
 export interface Tab {
   id: string,
@@ -31,14 +32,14 @@ export default function BookingDetail() {
     {
       id: 'customer',
       icon: <User size={16} className="me-50" />,
-      title: 'Customer',
+      title: i18n.t('BOOKING.CUSTOMER'),
       pane: <CustomerDetailTab />,
     },
     {
-      id: 'booking',
-      icon: <ShoppingCart size={16} className="me-50" />,
-      title: 'History',
-      pane: <div>Coming soon</div>,
+      id: 'notes',
+      icon: <Activity size={16} className="me-50" />,
+      title: i18n.t('BOOKING.NOTES'),
+      pane: <BookingNotes />,
     },
   ];
 

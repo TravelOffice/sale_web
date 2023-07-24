@@ -1,4 +1,4 @@
-import { UpdateBookingUseCase } from '@domain/useCases/interfaces/booking/UpdateBookingUseCase';
+import { UpdateBookingUseCase } from '@domain/useCases/booking/interfaces/UpdateBookingUseCase';
 import { bookingRepository } from '@adapter/repositories';
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
 

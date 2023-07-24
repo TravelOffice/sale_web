@@ -4,6 +4,7 @@ import { AddBookingFormData } from '@domain/entities/booking/AddBookingFormData'
 import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingFromLeadFormData';
 import { BookingStatus } from '@domain/entities/booking/Booking';
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
+import { CreateNoteFormData } from '@domain/entities/note/Note';
 
 export default class BookingRepositoryImpl implements BookingRepository {
   /**
@@ -81,6 +82,19 @@ export default class BookingRepositoryImpl implements BookingRepository {
       throw new Error('Not implemented yet.');
     }
 
+    return response.data;
+  }
+
+  /**
+   * Adds a new note to a specific booking.
+   *
+   * @param bookingId - The ID of the booking to which the note will be added.
+   * @param formData - The data for the new note in the form of `CreateNoteFormData`.
+   * @returns A Promise that resolves to the data of the newly added note from the
+   * server's response.
+   */
+  addNote = async (bookingId: string, formData: CreateNoteFormData) => {
+    const response = await apiProvider.authorizedRequest.post(`/bookings/${bookingId}/notes`, formData);
     return response.data;
   }
 }

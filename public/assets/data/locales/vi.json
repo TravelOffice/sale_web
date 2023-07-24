@@ -70,7 +70,8 @@
     "QUANTITY": "Số lượng",
     "INDEX": "STT",
     "ACCEPT": "Đồng ý",
-    "CONFIRM": "Xác nhận"
+    "CONFIRM": "Xác nhận",
+    "CREATE": "Tạo mới"
   },
   "LEAD": {
     "NAME": "Họ tên",
@@ -681,7 +682,20 @@
     "BEFORE_TAX": "Trước thuế",
     "AFTER_TAX": "Sau thuế",
     "TOTAL_PAYMENT": "Tổng thanh toán",
-    "EDIT_BOOKING_SUCCESSFULLY": "Đã cập nhật booking {{bookingCode}}"
+    "EDIT_BOOKING_SUCCESSFULLY": "Đã cập nhật booking {{bookingCode}}",
+    "NOTE_TITLE": "Tiêu đề",
+    "NOTE_DESCRIPTION": "Mô tả",
+    "CREATE_NOTE": "Tạo ghi chú",
+    "CREATE_NOTE_SUCCESSFULLY": "Tạo ghi chú thành công",
+    "CREATE_NOTE_FAILED": "Tạo ghi chú thất bại",
+    "NOTE_TYPE_CALL": "Gọi điện",
+    "NOTE_TYPE_EMAIL": "Email",
+    "NOTE_TYPE_SMS": "SMS",
+    "NOTE_TYPE_ZALO": "Zalo",
+    "NOTE_TYPE_OTHERS": "Khác",
+    "NOTE_TYPE": "Loại ghi chú",
+    "ADD_NOTE": "Thêm ghi chú",
+    "NOTES": "Ghi chú"
   },
   "RECEIPT": {
     "CODE": "Mã",
