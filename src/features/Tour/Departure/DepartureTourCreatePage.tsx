@@ -26,6 +26,7 @@ import CommonInformation from '@features/Tour/Departure/components/CommonInforma
 import PoliciesAndRegulations from '@features/Tour/components/PoliciesAndRegulations';
 import Services from '@features/Tour/Departure/components/Services';
 import toasty from '@components/Toasty/Toasty';
+import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 
 const schema = yup.object().shape({
   tourTemplateCode: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.TOUR_TEMPLATE') })),
@@ -63,7 +64,7 @@ const schema = yup.object().shape({
   ),
 });
 
-const CreateDepartureTour = () => {
+const DepartureTourCreatePage = () => {
   // Fetch tour template and location data
   const { data: tourTemplates = [] } = useQuery(['toursTemplate'], async () => tourPresenter.getAllToursTemplate());
   const { data: tourLocations = [] } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
@@ -94,7 +95,6 @@ const CreateDepartureTour = () => {
     defaultValues: {
       tourTemplateCode: undefined,
       name: '',
-      startDate: new Date().getTime(),
       type: TourType.INBOUND,
       visitorCount: 0,
       startingLocation: '',
@@ -115,32 +115,40 @@ const CreateDepartureTour = () => {
 
   const handleToursTemplateChange = (tourTemplateCode: string) => {
     // Set values for all form fields based on the selected toursTemplate data
-    const tourTemplate = tourTemplates.find((tour) => tour.code === tourTemplateCode);
-    const initDataByTemplate = {
-      ...tourTemplate,
-      tourTemplate: tourTemplate?.name || '',
-    } as CreateDepartureTourFormData;
-    Object.keys(initDataByTemplate).forEach((key) => {
-      setValue(
-        key as keyof CreateDepartureTourFormData,
-        initDataByTemplate[key as keyof CreateDepartureTourFormData],
-      );
-    });
+    const tourTemplateData = tourTemplates.find((tour) => tour.code === tourTemplateCode);
+    if (tourTemplateData) {
+      const { code, ...tourTemplate } = tourTemplateData;
+      const initDataByTemplate = {
+        ...tourTemplate,
+        tourTemplate: tourTemplate?.name || '',
+        tourTemplateCode: code,
+        status: TourStatus.ONSALE,
+        startDate: '',
+        isOpen: true,
+        operationStatus: TourOperationStatus.WAITING_FOR_OPERATION,
+      } as CreateDepartureTourFormData;
+      Object.keys(initDataByTemplate).forEach((key) => {
+        setValue(
+          key as keyof CreateDepartureTourFormData,
+          initDataByTemplate[key as keyof CreateDepartureTourFormData],
+        );
+      });
 
-    // Set other value
-    setValue('services', tourTemplate?.services || []);
-    setInclusionAndExclusion(stringToEditorState(
-      initDataByTemplate.policiesAndRegulations.inclusionAndExclusion,
-    ));
-    setCancellationTerms(stringToEditorState(
-      initDataByTemplate.policiesAndRegulations.cancellationTerms,
-    ));
-    setPolicyConditionsAndExtraFee(stringToEditorState(
-      initDataByTemplate.policiesAndRegulations.policyConditionsAndExtraFee,
-    ));
-    setTourPlan(stringToEditorState(
-      initDataByTemplate.tourPlan,
-    ));
+      // Set other value
+      setValue('services', tourTemplate?.services || []);
+      setInclusionAndExclusion(stringToEditorState(
+        initDataByTemplate.policiesAndRegulations.inclusionAndExclusion,
+      ));
+      setCancellationTerms(stringToEditorState(
+        initDataByTemplate.policiesAndRegulations.cancellationTerms,
+      ));
+      setPolicyConditionsAndExtraFee(stringToEditorState(
+        initDataByTemplate.policiesAndRegulations.policyConditionsAndExtraFee,
+      ));
+      setTourPlan(stringToEditorState(
+        initDataByTemplate.tourPlan,
+      ));
+    }
   };
 
   const { mutate, isLoading } = useMutation({
@@ -231,4 +239,4 @@ const CreateDepartureTour = () => {
   );
 };
 
-export default CreateDepartureTour;
+export default DepartureTourCreatePage;

@@ -560,11 +560,15 @@
     "SERVICE_PRICE": "Service price",
     "ADD_SERVICE": "Add service",
     "EDIT_TOUR_TEMPLATE": "Update tour template",
-    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Edit tour template successfully"
+    "EDIT_TOUR_TEMPLATE_SUCCESSFULLY": "Edit tour template successfully",
+    "CREATE_TOUR_TEMPLATE_SUCCESSFULLY": "Create tour template successfully",
+    "CATEGORY": "Category",
+    "SELECT_TOUR_TYPE": "Select tour type"
   },
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Departure tour",
     "CREATE": "Create new Departure Tour",
+    "EDIT": "Update Departure Tour",
     "TOUR_TEMPLATE": "Tour template",
     "NAME": "Departure Tour name",
     "DEPARTURE_DATE": "Departure date",
@@ -576,13 +580,17 @@
     "SERVICE_PRICE": "Service price",
     "ADD_SERVICE": "Add service",
     "CREATE_DEPARTURE_TOUR_SUCCESSFULLY": "Create Departure Tour Successfully",
+    "EDIT_DEPARTURE_TOUR_SUCCESSFULLY": "Update Departure Tour Successfully",
     "GROUP_TOUR": "Group tour",
     "INDIVIDUAL_TOUR": "Individual tour",
     "SHARED_TOUR": "Shared tour",
     "INLAND": "Inland",
     "INBOUND": "Inbound",
     "OUTBOUND": "Outbound",
-    "SELECT_TOUR_TEMPLATE": "Select tour template"
+    "SELECT_TOUR_TEMPLATE": "Select tour template",
+    "START_DATE": "Start date",
+    "CODE_OP": "Code/Operation Status",
+    "START_DATE_RANGE": "Departure date range"
   },
   "TOURS_OPERATION": {
     "NAV": {
@@ -669,6 +677,7 @@
     "DEPARTURE_DATE_PLACEHOLDER": "Select departure date",
     "CREATE_BOOKING_SUCCESSFULLY": "Create booking successfully",
     "CREATE_BOOKING_FROM_LEAD": "Create booking",
+    "DEPARTURE_DATE": "Departure date",
     "EDIT_BOOKING": "Edit Booking",
     "SERVICE_LIST": "Service list",
     "QUANTITY": "Quantity",
@@ -693,8 +702,7 @@
     "UPDATE_RECEIPT_SUCCESSFULLY": "Update receipt successfully",
     "DELETE_RECEIPT_SUCCESSFULLY": "Delete receipt successfully",
     "DELETE_RECEIPT_WARNING_TITLE": "Delete receipt",
-    "DELETE_RECEIPT_WARNING_MESSAGE": "Receipt will be deleted from system. Do you want to delete?",
-    "EDIT_SUPPLIER_SUCCESSFULLY": "Update supplier successfully"
+    "DELETE_RECEIPT_WARNING_MESSAGE": "Receipt will be deleted from system. Do you want to delete?"
   },
   "SUPPLIER": {
     "CODE": "Code",
@@ -744,7 +752,8 @@
     "REQUIRED_CONTACT_EMAIL": "Required: Please enter a valid email address",
     "REQUIRED_CONTACT_PHONE_NUMBER": "Required: Please enter a valid phone number",
     "REQUIRED_BANK_ACCOUNT_NUMBER": "Required: Please enter a valid bank account number",
-    "CREATE_SUPPLIER_SUCCESSFULLY": "Create supplier successfully"
+    "CREATE_SUPPLIER_SUCCESSFULLY": "Create supplier successfully",
+    "EDIT_SUPPLIER_SUCCESSFULLY": "Update supplier successfully"
   },
   "PAYMENT_VOUCHER": {
     "CODE": "Code",

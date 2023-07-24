@@ -4,7 +4,7 @@ import { DepartureTour, ExtendedDepartureTour } from '@domain/entities/tour';
 import { DepartureTourFilterParams } from '@features/ToursOperation/DepartureTour/components/DepartureTourFilter';
 import moment from 'moment';
 
-export function generateI18nForDepartureTour(type: string) {
+export function generateI18nForDepartureTourOperation(type: string) {
   const key = `TOURS_OPERATION.${type}`;
   return i18n.t(key).toUpperCase();
 }
@@ -65,7 +65,7 @@ export function filterDepartureTours(
  */
 export function toSearchableContent(depTour: ExtendedDepartureTour) {
   // Build serachable string
-  const status = generateI18nForDepartureTour(depTour.operationStatus);
+  const status = generateI18nForDepartureTourOperation(depTour.operationStatus);
   let searchableStr = `${depTour.name} ${depTour.code} ${status} `;
   searchableStr += `${moment(depTour.startDate).format('DD/MM/YYYY')} `;
   searchableStr += `${depTour.startingLocationName} - ${depTour.endingLocationName} `;

@@ -568,6 +568,7 @@
   "DEPARTURE_TOUR": {
     "DEPARTURE_TOUR": "Tour khởi hành",
     "CREATE": "Tạo tour khởi hành mới",
+    "EDIT": "Cập nhật tour khởi hành",
     "TOUR_TEMPLATE": "Tour mẫu",
     "NAME": "Tên tour khởi hành",
     "DEPARTURE_DATE": "Ngày khởi hành",
@@ -579,6 +580,7 @@
     "SERVICE_PRICE": "Giá dịch vụ",
     "ADD_SERVICE": "Thêm dịch vụ",
     "CREATE_DEPARTURE_TOUR_SUCCESSFULLY": "Tạo tour khởi hành thành công",
+    "EDIT_DEPARTURE_TOUR_SUCCESSFULLY": "Cập nhật tour khởi hành thành công",
     "GROUP_TOUR": "Tour đoàn",
     "INDIVIDUAL_TOUR": "Tour lẻ",
     "SHARED_TOUR": "Tour ghép",
@@ -586,7 +588,9 @@
     "INBOUND": "Tour inbound",
     "OUTBOUND": "Tour nước ngoài",
     "SELECT_TOUR_TEMPLATE": "Chọn tour template",
-    "START_DATE": "Ngày khởi hành"
+    "START_DATE": "Ngày khởi hành",
+    "CODE_OP": "Mã/Trạng thái điều hành",
+    "START_DATE_RANGE": "Ngày khởi hành"
   },
   "TOURS_OPERATION": {
     "NAV": {
@@ -696,6 +700,7 @@
     "NOTE": "Ghi chú",
     "CREATE_RECEIPT_SUCCESSFULLY": "Tạo phiếu thu thành công",
     "UPDATE_RECEIPT_SUCCESSFULLY": "Cập nhật phiếu thu thành công",
+    "DELETE_RECEIPT_SUCCESSFULLY": "Xoá phiếu thu thành công",
     "DELETE_RECEIPT_WARNING_TITLE": "Xoá phiếu thu",
     "DELETE_RECEIPT_WARNING_MESSAGE": "Phiếu thu sẽ được xóa khỏi hệ thống. Bạn có muốn xóa phiếu thu?"
   },

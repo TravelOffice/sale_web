@@ -98,6 +98,10 @@ import UpdatePaymentVoucherUseCaseImpl from '@domain/useCases/paymentVoucher/Upd
 import DeletePaymentVoucherUseCaseImpl from '@domain/useCases/paymentVoucher/DeletePaymentVoucherUseCaseImpl';
 import { UploadPaymentVoucherFileUseCase } from '@domain/useCases/interfaces/paymentVoucher/SendAttachmentMessageUseCase';
 import UploadPaymentVoucherFileUseCaseImpl from '@domain/useCases/paymentVoucher/UploadPaymentVoucherFileUseCaseImpl';
+import UpdateDepartureTourUseCaseImpl from '@domain/useCases/tour/UpdateDepartureTourUseCaseImpl';
+import { GetDepartureTourUseCase } from '@domain/useCases/interfaces/tour/GetDepartureTourUseCase';
+import GetDepartureTourUseCaseImpl from '@domain/useCases/tour/GetDepartureTourUseCaseImpl';
+import { UpdateDepartureTourUseCase } from '@domain/useCases/interfaces/tour/UpdateDepartureTourUseCase';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -229,6 +233,8 @@ interface UseCases {
   updateCustomerUseCase: UpdateCustomerUseCase,
   // Tour
   createDepartureTourUseCase: CreateDepartureTourUseCase,
+  updateDepartureTourUseCase: UpdateDepartureTourUseCase,
+  getDepartureTourUseCase: GetDepartureTourUseCase,
   getAllToursTemplateUseCase: GetAllToursTemplateUseCase,
   getAllToursLocationUseCase: GetAllToursLocationUseCase,
   getAllDepartureToursUseCase: GetAllDepartureToursUseCase,
@@ -323,6 +329,8 @@ const useCases: UseCases = {
   updateCustomerUseCase: new UpdateCustomerUseCaseImpl(),
   // Tour
   createDepartureTourUseCase: new CreateDepartureTourUseCaseImpl(),
+  updateDepartureTourUseCase: new UpdateDepartureTourUseCaseImpl(),
+  getDepartureTourUseCase: new GetDepartureTourUseCaseImpl(),
   getAllToursTemplateUseCase: new GetAllToursTemplateUseCaseImpl(),
   getAllToursLocationUseCase: new GetAllToursLocationUseCaseImpl(),
   getAllDepartureToursUseCase: new GetAllDepartureToursUseCaseImpl(),
@@ -410,6 +418,8 @@ export const {
   // Tour
   getAllDepartureToursUseCase,
   createDepartureTourUseCase,
+  updateDepartureTourUseCase,
+  getDepartureTourUseCase,
   getAllToursTemplateUseCase,
   getAllToursLocationUseCase,
   getAllSourcesUseCase,
