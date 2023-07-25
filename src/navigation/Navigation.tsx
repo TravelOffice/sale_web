@@ -71,7 +71,7 @@ const Navigation: MenuItem[] = [
         id: 'tour-departure',
         title: 'Tour Departure',
         icon: <File size={30} />,
-        navLink: '/apps/tour/departure',
+        navLink: '/apps/tour/departure/list',
       },
     ],
   },

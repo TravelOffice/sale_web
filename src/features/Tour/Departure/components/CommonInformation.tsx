@@ -6,11 +6,12 @@ import FormItemSelect from '@components/Form/FormItemSelect';
 import i18n from '@config/i18n';
 import { Control, FieldErrors } from 'react-hook-form';
 import TourType from '@domain/entities/tour/TourType';
-import TourCategory from '@domain/entities/tour/TourCategory';
 import { CreateDepartureTourFormData, TourLocation, TourTemplate } from '@domain/entities/tour';
 import FormItemInput from '@components/Form/FormItemInput';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import FormItemInputGroup from '@components/Form/FormItemInputGroup';
+import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
+import TourCategory from '@domain/entities/tour/TourCategory';
 
 const tourTypeOptions = [
   { label: i18n.t(`DEPARTURE_TOUR.${TourType.INLAND}`), value: TourType.INLAND },
@@ -24,15 +25,23 @@ const tourCategoryOptions = [
   { label: i18n.t(`DEPARTURE_TOUR.${TourCategory.SHARED_TOUR}`), value: TourCategory.SHARED_TOUR },
 ];
 
+const tourOperationStatusOptions = [
+  { label: i18n.t('TOURS_OPERATION.WAITING_FOR_OPERATION'), value: TourOperationStatus.WAITING_FOR_OPERATION },
+  { label: i18n.t('TOURS_OPERATION.PROCESSING'), value: TourOperationStatus.PROCESSING },
+  { label: i18n.t('TOURS_OPERATION.TRANSFERRED'), value: TourOperationStatus.TRANSFERRED },
+  { label: i18n.t('TOURS_OPERATION.COMPLETED'), value: TourOperationStatus.COMPLETED },
+];
+
 type CommonInformationProps = {
   control: Control<CreateDepartureTourFormData>;
   errors: FieldErrors<CreateDepartureTourFormData>;
   toursLocation: TourLocation[],
   toursTemplate: TourTemplate[],
-  onToursTemplateChange: (value: string) => void
+  isUpdate?: boolean,
+  onToursTemplateChange?: (value: string) => void
 };
 const CommonInformation: React.FC<CommonInformationProps> = ({
-  control, errors, toursLocation, toursTemplate, onToursTemplateChange,
+  control, errors, toursLocation, toursTemplate, isUpdate, onToursTemplateChange,
 }) => (
   <>
     <div className="divider divider-start divider-primary">
@@ -53,7 +62,8 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
           value: template.code,
         }))}
         placeholder={i18n.t('DEPARTURE_TOUR.SELECT_TOUR_TEMPLATE')}
-        onSelected={onToursTemplateChange}
+        isDisabled={isUpdate}
+        onSelected={isUpdate ? onToursTemplateChange : () => {}}
       />
     </div>
     <Row>
@@ -108,6 +118,24 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
             placeholder="Select Tour Type"
           />
         </div>
+        {
+          isUpdate && (
+          <div className="mb-1">
+            <Label className="form-label" for="operationStatus">
+              {i18n.t('TOURS_OPERATION.FILTER.OPERATION_STATUS')}
+              {' '}
+              <span className="text-danger">{' *'}</span>
+            </Label>
+            <FormItemSelect
+              control={control}
+              name="operationStatus"
+              errors={errors}
+              options={tourOperationStatusOptions}
+              placeholder={i18n.t('TOURS_OPERATION.FILTER.OPERATION_STATUS')}
+            />
+          </div>
+          )
+        }
       </Col>
       <Col md={6}>
         <div className="mb-1">
@@ -216,5 +244,10 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
     </Row>
   </>
 );
+
+CommonInformation.defaultProps = {
+  isUpdate: false,
+  onToursTemplateChange: () => {},
+};
 
 export default CommonInformation;

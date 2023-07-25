@@ -11,7 +11,7 @@ import {
 import moment from 'moment';
 import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 import { ExtendedDepartureTour } from '@domain/entities/tour';
-import { generateEditableUrlForTour, generateI18nForDepartureTour } from '@utils/TousOperationUtils';
+import { generateEditableUrlForTour, generateI18nForDepartureTourOperation } from '@utils/TousOperationUtils';
 import DepartureTourOperatorCell from '@features/ToursOperation/DepartureTour/components/DepartureTourOperatorCell';
 import DepartureTourActionCell from './DepartureTourActionCell';
 
@@ -36,8 +36,9 @@ const departureTourColumns: TableColumn<ExtendedDepartureTour>[] = [
             <span className="fw-bolder">{code}</span>
             <Edit className="ms-25" size={16} />
           </Link>
-          <Badge className="text-capitalize ms-25" color={tourOperationStatusColors[operationStatus]}>
-            {generateI18nForDepartureTour(operationStatus)}
+          {' '}
+          <Badge className="text-capitalize" color={tourOperationStatusColors[operationStatus]}>
+            {generateI18nForDepartureTourOperation(operationStatus)}
           </Badge>
         </div>
       );

@@ -14,7 +14,6 @@ import CustomerListPage from '@features/Customer/CustomerListPage';
 import CreateCustomerPage from '@features/Customer/CreateCustomerPage';
 import EditCustomerPage from '@features/Customer/CustomerDetailPage';
 import TourTemplateListPage from '@features/Tour/Template/TourTemplateListPage';
-import CreateDepartureTour from '@features/Tour/Departure/CreateDepartureTour';
 import BookingListPage from '@features/Booking/BookingListPage';
 import TourTemplateCreatePage from '@features/Tour/Template/TourTemplateCreatePage';
 import BookingCreatePage from '@features/Booking/BookingCreatePage';
@@ -28,6 +27,9 @@ import ToursOperationMain from '@features/ToursOperation/ToursOperationMain';
 import SupplierCreatePage from '@features/Supplier/SupplierCreatePage';
 import PaymentVoucherListPage from '@features/PaymentVoucher/PaymentVoucherListPage';
 import SupplierEditPage from '@features/Supplier/SupplierEditPage';
+import DepartureTourListPage from '@features/Tour/Departure/DepartureTourListPage';
+import DepartureTourCreatePage from '@features/Tour/Departure/DepartureTourCreatePage';
+import DepartureTourEditPage from '@features/Tour/Departure/DepartureTourEditPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -148,9 +150,20 @@ const Routes: RoutePathConfig[] = [
     component: <Roles />,
   },
   {
-    path: '/apps/tour/departure',
+    path: '/apps/tour/departure/list',
     exact: true,
-    component: <CreateDepartureTour />,
+    component: <DepartureTourListPage />,
+  },
+  {
+    path: '/apps/tour/departure/create',
+    exact: true,
+    component: <DepartureTourCreatePage />,
+  },
+  {
+    path: '/apps/tour/departure/:tourId/edit',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.update_tour_template],
+    component: <DepartureTourEditPage />,
   },
   {
     path: '/apps/receipt',

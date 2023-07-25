@@ -3,16 +3,27 @@ import {
   createDepartureTourUseCase,
   getAllDepartureToursUseCase,
   getAllToursLocationUseCase,
-  getAllToursTemplateUseCase,
   takeCareTourUseCase,
+  getAllToursTemplateUseCase,
+  getDepartureTourUseCase,
+  updateDepartureTourUseCase,
 } from '@domain/useCases';
-import { CreateDepartureTourFormData } from '@domain/entities/tour';
+import { CreateDepartureTourFormData, UpdateDepartureTourFormData } from '@domain/entities/tour';
 import { TourPresenter } from './interfaces/TourPresenter';
 
 export default class TourPresenterImpl implements TourPresenter {
   createDepartureTour = async (
     formData: CreateDepartureTourFormData,
   ) => createDepartureTourUseCase.invoke(formData);
+
+    updateDepartureTour = async (
+      tourId: string,
+      formData: UpdateDepartureTourFormData,
+    ) => updateDepartureTourUseCase.invoke(tourId, formData);
+
+    getDepartureTour = async (
+      tourId: string,
+    ) => getDepartureTourUseCase.invoke(tourId);
 
   getAllToursTemplate = async () => getAllToursTemplateUseCase.invoke();
 
