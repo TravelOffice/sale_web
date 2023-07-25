@@ -8,11 +8,14 @@ import i18n from '@config/i18n';
 import DataTable from 'react-data-table-component';
 import { ChevronDown, Plus } from 'react-feather';
 import { Link, useParams } from 'react-router-dom';
-import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/CustomerDetailTab';
 import leadColumns from '@features/Customer/components/tabs/lead/leadColumns';
 
+export interface EditLeadTabParams {
+  customerId: string,
+}
+
 export default function LeadsTab() {
-  const { customerId } = useParams<EditCustomerTabParams>();
+  const { customerId } = useParams<EditLeadTabParams>();
   const {
     data: allLeads = [],
     isFetching,

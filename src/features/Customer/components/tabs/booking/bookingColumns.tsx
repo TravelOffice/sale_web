@@ -2,11 +2,12 @@ import React from 'react';
 import i18n from '@config/i18n';
 import { TableColumn } from 'react-data-table-component';
 import { Link } from 'react-router-dom';
-import { Badge } from 'reactstrap';
 import {
-  ArrowUpRight, Calendar, Phone, User, Users,
+  Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
+} from 'reactstrap';
+import {
+  ArrowDown, ArrowUpRight, Calendar, Circle, Edit, MoreVertical, Users,
 } from 'react-feather';
-import { generateI18nForLead } from '@utils/LeadUtils';
 import { Booking, BookingStatus } from '@domain/entities/booking/Booking';
 import { generateEditableUrlForBooking, generateI18nForBooking } from '@utils/BookingUtils';
 import moment from 'moment';
@@ -20,7 +21,7 @@ const bookingStatusColors: Record<BookingStatus, string> = {
   COMPLETED: 'light-success',
 };
 
-const bookingColumns: TableColumn<Booking>[] = [
+const BookingColumns: TableColumn<Booking>[] = [
   {
     name: i18n.t('BOOKING.CODE_TT'),
     width: '220px',
@@ -41,45 +42,20 @@ const bookingColumns: TableColumn<Booking>[] = [
     },
   },
   {
-    name: i18n.t('BOOKING.CUSTOMER'),
-    minWidth: '80px',
-    cell: (booking: Booking) => {
-      const { customer } = booking;
-      return (
-        <div className="d-flex justify-content-left align-items-center">
-          <div className="d-flex flex-column">
-            <span className="fw-bolder text-primary pb-0">
-              <User size={14} className="text-secondary" />
-              <small className="text-truncate text-muted">
-                {' '}
-                {customer?.honorific ? `(${generateI18nForLead(customer.honorific)})` : ''}
-              </small>
-              {' '}
-              {customer?.name}
-            </span>
-            <span>
-              <Phone size={14} className="text-secondary" />
-              {' '}
-              {customer?.primaryPhoneNumber}
-            </span>
-          </div>
-        </div>
-      );
-    },
-  },
-  {
     name: i18n.t('BOOKING.TOUR'),
     minWidth: '150px',
+    sortField: 'tourRelatedInfo',
     cell: (booking: Booking) => {
       const { tourTemplate } = booking;
       return (
         <div>
-          <Badge className="text-uppercase" color="light-secondary">
-            {i18n.t('BOOKING.TOUR_TEMPLATE')}
-          </Badge>
-          {' '}
-          {tourTemplate?.name}
-          <br />
+          <div className="text-primary">
+            <Badge className="text-uppercase" color="light-primary">
+              {i18n.t('BOOKING.TOUR_TEMPLATE')}
+            </Badge>
+            {' '}
+            {tourTemplate?.name}
+          </div>
           <div className="d-flex align-items-center">
             <Calendar size={14} />
             {' '}
@@ -95,33 +71,92 @@ const bookingColumns: TableColumn<Booking>[] = [
   {
     name: i18n.t('BOOKING.RELATED_INFO'),
     minWidth: '150px',
+    sortField: 'bookingRelatedInfo',
     cell: (booking: Booking) => {
       const { lead } = booking;
+      let passengersText = '';
+      if (lead) {
+        passengersText += `${lead?.numberOfAdultPassengers + lead?.numberOfChildrenPassengers} `;
+        passengersText += `(${lead.numberOfAdultPassengers} ${i18n.t('LEAD.ADULT')} `;
+        passengersText += `- ${lead.numberOfChildrenPassengers} ${i18n.t('LEAD.CHILDREN')})`;
+      }
       return (
         <div>
-          <Badge className="text-uppercase" color="light-secondary">
-            {lead ? lead.sourceName : 'N/A'}
-          </Badge>
+          {lead ? (
+            <Badge className="text-uppercase" color="light-primary">
+              {lead.sourceName}
+            </Badge>
+          ) : <></>}
+          {' '}
+          {`${i18n.t('BOOKING.ASSIGNEE')}: ${booking.assigneeId ?? i18n.t('BOOKING.NO_ASSIGNEE')}`}
           <br />
           {lead ? (
             <div className="d-flex align-items-center">
               <Users size={14} />
               {' '}
-              {lead.numberOfAdultPassengers}
+              {i18n.t('BOOKING.TOTAL_PASSENGERS')}
               {' '}
-              {i18n.t('LEAD.ADULT')}
-              {' '}
-              -
-              {' '}
-              {lead.numberOfChildrenPassengers}
-              {' '}
-              {i18n.t('LEAD.CHILDREN')}
+              {passengersText}
             </div>
           ) : <></>}
         </div>
       );
     },
   },
+  {
+    name: i18n.t('BOOKING.LAST_NOTE'),
+    maxWidth: '200px',
+    sortable: true,
+    sortField: 'note',
+    selector: (booking) => {
+      const { notes } = booking;
+      if (notes && notes.length) {
+        return notes.pop()!.description;
+      }
+      return i18n.t('BOOKING.NO_NOTE').toString();
+    },
+  },
+  {
+    name: i18n.t('COMMON.ACTIONS'),
+    maxWidth: '120px',
+    cell: (booking: Booking) => (
+      <div className="column-action">
+        <UncontrolledDropdown>
+          <DropdownToggle tag="div" className="btn btn-sm">
+            <MoreVertical size={14} className="cursor-pointer" />
+          </DropdownToggle>
+          <DropdownMenu container="body">
+            <DropdownItem tag={Link} className="w-100" to={generateEditableUrlForBooking(booking)}>
+              <Edit size={14} className="me-50" />
+              <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
+            </DropdownItem>
+            <DropdownItem
+              tag="a"
+              href="/"
+              className="w-100"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <Circle size={14} className="me-50" />
+              <span className="align-middle">{i18n.t('BOOKING.CHANGE_STATUS')}</span>
+            </DropdownItem>
+            <DropdownItem
+              tag="a"
+              href="/"
+              className="w-100"
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+            >
+              <ArrowDown size={14} className="me-50" />
+              <span className="align-middle">{i18n.t('COMMON.EXPORT')}</span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </div>
+    ),
+  },
 ];
 
-export default bookingColumns;
+export default BookingColumns;

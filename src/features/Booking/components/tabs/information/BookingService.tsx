@@ -15,12 +15,13 @@ import { formatCurrency } from '@utils/Utils';
 
 export interface BookingServiceProps {
   control: Control<UpdateBookingFormData>,
-  errors: FieldErrors
+  errors: FieldErrors,
+  isEditable: boolean,
 }
 
 export default function BookingService(props: BookingServiceProps) {
   const {
-    control, errors,
+    control, errors, isEditable,
   } = props;
   const {
     fields,
@@ -61,6 +62,7 @@ export default function BookingService(props: BookingServiceProps) {
                       <Input
                         {...field}
                         invalid={!!errors.services?.[index]?.serviceName}
+                        disabled={!isEditable}
                       />
                       {errors.services?.[index]?.serviceName
                         && (
@@ -88,6 +90,7 @@ export default function BookingService(props: BookingServiceProps) {
                         }}
                         decimalSeparator="."
                         groupSeparator=","
+                        disabled={!isEditable}
                       />
                       {errors.services?.[index]?.price && (
                         <FormFeedback>
@@ -114,6 +117,7 @@ export default function BookingService(props: BookingServiceProps) {
                         }}
                         decimalSeparator="."
                         groupSeparator=","
+                        disabled={!isEditable}
                       />
                       {errors.services?.[index]?.price && (
                         <FormFeedback>
@@ -140,6 +144,7 @@ export default function BookingService(props: BookingServiceProps) {
                         }}
                         decimalSeparator="."
                         groupSeparator=","
+                        disabled={!isEditable}
                       />
                       {errors.services?.[index]?.tax && (
                         <FormFeedback>
@@ -167,14 +172,18 @@ export default function BookingService(props: BookingServiceProps) {
                 />
               </Col>
               <Col md={1}>
-                <Button
-                  type="button"
-                  className="btn-icon"
-                  onClick={() => removeServiceHandler(index)}
-                  color="danger"
-                >
-                  <Trash size={16} />
-                </Button>
+                {
+                  isEditable ? (
+                    <Button
+                      type="button"
+                      className="btn-icon"
+                      onClick={() => removeServiceHandler(index)}
+                      color="danger"
+                    >
+                      <Trash size={16} />
+                    </Button>
+                  ) : <></>
+                }
               </Col>
             </Row>
             <br />
@@ -183,9 +192,13 @@ export default function BookingService(props: BookingServiceProps) {
       }
       <Row>
         <Col md={2}>
-          <Button type="button" onClick={addServiceHandler}>
-            {i18n.t('DEPARTURE_TOUR.ADD_SERVICE')}
-          </Button>
+          {
+            isEditable ? (
+              <Button type="button" onClick={addServiceHandler}>
+                {i18n.t('DEPARTURE_TOUR.ADD_SERVICE')}
+              </Button>
+            ) : <></>
+          }
         </Col>
         <Col md={2} className="offset-5 d-flex align-items-center">
           <h5 className="mb-0">{i18n.t('BOOKING.TOTAL_PAYMENT')}</h5>

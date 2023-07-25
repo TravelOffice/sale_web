@@ -1,5 +1,7 @@
 import i18n from '@config/i18n';
-import { Booking, tourTypes } from '@domain/entities/booking/Booking';
+import {
+  Booking, BookingStatus, BookingStatusEnum, tourTypes,
+} from '@domain/entities/booking/Booking';
 import { BookingFilterParams } from '@features/Booking/components/BookingFilter';
 import moment from 'moment';
 import * as yup from 'yup';
@@ -129,6 +131,18 @@ export const updateBookingSchema = yup.object().shape({
   services: yup.array().of(validateServiceSchema).optional(),
 });
 
+export const confirmBookingSchema = yup.object().shape({
+  departureTourId: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.DEPARTURE_TOUR_ID') })),
+});
+
+export const paymentPendingSchema = yup.object().shape({
+  waitingExpiredAt: yup.date().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.WAITING_EXPIRED_AT') })),
+});
+
+export const cancelBookingSchema = yup.object().shape({
+  canceledReason: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.CANCELED_REASON') })),
+});
+
 export function calculateBeforeVAT(price: number, quantity: number): number {
   return price * quantity;
 }
@@ -146,4 +160,13 @@ export function calculatePaymentTotal(services: Service[]): number {
     });
   }
   return total;
+}
+
+export function isCanceledBooking(status: BookingStatus) {
+  return status === BookingStatusEnum.CANCELED;
+}
+
+export function isEditableBooking(status: BookingStatus) {
+  return status !== BookingStatusEnum.CANCELED
+    && status !== BookingStatusEnum.COMPLETED;
 }

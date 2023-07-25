@@ -17,7 +17,7 @@ import Table from '@components/Table/Table';
 import { ExpanderComponentProps } from 'react-data-table-component';
 import { formatVND } from '@utils/CommonUtils';
 import moment from 'moment';
-import { filterBookings, toSearchableContent } from '@utils/BookingUtils';
+import { calculatePaymentTotal, filterBookings, toSearchableContent } from '@utils/BookingUtils';
 import { timeDiffAsI18nText } from '@utils/DateUtils';
 import { HandleDataState } from '@redux/slices/others/HandleDataState';
 
@@ -59,18 +59,18 @@ function prepareStatisticalItems(bookings: Booking[]): StatisticItemProps[] {
 const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> = (
   { data }: ExpanderComponentProps<Booking>,
 ) => {
-  const { tourTemplate, lead } = data;
+  const { lead } = data;
   return (
     <div className="container py-xxl-1">
       <Row>
         <Col xl="6">
           <strong>{i18n.t('TOUR_TEMPLATE.PRICE')}</strong>
-          {tourTemplate ? (
+          {data.services ? (
             <ul>
               {
-                tourTemplate.services.map((service) => (
+                data.services.map((service) => (
                   <li>
-                    {service.name}
+                    {service.serviceName}
                     :
                     {' '}
                     {formatVND(service.price)}
@@ -98,7 +98,7 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
       <strong>{i18n.t('BOOKING.PAYMENT_INFO')}</strong>
       <ul>
         {(data.totalPaid !== undefined && data.totalPayment !== undefined)
-          ? <li>{`${i18n.t('BOOKING.PAID')}: ${formatVND(data.totalPaid)} / ${formatVND(data.totalPayment)}`}</li>
+          ? <li>{`${i18n.t('BOOKING.PAID')}: ${formatVND(data.totalPaid)} / ${formatVND(calculatePaymentTotal(data.services))}`}</li>
           : <></>}
       </ul>
     </div>

@@ -18,8 +18,9 @@ import FormItemSelect from '@components/Form/FormItemSelect';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import { RoleEnum } from '@domain/entities/User';
 import { BookingTourType, BookingTourTypeEnum } from '@domain/entities/booking/Booking';
-import { generateI18nForBooking, updateBookingSchema } from '@utils/BookingUtils';
+import { generateI18nForBooking, isEditableBooking, updateBookingSchema } from '@utils/BookingUtils';
 import BookingService from '@features/Booking/components/tabs/information/BookingService';
+import moment from 'moment/moment';
 
 export interface EditBookingTabParams {
   bookingId: string,
@@ -143,6 +144,10 @@ export default function BookingDetailTab() {
     reset(booking);
   };
 
+  const isEditable = useMemo(
+    () => isEditableBooking(booking?.bookingStatus!),
+    [booking],
+  );
   return (
     <div className="to-table-container">
       <Row>
@@ -171,6 +176,7 @@ export default function BookingDetailTab() {
                           errors={errors}
                           selectClassName="flex-fill"
                           options={tourTemplateOptions || []}
+                          isDisabled={!isEditable}
                         />
                       </div>
                     </Col>
@@ -187,6 +193,7 @@ export default function BookingDetailTab() {
                           errors={errors}
                           selectClassName="flex-fill"
                           options={tourTypeOptions}
+                          isDisabled={!isEditable}
                         />
                       </div>
                     </Col>
@@ -202,6 +209,10 @@ export default function BookingDetailTab() {
                           control={control}
                           errors={errors}
                           placeholder={i18n.t('BOOKING.DEPARTURE_DATE_PLACEHOLDER')}
+                          options={{
+                            formatDate: (date) => moment(date).format('DD/MM/YYYY'),
+                          }}
+                          disabled={!isEditable}
                         />
                         {errors.departureDate
                           && <FormFeedback>{errors.departureDate?.message}</FormFeedback>}
@@ -223,6 +234,7 @@ export default function BookingDetailTab() {
                           errors={errors}
                           selectClassName="flex-fill"
                           options={sourceOptions || []}
+                          isDisabled={!isEditable}
                         />
                       </div>
                     </Col>
@@ -239,6 +251,7 @@ export default function BookingDetailTab() {
                           errors={errors}
                           selectClassName="flex-fill"
                           options={assigneeOptions || []}
+                          isDisabled={!isEditable}
                         />
                       </div>
                     </Col>
@@ -271,22 +284,27 @@ export default function BookingDetailTab() {
                 <BookingService
                   control={control}
                   errors={errors}
+                  isEditable={isEditable}
                 />
-                <div className="d-flex justify-content-end">
-                  <Button type="reset" color="danger" className="me-1" outline onClick={handleCancel}>
-                    {i18n.t('COMMON.CANCEL')}
-                  </Button>
-                  <Button type="submit" className="me-1" color="primary">
-                    {!isProcessing ? i18n.t('BOOKING.EDIT_BOOKING') : i18n.t('COMMON.LOADING')}
-                    {isProcessing ? (
-                      <Spinner
-                        style={{ width: '0.7rem', height: '0.7rem' }}
-                        type="grow"
-                        color="light"
-                      />
-                    ) : null}
-                  </Button>
-                </div>
+                {
+                  isEditable ? (
+                    <div className="d-flex justify-content-end">
+                      <Button type="reset" color="danger" className="me-1" outline onClick={handleCancel}>
+                        {i18n.t('COMMON.CANCEL')}
+                      </Button>
+                      <Button type="submit" className="me-1" color="primary">
+                        {!isProcessing ? i18n.t('BOOKING.EDIT_BOOKING') : i18n.t('COMMON.LOADING')}
+                        {isProcessing ? (
+                          <Spinner
+                            style={{ width: '0.7rem', height: '0.7rem' }}
+                            type="grow"
+                            color="light"
+                          />
+                        ) : null}
+                      </Button>
+                    </div>
+                  ) : <></>
+                }
               </Form>
             </CardBody>
           </Card>

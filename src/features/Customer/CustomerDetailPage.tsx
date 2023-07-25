@@ -12,6 +12,7 @@ import CustomerInfoCard from '@features/Customer/components/CustomerInfoCard';
 import { Link } from 'react-router-dom';
 import CustomerDetailTab from '@features/Customer/components/tabs/information/CustomerDetailTab';
 import LeadsTab from '@features/Customer/components/tabs/lead/LeadsTab';
+import BookingsTab from '@features/Customer/components/tabs/booking/BookingsTab';
 
 export interface Tab {
   id: string,
@@ -37,7 +38,7 @@ const tabs: Tab[] = [
     id: 'booking',
     icon: <ShoppingCart size={16} className="me-50" />,
     title: 'Booking',
-    pane: <div>Coming soon</div>,
+    pane: <BookingsTab />,
   },
 ];
 

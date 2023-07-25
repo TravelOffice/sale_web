@@ -5,12 +5,13 @@ import { Controller, FieldPath, FieldValues } from 'react-hook-form';
 import { FormItemProps } from '@components/Form/FormItemProps';
 import FormItemError from '@components/Form/FormItemError';
 import moment from 'moment';
+import flatpickr from 'flatpickr';
 
 export interface FormItemDatePickerProps<
   TFieldValues extends FieldValues,
   TFieldPath extends FieldPath<TFieldValues>,
 > extends FormItemProps<TFieldValues, TFieldPath> {
-
+  options?: flatpickr.Options.Options,
 }
 
 export default function FormItemDatePicker<
@@ -18,7 +19,7 @@ export default function FormItemDatePicker<
   TFieldPath extends FieldPath<TFieldValues>,
 >(props: FormItemDatePickerProps<TFieldValues, TFieldPath>) {
   const {
-    control, errors, name, placeholder, disabled,
+    control, errors, name, placeholder, disabled, options,
   } = props;
 
   return (
@@ -31,8 +32,9 @@ export default function FormItemDatePicker<
             className={classNames('form-control', { 'is-invalid': errors[name] })}
             id="startDate"
             placeholder={placeholder}
-            options={{
+            options={options ?? {
               formatDate: (date) => moment(date).format('DD/MM/YYYY'),
+              minDate: 'today',
             }}
             value={value}
             onChange={(dates) => onChange(dates[0])}

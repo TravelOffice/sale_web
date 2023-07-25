@@ -18,4 +18,8 @@ export interface BookingPresenter {
   updateBooking(bookingId: string, booking: UpdateBookingFormData): Promise<Booking>;
 
   addNoteToBooking(bookingId: string, formData: CreateNoteFormData): Promise<Note>;
+
+  cancelBooking(bookingId: string, reason: string): Promise<Partial<Booking>>;
+
+  confirmBooking(bookingId: string, departureTourId: string): Promise<void>;
 }

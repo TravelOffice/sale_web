@@ -666,7 +666,8 @@
       "TOUR_TYPE": "Tour type",
       "DEPARTURE_DATE": "Departure date",
       "ADDRESS": "Address",
-      "LEAD": "Given lead"
+      "LEAD": "Given lead",
+      "PAYMENT_EXPIRED_AT": "Time for Payment"
     },
     "BOOKING_INFORMATION": "Booking information",
     "SOLO": "Solo",
@@ -699,7 +700,18 @@
     "NOTE_TYPE_OTHERS": "Others",
     "NOTE_TYPE": "Note type",
     "ADD_NOTE": "Add new note",
-    "NOTES": "Notes"
+    "NOTES": "Notes",
+    "CONFIRM_BOOKING": "Confirm Booking",
+    "CANCEL_BOOKING": "Cancel Booking",
+    "CANCELED_REASON": "Canceled Reason",
+    "CANCELED_BY": "Canceled By",
+    "CANCELED_AT": "Canceled At",
+    "CANCELED_AT_PHASE": "Canceled At Status",
+    "WAIT_PAYMENT_BOOKING": "Payment pending",
+    "CONFLICT_DEPARTURE_DATE": "The departure date of booking isn't match with Departure Tour",
+    "CONFIRM_BOOKING_SUCCESSFULLY": "Confirm booKing successfully",
+    "CANCEL_BOOKING_SUCCESSFULLY": "Cancel booking successfully",
+    "PAYMENT_PENDING_SUCCESSFULLY": "Change booking status to [PAYMENT PENDING] successfully"
   },
   "RECEIPT": {
     "CODE": "Code",

@@ -2,7 +2,7 @@ import { apiProvider } from '@adapter/infrastructures';
 import { BookingRepository } from '@adapter/repositories/interfaces/BookingRepository';
 import { AddBookingFormData } from '@domain/entities/booking/AddBookingFormData';
 import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingFromLeadFormData';
-import { BookingStatus } from '@domain/entities/booking/Booking';
+import { Booking, BookingStatus } from '@domain/entities/booking/Booking';
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
 import { CreateNoteFormData } from '@domain/entities/note/Note';
 
@@ -96,5 +96,14 @@ export default class BookingRepositoryImpl implements BookingRepository {
   addNote = async (bookingId: string, formData: CreateNoteFormData) => {
     const response = await apiProvider.authorizedRequest.post(`/bookings/${bookingId}/notes`, formData);
     return response.data;
+  }
+
+  cancelBooking = async (bookingId: string, reason: string): Promise<Partial<Booking>> => {
+    const response = await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/cancel`, { reason });
+    return response.data;
+  }
+
+  confirmBooking = async (bookingId: string, departureTourId: string): Promise<void> => {
+    await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/confirm`, { departureTourId });
   }
 }
