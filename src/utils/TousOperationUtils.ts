@@ -16,7 +16,7 @@ export function generateI18nForDepartureTourOperation(type: string) {
  * @returns The editable URL for the departure tour.
  */
 export function generateOperationUrlForTour(departureTour: DepartureTour) {
-  return `/apps/tours/${departureTour.code}/operate`;
+  return `/apps/tours-operation/${departureTour.code}/operate`;
 }
 
 /**
@@ -70,4 +70,16 @@ export function toSearchableContent(depTour: ExtendedDepartureTour) {
   searchableStr += `${moment(depTour.startDate).format('DD/MM/YYYY')} `;
   searchableStr += `${depTour.startingLocationName} - ${depTour.endingLocationName} `;
   return searchableStr.toLowerCase();
+}
+
+/**
+ * Generates an internationalized translation for tour-operation-related content
+ * based on the specified type.
+ *
+ * @param type - The type parameter used to determine the translation key.
+ * @returns The internationalized translation string.
+ */
+export function generateI18nForTourOperation(type: string) {
+  const key = `TOURS_OPERATION.${type}`;
+  return i18n.t(key);
 }
