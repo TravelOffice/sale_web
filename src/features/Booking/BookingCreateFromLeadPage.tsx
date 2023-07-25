@@ -30,13 +30,13 @@ import '@styles/react/libs/editor/editor.scss';
 import {
   bookingPresenter, leadPresenter, tourTemplatePresenter, userPresenter,
 } from '@adapter/presenters';
-import { useMutation, useQueries } from '@tanstack/react-query';
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import toasty from '@components/Toasty/Toasty';
 import { BookingTourType, BookingTourTypeEnum, tourTypes } from '@domain/entities/booking/Booking';
 import { Link, useHistory } from 'react-router-dom';
 import FormItemSelect from '@components/Form/FormItemSelect';
 import { generateI18nForBooking } from '@utils/BookingUtils';
-import { RoleEnum } from '@domain/entities/User';
+import { RoleEnum, User } from '@domain/entities/User';
 import moment from 'moment';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingFromLeadFormData';
@@ -86,6 +86,7 @@ const BookingCreateFromLeadPage = () => {
   const history = useHistory();
   const searchParams = useQueryParams();
   const leadId = searchParams.get('leadId');
+  const queryClient = useQueryClient();
   /**
    * Fetch related data for booking, such as tour templates, sales, etc
    * @returns {Object} { isLoading: boolean, relatedData: Array }
@@ -101,6 +102,12 @@ const BookingCreateFromLeadPage = () => {
         queryFn: async () => {
           const allUsers = await userPresenter.getAllUsers();
           return allUsers.filter((user) => user.roles.includes(RoleEnum.SALE));
+        },
+        // Data from `users` query can be get from User list page before
+        // So, we can get data from query cache to avoid fetching data from server again
+        initialData: () => {
+          const allUsers = queryClient.getQueryData(['users']) as User[] | undefined;
+          return allUsers?.filter((user) => user.roles.includes(RoleEnum.SALE));
         },
       },
       {

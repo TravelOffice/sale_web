@@ -7,8 +7,10 @@ export interface DepartureTour extends TourTemplate {
   tourTemplateCode: string,
   startDate: number,
   status: TourStatus,
+  assigneeId?: string,
+  assigneeName?: string,
   isOpen: boolean,
-  operationStatus: TourOperationStatus
+  operationStatus: TourOperationStatus,
 }
 
 export interface ExtendedDepartureTour extends DepartureTour {

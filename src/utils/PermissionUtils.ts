@@ -45,6 +45,8 @@ const PERMISSIONS = {
   get_supplier: 'get_supplier',
   create_supplier: 'create_supplier',
   update_supplier: 'update_supplier',
+  assign_tour_operator: 'assign_tour_operator',
+  self_assign_tour_operator: 'self_assign_tour_operator',
 };
 
 export default PERMISSIONS;

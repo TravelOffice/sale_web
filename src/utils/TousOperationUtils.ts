@@ -1,4 +1,5 @@
 import i18n from '@config/i18n';
+import { RoleEnum, User } from '@domain/entities/User';
 import { DepartureTour, ExtendedDepartureTour } from '@domain/entities/tour';
 import { DepartureTourFilterParams } from '@features/ToursOperation/DepartureTour/components/DepartureTourFilter';
 import moment from 'moment';
@@ -16,6 +17,24 @@ export function generateI18nForDepartureTour(type: string) {
  */
 export function generateOperationUrlForTour(departureTour: DepartureTour) {
   return `/apps/tours/${departureTour.code}/operate`;
+}
+
+/**
+ * Generates an editable URL for the specified booking.
+ * @param departureTour - The departure tour object for which to generate the URL.
+ * @returns The editable URL for the departure tour.
+ *
+ * @example
+ * const url = generateEditableUrlForTour(departureTour);
+ * console.log(url);
+ * // => /apps/tour/departure/123/edit
+ */
+export function generateEditableUrlForTour(departureTour: DepartureTour) {
+  return `/apps/tour/departure/${departureTour.code}/edit`;
+}
+
+export function canUserBeOperator(user: User) {
+  return user.roles.includes(RoleEnum.OPERATOR) || user.roles.includes(RoleEnum.OPERATOR_MANAGER);
 }
 
 export function filterDepartureTours(

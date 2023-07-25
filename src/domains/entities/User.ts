@@ -19,6 +19,8 @@ export enum RoleEnum {
   ADMIN = 'ADMIN',
   EMPLOYEE = 'EMPLOYEE',
   SALE = 'SALE',
+  OPERATOR = 'OPERATOR',
+  OPERATOR_MANAGER = 'OPERATOR_MANAGER',
 }
 
 export enum SexEnum {

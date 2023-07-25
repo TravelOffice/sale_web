@@ -153,6 +153,10 @@ import GetAllToursTemplateUseCaseImpl from './tour/GetAllToursTemplateUseCaseImp
 import GetAllToursLocationUseCaseImpl from './tour/GetAllToursLocationUseCaseImpl';
 import { GetAllDepartureToursUseCase } from './interfaces/tour/GetAllDepartureToursUseCase';
 import GetAllDepartureToursUseCaseImpl from './tour/GetAllDepartureToursUseCaseImpl';
+import { TakeCareTourUseCase } from './interfaces/tour/TakeCareTourUseCase';
+import TakeCareTourUseCaseImpl from './tour/TakeCareTourUseCaseImpl';
+import { AssignTourOperator } from './interfaces/tour/AssignTourOperator';
+import AssignTourOperatorImpl from './tour/AssignTourOperatorImpl';
 
 interface UseCases {
   // Chat
@@ -228,6 +232,8 @@ interface UseCases {
   getAllToursTemplateUseCase: GetAllToursTemplateUseCase,
   getAllToursLocationUseCase: GetAllToursLocationUseCase,
   getAllDepartureToursUseCase: GetAllDepartureToursUseCase,
+  takeCareTourUseCase: TakeCareTourUseCase,
+  assignTourOperator: AssignTourOperator,
   // Source
   getAllSourcesUseCase: GetAllSourcesUseCase,
   // Receipt
@@ -320,6 +326,8 @@ const useCases: UseCases = {
   getAllToursTemplateUseCase: new GetAllToursTemplateUseCaseImpl(),
   getAllToursLocationUseCase: new GetAllToursLocationUseCaseImpl(),
   getAllDepartureToursUseCase: new GetAllDepartureToursUseCaseImpl(),
+  assignTourOperator: new AssignTourOperatorImpl(),
+  takeCareTourUseCase: new TakeCareTourUseCaseImpl(),
   // Source
   getAllSourcesUseCase: new GetAllSourcesUseCaseImpl(),
   // Receipt
@@ -405,6 +413,8 @@ export const {
   getAllToursTemplateUseCase,
   getAllToursLocationUseCase,
   getAllSourcesUseCase,
+  takeCareTourUseCase,
+  assignTourOperator,
   // Receipt
   getAllReceiptsUseCase,
   createReceiptUseCase,
