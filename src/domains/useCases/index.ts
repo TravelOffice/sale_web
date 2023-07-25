@@ -205,8 +205,6 @@ interface UseCases {
   getMailServerUseCase: GetMailServerUseCase,
   autoLinkEmailUseCase: AutoLinkEmailUseCase,
   changeMailboxUseCase: ChangeMailboxUseCase,
-  // Booking
-
   // Customer
   addCustomerUseCase: AddCustomerUseCase,
   getAllCustomersUseCase: GetAllCustomersUseCase,

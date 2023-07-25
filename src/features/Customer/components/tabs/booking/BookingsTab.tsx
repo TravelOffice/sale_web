@@ -1,37 +1,34 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { bookingPresenter } from '@adapter/presenters';
 import i18n from '@config/i18n';
 import { Booking } from '@domain/entities/booking/Booking';
-import {
-  Card, CardBody, CardHeader, CardTitle, Col, Row,
-} from 'reactstrap';
-import BookingFilter from '@features/Booking/components/BookingFilter';
-import bookingColumns from '@features/Booking/components/BookingColumns';
+import { ButtonProps, Col, Row } from 'reactstrap';
 import Table from '@components/Table/Table';
 import { useSelector } from 'react-redux';
 import { RootState } from '@redux/store';
 import { ExpanderComponentProps } from 'react-data-table-component';
 import { formatVND } from '@utils/CommonUtils';
 import moment from 'moment';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/CustomerDetailTab';
+import bookingColumns from '@features/Customer/components/tabs/booking/bookingColumns';
 
 const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> = (
   { data }: ExpanderComponentProps<Booking>,
 ) => {
-  const { tourTemplate, lead } = data;
+  const { lead } = data;
   return (
     <div className="container py-xxl-1">
       <Row>
         <Col xl="6">
           <strong>{i18n.t('TOUR_TEMPLATE.PRICE')}</strong>
-          {tourTemplate ? (
+          {data.services ? (
             <ul>
               {
-                tourTemplate.services.map((service) => (
+                data.services.map((service) => (
                   <li>
-                    {service.name}
+                    {service.serviceName}
                     :
                     {' '}
                     {formatVND(service.price)}
@@ -64,20 +61,23 @@ export default function BookingsTab() {
 
   const { data: bookings } = useQuery(['bookings', customerId], async () => bookingPresenter.getBookingsByCustomer(customerId));
 
+  const history = useHistory();
+
+  const additionalActionButtons: Array<ButtonProps> = useMemo(() => [
+    {
+      name: i18n.t('COMMON.ADD'),
+      handleOnClick: () => {
+        history.push('/apps/bookings/create');
+      },
+    },
+  ], []);
+
   const fetchUsersState = useSelector(
     (state: RootState) => state.user.fetchAllUsersState,
   );
 
   return (
     <>
-      <Card className="card-filter">
-        <CardHeader>
-          <CardTitle tag="h4">{i18n.t('COMMON.FILTER')}</CardTitle>
-        </CardHeader>
-        <CardBody className="card-filter-body">
-          <BookingFilter />
-        </CardBody>
-      </Card>
       <Table<Booking>
         selectableRows={false}
         columns={bookingColumns}
@@ -87,6 +87,7 @@ export default function BookingsTab() {
         data={bookings || []}
         expandableRows
         expandableRowsComponent={BookingExpandableRowComponent}
+        extraButtons={additionalActionButtons}
       />
     </>
   );

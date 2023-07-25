@@ -12,6 +12,12 @@ import AddBookingFromLeadUseCaseImpl from '@domain/useCases/booking/AddBookingFr
 import AddBookingUseCaseImpl from '@domain/useCases/booking/AddBookingUseCaseImpl';
 import { AddBookingNoteUseCase } from '@domain/useCases/booking/interfaces/AddBookingNoteUseCase';
 import AddBookingNoteUseCaseImpl from '@domain/useCases/booking/AddBookingNoteUseCaseImpl';
+import { ConfirmBookingUseCase } from '@domain/useCases/booking/interfaces/ConfirmaBookingUseCase';
+import { CancelBookingUseCase } from '@domain/useCases/booking/interfaces/CancelBookingUseCase';
+import ConfirmBookingUseCaseImpl from '@domain/useCases/booking/ConfirmBookingUseCaseImpl';
+import CancelBookingUseCaseImpl from '@domain/useCases/booking/CancelBookingUseCaseImpl';
+import { GetBookingsOfCustomerUseCase } from '@domain/useCases/interfaces/customer/GetBookingsOfCustomerUseCase';
+import GetBookingsOfCustomerUseCaseImpl from '@domain/useCases/customer/GetBookingsOfCustomerUseCaseImpl';
 
 interface UseCases {
   addBookingUseCase: AddBookingUseCase,
@@ -21,6 +27,9 @@ interface UseCases {
   updateBookingUseCase: UpdateBookingUseCase,
   changeBookingStatusUseCase: ChangeBookingStatusUseCase,
   addBookingNoteUseCase: AddBookingNoteUseCase,
+  confirmBookingUseCase: ConfirmBookingUseCase,
+  cancelBookingUseCase: CancelBookingUseCase,
+  getBookingsOfCustomerUseCase: GetBookingsOfCustomerUseCase,
 }
 
 const useCases: UseCases = {
@@ -31,6 +40,9 @@ const useCases: UseCases = {
   updateBookingUseCase: new UpdateBookingUseCaseImpl(),
   changeBookingStatusUseCase: new ChangeBookingStatusUseCaseImpl(),
   addBookingNoteUseCase: new AddBookingNoteUseCaseImpl(),
+  confirmBookingUseCase: new ConfirmBookingUseCaseImpl(),
+  cancelBookingUseCase: new CancelBookingUseCaseImpl(),
+  getBookingsOfCustomerUseCase: new GetBookingsOfCustomerUseCaseImpl(),
 };
 
 export const {
@@ -41,4 +53,7 @@ export const {
   updateBookingUseCase,
   changeBookingStatusUseCase,
   addBookingNoteUseCase,
+  confirmBookingUseCase,
+  cancelBookingUseCase,
+  getBookingsOfCustomerUseCase,
 } = useCases;

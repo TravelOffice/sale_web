@@ -105,7 +105,7 @@ const initialFormData: AddBookingFormData = {
   // One kind of ['shared', 'group', 'solo']
   tourType: BookingTourTypeEnum.SOLO,
   // Expected begin date of trip
-  departureDate: moment().format('DD/MM/YYYY'),
+  departureDate: moment().valueOf(),
   // Reference to Sale model, each Sale is identified by pk+sk pair
   assigneeId: '',
   // Reference to Source model

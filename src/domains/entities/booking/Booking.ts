@@ -46,10 +46,12 @@ export interface Booking {
   canceledReason?: string,
   canceledNote?: string,
   canceledBy?: string,
-  canceledAtPhase?: string,
+  canceledAtPhase?: BookingStatus,
   services: Service[],
   tourTemplateId?: string,
   departureDate?: string,
+  departureTourId?: string,
+  departureTourName?: string,
   readonly createdAt: number,
   readonly updatedAt: number,
   readonly totalPaid?: number, // Number of amount user has been paid
@@ -68,7 +70,6 @@ export interface Booking {
    * These attrs will be updated later
    */
   requestedCode?: string,
-  bookingCode?: string,
   labelId?: string,
   sourceId?: string,
   sourceName?: string,
@@ -86,7 +87,6 @@ export interface Booking {
   checkin?: number, // DateTime
   checkout?: number, // DateTime
   bookingAt?: number, // DateTime
-  waitingAt?: number, // Time for waiting payment
   waitingExpiredAt?: number, // The time reservation expired
   doneAt?: string,
   // success // executiveNote // guideRecashMoney // commission

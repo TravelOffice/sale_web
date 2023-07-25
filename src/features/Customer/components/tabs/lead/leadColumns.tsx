@@ -28,7 +28,7 @@ function renderTour(lead: Lead) {
   return <></>;
 }
 
-const leadColumns: TableColumn<Lead>[] = [
+const LeadColumns: TableColumn<Lead>[] = [
   {
     name: i18n.t('LEAD.CODE'),
     width: '80px',
@@ -123,4 +123,4 @@ const leadColumns: TableColumn<Lead>[] = [
   },
 ];
 
-export default leadColumns;
+export default LeadColumns;

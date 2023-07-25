@@ -78,7 +78,7 @@ const bookingColumns: TableColumn<Booking>[] = [
     minWidth: '150px',
     sortField: 'tourRelatedInfo',
     cell: (booking: Booking) => {
-      const { tourTemplate } = booking;
+      const { departureTourId, departureTourName, tourTemplate } = booking;
       return (
         <div>
           <div className="text-primary">
@@ -86,7 +86,7 @@ const bookingColumns: TableColumn<Booking>[] = [
               {i18n.t('BOOKING.TOUR_TEMPLATE')}
             </Badge>
             {' '}
-            {tourTemplate?.name}
+            {departureTourId ? departureTourName : tourTemplate?.name}
           </div>
           <div className="d-flex align-items-center">
             <Calendar size={14} />

@@ -62,7 +62,6 @@ export default function BookingDetail() {
       <Row>
         <Col xs={4} className="d-flex flex-column">
           <BookingInfoCard />
-
         </Col>
         <Col xs={8} className="d-flex flex-column">
           <BookingTabs tabs={tabs} activeTab={activeTab} toggleTab={setActiveTab} />

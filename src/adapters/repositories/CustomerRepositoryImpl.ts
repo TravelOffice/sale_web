@@ -25,12 +25,12 @@ export default class CustomerRepositoryImpl implements CustomerRepository {
   }
 
   getBookings = async (customerId: string) => {
-    const response = await apiProvider.authorizedRequest.get(`/customers/${customerId}/leads`);
+    const response = await apiProvider.authorizedRequest.get(`/customers/${customerId}/bookings`);
     return response.data;
   }
 
   getLeads = async (customerId: string) => {
-    const response = await apiProvider.authorizedRequest.get(`/customers/${customerId}/bookings`);
+    const response = await apiProvider.authorizedRequest.get(`/customers/${customerId}/leads`);
     return response.data;
   }
 }
