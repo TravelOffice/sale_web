@@ -65,7 +65,7 @@ const Navigation: MenuItem[] = [
         title: 'Tour Template',
         requiredPermissions: [PERMISSIONS.get_tour_templates],
         icon: <List size={12} />,
-        navLink: '/apps/tour-templates/list',
+        navLink: '/apps/tour/template/list',
       },
       {
         id: 'tour-departure',

@@ -16,15 +16,13 @@ export const hasActiveChild = (item: MenuLinkItem, currentUrl: string) => {
 
   for (let i = 0; i < children.length; i += 1) {
     const child = children[i];
-    if (child.children) {
-      if (hasActiveChild(child, currentUrl)) {
-        return true;
-      }
-      // Check if the child has a link and is active
-      if (child && child.navLink && currentUrl
-        && (child.navLink === currentUrl || currentUrl.includes(child.navLink))) {
-        return true;
-      }
+    if (child.children && hasActiveChild(child, currentUrl)) {
+      return true;
+    }
+    // Check if the child has a link and is active
+    if (child && child.navLink && currentUrl
+      && (child.navLink === currentUrl || currentUrl.includes(child.navLink))) {
+      return true;
     }
   }
   return false;

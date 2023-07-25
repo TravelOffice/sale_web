@@ -65,19 +65,19 @@ const Routes: RoutePathConfig[] = [
     component: <Settings />,
   },
   {
-    path: '/apps/tour-templates/list',
+    path: '/apps/tour/template/list',
     exact: true,
     requiredPermissions: [PERMISSIONS.get_tour_templates],
     component: <TourTemplateListPage />,
   },
   {
-    path: '/apps/tour-templates/create',
+    path: '/apps/tour/template/create',
     exact: true,
     requiredPermissions: [PERMISSIONS.create_tour_template],
     component: <TourTemplateCreatePage />,
   },
   {
-    path: '/apps/tour-templates/:tourTemplateId/edit',
+    path: '/apps/tour/template/:tourTemplateId/edit',
     exact: true,
     requiredPermissions: [PERMISSIONS.update_tour_template],
     component: <TourTemplateEditPage />,

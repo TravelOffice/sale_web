@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { MenuLinkItem } from '@domain/entities/MenuLinkItem';
 import { useLocation, NavLink } from 'react-router-dom';
 import classnames from 'classnames';
@@ -7,9 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 export interface VerticalNavMenuLinkProps {
   item: MenuLinkItem,
-  activeItem?: string,
   setActiveItem: (item: string) => void,
-  currentActiveItem?: string
 }
 
 function renderLink(item: MenuLinkItem) {
@@ -57,23 +55,14 @@ function renderLink(item: MenuLinkItem) {
 export default function VerticalNavMenuLink(props: VerticalNavMenuLinkProps) {
   const {
     item,
-    activeItem,
-    setActiveItem,
-    currentActiveItem,
   } = props;
   const location = useLocation();
-
-  useEffect(() => {
-    if (currentActiveItem) {
-      setActiveItem(currentActiveItem);
-    }
-  }, [location]);
   return (
     <li
       className={classnames({
         'nav-item': !item.children,
         disabled: item.disabled,
-        active: item.navLink === activeItem,
+        active: item.navLink === location.pathname,
       })}
     >
       {renderLink(item)}

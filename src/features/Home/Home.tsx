@@ -14,7 +14,6 @@ import Navigation from '../../navigation/Navigation';
 export default function Home() {
   const dispatch = useDispatch();
   const { transition } = useRouterTransition();
-  const currentActiveItem = null;
 
   useEffect(() => {
     dispatch(notificationActions.subscribeNewNotification());
@@ -22,7 +21,7 @@ export default function Home() {
   }, []);
 
   return (
-    <VerticalLayout currentActiveItem={currentActiveItem} menuData={Navigation}>
+    <VerticalLayout menuData={Navigation}>
       <Switch>
         {
           Routes.map((route) => (

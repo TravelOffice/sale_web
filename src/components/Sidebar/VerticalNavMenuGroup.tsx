@@ -20,7 +20,6 @@ export interface VerticalNavMenuGroupProps {
   menuCollapsed: boolean,
   setGroupActive: (groupActive: string[]) => void,
   setCurrentActiveGroup: (group: string[]) => void,
-  currentActiveItem: string,
 }
 
 function VerticalNavMenuGroup(props: VerticalNavMenuGroupProps) {
@@ -37,7 +36,6 @@ function VerticalNavMenuGroup(props: VerticalNavMenuGroupProps) {
     setCurrentActiveGroup,
   } = props;
   const location = useLocation();
-  const currentURL = location.pathname;
   const toggleOpenGroup = (menuItem: MenuLinkItem, parent?: MenuLinkItem) => {
     let openGroup = groupOpen;
     const activeGroup = groupActive;
@@ -95,7 +93,7 @@ function VerticalNavMenuGroup(props: VerticalNavMenuGroupProps) {
   };
 
   useEffect(() => {
-    if (hasActiveChild(item, currentURL)) {
+    if (hasActiveChild(item, location.pathname)) {
       if (!groupActive.includes(item.id)) groupActive.push(item.id);
     } else {
       const index = groupActive.indexOf(item.id);
