@@ -3,9 +3,10 @@ import {
   createDepartureTourUseCase,
   getAllDepartureToursUseCase,
   getAllToursLocationUseCase,
-  takeCareTourUseCase,
   getAllToursTemplateUseCase,
+  getBookingsOfDepartureTour,
   getDepartureTourUseCase,
+  takeCareTourUseCase,
   updateDepartureTourUseCase,
 } from '@domain/useCases';
 import { CreateDepartureTourFormData, UpdateDepartureTourFormData } from '@domain/entities/tour';
@@ -37,4 +38,8 @@ export default class TourPresenterImpl implements TourPresenter {
     departureTourId: string,
     tourOperatorId: string,
   ) => assignTourOperator.invoke(departureTourId, tourOperatorId);
+
+  getBookingsByDepartureTour = async (
+    departureTourId: string,
+  ) => getBookingsOfDepartureTour.invoke(departureTourId);
 }

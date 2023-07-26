@@ -7,10 +7,10 @@ import {
   addBookingFromLeadUseCase,
   addBookingNoteUseCase,
   addBookingUseCase,
-  getBookingsUseCase,
   cancelBookingUseCase,
   confirmBookingUseCase,
   getBookingsOfCustomerUseCase,
+  getBookingsUseCase,
   getBookingUseCase,
   updateBookingUseCase,
 } from '@domain/useCases/booking';

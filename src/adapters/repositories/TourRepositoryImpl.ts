@@ -1,5 +1,6 @@
 import { apiProvider } from '@adapter/infrastructures';
 import { CreateTourTemplateFormData, UpdateDepartureTourFormData } from '@domain/entities/tour';
+import { Booking } from '@domain/entities/booking/Booking';
 import { DepartureTourRepository } from './interfaces/DepartureTourRepository';
 
 export default class TourRepositoryImpl implements DepartureTourRepository {
@@ -42,4 +43,13 @@ export default class TourRepositoryImpl implements DepartureTourRepository {
     const response = await apiProvider.authorizedRequest.put(`/departure-tours/${departureTourId}/assignee`, { assigneeId });
     return response.data;
   }
+
+  /**
+   * Get bookings list by departure tour
+   * @param departureTourId Departure Tour ID
+   */
+  getBookingsByDepartureTour = async (departureTourId: string): Promise<Booking[]> => {
+    const response = await apiProvider.authorizedRequest.get(`/departure-tours/${departureTourId}/bookings`);
+    return response.data;
+  };
 }
