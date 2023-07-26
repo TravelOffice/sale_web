@@ -83,6 +83,11 @@
         font-size: $timeline-event-time-size;
         color: $timeline-event-time-color;
       }
+
+      .timeline-event-header {
+        height: $timeline-point-size;
+        align-items: center;
+      }
     }
 
     &:last-of-type {

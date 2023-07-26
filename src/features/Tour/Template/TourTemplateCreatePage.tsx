@@ -107,7 +107,6 @@ const TourTemplateCreatePage = () => {
     cancellationTerms,
     setCancellationTerms,
   ] = useState(EditorState.createEmpty());
-  const [tourPlan, setTourPlan] = useState(EditorState.createEmpty());
 
   return (
     <Card>
@@ -133,8 +132,6 @@ const TourTemplateCreatePage = () => {
             setPolicyConditionsAndExtraFee={setPolicyConditionsAndExtraFee}
             cancellationTerms={cancellationTerms}
             setCancellationTerms={setCancellationTerms}
-            tourPlan={tourPlan}
-            setTourPlan={setTourPlan}
           />
           <div className="d-flex justify-content-end">
             <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>

@@ -57,7 +57,6 @@ const TourTemplateEditPage = () => {
     cancellationTerms,
     setCancellationTerms,
   ] = useState(EditorState.createEmpty());
-  const [tourPlan, setTourPlan] = useState(EditorState.createEmpty());
 
   const {
     handleSubmit,
@@ -84,7 +83,6 @@ const TourTemplateEditPage = () => {
       reset(tourTemplate);
       const {
         policiesAndRegulations,
-        tourPlan: tourTemplatePlan,
       } = tourTemplate;
       const {
         inclusionAndExclusion: tourTemplateInclusionAndExclusion,
@@ -104,10 +102,6 @@ const TourTemplateEditPage = () => {
         setPolicyConditionsAndExtraFee(
           stringToEditorState(tourTemplatePolicyConditionsAndExtraFee),
         );
-      }
-
-      if (tourPlan) {
-        setTourPlan(stringToEditorState(tourTemplatePlan));
       }
     }
   }, [tourTemplate]);
@@ -170,8 +164,6 @@ const TourTemplateEditPage = () => {
             setPolicyConditionsAndExtraFee={setPolicyConditionsAndExtraFee}
             cancellationTerms={cancellationTerms}
             setCancellationTerms={setCancellationTerms}
-            tourPlan={tourPlan}
-            setTourPlan={setTourPlan}
           />
           <div className="d-flex justify-content-end">
             <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>

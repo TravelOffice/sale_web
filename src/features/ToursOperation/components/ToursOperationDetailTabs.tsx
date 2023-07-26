@@ -32,7 +32,7 @@ export default function ToursOperationDetailTabs(props: ToursOperationTabsProps)
   const { activeTab, toggleTab, tabs } = props;
   const { canAccess } = useAccessControl();
   return (
-    <Nav pills className="mb-2">
+    <Nav tabs className="mb-2">
       {tabs.map((tab) => canAccess(tab.requiredPermissions || []) && (
         <TabItem
           key={tab.id}

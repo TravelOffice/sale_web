@@ -26,6 +26,14 @@
   .dropdown-item {
     width: auto;
     cursor: pointer;
+
+    a {
+      color: $dropdown-link-color;
+      text-decoration: none;
+      &:hover {
+        color: $dropdown-link-hover-color;
+      }
+    }
   }
 
   // Dropdown Header

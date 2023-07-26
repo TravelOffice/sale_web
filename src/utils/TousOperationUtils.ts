@@ -2,8 +2,10 @@ import i18n from '@config/i18n';
 import { RoleEnum, User } from '@domain/entities/User';
 import { DepartureTour, ExtendedDepartureTour } from '@domain/entities/tour';
 import { DepartureTourFilterParams } from '@features/ToursOperation/DepartureTour/components/DepartureTourFilter';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { Estimation } from '@domain/entities/tour/Estimation';
+import { DailyKey } from '@domain/entities/tour/TourPlan';
+import { numberArrayOf } from '@utils/ArrayUtils';
 
 export function generateI18nForDepartureTourOperation(type: string) {
   const key = `TOURS_OPERATION.${type}`;
@@ -96,4 +98,37 @@ export function calVATEstimation(estimation: Estimation) {
 
 export function calPaymentEstimation(estimation: Estimation) {
   return calTemporaryPriceEstimation((estimation)) + calVATEstimation(estimation);
+}
+
+export function generateI18nForDailyTourPlanKey(key: DailyKey) {
+  const day = key.split('_')[1];
+  return i18n.t('TOURS_OPERATION.TOUR_PLAN_DAY', { day });
+}
+
+export function convertTourPlanDayToMoment(tour: DepartureTour, key: DailyKey) {
+  const day = parseInt(key.split('_')[1], 10);
+  return moment(tour.startDate).add(day - 1, 'days');
+}
+
+export function correctDateTimeOfTourPlan(baseDate: Moment, startTime: number, endTime: number) {
+  const startDate = moment(baseDate).startOf('D')
+    .set('h', moment(startTime).get('h'))
+    .set('m', moment(startTime).get('m'))
+    .toDate()
+    .getTime();
+  const endDate = moment(baseDate).startOf('D')
+    .set('h', moment(endTime).get('h'))
+    .set('m', moment(endTime).get('m'))
+    .toDate()
+    .getTime();
+  return { startDate, endDate };
+}
+
+type DayOptions = Array<{ label: string, value: DailyKey }>;
+
+export function generateDayOptions(tour: DepartureTour): DayOptions {
+  return numberArrayOf(Math.max(tour.durationInDays, tour.durationInNights)).map((value) => ({
+    label: generateI18nForDailyTourPlanKey(`DAY_${value + 1}`),
+    value: `DAY_${value + 1}`,
+  }));
 }

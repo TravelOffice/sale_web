@@ -12,6 +12,7 @@ export interface FormItemDatePickerProps<
   TFieldPath extends FieldPath<TFieldValues>,
 > extends FormItemProps<TFieldValues, TFieldPath> {
   options?: flatpickr.Options.Options,
+  outputType?: 'date' | 'number',
 }
 
 export default function FormItemDatePicker<
@@ -20,6 +21,7 @@ export default function FormItemDatePicker<
 >(props: FormItemDatePickerProps<TFieldValues, TFieldPath>) {
   const {
     control, errors, name, placeholder, disabled, options,
+    outputType = 'date',
   } = props;
 
   return (
@@ -37,7 +39,7 @@ export default function FormItemDatePicker<
               minDate: 'today',
             }}
             value={value}
-            onChange={(dates) => onChange(dates[0])}
+            onChange={(dates) => onChange(outputType === 'date' ? dates[0] : dates[0].getTime())}
             disabled={disabled}
             {...rest}
           />

@@ -104,6 +104,10 @@ export default function ToursOperationGeneralPane() {
                     <td>{departureTour.creatorName}</td>
                   </tr>
                   <tr>
+                    <td>{i18n.t('TOURS_OPERATION.TOUR_OPERATED_BY')}</td>
+                    <td>{departureTour.assigneeName}</td>
+                  </tr>
+                  <tr>
                     <td>{i18n.t('TOURS_OPERATION.CREATED_AT')}</td>
                     <td>{moment(departureTour.createdAt).format('DD/MM/YYYY')}</td>
                   </tr>

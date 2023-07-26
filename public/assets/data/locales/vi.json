@@ -369,7 +369,8 @@
     "ROLE_INVALID_MESSAGE": "Role không hợp lệ",
     "REQUIRED_FIELD_MESSAGE": "{{field}} không được để trống",
     "MIN_VALUE_MESSAGE": "{{field}} phải lớn hơn {{value}}",
-    "REQUIRED_INTEGER_MESSAGE": "{{field}} phải là số nguyên"
+    "REQUIRED_INTEGER_MESSAGE": "{{field}} phải là số nguyên",
+    "FIELD_ONE_OF": "{{field}} phải thuộc một trong số: {{options}}"
   },
   "NOTIFICATION": {
     "NOTIFICATIONS": "Thông báo",
@@ -393,7 +394,6 @@
     "AWAY": "Vắng mặt",
     "OFFLINE": "Không trực tuyến",
     "INACTIVE": "Bị vô hiệu hóa",
-    "TOTAL_USERS": "Tổng số nhân viên",
     "ADD_USER": "Thêm mới nhân viên",
     "EDIT_USER": "Cập nhật thông tin nhân viên",
     "FIRSTNAME": "Tên",
@@ -405,14 +405,15 @@
     "FEMALE": "Nữ",
     "OTHER": "Khác",
     "ADD_USER_SUCCESSFULLY": "Đã thêm mới nhân viên {{userName}}",
-    "UPDATE_USER_SUCCESSFULLY": "Cập nhật thông tin nhân viên {{userName}} thành công",
     "USERNAME": "Tên tài khoản",
     "CREATED_AT": "Ngày tạo tài khoản",
     "UPDATE_ACCOUNT": "Cập nhật thông tin tài khoản",
     "UPDATE_ACCOUNT_SUCCESSFULLY": "Cập nhật thông tin tài khoản thành công",
     "ACCOUNT_INFORMATION": "Thông tin tài khoản",
     "UPDATED_AT": "Ngày cập nhật gần nhất",
-    "AVATAR": "Ảnh đại diện"
+    "AVATAR": "Ảnh đại diện",
+    "UPDATE_USER_SUCCESSFULLY": "Cập nhật thông tin nhân viên {{userName}} thành công",
+    "TOTAL_USERS": "Tổng số nhân viên"
   },
   "ROLE-PERMISSION": {
     "ROLE_LIST_TITLE": "Danh sách Role",
@@ -705,7 +706,28 @@
     "REVENUE_ITEM": "Mục thu",
     "AMOUNT_COLLECTED_BY_THE_TOUR_GUIDE_DURING_THE_TOUR": "Số tiền hướng dẫn viên đã thu trong tour",
     "EXPENDITURE_ITEM": "Mục chi",
-    "AMOUNT_SPENT_BY_THE_TOUR_GUIDE_DURING_THE_TOUR": "Số tiền hướng dẫn viên đã chi trong tour"
+    "AMOUNT_SPENT_BY_THE_TOUR_GUIDE_DURING_THE_TOUR": "Số tiền hướng dẫn viên đã chi trong tour",
+    "TOUR_PLAN_DAY": "Ngày {{day}}",
+    "ADD_ACTIVITY": "Thêm hoạt động",
+    "DAY": "Ngày",
+    "ACTIVITY": "Hoạt động",
+    "DESCRIPTION": "Mô tả",
+    "MEAL": "Ăn uống",
+    "PARTY": "Tiệc tùng",
+    "LOCAL_MOVE": "Di chuyển",
+    "FLIGHT_MOVE": "Chuyến bay",
+    "LEISURE": "Leisure",
+    "KAYAKING": "Chèo thuyền Kayak",
+    "ADVENTURE": "Khám phá",
+    "DIVING": "Lặn",
+    "TREKKING": "Leo núi",
+    "CHECKIN": "Check in",
+    "CHECKOUT": "Check out",
+    "OTHER": "Khác",
+    "END_TIME": "Kết thúc",
+    "START_TIME": "Bắt đầu",
+    "EDIT_ACTIVITY": "Xoá hoạt động",
+    "DELETE_ACTIVITY_CONFIRM_MESSAGE": "Bạn có chắc chắn muốn xoá hoạt động này?"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Chuyến đi mẫu",

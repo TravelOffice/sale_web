@@ -1,7 +1,9 @@
 // ** React Imports
 import React, { ReactNode, useMemo, useState } from 'react';
 import {
-  Button, Card, CardBody, CardHeader, TabContent, TabPane,
+  Badge,
+  Card, CardHeader, DropdownItem, DropdownMenu, DropdownToggle,
+  TabContent, TabPane, UncontrolledButtonDropdown,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import { CSVLink } from 'react-csv';
@@ -13,8 +15,12 @@ import { generateI18nForTourOperation } from '@utils/TousOperationUtils';
 import { useAccessControl } from '@hooks/auth';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
 import ToursOperationDetailTabs from '@features/ToursOperation/components/ToursOperationDetailTabs';
-import { List } from 'react-feather';
-import CommingSoon from '@components/CommingSoon/CommingSoon';
+import {
+  Columns,
+  DollarSign,
+  Home,
+  Navigation, ShoppingCart, Users,
+} from 'react-feather';
 import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
 import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
 import ToursOperationCustomerListPane from '@features/ToursOperation/components/ToursOperationCustomerListPane';
@@ -22,6 +28,8 @@ import { CustomerWithBookingData } from '@domain/entities/customer/Customer';
 import { Booking } from '@domain/entities/booking/Booking';
 import { generateI18nForCustomer } from '@utils/CustomerUtils';
 import TourReportPage from '@features/ToursOperation/Summary/TourReportPage';
+import ToursOperationPlan from '@features/ToursOperation/TourPlan/ToursOperationPlan';
+import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 import ToursOperationBookingPane from './components/ToursOperationBookingPane';
 
 export interface ToursOperationDetailParams {
@@ -39,41 +47,48 @@ export interface Tab {
 const tabs: Tab[] = [
   {
     id: 'tourGeneral',
-    icon: <List size={16} className="me-50" />,
+    icon: <Home size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_GENERAL'),
     pane: <ToursOperationGeneralPane />,
   },
   {
     id: 'bookingList',
-    icon: <List size={16} className="me-50" />,
+    icon: <ShoppingCart size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_BOOKING_LIST'),
     pane: <ToursOperationBookingPane />,
   },
   {
     id: 'customerList',
-    icon: <List size={16} className="me-50" />,
+    icon: <Users size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_CUSTOMER_LIST'),
     pane: <ToursOperationCustomerListPane />,
   },
   {
     id: 'tourEstimation',
-    icon: <List size={16} className="me-50" />,
+    icon: <DollarSign size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_ESTIMATION'),
     pane: <EstimationPage />,
   },
   {
     id: 'tourReport',
-    icon: <List size={16} className="me-50" />,
+    icon: <Columns size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_REPORT'),
     pane: <TourReportPage />,
   },
   {
     id: 'tourPlan',
-    icon: <List size={16} className="me-50" />,
+    icon: <Navigation size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_PLAN'),
-    pane: <CommingSoon />,
+    pane: <ToursOperationPlan />,
   },
 ];
+
+const statusColors: Record<TourOperationStatus, string> = {
+  [TourOperationStatus.WAITING_FOR_OPERATION]: 'light-secondary',
+  [TourOperationStatus.PROCESSING]: 'light-warning',
+  [TourOperationStatus.TRANSFERRED]: 'light-success',
+  [TourOperationStatus.COMPLETED]: 'light-primary',
+};
 
 const ToursOperationDetail = () => {
   const { tourId } = useParams<ToursOperationDetailParams>();
@@ -118,24 +133,42 @@ const ToursOperationDetail = () => {
     <div className="to-table-container">
       <Card>
         <CardHeader>
-          <span>
-            {`${i18n.t('TOURS_OPERATION.TOUR_CODE')}: ${tourId}`}
-            {' | '}
-            {`${i18n.t('TOURS_OPERATION.TOUR_CREATED_BY')}: ${departureTour ? departureTour.creatorName : ''}`}
-            {' | '}
-            {`${i18n.t('TOURS_OPERATION.TOUR_OPERATED_BY')}: ${departureTour ? departureTour.creatorName : ''}`}
-          </span>
-          <span className="align-middle ms-25">
-            {`${i18n.t('TOURS_OPERATION.TOUR_OPERATION_CURRENT_STATUS')} : ${departureTour ? generateI18nForTourOperation(departureTour.operationStatus) : ''}`}
-          </span>
+          <div className="d-flex flex-row align-items-center">
+            <span className="me-1">
+              {i18n.t('TOURS_OPERATION.TOUR_CODE')}
+              {': '}
+              <strong className="font-medium-3">{tourId}</strong>
+            </span>
+            {
+              !!departureTour && (
+                <Badge color={statusColors[departureTour.operationStatus]}>
+                  {generateI18nForTourOperation(departureTour.operationStatus)}
+                </Badge>
+              )
+            }
+            <Badge />
+          </div>
+          <div className="d-flex flex-row justify-content-end">
+            <UncontrolledButtonDropdown>
+              <DropdownToggle outline color="primary" caret>
+                {i18n.t('COMMON.ACTIONS')}
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem tag="div">{i18n.t('TOURS_OPERATION.SEND_EMAIL_TO_TOUR_GROUP')}</DropdownItem>
+                <DropdownItem tag="div">{i18n.t('TOURS_OPERATION.PRINT_TOUR_PLAN')}</DropdownItem>
+                <DropdownItem tag="div">{i18n.t('TOURS_OPERATION.PRINT_TOUR_VISITORS_LIST')}</DropdownItem>
+                <DropdownItem tag="div">{i18n.t('TOURS_OPERATION.PRINT_TOUR_REPORT')}</DropdownItem>
+                <DropdownItem tag="div">{i18n.t('TOURS_OPERATION.PRINT_TOUR_ESTIMATION')}</DropdownItem>
+                <DropdownItem tag="div">
+                  <CSVLink data={customers} headers={customerHeaders} filename={`customers_${departureTour?.name}.csv`}>
+                    {i18n.t('TOURS_OPERATION.EXPORT_EXCEL_PASSENGERS')}
+                  </CSVLink>
+                </DropdownItem>
+                <DropdownItem tag="div">{i18n.t('TOURS_OPERATION.PRINT_INSURANCE')}</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledButtonDropdown>
+          </div>
         </CardHeader>
-        <CardBody>
-          <Button color="primary" outline>
-            <CSVLink data={customers} headers={customerHeaders} filename={`customers_${departureTour?.name}.csv`}>
-              {i18n.t('TOURS_OPERATION.EXPORT_EXCEL_PASSENGERS')}
-            </CSVLink>
-          </Button>
-        </CardBody>
       </Card>
       <ToursOperationDetailTabs
         tabs={tabs}
