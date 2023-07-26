@@ -239,7 +239,7 @@ const BookingCreateFromLeadPage = () => {
                       errors={errors}
                       selectClassName="flex-fill"
                       options={leadOptions || []}
-                      isDisabled
+                      disabled
                     />
                     {errors.leadId
                       && <FormFeedback>{errors.leadId?.message}</FormFeedback>}

@@ -176,7 +176,7 @@ export default function BookingDetailTab() {
                           errors={errors}
                           selectClassName="flex-fill"
                           options={tourTemplateOptions || []}
-                          isDisabled={!isEditable}
+                          disabled={!isEditable}
                         />
                       </div>
                     </Col>
@@ -193,7 +193,7 @@ export default function BookingDetailTab() {
                           errors={errors}
                           selectClassName="flex-fill"
                           options={tourTypeOptions}
-                          isDisabled={!isEditable}
+                          disabled={!isEditable}
                         />
                       </div>
                     </Col>
@@ -234,7 +234,7 @@ export default function BookingDetailTab() {
                           errors={errors}
                           selectClassName="flex-fill"
                           options={sourceOptions || []}
-                          isDisabled={!isEditable}
+                          disabled={!isEditable}
                         />
                       </div>
                     </Col>
@@ -251,7 +251,7 @@ export default function BookingDetailTab() {
                           errors={errors}
                           selectClassName="flex-fill"
                           options={assigneeOptions || []}
-                          isDisabled={!isEditable}
+                          disabled={!isEditable}
                         />
                       </div>
                     </Col>

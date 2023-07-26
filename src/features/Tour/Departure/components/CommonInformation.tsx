@@ -62,7 +62,7 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
           value: template.code,
         }))}
         placeholder={i18n.t('DEPARTURE_TOUR.SELECT_TOUR_TEMPLATE')}
-        isDisabled={isUpdate}
+        disabled={isUpdate}
         onSelected={isUpdate ? onToursTemplateChange : () => {}}
       />
     </div>

@@ -19,7 +19,6 @@ export interface VerticalMenuNavItemsProps {
   menuCollapsed: boolean,
   setGroupActive: (groupActive: string[]) => void,
   setCurrentActiveGroup: (group: string[]) => void,
-  currentActiveItem: string,
   groupOpen: string[],
 }
 

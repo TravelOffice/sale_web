@@ -9,7 +9,6 @@ export interface SidebarProps {
   menuCollapsed: boolean,
   routerProps: any,
   menu?: ReactNode,
-  currentActiveItem: string,
   skin: string,
   menuData: MenuItem[],
   menuVisibility: boolean,
@@ -19,7 +18,7 @@ export interface SidebarProps {
 
 export default function Sidebar(props: SidebarProps) {
   const {
-    menuCollapsed, routerProps, menu, currentActiveItem, skin, menuData,
+    menuCollapsed, routerProps, menu, skin, menuData,
   } = props;
   const [groupOpen, setGroupOpen] = useState<string[]>([]);
   const [groupActive, setGroupActive] = useState<string[]>([]);
@@ -85,7 +84,6 @@ export default function Sidebar(props: SidebarProps) {
                   setActiveItem={setActiveItem}
                   setGroupActive={setGroupActive}
                   setCurrentActiveGroup={setCurrentActiveGroup}
-                  currentActiveItem={currentActiveItem}
                 />
               </ul>
             </PerfectScrollbar>

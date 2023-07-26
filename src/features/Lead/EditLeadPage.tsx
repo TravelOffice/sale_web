@@ -422,26 +422,30 @@ export default function EditLeadPage() {
                         </Col>
                       </Row>
 
-                      <Row>
-                        <Col className="d-flex" md={{ size: 9, offset: 3 }}>
-                          <LoadingButton
-                            loading={updateLeadMutation.isLoading}
-                            className="me-1"
-                            color="primary"
-                            type="submit"
-                            disabled={updateLeadMutation.isLoading}
-                          >
-                            {i18n.t('COMMON.SAVE_CHANGES')}
-                          </LoadingButton>
-                          <Button
-                            className="me-1"
-                            color="danger"
-                            onClick={() => setShowCancelLeadDialog(true)}
-                          >
-                            {i18n.t('LEAD.CANCEL_LEAD')}
-                          </Button>
-                        </Col>
-                      </Row>
+                      {
+                        editable && (
+                          <Row>
+                            <Col className="d-flex" md={{ size: 9, offset: 3 }}>
+                              <LoadingButton
+                                loading={updateLeadMutation.isLoading}
+                                className="me-1"
+                                color="primary"
+                                type="submit"
+                                disabled={updateLeadMutation.isLoading}
+                              >
+                                {i18n.t('COMMON.SAVE_CHANGES')}
+                              </LoadingButton>
+                              <Button
+                                className="me-1"
+                                color="danger"
+                                onClick={() => setShowCancelLeadDialog(true)}
+                              >
+                                {i18n.t('LEAD.CANCEL_LEAD')}
+                              </Button>
+                            </Col>
+                          </Row>
+                        )
+                      }
                     </>
                   )
                 }

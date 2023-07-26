@@ -23,7 +23,6 @@ interface VerticalLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   menuData: MenuItem[],
   footer?: ReactNode,
   menu?: ReactNode,
-  currentActiveItem: any,
   routerProps?: any,
 }
 
@@ -35,7 +34,6 @@ function VerticalLayout(props: VerticalLayoutProps) {
     menuData,
     children,
     routerProps,
-    currentActiveItem,
   } = props;
   const { skin, setSkin } = useSkin();
   const { navbarType } = useNavbarType();
@@ -126,7 +124,6 @@ function VerticalLayout(props: VerticalLayoutProps) {
           menuVisibility={menuVisibility}
           setMenuCollapsed={setMenuCollapsed}
           setMenuVisibility={setMenuVisibility}
-          currentActiveItem={currentActiveItem}
         />
       ) : null}
       <Navbar
