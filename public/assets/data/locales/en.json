@@ -751,7 +751,7 @@
     "CANCELED_AT": "Canceled At",
     "CANCELED_AT_PHASE": "Canceled At Status",
     "WAIT_PAYMENT_BOOKING": "Payment pending",
-    "CONFLICT_DEPARTURE_DATE": "The departure date of booking isn't match with Departure Tour",
+    "MISMATCH_DEPARTURE_DATE": "The departure date of booking doesn't match with Departure Tour",
     "CONFIRM_BOOKING_SUCCESSFULLY": "Confirm booKing successfully",
     "CANCEL_BOOKING_SUCCESSFULLY": "Cancel booking successfully",
     "PAYMENT_PENDING_SUCCESSFULLY": "Change booking status to [PAYMENT PENDING] successfully"
@@ -799,6 +799,7 @@
     "CONTACT_EMAIL": "Email",
     "ADD_CONTACT": "Add contact information",
     "CREATE_SUPPLIER": "Create new supplier",
+    "UPDATE_SUPPLIER": "Update supplier",
     "SUPPLIER_INFO": "Supplier information",
     "STAR_RATING": "Star rating",
     "CAPACITY": "Capacity",

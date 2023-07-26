@@ -136,7 +136,7 @@ const SupplierEditPage = () => {
               {i18n.t('COMMON.CANCEL')}
             </Button>
             <Button type="submit" className="me-1" color="primary">
-              { !isLoading ? i18n.t('SUPPLIER.CREATE_SUPPLIER') : i18n.t('COMMON.LOADING')}
+              { !isLoading ? i18n.t('SUPPLIER.UPDATE_SUPPLIER') : i18n.t('COMMON.LOADING')}
               { isLoading ? (
                 <Spinner
                   style={{ width: '0.7rem', height: '0.7rem' }}
