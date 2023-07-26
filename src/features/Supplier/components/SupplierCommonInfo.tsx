@@ -217,6 +217,7 @@ const SupplierCommonInfo: React.FC<CommonInformationProps> = ({
                       <Input
                         type="checkbox"
                         value={service.value}
+                        checked={field.value.includes(service.value)}
                         onChange={(e) => {
                           const selectedValues = Array.isArray(field.value) ? [...field.value] : [];
                           if (e.target.checked) {

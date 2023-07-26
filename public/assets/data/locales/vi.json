@@ -743,7 +743,18 @@
     "NOTE_TYPE_OTHERS": "Khác",
     "NOTE_TYPE": "Loại ghi chú",
     "ADD_NOTE": "Thêm ghi chú",
-    "NOTES": "Ghi chú"
+    "NOTES": "Ghi chú",
+    "CONFIRM_BOOKING": "Xác nhận đặt tour",
+    "CANCEL_BOOKING": "Hủy đặt tour",
+    "CANCELED_REASON": "Lý do hủy",
+    "CANCELED_BY": "Hủy bởi",
+    "CANCELED_AT": "Hủy lúc",
+    "CANCELED_AT_PHASE": "Hủy ở giai đoạn",
+    "WAIT_PAYMENT_BOOKING": "Đang chờ thanh toán",
+    "MISMATCH_DEPARTURE_DATE": "Ngày khởi hành của booking không khớp với tour khởi hành",
+    "CONFIRM_BOOKING_SUCCESSFULLY": "Xác nhận đặt tour thành công",
+    "CANCEL_BOOKING_SUCCESSFULLY": "Hủy đặt tour thành công",
+    "PAYMENT_PENDING_SUCCESSFULLY": "Thay đổi trạng thái đặt tour sang [PAYMENT PENDING] thành công"
   },
   "RECEIPT": {
     "CODE": "Mã",
@@ -788,6 +799,7 @@
     "CONTACT_EMAIL": "Email",
     "ADD_CONTACT": "Thêm thông tin liên hệ",
     "CREATE_SUPPLIER": "Thêm mới nhà cung cấp",
+    "UPDATE_SUPPLIER": "Cập nhật nhà cung cấp",
     "SUPPLIER_INFO": "Thông tin nhà cung cấp",
     "STAR_RATING": "Hạng sao",
     "CAPACITY": "Sức chứa",
@@ -810,7 +822,8 @@
     "REQUIRED_CONTACT_EMAIL": "Yêu cầu giá trị nhập vào là email",
     "REQUIRED_CONTACT_PHONE_NUMBER": "Yêu cầu giá trị nhập vào là số điện thoại",
     "REQUIRED_BANK_ACCOUNT_NUMBER": "Yêu cầu giá trị nhập vào là số tài khoản ngân hàng",
-    "CREATE_SUPPLIER_SUCCESSFULLY": "Thêm mới nhà cung cấp thành công"
+    "CREATE_SUPPLIER_SUCCESSFULLY": "Thêm mới nhà cung cấp thành công",
+    "EDIT_SUPPLIER_SUCCESSFULLY": "Cập nhật nhà cung cấp thành công"
   },
   "PAYMENT_VOUCHER": {
     "CODE": "Mã",

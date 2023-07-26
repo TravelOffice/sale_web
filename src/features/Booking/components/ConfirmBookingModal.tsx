@@ -133,7 +133,7 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
               booking.departureDate
               && selectedDepartureTourId
               && selectedDepartureTour?.startDate !== booking.departureDate ? (
-                <Label className="text-danger">{i18n.t('BOOKING.CONFLICT_DEPARTURE_DATE')}</Label>
+                <Label className="text-danger">{i18n.t('BOOKING.MISMATCH_DEPARTURE_DATE')}</Label>
                 ) : <></>
             }
           </Row>

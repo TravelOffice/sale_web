@@ -5,6 +5,8 @@ import { Col, Row } from 'reactstrap';
 import i18n from '@config/i18n';
 import { ContentState, Editor, EditorState } from 'draft-js';
 import htmlToDraft from 'html-to-draftjs';
+import { generateI18nForSupplier } from '@utils/SupplierUtils';
+import { formatVND } from '@utils/CommonUtils';
 
 const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
   { data: supplier }:ExpanderComponentProps<Supplier>,
@@ -12,34 +14,48 @@ const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
   <div className="container py-xxl-1">
     <Row>
       <Col md={5}>
-        <strong>{i18n.t('SUPPLIER.NAME')}</strong>
-        {': '}
-        {supplier.name}
-        <br />
-        <strong>{i18n.t('SUPPLIER.BRAND_NAME')}</strong>
-        {': '}
-        {supplier.brandName}
-        <br />
-        <strong>{i18n.t('SUPPLIER.ESTABLISHMENT_YEAR')}</strong>
-        {': '}
-        {supplier.establishmentYear}
-        <br />
-        <strong>{i18n.t('SUPPLIER.CITY')}</strong>
-        {': '}
-        {supplier.city}
-        <br />
-        <strong>{i18n.t('SUPPLIER.DISTRICT')}</strong>
-        {': '}
-        {supplier.district}
-        <br />
-        <strong>{i18n.t('SUPPLIER.ADDRESS')}</strong>
-        {': '}
-        {supplier.address}
-        <br />
-        <strong>{i18n.t('SUPPLIER.TAX_ID')}</strong>
-        {': '}
-        {supplier.taxId}
-        <br />
+        <table className="table">
+          <tbody className="table-hover table-striped">
+            <tr>
+              <td>{i18n.t('SUPPLIER.NAME')}</td>
+              <td>{supplier.name}</td>
+            </tr>
+            <tr>
+              <td>{i18n.t('SUPPLIER.BRAND_NAME')}</td>
+              <td>{supplier.brandName}</td>
+            </tr>
+            <tr>
+              <td>{i18n.t('SUPPLIER.ESTABLISHMENT_YEAR')}</td>
+              <td>{supplier.establishmentYear}</td>
+            </tr>
+            <tr>
+              <td>{i18n.t('SUPPLIER.CITY')}</td>
+              <td>{supplier.city}</td>
+            </tr>
+            <tr>
+              <td>{i18n.t('SUPPLIER.DISTRICT')}</td>
+              <td>{supplier.district}</td>
+            </tr>
+            <tr>
+              <td>{i18n.t('SUPPLIER.ADDRESS')}</td>
+              <td>{supplier.address}</td>
+            </tr>
+            <tr>
+              <td>{i18n.t('SUPPLIER.TAX_ID')}</td>
+              <td>{supplier.taxId}</td>
+            </tr>
+            <tr>
+              <td>{i18n.t('SUPPLIER.SERVICES')}</td>
+              <td>
+                <ul>
+                  {supplier.services && supplier.services.map(
+                    (item) => <li>{generateI18nForSupplier(item)}</li>,
+                  )}
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <strong>{i18n.t('SUPPLIER.NOTE')}</strong>
         {': '}
         <Editor
@@ -61,7 +77,7 @@ const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
               <th scope="col" className="text-center">{i18n.t('COMMON.INDEX')}</th>
               <th scope="col" className="text-center">{i18n.t('SUPPLIER.QUOTE_YEAR')}</th>
               <th scope="col" className="text-center">{i18n.t('SUPPLIER.QUOTE_LINK')}</th>
-              <th scope="col" className="text-center">{i18n.t('SUPPLIER.QUOTE_DESCRIPTION')}</th>
+              <th scope="col" className="text-center">{i18n.t('SUPPLIER.QUOTE_PRICE')}</th>
             </tr>
           </thead>
           <tbody className="table-hover table-striped">
@@ -70,7 +86,7 @@ const SupplierExpandableRow: React.FC<ExpanderComponentProps<Supplier>> = (
                 <td className="text-center">{index}</td>
                 <td>{quote.year}</td>
                 <td><a href={quote.link} target="_blank" rel="noreferrer">{quote.link}</a></td>
-                <td>{quote.description}</td>
+                <td>{formatVND(quote.price)}</td>
               </tr>
             ))}
           </tbody>
