@@ -56,7 +56,7 @@ function prepareStatisticalItems(bookings: Booking[]): StatisticItemProps[] {
   return items.concat(filteredItems);
 }
 
-const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> = (
+export const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> = (
   { data }: ExpanderComponentProps<Booking>,
 ) => {
   const { lead } = data;
