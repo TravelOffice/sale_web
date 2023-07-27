@@ -10,7 +10,11 @@ import {
   useMutation, useQueries, useQuery, useQueryClient,
 } from '@tanstack/react-query';
 import {
-  bookingPresenter, sourcePresenter, tourTemplatePresenter, userPresenter,
+  bookingPresenter,
+  sourcePresenter,
+  tourPresenter,
+  tourTemplatePresenter,
+  userPresenter,
 } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
@@ -47,6 +51,11 @@ export default function BookingDetailTab() {
   const relatedData = useQueries({
     queries: [
       {
+        queryKey: ['departure-tours'],
+        queryFn: tourPresenter.getAllDepartureTours,
+        refetchOnWindowFocus: false,
+      },
+      {
         queryKey: ['tour-templates'],
         queryFn: tourTemplatePresenter.getAllTourTemplates,
         refetchOnWindowFocus: false,
@@ -66,10 +75,18 @@ export default function BookingDetailTab() {
   // Extracting data from related data
   // Also, map data to options for each related select components
   const [
+    departureToursData,
     tourTemplateData,
     salesData,
     sourcesData,
   ] = relatedData;
+  const departureTourOptions = useMemo(
+    () => departureToursData.data?.map((tour) => ({
+      label: tour.name,
+      value: tour.code,
+    })),
+    [tourTemplateData],
+  );
   const tourTemplateOptions = useMemo(
     () => tourTemplateData.data?.map((tourTemplate) => ({
       label: tourTemplate.name,
@@ -163,23 +180,46 @@ export default function BookingDetailTab() {
                     <div className="divider-text text-primary fw-bolder">{i18n.t('BOOKING.BOOKING_INFORMATION')}</div>
                   </div>
                   <Row>
-                    <Col lg={4}>
-                      <div className="mb-1">
-                        <Label className="form-label" for="tourTemplateId">
-                          {i18n.t('BOOKING.TOUR_TEMPLATE')}
-                          {' '}
-                          <span className="text-danger">{' *'}</span>
-                        </Label>
-                        <FormItemSelect
-                          control={control}
-                          name="tourTemplateId"
-                          errors={errors}
-                          selectClassName="flex-fill"
-                          options={tourTemplateOptions || []}
-                          disabled={!isEditable}
-                        />
-                      </div>
-                    </Col>
+                    {
+                      booking?.departureTourId ? (
+                        <Col lg={4}>
+                          <div className="mb-1">
+                            <Label className="form-label" for="tourTemplateId">
+                              {i18n.t('DEPARTURE_TOUR.DEPARTURE_TOUR')}
+                              {' '}
+                              <span className="text-danger">{' *'}</span>
+                            </Label>
+                            <FormItemSelect
+                              control={control}
+                              name="departureTourId"
+                              errors={errors}
+                              selectClassName="flex-fill"
+                              options={departureTourOptions || []}
+                              disabled={!isEditable}
+                            />
+                          </div>
+                        </Col>
+                      ) : (
+                        <Col lg={4}>
+                          <div className="mb-1">
+                            <Label className="form-label" for="tourTemplateId">
+                              {i18n.t('BOOKING.TOUR_TEMPLATE')}
+                              {' '}
+                              <span className="text-danger">{' *'}</span>
+                            </Label>
+                            <FormItemSelect
+                              control={control}
+                              name="tourTemplateId"
+                              errors={errors}
+                              selectClassName="flex-fill"
+                              options={tourTemplateOptions || []}
+                              disabled={!isEditable}
+                            />
+                          </div>
+                        </Col>
+                      )
+                    }
+
                     <Col lg={4}>
                       <div className="mb-1">
                         <Label className="form-label" for="tourType">

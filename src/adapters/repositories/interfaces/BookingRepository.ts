@@ -19,7 +19,9 @@ export interface BookingRepository {
 
   cancelBooking(bookingId: string, reason: string): Promise<Partial<Booking>>;
 
-  confirmBooking(bookingId: string, departureTourId: string): Promise<void>;
+  confirmBooking(bookingId: string, departureTourId: string): Promise<Partial<Booking>>;
+
+  changeToPaymentPending(bookingId: string, waitingExpiredAt: string): Promise<void>;
 
   addNote(bookingId: string, formData: CreateNoteFormData): Promise<Note>
 }

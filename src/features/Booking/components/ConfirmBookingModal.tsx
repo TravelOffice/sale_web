@@ -14,7 +14,7 @@ import { bookingPresenter, tourPresenter } from '@adapter/presenters';
 import FormItemSelect from '@components/Form/FormItemSelect';
 import { confirmBookingSchema } from '@utils/BookingUtils';
 import moment from 'moment';
-import { Booking, BookingStatusEnum } from '@domain/entities/booking/Booking';
+import { Booking } from '@domain/entities/booking/Booking';
 
 interface ConfirmBookingModalProps {
   booking: Booking,
@@ -40,7 +40,7 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
     mutationFn: (
       formValue: ConfirmBookingFormData,
     ) => bookingPresenter.confirmBooking(bookingId, formValue.departureTourId!),
-    onSuccess: () => {
+    onSuccess: (data: Partial<Booking>) => {
       toasty.show({
         title: i18n.t('COMMON.SUCCESS'),
         type: 'success',
@@ -48,7 +48,7 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
       });
       queryClient.setQueryData(['bookings', bookingId], (input) => ({
         ...input as Booking,
-        bookingStatus: BookingStatusEnum.CONFIRMED,
+        ...data,
       }));
     },
     onError: (error) => {

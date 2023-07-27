@@ -6,7 +6,7 @@ import { Link, useParams } from 'react-router-dom';
 import i18n from '@config/i18n';
 import { Calendar, Phone } from 'react-feather';
 import moment from 'moment/moment';
-import { BookingStatus } from '@domain/entities/booking/Booking';
+import { BookingStatus, BookingStatusEnum } from '@domain/entities/booking/Booking';
 import { generateI18nForBooking, isCanceledBooking, isEditableBooking } from '@utils/BookingUtils';
 import { formatPhoneNumber } from '@utils/Utils';
 import { bookingPresenter } from '@adapter/presenters';
@@ -98,6 +98,30 @@ export default function BookingInfoCard() {
                       {generateI18nForBooking(booking?.bookingStatus!)}
                     </Badge>
                   </li>
+                  {
+                    booking?.bookingStatus === BookingStatusEnum.PAYMENT_PENDING ? (
+                      <li className="mb-75">
+                        <span className="fw-bolder me-25">
+                          {i18n.t('BOOKING.PAYMENT_DEADLINE')}
+                          :
+                        </span>
+
+                        <span>{moment(booking?.departureDate).format('DD/MM/YYYY HH:mm')}</span>
+                      </li>
+                    ) : <></>
+                  }
+                  {
+                    booking?.doneAt ? (
+                      <li className="mb-75">
+                        <span className="fw-bolder me-25">
+                          {i18n.t('BOOKING.DONE_PAYMENT_AT')}
+                          :
+                        </span>
+
+                        <span>{moment(booking?.departureDate).format('DD/MM/YYYY HH:mm')}</span>
+                      </li>
+                    ) : <></>
+                  }
                   {
                     booking?.departureTourId ? (
                       <li className="mb-75">
