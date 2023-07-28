@@ -103,7 +103,15 @@ export default class BookingRepositoryImpl implements BookingRepository {
     return response.data;
   }
 
-  confirmBooking = async (bookingId: string, departureTourId: string): Promise<void> => {
-    await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/confirm`, { departureTourId });
+  confirmBooking = async (
+    bookingId: string,
+    departureTourId: string,
+  ): Promise<Partial<Booking>> => {
+    const response = await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/confirm`, { departureTourId });
+    return response.data;
+  }
+
+  changeToPaymentPending = async (bookingId: string, waitingExpiredAt: string): Promise<void> => {
+    await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/payment-pending`, { waitingExpiredAt });
   }
 }

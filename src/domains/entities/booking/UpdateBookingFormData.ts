@@ -4,6 +4,7 @@ export type UpdateBookingFormData = Pick<Booking,
 'tourTemplateId' |
 'tourTemplate' |
 'tourType' |
+'departureTourId' |
 'departureDate' |
 'assigneeId' |
 'sourceId' |

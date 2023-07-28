@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {
   DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
-import { MoreVertical, Plus } from 'react-feather';
+import { MoreVertical } from 'react-feather';
 import i18n from '@config/i18n';
 import { Booking } from '@domain/entities/booking/Booking';
 import ConfirmBookingModal from '@features/Booking/components/ConfirmBookingModal';
@@ -50,16 +50,13 @@ export default function BookingItemActions(props: BookingItemActionsProps) {
         </DropdownToggle>
         <DropdownMenu container="body">
           <DropdownItem tag="div" onClick={() => toggleConfirmFormModal()}>
-            <Plus size={14} className="me-50" />
-            <span className="align-middle">{i18n.t('BOOKING.CONFIRM_BOOKING')}</span>
+            <span className="align-middle text-success">{i18n.t('BOOKING.CONFIRM_BOOKING')}</span>
           </DropdownItem>
           <DropdownItem tag="div" onClick={() => togglePaymentPendingFormModal()}>
-            <Plus size={14} className="me-50" />
-            <span className="align-middle">{i18n.t('BOOKING.PAYMENT_PENDING')}</span>
+            <span className="align-middle text-warning">{i18n.t('BOOKING.PAYMENT_PENDING')}</span>
           </DropdownItem>
           <DropdownItem tag="div" onClick={() => toggleCancelFormModal()}>
-            <Plus size={14} className="me-50" />
-            <span className="align-middle">{i18n.t('BOOKING.CANCEL_BOOKING')}</span>
+            <span className="align-middle text-danger">{i18n.t('BOOKING.CANCEL_BOOKING')}</span>
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>

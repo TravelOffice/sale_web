@@ -3,7 +3,7 @@ import {
 } from 'reactstrap';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import i18n from '@config/i18n';
 import toasty from '@components/Toasty/Toasty';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
@@ -15,6 +15,7 @@ import { PaymentPendingFormData } from '@domain/entities/booking/PaymentPendingF
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import moment from 'moment';
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
+import { Booking, BookingStatusEnum } from '@domain/entities/booking/Booking';
 
 interface PaymentPendingModalProps {
   paymentPendingFormModal: boolean,
@@ -24,6 +25,7 @@ interface PaymentPendingModalProps {
 const PaymentPendingModal = (props: PaymentPendingModalProps) => {
   const { bookingId } = useParams<EditBookingPageParams>();
   const { paymentPendingFormModal, togglePaymentPendingFormModal } = props;
+  const queryClient = useQueryClient();
 
   const { mutate, isLoading } = useMutation({
     mutationFn: (
@@ -36,6 +38,10 @@ const PaymentPendingModal = (props: PaymentPendingModalProps) => {
         type: 'success',
         message: i18n.t('BOOKING.PAYMENT_PENDING_SUCCESSFULLY'),
       });
+      queryClient.setQueryData(['bookings', bookingId], (input) => ({
+        ...input as Booking,
+        bookingStatus: BookingStatusEnum.PAYMENT_PENDING,
+      }));
     },
     onError: (error) => {
       toasty.show({
