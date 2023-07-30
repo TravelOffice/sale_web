@@ -5,6 +5,7 @@ import {
   TourTemplate,
   UpdateDepartureTourFormData,
 } from '@domain/entities/tour';
+import { Estimation } from '@domain/entities/tour/Estimation';
 import { Booking } from '@domain/entities/booking/Booking';
 
 export interface TourPresenter {
@@ -18,4 +19,5 @@ export interface TourPresenter {
   takeCareTour: (departureTourId: string) => Promise<DepartureTour>,
   assignTourOperator: (departureTourId: string, tourOperatorId: string) => Promise<DepartureTour>,
   getBookingsByDepartureTour(departureTourId: string): Promise<Booking[]>;
+  getEstimations: (departureTourId: string) => Promise<Estimation[]>,
 }

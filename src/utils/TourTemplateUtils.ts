@@ -55,5 +55,5 @@ export function filterTourTemplates(
  * @returns The editable URL for the tour template.
  */
 export function generateEditableUrlForTourTemplate(tourTemplate: TourTemplate) {
-  return `/apps/tour/template/${tourTemplate.code}/edit`;
+  return `/apps/tours/template/${tourTemplate.code}/edit`;
 }

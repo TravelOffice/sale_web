@@ -31,6 +31,7 @@ import DepartureTourListPage from '@features/Tour/Departure/DepartureTourListPag
 import DepartureTourCreatePage from '@features/Tour/Departure/DepartureTourCreatePage';
 import DepartureTourEditPage from '@features/Tour/Departure/DepartureTourEditPage';
 import ToursOperationDetail from '@features/ToursOperation/ToursOperationDetail';
+import EstimationListPage from '@features/ToursOperation/Estimation/EstimationListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -65,19 +66,19 @@ const Routes: RoutePathConfig[] = [
     component: <Settings />,
   },
   {
-    path: '/apps/tour/template/list',
+    path: '/apps/tours/template/list',
     exact: true,
     requiredPermissions: [PERMISSIONS.get_tour_templates],
     component: <TourTemplateListPage />,
   },
   {
-    path: '/apps/tour/template/create',
+    path: '/apps/tours/template/create',
     exact: true,
     requiredPermissions: [PERMISSIONS.create_tour_template],
     component: <TourTemplateCreatePage />,
   },
   {
-    path: '/apps/tour/template/:tourTemplateId/edit',
+    path: '/apps/tours/template/:tourTemplateId/edit',
     exact: true,
     requiredPermissions: [PERMISSIONS.update_tour_template],
     component: <TourTemplateEditPage />,
@@ -151,23 +152,23 @@ const Routes: RoutePathConfig[] = [
     component: <Roles />,
   },
   {
-    path: '/apps/tour/departure/list',
+    path: '/apps/tours/departure/list',
     exact: true,
     component: <DepartureTourListPage />,
   },
   {
-    path: '/apps/tour/departure/create',
+    path: '/apps/tours/departure/create',
     exact: true,
     component: <DepartureTourCreatePage />,
   },
   {
-    path: '/apps/tour/departure/:tourId/edit',
+    path: '/apps/tours/departure/:tourId/edit',
     exact: true,
     requiredPermissions: [PERMISSIONS.update_tour_template],
     component: <DepartureTourEditPage />,
   },
   {
-    path: '/apps/receipt',
+    path: '/apps/receipts',
     exact: true,
     component: <ReceiptListPage />,
   },
@@ -200,7 +201,12 @@ const Routes: RoutePathConfig[] = [
     component: <ToursOperationDetail />,
   },
   {
-    path: '/apps/payment-voucher',
+    path: '/apps/tours-operation/:tourId/estimations',
+    exact: true,
+    component: <EstimationListPage />,
+  },
+  {
+    path: '/apps/payment-vouchers',
     exact: true,
     component: <PaymentVoucherListPage />,
   },

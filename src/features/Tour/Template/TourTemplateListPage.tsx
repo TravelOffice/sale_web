@@ -48,7 +48,7 @@ export default function TourTemplateListPage() {
     {
       name: i18n.t('COMMON.ADD'),
       handleOnClick: () => {
-        history.push('/apps/tour/template/create');
+        history.push('/apps/tours/template/create');
       },
     },
   ];

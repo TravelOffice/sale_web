@@ -40,7 +40,7 @@ const departureTourColumns: TableColumn<DepartureTour>[] = [
       const { operationStatus, code } = departureTour;
       return (
         <div>
-          <Link to={`/apps/tour/departure/${departureTour.code}/edit`} className="text-truncate text-body text-center">
+          <Link to={`/apps/tours/departure/${departureTour.code}/edit`} className="text-truncate text-body text-center">
             <span className="fw-bolder">{code}</span>
             <ArrowUpRight size={16} />
           </Link>

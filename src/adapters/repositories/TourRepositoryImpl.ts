@@ -52,4 +52,9 @@ export default class TourRepositoryImpl implements DepartureTourRepository {
     const response = await apiProvider.authorizedRequest.get(`/departure-tours/${departureTourId}/bookings`);
     return response.data;
   };
+
+  getEstimations = async (tourId: string) => {
+    const response = await apiProvider.authorizedRequest.put(`/departure-tours/${tourId}/estimations`);
+    return response.data;
+  }
 }

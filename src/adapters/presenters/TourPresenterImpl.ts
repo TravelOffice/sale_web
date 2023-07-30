@@ -6,6 +6,7 @@ import {
   getAllToursTemplateUseCase,
   getBookingsOfDepartureTour,
   getDepartureTourUseCase,
+  getEstimationsUseCase,
   takeCareTourUseCase,
   updateDepartureTourUseCase,
 } from '@domain/useCases';
@@ -17,14 +18,14 @@ export default class TourPresenterImpl implements TourPresenter {
     formData: CreateDepartureTourFormData,
   ) => createDepartureTourUseCase.invoke(formData);
 
-    updateDepartureTour = async (
-      tourId: string,
-      formData: UpdateDepartureTourFormData,
-    ) => updateDepartureTourUseCase.invoke(tourId, formData);
+  updateDepartureTour = async (
+    tourId: string,
+    formData: UpdateDepartureTourFormData,
+  ) => updateDepartureTourUseCase.invoke(tourId, formData);
 
-    getDepartureTour = async (
-      tourId: string,
-    ) => getDepartureTourUseCase.invoke(tourId);
+  getDepartureTour = async (
+    tourId: string,
+  ) => getDepartureTourUseCase.invoke(tourId);
 
   getAllToursTemplate = async () => getAllToursTemplateUseCase.invoke();
 
@@ -42,4 +43,8 @@ export default class TourPresenterImpl implements TourPresenter {
   getBookingsByDepartureTour = async (
     departureTourId: string,
   ) => getBookingsOfDepartureTour.invoke(departureTourId);
+
+  getEstimations = async (
+    departureTourId: string,
+  ) => getEstimationsUseCase.invoke(departureTourId);
 }

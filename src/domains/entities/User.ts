@@ -10,10 +10,12 @@ export enum ThemesType {
   DARK = 'dark',
   LIGHT = 'light',
 }
+
 export enum LanguagesType {
   ENGLISH = 'en',
   VIETNAMESE = 'vi',
 }
+
 export enum RoleEnum {
   ROOT = 'ROOT',
   ADMIN = 'ADMIN',

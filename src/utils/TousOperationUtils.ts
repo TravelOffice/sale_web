@@ -3,6 +3,7 @@ import { RoleEnum, User } from '@domain/entities/User';
 import { DepartureTour, ExtendedDepartureTour } from '@domain/entities/tour';
 import { DepartureTourFilterParams } from '@features/ToursOperation/DepartureTour/components/DepartureTourFilter';
 import moment from 'moment';
+import { Estimation } from '@domain/entities/tour/Estimation';
 
 export function generateI18nForDepartureTourOperation(type: string) {
   const key = `TOURS_OPERATION.${type}`;
@@ -27,10 +28,10 @@ export function generateOperationUrlForTour(departureTour: DepartureTour) {
  * @example
  * const url = generateEditableUrlForTour(departureTour);
  * console.log(url);
- * // => /apps/tour/departure/123/edit
+ * // => /apps/tours/departure/123/edit
  */
 export function generateEditableUrlForTour(departureTour: DepartureTour) {
-  return `/apps/tour/departure/${departureTour.code}/edit`;
+  return `/apps/tours/departure/${departureTour.code}/edit`;
 }
 
 export function canUserBeOperator(user: User) {
@@ -82,4 +83,17 @@ export function toSearchableContent(depTour: ExtendedDepartureTour) {
 export function generateI18nForTourOperation(type: string) {
   const key = `TOURS_OPERATION.${type}`;
   return i18n.t(key);
+}
+
+export function calTemporaryPriceEstimation(estimation: Estimation) {
+  return estimation.estimatedPrice * estimation.estimatedQuantity;
+}
+
+export function calVATEstimation(estimation: Estimation) {
+  const vat = calTemporaryPriceEstimation(estimation) * estimation.vat;
+  return vat / 100;
+}
+
+export function calPaymentEstimation(estimation: Estimation) {
+  return calTemporaryPriceEstimation((estimation)) + calVATEstimation(estimation);
 }

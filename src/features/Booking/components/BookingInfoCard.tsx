@@ -130,7 +130,7 @@ export default function BookingInfoCard() {
                           :
                         </span>
                         <Link
-                          to={`/apps/tour/departure/${booking?.departureTourId}`}
+                          to={`/apps/tours/departure/${booking?.departureTourId}`}
                           className="user_name text-truncate text-body"
                         >
                           <span className="fw-bolder text-primary">
