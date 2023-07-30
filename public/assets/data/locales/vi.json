@@ -74,6 +74,7 @@
     "CREATE": "Tạo mới"
   },
   "LEAD": {
+    "LEAD_INFO": "Thông tin lead",
     "NAME": "Họ tên",
     "PHONE": "SĐT",
     "BIRTHDAY": "Ngày sinh",

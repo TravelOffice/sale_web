@@ -74,6 +74,7 @@
     "CREATE": "Create"
   },
   "LEAD": {
+    "LEAD_INFO": "Lead information",
     "NAME": "Name",
     "PHONE": "Phone",
     "BIRTHDAY": "Birthday",

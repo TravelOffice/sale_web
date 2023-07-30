@@ -49,12 +49,6 @@ const Navigation: MenuItem[] = [
     header: 'Businesses',
   },
   {
-    id: 'customers',
-    title: 'Customer',
-    icon: <UserCheck size={12} />,
-    navLink: '/apps/customers/list',
-  },
-  {
     id: 'tour',
     title: 'Tour',
     requiredPermissions: [PERMISSIONS.get_tour_templates],
@@ -93,6 +87,12 @@ const Navigation: MenuItem[] = [
     requiredPermissions: { any: [PERMISSIONS.get_leads, PERMISSIONS.get_my_leads] },
     icon: <User size={12} />,
     navLink: '/apps/leads/list',
+  },
+  {
+    id: 'customers',
+    title: 'Customer',
+    icon: <UserCheck size={12} />,
+    navLink: '/apps/customers/list',
   },
   {
     id: 'bookings',
