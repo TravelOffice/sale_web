@@ -16,6 +16,7 @@ import { List } from 'react-feather';
 import CommingSoon from '@components/CommingSoon/CommingSoon';
 import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
 import EstimationListPage from '@features/ToursOperation/Estimation/EstimationListPage';
+import ToursOperationCustomerListPane from '@features/ToursOperation/components/ToursOperationCustomerListPane';
 import ToursOperationBookingPane from './components/ToursOperationBookingPane';
 
 export interface ToursOperationDetailParams {
@@ -47,7 +48,7 @@ const tabs: Tab[] = [
     id: 'customerList',
     icon: <List size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_CUSTOMER_LIST'),
-    pane: <CommingSoon />,
+    pane: <ToursOperationCustomerListPane />,
   },
   {
     id: 'tourEstimation',

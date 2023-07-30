@@ -225,7 +225,7 @@ const SupplierCommonInfo: React.FC<CommonInformationProps> = ({
                           } else {
                             const idx = selectedValues.indexOf(service.value);
                             if (idx !== -1) {
-                              selectedValues.splice(index, 1);
+                              selectedValues.splice(idx, 1);
                             }
                           }
                           field.onChange(selectedValues);

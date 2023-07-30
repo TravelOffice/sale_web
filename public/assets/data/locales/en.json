@@ -776,7 +776,8 @@
     "MISMATCH_DEPARTURE_DATE": "The departure date of booking doesn't match with Departure Tour",
     "CONFIRM_BOOKING_SUCCESSFULLY": "Confirm booKing successfully",
     "CANCEL_BOOKING_SUCCESSFULLY": "Cancel booking successfully",
-    "PAYMENT_PENDING_SUCCESSFULLY": "Change booking status to [PAYMENT PENDING] successfully"
+    "PAYMENT_PENDING_SUCCESSFULLY": "Change booking status to [PAYMENT PENDING] successfully",
+    "TOTAL_PAX": "Total pax"
   },
   "RECEIPT": {
     "CODE": "Code",
