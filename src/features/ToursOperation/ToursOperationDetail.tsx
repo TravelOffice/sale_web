@@ -15,6 +15,7 @@ import ToursOperationDetailTabs from '@features/ToursOperation/components/ToursO
 import { List } from 'react-feather';
 import CommingSoon from '@components/CommingSoon/CommingSoon';
 import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
+import EstimationListPage from '@features/ToursOperation/Estimation/EstimationListPage';
 import ToursOperationBookingPane from './components/ToursOperationBookingPane';
 
 export interface ToursOperationDetailParams {
@@ -52,7 +53,7 @@ const tabs: Tab[] = [
     id: 'tourEstimation',
     icon: <List size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_ESTIMATION'),
-    pane: <CommingSoon />,
+    pane: <EstimationListPage />,
   },
   {
     id: 'tourReport',
@@ -131,7 +132,7 @@ const ToursOperationDetail = () => {
         {
           tabs.map((tab) => (
             <TabPane key={tab.id} tabId={tab.id}>
-              { canAccess(tab.requiredPermissions || []) && tab.pane }
+              {canAccess(tab.requiredPermissions || []) && tab.pane}
             </TabPane>
           ))
         }

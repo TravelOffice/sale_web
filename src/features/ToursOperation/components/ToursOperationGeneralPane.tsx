@@ -43,50 +43,50 @@ export default function ToursOperationGeneralPane() {
           </CardHeader>
           <CardBody>
             {departureTour && (
-            <table className="table">
-              <tbody className="table-hover table-striped">
-                <tr>
-                  <td>{i18n.t('DEPARTURE_TOUR.NAME')}</td>
-                  <td>{departureTour.name}</td>
-                </tr>
-                <tr>
-                  <td>{i18n.t('DEPARTURE_TOUR.TOUR_CATEGORY')}</td>
-                  <td>{departureTour.type}</td>
-                </tr>
-                <tr>
-                  <td>{i18n.t('TOURS_OPERATION.CREATED_BY')}</td>
-                  <td>{departureTour.creatorName}</td>
-                </tr>
-                <tr>
-                  <td>{i18n.t('TOURS_OPERATION.CREATED_AT')}</td>
-                  <td>{moment(departureTour.createdAt).format('DD/MM/YYYY')}</td>
-                </tr>
-                <tr>
-                  <td>{i18n.t('TOURS_OPERATION.STARTING_LOCATION')}</td>
-                  <td>
-                    {departureTour && findTourLocationNameByCode(
-                      tourLocations || [],
-                      departureTour.startingLocation,
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td>{i18n.t('TOURS_OPERATION.ENDING_LOCATION')}</td>
-                  <td>
-                    {departureTour && findTourLocationNameByCode(
-                      tourLocations || [],
-                      departureTour.endingLocation,
-                    )}
-                  </td>
-                </tr>
-                <tr>
-                  <td>{i18n.t('DEPARTURE_TOUR.VISITOR_COUNT')}</td>
-                  <td>
-                    {departureTour.visitorCount}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+              <table className="table">
+                <tbody className="table-hover table-striped">
+                  <tr>
+                    <td>{i18n.t('DEPARTURE_TOUR.NAME')}</td>
+                    <td>{departureTour.name}</td>
+                  </tr>
+                  <tr>
+                    <td>{i18n.t('DEPARTURE_TOUR.TOUR_CATEGORY')}</td>
+                    <td>{departureTour.type}</td>
+                  </tr>
+                  <tr>
+                    <td>{i18n.t('TOURS_OPERATION.CREATED_BY')}</td>
+                    <td>{departureTour.creatorName}</td>
+                  </tr>
+                  <tr>
+                    <td>{i18n.t('TOURS_OPERATION.CREATED_AT')}</td>
+                    <td>{moment(departureTour.createdAt).format('DD/MM/YYYY')}</td>
+                  </tr>
+                  <tr>
+                    <td>{i18n.t('TOURS_OPERATION.STARTING_LOCATION')}</td>
+                    <td>
+                      {departureTour && findTourLocationNameByCode(
+                        tourLocations || [],
+                        departureTour.startingLocation,
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>{i18n.t('TOURS_OPERATION.ENDING_LOCATION')}</td>
+                    <td>
+                      {departureTour && findTourLocationNameByCode(
+                        tourLocations || [],
+                        departureTour.endingLocation,
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>{i18n.t('DEPARTURE_TOUR.VISITOR_COUNT')}</td>
+                    <td>
+                      {departureTour.visitorCount}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             )}
           </CardBody>
         </Card>
@@ -176,7 +176,7 @@ export default function ToursOperationGeneralPane() {
                   <td>{formatVND(0)}</td>
                 </tr>
                 <tr>
-                  <td colSpan={3}><b>{i18n.t('TOURS_OPERATION.ESTIMATION')}</b></td>
+                  <td colSpan={3}><b>{i18n.t('TOURS_OPERATION.TOUR_ESTIMATION')}</b></td>
                 </tr>
                 <tr>
                   <td>{i18n.t('TOURS_OPERATION.TOTAL_EXPENDITURE')}</td>

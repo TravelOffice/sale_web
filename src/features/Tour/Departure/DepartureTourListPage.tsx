@@ -48,7 +48,7 @@ export default function DepartureTourListPage() {
     {
       name: i18n.t('COMMON.ADD'),
       handleOnClick: () => {
-        history.push('/apps/tour/departure/create');
+        history.push('/apps/tours/departure/create');
       },
     },
   ];

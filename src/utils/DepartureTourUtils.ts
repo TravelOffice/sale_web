@@ -58,5 +58,5 @@ export function filterDepartureTours(
  * @returns The editable URL for the tour departure.
  */
 export function generateEditableUrlForDepartureTour(departureTour: DepartureTour) {
-  return `/apps/tour/departure/${departureTour.code}/edit`;
+  return `/apps/tours/departure/${departureTour.code}/edit`;
 }

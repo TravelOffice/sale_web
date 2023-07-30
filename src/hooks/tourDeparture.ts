@@ -16,3 +16,7 @@ export function useDepartureTourOptions() {
     }));
   }, [departureTours]);
 }
+
+export function useEstimations(tourId: string) {
+  return useQuery(['estimations'], async () => tourPresenter.getEstimations(tourId));
+}

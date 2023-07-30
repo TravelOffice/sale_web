@@ -90,6 +90,8 @@ import UpdateDepartureTourUseCaseImpl from '@domain/useCases/tour/UpdateDepartur
 import { GetDepartureTourUseCase } from '@domain/useCases/interfaces/tour/GetDepartureTourUseCase';
 import GetDepartureTourUseCaseImpl from '@domain/useCases/tour/GetDepartureTourUseCaseImpl';
 import { UpdateDepartureTourUseCase } from '@domain/useCases/interfaces/tour/UpdateDepartureTourUseCase';
+import { GetTourEstimationsUseCase } from '@domain/useCases/interfaces/tour/GetTourEstimationsUseCase';
+import GetTourEstimationsUseCaseImpl from '@domain/useCases/tour/GetTourEstimationsUseCaseImpl';
 import { GetBookingsOfDepartureTourUseCase } from '@domain/useCases/interfaces/tour/GetBookingsOfDepartureTourUseCase';
 import GetBookingsOfDepartureTourUseCaseImpl from '@domain/useCases/tour/GetBookingsOfDepartureTourUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
@@ -223,6 +225,7 @@ interface UseCases {
   takeCareTourUseCase: TakeCareTourUseCase,
   assignTourOperator: AssignTourOperator,
   getBookingsOfDepartureTour: GetBookingsOfDepartureTourUseCase,
+  getEstimationsUseCase: GetTourEstimationsUseCase,
   // Source
   getAllSourcesUseCase: GetAllSourcesUseCase,
   // Receipt
@@ -313,6 +316,7 @@ const useCases: UseCases = {
   assignTourOperator: new AssignTourOperatorImpl(),
   takeCareTourUseCase: new TakeCareTourUseCaseImpl(),
   getBookingsOfDepartureTour: new GetBookingsOfDepartureTourUseCaseImpl(),
+  getEstimationsUseCase: new GetTourEstimationsUseCaseImpl(),
   // Source
   getAllSourcesUseCase: new GetAllSourcesUseCaseImpl(),
   // Receipt
@@ -396,6 +400,7 @@ export const {
   getAllSourcesUseCase,
   takeCareTourUseCase,
   assignTourOperator,
+  getEstimationsUseCase,
   getBookingsOfDepartureTour,
   // Receipt
   getAllReceiptsUseCase,
