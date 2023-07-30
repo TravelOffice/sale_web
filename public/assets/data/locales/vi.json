@@ -776,7 +776,8 @@
     "MISMATCH_DEPARTURE_DATE": "Ngày khởi hành của booking không khớp với tour khởi hành",
     "CONFIRM_BOOKING_SUCCESSFULLY": "Xác nhận đặt tour thành công",
     "CANCEL_BOOKING_SUCCESSFULLY": "Hủy đặt tour thành công",
-    "PAYMENT_PENDING_SUCCESSFULLY": "Thay đổi trạng thái đặt tour sang [PAYMENT PENDING] thành công"
+    "PAYMENT_PENDING_SUCCESSFULLY": "Thay đổi trạng thái đặt tour sang [PAYMENT PENDING] thành công",
+    "TOTAL_PAX": "Số lượng"
   },
   "RECEIPT": {
     "CODE": "Mã",

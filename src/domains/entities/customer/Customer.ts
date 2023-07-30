@@ -1,3 +1,4 @@
+import { Service } from '@domain/entities/booking/Service';
 import { Task } from '../task/Task';
 import { Note } from '../note/Note';
 
@@ -80,6 +81,13 @@ export interface Customer {
   createdAt: number,
   updatedAt: number,
   latestBooking?: LatesBooking,
+}
+
+export interface CustomerWithBookingData extends Customer {
+  notes: Note[],
+  assigneeName: string,
+  assigneeId: string,
+  services: Service[]
 }
 
 export type CreateCustomerFormData = Pick<Customer,

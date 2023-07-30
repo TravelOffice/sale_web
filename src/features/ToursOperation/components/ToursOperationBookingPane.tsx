@@ -19,7 +19,7 @@ export default function ToursOperationBookingPane() {
     isFetching,
     isFetched,
     isError,
-  } = useQuery(['bookingsByDepartureTour'], async () => tourPresenter.getBookingsByDepartureTour(tourId));
+  } = useQuery(['bookingsOfDepartureTour'], async () => tourPresenter.getBookingsByDepartureTour(tourId));
 
   const fetchBookingsDataState: HandleDataState = useMemo(() => {
     if (isFetching) return 'loading';
