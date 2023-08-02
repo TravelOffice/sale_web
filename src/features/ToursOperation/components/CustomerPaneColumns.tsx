@@ -35,10 +35,7 @@ const customerPaneColumns: TableColumn<CustomerWithBookingData>[] = [
   {
     name: i18n.t('BOOKING.TOTAL_PAX'),
     minWidth: '150px',
-    cell: (customer: CustomerWithBookingData) => customer.services.reduce(
-      (total, item) => total + item.quantity,
-      0,
-    ),
+    cell: (customer: CustomerWithBookingData) => customer.totalPax,
   },
   {
     name: i18n.t('CUSTOMER.ASSIGNEE'),

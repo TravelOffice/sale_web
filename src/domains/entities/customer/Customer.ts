@@ -87,7 +87,8 @@ export interface CustomerWithBookingData extends Customer {
   notes: Note[],
   assigneeName: string,
   assigneeId: string,
-  services: Service[]
+  services: Service[],
+  totalPax: number
 }
 
 export type CreateCustomerFormData = Pick<Customer,
