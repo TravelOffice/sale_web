@@ -2,11 +2,7 @@ import React, { MouseEventHandler } from 'react';
 import i18n from '@config/i18n';
 import { TableColumn } from 'react-data-table-component';
 import {
-  Badge,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  UncontrolledDropdown,
+  Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
 import { Archive, MoreVertical, Trash2 } from 'react-feather';
 import { PaymentVoucher, PaymentVoucherStatus } from '@domain/entities/paymentVoucher/PaymentVoucher';
@@ -114,7 +110,7 @@ const paymentVoucherColumns: TableColumn<PaymentVoucher>[] = [
   },
   {
     name: i18n.t('COMMON.ACTIONS'),
-    width: '110px',
+    width: '150px',
     cell: (paymentVoucher: PaymentVoucher) => <ActionsCell paymentVoucher={paymentVoucher} />,
   },
 ];
