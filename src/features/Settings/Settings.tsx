@@ -13,6 +13,7 @@ import CommingSoon from '@components/CommingSoon/CommingSoon';
 import { useAccessControl } from '@hooks/auth';
 import PERMISSIONS from '@utils/PermissionUtils';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
+import UserInfoPane from '@features/Settings/UserInfoPane';
 import SecurityTabContent from '../Security/SecurityTabContent';
 
 export interface Tab {
@@ -28,7 +29,7 @@ const tabs: Tab[] = [
     id: 'account',
     icon: <User size={16} className="me-50" />,
     title: 'Account',
-    pane: <CommingSoon />,
+    pane: <UserInfoPane />,
   },
   {
     id: 'security',

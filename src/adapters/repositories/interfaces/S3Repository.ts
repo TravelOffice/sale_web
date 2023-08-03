@@ -13,4 +13,5 @@ export interface S3Repository {
   uploadHtmlContentViaPresignedURL: (htmlContent: string) => Promise<string>
   uploadMailAttachmentViaPresignedURL: (file: File) => Promise<MailAttachment>
   uploadPaymentVoucherAttachmentViaPresignedURL: (file: File) => Promise<PresignedUrl>
+  uploadAvatarAttachmentViaPresignedURL: (file: File) => Promise<PresignedUrl>
 }

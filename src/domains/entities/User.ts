@@ -74,3 +74,16 @@ export interface User {
 export interface FetchAllUsersResponse {
   users?: User[],
 }
+
+export type UpdateAccountFormData = Pick<User,
+'email' |
+'phoneNumber' |
+'firstName' |
+'lastName' |
+'address' |
+'sex' |
+'birthday' |
+'avatar'
+> & {
+  attachment: FileList
+};

@@ -94,6 +94,10 @@ import { GetTourEstimationsUseCase } from '@domain/useCases/interfaces/tour/GetT
 import GetTourEstimationsUseCaseImpl from '@domain/useCases/tour/GetTourEstimationsUseCaseImpl';
 import { GetBookingsOfDepartureTourUseCase } from '@domain/useCases/interfaces/tour/GetBookingsOfDepartureTourUseCase';
 import GetBookingsOfDepartureTourUseCaseImpl from '@domain/useCases/tour/GetBookingsOfDepartureTourUseCaseImpl';
+import { UpdateCurrentUserUseCase } from '@domain/useCases/interfaces/user/UpdateCurrentUserUseCase';
+import UpdateCurrentUserUseCaseImpl from '@domain/useCases/user/UpdateCurrentUserUseCaseImpl';
+import { UploadAvatarFileUseCase } from '@domain/useCases/interfaces/user/UploadAvatarFileUseCase';
+import UploadAvatarFileUseCaseImpl from '@domain/useCases/user/UpdateAvatarFileUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -183,6 +187,8 @@ interface UseCases {
   getUserUseCase: GetUserUseCase
   addUserUseCase: AddUserUseCase
   updateUserUseCase: UpdateUserUseCase
+  updateCurrentUserUseCase: UpdateCurrentUserUseCase
+  uploadAvatarFileUseCase: UploadAvatarFileUseCase
   // Notification
   getNotificationsUseCase: GetNotificationsUseCase,
   saveNotificationsUseCase: SaveNotificationsUseCase,
@@ -274,6 +280,8 @@ const useCases: UseCases = {
   getUserUseCase: new GetUserUseCaseImpl(),
   addUserUseCase: new AddUserUseCaseImpl(),
   updateUserUseCase: new UpdateUserUseCaseImpl(),
+  updateCurrentUserUseCase: new UpdateCurrentUserUseCaseImpl(),
+  uploadAvatarFileUseCase: new UploadAvatarFileUseCaseImpl(),
   // Notification
   getNotificationsUseCase: new GetNotificationsUseCaseImpl(),
   saveNotificationsUseCase: new SaveNotificationsUseCaseImpl(),
@@ -357,6 +365,8 @@ export const {
   getUserUseCase,
   addUserUseCase,
   updateUserUseCase,
+  updateCurrentUserUseCase,
+  uploadAvatarFileUseCase,
   getLinkedPagesUseCase,
   unlinkPageUseCase,
   getNotificationsUseCase,
