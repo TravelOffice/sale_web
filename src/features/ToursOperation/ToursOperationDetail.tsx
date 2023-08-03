@@ -1,9 +1,10 @@
 // ** React Imports
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useMemo, useState } from 'react';
 import {
   Button, Card, CardBody, CardHeader, TabContent, TabPane,
 } from 'reactstrap';
 import i18n from '@config/i18n';
+import { CSVLink } from 'react-csv';
 
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -17,6 +18,9 @@ import CommingSoon from '@components/CommingSoon/CommingSoon';
 import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
 import EstimationListPage from '@features/ToursOperation/Estimation/EstimationListPage';
 import ToursOperationCustomerListPane from '@features/ToursOperation/components/ToursOperationCustomerListPane';
+import { CustomerWithBookingData } from '@domain/entities/customer/Customer';
+import { Booking } from '@domain/entities/booking/Booking';
+import { generateI18nForCustomer } from '@utils/CustomerUtils';
 import ToursOperationBookingPane from './components/ToursOperationBookingPane';
 
 export interface ToursOperationDetailParams {
@@ -79,6 +83,36 @@ const ToursOperationDetail = () => {
 
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const { canAccess } = useAccessControl();
+
+  const {
+    data: bookings,
+  } = useQuery(['bookingsWithCustomer'], async () => tourPresenter.getBookingsByDepartureTour(tourId));
+
+  const customers: CustomerWithBookingData[] = useMemo(() => {
+    if (!bookings) return [];
+    return bookings.map((booking: Booking) => ({
+      ...booking.customer,
+      sex: generateI18nForCustomer(booking.customer?.sex),
+      assigneeName: booking.assigneeName,
+      notes: booking.notes,
+      services: booking.services,
+      totalPax: booking.services.reduce((total, item) => total + item.quantity, 0),
+    }) as CustomerWithBookingData);
+  }, [bookings]);
+
+  const customerHeaders = [
+    { label: 'code', key: 'code' },
+    { label: i18n.t('CUSTOMER.NAME'), key: 'name' },
+    { label: i18n.t('CUSTOMER.BIRTHDAY'), key: 'birthday' },
+    { label: i18n.t('CUSTOMER.SEX'), key: 'sex' },
+    { label: i18n.t('CUSTOMER.EMAIL'), key: 'email' },
+    { label: i18n.t('CUSTOMER.ADDRESS'), key: 'address' },
+    { label: i18n.t('CUSTOMER.LEVEL'), key: 'level' },
+    { label: i18n.t('CUSTOMER.PHONE'), key: 'primaryPhoneNumber' },
+    { label: i18n.t('CUSTOMER.ASSIGNEE'), key: 'assigneeName' },
+    { label: i18n.t('BOOKING.TOTAL_PAX'), key: 'totalPax' },
+  ];
+
   return (
     <div className="to-table-container">
       <Card>
@@ -116,7 +150,9 @@ const ToursOperationDetail = () => {
           </Button>
           {' '}
           <Button color="primary" outline>
-            {i18n.t('TOURS_OPERATION.EXPORT_EXCEL_PASSENGERS')}
+            <CSVLink data={customers} headers={customerHeaders} filename={`customers_${departureTour?.name}.csv`}>
+              {i18n.t('TOURS_OPERATION.EXPORT_EXCEL_PASSENGERS')}
+            </CSVLink>
           </Button>
           {' '}
           <Button color="primary" outline>

@@ -115,7 +115,7 @@ export default class S3RepositoryImpl implements S3Repository {
       },
     });
     const attachmentUrl: string = response.data.cdn;
-    console.log('uploadPaymentVoucherAttachmentViaPresignedURL', response, attachmentUrl);
+
     // Upload html content to s3
     await fetch(attachmentUrl, {
       method: 'PUT',

@@ -15,7 +15,8 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   CreatePaymentVoucherForm,
-  PaymentVoucherMethod, paymentVoucherMethodTypes,
+  PaymentVoucherMethod,
+  paymentVoucherMethodTypes,
 } from '@domain/entities/paymentVoucher/PaymentVoucher';
 import i18n from '@config/i18n';
 import FormItemInput from '@components/Form/FormItemInput';
@@ -259,7 +260,7 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                   {i18n.t('COMMON.CANCEL')}
                 </Button>
                 <Button type="submit" className="me-1" color="primary">
-                  {!isLoading ? i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE') : i18n.t('COMMON.LOADING')}
+                  {!isLoading ? i18n.t('PAYMENT_VOUCHER.CREATE_PAYMENT_VOUCHER') : i18n.t('COMMON.LOADING')}
                   {isLoading ? (
                     <Spinner
                       style={{ width: '0.7rem', height: '0.7rem' }}
