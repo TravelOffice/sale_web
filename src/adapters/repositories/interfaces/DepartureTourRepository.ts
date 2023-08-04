@@ -5,7 +5,7 @@ import {
   TourTemplate,
   UpdateDepartureTourFormData,
 } from '@domain/entities/tour';
-import { Estimation } from '@domain/entities/tour/Estimation';
+import { CreateEstimationFormData, Estimation, UpdateEstimationFormData } from '@domain/entities/tour/Estimation';
 import { Booking } from '@domain/entities/booking/Booking';
 
 export interface DepartureTourRepository {
@@ -14,9 +14,24 @@ export interface DepartureTourRepository {
   getAllToursLocation: () => Promise<TourLocation[]>,
   takeCareTour: (departureTourId: string) => Promise<DepartureTour>,
   assignTourOperator: (departureTourId: string, assigneeId: string) => Promise<DepartureTour>,
-  createDepartureTour(formData: CreateDepartureTourFormData): Promise<DepartureTour>
-  updateDepartureTour(tourId: string, formData: UpdateDepartureTourFormData): Promise<DepartureTour>
+
+  createDepartureTour(formData: CreateDepartureTourFormData): Promise<DepartureTour>,
+
+  updateDepartureTour(
+    tourId: string, formData: UpdateDepartureTourFormData
+  ): Promise<DepartureTour>,
+
   getDepartureTour(tourId: string): Promise<DepartureTour>,
-  getBookingsByDepartureTour(departureTourId: string): Promise<Booking[]>;
+
+  getBookingsByDepartureTour(departureTourId: string): Promise<Booking[]>,
+
   getEstimations(tourId: string): Promise<Estimation[]>,
+
+  createEstimation(tourId: string, formData: CreateEstimationFormData): Promise<Estimation>,
+
+  updateEstimation(
+    tourId: string, estimationId: string, formData: UpdateEstimationFormData,
+  ): Promise<Estimation>,
+
+  deleteEstimation(tourId: string, estimationId: string): Promise<void>,
 }

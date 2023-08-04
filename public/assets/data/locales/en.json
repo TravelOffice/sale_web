@@ -371,12 +371,6 @@
     "MIN_VALUE_MESSAGE": "{{field}} must greater than {{value}}",
     "REQUIRED_INTEGER_MESSAGE": "{{field}} must be an integer"
   },
-  "TASK": {
-    "TASKS_LIST": "Tasks",
-    "TASKS_EMPTY_TITLE": "Tasks not found. 🕵🏻‍♀️",
-    "TASKS_EMPTY_SUB_TITLE": "The opportunity does not have any tasks.",
-    "ADD_NEW_TASK": "Add new task"
-  },
   "NOTIFICATION": {
     "NOTIFICATIONS": "Notifications",
     "NEW_MESSAGE": "New message!",
@@ -667,6 +661,8 @@
     "TOUR_COST_SUMMARY": "Tour cost summary",
     "REVENUE": "Revenue",
     "ESTIMATION": {
+      "CREATE": "Add service",
+      "TABLE": "Service list",
       "SERVICE_TYPE": "Service Type",
       "SERVICE_NAME": "Service Name",
       "SUPPLIER": "Supplier",
@@ -674,8 +670,11 @@
       "TOTAL_VAT": "Total VAT",
       "PAYMENT": "Payment",
       "PAYER": "Payer",
+      "VAT": "VAT",
+      "VAT_STATUS": "VAT type",
       "VAT_INCLUDED": "VAT Included",
-      "VAT_NOT_INCLUDED": "VAT not included",
+      "VAT_NONE": "VAT not included",
+      "NO_INVOICE": "No invoice",
       "PRICE": "Price",
       "QUANTITY": "Quantity",
       "TOUR": "Tour",
@@ -687,7 +686,10 @@
       "TEAM_BUILDING": "Team buildings",
       "SIGHT_SEEING_TICKET": "Sightseeing ticker",
       "FLIGHT_TICKET": "Flight ticket",
-      "OTHER": "Other"
+      "OTHER": "Other",
+      "CREATE_ESTIMATION_SUCCESSFULLY": "Create estimation successfully",
+      "UPDATE_ESTIMATION_SUCCESSFULLY": "Update estimation successfully",
+      "DELETE_ESTIMATION_SUCCESSFULLY": "Delete estimation successfully"
     },
     "EXPECTED_PROFIT": "Expected profit",
     "SUMMARY": "Summary",

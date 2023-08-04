@@ -20,7 +20,7 @@ export interface Estimation {
   code: string,
   name: string,
   tourId: string,
-  supplierServiceType: ServiceType,
+  serviceType: ServiceType,
   payer: PayerTypes,
   estimatedPrice: number,
   estimatedQuantity: number,
@@ -38,3 +38,18 @@ export interface Estimation {
   supplierId: string,
   supplier?: Supplier,
 }
+
+export type CreateEstimationFormData = Pick<Estimation,
+'name' |
+'tourId' |
+'supplierId' |
+'serviceType' |
+'payer' |
+'estimatedPrice' |
+'estimatedQuantity' |
+'note' |
+'vat' |
+'vatStatus'
+>;
+
+export type UpdateEstimationFormData = Omit<CreateEstimationFormData, 'tourId' | 'serviceType' | 'supplierId'>;
