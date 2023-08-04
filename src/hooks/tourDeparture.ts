@@ -18,5 +18,5 @@ export function useDepartureTourOptions() {
 }
 
 export function useEstimations(tourId: string) {
-  return useQuery(['estimations'], async () => tourPresenter.getEstimations(tourId));
+  return useQuery(['estimations', tourId], async () => tourPresenter.getEstimations(tourId));
 }

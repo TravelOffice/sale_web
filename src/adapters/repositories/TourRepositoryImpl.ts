@@ -1,6 +1,7 @@
 import { apiProvider } from '@adapter/infrastructures';
 import { CreateTourTemplateFormData, UpdateDepartureTourFormData } from '@domain/entities/tour';
 import { Booking } from '@domain/entities/booking/Booking';
+import { CreateEstimationFormData, UpdateEstimationFormData } from '@domain/entities/tour/Estimation';
 import { DepartureTourRepository } from './interfaces/DepartureTourRepository';
 
 export default class TourRepositoryImpl implements DepartureTourRepository {
@@ -54,7 +55,24 @@ export default class TourRepositoryImpl implements DepartureTourRepository {
   };
 
   getEstimations = async (tourId: string) => {
-    const response = await apiProvider.authorizedRequest.put(`/departure-tours/${tourId}/estimations`);
+    const response = await apiProvider.authorizedRequest.get(`/tours/${tourId}/estimations`);
+    return response.data;
+  }
+
+  createEstimation = async (tourId: string, formData: CreateEstimationFormData) => {
+    const response = await apiProvider.authorizedRequest.post(`/tours/${tourId}/estimations`, formData);
+    return response.data;
+  }
+
+  updateEstimation = async (
+    tourId: string, estimationId: string, formData: UpdateEstimationFormData,
+  ) => {
+    const response = await apiProvider.authorizedRequest.put(`/tours/${tourId}/estimations/${estimationId}`, formData);
+    return response.data;
+  }
+
+  deleteEstimation = async (tourId: string, estimationId: string) => {
+    const response = await apiProvider.authorizedRequest.delete(`/tours/${tourId}/estimations/${estimationId}`);
     return response.data;
   }
 }

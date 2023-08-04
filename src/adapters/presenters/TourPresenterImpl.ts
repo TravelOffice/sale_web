@@ -1,16 +1,20 @@
 import {
   assignTourOperator,
   createDepartureTourUseCase,
+  createTourEstimationUseCase,
+  deleteTourEstimationUseCase,
   getAllDepartureToursUseCase,
   getAllToursLocationUseCase,
   getAllToursTemplateUseCase,
   getBookingsOfDepartureTour,
   getDepartureTourUseCase,
-  getEstimationsUseCase,
+  getTourEstimationsUseCase,
   takeCareTourUseCase,
   updateDepartureTourUseCase,
+  updateTourEstimationUseCase,
 } from '@domain/useCases';
 import { CreateDepartureTourFormData, UpdateDepartureTourFormData } from '@domain/entities/tour';
+import { CreateEstimationFormData, UpdateEstimationFormData } from '@domain/entities/tour/Estimation';
 import { TourPresenter } from './interfaces/TourPresenter';
 
 export default class TourPresenterImpl implements TourPresenter {
@@ -46,5 +50,21 @@ export default class TourPresenterImpl implements TourPresenter {
 
   getEstimations = async (
     departureTourId: string,
-  ) => getEstimationsUseCase.invoke(departureTourId);
+  ) => getTourEstimationsUseCase.invoke(departureTourId);
+
+  createEstimation = async (
+    tourId: string,
+    formData: CreateEstimationFormData,
+  ) => createTourEstimationUseCase.invoke(tourId, formData);
+
+  updateEstimation = async (
+    tourId: string,
+    estimationId: string,
+    formData: UpdateEstimationFormData,
+  ) => updateTourEstimationUseCase.invoke(tourId, estimationId, formData);
+
+  deleteEstimation = async (
+    tourId: string,
+    estimationId: string,
+  ) => deleteTourEstimationUseCase.invoke(tourId, estimationId);
 }

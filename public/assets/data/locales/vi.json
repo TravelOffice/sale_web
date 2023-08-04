@@ -371,12 +371,6 @@
     "MIN_VALUE_MESSAGE": "{{field}} phải lớn hơn {{value}}",
     "REQUIRED_INTEGER_MESSAGE": "{{field}} phải là số nguyên"
   },
-  "TASK": {
-    "LIST_TASKS": "Danh sách công việc",
-    "TASKS_EMPTY_TITLE": "Không có công việc. 🕵🏻‍♀️",
-    "TASKS_EMPTY_SUB_TITLE": "Cơ hội không bao gồm bất kì công việc nào.",
-    "ADD_NEW_TASK": "Thêm công việc mới"
-  },
   "NOTIFICATION": {
     "NOTIFICATIONS": "Thông báo",
     "NEW_MESSAGE": "Tin nhắn mới!",
@@ -667,6 +661,8 @@
     "TOUR_COST_SUMMARY": "Tóm tắt chi phí tour",
     "REVENUE": "Doanh thu",
     "ESTIMATION": {
+      "CREATE": "Thêm dịch vụ",
+      "TABLE": "Bảng kê dịch vụ",
       "SERVICE_TYPE": "Dịch vụ",
       "SERVICE_NAME": "Tên dịch vụ",
       "SUPPLIER": "Nhà cung cấp",
@@ -674,10 +670,13 @@
       "TOTAL_VAT": "Tổng VAT",
       "PAYMENT": "Thanh toán",
       "PAYER": "ĐTTT",
+      "VAT": "VAT",
+      "VAT_STATUS": "Loai VAT",
       "VAT_INCLUDED": "Đã bao gồm VAT",
       "VAT_NONE": "Chưa bao gồm VAT",
+      "NO_INVOICE": "Không lấy hóa đơn",
       "PRICE": "Đơn giá",
-      "QUANTITY": "Số lương",
+      "QUANTITY": "Số lượng",
       "TOUR": "Tour",
       "ACCOMMODATION": "Chỗ ở",
       "RESTAURANT": "Nhà hàng, ăn uống",
@@ -687,7 +686,10 @@
       "TEAM_BUILDING": "Team building",
       "SIGHT_SEEING_TICKET": "Vé tham quan",
       "FLIGHT_TICKET": "Vé máy bay",
-      "OTHER": "Dịch vụ khác"
+      "OTHER": "Dịch vụ khác",
+      "CREATE_ESTIMATION_SUCCESSFULLY": "Tạo dự trù thành công",
+      "UPDATE_ESTIMATION_SUCCESSFULLY": "Cập nhật dự trù thành công",
+      "DELETE_ESTIMATION_SUCCESSFULLY": "Xóa dự trù thành công"
     },
     "EXPECTED_PROFIT": "Lợi nhuận dự kiến",
     "SUMMARY": "Tổng kết",

@@ -19,7 +19,7 @@ import SourceRepositoryImpl from '@adapter/repositories/SourceRepositoryImpl';
 import { ReceiptRepository } from '@adapter/repositories/interfaces/ReceiptRepository';
 import ReceiptRepositoryImpl from '@adapter/repositories/ReceiptRepositoryImpl';
 import { SupplierRepository } from '@adapter/repositories/interfaces/SupplierRepository';
-import SupplierRepositoryImpl from '@adapter/repositories/SupplierImpl';
+import SupplierRepositoryImpl from '@adapter/repositories/SupplierRepositoryImpl';
 import { PaymentVoucherRepository } from '@adapter/repositories/interfaces/PaymentVoucherRepository';
 import PaymentVoucherRepositoryImpl from '@adapter/repositories/PaymentVoucherRepositoryImpl';
 import { TourTemplateRepository } from './interfaces/TourTemplateRepository';
