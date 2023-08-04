@@ -411,7 +411,14 @@
     "FEMALE": "Nữ",
     "OTHER": "Khác",
     "ADD_USER_SUCCESSFULLY": "Đã thêm mới nhân viên {{userName}}",
-    "UPDATE_USER_SUCCESSFULLY": "Cập nhật thông tin nhân viên {{userName}} thành công"
+    "UPDATE_USER_SUCCESSFULLY": "Cập nhật thông tin nhân viên {{userName}} thành công",
+    "USERNAME": "Tên tài khoản",
+    "CREATED_AT": "Ngày tạo tài khoản",
+    "UPDATE_ACCOUNT": "Cập nhật thông tin tài khoản",
+    "UPDATE_ACCOUNT_SUCCESSFULLY": "Cập nhật thông tin tài khoản thành công",
+    "ACCOUNT_INFORMATION": "Thông tin tài khoản",
+    "UPDATED_AT": "Ngày cập nhật gần nhất",
+    "AVATAR": "Ảnh đại diện"
   },
   "ROLE-PERMISSION": {
     "ROLE_LIST_TITLE": "Danh sách Role",

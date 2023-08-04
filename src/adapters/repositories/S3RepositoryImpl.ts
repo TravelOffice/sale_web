@@ -131,4 +131,29 @@ export default class S3RepositoryImpl implements S3Repository {
       cdn: response.data.cdn,
     } as PresignedUrl;
   }
+
+  uploadAvatarAttachmentViaPresignedURL = async (file: File) => {
+    // Get pre-sign url by calling api
+    const response = await apiProvider.authorizedRequest.get('/me/avatar/presigned-url', {
+      queryParams: {
+        fileType: file.type,
+        fileName: file.name,
+      },
+    });
+    const attachmentUrl: string = response.data.cdn;
+    // Upload avatar content to s3
+    await fetch(attachmentUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type,
+      },
+    });
+    // Upload to given url
+    return {
+      key: response.data.key,
+      url: attachmentUrl,
+      cdn: response.data.cdn,
+    } as PresignedUrl;
+  }
 }

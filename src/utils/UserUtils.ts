@@ -31,3 +31,16 @@ export function generateUserDisplayNameOption(user: User, currentUser?: User) {
   }
   return `${displayName} (${i18n.t('COMMON.ME')})`;
 }
+
+/**
+ * Generates an internationalized translation for user-related content
+ * based on the specified type.
+ *
+ * @param type
+ * @param type - The type parameter used to determine the translation key.
+ * @returns The internationalized translation string.
+ */
+export function generateI18nForUser(type: string) {
+  const key = `USER.${type}`;
+  return i18n.t(key).toUpperCase();
+}

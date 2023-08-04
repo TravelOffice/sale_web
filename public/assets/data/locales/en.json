@@ -328,7 +328,7 @@
     "FEMALE": "Female",
     "OTHER": "Other",
     "SOCIAL": "Social",
-    "BIRTHDAY": "Bỉthday",
+    "BIRTHDAY": "Birthday",
     "SOURCE": "Source",
     "MARITAL_STATUS": "Marital status",
     "SINGLE": "Single",
@@ -411,7 +411,14 @@
     "OTHER": "Other",
     "ADD_USER_SUCCESSFULLY": "Create user {{userName}} successfully",
     "UPDATE_USER_SUCCESSFULLY": "Update user {{userName}} successfully",
-    "TOTAL_USERS": "Total Users"
+    "TOTAL_USERS": "Total Users",
+    "USERNAME": "Username",
+    "CREATED_AT": "Created at",
+    "UPDATE_ACCOUNT": "Update account",
+    "UPDATE_ACCOUNT_SUCCESSFULLY": "Update account successfully",
+    "ACCOUNT_INFORMATION": "Account information",
+    "UPDATED_AT": "Updated at",
+    "AVATAR": "Avatar"
   },
   "ROLE-PERMISSION": {
     "ROLE_LIST_TITLE": "Roles List",

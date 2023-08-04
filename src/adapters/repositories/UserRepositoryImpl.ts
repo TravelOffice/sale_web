@@ -1,5 +1,5 @@
 import { apiProvider, sessionStorageProvider } from '@adapter/infrastructures';
-import { User } from '@domain/entities/User';
+import { UpdateAccountFormData, User } from '@domain/entities/User';
 import UserRepository from './interfaces/UserRepository';
 
 export default class UserRepositoryImpl implements UserRepository {
@@ -7,6 +7,11 @@ export default class UserRepositoryImpl implements UserRepository {
 
   getCurrentUser = async () => {
     const response = await apiProvider.authorizedRequest.get('/me');
+    return response.data;
+  }
+
+  updateCurrentUser = async (user: UpdateAccountFormData) => {
+    const response = await apiProvider.authorizedRequest.put('/me', user);
     return response.data;
   }
 

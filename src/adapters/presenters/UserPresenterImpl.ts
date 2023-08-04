@@ -1,7 +1,13 @@
 import { UserPresenter } from '@adapter/presenters/interfaces/UserPresenter';
-import { User } from '@domain/entities/User';
+import { UpdateAccountFormData, User } from '@domain/entities/User';
 import {
-  getCurrentUserUseCase, getAllUsersUseCase, getUserUseCase, addUserUseCase, updateUserUseCase,
+  addUserUseCase,
+  getAllUsersUseCase,
+  getCurrentUserUseCase,
+  getUserUseCase,
+  updateCurrentUserUseCase,
+  updateUserUseCase,
+  uploadAvatarFileUseCase,
 } from '@domain/useCases';
 
 export default class UserPresenterImpl implements UserPresenter {
@@ -14,4 +20,12 @@ export default class UserPresenterImpl implements UserPresenter {
   addUser = async (payload: User) => addUserUseCase.invoke(payload);
 
   updateUser = async (payload: User) => updateUserUseCase.invoke(payload);
+
+  updateCurrentUser = async (
+    payload: UpdateAccountFormData,
+  ) => updateCurrentUserUseCase.invoke(payload);
+
+  uploadAvatarAttachment = async (
+    file: File,
+  ) => uploadAvatarFileUseCase.invoke(file)
 }
