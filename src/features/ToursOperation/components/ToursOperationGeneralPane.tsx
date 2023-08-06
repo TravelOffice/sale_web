@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   Card, CardBody, CardHeader, CardTitle, Col, Row,
 } from 'reactstrap';
@@ -10,6 +10,11 @@ import { tourPresenter } from '@adapter/presenters';
 import { ToursOperationDetailParams } from '@features/ToursOperation/ToursOperationDetail';
 import { findTourLocationNameByCode } from '@utils/TourLocationUtils';
 import { formatVND } from '@utils/CommonUtils';
+import { useEstimations } from '@hooks/tourDeparture';
+import { useSupplier } from '@hooks/supplier';
+import { Estimation } from '@domain/entities/tour/Estimation';
+import { groupBy } from '@utils/Utils';
+import { generateI18nForSupplier } from '@utils/SupplierUtils';
 
 export default function ToursOperationGeneralPane() {
   const { tourId } = useParams<ToursOperationDetailParams>();
@@ -34,6 +39,47 @@ export default function ToursOperationGeneralPane() {
 
   const { data: departureTour } = departureTourRs;
   const { data: tourLocations } = tourLocationsRs;
+
+  const {
+    data: allEstimations,
+  } = useEstimations(tourId);
+
+  const {
+    data: allSuppliers,
+  } = useSupplier();
+
+  const estimationsWithSupplier = useMemo(() => {
+    if (!allEstimations || !allSuppliers) return [];
+    return allEstimations.map((estimation: Estimation) => ({
+      ...estimation,
+      supplier: allSuppliers.find((supplier) => supplier.code === estimation.supplierId),
+    }));
+  }, [allEstimations, allSuppliers]);
+
+  const estimationsGroupByType = useMemo(() => groupBy(
+    estimationsWithSupplier ?? [], (estimation: Estimation) => estimation.serviceType,
+  ), [estimationsWithSupplier]);
+
+  const totalEstExpenditureBeforeVAT = useMemo(() => estimationsWithSupplier.reduce(
+    (total, est) => total + est.estimatedPrice * est.estimatedQuantity, 0,
+  ), [estimationsWithSupplier]);
+
+  const totalEstExpenditureAfterVAT = useMemo(() => estimationsWithSupplier.reduce(
+    (total, est) => total + est.estimatedPrice * est.estimatedQuantity * (1 - est.vat / 100), 0,
+  ), [estimationsWithSupplier]);
+
+  const totalActualExpenditureBeforeVAT = useMemo(() => estimationsWithSupplier.reduce(
+    (total, est) => total + est.actualPrice * est.actualQuantity, 0,
+  ), [estimationsWithSupplier]);
+
+  const totalActualExpenditureAfterVAT = useMemo(() => estimationsWithSupplier.reduce(
+    (total, est) => total + est.actualPrice * est.actualQuantity * (1 - est.vat / 100), 0,
+  ), [estimationsWithSupplier]);
+
+  const totalActualExpenditureOfTourGuide = useMemo(() => estimationsWithSupplier.reduce(
+    (total, est) => (est.payer === 'TOUR_GUIDE' ? total + est.actualPrice * est.actualQuantity * (1 - est.vat / 100) : total), 0,
+  ), [estimationsWithSupplier]);
+
   return (
     <Row>
       <Col md={6}>
@@ -104,23 +150,40 @@ export default function ToursOperationGeneralPane() {
                 </tr>
               </thead>
               <tbody className="table-hover table-striped">
-                <tr>
-                  <td>{i18n.t('TOURS_OPERATION.TOUR_GUIDE')}</td>
-                  {/* TODO: Replace '0' with actual expenditure value */}
-                  <td>{formatVND(0)}</td>
-                  <td>{formatVND(0)}</td>
-                </tr>
-                <tr>
-                  <td>{i18n.t('TOURS_OPERATION.HOTEL')}</td>
-                  {/* TODO: Replace '0' with actual expenditure value */}
-                  <td>{formatVND(0)}</td>
-                  <td>{formatVND(0)}</td>
-                </tr>
+                {Object.keys(estimationsGroupByType).map((serviceType) => {
+                  const serviceSummary = estimationsGroupByType[serviceType].map(
+                    (item: Estimation) => {
+                      const { estimatedPrice, estimatedQuantity, vat } = item;
+                      return {
+                        beforeVAT: estimatedQuantity * estimatedPrice,
+                        afterVAT: estimatedQuantity * estimatedPrice * (1 - vat / 100),
+                      };
+                    },
+                  );
+                  return (
+                    <tr key={serviceType}>
+                      <td>{generateI18nForSupplier(serviceType)}</td>
+                      <td>
+                        {formatVND(serviceSummary.reduce(
+                          (total, item) => total + item.beforeVAT, 0,
+                        ))}
+                      </td>
+                      <td>
+                        {formatVND(serviceSummary.reduce(
+                          (total, item) => total + item.afterVAT, 0,
+                        ))}
+                      </td>
+                    </tr>
+                  );
+                })}
                 <tr>
                   <td>{i18n.t('TOURS_OPERATION.TOTAL_EXPENDITURE')}</td>
-                  {/* TODO: Replace '0' with actual expenditure value */}
-                  <td>{formatVND(0)}</td>
-                  <td>{formatVND(0)}</td>
+                  <td>
+                    {formatVND(totalEstExpenditureBeforeVAT)}
+                  </td>
+                  <td>
+                    {formatVND(totalEstExpenditureAfterVAT)}
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -180,9 +243,8 @@ export default function ToursOperationGeneralPane() {
                 </tr>
                 <tr>
                   <td>{i18n.t('TOURS_OPERATION.TOTAL_EXPENDITURE')}</td>
-                  {/* TODO: Replace '0' with actual expenditure value */}
-                  <td>{formatVND(0)}</td>
-                  <td>{formatVND(0)}</td>
+                  <td>{formatVND(totalEstExpenditureBeforeVAT)}</td>
+                  <td>{formatVND(totalEstExpenditureAfterVAT)}</td>
                 </tr>
                 <tr>
                   <td>{i18n.t('TOURS_OPERATION.EXPECTED_PROFIT')}</td>
@@ -196,8 +258,8 @@ export default function ToursOperationGeneralPane() {
                 <tr>
                   <td>{i18n.t('TOURS_OPERATION.TOTAL_EXPENDITURE')}</td>
                   {/* TODO: Replace '0' with actual expenditure value */}
-                  <td>{formatVND(0)}</td>
-                  <td>{formatVND(0)}</td>
+                  <td>{formatVND(totalActualExpenditureBeforeVAT)}</td>
+                  <td>{formatVND(totalActualExpenditureAfterVAT)}</td>
                 </tr>
                 <tr>
                   <td>{i18n.t('TOURS_OPERATION.EXPECTED_PROFIT')}</td>
@@ -227,8 +289,7 @@ export default function ToursOperationGeneralPane() {
                 </tr>
                 <tr>
                   <td>{i18n.t('TOURS_OPERATION.AMOUNT_COLLECTED_BY_THE_TOUR_GUIDE_DURING_THE_TOUR')}</td>
-                  {/* TODO: Replace '0' with actual expenditure value */}
-                  <td>{formatVND(0)}</td>
+                  <td>{formatVND(totalActualExpenditureOfTourGuide)}</td>
                 </tr>
                 <tr>
                   <td colSpan={3}><b>{i18n.t('TOURS_OPERATION.EXPENDITURE_ITEM')}</b></td>
