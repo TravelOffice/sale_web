@@ -130,33 +130,9 @@ const ToursOperationDetail = () => {
         </CardHeader>
         <CardBody>
           <Button color="primary" outline>
-            {i18n.t('TOURS_OPERATION.SEND_EMAIL_TO_TOUR_GROUP')}
-          </Button>
-          {' '}
-          <Button color="primary" outline>
-            {i18n.t('TOURS_OPERATION.PRINT_TOUR_PLAN')}
-          </Button>
-          {' '}
-          <Button color="primary" outline>
-            {i18n.t('TOURS_OPERATION.PRINT_TOUR_VISITORS_LIST')}
-          </Button>
-          {' '}
-          <Button color="primary" outline>
-            {i18n.t('TOURS_OPERATION.PRINT_TOUR_REPORT')}
-          </Button>
-          {' '}
-          <Button color="primary" outline>
-            {i18n.t('TOURS_OPERATION.PRINT_TOUR_ESTIMATION')}
-          </Button>
-          {' '}
-          <Button color="primary" outline>
             <CSVLink data={customers} headers={customerHeaders} filename={`customers_${departureTour?.name}.csv`}>
               {i18n.t('TOURS_OPERATION.EXPORT_EXCEL_PASSENGERS')}
             </CSVLink>
-          </Button>
-          {' '}
-          <Button color="primary" outline>
-            {i18n.t('TOURS_OPERATION.PRINT_INSURANCE')}
           </Button>
         </CardBody>
       </Card>

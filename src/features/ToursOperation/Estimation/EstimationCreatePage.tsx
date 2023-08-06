@@ -46,7 +46,7 @@ const serviceTypeOptions = [
   { label: i18n.t('TOURS_OPERATION.ESTIMATION.TEAM_BUILDING'), value: 'TEAM_BUILDING' },
   { label: i18n.t('TOURS_OPERATION.ESTIMATION.SIGHT_SEEING_TICKET'), value: 'SIGHT_SEEING_TICKET' },
   { label: i18n.t('TOURS_OPERATION.ESTIMATION.FLIGHT_TICKET'), value: 'FLIGHT_TICKET' },
-  { label: i18n.t('TOURS_OPERATION.ESTIMATION.FLIGHT_TICKET'), value: 'OTHER' },
+  { label: i18n.t('TOURS_OPERATION.ESTIMATION.OTHER'), value: 'OTHER' },
 ];
 
 const vatOptions = [
