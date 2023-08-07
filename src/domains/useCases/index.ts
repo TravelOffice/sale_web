@@ -104,6 +104,8 @@ import { UpdateCurrentUserUseCase } from '@domain/useCases/interfaces/user/Updat
 import UpdateCurrentUserUseCaseImpl from '@domain/useCases/user/UpdateCurrentUserUseCaseImpl';
 import { UploadAvatarFileUseCase } from '@domain/useCases/interfaces/user/UploadAvatarFileUseCase';
 import UploadAvatarFileUseCaseImpl from '@domain/useCases/user/UpdateAvatarFileUseCaseImpl';
+import { GetPaymentVouchersOfTourUseCase } from '@domain/useCases/interfaces/tour/GetPaymentVouchersOfTourUseCase';
+import GetPaymentVouchersOfTourUseCaseImpl from '@domain/useCases/tour/GetPaymentVouchersOfTourUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -241,6 +243,7 @@ interface UseCases {
   createTourEstimationUseCase: CreateTourEstimationsUseCase,
   updateTourEstimationUseCase: UpdateTourEstimationsUseCase,
   deleteTourEstimationUseCase: DeleteTourEstimationsUseCase,
+  getPaymentVouchersOfTourUseCase: GetPaymentVouchersOfTourUseCase,
   // Source
   getAllSourcesUseCase: GetAllSourcesUseCase,
   // Receipt
@@ -337,6 +340,7 @@ const useCases: UseCases = {
   createTourEstimationUseCase: new CreateTourEstimationsUseCaseImpl(),
   updateTourEstimationUseCase: new UpdateTourEstimationsUseCaseImpl(),
   deleteTourEstimationUseCase: new DeleteTourEstimationsUseCaseImpl(),
+  getPaymentVouchersOfTourUseCase: new GetPaymentVouchersOfTourUseCaseImpl(),
   // Source
   getAllSourcesUseCase: new GetAllSourcesUseCaseImpl(),
   // Receipt
@@ -427,6 +431,7 @@ export const {
   updateTourEstimationUseCase,
   deleteTourEstimationUseCase,
   getBookingsOfDepartureTour,
+  getPaymentVouchersOfTourUseCase,
   // Receipt
   getAllReceiptsUseCase,
   createReceiptUseCase,

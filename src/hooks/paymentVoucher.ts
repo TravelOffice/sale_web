@@ -1,7 +1,5 @@
-import {
-  useMutation, useQuery,
-} from '@tanstack/react-query';
-import { paymentVoucherPresenter } from '@adapter/presenters';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { paymentVoucherPresenter, tourPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import i18n from 'i18next';
 import { CreatePaymentVoucherForm, PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
@@ -9,6 +7,10 @@ import { CreatePaymentVoucherForm, PaymentVoucher } from '@domain/entities/payme
 export const PAYMENT_VOUCHER_QUERY_KEY = 'paymentVoucher';
 export const usePaymentVouchers = () => useQuery(
   [PAYMENT_VOUCHER_QUERY_KEY], paymentVoucherPresenter.getAllPaymentVouchers,
+);
+
+export const usePaymentVouchersOfTour = (tourId: string) => useQuery(
+  [PAYMENT_VOUCHER_QUERY_KEY, tourId], async () => tourPresenter.getPaymentVouchersByTour(tourId),
 );
 
 export const useCreatePaymentVoucherMutation = (onSuccessCallback: () => void) => {

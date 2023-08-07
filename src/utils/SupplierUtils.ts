@@ -1,6 +1,7 @@
 import { Supplier } from '@domain/entities/supplier';
 import { SupplierFilterParams } from '@features/Supplier/components/SupplierFilter';
 import i18n from 'i18next';
+
 /**
  * Generates an internationalized translation for supplier-related content
  * based on the specified type.
@@ -50,6 +51,6 @@ export function filterSuppliers(
  * @param supplier - The supplier object for which to generate the URL.
  * @returns The editable URL for the supplier.
  */
-export function generateEditableUrlForSupplier(supplier: Supplier) {
-  return `/apps/suppliers/${supplier.code}/edit`;
+export function generateEditableUrlForSupplier(supplierCode: string) {
+  return `/apps/suppliers/${supplierCode}/edit`;
 }

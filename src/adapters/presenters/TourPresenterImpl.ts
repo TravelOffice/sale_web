@@ -8,6 +8,7 @@ import {
   getAllToursTemplateUseCase,
   getBookingsOfDepartureTour,
   getDepartureTourUseCase,
+  getPaymentVouchersOfTourUseCase,
   getTourEstimationsUseCase,
   takeCareTourUseCase,
   updateDepartureTourUseCase,
@@ -67,4 +68,8 @@ export default class TourPresenterImpl implements TourPresenter {
     tourId: string,
     estimationId: string,
   ) => deleteTourEstimationUseCase.invoke(tourId, estimationId);
+
+  getPaymentVouchersByTour = async (
+    tourId: string,
+  ) => getPaymentVouchersOfTourUseCase.invoke(tourId);
 }

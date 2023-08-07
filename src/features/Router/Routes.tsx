@@ -31,7 +31,7 @@ import DepartureTourListPage from '@features/Tour/Departure/DepartureTourListPag
 import DepartureTourCreatePage from '@features/Tour/Departure/DepartureTourCreatePage';
 import DepartureTourEditPage from '@features/Tour/Departure/DepartureTourEditPage';
 import ToursOperationDetail from '@features/ToursOperation/ToursOperationDetail';
-import EstimationListPage from '@features/ToursOperation/Estimation/EstimationListPage';
+import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -203,7 +203,7 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/apps/tours-operation/:tourId/estimations',
     exact: true,
-    component: <EstimationListPage />,
+    component: <EstimationPage />,
   },
   {
     path: '/apps/payment-vouchers',

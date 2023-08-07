@@ -8,8 +8,9 @@ import { Archive, MoreVertical, Trash2 } from 'react-feather';
 import { PaymentVoucher, PaymentVoucherStatus } from '@domain/entities/paymentVoucher/PaymentVoucher';
 import moment from 'moment';
 import { formatVND } from '@utils/CommonUtils';
+import { Link } from 'react-router-dom';
 
-const paymentVoucherTypesColors: Record<PaymentVoucherStatus, string> = {
+export const paymentVoucherTypesColors: Record<PaymentVoucherStatus, string> = {
   APPROVED: 'light-success',
   SIGNED: 'light-primary',
   TRANSFERRED: 'light-success',
@@ -85,11 +86,11 @@ const paymentVoucherColumns: TableColumn<PaymentVoucher>[] = [
           {formatDate(paymentVoucher.createdAt)}
         </span>
         <br />
-        { paymentVoucher.deadline && (
-        <span>
-          {`${i18n.t('PAYMENT_VOUCHER.DEADLINE')}: `}
-          {formatDate(paymentVoucher.deadline)}
-        </span>
+        {paymentVoucher.deadline && (
+          <span>
+            {`${i18n.t('PAYMENT_VOUCHER.DEADLINE')}: `}
+            {formatDate(paymentVoucher.deadline)}
+          </span>
         )}
       </div>
     ),
@@ -106,7 +107,11 @@ const paymentVoucherColumns: TableColumn<PaymentVoucher>[] = [
     minWidth: '200px',
     sortable: true,
     sortField: 'receiver',
-    cell: (paymentVoucher: PaymentVoucher) => paymentVoucher.receiver,
+    cell: (paymentVoucher: PaymentVoucher) => (
+      <Link to={`/apps/suppliers/${paymentVoucher.receiverId}/edit`} className="text-truncate text-body">
+        <span className="fw-bolder text-primary">{paymentVoucher.receiverName}</span>
+      </Link>
+    ),
   },
   {
     name: i18n.t('COMMON.ACTIONS'),
