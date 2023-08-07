@@ -689,7 +689,14 @@
       "OTHER": "Other",
       "CREATE_ESTIMATION_SUCCESSFULLY": "Create estimation successfully",
       "UPDATE_ESTIMATION_SUCCESSFULLY": "Update estimation successfully",
-      "DELETE_ESTIMATION_SUCCESSFULLY": "Delete estimation successfully"
+      "DELETE_ESTIMATION_SUCCESSFULLY": "Delete estimation successfully",
+      "SUPPLIERS_TABLE": "Supplier list",
+      "PAID": "Paid",
+      "TOUR_GUIDE_PAID": "Tour guid paid",
+      "REMAIN": "Remain",
+      "PAYMENT_VOUCHER": "Payment voucher",
+      "PAYMENT_VOUCHER_LIST": "Payment voucher líst",
+      "SUMMARY": "Summary"
     },
     "EXPECTED_PROFIT": "Expected profit",
     "SUMMARY": "Summary",
@@ -864,7 +871,7 @@
     "DEADLINE": "Deadline",
     "AMOUNT": "Amount",
     "STATUS": "Status",
-    "RECEIVER": "Receiver",
+    "RECEIVER": "Receiver (Supplier ID)",
     "CREATED_DATE_RANGE": "Created at range",
     "DUE_DATE_RANGE": "Deadline date range",
     "DESCRIPTION": "Description",
@@ -884,7 +891,7 @@
     "TRANSFER": "Transfer",
     "QUICk_APPROVE": "Quick approve",
     "ATTACHMENT": "Attachment",
-    "BOOKING": "Booking ID",
+    "TOUR_ID": "Tour ID",
     "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Payment voucher created successfully"
   }
 }

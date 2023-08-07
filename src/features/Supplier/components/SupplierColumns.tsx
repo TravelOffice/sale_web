@@ -3,9 +3,7 @@ import i18n from '@config/i18n';
 import { TableColumn } from 'react-data-table-component';
 import { Supplier } from '@domain/entities/supplier';
 import { Link } from 'react-router-dom';
-import {
-  generateEditableUrlForSupplier,
-} from '@utils/SupplierUtils';
+import { generateEditableUrlForSupplier } from '@utils/SupplierUtils';
 import {
   DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
@@ -18,7 +16,7 @@ const supplierColumns: TableColumn<Supplier>[] = [
     sortable: true,
     sortField: 'code',
     cell: (supplier: Supplier) => (
-      <Link to={generateEditableUrlForSupplier(supplier)} className="user_name text-truncate text-body">
+      <Link to={generateEditableUrlForSupplier(supplier.code)} className="user_name text-truncate text-body">
         <span className="fw-bolder">{supplier.code}</span>
       </Link>
     ),
@@ -45,7 +43,7 @@ const supplierColumns: TableColumn<Supplier>[] = [
             <MoreVertical size={14} className="cursor-pointer" />
           </DropdownToggle>
           <DropdownMenu container="body">
-            <DropdownItem tag={Link} className="w-100" to={generateEditableUrlForSupplier(supplier)}>
+            <DropdownItem tag={Link} className="w-100" to={generateEditableUrlForSupplier(supplier.code)}>
               <Archive size={14} className="me-50" />
               <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
             </DropdownItem>

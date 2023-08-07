@@ -15,10 +15,11 @@ export enum PaymentVoucherMethod {
 export interface PaymentVoucher {
   code: string,
   amount: number,
-  receiver: string,
+  receiverId: string, // Supplier ID
+  receiverName: string // Supplier Name
   description: string,
   note?: string,
-  bookingId?: string,
+  tourId?: string,
   deadline?: string,
   method: PaymentVoucherMethod,
   signGroup: string,
@@ -34,10 +35,10 @@ export interface PaymentVoucher {
 
 export type CreatePaymentVoucherForm = Pick<PaymentVoucher,
 'amount' |
-'receiver' |
+'receiverId' |
 'description' |
 'note' |
-'bookingId' |
+'tourId' |
 'deadline' |
 'method' |
 'signGroup' |

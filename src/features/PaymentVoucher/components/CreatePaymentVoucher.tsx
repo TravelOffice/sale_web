@@ -45,7 +45,7 @@ const schema = yup.object().shape({
     .number()
     .integer(i18n.t('MESSAGE.REQUIRED_INTEGER_MESSAGE', { field: i18n.t('PAYMENT_VOUCHER.AMOUNT') }))
     .min(1, i18n.t('MESSAGE.MIN_VALUE_MESSAGE', { field: i18n.t('PAYMENT_VOUCHER.AMOUNT'), value: 1 })),
-  receiver: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('PAYMENT_VOUCHER.RECEIVER') })),
+  receiverId: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('PAYMENT_VOUCHER.RECEIVER') })),
   description: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('PAYMENT_VOUCHER.DESCRIPTION') })),
   method: yup.string()
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('PAYMENT_VOUCHER.METHOD') }))
@@ -121,12 +121,12 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                       )}
                     />
                     {errors.amount
-                        && <FormFeedback>{errors.amount.message}</FormFeedback>}
+                      && <FormFeedback>{errors.amount.message}</FormFeedback>}
                   </div>
                 </Col>
                 <Col md={7}>
                   <div className="mb-2">
-                    <Label className="form-label" for="receiver">
+                    <Label className="form-label" for="receiverId">
                       {i18n.t('PAYMENT_VOUCHER.RECEIVER')}
                       {' '}
                       <span className="text-danger">{' *'}</span>
@@ -134,7 +134,7 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                     <FormItemInput
                       control={control}
                       errors={errors}
-                      name="receiver"
+                      name="receiverId"
                     />
                   </div>
                 </Col>
@@ -164,13 +164,13 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                 />
               </div>
               <div className="mb-2">
-                <Label className="form-label" for="bookingId">
-                  {i18n.t('PAYMENT_VOUCHER.BOOKING')}
+                <Label className="form-label" for="tourId">
+                  {i18n.t('PAYMENT_VOUCHER.TOUR_ID')}
                 </Label>
                 <FormItemInput
                   control={control}
                   errors={errors}
-                  name="bookingId"
+                  name="tourId"
                 />
               </div>
               <Row>
@@ -225,7 +225,7 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                       errors={{}}
                     />
                     <Label className="form-label" for="includeTax">
-                        &nbsp;
+                      &nbsp;
                       {i18n.t('PAYMENT_VOUCHER.INCLUDE_TAX')}
                     </Label>
                   </Col>
@@ -237,7 +237,7 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                       errors={{}}
                     />
                     <Label className="form-label" for="quickApproval">
-                        &nbsp;
+                      &nbsp;
                       {i18n.t('PAYMENT_VOUCHER.QUICk_APPROVE')}
                     </Label>
                   </Col>

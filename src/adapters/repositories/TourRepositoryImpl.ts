@@ -2,6 +2,7 @@ import { apiProvider } from '@adapter/infrastructures';
 import { CreateTourTemplateFormData, UpdateDepartureTourFormData } from '@domain/entities/tour';
 import { Booking } from '@domain/entities/booking/Booking';
 import { CreateEstimationFormData, UpdateEstimationFormData } from '@domain/entities/tour/Estimation';
+import { PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
 import { DepartureTourRepository } from './interfaces/DepartureTourRepository';
 
 export default class TourRepositoryImpl implements DepartureTourRepository {
@@ -73,6 +74,11 @@ export default class TourRepositoryImpl implements DepartureTourRepository {
 
   deleteEstimation = async (tourId: string, estimationId: string) => {
     const response = await apiProvider.authorizedRequest.delete(`/tours/${tourId}/estimations/${estimationId}`);
+    return response.data;
+  }
+
+  getPaymentVouchersByTour = async (departureToudId: string): Promise<PaymentVoucher[]> => {
+    const response = await apiProvider.authorizedRequest.get(`/tours/${departureToudId}/payment-vouchers`);
     return response.data;
   }
 }

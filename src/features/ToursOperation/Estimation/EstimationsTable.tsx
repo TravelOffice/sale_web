@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Badge,
   Button,
@@ -14,8 +14,6 @@ import {
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import { Link, useParams } from 'react-router-dom';
-
-import { useSupplier } from '@hooks/supplier';
 import { Estimation } from '@domain/entities/tour/Estimation';
 import { formatCurrency, formatPhoneNumber, groupBy } from '@utils/Utils';
 import {
@@ -27,43 +25,29 @@ import {
   calVATEstimation,
   generateI18nForTourOperation,
 } from '@utils/TousOperationUtils';
-import { useEstimations } from '@hooks/tourDeparture';
 import { generateEditableUrlForSupplier } from '@utils/SupplierUtils';
-import EstimationCreatePage from '@features/ToursOperation/Estimation/EstimationCreatePage';
 import renderSkeleton from '@components/Skeleton/Skeleton';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { tourPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
-import EstimationUpdatePage from './EstimationUpdatePage';
+import EstimationCreatePage from '@features/ToursOperation/Estimation/EstimationCreatePage';
+import EstimationUpdatePage from '@features/ToursOperation/Estimation/EstimationUpdatePage';
+import { Supplier } from '@domain/entities/supplier';
 
 export interface EditTourPageParams {
   tourId: string,
 }
 
-export default function EstimationListPage() {
+export interface EstimationsTableProp {
+  isLoading: boolean,
+  estimationsGroupByType: Record<string, Estimation[]>,
+  allSuppliers: Supplier[],
+}
+
+export default function EstimationsTable(props: EstimationsTableProp) {
   const queryClient = useQueryClient();
   const { tourId } = useParams<EditTourPageParams>();
-  const {
-    data: allEstimations,
-    isLoading: isLoadingEstimations,
-  } = useEstimations(tourId);
-
-  const {
-    data: allSuppliers,
-    isLoading: isLoadingSuppliers,
-  } = useSupplier();
-
-  const estimationsWithSupplier = useMemo(() => {
-    if (!allEstimations || !allSuppliers) return [];
-    return allEstimations.map((estimation: Estimation) => ({
-      ...estimation,
-      supplier: allSuppliers.find((supplier) => supplier.code === estimation.supplierId),
-    }));
-  }, [allEstimations, allSuppliers]);
-
-  const estimationsGroupByType = useMemo(() => groupBy(
-    estimationsWithSupplier ?? [], (estimation: Estimation) => estimation.serviceType,
-  ), [estimationsWithSupplier]);
+  const { isLoading, estimationsGroupByType, allSuppliers } = props;
 
   const [createFormModal, setCreateFormModal] = useState(false);
   const [updateFormData, setUpdateFormModal] = useState(false);
@@ -117,7 +101,7 @@ export default function EstimationListPage() {
         <CardBody>
           <div className="to-table-container">
             {
-              isLoadingEstimations && isLoadingSuppliers ? (
+              isLoading ? (
                 renderSkeleton()
               ) : (
                 <Table bordered responsive>
@@ -138,12 +122,12 @@ export default function EstimationListPage() {
                   <tbody>
                     {
                     Object.keys(estimationsGroupByType).map((type) => {
-                      const estimationsGroupBySupplier = groupBy(
+                      const estimationsGroupByTypeAndSupplier = groupBy(
                         estimationsGroupByType[type], (item: Estimation) => item.supplierId,
                       );
-                      return Object.keys(estimationsGroupBySupplier).map(
+                      return Object.keys(estimationsGroupByTypeAndSupplier).map(
                         (supplierId, supplierIndex) => {
-                          const estimations = estimationsGroupBySupplier[supplierId];
+                          const estimations = estimationsGroupByTypeAndSupplier[supplierId];
                           return estimations.map((estimation: Estimation, index) => {
                             const { supplier } = estimation;
                             return (
@@ -161,7 +145,7 @@ export default function EstimationListPage() {
                                   index === 0 ? (
                                     <td rowSpan={estimations.length}>
                                       <Link
-                                        to={generateEditableUrlForSupplier(estimation.supplier!)}
+                                        to={generateEditableUrlForSupplier(supplierId)}
                                         className="text-truncate text-body text-center"
                                       >
                                         <span
@@ -193,7 +177,6 @@ export default function EstimationListPage() {
                                           </div>
                                           ) : <></>
                                       }
-
                                     </td>
                                   ) : <></>
                                 }

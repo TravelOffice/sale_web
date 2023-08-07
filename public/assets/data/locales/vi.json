@@ -689,7 +689,14 @@
       "OTHER": "Dịch vụ khác",
       "CREATE_ESTIMATION_SUCCESSFULLY": "Tạo dự trù thành công",
       "UPDATE_ESTIMATION_SUCCESSFULLY": "Cập nhật dự trù thành công",
-      "DELETE_ESTIMATION_SUCCESSFULLY": "Xóa dự trù thành công"
+      "DELETE_ESTIMATION_SUCCESSFULLY": "Xóa dự trù thành công",
+      "SUPPLIERS_TABLE": "Bảng kê nhà cung cấp và thanh toán",
+      "PAID": "Đã thanh toán,",
+      "TOUR_GUIDE_PAID": "HDV thanh toán",
+      "REMAIN": "Còn lại",
+      "PAYMENT_VOUCHER": "Phiếu chi",
+      "PAYMENT_VOUCHER_LIST": "Danh sách phiếu chi",
+      "SUMMARY": "Tổng"
     },
     "EXPECTED_PROFIT": "Lợi nhuận dự kiến",
     "SUMMARY": "Tổng kết",
@@ -864,7 +871,7 @@
     "DEADLINE": "Hạn chót",
     "AMOUNT": "Số tiền",
     "STATUS": "Trạng thái",
-    "RECEIVER": "Người nhận",
+    "RECEIVER": "Người nhận (Mã NCC)",
     "CREATED_DATE_RANGE": "Khoảng ngày tạo",
     "DUE_DATE_RANGE": "Khoảng hạn chót",
     "DESCRIPTION": "Mô tả",
@@ -884,7 +891,7 @@
     "TRANSFER": "Chuyển khoản",
     "QUICk_APPROVE": "Duyệt nhanh",
     "ATTACHMENT": "Đính kèm",
-    "BOOKING": "Mã đặt phòng",
+    "TOUR_ID": "Mã tour",
     "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Tạo phiếu chi thành công"
   }
 }

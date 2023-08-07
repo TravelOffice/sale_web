@@ -16,11 +16,12 @@ import ToursOperationDetailTabs from '@features/ToursOperation/components/ToursO
 import { List } from 'react-feather';
 import CommingSoon from '@components/CommingSoon/CommingSoon';
 import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
-import EstimationListPage from '@features/ToursOperation/Estimation/EstimationListPage';
+import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
 import ToursOperationCustomerListPane from '@features/ToursOperation/components/ToursOperationCustomerListPane';
 import { CustomerWithBookingData } from '@domain/entities/customer/Customer';
 import { Booking } from '@domain/entities/booking/Booking';
 import { generateI18nForCustomer } from '@utils/CustomerUtils';
+import TourReportPage from '@features/ToursOperation/Summary/TourReportPage';
 import ToursOperationBookingPane from './components/ToursOperationBookingPane';
 
 export interface ToursOperationDetailParams {
@@ -58,13 +59,13 @@ const tabs: Tab[] = [
     id: 'tourEstimation',
     icon: <List size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_ESTIMATION'),
-    pane: <EstimationListPage />,
+    pane: <EstimationPage />,
   },
   {
     id: 'tourReport',
     icon: <List size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_REPORT'),
-    pane: <CommingSoon />,
+    pane: <TourReportPage />,
   },
   {
     id: 'tourPlan',

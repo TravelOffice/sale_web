@@ -7,6 +7,7 @@ import {
 } from '@domain/entities/tour';
 import { CreateEstimationFormData, Estimation, UpdateEstimationFormData } from '@domain/entities/tour/Estimation';
 import { Booking } from '@domain/entities/booking/Booking';
+import { PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
 
 export interface DepartureTourRepository {
   getAllDepartureTours: () => Promise<DepartureTour[]>,
@@ -34,4 +35,6 @@ export interface DepartureTourRepository {
   ): Promise<Estimation>,
 
   deleteEstimation(tourId: string, estimationId: string): Promise<void>,
+
+  getPaymentVouchersByTour(departureTourId: string): Promise<PaymentVoucher[]>,
 }
