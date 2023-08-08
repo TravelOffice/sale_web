@@ -9,21 +9,21 @@ import {
 } from '@domain/useCases';
 
 export default class PaymentVoucherPresenterImpl implements PaymentVoucherPresenter {
-    getAllPaymentVouchers = async () => getAllPaymentVouchersUseCase.invoke();
+  getAllPaymentVouchers = async () => getAllPaymentVouchersUseCase.invoke();
 
-    createPaymentVoucher = async (
-      paymentVoucher: PaymentVoucher,
-    ) => createPaymentVoucherUseCase.invoke(paymentVoucher);
+  createPaymentVoucher = async (
+    paymentVoucher: PaymentVoucher,
+  ) => createPaymentVoucherUseCase.invoke(paymentVoucher);
 
-    updatePaymentVoucher = async (
-      paymentVoucher: PaymentVoucher,
-    ) => updatePaymentVoucherUseCase.invoke(paymentVoucher);
+  updatePaymentVoucher = async (
+    paymentVoucher: PaymentVoucher,
+  ) => updatePaymentVoucherUseCase.invoke(paymentVoucher);
 
-    deletePaymentVoucher = async (
-      id: string,
-    ) => deletePaymentVoucherUseCase.invoke(id);
+  deletePaymentVoucher = async (
+    id: string,
+  ) => deletePaymentVoucherUseCase.invoke(id);
 
-    uploadPaymentVoucherAttachment = async (
-      file: File,
-    ) => uploadPaymentVoucherFileUseCase.invoke(file)
+  uploadPaymentVoucherAttachment = async (
+    file: File,
+  ) => uploadPaymentVoucherFileUseCase.invoke(file)
 }

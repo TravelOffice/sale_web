@@ -696,7 +696,8 @@
       "REMAIN": "Còn lại",
       "PAYMENT_VOUCHER": "Phiếu chi",
       "PAYMENT_VOUCHER_LIST": "Danh sách phiếu chi",
-      "SUMMARY": "Tổng"
+      "SUMMARY": "Tổng",
+      "CREATE_PAYMENT_VOUCHER": "Tạo phiếu chi"
     },
     "EXPECTED_PROFIT": "Lợi nhuận dự kiến",
     "SUMMARY": "Tổng kết",
@@ -884,6 +885,7 @@
     "WAIT_FOR_TRANSFER": "Chờ chuyển tiền",
     "WAIT_FOR_SIGN": "Chờ ký duyệt",
     "CREATE_PAYMENT_VOUCHER": "Tạo phiếu chi",
+    "UPDATE_PAYMENT_VOUCHER": "Cập nhật phiếu chi",
     "INCLUDE_TAX": "Bao gồm thuế",
     "SIGN_GROUP": "Nhóm ký",
     "METHOD": "Phương thức",
@@ -892,6 +894,7 @@
     "QUICk_APPROVE": "Duyệt nhanh",
     "ATTACHMENT": "Đính kèm",
     "TOUR_ID": "Mã tour",
-    "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Tạo phiếu chi thành công"
+    "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Tạo phiếu chi thành công",
+    "UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Cập nhật phiếu chi thành công"
   }
 }

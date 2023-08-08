@@ -11,7 +11,7 @@ import {
   Row,
   Spinner,
 } from 'reactstrap';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   CreatePaymentVoucherForm,
@@ -32,7 +32,9 @@ import { useQueryClient } from '@tanstack/react-query';
 
 interface PaymentVoucherCreatePageProps {
   createFormModal: boolean,
-  toggleCreateFormModal: () => void
+  toggleCreateFormModal: () => void,
+  tourId: string | undefined,
+  receiverId: string | undefined,
 }
 
 const methodOptions = [
@@ -55,7 +57,9 @@ const schema = yup.object().shape({
 
 const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
   const queryClient = useQueryClient();
-  const { createFormModal, toggleCreateFormModal } = props;
+  const {
+    createFormModal, toggleCreateFormModal, tourId, receiverId,
+  } = props;
 
   const {
     handleSubmit,
@@ -64,11 +68,6 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
     formState: { errors },
   } = useForm<CreatePaymentVoucherForm>({
     resolver: yupResolver(schema),
-    defaultValues: {
-      amount: 0,
-      includeTax: false,
-      quickApproval: false,
-    },
   });
   const handleReset = () => {
     toggleCreateFormModal();
@@ -86,10 +85,31 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
     createPaymentVoucherMutate(data);
   };
 
+  useEffect(() => {
+    if (tourId && receiverId) {
+      reset({
+        tourId,
+        receiverId,
+        amount: 0,
+        includeTax: false,
+        quickApproval: false,
+      });
+    }
+  }, [tourId, receiverId]);
+
+  const handleOnOpen = () => {
+    reset();
+  };
+
   return (
     <div className="demo-inline-spacing">
       <div>
-        <Modal isOpen={createFormModal} toggle={() => toggleCreateFormModal()} className="modal-dialog-centered">
+        <Modal
+          onOpened={handleOnOpen}
+          isOpen={createFormModal}
+          toggle={() => toggleCreateFormModal()}
+          className="modal-dialog-centered"
+        >
           <Form onSubmit={handleSubmit(onSubmit)}>
 
             <ModalHeader toggle={() => toggleCreateFormModal()}>
@@ -135,6 +155,7 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                       control={control}
                       errors={errors}
                       name="receiverId"
+                      disabled={!!receiverId}
                     />
                   </div>
                 </Col>
@@ -171,6 +192,7 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                   control={control}
                   errors={errors}
                   name="tourId"
+                  disabled={!!tourId}
                 />
               </div>
               <Row>

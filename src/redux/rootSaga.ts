@@ -1,10 +1,11 @@
-import { takeEvery, all } from 'redux-saga/effects';
+import { all, takeEvery } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import authSaga from '@redux/saga/authSaga';
 import chatSaga from '@redux/saga/chatSaga';
 import pageConnectionSaga from '@redux/saga/pageConnectionSaga';
 import notificationSaga from '@redux/saga/notificationSaga';
 import mailSaga from '@redux/saga/mailSaga';
+import paymentVoucherSaga from '@redux/saga/paymentVoucherSaga';
 import userSaga from './saga/userSaga';
 import rolePermissionSaga from './saga/rolePermission';
 
@@ -28,5 +29,6 @@ export default function* rootSaga() {
     notificationSaga(),
     rolePermissionSaga(),
     mailSaga(),
+    paymentVoucherSaga(),
   ]);
 }
