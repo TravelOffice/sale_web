@@ -42,6 +42,9 @@ import { generateI18nForBooking } from '@utils/BookingUtils';
 import { RoleEnum, User } from '@domain/entities/User';
 import moment from 'moment';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
+import { TourTemplate } from '@domain/entities/tour';
+import { Service } from '@domain/entities/booking/Service';
+import AddingBookingService from './components/AddingBookingService';
 
 const honorificOptions = Object
   .keys(HonorificType)
@@ -57,13 +60,13 @@ const tourTypeOptions = Object
 
 const customerSchema = yup.object().shape({
   email: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.EMAIL') })),
-  phone: yup
+  primaryPhoneNumber: yup
     .string()
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.PHONE') })),
   honorific: yup
     .string()
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.HONORIFIC') })),
-  fullName: yup
+  name: yup
     .string()
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.FULL_NAME') })),
   address: yup
@@ -95,9 +98,9 @@ const initialFormData: AddBookingFormData = {
   // Customer information, new customer will be created in database if not existed
   customer: {
     email: '',
-    phone: '',
+    primaryPhoneNumber: '',
     honorific: HonorificType.MR_YOUNG,
-    fullName: '',
+    name: '',
     address: '',
   },
   // Reference to TourTemplate model, each TourTemplate is identified by pk+sk pair
@@ -111,6 +114,8 @@ const initialFormData: AddBookingFormData = {
   // Reference to Source model
   // For example, source can be Facebook, CallCenter, Social, etc
   sourceId: '',
+  // Reference to Service model
+  services: [],
 };
 
 const BookingCreatePage = () => {
@@ -132,7 +137,7 @@ const BookingCreatePage = () => {
           const allUsers = await userPresenter.getAllUsers();
           return allUsers.filter((user) => user.roles.includes(RoleEnum.SALE));
         },
-        // Data from `users` query can be get from User list page before
+        // Data from `users` query can be got from User list page before
         // So, we can get data from query cache to avoid fetching data from server again
         initialData: () => {
           const allUsers = queryClient.getQueryData(['users']) as User[] | undefined;
@@ -176,6 +181,8 @@ const BookingCreatePage = () => {
     handleSubmit,
     control,
     formState: { errors },
+    reset,
+    getValues,
   } = useForm<AddBookingFormData>({
     resolver: yupResolver(schema),
     defaultValues: initialFormData,
@@ -217,6 +224,26 @@ const BookingCreatePage = () => {
   //* Cancel button click handler
   const handleCancel = () => {
     history.goBack();
+  };
+
+  const handleTourTemplateChange = (tourTemplateId: string) => {
+    const selectedTourTemplate = tourTemplateData.data?.find(
+      (tourTemplate) => tourTemplate.code === tourTemplateId,
+    ) as TourTemplate;
+
+    // Init booking services from services of tour template
+    const services = selectedTourTemplate.services.map((service) => ({
+      serviceName: service.name,
+      quantity: 1,
+      price: service.price,
+      tax: 0,
+    }) as Service);
+
+    // Add services to booking
+    reset({
+      ...getValues(),
+      services,
+    });
   };
 
   return (
@@ -266,20 +293,20 @@ const BookingCreatePage = () => {
               <Row>
                 <Col md={12}>
                   <div className="mb-1">
-                    <Label className="form-label" for="customer.phone">
+                    <Label className="form-label" for="customer.primaryPhoneNumber">
                       {i18n.t('BOOKING.FORM.PHONE')}
                       {' '}
                       <span className="text-danger">{' *'}</span>
                     </Label>
                     <Controller
-                      name="customer.phone"
+                      name="customer.primaryPhoneNumber"
                       control={control}
                       render={({ field }) => (
-                        <Input {...field} id="customer.phone" invalid={!!errors.customer?.phone} />
+                        <Input {...field} id="customer.primaryPhoneNumber" invalid={!!errors.customer?.primaryPhoneNumber} />
                       )}
                     />
-                    {errors.customer?.phone
-                      && <FormFeedback>{errors.customer?.phone.message}</FormFeedback>}
+                    {errors.customer?.primaryPhoneNumber
+                      && <FormFeedback>{errors.customer?.primaryPhoneNumber.message}</FormFeedback>}
                   </div>
                 </Col>
               </Row>
@@ -304,20 +331,20 @@ const BookingCreatePage = () => {
                 </Col>
                 <Col lg={8}>
                   <div className="mb-1">
-                    <Label className="form-label" for="customer.fullName">
+                    <Label className="form-label" for="customer.name">
                       {i18n.t('BOOKING.FORM.FULL_NAME')}
                       {' '}
                       <span className="text-danger">{' *'}</span>
                     </Label>
                     <Controller
-                      name="customer.fullName"
+                      name="customer.name"
                       control={control}
                       render={({ field }) => (
-                        <Input {...field} id="customer.fullName" invalid={!!errors.customer?.fullName} />
+                        <Input {...field} id="customer.name" invalid={!!errors.customer?.name} />
                       )}
                     />
-                    {errors.customer?.fullName
-                      && <FormFeedback>{errors.customer?.fullName.message}</FormFeedback>}
+                    {errors.customer?.name
+                      && <FormFeedback>{errors.customer?.name.message}</FormFeedback>}
                   </div>
                 </Col>
               </Row>
@@ -359,6 +386,7 @@ const BookingCreatePage = () => {
                       errors={errors}
                       selectClassName="flex-fill"
                       options={tourTemplateOptions || []}
+                      onSelected={(tourTemplateId) => handleTourTemplateChange(tourTemplateId)}
                     />
                   </div>
                 </Col>
@@ -429,6 +457,18 @@ const BookingCreatePage = () => {
                     {errors.departureDate
                       && <FormFeedback>{errors.departureDate?.message}</FormFeedback>}
                   </div>
+                </Col>
+              </Row>
+              <div className="divider divider-start divider-primary">
+                <div className="divider-text text-primary fw-bolder">{i18n.t('BOOKING.SERVICE_LIST')}</div>
+              </div>
+              <Row>
+                <Col>
+                  <AddingBookingService
+                    control={control}
+                    errors={errors}
+                    isEditable
+                  />
                 </Col>
               </Row>
             </div>
