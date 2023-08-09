@@ -18,7 +18,6 @@ export interface TourTemplate {
     policyConditionsAndExtraFee?: string,
     cancellationTerms?: string
   },
-  tourPlan: string,
   readonly createdAt: number,
   readonly updatedAt: number,
   readonly creatorId: string,
@@ -35,8 +34,7 @@ export type CreateTourTemplateFormData = Pick<TourTemplate,
 'durationInDays' |
 'durationInNights' |
 'services' |
-'policiesAndRegulations' |
-'tourPlan'
+'policiesAndRegulations'
 >;
 
 export type UpdateTourTemplateFormData = CreateTourTemplateFormData;

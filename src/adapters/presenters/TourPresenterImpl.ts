@@ -16,6 +16,12 @@ import {
 } from '@domain/useCases';
 import { CreateDepartureTourFormData, UpdateDepartureTourFormData } from '@domain/entities/tour';
 import { CreateEstimationFormData, UpdateEstimationFormData } from '@domain/entities/tour/Estimation';
+import { CreateTourPlanActivityFormData, DailyKey, TourPlan } from '@domain/entities/tour/TourPlan';
+import {
+  addTourPlanActivityUseCase, deleteTourPlanActivityUseCase,
+  getTourPlanUseCase,
+  updateTourPlanActivityUseCase,
+} from '@domain/useCases/tourOperation';
 import { TourPresenter } from './interfaces/TourPresenter';
 
 export default class TourPresenterImpl implements TourPresenter {
@@ -72,4 +78,25 @@ export default class TourPresenterImpl implements TourPresenter {
   getPaymentVouchersByTour = async (
     tourId: string,
   ) => getPaymentVouchersOfTourUseCase.invoke(tourId);
+
+  addTourPlanActivity = async (
+    tourId: string,
+    currentTourPlan: TourPlan,
+    formData: CreateTourPlanActivityFormData,
+  ) => addTourPlanActivityUseCase.invoke(tourId, currentTourPlan, formData);
+
+  getTourPlan = async (tourId: string) => getTourPlanUseCase.invoke(tourId);
+
+  updateTourPlanActivity = async (
+    tourId: string,
+    currentTourPlan: TourPlan,
+    formData: CreateTourPlanActivityFormData,
+  ) => updateTourPlanActivityUseCase.invoke(tourId, currentTourPlan, formData);
+
+  deleteTourPlanActivity = async (
+    tourId: string,
+    currentTourPlan: TourPlan,
+    day: DailyKey,
+    activityId: string,
+  ) => deleteTourPlanActivityUseCase.invoke(tourId, currentTourPlan, day, activityId);
 }

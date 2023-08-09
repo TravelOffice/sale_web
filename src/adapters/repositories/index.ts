@@ -22,6 +22,8 @@ import { SupplierRepository } from '@adapter/repositories/interfaces/SupplierRep
 import SupplierRepositoryImpl from '@adapter/repositories/SupplierRepositoryImpl';
 import { PaymentVoucherRepository } from '@adapter/repositories/interfaces/PaymentVoucherRepository';
 import PaymentVoucherRepositoryImpl from '@adapter/repositories/PaymentVoucherRepositoryImpl';
+import TourOperationRepositoryImpl from '@adapter/repositories/TourOperationRepositoryImpl';
+import { TourOperationRepository } from '@adapter/repositories/interfaces/TourOperationRepository';
 import { TourTemplateRepository } from './interfaces/TourTemplateRepository';
 import TourTemplatePresenterImpl from './TourTemplateRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
@@ -53,8 +55,9 @@ interface Repositories {
   tourRepository: DepartureTourRepository,
   sourceRepository: SourceRepository,
   receiptRepository: ReceiptRepository,
-  supplierRepository: SupplierRepository
-  paymentVoucherRepository: PaymentVoucherRepository
+  supplierRepository: SupplierRepository,
+  paymentVoucherRepository: PaymentVoucherRepository,
+  tourOperationRepository: TourOperationRepository,
 }
 
 const repositories: Repositories = {
@@ -76,6 +79,7 @@ const repositories: Repositories = {
   receiptRepository: new ReceiptRepositoryImpl(),
   supplierRepository: new SupplierRepositoryImpl(),
   paymentVoucherRepository: new PaymentVoucherRepositoryImpl(),
+  tourOperationRepository: new TourOperationRepositoryImpl(),
 };
 
 export const {
@@ -97,4 +101,5 @@ export const {
   receiptRepository,
   supplierRepository,
   paymentVoucherRepository,
+  tourOperationRepository,
 } = repositories;

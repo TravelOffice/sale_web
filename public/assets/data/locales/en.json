@@ -369,7 +369,8 @@
     "ROLE_INVALID_MESSAGE": "Please enter a valid role name",
     "REQUIRED_FIELD_MESSAGE": "{{field}} is required",
     "MIN_VALUE_MESSAGE": "{{field}} must greater than {{value}}",
-    "REQUIRED_INTEGER_MESSAGE": "{{field}} must be an integer"
+    "REQUIRED_INTEGER_MESSAGE": "{{field}} must be an integer",
+    "FIELD_ONE_OF": "{{field}} must be one of: {{options}}"
   },
   "NOTIFICATION": {
     "NOTIFICATIONS": "Notifications",
@@ -706,7 +707,28 @@
     "REVENUE_ITEM": "Revenue item",
     "AMOUNT_COLLECTED_BY_THE_TOUR_GUIDE_DURING_THE_TOUR": "Amount collected by the tour guide during the tour",
     "EXPENDITURE_ITEM": "Expenditure item",
-    "AMOUNT_SPENT_BY_THE_TOUR_GUIDE_DURING_THE_TOUR": "Amount spent by the tour guide during the tour"
+    "AMOUNT_SPENT_BY_THE_TOUR_GUIDE_DURING_THE_TOUR": "Amount spent by the tour guide during the tour",
+    "TOUR_PLAN_DAY": "Day {{day}}",
+    "ADD_ACTIVITY": "Add an activity",
+    "DAY": "Day",
+    "ACTIVITY": "Activity",
+    "DESCRIPTION": "Description",
+    "MEAL": "Meal",
+    "PARTY": "Party",
+    "LOCAL_MOVE": "Local move",
+    "FLIGHT_MOVE": "Flight move",
+    "LEISURE": "Leisure",
+    "KAYAKING": "Kayaking",
+    "ADVENTURE": "Adventure",
+    "DIVING": "Diving",
+    "TREKKING": "Trekking",
+    "CHECKIN": "Check in",
+    "CHECKOUT": "Check out",
+    "OTHER": "Other",
+    "END_TIME": "End time",
+    "START_TIME": "Start time",
+    "EDIT_ACTIVITY": "Delete activity",
+    "DELETE_ACTIVITY_CONFIRM_MESSAGE": "Are you sure to delete this activity?"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Tour template",

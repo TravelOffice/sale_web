@@ -8,6 +8,7 @@ import {
 import { CreateEstimationFormData, Estimation, UpdateEstimationFormData } from '@domain/entities/tour/Estimation';
 import { Booking } from '@domain/entities/booking/Booking';
 import { PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
+import { CreateTourPlanActivityFormData, DailyKey, TourPlan } from '@domain/entities/tour/TourPlan';
 
 export interface TourPresenter {
   getAllDepartureTours: () => Promise<DepartureTour[]>,
@@ -39,4 +40,25 @@ export interface TourPresenter {
   getBookingsByDepartureTour(departureTourId: string): Promise<Booking[]>,
 
   getPaymentVouchersByTour(departureTourId: string): Promise<PaymentVoucher[]>,
+
+  addTourPlanActivity: (
+    tourId: string,
+    currentTourPlan: TourPlan,
+    formData: CreateTourPlanActivityFormData,
+  ) => Promise<TourPlan>,
+
+  getTourPlan: (tourId: string) => Promise<TourPlan>,
+
+  updateTourPlanActivity: (
+    tourId: string,
+    currentTourPlan: TourPlan,
+    formData: CreateTourPlanActivityFormData,
+  ) => Promise<TourPlan>,
+
+  deleteTourPlanActivity: (
+    tourId: string,
+    currentTourPlan: TourPlan,
+    day: DailyKey,
+    activityId: string,
+  ) => Promise<TourPlan>,
 }

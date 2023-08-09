@@ -13,8 +13,6 @@ type CommonInformationProps = {
   setPolicyConditionsAndExtraFee: (value: EditorState) => void
   cancellationTerms: EditorState;
   setCancellationTerms: (value: EditorState) => void
-  tourPlan: EditorState;
-  setTourPlan: (value: EditorState) => void
 };
 
 const CommonInformation: React.FC<CommonInformationProps> = ({
@@ -26,8 +24,6 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
   setPolicyConditionsAndExtraFee,
   cancellationTerms,
   setCancellationTerms,
-  tourPlan,
-  setTourPlan,
 }) => (
   <>
     <div className="divider divider-start divider-primary">
@@ -65,18 +61,6 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
         name="policiesAndRegulations.cancellationTerms"
         editorState={cancellationTerms}
         setEditorState={setCancellationTerms}
-        control={control}
-        errors={errors}
-      />
-    </div>
-    <div className="divider divider-start divider-primary">
-      <div className="divider-text text-primary fw-bolder">{i18n.t('TOUR_TEMPLATE.TOUR_PLAN')}</div>
-    </div>
-    <div className="mb-1">
-      <FormItemEditor
-        name="tourPlan"
-        editorState={tourPlan}
-        setEditorState={setTourPlan}
         control={control}
         errors={errors}
       />
