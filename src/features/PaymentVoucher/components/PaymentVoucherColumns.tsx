@@ -4,11 +4,13 @@ import { TableColumn } from 'react-data-table-component';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
-import { Archive, MoreVertical, Trash2 } from 'react-feather';
+import { Edit, MoreVertical, Trash2 } from 'react-feather';
 import { PaymentVoucher, PaymentVoucherStatus } from '@domain/entities/paymentVoucher/PaymentVoucher';
 import moment from 'moment';
 import { formatVND } from '@utils/CommonUtils';
 import { Link } from 'react-router-dom';
+import { paymentVoucherActions } from '@redux/slices/paymentVoucherSlice';
+import { useDispatch } from 'react-redux';
 
 export const paymentVoucherTypesColors: Record<PaymentVoucherStatus, string> = {
   APPROVED: 'light-success',
@@ -18,13 +20,15 @@ export const paymentVoucherTypesColors: Record<PaymentVoucherStatus, string> = {
   WAIT_FOR_SIGN: 'light-warning',
   WAIT_FOR_TRANSFER: 'light-warning',
 };
-
 const formatDate = (date: number | string) => moment(date).format('hh:mm DD/MM/YYYY');
 
-const ActionsCell = ({ paymentVoucher }: { paymentVoucher: PaymentVoucher }) => {
+const ActionsCell = ({ paymentVoucher }: {
+  paymentVoucher: PaymentVoucher
+}) => {
+  const dispatch = useDispatch();
   const onEditPaymentVoucher: MouseEventHandler = (e) => {
     e.preventDefault();
-    console.log('Edit paymentVoucher', paymentVoucher);
+    dispatch(paymentVoucherActions.setSelectedPaymentVoucher(paymentVoucher));
   };
 
   const onDeletePaymentVoucher: MouseEventHandler = (e) => {
@@ -33,25 +37,29 @@ const ActionsCell = ({ paymentVoucher }: { paymentVoucher: PaymentVoucher }) => 
   };
 
   return (
-    <div className="column-action">
-      <UncontrolledDropdown>
-        <DropdownToggle tag="div" className="btn btn-sm">
-          <MoreVertical size={14} className="cursor-pointer" />
-        </DropdownToggle>
-        <DropdownMenu container="body">
-          <DropdownItem className="w-100" onClick={onEditPaymentVoucher}>
-            <Archive size={14} className="me-50" />
-            <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
-          </DropdownItem>
-          <DropdownItem className="w-100">
-            <Trash2 size={14} className="me-50" />
-            <span className="align-middle" onClick={onDeletePaymentVoucher}>
-              {i18n.t('COMMON.DELETE')}
-            </span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
-    </div>
+    <>
+      <div className="column-action">
+        <UncontrolledDropdown>
+          <DropdownToggle tag="div" className="btn btn-sm">
+            <MoreVertical size={14} className="cursor-pointer" />
+          </DropdownToggle>
+          <DropdownMenu container="body">
+            <DropdownItem className="w-100">
+              <Edit size={14} className="me-50" />
+              <span className="align-middle" onClick={onEditPaymentVoucher}>
+                {i18n.t('COMMON.EDIT')}
+              </span>
+            </DropdownItem>
+            <DropdownItem className="w-100">
+              <Trash2 size={14} className="me-50" />
+              <span className="align-middle" onClick={onDeletePaymentVoucher}>
+                {i18n.t('COMMON.DELETE')}
+              </span>
+            </DropdownItem>
+          </DropdownMenu>
+        </UncontrolledDropdown>
+      </div>
+    </>
   );
 };
 

@@ -696,7 +696,8 @@
       "REMAIN": "Remain",
       "PAYMENT_VOUCHER": "Payment voucher",
       "PAYMENT_VOUCHER_LIST": "Payment voucher líst",
-      "SUMMARY": "Summary"
+      "SUMMARY": "Summary",
+      "CREATE_PAYMENT_VOUCHER": "Tạo phiếu chi"
     },
     "EXPECTED_PROFIT": "Expected profit",
     "SUMMARY": "Summary",
@@ -884,6 +885,7 @@
     "WAIT_FOR_TRANSFER": "Waiting for transfer",
     "WAIT_FOR_SIGN": "Waiting for sign",
     "CREATE_PAYMENT_VOUCHER": "Create payment voucher",
+    "UPDATE_PAYMENT_VOUCHER": "Update payment voucher",
     "INCLUDE_TAX": "Include tax",
     "SIGN_GROUP": "Sign group",
     "METHOD": "Method",
@@ -892,6 +894,7 @@
     "QUICk_APPROVE": "Quick approve",
     "ATTACHMENT": "Attachment",
     "TOUR_ID": "Tour ID",
-    "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Payment voucher created successfully"
+    "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Payment voucher created successfully",
+    "UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Update payment voucher successfully"
   }
 }

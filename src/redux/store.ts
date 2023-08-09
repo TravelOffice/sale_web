@@ -13,6 +13,7 @@ import createSagaMiddleware from 'redux-saga';
 import client from '@graphql/client';
 import { mailReducers } from '@redux/slices/mailSlice';
 import { receiptReducers } from '@redux/slices/receiptSlice';
+import { paymentVoucherReducers } from '@redux/slices/paymentVoucherSlice';
 import { userReducers } from './slices/userSlice';
 import { rolePermissionReducers } from './slices/rolePermissionSlice';
 
@@ -33,6 +34,7 @@ const combinedReducers = combineReducers({
   rolePermission: rolePermissionReducers,
   mail: mailReducers,
   receipt: receiptReducers,
+  paymentVoucher: paymentVoucherReducers,
 });
 
 type Reducers = typeof combinedReducers;

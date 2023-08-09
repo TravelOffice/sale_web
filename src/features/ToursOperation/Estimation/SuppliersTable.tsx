@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Card,
   CardBody,
@@ -11,7 +11,6 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import i18n from '@config/i18n';
-import { Link } from 'react-router-dom';
 import { Estimation } from '@domain/entities/tour/Estimation';
 import { formatCurrency } from '@utils/Utils';
 import { Edit, MoreVertical } from 'react-feather';
@@ -19,15 +18,30 @@ import { calPaymentEstimation } from '@utils/TousOperationUtils';
 import { generateEditableUrlForSupplier } from '@utils/SupplierUtils';
 import renderSkeleton from '@components/Skeleton/Skeleton';
 import { PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
+import { Link } from 'react-router-dom';
+import PaymentVoucherCreatePage from '@features/PaymentVoucher/components/CreatePaymentVoucher';
 
 export interface SuppliersTableProg {
   isLoading: boolean,
   estimationsGroupBySupplier: Record<string, Estimation[]>,
   allPaymentVouchers: PaymentVoucher[],
+  tourId: string,
 }
 
 export default function SuppliersTable(props: SuppliersTableProg) {
-  const { estimationsGroupBySupplier, allPaymentVouchers, isLoading } = props;
+  const {
+    estimationsGroupBySupplier, allPaymentVouchers, isLoading, tourId,
+  } = props;
+  const [createFormModal, setCreateFormModal] = useState(false);
+  const [selectedSupplierId, setSelectedSupplierId] = useState('');
+  const toggleCreateFormModal = () => {
+    setCreateFormModal(!createFormModal);
+  };
+
+  let total = 0;
+  let totalPaid = 0;
+  let totalTourGuidePaid = 0;
+  let totalRemain = 0;
 
   return (
     <>
@@ -64,19 +78,25 @@ export default function SuppliersTable(props: SuppliersTableProg) {
                           (item) => item.receiverId === supplierId,
                         );
                         const estimations: Estimation[] = estimationsGroupBySupplier[supplierId];
-                        let summaryBySupplier = 0;
+                        let totalBySupplier = 0;
+                        let paidByTourGuide = 0;
                         estimations.forEach(
                           (item: Estimation) => {
-                            summaryBySupplier += calPaymentEstimation(item);
+                            totalBySupplier += calPaymentEstimation(item);
+                            if (item.payer === 'TOUR_GUIDE') paidByTourGuide += calPaymentEstimation(item);
                           },
                         );
-                        let summaryPaid: number = 0;
+                        let paid: number = 0;
                         paymentVouchersBySupplier?.forEach(
                           (item: PaymentVoucher) => {
-                            summaryPaid += item.amount;
+                            paid += item.amount;
                           },
                         );
-                        const remain = summaryBySupplier - summaryPaid;
+                        const remain = totalBySupplier - paid;
+                        total += totalBySupplier;
+                        totalTourGuidePaid += paidByTourGuide;
+                        totalPaid += paid;
+                        totalRemain += remain;
                         return (
                           <tr>
                             <td>{index + 1}</td>
@@ -96,15 +116,17 @@ export default function SuppliersTable(props: SuppliersTableProg) {
                               <span
                                 className="fw-bold text-primary"
                               >
-                                {formatCurrency(summaryBySupplier)}
+                                {formatCurrency(totalBySupplier)}
                               </span>
                             </td>
                             <td>
                               <span className="text-info">
-                                {formatCurrency(summaryPaid)}
+                                {formatCurrency(paid)}
                               </span>
                             </td>
-                            <td>0</td>
+                            <td>
+                              {formatCurrency(paidByTourGuide)}
+                            </td>
                             <td>
                               <span className="text-danger">
                                 {formatCurrency(remain)}
@@ -154,6 +176,8 @@ export default function SuppliersTable(props: SuppliersTableProg) {
                                       className="w-100"
                                       onClick={(e) => {
                                         e.preventDefault();
+                                        setSelectedSupplierId(supplierId);
+                                        toggleCreateFormModal();
                                       }}
                                     >
                                       {' '}
@@ -161,7 +185,7 @@ export default function SuppliersTable(props: SuppliersTableProg) {
                                       <span
                                         className="align-middle"
                                       >
-                                        {i18n.t('COMMON.EDIT')}
+                                        {i18n.t('TOURS_OPERATION.ESTIMATION.CREATE_PAYMENT_VOUCHER')}
                                       </span>
                                     </DropdownItem>
                                   </DropdownMenu>
@@ -173,6 +197,24 @@ export default function SuppliersTable(props: SuppliersTableProg) {
                       },
                     )
                   }
+                    <tr>
+                      <td colSpan={2} className="text-center">
+                        <span className="fw-bolder">{i18n.t('COMMON.TOTAL')}</span>
+                      </td>
+                      <td>
+                        <span className="fw-bolder text-primary">{formatCurrency(total)}</span>
+                      </td>
+                      <td>
+                        <span className="fw-bolder text-info">{formatCurrency(totalPaid)}</span>
+                      </td>
+                      <td>
+                        <span className="fw-bolder">{formatCurrency(totalTourGuidePaid)}</span>
+                      </td>
+                      <td>
+                        <span className="fw-bolder text-danger">{formatCurrency(totalRemain)}</span>
+                      </td>
+                      <td colSpan={2}>{' '}</td>
+                    </tr>
                   </tbody>
                 </Table>
               )
@@ -180,6 +222,12 @@ export default function SuppliersTable(props: SuppliersTableProg) {
           </div>
         </CardBody>
       </Card>
+      <PaymentVoucherCreatePage
+        createFormModal={createFormModal}
+        toggleCreateFormModal={toggleCreateFormModal}
+        receiverId={selectedSupplierId}
+        tourId={tourId}
+      />
     </>
   );
 }

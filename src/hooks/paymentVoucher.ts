@@ -2,7 +2,14 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { paymentVoucherPresenter, tourPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import i18n from 'i18next';
-import { CreatePaymentVoucherForm, PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
+import {
+  CreatePaymentVoucherForm,
+  PaymentVoucher,
+  UpdatePaymentVoucherForm,
+} from '@domain/entities/paymentVoucher/PaymentVoucher';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@redux/store';
+import { paymentVoucherActions } from '@redux/slices/paymentVoucherSlice';
 
 export const PAYMENT_VOUCHER_QUERY_KEY = 'paymentVoucher';
 export const usePaymentVouchers = () => useQuery(
@@ -70,3 +77,71 @@ export const useCreatePaymentVoucherMutation = (onSuccessCallback: () => void) =
 
   return { createPaymentVoucherMutate, isLoading };
 };
+
+export const useUpdatePaymentVoucherMutation = (onSuccessCallback: () => void) => {
+  const dispatch = useDispatch();
+  const handleSuccess = () => {
+    toasty.show({
+      title: i18n.t('COMMON.SUCCESS'),
+      type: 'success',
+      message: i18n.t('PAYMENT_VOUCHER.UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY'),
+    });
+    dispatch(paymentVoucherActions.unSelectPaymentVoucher);
+    onSuccessCallback();
+  };
+
+  const { mutate: updateMutate, isLoading: isUpdatingPaymentVoucher } = useMutation({
+    mutationFn: paymentVoucherPresenter.updatePaymentVoucher,
+    onSuccess: handleSuccess,
+    onError: (error) => {
+      toasty.show({
+        title: i18n.t('COMMON.ERROR'),
+        type: 'error',
+        message: `${error}`,
+      });
+    },
+  });
+
+  const { mutate: uploadMutate, isLoading: isUploadingAttachment } = useMutation({
+    mutationFn: (
+      formValue: UpdatePaymentVoucherForm,
+    ) => paymentVoucherPresenter.uploadPaymentVoucherAttachment(formValue.updatingAttachment[0]),
+    onSuccess: (data, variables: UpdatePaymentVoucherForm) => {
+      const paymentVoucherToUpdate = {
+        ...variables,
+        attachment: data.cdn,
+      } as PaymentVoucher;
+      updateMutate(paymentVoucherToUpdate);
+    },
+    onError: (error) => {
+      toasty.show({
+        title: i18n.t('COMMON.ERROR'),
+        type: 'error',
+        message: `${error}`,
+      });
+    },
+  });
+
+  const updatePaymentVoucherMutate = async (formValue: UpdatePaymentVoucherForm) => {
+    const isUploading = formValue.updatingAttachment.length >= 1;
+    if (isUploading) {
+      return uploadMutate(formValue);
+    }
+    // eslint-disable-next-line no-unused-vars
+    const { updatingAttachment, ...rest } = formValue;
+    return updateMutate(rest as PaymentVoucher);
+  };
+
+  // Combine the isLoading variables
+  const isLoading = isUpdatingPaymentVoucher || isUploadingAttachment;
+
+  return { updatePaymentVoucherMutate, isLoading };
+};
+
+export function useCurrentPaymentVoucher() {
+  return useSelector((state: RootState) => state.paymentVoucher.currentPaymentVoucher);
+}
+
+export function useOpenUpdateModal() {
+  return useSelector((state: RootState) => state.paymentVoucher.openUpdateModal);
+}

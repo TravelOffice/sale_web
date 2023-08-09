@@ -14,6 +14,7 @@ import PaymentVoucherFilter, {
 import filterPaymentVouchers from '@utils/PaymentVoucherUtils';
 import { usePaymentVouchers } from '@hooks/paymentVoucher';
 import PaymentVoucherCreatePage from '@features/PaymentVoucher/components/CreatePaymentVoucher';
+import PaymentVoucherUpdatePage from '@features/PaymentVoucher/components/UpdatePaymentVoucher';
 
 export default function PaymentVoucherListPage() {
   const [filterParams, setFilterParams] = useState<PaymentVoucherFilterParams>();
@@ -21,7 +22,6 @@ export default function PaymentVoucherListPage() {
     data: allPaymentVouchers, isFetching, isFetched, isError, refetch,
   } = usePaymentVouchers();
   const [createFormModal, setCreateFormModal] = useState(false);
-
   const toggleCreateFormModal = () => {
     setCreateFormModal(!createFormModal);
   };
@@ -75,20 +75,25 @@ export default function PaymentVoucherListPage() {
             </li>
             {
               data.attachment && (
-              <li>
-                {i18n.t('PAYMENT_VOUCHER.ATTACHMENT')}
-                :
-                {' '}
-                <a href={data.attachment} className="user_name text-truncate text-body" target="_blank" rel="noopener noreferrer">
-                  <span className="fw-bolder text-primary">
-                    {
-                    decodeURIComponent(
-                      new URL(data.attachment).pathname.split('/').pop() || data.attachment,
-                    )
-                  }
-                  </span>
-                </a>
-              </li>
+                <li>
+                  {i18n.t('PAYMENT_VOUCHER.ATTACHMENT')}
+                  :
+                  {' '}
+                  <a
+                    href={data.attachment}
+                    className="user_name text-truncate text-body"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span className="fw-bolder text-primary">
+                      {
+                        decodeURIComponent(
+                          new URL(data.attachment).pathname.split('/').pop() || data.attachment,
+                        )
+                      }
+                    </span>
+                  </a>
+                </li>
               )
             }
           </ul>
@@ -113,7 +118,8 @@ export default function PaymentVoucherListPage() {
         columns={paymentVoucherColumns}
         searchableColumns={['code', 'note', 'amount', 'description', 'receiver']}
         sortColumnDefault="createdAt"
-        onPageChange={() => {}}
+        onPageChange={() => {
+        }}
         onRefresh={refetch}
         extraButtons={paymentVoucherBtnArr}
         expandableRows
@@ -122,7 +128,10 @@ export default function PaymentVoucherListPage() {
       <PaymentVoucherCreatePage
         createFormModal={createFormModal}
         toggleCreateFormModal={toggleCreateFormModal}
+        tourId={undefined}
+        receiverId={undefined}
       />
+      <PaymentVoucherUpdatePage />
     </div>
   );
 }

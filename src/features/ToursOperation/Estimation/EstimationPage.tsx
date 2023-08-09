@@ -58,6 +58,7 @@ export default function EstimationPage() {
         allPaymentVouchers={allPaymentVouchers!}
         estimationsGroupBySupplier={estimationsGroupBySupplier}
         isLoading={isLoadingEstimations && isLoadingSuppliers && isLoadingPaymentVouchers}
+        tourId={tourId}
       />
       <PaymentVouchersTable
         allPaymentVouchers={allPaymentVouchers!}

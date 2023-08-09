@@ -48,6 +48,10 @@ export type CreatePaymentVoucherForm = Pick<PaymentVoucher,
   attachment: FileList
 };
 
+export type UpdatePaymentVoucherForm = PaymentVoucher & {
+  updatingAttachment: FileList
+};
+
 export type PaymentVoucherMethodType = keyof typeof PaymentVoucherMethod;
 export const paymentVoucherMethodTypes: PaymentVoucherMethodType[] = Object.keys(
   PaymentVoucherMethod,
