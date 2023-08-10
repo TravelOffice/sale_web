@@ -134,6 +134,7 @@ export default function DepartureTourOperatorCell({ departureTour }: DepartureTo
                       name="operator-chooser"
                       options={assigneeOptions}
                       onChange={(newValue, _) => setNewOperator(newValue?.value)}
+                      menuPortalTarget={document.body}
                     />
                   </div>
                 )
