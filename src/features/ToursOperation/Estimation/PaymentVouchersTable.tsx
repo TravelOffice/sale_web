@@ -48,7 +48,7 @@ export default function PaymentVouchersTable(props: PaymentVouchersTableProg) {
                   <tbody>
                     {
                     allPaymentVouchers?.map((paymentVoucher, index) => (
-                      <tr>
+                      <tr key={paymentVoucher.code}>
                         <td>{index + 1}</td>
                         <td>
                           <Link

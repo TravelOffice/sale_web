@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   Card,
   CardBody,
@@ -98,7 +98,7 @@ export default function SuppliersTable(props: SuppliersTableProg) {
                         totalPaid += paid;
                         totalRemain += remain;
                         return (
-                          <tr>
+                          <tr key={supplierId}>
                             <td>{index + 1}</td>
                             <td>
                               <Link
@@ -135,7 +135,7 @@ export default function SuppliersTable(props: SuppliersTableProg) {
                             <td>
                               {
                                 paymentVouchersBySupplier?.map((item) => (
-                                  <>
+                                  <Fragment key={item.code}>
                                     <span>
                                       {formatCurrency(item.amount)}
                                       {' '}
@@ -153,7 +153,7 @@ export default function SuppliersTable(props: SuppliersTableProg) {
                                       )
                                     </span>
                                     <br />
-                                  </>
+                                  </Fragment>
                                 ))
                               }
                             </td>
