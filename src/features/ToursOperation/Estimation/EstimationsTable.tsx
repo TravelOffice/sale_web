@@ -131,7 +131,7 @@ export default function EstimationsTable(props: EstimationsTableProp) {
                           return estimations.map((estimation: Estimation, index) => {
                             const { supplier } = estimation;
                             return (
-                              <tr>
+                              <tr key={estimation.code}>
                                 {
                                   supplierIndex === 0 && index === 0 ? (
                                     <td rowSpan={estimationsGroupByType[type].length}>

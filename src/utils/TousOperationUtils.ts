@@ -6,6 +6,7 @@ import moment, { Moment } from 'moment';
 import { Estimation } from '@domain/entities/tour/Estimation';
 import { DailyKey } from '@domain/entities/tour/TourPlan';
 import { numberArrayOf } from '@utils/ArrayUtils';
+import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 
 export function generateI18nForDepartureTourOperation(type: string) {
   const key = `TOURS_OPERATION.${type}`;
@@ -131,4 +132,20 @@ export function generateDayOptions(tour: DepartureTour): DayOptions {
     label: generateI18nForDailyTourPlanKey(`DAY_${value + 1}`),
     value: `DAY_${value + 1}`,
   }));
+}
+
+export function getAllowedOperationStatus(currentStatus: TourOperationStatus) {
+  if (currentStatus === TourOperationStatus.WAITING_FOR_OPERATION) {
+    return [TourOperationStatus.PROCESSING];
+  }
+  if (currentStatus === TourOperationStatus.PROCESSING) {
+    return [TourOperationStatus.TRANSFERRED];
+  }
+
+  if (currentStatus === TourOperationStatus.TRANSFERRED) {
+    return [TourOperationStatus.COMPLETED];
+  }
+
+  // Fallback to empty array, which means no allowed status
+  return [];
 }

@@ -728,7 +728,10 @@
     "END_TIME": "Kết thúc",
     "START_TIME": "Bắt đầu",
     "EDIT_ACTIVITY": "Xoá hoạt động",
-    "DELETE_ACTIVITY_CONFIRM_MESSAGE": "Bạn có chắc chắn muốn xoá hoạt động này?"
+    "DELETE_ACTIVITY_CONFIRM_MESSAGE": "Bạn có chắc chắn muốn xoá hoạt động này?",
+    "UPDATE_STATUS_SUCCESSFULLY": "Cập nhật trạng thái khởi hành thành công",
+    "SELECT_TOUR_OPERATOR": "Chọn người điều hành tour",
+    "CHANGE_OPERATOR_SUCCESSFULLY": "Đã gán điều hành viên thành công"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Chuyến đi mẫu",

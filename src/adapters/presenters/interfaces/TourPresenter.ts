@@ -9,6 +9,7 @@ import { CreateEstimationFormData, Estimation, UpdateEstimationFormData } from '
 import { Booking } from '@domain/entities/booking/Booking';
 import { PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
 import { CreateTourPlanActivityFormData, DailyKey, TourPlan } from '@domain/entities/tour/TourPlan';
+import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 
 export interface TourPresenter {
   getAllDepartureTours: () => Promise<DepartureTour[]>,
@@ -61,4 +62,6 @@ export interface TourPresenter {
     day: DailyKey,
     activityId: string,
   ) => Promise<TourPlan>,
+
+  changeOperationStatus: (tourId: string, status: TourOperationStatus) => Promise<void>,
 }

@@ -728,7 +728,10 @@
     "END_TIME": "End time",
     "START_TIME": "Start time",
     "EDIT_ACTIVITY": "Delete activity",
-    "DELETE_ACTIVITY_CONFIRM_MESSAGE": "Are you sure to delete this activity?"
+    "DELETE_ACTIVITY_CONFIRM_MESSAGE": "Are you sure to delete this activity?",
+    "UPDATE_STATUS_SUCCESSFULLY": "Update opreation status successfully",
+    "SELECT_TOUR_OPERATOR": "Select a tour operator",
+    "CHANGE_OPERATOR_SUCCESSFULLY": "Change tour operator successfully"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Tour template",

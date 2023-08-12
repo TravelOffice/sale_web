@@ -3,6 +3,7 @@ import { CreateTourTemplateFormData, UpdateDepartureTourFormData } from '@domain
 import { Booking } from '@domain/entities/booking/Booking';
 import { CreateEstimationFormData, UpdateEstimationFormData } from '@domain/entities/tour/Estimation';
 import { PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
+import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 import { DepartureTourRepository } from './interfaces/DepartureTourRepository';
 
 export default class TourRepositoryImpl implements DepartureTourRepository {
@@ -79,6 +80,11 @@ export default class TourRepositoryImpl implements DepartureTourRepository {
 
   getPaymentVouchersByTour = async (departureToudId: string): Promise<PaymentVoucher[]> => {
     const response = await apiProvider.authorizedRequest.get(`/tours/${departureToudId}/payment-vouchers`);
+    return response.data;
+  }
+
+  changeOperationStatus = async (tourId: string, status: TourOperationStatus) => {
+    const response = await apiProvider.authorizedRequest.put(`/departure-tours/${tourId}/operation-status`, { operationStatus: status });
     return response.data;
   }
 }

@@ -1,5 +1,7 @@
 // ** React Imports
-import React, { ReactNode, useMemo, useState } from 'react';
+import React, {
+  ReactNode, useCallback, useMemo, useState,
+} from 'react';
 import {
   Badge,
   Card, CardHeader, DropdownItem, DropdownMenu, DropdownToggle,
@@ -9,9 +11,8 @@ import i18n from '@config/i18n';
 import { CSVLink } from 'react-csv';
 
 import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { tourPresenter } from '@adapter/presenters';
-import { generateI18nForTourOperation } from '@utils/TousOperationUtils';
 import { useAccessControl } from '@hooks/auth';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
 import ToursOperationDetailTabs from '@features/ToursOperation/components/ToursOperationDetailTabs';
@@ -29,7 +30,9 @@ import { Booking } from '@domain/entities/booking/Booking';
 import { generateI18nForCustomer } from '@utils/CustomerUtils';
 import TourReportPage from '@features/ToursOperation/Summary/TourReportPage';
 import ToursOperationPlan from '@features/ToursOperation/TourPlan/ToursOperationPlan';
+import TourOperationStatusBadge from '@features/ToursOperation/components/TourOperationStatusBadge';
 import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
+import { DepartureTour } from '@domain/entities/tour';
 import ToursOperationBookingPane from './components/ToursOperationBookingPane';
 
 export interface ToursOperationDetailParams {
@@ -83,12 +86,18 @@ const tabs: Tab[] = [
   },
 ];
 
-const statusColors: Record<TourOperationStatus, string> = {
-  [TourOperationStatus.WAITING_FOR_OPERATION]: 'light-secondary',
-  [TourOperationStatus.PROCESSING]: 'light-warning',
-  [TourOperationStatus.TRANSFERRED]: 'light-success',
-  [TourOperationStatus.COMPLETED]: 'light-primary',
-};
+const customerHeaders = [
+  { label: 'code', key: 'code' },
+  { label: i18n.t('CUSTOMER.NAME'), key: 'name' },
+  { label: i18n.t('CUSTOMER.BIRTHDAY'), key: 'birthday' },
+  { label: i18n.t('CUSTOMER.SEX'), key: 'sex' },
+  { label: i18n.t('CUSTOMER.EMAIL'), key: 'email' },
+  { label: i18n.t('CUSTOMER.ADDRESS'), key: 'address' },
+  { label: i18n.t('CUSTOMER.LEVEL'), key: 'level' },
+  { label: i18n.t('CUSTOMER.PHONE'), key: 'primaryPhoneNumber' },
+  { label: i18n.t('CUSTOMER.ASSIGNEE'), key: 'assigneeName' },
+  { label: i18n.t('BOOKING.TOTAL_PAX'), key: 'totalPax' },
+];
 
 const ToursOperationDetail = () => {
   const { tourId } = useParams<ToursOperationDetailParams>();
@@ -99,6 +108,7 @@ const ToursOperationDetail = () => {
 
   const [activeTab, setActiveTab] = useState(tabs[0].id);
   const { canAccess } = useAccessControl();
+  const queryClient = useQueryClient();
 
   const {
     data: bookings,
@@ -116,18 +126,15 @@ const ToursOperationDetail = () => {
     }) as CustomerWithBookingData);
   }, [bookings]);
 
-  const customerHeaders = [
-    { label: 'code', key: 'code' },
-    { label: i18n.t('CUSTOMER.NAME'), key: 'name' },
-    { label: i18n.t('CUSTOMER.BIRTHDAY'), key: 'birthday' },
-    { label: i18n.t('CUSTOMER.SEX'), key: 'sex' },
-    { label: i18n.t('CUSTOMER.EMAIL'), key: 'email' },
-    { label: i18n.t('CUSTOMER.ADDRESS'), key: 'address' },
-    { label: i18n.t('CUSTOMER.LEVEL'), key: 'level' },
-    { label: i18n.t('CUSTOMER.PHONE'), key: 'primaryPhoneNumber' },
-    { label: i18n.t('CUSTOMER.ASSIGNEE'), key: 'assigneeName' },
-    { label: i18n.t('BOOKING.TOTAL_PAX'), key: 'totalPax' },
-  ];
+  const handleStatusChanged = useCallback((status: TourOperationStatus) => {
+    queryClient.setQueryData(['departureTours', tourId], (oldData: DepartureTour | undefined) => {
+      if (!oldData) return oldData;
+      return {
+        ...oldData,
+        operationStatus: status,
+      };
+    });
+  }, []);
 
   return (
     <div className="to-table-container">
@@ -141,9 +148,11 @@ const ToursOperationDetail = () => {
             </span>
             {
               !!departureTour && (
-                <Badge color={statusColors[departureTour.operationStatus]}>
-                  {generateI18nForTourOperation(departureTour.operationStatus)}
-                </Badge>
+                <TourOperationStatusBadge
+                  tourId={tourId}
+                  status={departureTour.operationStatus}
+                  onStatusChanged={handleStatusChanged}
+                />
               )
             }
             <Badge />

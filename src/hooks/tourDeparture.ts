@@ -45,3 +45,9 @@ export function useTourPlan(tourId: string) {
     queryFn: async () => tourPresenter.getTourPlan(tourId),
   });
 }
+
+export function useAllowedTourOperationStatuses() {
+  return useMemo(() => {
+
+  }, []);
+}

@@ -148,7 +148,7 @@ export default function TourReportPage() {
                           return estimations.map((estimation: Estimation, index) => {
                             const { supplier } = estimation;
                             return (
-                              <tr>
+                              <tr key={supplierId}>
                                 {
                                   supplierIndex === 0 && index === 0 ? (
                                     <td rowSpan={estimationsGroupByType[type].length}>

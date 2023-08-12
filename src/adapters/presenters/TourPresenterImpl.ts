@@ -22,6 +22,8 @@ import {
   getTourPlanUseCase,
   updateTourPlanActivityUseCase,
 } from '@domain/useCases/tourOperation';
+import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
+import { changeOperationStatusUseCase } from '@domain/useCases/tour/interfaces';
 import { TourPresenter } from './interfaces/TourPresenter';
 
 export default class TourPresenterImpl implements TourPresenter {
@@ -99,4 +101,9 @@ export default class TourPresenterImpl implements TourPresenter {
     day: DailyKey,
     activityId: string,
   ) => deleteTourPlanActivityUseCase.invoke(tourId, currentTourPlan, day, activityId);
+
+  changeOperationStatus = async (
+    tourId: string,
+    status: TourOperationStatus,
+  ) => changeOperationStatusUseCase.invoke(tourId, status);
 }
