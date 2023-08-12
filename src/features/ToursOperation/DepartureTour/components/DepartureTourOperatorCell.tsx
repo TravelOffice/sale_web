@@ -48,7 +48,7 @@ export default function DepartureTourOperatorCell({ departureTour }: DepartureTo
     },
   );
   const { assigneeId: operator } = departureTour;
-  const operatorUser = operatorUsers?.find((user) => user.username === operator);
+  const operatorUser = operatorUsers?.find((user) => user.username === (newOperator ?? operator));
 
   const assigneeOptions = useMemo(() => operatorUsers?.map((sale) => ({
     label: (sale.firstName && sale.lastName) ? `${sale.firstName} ${sale.lastName}` : `${sale.username}`,
