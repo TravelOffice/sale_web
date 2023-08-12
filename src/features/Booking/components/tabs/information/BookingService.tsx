@@ -191,7 +191,7 @@ export default function BookingService(props: BookingServiceProps) {
         ))
       }
       <Row>
-        <Col md={2}>
+        <Col md={3}>
           {
             isEditable ? (
               <Button type="button" onClick={addServiceHandler}>
@@ -200,12 +200,12 @@ export default function BookingService(props: BookingServiceProps) {
             ) : <></>
           }
         </Col>
-        <Col md={2} className="offset-5 d-flex align-items-center">
+        <Col md={2} className="offset-4 d-flex align-items-center">
           <h5 className="mb-0">{i18n.t('BOOKING.TOTAL_PAYMENT')}</h5>
         </Col>
         <Col md={2}>
           <Input
-            className="text-danger fw-bold"
+            className="text-danger fw-bolder"
             value={formatCurrency(calculatePaymentTotal(services))}
             disabled
           />

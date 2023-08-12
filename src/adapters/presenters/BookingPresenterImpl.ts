@@ -8,6 +8,7 @@ import {
   addBookingNoteUseCase,
   addBookingUseCase,
   cancelBookingUseCase,
+  changeToPaymentPendingUseCase,
   confirmBookingUseCase,
   getBookingsOfCustomerUseCase,
   getBookingsUseCase,
@@ -43,6 +44,11 @@ export default class BookingPresenterImpl implements BookingPresenter {
   confirmBooking = async (
     bookingId: string, departureTourId: string,
   ) => confirmBookingUseCase.invoke(bookingId, departureTourId);
+
+  changeToPaymentPending = async (
+    bookingId: string,
+    waitingExpiredAt: number,
+  ) => changeToPaymentPendingUseCase.invoke(bookingId, waitingExpiredAt);
 
   addNoteToBooking = async (
     bookingId: string,

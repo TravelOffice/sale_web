@@ -37,11 +37,16 @@ type CommonInformationProps = {
   errors: FieldErrors<CreateDepartureTourFormData>;
   toursLocation: TourLocation[],
   toursTemplate: TourTemplate[],
-  isUpdate?: boolean,
+  isDisabled?: boolean,
   onToursTemplateChange?: (value: string) => void
 };
 const CommonInformation: React.FC<CommonInformationProps> = ({
-  control, errors, toursLocation, toursTemplate, isUpdate, onToursTemplateChange,
+  control,
+  errors,
+  toursLocation,
+  toursTemplate,
+  isDisabled,
+  onToursTemplateChange,
 }) => (
   <>
     <div className="divider divider-start divider-primary">
@@ -62,8 +67,8 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
           value: template.code,
         }))}
         placeholder={i18n.t('DEPARTURE_TOUR.SELECT_TOUR_TEMPLATE')}
-        disabled={isUpdate}
-        onSelected={isUpdate ? onToursTemplateChange : () => {}}
+        disabled={isDisabled}
+        onSelected={onToursTemplateChange}
       />
     </div>
     <Row>
@@ -119,21 +124,21 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
           />
         </div>
         {
-          isUpdate && (
-          <div className="mb-1">
-            <Label className="form-label" for="operationStatus">
-              {i18n.t('TOURS_OPERATION.FILTER.OPERATION_STATUS')}
-              {' '}
-              <span className="text-danger">{' *'}</span>
-            </Label>
-            <FormItemSelect
-              control={control}
-              name="operationStatus"
-              errors={errors}
-              options={tourOperationStatusOptions}
-              placeholder={i18n.t('TOURS_OPERATION.FILTER.OPERATION_STATUS')}
-            />
-          </div>
+          isDisabled && (
+            <div className="mb-1">
+              <Label className="form-label" for="operationStatus">
+                {i18n.t('TOURS_OPERATION.FILTER.OPERATION_STATUS')}
+                {' '}
+                <span className="text-danger">{' *'}</span>
+              </Label>
+              <FormItemSelect
+                control={control}
+                name="operationStatus"
+                errors={errors}
+                options={tourOperationStatusOptions}
+                placeholder={i18n.t('TOURS_OPERATION.FILTER.OPERATION_STATUS')}
+              />
+            </div>
           )
         }
       </Col>
@@ -246,8 +251,9 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
 );
 
 CommonInformation.defaultProps = {
-  isUpdate: false,
-  onToursTemplateChange: () => {},
+  isDisabled: false,
+  onToursTemplateChange: () => {
+  },
 };
 
 export default CommonInformation;

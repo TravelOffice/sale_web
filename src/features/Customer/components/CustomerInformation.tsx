@@ -149,7 +149,7 @@ const CustomerInformation = (props: CustomerInformationProps) => {
                     {i18n.t('CUSTOMER.SOURCE')}
                     {': '}
                   </span>
-                  <span>{`${i18n.t(`LEAD.${customer.source}`)}`}</span>
+                  <span>{`${i18n.t(`LEAD.${customer.sourceName}`)}`}</span>
                 </li>
                 <li className="mb-75">
                   <span className="fw-bolder me-25">

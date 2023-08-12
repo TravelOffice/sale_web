@@ -120,7 +120,7 @@ const bookingColumns: TableColumn<Booking>[] = [
             </Badge>
           ) : <></>}
           {' '}
-          {`${i18n.t('BOOKING.ASSIGNEE')}: ${booking.assigneeId ?? i18n.t('BOOKING.NO_ASSIGNEE')}`}
+          {`${i18n.t('BOOKING.ASSIGNEE')}: ${booking.assigneeId ?? i18n.t('COMMONG.NO_ASSIGNEE')}`}
           <br />
           {lead ? (
             <div className="d-flex align-items-center">

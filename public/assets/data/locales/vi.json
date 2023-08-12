@@ -71,7 +71,8 @@
     "INDEX": "STT",
     "ACCEPT": "Đồng ý",
     "CONFIRM": "Xác nhận",
-    "CREATE": "Tạo mới"
+    "CREATE": "Tạo mới",
+    "NO_ASSIGNEE": "Chưa chỉ định"
   },
   "LEAD": {
     "LEAD_INFO": "Thông tin lead",
@@ -745,14 +746,13 @@
     "CUSTOMER": "Khách hàng",
     "STATUS": "Trạng thái",
     "TOUR": "Chuyến đi",
-    "RELATED_INFO": "Thông tin liên quan",
-    "LAST_NOTE": "Ghi chú gần nhất",
+    "RELATED_INFO": "Thông tin",
+    "LAST_NOTE": "Ghi chú cuối",
     "ADD_TAG": "+ Thêm nhãn",
     "NO_NOTE": "N/A",
     "CHANGE_STATUS": "Đổi trạng thái",
     "BOOKING_RELATED_INFORMATION": "Thông tin liên quan booking",
     "ASSIGNEE": "Xử lý bởi",
-    "NO_ASSIGNEE": "Chưa chỉ định",
     "CREATED_AT": "Tạo booking lúc",
     "LEAD_CREATED_AT": "Tạo lead lúc",
     "TOTAL_PASSENGERS": "Tổng",
@@ -816,8 +816,9 @@
     "MISMATCH_DEPARTURE_DATE": "Ngày khởi hành của booking không khớp với tour khởi hành",
     "CONFIRM_BOOKING_SUCCESSFULLY": "Xác nhận đặt tour thành công",
     "CANCEL_BOOKING_SUCCESSFULLY": "Hủy đặt tour thành công",
-    "PAYMENT_PENDING_SUCCESSFULLY": "Thay đổi trạng thái đặt tour sang [PAYMENT PENDING] thành công",
-    "TOTAL_PAX": "Số lượng"
+    "PAYMENT_PENDING_SUCCESSFULLY": "Thay đổi trạng thái đặt tour sang [CHỜ THANH TOÁN] thành công",
+    "TOTAL_PAX": "Số lượng",
+    "DONE_PAYMENT_AT": "Thanh toán lúc"
   },
   "RECEIPT": {
     "CODE": "Mã",

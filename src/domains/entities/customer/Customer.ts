@@ -58,13 +58,10 @@ export interface Customer {
   primaryPhoneNumber: string,
   otherPhoneNumbers?: Array<string>,
   email: string,
-  country?: string,
-  province?: string,
-  district?: string,
-  ward?: string,
   address: string,
   tags?: Array<string>,
-  source: SourceType,
+  sourceId: string,
+  sourceName: string,
   tasks?: Task[],
   notes?: Note[],
   creatorId?: string,
@@ -113,7 +110,7 @@ export type UpdateCustomerFormData = Pick<Customer,
 'level' |
 'socialLink' |
 'birthday' |
-'source' |
+'sourceId' |
 'maritalStatus' |
 'interest' |
 'group' |

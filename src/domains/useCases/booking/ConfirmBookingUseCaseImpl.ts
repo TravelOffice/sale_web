@@ -1,5 +1,5 @@
 import { bookingRepository } from '@adapter/repositories';
-import { ConfirmBookingUseCase } from '@domain/useCases/booking/interfaces/ConfirmaBookingUseCase';
+import { ConfirmBookingUseCase } from '@domain/useCases/booking/interfaces/ConfirmBookingUseCase';
 
 export default class ConfirmBookingUseCaseImpl implements ConfirmBookingUseCase {
   invoke = async (

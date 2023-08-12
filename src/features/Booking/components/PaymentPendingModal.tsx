@@ -14,7 +14,6 @@ import { paymentPendingSchema } from '@utils/BookingUtils';
 import { PaymentPendingFormData } from '@domain/entities/booking/PaymentPendingFormData';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import moment from 'moment';
-import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
 import { Booking, BookingStatusEnum } from '@domain/entities/booking/Booking';
 
 interface PaymentPendingModalProps {
@@ -30,7 +29,7 @@ const PaymentPendingModal = (props: PaymentPendingModalProps) => {
   const { mutate, isLoading } = useMutation({
     mutationFn: (
       formValue: PaymentPendingFormData,
-    ) => bookingPresenter.updateBooking(bookingId, formValue as UpdateBookingFormData),
+    ) => bookingPresenter.changeToPaymentPending(bookingId, formValue.waitingExpiredAt!),
     // TODO: Call payment Pending API
     onSuccess: () => {
       toasty.show({
@@ -97,7 +96,7 @@ const PaymentPendingModal = (props: PaymentPendingModalProps) => {
                 name="waitingExpiredAt"
                 control={control}
                 errors={errors}
-                placeholder={i18n.t('BOOKING.PAYMENT_EXPIRED_AT')}
+                placeholder={i18n.t('BOOKING.FORM.PAYMENT_EXPIRED_AT')}
                 options={{
                   formatDate: (date) => moment(date).format('DD/MM/YYYY HH:mm').valueOf(),
                   minDate: 'today',

@@ -15,14 +15,11 @@ import { honorificOptions } from '@utils/LeadUtils';
 import toasty from '@components/Toasty/Toasty';
 import { UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 import {
-  customerLevelOptions,
-  customerSourceOptions,
-  maritalStatusOptions,
-  sexOptions,
-  updateCustomerSchema,
+  customerLevelOptions, maritalStatusOptions, sexOptions, updateCustomerSchema,
 } from '@utils/CustomerUtils';
 import { useAllSaleOptions } from '@hooks/users';
 import renderSkeleton from '@components/Skeleton/Skeleton';
+import { useSourceOptions } from '@hooks/source';
 
 export interface EditCustomerTabParams {
   customerId: string,
@@ -36,6 +33,7 @@ export default function CustomerDetailTab() {
     isLoading,
   } = useQuery(['customers', customerId], async () => customerPresenter.getCustomer(customerId));
   const saleOptions = useAllSaleOptions();
+  const sourceOptions = useSourceOptions();
 
   const {
     control,
@@ -243,16 +241,16 @@ export default function CustomerDetailTab() {
                       </Row>
 
                       <Row className="mb-1">
-                        <Label sm="3" for="source">
+                        <Label sm="3" for="sourceId">
                           {i18n.t('CUSTOMER.SOURCE')}
                         </Label>
                         <Col sm="4">
                           <FormItemSelect
                             control={control}
-                            name="source"
+                            name="sourceId"
                             errors={errors}
                             placeholder={i18n.t('CUSTOMER.SOURCE')}
-                            options={customerSourceOptions}
+                            options={sourceOptions}
                           />
                         </Col>
                       </Row>

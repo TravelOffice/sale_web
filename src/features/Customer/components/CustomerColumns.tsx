@@ -11,7 +11,6 @@ import {
 import moment from 'moment';
 import { Customer, CustomerLevel } from '@domain/entities/customer/Customer';
 import { generateEditableUrlForCustomer, generateI18nForCustomer } from '@utils/CustomerUtils';
-import { formatVND } from '@utils/CommonUtils';
 
 const customerLevelColors: Record<CustomerLevel, string> = {
   STANDARD: 'light-success',
@@ -86,25 +85,40 @@ const customerColumns: TableColumn<Customer>[] = [
     ),
   },
   {
-    name: i18n.t('CUSTOMER.SOURCE'),
+    name: i18n.t('CUSTOMER.ASSIGNEE'),
     minWidth: '200px',
     cell: (customer: Customer) => (
       <div>
-        <Badge className="text-uppercase" color="light-secondary">
-          {customer.source}
-        </Badge>
-
+        <User size={14} />
+        {
+          customer.assigneeId ? (
+            <>
+              <Link to={`/apps/users/${customer.assigneeId}`} className="user_name text-truncate text-body">
+                <span className="fw-bolder text-primary">{customer.assigneeName}</span>
+              </Link>
+            </>
+          ) : (
+            <span className="fw-bolder text-capitalize">{i18n.t('COMMON.NO_ASSIGNEE')}</span>
+          )
+        }
+        <br />
+        <span>
+          <Calendar size={14} />
+          {' '}
+          {moment(customer.updatedAt).format('hh:mm:ss DD/MM/YYYY')}
+        </span>
       </div>
     ),
   },
   {
-    name: i18n.t('CUSTOMER.REVENUE'),
-    width: '200px',
+    name: i18n.t('CUSTOMER.SOURCE'),
+    minWidth: '200px',
     cell: (customer: Customer) => (
-      <div className="my-1">
-        <span className="fw-bolder">
-          {formatVND(customer.revenue ?? 0)}
-        </span>
+      <div>
+        <Badge className="text-uppercase" color="light-primary">
+          {customer.sourceName}
+        </Badge>
+
       </div>
     ),
   },

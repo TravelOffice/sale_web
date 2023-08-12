@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Badge, Card, CardBody } from 'reactstrap';
 import { Link, useParams } from 'react-router-dom';
 import i18n from '@config/i18n';
 import { useQuery } from '@tanstack/react-query';
-import { customerPresenter } from '@adapter/presenters';
+import { bookingPresenter, customerPresenter } from '@adapter/presenters';
 import { CustomerLevel } from '@domain/entities/customer/Customer';
 import { Phone } from 'react-feather';
 import { generateI18nForCustomer } from '@utils/CustomerUtils';
@@ -11,6 +11,7 @@ import { Autosum20Filled } from '@fluentui/react-icons';
 import { formatCurrency, formatPhoneNumber } from '@utils/Utils';
 import moment from 'moment/moment';
 import renderSkeleton from '@components/Skeleton/Skeleton';
+import { calculatePaymentTotal } from '@utils/BookingUtils';
 
 export interface EditCustomerPageParams {
   customerId: string,
@@ -30,13 +31,26 @@ export default function CustomerInfoCard() {
     data: customer,
     isLoading,
   } = useQuery(['customers', customerId], async () => customerPresenter.getCustomer(customerId));
+  const {
+    data: bookings,
+    isLoading: isLoadingBooking,
+  } = useQuery(['bookings', customerId], async () => bookingPresenter.getBookingsByCustomer(customerId));
+
+  const revenue = useMemo(() => {
+    let total = 0;
+    bookings?.forEach((booking) => {
+      total += calculatePaymentTotal(booking.services);
+    });
+    return total;
+  }, [bookings]);
+
   // const saleOptions = useAllSaleOptions();
   return (
     <div className="to-table-container">
       <Card>
         <CardBody>
           {
-            isLoading ? (
+            isLoading && isLoadingBooking ? (
               renderSkeleton()
             ) : (
               <>
@@ -64,7 +78,7 @@ export default function CustomerInfoCard() {
                       <Autosum20Filled className="font-medium-2" />
                     </Badge>
                     <div className="ms-75">
-                      <h4 className="mb-0">{formatCurrency(customer?.revenue ?? 0)}</h4>
+                      <h4 className="mb-0">{formatCurrency(revenue)}</h4>
                       <small>
                         {i18n.t('CUSTOMER.REVENUE')}
                         {' '}
