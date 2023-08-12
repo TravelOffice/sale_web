@@ -24,7 +24,7 @@ const bookingStatusColors: Record<BookingStatus, string> = {
 const BookingColumns: TableColumn<Booking>[] = [
   {
     name: i18n.t('BOOKING.CODE_TT'),
-    width: '220px',
+    width: '150px',
     cell: (booking: Booking) => {
       const { bookingStatus } = booking;
       return (
@@ -43,7 +43,7 @@ const BookingColumns: TableColumn<Booking>[] = [
   },
   {
     name: i18n.t('BOOKING.TOUR'),
-    minWidth: '150px',
+    minWidth: '200px',
     sortField: 'tourRelatedInfo',
     cell: (booking: Booking) => {
       const { tourTemplate } = booking;
@@ -88,7 +88,7 @@ const BookingColumns: TableColumn<Booking>[] = [
             </Badge>
           ) : <></>}
           {' '}
-          {`${i18n.t('BOOKING.ASSIGNEE')}: ${booking.assigneeId ?? i18n.t('BOOKING.NO_ASSIGNEE')}`}
+          {`${i18n.t('BOOKING.ASSIGNEE')}: ${booking.assigneeId ?? i18n.t('COMMON.NO_ASSIGNEE')}`}
           <br />
           {lead ? (
             <div className="d-flex align-items-center">

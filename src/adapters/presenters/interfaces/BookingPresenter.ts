@@ -22,4 +22,6 @@ export interface BookingPresenter {
   cancelBooking(bookingId: string, reason: string): Promise<Partial<Booking>>;
 
   confirmBooking(bookingId: string, departureTourId: string): Promise<Partial<Booking>>;
+
+  changeToPaymentPending(bookingId: string, waitingExpiredAt: number): Promise<Partial<Booking>>;
 }

@@ -154,7 +154,7 @@ const DepartureTourEditPage = () => {
             errors={errors}
             toursLocation={toursLocation}
             toursTemplate={tourTemplates}
-            isUpdate
+            isDisabled
           />
           {/* Additional Services */}
           <Services

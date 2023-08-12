@@ -59,7 +59,7 @@ export default function BookingInfoCard() {
                   </Badge>
                   <div className="ms-75">
                     <h4 className="mb-0">{}</h4>
-                    <h4 className="mb-0">{formatPhoneNumber(booking?.customer?.primaryPhoneNumber!)}</h4>
+                    <h4 className="mb-0">{formatPhoneNumber(booking?.customer?.primaryPhoneNumber ?? '')}</h4>
                     <small>{i18n.t('CUSTOMER.PHONE')}</small>
                   </div>
                 </div>

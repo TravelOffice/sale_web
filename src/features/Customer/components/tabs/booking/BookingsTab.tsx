@@ -10,7 +10,7 @@ import { RootState } from '@redux/store';
 import { ExpanderComponentProps } from 'react-data-table-component';
 import { formatVND } from '@utils/CommonUtils';
 import moment from 'moment';
-import { useHistory, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/CustomerDetailTab';
 import bookingColumns from '@features/Customer/components/tabs/booking/bookingColumns';
 
@@ -42,7 +42,32 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
         <Col xl="6">
           <strong>{i18n.t('BOOKING.BOOKING_RELATED_INFORMATION')}</strong>
           <ul>
-            <li>{`${i18n.t('BOOKING.ASSIGNEE')}: ${data.assigneeId ?? i18n.t('BOOKING.NO_ASSIGNEE')}`}</li>
+            <li>
+              {i18n.t('BOOKING.ASSIGNEE')}
+              :
+              {' '}
+              <Link
+                to={`/apps/users/${data.assigneeId}`}
+                className="user_name text-truncate text-body"
+              >
+                <span className="fw-bolder text-primary">
+                  {`${data.assigneeName} - ${data.assigneeId}`}
+                </span>
+              </Link>
+            </li>
+            <li>
+              {i18n.t('CUSTOMER.CREATOR')}
+              :
+              {' '}
+              <Link
+                to={`/apps/users/${data.creatorId}`}
+                className="user_name text-truncate text-body"
+              >
+                <span className="fw-bolder text-primary">
+                  {`${data.creatorName} - ${data.creatorId}`}
+                </span>
+              </Link>
+            </li>
             <li>{`${i18n.t('BOOKING.CREATED_AT')}: ${moment(data.createdAt).format('DD/MM/YYYY')}`}</li>
             {lead ? (
               <li>{`${i18n.t('BOOKING.LEAD_CREATED_AT')}: ${moment(lead.createdAt).format('DD/MM/YYYY')}`}</li>
@@ -50,8 +75,6 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
           </ul>
         </Col>
       </Row>
-
-      <strong>{i18n.t('TOUR_TEMPLATE.CREATOR')}</strong>
     </div>
   );
 };

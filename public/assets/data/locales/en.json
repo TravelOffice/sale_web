@@ -71,7 +71,8 @@
     "INDEX": "INDEX",
     "ACCEPT": "Accept",
     "CONFIRM": "Confirm",
-    "CREATE": "Create"
+    "CREATE": "Create",
+    "NO_ASSIGNEE": "N/A"
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",
@@ -755,7 +756,6 @@
     "CHANGE_STATUS": "Change status",
     "BOOKING_RELATED_INFORMATION": "Booking related information",
     "ASSIGNEE": "Assignee",
-    "NO_ASSIGNEE": "N/A",
     "CREATED_AT": "Booking created at",
     "LEAD_CREATED_AT": "Lead created at",
     "TOTAL_PASSENGERS": "Total",
@@ -820,7 +820,8 @@
     "CONFIRM_BOOKING_SUCCESSFULLY": "Confirm booKing successfully",
     "CANCEL_BOOKING_SUCCESSFULLY": "Cancel booking successfully",
     "PAYMENT_PENDING_SUCCESSFULLY": "Change booking status to [PAYMENT PENDING] successfully",
-    "TOTAL_PAX": "Total pax"
+    "TOTAL_PAX": "Total pax",
+    "DONE_PAYMENT_AT": "Done payment at"
   },
   "RECEIPT": {
     "CODE": "Code",

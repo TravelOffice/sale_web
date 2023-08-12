@@ -50,13 +50,13 @@ export default function BookingItemActions(props: BookingItemActionsProps) {
         </DropdownToggle>
         <DropdownMenu container="body">
           <DropdownItem tag="div" onClick={() => toggleConfirmFormModal()}>
-            <span className="align-middle text-success">{i18n.t('BOOKING.CONFIRM_BOOKING')}</span>
+            <span className="align-middle">{i18n.t('BOOKING.CONFIRM_BOOKING')}</span>
           </DropdownItem>
           <DropdownItem tag="div" onClick={() => togglePaymentPendingFormModal()}>
-            <span className="align-middle text-warning">{i18n.t('BOOKING.PAYMENT_PENDING')}</span>
+            <span className="align-middle">{i18n.t('BOOKING.PAYMENT_PENDING')}</span>
           </DropdownItem>
           <DropdownItem tag="div" onClick={() => toggleCancelFormModal()}>
-            <span className="align-middle text-danger">{i18n.t('BOOKING.CANCEL_BOOKING')}</span>
+            <span className="align-middle">{i18n.t('BOOKING.CANCEL_BOOKING')}</span>
           </DropdownItem>
         </DropdownMenu>
       </UncontrolledDropdown>

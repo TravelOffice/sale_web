@@ -21,7 +21,7 @@ export interface BookingRepository {
 
   confirmBooking(bookingId: string, departureTourId: string): Promise<Partial<Booking>>;
 
-  changeToPaymentPending(bookingId: string, waitingExpiredAt: string): Promise<void>;
+  changeToPaymentPending(bookingId: string, waitingExpiredAt: number): Promise<Booking>;
 
   addNote(bookingId: string, formData: CreateNoteFormData): Promise<Note>
 }

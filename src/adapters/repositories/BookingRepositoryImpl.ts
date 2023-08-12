@@ -111,7 +111,11 @@ export default class BookingRepositoryImpl implements BookingRepository {
     return response.data;
   }
 
-  changeToPaymentPending = async (bookingId: string, waitingExpiredAt: string): Promise<void> => {
-    await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/payment-pending`, { waitingExpiredAt });
+  changeToPaymentPending = async (
+    bookingId: string,
+    waitingExpiredAt: number,
+  ): Promise<Booking> => {
+    const response = await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/payment-pending`, { waitingExpiredAt });
+    return response.data;
   }
 }

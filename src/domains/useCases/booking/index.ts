@@ -12,12 +12,14 @@ import AddBookingFromLeadUseCaseImpl from '@domain/useCases/booking/AddBookingFr
 import AddBookingUseCaseImpl from '@domain/useCases/booking/AddBookingUseCaseImpl';
 import { AddBookingNoteUseCase } from '@domain/useCases/booking/interfaces/AddBookingNoteUseCase';
 import AddBookingNoteUseCaseImpl from '@domain/useCases/booking/AddBookingNoteUseCaseImpl';
-import { ConfirmBookingUseCase } from '@domain/useCases/booking/interfaces/ConfirmaBookingUseCase';
+import { ConfirmBookingUseCase } from '@domain/useCases/booking/interfaces/ConfirmBookingUseCase';
 import { CancelBookingUseCase } from '@domain/useCases/booking/interfaces/CancelBookingUseCase';
 import ConfirmBookingUseCaseImpl from '@domain/useCases/booking/ConfirmBookingUseCaseImpl';
 import CancelBookingUseCaseImpl from '@domain/useCases/booking/CancelBookingUseCaseImpl';
 import { GetBookingsOfCustomerUseCase } from '@domain/useCases/interfaces/customer/GetBookingsOfCustomerUseCase';
 import GetBookingsOfCustomerUseCaseImpl from '@domain/useCases/customer/GetBookingsOfCustomerUseCaseImpl';
+import { ChangeToPaymentPendingUseCase } from '@domain/useCases/booking/interfaces/ChangeToPaymentPendingUseCase';
+import ChangeToPaymentPendingUseCaseImpl from '@domain/useCases/booking/ChangeToPaymentPendingUseCaseImpl';
 
 interface UseCases {
   addBookingUseCase: AddBookingUseCase,
@@ -29,6 +31,7 @@ interface UseCases {
   addBookingNoteUseCase: AddBookingNoteUseCase,
   confirmBookingUseCase: ConfirmBookingUseCase,
   cancelBookingUseCase: CancelBookingUseCase,
+  changeToPaymentPendingUseCase: ChangeToPaymentPendingUseCase,
   getBookingsOfCustomerUseCase: GetBookingsOfCustomerUseCase,
 }
 
@@ -42,6 +45,7 @@ const useCases: UseCases = {
   addBookingNoteUseCase: new AddBookingNoteUseCaseImpl(),
   confirmBookingUseCase: new ConfirmBookingUseCaseImpl(),
   cancelBookingUseCase: new CancelBookingUseCaseImpl(),
+  changeToPaymentPendingUseCase: new ChangeToPaymentPendingUseCaseImpl(),
   getBookingsOfCustomerUseCase: new GetBookingsOfCustomerUseCaseImpl(),
 };
 
@@ -55,5 +59,6 @@ export const {
   addBookingNoteUseCase,
   confirmBookingUseCase,
   cancelBookingUseCase,
+  changeToPaymentPendingUseCase,
   getBookingsOfCustomerUseCase,
 } = useCases;
