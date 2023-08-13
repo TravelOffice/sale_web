@@ -699,7 +699,9 @@
       "PAYMENT_VOUCHER": "Phiếu chi",
       "PAYMENT_VOUCHER_LIST": "Danh sách phiếu chi",
       "SUMMARY": "Tổng",
-      "CREATE_PAYMENT_VOUCHER": "Tạo phiếu chi"
+      "CREATE_PAYMENT_VOUCHER": "Tạo phiếu chi",
+      "CONFIRM_DELETE_ESTIMATION": "Bạn có chắc muốn xóa dịch vụ này?",
+      "DELETE_ESTIMATION": "Xóa dịch vụ"
     },
     "EXPECTED_PROFIT": "Lợi nhuận dự kiến",
     "SUMMARY": "Tổng kết",
@@ -732,7 +734,16 @@
     "DELETE_ACTIVITY_CONFIRM_MESSAGE": "Bạn có chắc chắn muốn xoá hoạt động này?",
     "UPDATE_STATUS_SUCCESSFULLY": "Cập nhật trạng thái khởi hành thành công",
     "SELECT_TOUR_OPERATOR": "Chọn người điều hành tour",
-    "CHANGE_OPERATOR_SUCCESSFULLY": "Đã gán điều hành viên thành công"
+    "CHANGE_OPERATOR_SUCCESSFULLY": "Đã gán điều hành viên thành công",
+    "TOUR_PLAN_KEY": {
+      "ACTIVITY_DESCRIPTION": "Mô tả hoạt động",
+      "UPDATE_ACTIVITY": "Cập nhật hoạt động",
+      "SHOW_HIDE_SERVICES": "Ẩn/hiển dịch vụ",
+      "ADD_SERVICE": "Thêm dịch vụ",
+      "NO_ESTIMATION_TO_DISPLAY": "Chưa thêm dịch vụ",
+      "TOUR_HAS_NOT_BEEN_SET_DURATION_IN_DAYS": "Tour chưa được thiết lập số ngày",
+      "NO_ACTIVITY_TO_DISPLAY": "Không có hoạt động để hiển thị"
+    }
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Chuyến đi mẫu",

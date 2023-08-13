@@ -699,7 +699,9 @@
       "PAYMENT_VOUCHER": "Payment voucher",
       "PAYMENT_VOUCHER_LIST": "Payment voucher líst",
       "SUMMARY": "Summary",
-      "CREATE_PAYMENT_VOUCHER": "Tạo phiếu chi"
+      "CREATE_PAYMENT_VOUCHER": "Create payment voucher",
+      "CONFIRM_DELETE_ESTIMATION": "Are your sure to delete this service?",
+      "DELETE_ESTIMATION": "Delete service"
     },
     "EXPECTED_PROFIT": "Expected profit",
     "SUMMARY": "Summary",
@@ -732,7 +734,16 @@
     "DELETE_ACTIVITY_CONFIRM_MESSAGE": "Are you sure to delete this activity?",
     "UPDATE_STATUS_SUCCESSFULLY": "Update opreation status successfully",
     "SELECT_TOUR_OPERATOR": "Select a tour operator",
-    "CHANGE_OPERATOR_SUCCESSFULLY": "Change tour operator successfully"
+    "CHANGE_OPERATOR_SUCCESSFULLY": "Change tour operator successfully",
+    "TOUR_PLAN_KEY": {
+      "ACTIVITY_DESCRIPTION": "Activity description",
+      "UPDATE_ACTIVITY": "Update activity",
+      "SHOW_HIDE_SERVICES": "Show/Hide services",
+      "ADD_SERVICE": "Add service",
+      "NO_ESTIMATION_TO_DISPLAY": "No estimation to display",
+      "TOUR_HAS_NOT_BEEN_SET_DURATION_IN_DAYS": "Tour has not been set duration in days",
+      "NO_ACTIVITY_TO_DISPLAY": "There are no activities to display"
+    }
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Tour template",

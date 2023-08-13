@@ -1,5 +1,10 @@
 import { AddTourPlanActivityUseCase } from '@domain/useCases/tourOperation/interfaces/AddTourPlanActivityUseCase';
-import { CreateTourPlanActivityFormData, TourPlan, UpdateTourPlanFormData } from '@domain/entities/tour/TourPlan';
+import {
+  CreateTourPlanActivityFormData,
+  DailyTourPlanItem,
+  TourPlan,
+  UpdateTourPlanFormData,
+} from '@domain/entities/tour/TourPlan';
 import { tourOperationRepository } from '@adapter/repositories';
 import * as uuid from 'uuid';
 
@@ -12,7 +17,7 @@ export default class AddTourPlanActivityUseCaseImpl implements AddTourPlanActivi
     const {
       day, activityType, description, endTime, estimationId, startTime,
     } = formData;
-    const items = currentTourPlan[day] || [];
+    const items: Partial<DailyTourPlanItem>[] = currentTourPlan[day] || [];
     items.push({
       id: uuid.v4(),
       activityType,

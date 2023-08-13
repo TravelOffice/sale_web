@@ -1,3 +1,5 @@
+import { Estimation } from '@domain/entities/tour/Estimation';
+
 export const tourPlanActivityTypes = [
   'MEAL',
   'PARTY',
@@ -21,7 +23,8 @@ export interface DailyTourPlanItem {
   endTime: number,
   activityType: TourPlanActivityType,
   description: string,
-  estimationId: string,
+  estimationId: string[],
+  estimations: Estimation[]
 }
 
 export type DailyKey = `DAY_${number}`;
