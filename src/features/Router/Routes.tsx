@@ -32,6 +32,7 @@ import DepartureTourCreatePage from '@features/Tour/Departure/DepartureTourCreat
 import DepartureTourEditPage from '@features/Tour/Departure/DepartureTourEditPage';
 import ToursOperationDetail from '@features/ToursOperation/ToursOperationDetail';
 import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
+import SourceListPage from '@features/Source/SourceListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -209,6 +210,10 @@ const Routes: RoutePathConfig[] = [
     path: '/apps/payment-vouchers',
     exact: true,
     component: <PaymentVoucherListPage />,
+  },
+  {
+    path: '/admin/sources',
+    component: <SourceListPage />,
   },
   {
     path: '*',

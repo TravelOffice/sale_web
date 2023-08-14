@@ -72,7 +72,8 @@
     "ACCEPT": "Accept",
     "CONFIRM": "Confirm",
     "CREATE": "Create",
-    "NO_ASSIGNEE": "N/A"
+    "NO_ASSIGNEE": "N/A",
+    "NO_DATA": "No data"
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",
@@ -922,5 +923,16 @@
     "TOUR_ID": "Tour ID",
     "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Payment voucher created successfully",
     "UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Update payment voucher successfully"
+  },
+  "SOURCE": {
+    "ADD": "Add source",
+    "NAME": "Name",
+    "UPDATE": "Update source",
+    "CODE": "Code",
+    "LIST": "Source list",
+    "ADD_SOURCE_SUCCESSFULLY": "Add source {{source}} successfully",
+    "UPDATE_SOURCE_SUCCESSFULLY": "Update source successfully",
+    "CREATED_AT": "Created at",
+    "UPDATED_AT": "Updated at"
   }
 }

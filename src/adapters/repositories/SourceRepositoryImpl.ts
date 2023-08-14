@@ -22,8 +22,8 @@ export default class SourceRepositoryImpl implements SourceRepository {
     await apiProvider.authorizedRequest.delete(`/sources/${id}`);
   }
 
-  update = async (formData: UpdateSourceFormData) => {
-    const response = await apiProvider.authorizedRequest.put('/sources', formData);
+  update = async (id: string, formData: UpdateSourceFormData) => {
+    const response = await apiProvider.authorizedRequest.put(`sources/${id}`, formData);
     return response.data;
   }
 }

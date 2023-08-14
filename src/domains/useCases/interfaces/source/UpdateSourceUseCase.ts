@@ -1,5 +1,8 @@
 import { Source, UpdateSourceFormData } from '@domain/entities/source/Source';
 
 export interface UpdateSourceUseCase {
-  invoke: (formData: UpdateSourceFormData) => Promise<Source>
+  invoke: (
+    id: string,
+    formData: UpdateSourceFormData,
+  ) => Promise<Source>
 }

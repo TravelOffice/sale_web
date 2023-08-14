@@ -72,7 +72,8 @@
     "ACCEPT": "Đồng ý",
     "CONFIRM": "Xác nhận",
     "CREATE": "Tạo mới",
-    "NO_ASSIGNEE": "Chưa chỉ định"
+    "NO_ASSIGNEE": "Chưa chỉ định",
+    "NO_DATA": "Chưa có dữ liệu"
   },
   "LEAD": {
     "LEAD_INFO": "Thông tin lead",
@@ -406,15 +407,15 @@
     "FEMALE": "Nữ",
     "OTHER": "Khác",
     "ADD_USER_SUCCESSFULLY": "Đã thêm mới nhân viên {{userName}}",
+    "UPDATE_USER_SUCCESSFULLY": "Cập nhật thông tin nhân viên {{userName}} thành công",
+    "TOTAL_USERS": "Tổng số nhân viên",
     "USERNAME": "Tên tài khoản",
     "CREATED_AT": "Ngày tạo tài khoản",
     "UPDATE_ACCOUNT": "Cập nhật thông tin tài khoản",
     "UPDATE_ACCOUNT_SUCCESSFULLY": "Cập nhật thông tin tài khoản thành công",
     "ACCOUNT_INFORMATION": "Thông tin tài khoản",
     "UPDATED_AT": "Ngày cập nhật gần nhất",
-    "AVATAR": "Ảnh đại diện",
-    "UPDATE_USER_SUCCESSFULLY": "Cập nhật thông tin nhân viên {{userName}} thành công",
-    "TOTAL_USERS": "Tổng số nhân viên"
+    "AVATAR": "Ảnh đại diện"
   },
   "ROLE-PERMISSION": {
     "ROLE_LIST_TITLE": "Danh sách Role",
@@ -922,5 +923,16 @@
     "TOUR_ID": "Mã tour",
     "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Tạo phiếu chi thành công",
     "UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Cập nhật phiếu chi thành công"
+  },
+  "SOURCE": {
+    "ADD": "Thêm nguồn",
+    "NAME": "Tên",
+    "UPDATE": "Cập nhật nguồn",
+    "CODE": "Mã",
+    "LIST": "Danh sách nguồn",
+    "ADD_SOURCE_SUCCESSFULLY": "Thêm nguồn {{source}} thành công",
+    "UPDATE_SOURCE_SUCCESSFULLY": "Cập nhật nguồn thành công",
+    "CREATED_AT": "Tạo lúc",
+    "UPDATED_AT": "Cập nhật lần cuối"
   }
 }

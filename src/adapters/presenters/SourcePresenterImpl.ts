@@ -12,7 +12,10 @@ export default class SourcePresenterImpl implements SourcePresenter {
 
   create = async (formData: CreateSourceFormData) => createSourceUseCase.invoke(formData);
 
-  update = async (formData: UpdateSourceFormData) => updateSourceUseCase.invoke(formData);
+  update = async (
+    id: string,
+    formData: UpdateSourceFormData,
+  ) => updateSourceUseCase.invoke(id, formData);
 
   delete = async (id: string) => deleteSourceUseCase.invoke(id);
 }
