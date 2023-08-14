@@ -82,21 +82,17 @@ const bookingColumns: TableColumn<Booking>[] = [
       const { departureTourId, departureTourName, tourTemplate } = booking;
       return (
         <div>
-          <div className="text-primary">
-            <Badge className="text-uppercase" color="light-primary">
-              {i18n.t('BOOKING.TOUR_TEMPLATE')}
-            </Badge>
-            {' '}
+          <div className="text-primary fw-bolder">
             {departureTourId ? departureTourName : tourTemplate?.name}
           </div>
           <div className="d-flex align-items-center">
             <Calendar size={14} />
-            <p className="mb-0" style={{ marginLeft: 4 }}>
+            <span className="ms-25">
               {moment(booking.departureDate).format('DD/MM/YYYY')}
               {' - '}
               {booking.tourTemplate?.durationInDays
                 ? moment(booking.departureDate).add(booking.tourTemplate?.durationInDays, 'days').format('DD/MM/YYYY') : <></>}
-            </p>
+            </span>
           </div>
         </div>
       );
