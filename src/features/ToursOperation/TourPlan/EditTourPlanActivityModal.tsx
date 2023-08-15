@@ -9,7 +9,8 @@ import LoadingButton from '@components/LoadingButton/LoadingButton';
 import { useForm } from 'react-hook-form';
 import {
   DailyKey,
-  DailyTourPlanItem, TourPlan,
+  DailyTourPlanItem,
+  TourPlan,
   tourPlanActivityTypes,
   UpdateTourPlanActivityFormData,
 } from '@domain/entities/tour/TourPlan';
@@ -20,7 +21,6 @@ import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import moment from 'moment/moment';
 import { DepartureTour } from '@domain/entities/tour';
 import toasty from '@components/Toasty/Toasty';
-import { useEstimationOptions } from '@hooks/tourDeparture';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -57,7 +57,6 @@ export default function EditTourPlanActivityModal(props: EditTourPlanActivityMod
   } = props;
 
   const queryClient = useQueryClient();
-  const estimationOptions = useEstimationOptions(tourId);
 
   const {
     control,
@@ -101,8 +100,7 @@ export default function EditTourPlanActivityModal(props: EditTourPlanActivityMod
   const onSubmit = useCallback((formData: UpdateTourPlanActivityFormData) => {
     // Magic code: convert estimationId to string
     // This code is needed because of the bug of react-hook-form
-    const { estimationId } = formData;
-    mutate({ ...formData, estimationId: estimationId.toString() });
+    mutate(formData);
   }, [tour]);
 
   return (
@@ -117,14 +115,6 @@ export default function EditTourPlanActivityModal(props: EditTourPlanActivityMod
               <span className="text-danger">*</span>
             </Label>
             <FormItemSelect options={activityOptions} control={control} name="activityType" errors={errors} />
-          </div>
-          <div className="mb-1">
-            <Label>
-              {i18n.t('TOURS_OPERATION.TOUR_ESTIMATION')}
-              {' '}
-              <span className="text-danger">*</span>
-            </Label>
-            <FormItemSelect options={estimationOptions} control={control} name="estimationId" errors={errors} />
           </div>
           <Row>
             <div className="col-md-6 mb-1">

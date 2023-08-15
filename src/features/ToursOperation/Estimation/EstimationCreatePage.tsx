@@ -26,11 +26,15 @@ import { useParams } from 'react-router-dom';
 import { Supplier, SupplierServiceType } from '@domain/entities/supplier';
 import { convertCurrencyToNumber } from '@utils/CurrencyUtils';
 import CurrencyInput from 'react-currency-input-field';
+import { DailyKey, TourPlan, UpdateTourPlanActivityFormData } from '@domain/entities/tour/TourPlan';
 
 interface EstimationCreatePageProps {
   createFormModal: boolean,
   toggleCreateFormModal: () => void,
   allSuppliers: Supplier[],
+  tourPlanDay?: string;
+  currentTourPlan?: TourPlan;
+  activityId?: string;
 }
 
 const payerOptions = [
@@ -90,7 +94,10 @@ export interface CreateEstimationParams {
 const EstimationCreatePage = (props: EstimationCreatePageProps) => {
   const { tourId } = useParams<CreateEstimationParams>();
 
-  const { createFormModal, toggleCreateFormModal, allSuppliers } = props;
+  const {
+    createFormModal, toggleCreateFormModal, allSuppliers, tourPlanDay = '', currentTourPlan = undefined,
+    activityId = '',
+  } = props;
 
   const queryClient = useQueryClient();
 
@@ -147,6 +154,29 @@ const EstimationCreatePage = (props: EstimationCreatePageProps) => {
       formData: CreateEstimationFormData,
     ) => tourPresenter.createEstimation(tourId, formData),
     onSuccess: (newEstimation: Estimation) => {
+      // If create estimation from tour plan page then add estimationId to activity
+      if (tourPlanDay && currentTourPlan && activityId) {
+        const activity = currentTourPlan[tourPlanDay as DailyKey].find(
+          (item) => item.id === activityId,
+        );
+        // Deep copy activity of currentTourPlan
+        const updatedActivity = JSON.parse(JSON.stringify(
+          activity,
+        ));
+        // if activity has estimationId then push new estimationId to it
+        if (updatedActivity.estimationId) {
+          updatedActivity.estimationId.push(newEstimation.code);
+        } else {
+          // if activity has no estimationId then create new estimationId array
+          updatedActivity.estimationId = [newEstimation.code];
+        }
+        updatedActivity.day = tourPlanDay;
+        tourPresenter.updateTourPlanActivity(
+          tourId,
+          currentTourPlan,
+          updatedActivity as UpdateTourPlanActivityFormData,
+        );
+      }
       toasty.show({
         title: i18n.t('COMMON.SUCCESS'),
         type: 'success',

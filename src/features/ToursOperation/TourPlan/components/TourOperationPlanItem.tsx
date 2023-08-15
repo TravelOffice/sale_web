@@ -3,17 +3,27 @@ import { DailyTourPlanItem } from '@domain/entities/tour/TourPlan';
 import TourPlanItemActivity from '@features/ToursOperation/TourPlan/components/TourPlanItemActivity';
 import moment from 'moment';
 import classNames from 'classnames';
+import { Estimation } from '@domain/entities/tour/Estimation';
 
 export interface TourOperationPlanItemProps {
   title: string,
   date: string,
   activities: DailyTourPlanItem[],
   onEditActivity: (activity: DailyTourPlanItem) => void,
+  onDeleteEstimation: (activity: DailyTourPlanItem, estimation: Estimation) => void,
+  onCreateEstimation: (activity: DailyTourPlanItem) => void,
+  onUpdateEstimation: (estimation: Estimation) => void,
 }
 
 export default function TourOperationPlanItem(props: TourOperationPlanItemProps) {
   const {
-    title, date, activities, onEditActivity,
+    title,
+    date,
+    activities,
+    onEditActivity,
+    onCreateEstimation,
+    onUpdateEstimation,
+    onDeleteEstimation,
   } = props;
   const color = useMemo(() => {
     if (moment(date, 'DD/MM/YYYY').toDate().getTime() > Date.now()) return 'secondary';
@@ -38,6 +48,9 @@ export default function TourOperationPlanItem(props: TourOperationPlanItemProps)
             activity={activity}
             key={activity.activityType}
             onClick={onEditActivity}
+            onCreateEstimation={onCreateEstimation}
+            onUpdateEstimation={onUpdateEstimation}
+            onDeleteEstimation={onDeleteEstimation}
           />
         ))
       }

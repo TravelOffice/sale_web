@@ -1,16 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
 import {
-  Button, Form,
-  Label, Modal, ModalBody, ModalFooter, ModalHeader, ModalProps, Row,
+  Button, Form, Label, Modal, ModalBody, ModalFooter, ModalHeader, ModalProps, Row,
 } from 'reactstrap';
 import FormItemSelect from '@components/Form/FormItemSelect';
 import { useForm } from 'react-hook-form';
 import FormItemInput from '@components/Form/FormItemInput';
-import {
-  CreateTourPlanActivityFormData,
-  TourPlan,
-  tourPlanActivityTypes,
-} from '@domain/entities/tour/TourPlan';
+import { CreateTourPlanActivityFormData, TourPlan, tourPlanActivityTypes } from '@domain/entities/tour/TourPlan';
 import { correctDateTimeOfTourPlan, generateDayOptions, generateI18nForTourOperation } from '@utils/TousOperationUtils';
 import i18n from '@config/i18n';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -18,7 +13,6 @@ import { tourPresenter } from '@adapter/presenters';
 import LoadingButton from '@components/LoadingButton/LoadingButton';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import moment from 'moment';
-import { useEstimationOptions } from '@hooks/tourDeparture';
 import toasty from '@components/Toasty/Toasty';
 import { DepartureTour } from '@domain/entities/tour';
 import * as yup from 'yup';
@@ -48,7 +42,6 @@ const schema = yup.object().shape({
   startTime: yup.number().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.START_TIME') })),
   endTime: yup.number().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.END_TIME') })),
   description: yup.string().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.DESCRIPTION') })),
-  estimationId: yup.number().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.TOUR_ESTIMATION') })),
 });
 
 export default function CreateTourPlanActivityModal(props: CreateTourPlanActivityModalProps) {
@@ -57,7 +50,6 @@ export default function CreateTourPlanActivityModal(props: CreateTourPlanActivit
   } = props;
 
   const queryClient = useQueryClient();
-  const estimationOptions = useEstimationOptions(tourId);
   const dayOptions = useMemo(() => generateDayOptions(tour), [tour]);
 
   const {
@@ -116,14 +108,6 @@ export default function CreateTourPlanActivityModal(props: CreateTourPlanActivit
               <span className="text-danger">*</span>
             </Label>
             <FormItemSelect options={activityOptions} control={control} name="activityType" errors={errors} />
-          </div>
-          <div className="mb-1">
-            <Label>
-              {i18n.t('TOURS_OPERATION.TOUR_ESTIMATION')}
-              {' '}
-              <span className="text-danger">*</span>
-            </Label>
-            <FormItemSelect options={estimationOptions} control={control} name="estimationId" errors={errors} />
           </div>
           <Row>
             <div className="col-md-6 mb-1">

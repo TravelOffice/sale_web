@@ -2,18 +2,44 @@ import React, { ReactNode, useMemo, useState } from 'react';
 import { generateI18nForTourOperation } from '@utils/TousOperationUtils';
 import { DailyTourPlanItem, TourPlanActivityType } from '@domain/entities/tour/TourPlan';
 import {
-  AirplaneTakeOff16Regular, BoardGamesRegular, DataWaterfallRegular,
+  AirplaneTakeOff16Regular,
+  BoardGamesRegular,
+  DataWaterfallRegular,
   DrinkWine16Regular,
-  Food16Regular, Location16Regular, MapRegular, PuzzleCube16Regular, Tent16Regular,
+  Food16Regular,
+  Location16Regular,
+  MapRegular,
+  PuzzleCube16Regular,
+  Tent16Regular,
   VehicleCar16Regular,
 } from '@fluentui/react-icons/lib/fonts';
-import { Edit3 } from 'react-feather';
+import {
+  Edit, Edit3, MoreVertical, X,
+} from 'react-feather';
 import moment from 'moment';
 import classNames from 'classnames';
+import i18n from '@config/i18n';
+import { generateEditableUrlForSupplier } from '@utils/SupplierUtils';
+import { Link } from 'react-router-dom';
+import { formatCurrency } from '@utils/Utils';
+import {
+  Button,
+  Col,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  Row,
+  UncontrolledCollapse,
+  UncontrolledDropdown,
+} from 'reactstrap';
+import { Estimation } from '@domain/entities/tour/Estimation';
 
 export interface TourPlanItemActivityProps {
   activity: DailyTourPlanItem,
   onClick: (activity: DailyTourPlanItem) => void,
+  onCreateEstimation: (activity: DailyTourPlanItem) => void,
+  onUpdateEstimation: (estimation: Estimation) => void,
+  onDeleteEstimation: (activity: DailyTourPlanItem, estimation: Estimation) => void,
 }
 
 const activityIcons: Record<TourPlanActivityType, ReactNode> = {
@@ -47,17 +73,23 @@ const activityColors: Record<TourPlanActivityType, string> = {
 };
 
 export default function TourPlanItemActivity(props: TourPlanItemActivityProps) {
-  const { activity, onClick } = props;
+  const {
+    activity,
+    onClick,
+    onCreateEstimation,
+    onDeleteEstimation,
+    onUpdateEstimation,
+  } = props;
   const [showEditButton, setShowEditButton] = useState(false);
   const color = useMemo(() => {
     const now = Date.now();
     if (now < activity.startTime) return 'secondary';
     return activityColors[activity.activityType];
   }, []);
+
   return (
     <li
       className="timeline-item cursor-pointer"
-      onClick={() => onClick(activity)}
       onMouseEnter={() => setShowEditButton(true)}
       onMouseLeave={() => setShowEditButton(false)}
     >
@@ -81,11 +113,159 @@ export default function TourPlanItemActivity(props: TourPlanItemActivityProps) {
             {moment(activity.endTime).format('HH:mm')}
           </span>
         </div>
-        <p className="text-sm mb-0">
-          <span className="text-dark">
-            {activity.description}
-          </span>
-        </p>
+        <Row>
+          <Col md={6}>
+            <b>
+              {i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.ACTIVITY_DESCRIPTION')}
+              :
+              {' '}
+            </b>
+            <span className="text-dark">
+              {activity.description}
+            </span>
+          </Col>
+        </Row>
+        <Button className="mb-1 mt-1" color="primary" outline size="sm" onClick={() => onClick(activity)}>
+          {i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.UPDATE_ACTIVITY')}
+        </Button>
+        {' '}
+        <Button className="mb-1 mt-1" color="primary" size="sm" id={`estimationOfActivity${activity.id}Toggler`} outline>
+          {i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.SHOW_HIDE_SERVICES')}
+        </Button>
+        {' '}
+        <Button className="mb-1 mt-1" color="primary" outline size="sm" onClick={() => onCreateEstimation(activity)}>
+          {i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.ADD_SERVICE')}
+        </Button>
+        <>
+          <UncontrolledCollapse toggler={`#estimationOfActivity${activity.id}Toggler`}>
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th style={{ minWidth: 100 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.SERVICE_TYPE')}</th>
+                  <th style={{ minWidth: 250 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.SUPPLIER')}</th>
+                  <th style={{ minWidth: 250 }}>{i18n.t('COMMON.DETAILS')}</th>
+                  <th style={{ minWidth: 100 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.TEMPORARY_CALCULATED')}</th>
+                  <th style={{ minWidth: 100 }}>{i18n.t('COMMON.ACTIONS')}</th>
+                </tr>
+              </thead>
+              <tbody className="table-hover table-striped">
+                {activity.estimations.length > 0 ? activity.estimations.map((estimation) => (
+                  <tr>
+                    <td>{generateI18nForTourOperation(`ESTIMATION.${estimation.serviceType}`)}</td>
+                    <td>
+                      <Link
+                        to={generateEditableUrlForSupplier(estimation.supplierId)}
+                        className="text-truncate text-body text-center"
+                      >
+                        <span
+                          className="fw-bolder text-primary"
+                        >
+                          {estimation.supplier?.name}
+                        </span>
+                      </Link>
+                    </td>
+                    <td>
+                      <span
+                        className="fw-bold"
+                      >
+                        {i18n.t('TOURS_OPERATION.ESTIMATION.PRICE')}
+                      </span>
+                      {': '}
+                      <span
+                        className="text-warning"
+                      >
+                        {formatCurrency(estimation.estimatedPrice)}
+                      </span>
+                      <br />
+                      <span
+                        className="fw-bold"
+                      >
+                        {i18n.t('TOURS_OPERATION.ESTIMATION.QUANTITY')}
+                      </span>
+                      {': '}
+                      {estimation.estimatedQuantity}
+                      <br />
+                      {
+                        estimation.vatStatus === 'VAT_INCLUDED' ? (
+                          <span className="fst-italic text-success">
+                            (
+                            {
+                                generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
+                              }
+                            )
+                          </span>
+                        ) : (
+                          <span className="fst-italic">
+                            (
+                            {
+                                generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
+                              }
+                            )
+                          </span>
+                        )
+                      }
+                    </td>
+                    <td>
+                      {formatCurrency(
+                        estimation.estimatedQuantity * estimation.estimatedPrice,
+                      )}
+                    </td>
+                    <td>
+                      <div className="column-action">
+                        <UncontrolledDropdown>
+                          <DropdownToggle
+                            tag="div"
+                            className="btn btn-sm"
+                          >
+                            <MoreVertical
+                              size={14}
+                              className="cursor-pointer"
+                            />
+                          </DropdownToggle>
+                          <DropdownMenu container="body">
+                            <DropdownItem
+                              tag="a"
+                              href="/"
+                              className="w-100"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onUpdateEstimation(estimation);
+                              }}
+                            >
+                              {' '}
+                              <Edit size={14} className="me-50" />
+                              <span
+                                className="align-middle"
+                              >
+                                {i18n.t('COMMON.EDIT')}
+                              </span>
+                            </DropdownItem>
+                            <DropdownItem
+                              tag="a"
+                              href="/"
+                              className="w-100"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                onDeleteEstimation(activity, estimation);
+                              }}
+                            >
+                              <X size={14} className="me-50" />
+                              <span
+                                className="align-middle"
+                              >
+                                {i18n.t('COMMON.DELETE')}
+                              </span>
+                            </DropdownItem>
+                          </DropdownMenu>
+                        </UncontrolledDropdown>
+                      </div>
+                    </td>
+                  </tr>
+                )) : <tr><td colSpan={5}>{i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.NO_ESTIMATION_TO_DISPLAY')}</td></tr>}
+              </tbody>
+            </table>
+          </UncontrolledCollapse>
+        </>
       </div>
     </li>
   );

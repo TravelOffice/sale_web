@@ -3,19 +3,16 @@ import Table from '@components/Table/Table';
 import i18n from '@config/i18n';
 import { ExtendedDepartureTour, TourLocation } from '@domain/entities/tour';
 import departureTourColumns from '@features/ToursOperation/DepartureTour/components/DepartureTourColumns';
-import DepartureTourFilter, { DepartureTourFilterParams } from '@features/ToursOperation/DepartureTour/components/DepartureTourFilter';
+import DepartureTourFilter, {
+  DepartureTourFilterParams,
+} from '@features/ToursOperation/DepartureTour/components/DepartureTourFilter';
 import { HandleDataState } from '@redux/slices/others/HandleDataState';
 import { useQueries } from '@tanstack/react-query';
 import { canUserBeOperator, filterDepartureTours, toSearchableContent } from '@utils/TousOperationUtils';
 import React, { useMemo, useState } from 'react';
 import { ExpanderComponentProps } from 'react-data-table-component';
 import { Info, User } from 'react-feather';
-import { useHistory } from 'react-router-dom';
-import {
-  Alert,
-  ButtonProps,
-  Col, Row,
-} from 'reactstrap';
+import { Alert, Col, Row } from 'reactstrap';
 
 // Expandable component UI that show detailed data of each departure tour
 type InternalComponentProps = ExpanderComponentProps<ExtendedDepartureTour>;
@@ -109,14 +106,6 @@ export default function DepartureTourListPage() {
     return filterDepartureTours(extendedDepTours, filterParams);
   }, [departureTours, tourLocations, filterParams]);
 
-  const history = useHistory();
-  const additionalActionButtons: Array<ButtonProps> = useMemo(() => [
-    {
-      name: i18n.t('COMMON.ADD'),
-      handleOnClick: () => { history.push('/apps/bookings/create'); },
-    },
-  ], []);
-
   return (
     <>
       {
@@ -147,7 +136,6 @@ export default function DepartureTourListPage() {
           const searchableContent = toSearchableContent(departureTour);
           return searchableContent.includes(searchTerm.toLowerCase());
         }}
-        extraButtons={additionalActionButtons}
       />
     </>
   );
