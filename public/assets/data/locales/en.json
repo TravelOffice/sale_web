@@ -73,7 +73,22 @@
     "CONFIRM": "Confirm",
     "CREATE": "Create",
     "NO_ASSIGNEE": "N/A",
-    "NO_DATA": "No data"
+    "NO_DATA": "No data",
+    "EMAIL": "Email",
+    "TOUR": "Tour",
+    "TOUR_TEMPLATE": "Tour template",
+    "RECEIPT": "Receipt",
+    "PAYMENT_VOUCHER": "Payment Voucher",
+    "CUSTOMER": "Customer",
+    "BOOKING": "Booking",
+    "SUPPLIER": "Supplier",
+    "TOUR_OPERATION": "Tour operation",
+    "USER": "User",
+    "ROLES_PERMISSIONS": "Roles & Permissions",
+    "OTHERS": "Others",
+    "SOURCE": "Source",
+    "TOUR_DEPARTURE": "Departure tour",
+    "ADMINISTRATOR": "Administratrator"
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",
@@ -945,5 +960,17 @@
     "UPDATE_SOURCE_SUCCESSFULLY": "Update source successfully",
     "CREATED_AT": "Created at",
     "UPDATED_AT": "Updated at"
+  },
+  "TOUR_LOCATION": {
+    "CODE": "Code",
+    "NAME": "Location name",
+    "ADD_TOUR_LOCATION_SUCCESSFULLY": "Add tour location {{name}} successfully",
+    "UPDATE_TOUR_LOCATION_SUCCESSFULLY": "Update tour location {{name}} successfully",
+    "UPDATE": "Update tour location",
+    "STATUS": "Status",
+    "ENABLE": "Enable",
+    "DISABLE": "Disable",
+    "ADD": "Add location",
+    "LIST": "Location list"
   }
 }

@@ -1,4 +1,4 @@
-import { apiProvider, sessionStorageProvider } from '@adapter/infrastructures';
+import { apiProvider } from '@adapter/infrastructures';
 import { UpdateAccountFormData, User } from '@domain/entities/User';
 import UserRepository from './interfaces/UserRepository';
 
@@ -36,18 +36,9 @@ export default class UserRepositoryImpl implements UserRepository {
     return user;
   }
 
-  getLinkedPages = async (refresh: boolean) => {
+  getLinkedPages = async () => {
     // Use caching to reduce calling to the backend
-    const cachedKey = 'linked_pages';
-    if (!refresh) {
-      const cachedPagesInJSON: string = await sessionStorageProvider.getItem(cachedKey);
-      if (cachedPagesInJSON) {
-        return JSON.parse(cachedPagesInJSON);
-      }
-    }
     const response = await apiProvider.authorizedRequest.get('/admin/linked_pages');
-    const linkedPages = response.data;
-    await sessionStorageProvider.setItem(cachedKey, JSON.stringify(linkedPages));
-    return linkedPages;
+    return response.data;
   }
 }

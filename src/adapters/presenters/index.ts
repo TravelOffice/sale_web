@@ -22,6 +22,8 @@ import { SupplierPresenter } from '@adapter/presenters/interfaces/SupplierPresen
 import SupplierPresenterImpl from '@adapter/presenters/SupplierPresenterImpl';
 import { PaymentVoucherPresenter } from '@adapter/presenters/interfaces/PaymentVoucherPresenter';
 import PaymentVoucherPresenterImpl from '@adapter/presenters/PaymentVoucherPresenterImpl';
+import { TourLocationPresenter } from '@adapter/presenters/interfaces/TourLocationPresenter';
+import TourLocationPresenterImpl from '@adapter/presenters/TourLocationPresenterImpl';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 import LeadPresenterImpl from './LeadPresenterImpl';
 import { RolePermissionPresenter } from './interfaces/RolePermissionPresenter';
@@ -43,8 +45,9 @@ interface Presenters {
   bookingPresenter: BookingPresenter,
   sourcePresenter: SourcePresenter,
   receiptPresenter: ReceiptPresenter,
-  supplierPresenter: SupplierPresenter
-  paymentVoucherPresenter: PaymentVoucherPresenter
+  supplierPresenter: SupplierPresenter,
+  paymentVoucherPresenter: PaymentVoucherPresenter,
+  tourLocationPresenter: TourLocationPresenter,
 }
 
 const presenters: Presenters = {
@@ -63,6 +66,7 @@ const presenters: Presenters = {
   receiptPresenter: new ReceiptPresenterImpl(),
   supplierPresenter: new SupplierPresenterImpl(),
   paymentVoucherPresenter: new PaymentVoucherPresenterImpl(),
+  tourLocationPresenter: new TourLocationPresenterImpl(),
 };
 
 export const {
@@ -81,4 +85,5 @@ export const {
   receiptPresenter,
   supplierPresenter,
   paymentVoucherPresenter,
+  tourLocationPresenter,
 } = presenters;

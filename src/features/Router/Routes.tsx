@@ -33,6 +33,7 @@ import DepartureTourEditPage from '@features/Tour/Departure/DepartureTourEditPag
 import ToursOperationDetail from '@features/ToursOperation/ToursOperationDetail';
 import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
 import SourceListPage from '@features/Source/SourceListPage';
+import TourLocationListPage from '@features/TourLocation/TourLocationListPage';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -214,6 +215,10 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/admin/sources',
     component: <SourceListPage />,
+  },
+  {
+    path: '/admin/tour-locations',
+    component: <TourLocationListPage />,
   },
   {
     path: '*',

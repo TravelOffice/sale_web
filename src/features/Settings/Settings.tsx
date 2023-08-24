@@ -11,7 +11,6 @@ import '@styles/react/pages/page-account-settings.scss';
 import ConnectionsTabContent from '@features/Settings/ConnectionsTabContent';
 import CommingSoon from '@components/CommingSoon/CommingSoon';
 import { useAccessControl } from '@hooks/auth';
-import PERMISSIONS from '@utils/PermissionUtils';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
 import UserInfoPane from '@features/Settings/UserInfoPane';
 import SecurityTabContent from '../Security/SecurityTabContent';
@@ -53,7 +52,6 @@ const tabs: Tab[] = [
     id: 'connections',
     icon: <Link2 size={16} className="me-50" />,
     title: 'Connections',
-    requiredPermissions: { any: [PERMISSIONS.link_page, PERMISSIONS.unlink_page] },
     pane: <ConnectionsTabContent />,
   },
 ];

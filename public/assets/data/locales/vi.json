@@ -73,7 +73,22 @@
     "CONFIRM": "Xác nhận",
     "CREATE": "Tạo mới",
     "NO_ASSIGNEE": "Chưa chỉ định",
-    "NO_DATA": "Chưa có dữ liệu"
+    "NO_DATA": "Chưa có dữ liệu",
+    "EMAIL": "Email",
+    "TOUR": "Tour",
+    "TOUR_TEMPLATE": "Tour mẫu",
+    "RECEIPT": "Phiếu thu",
+    "PAYMENT_VOUCHER": "Phiếu chi",
+    "CUSTOMER": "Khách hàng",
+    "BOOKING": "Booking",
+    "SUPPLIER": "Nhà cung cấp",
+    "TOUR_OPERATION": "Điều hành tour",
+    "USER": "Người dùng",
+    "ROLES_PERMISSIONS": "Phân quyền",
+    "OTHERS": "Khác",
+    "SOURCE": "Nguồn",
+    "TOUR_DEPARTURE": "Tour khởi hành",
+    "ADMINISTRATOR": "Quản trị viên"
   },
   "LEAD": {
     "LEAD_INFO": "Thông tin lead",
@@ -945,5 +960,17 @@
     "UPDATE_SOURCE_SUCCESSFULLY": "Cập nhật nguồn thành công",
     "CREATED_AT": "Tạo lúc",
     "UPDATED_AT": "Cập nhật lần cuối"
+  },
+  "TOUR_LOCATION": {
+    "CODE": "Mã",
+    "NAME": "Tên địa điểm",
+    "ADD_TOUR_LOCATION_SUCCESSFULLY": "Thêm địa điểm {{name}} thành công",
+    "UPDATE_TOUR_LOCATION_SUCCESSFULLY": "Cập nhật địa điểm {{name}} thành công",
+    "UPDATE": "Cập nhật địa điểm",
+    "STATUS": "Trạng thái",
+    "ENABLE": "Hoạt động",
+    "DISABLE": "Chưa hoạt động",
+    "ADD": "Thêm địa điểm",
+    "LIST": "Danh sách địa điểm"
   }
 }

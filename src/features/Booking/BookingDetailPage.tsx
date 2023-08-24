@@ -60,10 +60,10 @@ export default function BookingDetail() {
         </Breadcrumb>
       </Row>
       <Row>
-        <Col xs={4} className="d-flex flex-column">
+        <Col md={12} xxl={4} className="d-flex flex-column">
           <BookingInfoCard />
         </Col>
-        <Col xs={8} className="d-flex flex-column">
+        <Col md={12} xxl={8} className="d-flex flex-column">
           <BookingTabs tabs={tabs} activeTab={activeTab} toggleTab={setActiveTab} />
           <TabContent className="h-100" activeTab={activeTab}>
             {

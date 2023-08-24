@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import {
-  DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
+  Button,
+  DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown, UncontrolledTooltip,
 } from 'reactstrap';
-import { MoreVertical } from 'react-feather';
+import {
+  Check, CreditCard, MoreVertical, X,
+} from 'react-feather';
 import i18n from '@config/i18n';
 import { Booking } from '@domain/entities/booking/Booking';
 import ConfirmBookingModal from '@features/Booking/components/ConfirmBookingModal';
@@ -44,7 +47,33 @@ export default function BookingItemActions(props: BookingItemActionsProps) {
         cancelFormModal={cancelFormModal}
         toggleCancelFormModal={toggleCancelFormModal}
       />
-      <UncontrolledDropdown>
+      <div className="d-xxl-none d-flex gap-1">
+        <div>
+          <Button className="btn-icon" outline color="success" id="confirmBooking" onClick={() => toggleConfirmFormModal()}>
+            <Check size={14} />
+          </Button>
+          <UncontrolledTooltip placement="bottom" target="confirmBooking">
+            {i18n.t('BOOKING.CONFIRM_BOOKING')}
+          </UncontrolledTooltip>
+        </div>
+        <div>
+          <Button className="btn-icon" outline color="info" id="waitingPayment" onClick={() => togglePaymentPendingFormModal()}>
+            <CreditCard size={14} />
+          </Button>
+          <UncontrolledTooltip placement="bottom" target="waitingPayment">
+            {i18n.t('BOOKING.PAYMENT_PENDING')}
+          </UncontrolledTooltip>
+        </div>
+        <div>
+          <Button className="btn-icon" outline color="danger" id="cancelBooking" onClick={() => toggleCancelFormModal()}>
+            <X size={14} />
+          </Button>
+          <UncontrolledTooltip placement="bottom" target="cancelBooking">
+            {i18n.t('BOOKING.CANCEL_BOOKING')}
+          </UncontrolledTooltip>
+        </div>
+      </div>
+      <UncontrolledDropdown className="d-none d-xxl-block">
         <DropdownToggle tag="div" className="btn btn-sm">
           <MoreVertical size={18} className="cursor-pointer" />
         </DropdownToggle>
