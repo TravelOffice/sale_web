@@ -13,6 +13,7 @@ import Select, { Props } from 'react-select';
 import { CSSObjectWithLabel } from 'react-select/dist/declarations/src/types';
 import { useDispatch } from 'react-redux';
 import { chatActions } from '@redux/slices/chatSlice';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 interface ManualAssignChatProps {
   conversation: Conversation
@@ -46,7 +47,7 @@ export default function ManualAssignChat(props: ManualAssignChatProps) {
   const assignedUser = users.find((user) => user.username === assignee);
   const userSelectOptions: UserOption[] = users.map((user) => ({
     value: user.username,
-    label: `${user.firstName} ${user.lastName}`,
+    label: generateUserDisplayName(user),
   }));
   const defaultUserOption = userSelectOptions.find((user) => user.value === assignee);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -125,21 +126,21 @@ export default function ManualAssignChat(props: ManualAssignChatProps) {
             {/* Editing section */}
             {
               isEditing && (
-              <div style={{ marginRight: 4 }}>
-                <Select
-                  styles={customStyles}
-                  className="basic-single"
-                  classNamePrefix="select"
-                  defaultValue={defaultUserOption}
-                  name="assignee-chooser"
-                  options={userSelectOptions}
-                  placeholder={t('CHAT.MANUAL_ASSIGN.CHOOSE_ASSIGNEE_DROPDOWN_TITLE')}
-                  onChange={(newValue, _) => {
-                    const newAssignee = newValue?.value;
-                    setSelectedAssignee(newAssignee);
-                  }}
-                />
-              </div>
+                <div style={{ marginRight: 4 }}>
+                  <Select
+                    styles={customStyles}
+                    className="basic-single"
+                    classNamePrefix="select"
+                    defaultValue={defaultUserOption}
+                    name="assignee-chooser"
+                    options={userSelectOptions}
+                    placeholder={t('CHAT.MANUAL_ASSIGN.CHOOSE_ASSIGNEE_DROPDOWN_TITLE')}
+                    onChange={(newValue, _) => {
+                      const newAssignee = newValue?.value;
+                      setSelectedAssignee(newAssignee);
+                    }}
+                  />
+                </div>
               )
             }
             {

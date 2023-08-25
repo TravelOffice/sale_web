@@ -41,6 +41,7 @@ import moment from 'moment';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingFromLeadFormData';
 import useQueryParams from '@hooks/useQueryParams';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 const tourTypeOptions = Object
   .keys(BookingTourTypeEnum)
@@ -133,7 +134,7 @@ const BookingCreateFromLeadPage = () => {
   );
 
   const assigneeOptions = useMemo(() => salesData.data?.map((sale) => ({
-    label: (sale.firstName && sale.lastName) ? `${sale.firstName} ${sale.lastName}` : `${sale.username}`,
+    label: generateUserDisplayName(sale),
     value: sale.username,
   })), [salesData]);
 

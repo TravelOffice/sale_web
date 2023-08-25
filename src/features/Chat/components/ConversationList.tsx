@@ -1,15 +1,13 @@
 import { Conversation } from '@domain/entities/chat/Conversation';
-import React, {
-  useCallback, useMemo, useState,
-} from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Badge, CardText, Collapse } from 'reactstrap';
-import { formatDateToMonthShort } from '@utils/DateUtils';
 import classnames from 'classnames';
 import ConversationAvatar from '@components/Avatar/CustomerAvatar';
 import i18n from '@config/i18n';
 import { getConversationText, normalizeVietnameseName } from '@utils/ChatUtils';
 import { ChevronDown, ChevronRight } from 'react-feather';
+import { useDateDuration } from '@utils/Utils';
 
 export interface ConversationListProps {
   title: string,
@@ -70,7 +68,7 @@ function Conversations(props: ConversationListProps) {
       {
         filteredConversations.map((conversation) => {
           const timestamp = conversation.lastMessage?.timestamp || new Date();
-          const datetime = formatDateToMonthShort(timestamp);
+          const datetime = useDateDuration(timestamp);
           const { contact } = conversation;
           return (
             <li
@@ -86,7 +84,11 @@ function Conversations(props: ConversationListProps) {
                 </CardText>
               </div>
               <div className="chat-meta text-nowrap">
-                <small className="float-end mb-25 chat-time ms-25">{datetime}</small>
+                <small className="float-end mb-25 chat-time ms-25">
+                  {datetime}
+                  {' '}
+                  {i18n.t('COMMON.BEFORE')}
+                </small>
                 {conversation.unseenMessages >= 1 && (
                   <Badge className="float-end" color="danger" pill>
                     {conversation.unseenMessages}
@@ -123,7 +125,10 @@ export default function ConversationList(props: ConversationListProps) {
 
   return (
     <>
-      <div className="d-flex flex-row justify-content-between cursor-pointer chat-list-header" onClick={toggleConversationsContent}>
+      <div
+        className="d-flex flex-row justify-content-between cursor-pointer chat-list-header"
+        onClick={toggleConversationsContent}
+      >
         <h4>{title}</h4>
         {conversationsVisible ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
       </div>

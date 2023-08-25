@@ -8,7 +8,7 @@ import { userPresenter } from '@adapter/presenters';
 import { useQuery } from '@tanstack/react-query';
 import renderSkeleton from '@components/Skeleton/Skeleton';
 import Avatar from '@components/Avatar/Avatar';
-import { generateI18nForUser } from '@utils/UserUtils';
+import { generateI18nForUser, generateUserDisplayName } from '@utils/UserUtils';
 
 export default function UserInfoCard() {
   const {
@@ -50,7 +50,7 @@ export default function UserInfoCard() {
 
   return (
     <div className="to-table-container">
-      { isLoading ? (
+      {isLoading ? (
         renderSkeleton()
       ) : (
         <Card>
@@ -63,7 +63,7 @@ export default function UserInfoCard() {
                     <h4>{currentUser?.fullName}</h4>
                     {currentUser && (
                       <Badge color="light-info" className="text-capitalize">
-                        {`${currentUser?.firstName} ${currentUser?.lastName}`}
+                        {generateUserDisplayName(currentUser)}
                       </Badge>
                     )}
                   </div>

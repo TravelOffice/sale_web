@@ -12,8 +12,10 @@ export function userHasPermission(userPermissions: string[], permission: string)
  * @param user - The user object for which to generate the display name.
  * @returns The generated display name for the user.
  */
-export function generateUserDisplayName(user: User) {
-  return `${user.firstName} ${user.lastName}`;
+export function generateUserDisplayName(user?: User) {
+  if (!user) return '';
+  if (user.lastName && user.firstName) return `${user.lastName} ${user.firstName}`;
+  return user.username;
 }
 
 /**
@@ -22,7 +24,7 @@ export function generateUserDisplayName(user: User) {
  *
  * @param user - The user object for which to generate the display name option.
  * @param currentUser - The current user object.
-\ * @returns The generated display name option for the user.
+ \ * @returns The generated display name option for the user.
  */
 export function generateUserDisplayNameOption(user: User, currentUser?: User) {
   const displayName = generateUserDisplayName(user);

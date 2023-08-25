@@ -4,7 +4,6 @@ import {
 } from 'reactstrap';
 import { Trans, useTranslation } from 'react-i18next';
 import { Youtube } from 'react-feather';
-import { Link } from 'react-router-dom';
 import { useIsPageConnecting } from '@hooks/chat';
 
 export interface LinkTelegramModalProps extends ModalProps {
@@ -32,7 +31,12 @@ export default function LinkTelegramModal(props: LinkTelegramModalProps) {
         <p className="text-center mb-2">{t('PAGE.CONNECT_TELEGRAM_DESCRIPTION')}</p>
         <span className="d-flex flex-row align-items-center justify-content-center">
           <Youtube color="#7367f0" />
-          <a target="_blank" style={{ marginLeft: 5 }} href={process.env.CONNECT_TELEGRAM_VIDEO_TUTORIAL_URL} rel="noreferrer">
+          <a
+            target="_blank"
+            style={{ marginLeft: 5 }}
+            href={process.env.CONNECT_TELEGRAM_VIDEO_TUTORIAL_URL}
+            rel="noreferrer"
+          >
             {t('PAGE.CONNECT_TELEGRAM_VIDEO_TUTORIAL')}
           </a>
         </span>
@@ -41,7 +45,7 @@ export default function LinkTelegramModal(props: LinkTelegramModalProps) {
             <Trans i18nKey="PAGE.LINK_TELEGRAM_INSTRUCTIONS.MESSAGE_TO_BOT_FATHER">
               Message the
               {' '}
-              <Link to="https://swiy.io/1Dun">BotFather</Link>
+              <a href="https://web.telegram.org/k/#@BotFather" target="_blank" rel="noreferrer">BotFather</a>
               {' '}
               on Telegram.
             </Trans>
@@ -73,7 +77,10 @@ export default function LinkTelegramModal(props: LinkTelegramModalProps) {
             </Trans>
           </li>
         </ol>
-        <Input placeholder={t('PAGE.ENTER_BOT_TOKEN_PLACEHOLDER')} onChange={(event) => setBotToken(event.target.value)} />
+        <Input
+          placeholder={t('PAGE.ENTER_BOT_TOKEN_PLACEHOLDER')}
+          onChange={(event) => setBotToken(event.target.value)}
+        />
         <Col className="text-center mt-1" xs={12}>
           <Button type="submit" className="me-1" color="primary" onClick={onSubmit} disabled={connecting || !botToken}>
             {

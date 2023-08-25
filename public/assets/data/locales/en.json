@@ -88,7 +88,8 @@
     "OTHERS": "Others",
     "SOURCE": "Source",
     "TOUR_DEPARTURE": "Departure tour",
-    "ADMINISTRATOR": "Administratrator"
+    "ADMINISTRATOR": "Administratrator",
+    "BEFORE": "before"
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",

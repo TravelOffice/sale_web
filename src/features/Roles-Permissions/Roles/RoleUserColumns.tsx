@@ -11,9 +11,7 @@ import { Eye } from 'react-feather';
 // ** React Imports
 import { Link } from 'react-router-dom';
 // ** Reactstrap Imports
-import {
-  Badge,
-} from 'reactstrap';
+import { Badge } from 'reactstrap';
 
 const statusObj = {
   away: 'light-primary',
@@ -25,7 +23,7 @@ const statusObj = {
 
 // ** Renders Client Columns
 const renderClient = (row: User) => {
-  const states: { [key: string] : AvatarColor } = {
+  const states: { [key: string]: AvatarColor } = {
     away: 'light-primary',
     busy: 'light-warning',
     online: 'light-success',
@@ -35,7 +33,15 @@ const renderClient = (row: User) => {
   const color: AvatarColor = states[row.status || 'offline'];
 
   if (row.avatar && row.avatar.length) {
-    return <Avatar img={row.avatar || Images.defaultAvatar} className="me-1" imgHeight="32" imgWidth="32" status={row.status} />;
+    return (
+      <Avatar
+        img={row.avatar || Images.defaultAvatar}
+        className="me-1"
+        imgHeight="32"
+        imgWidth="32"
+        status={row.status}
+      />
+    );
   }
   return <Avatar color={color} className="me-1" content={row.username} />;
 };
@@ -55,7 +61,11 @@ export const userColumns: TableColumn<User>[] = [
             to={`/apps/user/view/${row.username}`}
             className="user_name text-truncate text-body"
           >
-            <span className="fw-bolder">{(row.firstName && row.lastName) ? `${row.firstName} ${row.lastName}` : `${row.username}`}</span>
+            <span
+              className="fw-bolder"
+            >
+              gener
+            </span>
           </Link>
           <small className="text-truncate text-muted mb-0">{row.email}</small>
         </div>
