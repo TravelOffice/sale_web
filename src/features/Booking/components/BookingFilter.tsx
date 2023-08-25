@@ -31,7 +31,6 @@ export interface BookingFilterProps {
 }
 
 const statusOptions = [
-  { label: i18n.t('BOOKING.INITIALIZED'), value: BookingStatusEnum.INITIALIZED },
   { label: i18n.t('BOOKING.IN_PROCESS'), value: BookingStatusEnum.IN_PROCESS },
   { label: i18n.t('BOOKING.CONFIRMED'), value: BookingStatusEnum.CONFIRMED },
   { label: i18n.t('BOOKING.PAYMENT_PENDING'), value: BookingStatusEnum.PAYMENT_PENDING },

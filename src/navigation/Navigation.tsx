@@ -9,7 +9,7 @@ import {
   List,
   Mail,
   MapPin,
-  MessageSquare,
+  MessageSquare, MoreHorizontal,
   Settings,
   Shield,
   ShoppingCart,
@@ -19,6 +19,7 @@ import {
   Users,
 } from 'react-feather';
 import PERMISSIONS from '@utils/PermissionUtils';
+import i18n from 'i18next';
 
 const Navigation: MenuItem[] = [
   {
@@ -32,7 +33,7 @@ const Navigation: MenuItem[] = [
   },
   {
     id: 'chat',
-    title: 'Chat',
+    title: i18n.t('COMMON.CHAT'),
     icon: <MessageSquare size={20} />,
     requiredPermissions: {
       any: [PERMISSIONS.view_assigned_conversations, PERMISSIONS.view_all_conversations],
@@ -41,7 +42,7 @@ const Navigation: MenuItem[] = [
   },
   {
     id: 'email',
-    title: 'Email',
+    title: i18n.t('COMMON.EMAIL'),
     icon: <Mail size={20} />,
     navLink: '/apps/email',
   },
@@ -50,20 +51,20 @@ const Navigation: MenuItem[] = [
   },
   {
     id: 'tour',
-    title: 'Tour',
+    title: i18n.t('COMMON.TOUR'),
     requiredPermissions: [PERMISSIONS.get_tour_templates],
     icon: <MapPin size={20} />,
     children: [
       {
         id: 'tour-templates',
-        title: 'Tour Template',
+        title: i18n.t('COMMON.TOUR_TEMPLATE'),
         requiredPermissions: [PERMISSIONS.get_tour_templates],
         icon: <List size={12} />,
         navLink: '/apps/tours/template/list',
       },
       {
         id: 'tour-departure',
-        title: 'Tour Departure',
+        title: i18n.t('COMMON.TOUR_DEPARTURE'),
         icon: <File size={30} />,
         navLink: '/apps/tours/departure/list',
       },
@@ -71,13 +72,13 @@ const Navigation: MenuItem[] = [
   },
   {
     id: 'receipt',
-    title: 'Receipt',
+    title: i18n.t('COMMON.RECEIPT'),
     icon: <FilePlus size={12} />,
     navLink: '/apps/receipts',
   },
   {
     id: 'payment-voucher',
-    title: 'Payment Voucher',
+    title: i18n.t('COMMON.PAYMENT_VOUCHER'),
     icon: <FileMinus size={12} />,
     navLink: '/apps/payment-vouchers',
   },
@@ -90,52 +91,71 @@ const Navigation: MenuItem[] = [
   },
   {
     id: 'customers',
-    title: 'Customer',
+    title: i18n.t('COMMON.CUSTOMER'),
     icon: <UserCheck size={12} />,
     navLink: '/apps/customers/list',
   },
   {
     id: 'bookings',
-    title: 'Booking',
+    title: i18n.t('COMMON.BOOKING'),
     requiredPermissions: [PERMISSIONS.get_bookings],
     icon: <ShoppingCart size={12} />,
     navLink: '/apps/bookings/list',
   },
   {
     id: 'suppliers',
-    title: 'Supplier',
+    title: i18n.t('COMMON.SUPPLIER'),
     requiredPermissions: [PERMISSIONS.get_suppliers],
     icon: <Truck size={12} />,
     navLink: '/apps/suppliers/list',
   },
   {
     id: 'tours-operation',
-    title: 'Tours Operation',
+    title: i18n.t('COMMON.TOUR_OPERATION'),
     icon: <Activity />,
     navLink: '/apps/tours-operation',
   },
   {
-    header: 'Administrators',
+    header: i18n.t('COMMON.ADMINISTRATOR'),
   },
   {
     id: 'user',
-    title: 'User',
+    title: i18n.t('COMMON.USER'),
     icon: <Users size={20} />,
     requiredPermissions: [PERMISSIONS.view_all_users],
     navLink: '/admin/user/list',
   },
   {
     id: 'roles-permissions',
-    title: 'Roles & Permissions',
+    title: i18n.t('COMMON.ROLES_PERMISSIONS'),
     requiredPermissions: [PERMISSIONS.get_roles],
     icon: <Shield size={20} />,
     navLink: '/apps/admin/roles',
   },
   {
     id: 'settings',
-    title: 'Setting',
+    title: i18n.t('COMMON.SETTING'),
     icon: <Settings size={12} />,
     navLink: '/apps/account-settings',
+  },
+  {
+    id: 'others',
+    title: i18n.t('COMMON.OTHERS'),
+    icon: <MoreHorizontal size={12} />,
+    children: [
+      {
+        id: 'source',
+        title: i18n.t('COMMON.SOURCE'),
+        icon: <List size={12} />,
+        navLink: '/admin/sources',
+      },
+      {
+        id: 'tourLocation',
+        title: i18n.t('TOURS_OPERATION.TOUR_LOCATION'),
+        icon: <List size={12} />,
+        navLink: '/admin/tour-locations',
+      },
+    ],
   },
 ];
 

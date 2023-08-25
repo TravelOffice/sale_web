@@ -24,6 +24,8 @@ import { PaymentVoucherRepository } from '@adapter/repositories/interfaces/Payme
 import PaymentVoucherRepositoryImpl from '@adapter/repositories/PaymentVoucherRepositoryImpl';
 import TourOperationRepositoryImpl from '@adapter/repositories/TourOperationRepositoryImpl';
 import { TourOperationRepository } from '@adapter/repositories/interfaces/TourOperationRepository';
+import { TourLocationRepository } from '@adapter/repositories/interfaces/TourLocationRepository';
+import TourLocationRepositoryImpl from '@adapter/repositories/TourLocationRepositoryImpl';
 import { TourTemplateRepository } from './interfaces/TourTemplateRepository';
 import TourTemplatePresenterImpl from './TourTemplateRepositoryImpl';
 import { ChatRepository } from './interfaces/ChatRepository';
@@ -58,6 +60,7 @@ interface Repositories {
   supplierRepository: SupplierRepository,
   paymentVoucherRepository: PaymentVoucherRepository,
   tourOperationRepository: TourOperationRepository,
+  tourLocationRepository: TourLocationRepository,
 }
 
 const repositories: Repositories = {
@@ -80,6 +83,7 @@ const repositories: Repositories = {
   supplierRepository: new SupplierRepositoryImpl(),
   paymentVoucherRepository: new PaymentVoucherRepositoryImpl(),
   tourOperationRepository: new TourOperationRepositoryImpl(),
+  tourLocationRepository: new TourLocationRepositoryImpl(),
 };
 
 export const {
@@ -102,4 +106,5 @@ export const {
   supplierRepository,
   paymentVoucherRepository,
   tourOperationRepository,
+  tourLocationRepository,
 } = repositories;

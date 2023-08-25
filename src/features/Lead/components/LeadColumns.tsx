@@ -11,7 +11,7 @@ import { ArrowUpRight } from 'react-feather';
 function renderTour(lead: Lead) {
   if (lead.tourTemplateId) {
     return (
-      <Link to={`/apps/tour-template/${lead.tourTemplateId}`} className="user_name text-body">
+      <Link to={`/apps/tours/template/${lead.tourTemplateId}/edit`} className="user_name text-body">
         <span className="text-primary fw-bolder">{lead.tourTemplateName}</span>
       </Link>
     );

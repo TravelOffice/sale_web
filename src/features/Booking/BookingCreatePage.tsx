@@ -38,7 +38,6 @@ import { BookingTourType, BookingTourTypeEnum, tourTypes } from '@domain/entitie
 import { Link, useHistory } from 'react-router-dom';
 import FormItemSelect from '@components/Form/FormItemSelect';
 import { generateI18nForLead } from '@utils/LeadUtils';
-import { generateI18nForBooking } from '@utils/BookingUtils';
 import { RoleEnum, User } from '@domain/entities/User';
 import moment from 'moment';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
@@ -55,7 +54,7 @@ const honorificOptions = Object
 const tourTypeOptions = Object
   .keys(BookingTourTypeEnum)
   .map((tourType) => (
-    { label: generateI18nForBooking(tourType), value: tourType as BookingTourType }
+    { label: i18n.t(`BOOKING.${tourType}`), value: tourType as BookingTourType }
   ));
 
 const customerSchema = yup.object().shape({
@@ -462,6 +461,26 @@ const BookingCreatePage = () => {
               <div className="divider divider-start divider-primary">
                 <div className="divider-text text-primary fw-bolder">{i18n.t('BOOKING.SERVICE_LIST')}</div>
               </div>
+              <Row>
+                <Col md={2}>
+                  <h5 className="text-center">{i18n.t('TOUR_TEMPLATE.SERVICE_NAME')}</h5>
+                </Col>
+                <Col md={2}>
+                  <h5 className="text-center">{i18n.t('TOUR_TEMPLATE.PRICE')}</h5>
+                </Col>
+                <Col md={2}>
+                  <h5 className="text-center">{i18n.t('BOOKING.QUANTITY')}</h5>
+                </Col>
+                <Col md={1}>
+                  <h5 className="text-center">{i18n.t('BOOKING.TAX')}</h5>
+                </Col>
+                <Col md={2}>
+                  <h5 className="text-center">{i18n.t('BOOKING.BEFORE_TAX')}</h5>
+                </Col>
+                <Col md={2}>
+                  <h5 className="text-center">{i18n.t('BOOKING.AFTER_TAX')}</h5>
+                </Col>
+              </Row>
               <Row>
                 <Col>
                   <AddingBookingService

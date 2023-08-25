@@ -12,7 +12,7 @@ export default class SearchProviderImpl implements SearchProvider {
   }
 
   query = async <T = any>(indexUid: string, q: string, options?: Partial<SearchOptions>) => {
-    const res = await this.axiosInstance.post<SearchResults<T>>(`/indexes/${indexUid}/search`, { q, ...options }, {
+    const res = await this.axiosInstance.post<SearchResults<T>>(`/search/indexes/${indexUid}/search`, { q, ...options }, {
       headers: {
         Authorization: `Bearer ${store.getState().auth.currentUser?.searchToken}`,
       },

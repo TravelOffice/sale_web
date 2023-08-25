@@ -1,6 +1,6 @@
 import React from 'react';
 import i18n from '@config/i18n';
-import { TableColumn } from 'react-data-table-component';
+import { Media, TableColumn } from 'react-data-table-component';
 import { Link } from 'react-router-dom';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
@@ -46,9 +46,10 @@ const bookingColumns: TableColumn<Booking>[] = [
   },
   {
     name: i18n.t('BOOKING.CUSTOMER'),
-    minWidth: '80px',
+    minWidth: '250px',
     sortable: true,
     sortField: 'customer',
+    style: { paddingTop: 20, paddingBottom: 20 },
     cell: (booking: Booking) => {
       const { customer } = booking;
       return (
@@ -75,7 +76,7 @@ const bookingColumns: TableColumn<Booking>[] = [
   },
   {
     name: i18n.t('BOOKING.TOUR'),
-    minWidth: '150px',
+    minWidth: '300px',
     sortField: 'tourRelatedInfo',
     cell: (booking: Booking) => {
       const { departureTourId, departureTourName, tourTemplate } = booking;
@@ -90,11 +91,12 @@ const bookingColumns: TableColumn<Booking>[] = [
           </div>
           <div className="d-flex align-items-center">
             <Calendar size={14} />
-            {' '}
-            {moment(booking.departureDate).format('DD/MM/YYYY')}
-            {' - '}
-            {booking.tourTemplate?.durationInDays
-              ? moment(booking.departureDate).add(booking.tourTemplate?.durationInDays, 'days').format('DD/MM/YYYY') : <></>}
+            <p className="mb-0" style={{ marginLeft: 4 }}>
+              {moment(booking.departureDate).format('DD/MM/YYYY')}
+              {' - '}
+              {booking.tourTemplate?.durationInDays
+                ? moment(booking.departureDate).add(booking.tourTemplate?.durationInDays, 'days').format('DD/MM/YYYY') : <></>}
+            </p>
           </div>
         </div>
       );
@@ -102,7 +104,8 @@ const bookingColumns: TableColumn<Booking>[] = [
   },
   {
     name: i18n.t('BOOKING.RELATED_INFO'),
-    minWidth: '150px',
+    minWidth: '300px',
+    hide: Media.SM,
     sortField: 'bookingRelatedInfo',
     cell: (booking: Booking) => {
       const { lead } = booking;
@@ -125,10 +128,11 @@ const bookingColumns: TableColumn<Booking>[] = [
           {lead ? (
             <div className="d-flex align-items-center">
               <Users size={14} />
-              {' '}
-              {i18n.t('BOOKING.TOTAL_PASSENGERS')}
-              {' '}
-              {passengersText}
+              <p className="mb-0" style={{ marginLeft: 4 }}>
+                {i18n.t('BOOKING.TOTAL_PASSENGERS')}
+                {' '}
+                {passengersText}
+              </p>
             </div>
           ) : <></>}
         </div>
@@ -165,7 +169,7 @@ const bookingColumns: TableColumn<Booking>[] = [
             <DropdownItem
               tag="a"
               href="/"
-              className="w-100"
+              className="w-100 disabled"
               onClick={(e) => {
                 e.preventDefault();
               }}
@@ -177,6 +181,7 @@ const bookingColumns: TableColumn<Booking>[] = [
               tag="a"
               href="/"
               className="w-100"
+              disabled
               onClick={(e) => {
                 e.preventDefault();
               }}

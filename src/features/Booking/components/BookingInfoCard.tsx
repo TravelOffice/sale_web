@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Badge, Card, CardBody, CardHeader, CardTitle,
+  Badge, Card, CardBody, CardHeader, CardTitle, Col, Row,
 } from 'reactstrap';
 import { Link, useParams } from 'react-router-dom';
 import i18n from '@config/i18n';
@@ -80,142 +80,146 @@ export default function BookingInfoCard() {
               </div>
               <h4 className="fw-bolder border-bottom pb-50 mb-1">{i18n.t('COMMON.DETAILS')}</h4>
               <div className="info-container">
-                <ul className="list-unstyled">
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {i18n.t('BOOKING.CODE')}
-                      :
-                    </span>
-                    <span>{booking?.code}</span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {i18n.t('BOOKING.STATUS')}
-                      :
-                    </span>
+                <Row className="list-unstyled">
+                  <Col md={6} xxl={12}>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">
+                        {i18n.t('BOOKING.CODE')}
+                        :
+                      </span>
+                      <span>{booking?.code}</span>
+                    </li>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">
+                        {i18n.t('BOOKING.STATUS')}
+                        :
+                      </span>
 
-                    <Badge color={bookingStatusColors[booking?.bookingStatus!]} className="text-capitalize">
-                      {generateI18nForBooking(booking?.bookingStatus!)}
-                    </Badge>
-                  </li>
-                  {
-                    booking?.bookingStatus === BookingStatusEnum.PAYMENT_PENDING ? (
-                      <li className="mb-75">
-                        <span className="fw-bolder me-25">
-                          {i18n.t('BOOKING.PAYMENT_DEADLINE')}
-                          :
-                        </span>
+                      <Badge color={bookingStatusColors[booking?.bookingStatus!]} className="text-capitalize">
+                        {generateI18nForBooking(booking?.bookingStatus!)}
+                      </Badge>
+                    </li>
+                    {
+                      booking?.bookingStatus === BookingStatusEnum.PAYMENT_PENDING ? (
+                        <li className="mb-75">
+                          <span className="fw-bolder me-25">
+                            {i18n.t('BOOKING.PAYMENT_DEADLINE')}
+                            :
+                          </span>
 
-                        <span>{moment(booking?.departureDate).format('DD/MM/YYYY HH:mm')}</span>
-                      </li>
-                    ) : <></>
-                  }
-                  {
-                    booking?.doneAt ? (
-                      <li className="mb-75">
-                        <span className="fw-bolder me-25">
-                          {i18n.t('BOOKING.DONE_PAYMENT_AT')}
-                          :
-                        </span>
+                          <span>{moment(booking?.departureDate).format('DD/MM/YYYY HH:mm')}</span>
+                        </li>
+                      ) : <></>
+                    }
+                    {
+                      booking?.doneAt ? (
+                        <li className="mb-75">
+                          <span className="fw-bolder me-25">
+                            {i18n.t('BOOKING.DONE_PAYMENT_AT')}
+                            :
+                          </span>
 
-                        <span>{moment(booking?.departureDate).format('DD/MM/YYYY HH:mm')}</span>
-                      </li>
-                    ) : <></>
-                  }
-                  {
-                    booking?.departureTourId ? (
-                      <li className="mb-75">
-                        <span className="fw-bolder me-25">
-                          {i18n.t('DEPARTURE_TOUR.DEPARTURE_TOUR')}
-                          :
-                        </span>
+                          <span>{moment(booking?.departureDate).format('DD/MM/YYYY HH:mm')}</span>
+                        </li>
+                      ) : <></>
+                    }
+                    {
+                      booking?.departureTourId ? (
+                        <li className="mb-75">
+                          <span className="fw-bolder me-25">
+                            {i18n.t('DEPARTURE_TOUR.DEPARTURE_TOUR')}
+                            :
+                          </span>
+                          <Link
+                            to={`/apps/tours/departure/${booking?.departureTourId}`}
+                            className="user_name text-truncate text-body"
+                          >
+                            <span className="fw-bolder text-primary">
+                              {booking?.departureTourName}
+                            </span>
+                          </Link>
+                        </li>
+                      ) : (
+                        <li className="mb-75">
+                          <span className="fw-bolder me-25">
+                            {i18n.t('BOOKING.TOUR_TEMPLATE')}
+                            :
+                          </span>
+                          <span>{booking?.tourTemplate?.name}</span>
+                        </li>
+                      )
+                    }
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">
+                        {i18n.t('BOOKING.DEPARTURE_DATE')}
+                        :
+                      </span>
+                      <span>{moment(booking?.departureDate).format('DD/MM/YYYY')}</span>
+                    </li>
+                  </Col>
+                  <Col md={4} xxl={12}>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">
+                        {i18n.t('BOOKING.FORM.TOUR_TYPE')}
+                        :
+                      </span>
+                      <span>{generateI18nForBooking(booking?.tourType!)}</span>
+                    </li>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">
+                        {i18n.t('BOOKING.FORM.SOURCE')}
+                        :
+                      </span>
+                      <span>{booking?.sourceName}</span>
+                    </li>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">
+                        {i18n.t('CUSTOMER.ASSIGNEE')}
+                        :
+                        {' '}
+                      </span>
+                      <span className="text-capitalize">
                         <Link
-                          to={`/apps/tours/departure/${booking?.departureTourId}`}
+                          to={`/apps/users/${booking?.assigneeId}`}
                           className="user_name text-truncate text-body"
                         >
                           <span className="fw-bolder text-primary">
-                            {booking?.departureTourName}
+                            {`${booking?.assigneeName} - ${booking?.assigneeId}`}
                           </span>
                         </Link>
-                      </li>
-                    ) : (
-                      <li className="mb-75">
-                        <span className="fw-bolder me-25">
-                          {i18n.t('BOOKING.TOUR_TEMPLATE')}
-                          :
-                        </span>
-                        <span>{booking?.tourTemplate?.name}</span>
-                      </li>
-                    )
-                  }
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {i18n.t('BOOKING.DEPARTURE_DATE')}
-                      :
-                    </span>
-                    <span>{moment(booking?.departureDate).format('DD/MM/YYYY')}</span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {i18n.t('BOOKING.FORM.TOUR_TYPE')}
-                      :
-                    </span>
-                    <span>{generateI18nForBooking(booking?.tourType!)}</span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {i18n.t('CUSTOMER.ASSIGNEE')}
-                      :
-                      {' '}
-                    </span>
-                    <span className="text-capitalize">
-                      <Link
-                        to={`/apps/users/${booking?.assigneeId}`}
-                        className="user_name text-truncate text-body"
+                      </span>
+                    </li>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">
+                        {i18n.t('CUSTOMER.CREATOR')}
+                        :
+                        {' '}
+                      </span>
+                      <span className="text-capitalize">
+                        <Link
+                          to={`/apps/users/${booking?.creatorId}`}
+                          className="user_name text-truncate text-body"
+                        >
+                          <span className="fw-bolder text-primary">
+                            {`${booking?.creatorName} - ${booking?.creatorId}`}
+                          </span>
+                        </Link>
+                      </span>
+                    </li>
+                    <li className="mb-75">
+                      <span className="fw-bolder me-25">
+                        {i18n.t('COMMON.CREATED_AT')}
+                        :
+                        {' '}
+                      </span>
+                      <span
+                        className="text-capitalize"
                       >
-                        <span className="fw-bolder text-primary">
-                          {`${booking?.assigneeName} - ${booking?.assigneeId}`}
-                        </span>
-                      </Link>
-                    </span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {i18n.t('CUSTOMER.CREATOR')}
-                      :
-                      {' '}
-                    </span>
-                    <span className="text-capitalize">
-                      <Link
-                        to={`/apps/users/${booking?.creatorId}`}
-                        className="user_name text-truncate text-body"
-                      >
-                        <span className="fw-bolder text-primary">
-                          {`${booking?.creatorName} - ${booking?.creatorId}`}
-                        </span>
-                      </Link>
-                    </span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {i18n.t('COMMON.CREATED_AT')}
-                      :
-                      {' '}
-                    </span>
-                    <span
-                      className="text-capitalize"
-                    >
-                      {moment(booking?.createdAt).format('hh:mm:ss DD/MM/YYYY')}
-                    </span>
-                  </li>
-                  <li className="mb-75">
-                    <span className="fw-bolder me-25">
-                      {i18n.t('BOOKING.FORM.SOURCE')}
-                      :
-                    </span>
-                    <span>{booking?.sourceName}</span>
-                  </li>
-                </ul>
+                        {moment(booking?.createdAt).format('hh:mm:ss DD/MM/YYYY')}
+                      </span>
+                    </li>
+                  </Col>
+                </Row>
               </div>
 
             </CardBody>

@@ -10,7 +10,7 @@ import '@styles/react/libs/tables/react-dataTable-component.scss';
 import React, {
   ChangeEvent, useEffect, useMemo, useState,
 } from 'react';
-import DataTable, { TableColumn } from 'react-data-table-component';
+import DataTable, { TableColumn, TableProps as DataTableProps } from 'react-data-table-component';
 import { ChevronDown } from 'react-feather';
 import ReactPaginate from 'react-paginate';
 // ** Reactstrap Imports
@@ -27,7 +27,7 @@ export interface TableSelectOption {
   label: string,
   value: string,
 }
-export interface TableProps<T> {
+export interface TableProps<T> extends DataTableProps<T> {
   data: T[],
   fetchDataState: HandleDataState,
   fetchDataError?: string,
@@ -69,6 +69,7 @@ function Table<T>(props: TableProps<T>) {
     expandableRowsComponent,
     extraButtons,
     customSearchHandler,
+    ...rest
   } = props;
 
   // ** States
@@ -194,6 +195,7 @@ function Table<T>(props: TableProps<T>) {
               extraButtons={extraButtons}
             />
           )}
+          {...rest}
         />
       </div>
     </Card>
