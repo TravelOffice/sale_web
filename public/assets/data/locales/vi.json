@@ -89,7 +89,9 @@
     "SOURCE": "Nguồn",
     "TOUR_DEPARTURE": "Tour khởi hành",
     "ADMINISTRATOR": "Quản trị viên",
-    "BEFORE": "trước"
+    "BEFORE": "trước",
+    "BUSINESS": "Nghiệp vụ",
+    "COMMUNICATION": "Giao tiếp"
   },
   "LEAD": {
     "LEAD_INFO": "Thông tin lead",
