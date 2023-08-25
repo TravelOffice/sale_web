@@ -30,7 +30,7 @@ const Navigation: MenuItem[] = [
     navLink: '/apps/dashboard',
   },
   {
-    header: 'Communication',
+    header: i18n.t('COMMON.COMMUNICATION'),
   },
   {
     id: 'chat',
@@ -48,7 +48,34 @@ const Navigation: MenuItem[] = [
     navLink: '/apps/email',
   },
   {
-    header: 'Businesses',
+    header: i18n.t('COMMON.BUSINESS'),
+  },
+  {
+    id: 'leads',
+    title: 'Lead',
+    requiredPermissions: { any: [PERMISSIONS.get_leads, PERMISSIONS.get_my_leads] },
+    icon: <User size={12} />,
+    navLink: '/apps/leads/list',
+  },
+  {
+    id: 'bookings',
+    title: i18n.t('COMMON.BOOKING'),
+    requiredPermissions: [PERMISSIONS.get_bookings],
+    icon: <ShoppingCart size={12} />,
+    navLink: '/apps/bookings/list',
+  },
+  {
+    id: 'customers',
+    title: i18n.t('COMMON.CUSTOMER'),
+    icon: <UserCheck size={12} />,
+    navLink: '/apps/customers/list',
+  },
+  {
+    id: 'suppliers',
+    title: i18n.t('COMMON.SUPPLIER'),
+    requiredPermissions: [PERMISSIONS.get_suppliers],
+    icon: <Truck size={12} />,
+    navLink: '/apps/suppliers/list',
   },
   {
     id: 'tour',
@@ -72,43 +99,28 @@ const Navigation: MenuItem[] = [
     ],
   },
   {
-    id: 'leads',
-    title: 'Lead',
-    requiredPermissions: { any: [PERMISSIONS.get_leads, PERMISSIONS.get_my_leads] },
-    icon: <User size={12} />,
-    navLink: '/apps/leads/list',
-  },
-  {
-    id: 'bookings',
-    title: i18n.t('COMMON.BOOKING'),
-    requiredPermissions: [PERMISSIONS.get_bookings],
-    icon: <ShoppingCart size={12} />,
-    navLink: '/apps/bookings/list',
-  },
-  {
     id: 'tours-operation',
     title: i18n.t('COMMON.TOUR_OPERATION'),
     icon: <Activity />,
     navLink: '/apps/tours-operation',
   },
   {
-    id: 'customers',
-    title: i18n.t('COMMON.CUSTOMER'),
-    icon: <UserCheck size={12} />,
-    navLink: '/apps/customers/list',
+    id: 'receipt',
+    title: i18n.t('COMMON.RECEIPT'),
+    icon: <FilePlus size={12} />,
+    navLink: '/apps/receipts',
+  },
+  {
+    id: 'payment-voucher',
+    title: i18n.t('COMMON.PAYMENT_VOUCHER'),
+    icon: <FileMinus size={12} />,
+    navLink: '/apps/payment-vouchers',
   },
   {
     id: 'others',
     title: i18n.t('COMMON.OTHERS'),
     icon: <MoreHorizontal size={12} />,
     children: [
-      {
-        id: 'suppliers',
-        title: i18n.t('COMMON.SUPPLIER'),
-        requiredPermissions: [PERMISSIONS.get_suppliers],
-        icon: <Truck size={12} />,
-        navLink: '/apps/suppliers/list',
-      },
       {
         id: 'source',
         title: i18n.t('COMMON.SOURCE'),
@@ -118,20 +130,8 @@ const Navigation: MenuItem[] = [
       {
         id: 'tourLocation',
         title: i18n.t('TOURS_OPERATION.TOUR_LOCATION'),
-        icon: <List size={12} />,
+        icon: <MapPin size={12} />,
         navLink: '/admin/tour-locations',
-      },
-      {
-        id: 'receipt',
-        title: i18n.t('COMMON.RECEIPT'),
-        icon: <FilePlus size={12} />,
-        navLink: '/apps/receipts',
-      },
-      {
-        id: 'payment-voucher',
-        title: i18n.t('COMMON.PAYMENT_VOUCHER'),
-        icon: <FileMinus size={12} />,
-        navLink: '/apps/payment-vouchers',
       },
     ],
   },

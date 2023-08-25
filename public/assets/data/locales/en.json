@@ -89,7 +89,9 @@
     "SOURCE": "Source",
     "TOUR_DEPARTURE": "Departure tour",
     "ADMINISTRATOR": "Administratrator",
-    "BEFORE": "before"
+    "BEFORE": "before",
+    "BUSINESS": "Business",
+    "COMMUNICATION": "Communication"
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",

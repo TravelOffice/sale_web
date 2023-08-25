@@ -3,16 +3,17 @@ import { Page } from '@domain/entities/chat/Page';
 import { User } from '@domain/entities/User';
 import { authActions, AuthPayload } from '@redux/slices/authSlice';
 import {
-  all, call, put, take, takeLatest, fork, cancel, cancelled, delay, select,
+  all, call, cancel, cancelled, delay, fork, put, select, take, takeLatest,
 } from 'redux-saga/effects';
 import { Task } from 'redux-saga';
 import { isTokenExpired } from '@utils/CheckExpireUntil';
 import { RootState } from '@redux/store';
 import { PayloadAction } from '@reduxjs/toolkit';
-import { ID_TOKEN, EVENT, EVENT_CHANGE_PASSWORD } from '@utils/Constants';
+import { EVENT, EVENT_CHANGE_PASSWORD, ID_TOKEN } from '@utils/Constants';
 import history from '@utils/HistoryUtils';
 import { Role } from '@domain/entities/RolePermission';
 import { rolePermissionActions } from '@redux/slices/rolePermissionSlice';
+import PERMISSIONS from '@utils/PermissionUtils';
 
 /**
  * Effect to fetch current user information then update to global state
@@ -39,8 +40,12 @@ function* getLinkedPage() {
  */
 function* getAllRole() {
   try {
-    const roles: Role[] = yield call(rolePermissionPresenter.getAllRoles);
-    yield put(rolePermissionActions.setAllRoles(roles));
+    const user: User = yield select((state: RootState) => state.auth.currentUser);
+    const { permissions } = user;
+    if (permissions && permissions.includes(PERMISSIONS.get_roles)) {
+      const roles: Role[] = yield call(rolePermissionPresenter.getAllRoles);
+      yield put(rolePermissionActions.setAllRoles(roles));
+    }
   } catch {
     // Do nothing
   }
@@ -52,7 +57,6 @@ function* getAllRole() {
  * completed before accessing main function of the app.
  */
 function* fetchUserData() {
-  yield fork(getCurrentUser);
   yield fork(getLinkedPage);
   yield fork(getAllRole);
 }
@@ -60,6 +64,7 @@ function* fetchUserData() {
 function* attachSession(action: PayloadAction<string>) {
   try {
     localStorage.setItem(ID_TOKEN, action.payload);
+    yield call(getCurrentUser);
     yield call(fetchUserData); // Block until user data ready to use
     yield put(authActions.onInitialCompleted());
   } catch {
@@ -113,8 +118,7 @@ function* getIdToken() {
   if (urlSearchParams.has(ID_TOKEN)) {
     const path = window.location.pathname;
     history.push(path);
-    const jwtToken = urlSearchParams.get(ID_TOKEN);
-    return jwtToken;
+    return urlSearchParams.get(ID_TOKEN);
   }
   return localStorage.getItem(ID_TOKEN);
 }
@@ -122,10 +126,7 @@ function* getIdToken() {
 function* listenChangePasswordEvent() {
   const search: string = yield select((state: RootState) => state.router.location.search);
   const urlSearchParams = new URLSearchParams(search);
-  if (urlSearchParams.has(EVENT) && urlSearchParams.get(EVENT) === EVENT_CHANGE_PASSWORD) {
-    return true;
-  }
-  return false;
+  return urlSearchParams.has(EVENT) && urlSearchParams.get(EVENT) === EVENT_CHANGE_PASSWORD;
 }
 
 function* onPasswordChanged() {
