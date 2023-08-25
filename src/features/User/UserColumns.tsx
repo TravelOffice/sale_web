@@ -9,8 +9,7 @@ import React, { MouseEventHandler } from 'react';
 import { TableColumn } from 'react-data-table-component';
 // ** Icons Imports
 import {
-  AlertTriangle,
-  Archive, FileText, MoreVertical, Trash2,
+  AlertTriangle, Archive, FileText, MoreVertical, Trash2,
 } from 'react-feather';
 import { useDispatch } from 'react-redux';
 // ** React Imports
@@ -19,6 +18,7 @@ import { Link } from 'react-router-dom';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 const statusObj = {
   away: 'light-primary',
@@ -30,7 +30,7 @@ const statusObj = {
 
 // ** Renders Client Columns
 const renderClient = (row: User) => {
-  const states: { [key: string] : AvatarColor } = {
+  const states: { [key: string]: AvatarColor } = {
     away: 'light-primary',
     busy: 'light-warning',
     online: 'light-success',
@@ -40,7 +40,15 @@ const renderClient = (row: User) => {
   const color: AvatarColor = states[row.status || 'offline'];
 
   if (row.avatar && row.avatar.length) {
-    return <Avatar img={row.avatar || Images.defaultAvatar} className="me-1" imgHeight="32" imgWidth="32" status={row.status} />;
+    return (
+      <Avatar
+        img={row.avatar || Images.defaultAvatar}
+        className="me-1"
+        imgHeight="32"
+        imgWidth="32"
+        status={row.status}
+      />
+    );
   }
   return <Avatar color={color || 'primary'} className="me-1" content={row.username} />;
 };
@@ -60,7 +68,11 @@ export const userColumns: TableColumn<User>[] = [
             to={`/apps/user/view/${row.username}`}
             className="user_name text-truncate text-body"
           >
-            <span className="fw-bolder">{ (row.firstName && row.lastName) ? `${row.firstName} ${row.lastName}` : `${row.username}` }</span>
+            <span
+              className="fw-bolder"
+            >
+              {generateUserDisplayName(row)}
+            </span>
           </Link>
           <small className="text-truncate text-muted mb-0">{row.email}</small>
         </div>
@@ -124,7 +136,7 @@ export const userColumns: TableColumn<User>[] = [
                 <FileText size={14} className="me-50" />
                 <span className="align-middle">{i18n.t('COMMON.DETAILS')}</span>
               </DropdownItem>
-              { row.roles.includes('ROOT') || (
+              {row.roles.includes('ROOT') || (
                 <>
                   <DropdownItem tag="a" href="/" className="w-100" onClick={selectRow}>
                     <Archive size={14} className="me-50" />
@@ -141,18 +153,18 @@ export const userColumns: TableColumn<User>[] = [
                     <Trash2 size={14} className="me-50" />
                     <span className="align-middle">{i18n.t('COMMON.DELETE')}</span>
                   </DropdownItem>
-                  { row.status !== UserStatusEnum.inactive && (
-                  <DropdownItem
-                    tag="a"
-                    href="/"
-                    className="w-100"
-                    onClick={(e) => {
-                      e.preventDefault();
-                    }}
-                  >
-                    <AlertTriangle size={14} className="me-50" />
-                    <span className="align-middle">{i18n.t('COMMON.DISABLE')}</span>
-                  </DropdownItem>
+                  {row.status !== UserStatusEnum.inactive && (
+                    <DropdownItem
+                      tag="a"
+                      href="/"
+                      className="w-100"
+                      onClick={(e) => {
+                        e.preventDefault();
+                      }}
+                    >
+                      <AlertTriangle size={14} className="me-50" />
+                      <span className="align-middle">{i18n.t('COMMON.DISABLE')}</span>
+                    </DropdownItem>
                   )}
                 </>
               )}

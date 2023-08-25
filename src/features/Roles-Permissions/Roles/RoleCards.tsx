@@ -1,23 +1,21 @@
 // ** React Imports
-import React, {
-  useCallback, useEffect, useState,
-} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 // ** Reactstrap Imports
 import {
-  Row,
-  Col,
-  Card,
-  Label,
-  Input,
-  Table,
-  Modal,
   Button,
+  Card,
   CardBody,
+  Col,
+  FormFeedback,
+  Input,
+  Label,
+  Modal,
   ModalBody,
   ModalHeader,
-  FormFeedback,
+  Row,
+  Table,
   UncontrolledTooltip,
 } from 'reactstrap';
 
@@ -25,7 +23,7 @@ import {
 import {
   Copy, Edit, Info, RefreshCw, Trash,
 } from 'react-feather';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
 // ** Custom Components
 import Images from '@themes/Images';
@@ -38,6 +36,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { rolePermissionActions } from '@redux/slices/rolePermissionSlice';
 import { useAccessControl } from '@hooks/auth';
 import PERMISSIONS from '@utils/PermissionUtils';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 interface RoleData {
   name: string,
@@ -46,6 +45,7 @@ interface RoleData {
   permissions: Array<string>,
   isDefault?: boolean,
 }
+
 interface RoleFormData {
   roleName: string,
   permissions: Array<string>,
@@ -77,7 +77,7 @@ const RoleCards = (props: RoleCardProps) => {
     const data: RoleData[] = roles.map((role) => {
       const usersHaveRole = users.filter((user) => user.roles.includes(role.name));
       const groupUsers: UserAvatarItem[] = usersHaveRole.map((user) => {
-        const fullName = (user.firstName && user.lastName) ? `${user.firstName} ${user.lastName}` : user.username;
+        const fullName = generateUserDisplayName(user);
         return {
           key: user.username,
           title: fullName,
@@ -358,7 +358,7 @@ const RoleCards = (props: RoleCardProps) => {
                     <tr key={groupPermission.name}>
                       <td className="text-nowrap fw-bolder">{groupPermission.name}</td>
                       <td>
-                        { groupPermission.permissions.map((permission) => (
+                        {groupPermission.permissions.map((permission) => (
                           <div key={permission.name} className="d-flex">
                             <div className="form-check me-3 me-lg-5 mb-1">
                               <Label className="form-check-label" for={permission.name}>
@@ -368,8 +368,8 @@ const RoleCards = (props: RoleCardProps) => {
                                 type="checkbox"
                                 id={permission.name}
                                 checked={
-                                  checkedPermissions.includes(permission.name)
-                                }
+                                checkedPermissions.includes(permission.name)
+                              }
                                 onChange={(e) => {
                                   handleChangePermission(e.target.id, e.target.checked);
                                 }}
@@ -385,7 +385,7 @@ const RoleCards = (props: RoleCardProps) => {
             </Col>
             <Col className="text-center mt-2" xs={12}>
               <Button type="submit" color="primary" className="me-1">
-                { loading
+                {loading
                   ? <RefreshCw className={loading ? 'spin-animated' : ''} size={16} />
                   : i18n.t('COMMON.SUBMIT')}
               </Button>

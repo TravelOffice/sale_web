@@ -14,6 +14,7 @@ import { RoleEnum, User } from '@domain/entities/User';
 import { tourPresenter, userPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import { canUserBeOperator } from '@utils/TousOperationUtils';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 // Custom styles for assignee select
 const customStyles = {
@@ -51,7 +52,7 @@ export default function DepartureTourOperatorCell({ departureTour }: DepartureTo
   const operatorUser = operatorUsers?.find((user) => user.username === (newOperator ?? operator));
 
   const assigneeOptions = useMemo(() => operatorUsers?.map((sale) => ({
-    label: (sale.firstName && sale.lastName) ? `${sale.firstName} ${sale.lastName}` : `${sale.username}`,
+    label: generateUserDisplayName(sale),
     value: sale.username,
   })), [operatorUsers]);
   const defaultSelectValue = useMemo(
@@ -97,7 +98,7 @@ export default function DepartureTourOperatorCell({ departureTour }: DepartureTo
                     <Badge className="text-capitalize" color="light-primary">
                       <UserIcon size={14} />
                       {' '}
-                      {`${operatorUser.firstName} ${operatorUser.lastName}`}
+                      {generateUserDisplayName(operatorUser)}
                     </Badge>
                   </>
                 )
@@ -150,7 +151,14 @@ export default function DepartureTourOperatorCell({ departureTour }: DepartureTo
                     />
                     <Check className="cursor-pointer text-success" size={20} onClick={() => mutate()} />
                   </>
-                ) : <Edit2 style={{ marginLeft: 4 }} className="cursor-pointer" size={16} onClick={() => setIsEditing(!isEditing)} />
+                ) : (
+                  <Edit2
+                    style={{ marginLeft: 4 }}
+                    className="cursor-pointer"
+                    size={16}
+                    onClick={() => setIsEditing(!isEditing)}
+                  />
+                )
               }
               {
                 isAssigningOperator && <Spinner style={{ marginLeft: 4 }} size="sm" color="primary" />

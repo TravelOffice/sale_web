@@ -43,6 +43,7 @@ import moment from 'moment';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import { TourTemplate } from '@domain/entities/tour';
 import { Service } from '@domain/entities/booking/Service';
+import { generateUserDisplayName } from '@utils/UserUtils';
 import AddingBookingService from './components/AddingBookingService';
 
 const honorificOptions = Object
@@ -163,7 +164,7 @@ const BookingCreatePage = () => {
   );
 
   const assigneeOptions = useMemo(() => salesData.data?.map((sale) => ({
-    label: (sale.firstName && sale.lastName) ? `${sale.firstName} ${sale.lastName}` : `${sale.username}`,
+    label: generateUserDisplayName(sale),
     value: sale.username,
   })), [salesData]);
 
@@ -301,7 +302,11 @@ const BookingCreatePage = () => {
                       name="customer.primaryPhoneNumber"
                       control={control}
                       render={({ field }) => (
-                        <Input {...field} id="customer.primaryPhoneNumber" invalid={!!errors.customer?.primaryPhoneNumber} />
+                        <Input
+                          {...field}
+                          id="customer.primaryPhoneNumber"
+                          invalid={!!errors.customer?.primaryPhoneNumber}
+                        />
                       )}
                     />
                     {errors.customer?.primaryPhoneNumber

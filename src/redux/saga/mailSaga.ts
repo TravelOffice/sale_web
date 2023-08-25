@@ -1,5 +1,5 @@
 import {
-  all, call, put, select, takeLatest, takeEvery, fork, take, cancel, delay,
+  all, call, cancel, delay, fork, put, select, take, takeEvery, takeLatest,
 } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
@@ -46,7 +46,8 @@ function* getMailAccounts() {
   try {
     const mailAccounts: MailAccount[] = yield call(mailPresenter.getMailAccounts);
     yield put(mailActions.onMailAccountsFetched(mailAccounts));
-  } catch {
+  } catch (error) {
+    console.log(error);
     toasty.show({
       title: i18n.t('COMMON.ERROR'),
       message: i18n.t('MAIL.ERROR_GET_MAIL_ACCOUNTS'),
@@ -228,7 +229,10 @@ function* changeMailbox(action: PayloadAction<{ mailbox: string, mails: MailMess
     toasty.show({
       title: i18n.t('COMMON.SUCCESS'),
       type: 'success',
-      message: i18n.t('MAIL.CHANGE_MAILBOX_SUCCESSFULLY', { count: mails.length, folder: i18n.t(`MAIL.${mailbox.toUpperCase()}`) }),
+      message: i18n.t('MAIL.CHANGE_MAILBOX_SUCCESSFULLY', {
+        count: mails.length,
+        folder: i18n.t(`MAIL.${mailbox.toUpperCase()}`),
+      }),
     });
   } catch (error: any) {
     toasty.show({

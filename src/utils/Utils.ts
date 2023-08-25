@@ -1,4 +1,7 @@
 // ** React Select Theme Colors
+
+import moment from 'moment';
+
 // eslint-disable-next-line import/prefer-default-export
 export const selectThemeColors = (theme: any) => ({
   ...theme,
@@ -25,3 +28,11 @@ export const groupBy = (
   group.push(curr);
   return { ...prev, [groupKey]: group };
 }, {});
+
+export const useDateDuration = (data: string | number) => {
+  const momentOne = moment();
+  const momentTwo = moment(data);
+  return moment
+    .duration(momentOne.diff(momentTwo))
+    .humanize();
+};

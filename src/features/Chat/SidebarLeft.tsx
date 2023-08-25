@@ -3,11 +3,9 @@ import Avatar from '@components/Avatar/Avatar';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import { Bell, Search, X } from 'react-feather';
 import {
-  Bell, Search, X,
-} from 'react-feather';
-import {
-  InputGroup, InputGroupText, Input, Label, Button,
+  Button, Input, InputGroup, InputGroupText, Label,
 } from 'reactstrap';
 import { RootState } from '@redux/store';
 import { Conversation } from '@domain/entities/chat/Conversation';
@@ -17,6 +15,7 @@ import ConversationList from '@features/Chat/components/ConversationList';
 import { ConversationSection } from '@features/Chat/ConversationSection';
 import { Link } from 'react-router-dom';
 import Images from '@themes/Images';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 export interface SidebarLeftProps {
   sidebar: boolean,
@@ -74,8 +73,8 @@ const SidebarLeft = (props: SidebarLeftProps) => {
                 size="xl"
                 img={userProfile?.avatar || Images.defaultAvatar}
               />
-              <h4 className="chat-user-name">{userProfile?.fullName || userProfile?.username}</h4>
-              <span className="user-post">{userProfile?.roles.join(', ')}</span>
+              <h4 className="chat-user-name">{generateUserDisplayName(userProfile)}</h4>
+              <span className="user-post">{userProfile?.username}</span>
             </div>
           </header>
           <PerfectScrollbar className="profile-sidebar-area" options={{ wheelPropagation: false }}>
@@ -204,15 +203,15 @@ const SidebarLeft = (props: SidebarLeftProps) => {
               conversationSections.length ? (
                 conversationSections.map((section) => (
                   !section.error && (
-                    <ConversationList
-                      key={section.title}
-                      title={section.title}
-                      conversations={section.conversations}
-                      fetching={section.fetching}
-                      selectedConversation={selectedConversation}
-                      onConversationSelected={handleConversationSelected}
-                      query={query}
-                    />
+                  <ConversationList
+                    key={section.title}
+                    title={section.title}
+                    conversations={section.conversations}
+                    fetching={section.fetching}
+                    selectedConversation={selectedConversation}
+                    onConversationSelected={handleConversationSelected}
+                    query={query}
+                  />
                   )
                 )))
                 : (

@@ -25,6 +25,7 @@ import { BookingTourType, BookingTourTypeEnum } from '@domain/entities/booking/B
 import { generateI18nForBooking, isEditableBooking, updateBookingSchema } from '@utils/BookingUtils';
 import BookingService from '@features/Booking/components/tabs/information/BookingService';
 import moment from 'moment/moment';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 export interface EditBookingTabParams {
   bookingId: string,
@@ -96,7 +97,7 @@ export default function BookingDetailTab() {
   );
 
   const assigneeOptions = useMemo(() => salesData.data?.map((sale) => ({
-    label: (sale.firstName && sale.lastName) ? `${sale.lastName} ${sale.firstName}` : `${sale.username}`,
+    label: generateUserDisplayName(sale),
     value: sale.username,
   })), [salesData]);
 

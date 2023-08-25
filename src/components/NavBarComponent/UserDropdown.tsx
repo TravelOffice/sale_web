@@ -4,21 +4,29 @@ import { User } from '@domain/entities/User';
 import { RootState } from '@redux/store';
 import Images from '@themes/Images';
 import React from 'react';
-import {
-  MessageSquare, Power, Settings,
-} from 'react-feather';
+import { MessageSquare, Power, Settings } from 'react-feather';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 const UserDropdown = () => {
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
 
   // ** Renders Avatar
   const renderAvatar = (user: User) => {
-    if (user.avatar) return <Avatar img={user.avatar || Images.defaultAvatar} imgHeight="40" imgWidth="40" status="online" />;
+    if (user.avatar) {
+      return (
+        <Avatar
+          img={user.avatar || Images.defaultAvatar}
+          imgHeight="40"
+          imgWidth="40"
+          status="online"
+        />
+      );
+    }
 
     return <Avatar color="light-primary" content={user.username} />;
   };
@@ -26,8 +34,8 @@ const UserDropdown = () => {
     <UncontrolledDropdown tag="li" className="dropdown-user nav-item">
       <DropdownToggle href="/" tag="a" className="nav-link dropdown-user-link" onClick={(e) => e.preventDefault()}>
         <div className="user-nav d-sm-flex d-none">
-          <span className="user-name fw-bold">{currentUser?.username}</span>
-          <span className="user-status">{currentUser?.roles.join(', ')}</span>
+          <span className="user-name fw-bold">{generateUserDisplayName(currentUser)}</span>
+          <span className="user-status">{currentUser?.username}</span>
         </div>
         {currentUser && renderAvatar(currentUser)}
       </DropdownToggle>
