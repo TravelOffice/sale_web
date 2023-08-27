@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import {
-  Button,
-  Card,
-  CardBody, CardHeader, CardTitle,
+  Button, Card, CardBody, CardHeader, CardTitle,
 } from 'reactstrap';
 import { useBookingNotes } from '@hooks/booking';
 import { useParams } from 'react-router-dom';
@@ -13,6 +11,8 @@ import BookingNoteGroup from '@features/Booking/components/tabs/notes/BookingNot
 import CreateBookingNoteModal from '@features/Booking/components/tabs/notes/CreateBookingNoteModal';
 import i18n from '@config/i18n';
 import { Plus } from 'react-feather';
+import PERMISSIONS from '@utils/PermissionUtils';
+import { useAccessControl } from '@hooks/auth';
 
 type NoteGroup = {
   title: string,
@@ -20,6 +20,7 @@ type NoteGroup = {
 };
 
 export default function BookingNotes() {
+  const { can } = useAccessControl();
   const { bookingId } = useParams<EditBookingTabParams>();
   const { data: notes } = useBookingNotes(bookingId);
   const [showCreateNoteModal, setShowCreateNoteModal] = useState(false);
@@ -56,13 +57,17 @@ export default function BookingNotes() {
               />
             ))
           }
-          <div className="d-flex flex-row mt-1">
-            <Button color="primary" onClick={() => setShowCreateNoteModal(true)}>
-              <Plus size={16} />
-              {' '}
-              {i18n.t('BOOKING.ADD_NOTE')}
-            </Button>
-          </div>
+          {
+            can(PERMISSIONS.update_booking) ? (
+              <div className="d-flex flex-row mt-1">
+                <Button color="primary" onClick={() => setShowCreateNoteModal(true)}>
+                  <Plus size={16} />
+                  {' '}
+                  {i18n.t('BOOKING.ADD_NOTE')}
+                </Button>
+              </div>
+            ) : <></>
+          }
         </CardBody>
       </Card>
       <CreateBookingNoteModal

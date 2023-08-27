@@ -20,7 +20,7 @@ import moment from 'moment';
 import classNames from 'classnames';
 import i18n from '@config/i18n';
 import { generateEditableUrlForSupplier } from '@utils/SupplierUtils';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { formatCurrency } from '@utils/Utils';
 import {
   Button,
@@ -33,6 +33,8 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import { Estimation } from '@domain/entities/tour/Estimation';
+import { useEstimations } from '@hooks/tourDeparture';
+import { useSupplier } from '@hooks/supplier';
 
 export interface TourPlanItemActivityProps {
   activity: DailyTourPlanItem,
@@ -73,6 +75,7 @@ const activityColors: Record<TourPlanActivityType, string> = {
 };
 
 export default function TourPlanItemActivity(props: TourPlanItemActivityProps) {
+  const { tourId } = useParams<{ tourId: string }>();
   const {
     activity,
     onClick,
@@ -86,6 +89,29 @@ export default function TourPlanItemActivity(props: TourPlanItemActivityProps) {
     if (now < activity.startTime) return 'secondary';
     return activityColors[activity.activityType];
   }, []);
+
+  const {
+    data: allEstimations,
+  } = useEstimations(tourId);
+
+  const {
+    data: allSuppliers,
+  } = useSupplier();
+
+  const estimationsWithSupplier = useMemo(() => {
+    if (!allEstimations || !allSuppliers) return [];
+    return allEstimations.map((estimation: Estimation) => ({
+      ...estimation,
+      supplier: allSuppliers.find((supplier) => supplier.code === estimation.supplierId),
+    }));
+  }, [allEstimations, allSuppliers]);
+
+  const activityWithEstimation = useMemo(() => ({
+    ...activity,
+    estimations: estimationsWithSupplier.filter(
+      (est) => activity.estimationId && activity.estimationId.includes(est.code),
+    ),
+  }), [activity, estimationsWithSupplier]);
 
   return (
     <li
@@ -129,7 +155,13 @@ export default function TourPlanItemActivity(props: TourPlanItemActivityProps) {
           {i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.UPDATE_ACTIVITY')}
         </Button>
         {' '}
-        <Button className="mb-1 mt-1" color="primary" size="sm" id={`estimationOfActivity${activity.id}Toggler`} outline>
+        <Button
+          className="mb-1 mt-1"
+          color="primary"
+          size="sm"
+          id={`estimationOfActivity${activity.id}Toggler`}
+          outline
+        >
           {i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.SHOW_HIDE_SERVICES')}
         </Button>
         {' '}
@@ -137,7 +169,7 @@ export default function TourPlanItemActivity(props: TourPlanItemActivityProps) {
           {i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.ADD_SERVICE')}
         </Button>
         <>
-          <UncontrolledCollapse toggler={`#estimationOfActivity${activity.id}Toggler`}>
+          <UncontrolledCollapse defaultOpen toggler={`#estimationOfActivity${activity.id}Toggler`}>
             <table className="table table-sm">
               <thead>
                 <tr>
@@ -149,119 +181,124 @@ export default function TourPlanItemActivity(props: TourPlanItemActivityProps) {
                 </tr>
               </thead>
               <tbody className="table-hover table-striped">
-                {activity.estimations.length > 0 ? activity.estimations.map((estimation) => (
-                  <tr>
-                    <td>{generateI18nForTourOperation(`ESTIMATION.${estimation.serviceType}`)}</td>
-                    <td>
-                      <Link
-                        to={generateEditableUrlForSupplier(estimation.supplierId)}
-                        className="text-truncate text-body text-center"
-                      >
-                        <span
-                          className="fw-bolder text-primary"
+                {activityWithEstimation.estimations.length > 0
+                  ? activityWithEstimation.estimations.map((estimation) => (
+                    <tr>
+                      <td>{generateI18nForTourOperation(`ESTIMATION.${estimation.serviceType}`)}</td>
+                      <td>
+                        <Link
+                          to={generateEditableUrlForSupplier(estimation.supplierId)}
+                          className="text-truncate text-body text-center"
                         >
-                          {estimation.supplier?.name}
+                          <span
+                            className="fw-bolder text-primary"
+                          >
+                            {estimation.supplier?.name}
+                          </span>
+                        </Link>
+                      </td>
+                      <td>
+                        <span
+                          className="fw-bold"
+                        >
+                          {i18n.t('TOURS_OPERATION.ESTIMATION.PRICE')}
                         </span>
-                      </Link>
-                    </td>
-                    <td>
-                      <span
-                        className="fw-bold"
-                      >
-                        {i18n.t('TOURS_OPERATION.ESTIMATION.PRICE')}
-                      </span>
-                      {': '}
-                      <span
-                        className="text-warning"
-                      >
-                        {formatCurrency(estimation.estimatedPrice)}
-                      </span>
-                      <br />
-                      <span
-                        className="fw-bold"
-                      >
-                        {i18n.t('TOURS_OPERATION.ESTIMATION.QUANTITY')}
-                      </span>
-                      {': '}
-                      {estimation.estimatedQuantity}
-                      <br />
-                      {
+                        {': '}
+                        <span
+                          className="text-warning"
+                        >
+                          {formatCurrency(estimation.estimatedPrice)}
+                        </span>
+                        <br />
+                        <span
+                          className="fw-bold"
+                        >
+                          {i18n.t('TOURS_OPERATION.ESTIMATION.QUANTITY')}
+                        </span>
+                        {': '}
+                        {estimation.estimatedQuantity}
+                        <br />
+                        {
                         estimation.vatStatus === 'VAT_INCLUDED' ? (
                           <span className="fst-italic text-success">
                             (
                             {
-                                generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
-                              }
+                              generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
+                            }
                             )
                           </span>
                         ) : (
                           <span className="fst-italic">
                             (
                             {
-                                generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
-                              }
+                              generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
+                            }
                             )
                           </span>
                         )
                       }
-                    </td>
-                    <td>
-                      {formatCurrency(
-                        estimation.estimatedQuantity * estimation.estimatedPrice,
-                      )}
-                    </td>
-                    <td>
-                      <div className="column-action">
-                        <UncontrolledDropdown>
-                          <DropdownToggle
-                            tag="div"
-                            className="btn btn-sm"
-                          >
-                            <MoreVertical
-                              size={14}
-                              className="cursor-pointer"
-                            />
-                          </DropdownToggle>
-                          <DropdownMenu container="body">
-                            <DropdownItem
-                              tag="a"
-                              href="/"
-                              className="w-100"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                onUpdateEstimation(estimation);
-                              }}
+                      </td>
+                      <td>
+                        {formatCurrency(
+                          estimation.estimatedQuantity * estimation.estimatedPrice,
+                        )}
+                      </td>
+                      <td>
+                        <div className="column-action">
+                          <UncontrolledDropdown>
+                            <DropdownToggle
+                              tag="div"
+                              className="btn btn-sm"
                             >
-                              {' '}
-                              <Edit size={14} className="me-50" />
-                              <span
-                                className="align-middle"
+                              <MoreVertical
+                                size={14}
+                                className="cursor-pointer"
+                              />
+                            </DropdownToggle>
+                            <DropdownMenu container="body">
+                              <DropdownItem
+                                tag="a"
+                                href="/"
+                                className="w-100"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  onUpdateEstimation(estimation);
+                                }}
                               >
-                                {i18n.t('COMMON.EDIT')}
-                              </span>
-                            </DropdownItem>
-                            <DropdownItem
-                              tag="a"
-                              href="/"
-                              className="w-100"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                onDeleteEstimation(activity, estimation);
-                              }}
-                            >
-                              <X size={14} className="me-50" />
-                              <span
-                                className="align-middle"
+                                {' '}
+                                <Edit size={14} className="me-50" />
+                                <span
+                                  className="align-middle"
+                                >
+                                  {i18n.t('COMMON.EDIT')}
+                                </span>
+                              </DropdownItem>
+                              <DropdownItem
+                                tag="a"
+                                href="/"
+                                className="w-100"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  onDeleteEstimation(activity, estimation);
+                                }}
                               >
-                                {i18n.t('COMMON.DELETE')}
-                              </span>
-                            </DropdownItem>
-                          </DropdownMenu>
-                        </UncontrolledDropdown>
-                      </div>
-                    </td>
-                  </tr>
-                )) : <tr><td colSpan={5}>{i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.NO_ESTIMATION_TO_DISPLAY')}</td></tr>}
+                                <X size={14} className="me-50" />
+                                <span
+                                  className="align-middle"
+                                >
+                                  {i18n.t('COMMON.DELETE')}
+                                </span>
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </div>
+                      </td>
+                    </tr>
+                  )) : (
+                    <tr>
+                      <td colSpan={5}>{i18n.t('TOURS_OPERATION.TOUR_PLAN_KEY.NO_ESTIMATION_TO_DISPLAY')}</td>
+                    </tr>
+                  )}
               </tbody>
             </table>
           </UncontrolledCollapse>

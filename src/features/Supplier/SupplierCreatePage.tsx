@@ -24,9 +24,10 @@ import SupplierCommonInfo from '@features/Supplier/components/SupplierCommonInfo
 import SupplierQuote from '@features/Supplier/components/SupplierQuote';
 import SupplierPaymentInfo from '@features/Supplier/components/SupplierPaymentInfo';
 import SupplierContact from '@features/Supplier/components/SupplierContact';
-import { stringToEditorState } from '@utils/EditorUtils';
+import { useHistory } from 'react-router-dom';
 
 const SupplierCreatePage = () => {
+  const history = useHistory();
   const [
     note,
     setNote,
@@ -34,7 +35,6 @@ const SupplierCreatePage = () => {
 
   const {
     handleSubmit,
-    reset,
     control,
     formState: { errors },
   } = useForm<Supplier>({
@@ -59,12 +59,13 @@ const SupplierCreatePage = () => {
 
   const { isLoading, mutate: createSupplierMutation } = useMutation({
     mutationFn: supplierPresenter.addSupplier,
-    onSuccess: () => {
+    onSuccess: (supplier: Supplier) => {
       toasty.show({
         title: i18n.t('COMMON.SUCCESS'),
         type: 'success',
         message: i18n.t('SUPPLIER.CREATE_SUPPLIER_SUCCESSFULLY'),
       });
+      history.push(`/apps/suppliers/${supplier.code}/edit`);
     },
     onError: (error: Error) => {
       toasty.show({
@@ -79,9 +80,8 @@ const SupplierCreatePage = () => {
     createSupplierMutation(data);
   };
 
-  const handleReset = () => {
-    setNote(stringToEditorState(''));
-    reset();
+  const goBack = () => {
+    history.goBack();
   };
 
   return (
@@ -105,18 +105,18 @@ const SupplierCreatePage = () => {
             errors={errors}
           />
           <div className="d-flex justify-content-end">
-            <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
-              {i18n.t('COMMON.CANCEL')}
+            <Button type="reset" color="danger" className="me-1" outline onClick={goBack}>
+              {i18n.t('COMMON.BACK')}
             </Button>
             <Button type="submit" className="me-1" color="primary">
-              { !isLoading ? i18n.t('SUPPLIER.CREATE_SUPPLIER') : i18n.t('COMMON.LOADING')}
-              { isLoading ? (
+              {!isLoading ? i18n.t('SUPPLIER.CREATE_SUPPLIER') : i18n.t('COMMON.LOADING')}
+              {isLoading ? (
                 <Spinner
                   style={{ width: '0.7rem', height: '0.7rem' }}
                   type="grow"
                   color="light"
                 />
-              ) : null }
+              ) : null}
             </Button>
           </div>
         </Form>

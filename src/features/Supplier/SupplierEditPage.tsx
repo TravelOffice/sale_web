@@ -24,7 +24,7 @@ import SupplierCommonInfo from '@features/Supplier/components/SupplierCommonInfo
 import SupplierQuote from '@features/Supplier/components/SupplierQuote';
 import SupplierPaymentInfo from '@features/Supplier/components/SupplierPaymentInfo';
 import SupplierContact from '@features/Supplier/components/SupplierContact';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { stringToEditorState } from '@utils/EditorUtils';
 
 export interface SupplierEditPageParams {
@@ -32,6 +32,7 @@ export interface SupplierEditPageParams {
 }
 
 const SupplierEditPage = () => {
+  const history = useHistory();
   const queryClient = useQueryClient();
   const { supplierId } = useParams<SupplierEditPageParams>();
   const { data: supplier } = useQuery(
@@ -106,15 +107,14 @@ const SupplierEditPage = () => {
     mutate(data);
   };
 
-  const handleReset = () => {
-    setNote(stringToEditorState(''));
-    reset();
+  const goBack = () => {
+    history.goBack();
   };
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle tag="h4">{i18n.t('SUPPLIER.CREATE_SUPPLIER')}</CardTitle>
+        <CardTitle tag="h4">{i18n.t('SUPPLIER.UPDATE_SUPPLIER')}</CardTitle>
       </CardHeader>
       <CardBody>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -132,18 +132,18 @@ const SupplierEditPage = () => {
             errors={errors}
           />
           <div className="d-flex justify-content-end">
-            <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
-              {i18n.t('COMMON.CANCEL')}
+            <Button type="reset" color="danger" className="me-1" outline onClick={goBack}>
+              {i18n.t('COMMON.BACK')}
             </Button>
             <Button type="submit" className="me-1" color="primary">
-              { !isLoading ? i18n.t('SUPPLIER.UPDATE_SUPPLIER') : i18n.t('COMMON.LOADING')}
-              { isLoading ? (
+              {!isLoading ? i18n.t('SUPPLIER.UPDATE_SUPPLIER') : i18n.t('COMMON.LOADING')}
+              {isLoading ? (
                 <Spinner
                   style={{ width: '0.7rem', height: '0.7rem' }}
                   type="grow"
                   color="light"
                 />
-              ) : null }
+              ) : null}
             </Button>
           </div>
         </Form>

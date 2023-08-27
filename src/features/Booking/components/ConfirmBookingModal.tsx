@@ -32,7 +32,7 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
   } = useQuery(['departure-tours'], async () => tourPresenter.getAllDepartureTours());
 
   const departureTourOptions = useMemo(() => departureToursData?.map((departureTour) => ({
-    label: departureTour.name,
+    label: `${departureTour.name} (${departureTour.code})`,
     value: departureTour.code,
   })), [departureToursData]);
 

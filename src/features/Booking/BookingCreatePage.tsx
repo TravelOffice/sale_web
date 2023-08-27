@@ -498,7 +498,7 @@ const BookingCreatePage = () => {
             </div>
             <div className="d-flex justify-content-end">
               <Button type="reset" color="danger" className="me-1" outline onClick={handleCancel}>
-                {i18n.t('COMMON.CANCEL')}
+                {i18n.t('COMMON.BACK')}
               </Button>
               <Button type="submit" className="me-1" color="primary">
                 {!isProcessing ? i18n.t('BOOKING.CREATE_BOOKING') : i18n.t('COMMON.LOADING')}

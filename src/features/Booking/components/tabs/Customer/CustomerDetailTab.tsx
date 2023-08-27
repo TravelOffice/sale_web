@@ -21,6 +21,8 @@ import { Booking } from '@domain/entities/booking/Booking';
 import { useParams } from 'react-router-dom';
 import { EditBookingTabParams } from '@features/Booking/components/tabs/information/BookingDetailTab';
 import renderSkeleton from '@components/Skeleton/Skeleton';
+import { useAccessControl } from '@hooks/auth';
+import PERMISSIONS from '@utils/PermissionUtils';
 
 export interface CustomerDetailTabProps {
   booking?: Booking,
@@ -28,6 +30,7 @@ export interface CustomerDetailTabProps {
 }
 
 export default function CustomerDetailTab() {
+  const { can } = useAccessControl();
   const queryClient = useQueryClient();
   const { bookingId } = useParams<EditBookingTabParams>();
   const {
@@ -319,20 +322,23 @@ export default function CustomerDetailTab() {
                           />
                         </Col>
                       </Row>
-
-                      <Row>
-                        <Col className="d-flex" md={{ size: 9, offset: 3 }}>
-                          <LoadingButton
-                            loading={updateCustomerMutation.isLoading}
-                            className="me-1"
-                            color="primary"
-                            type="submit"
-                            disabled={updateCustomerMutation.isLoading}
-                          >
-                            {i18n.t('COMMON.SUBMIT')}
-                          </LoadingButton>
-                        </Col>
-                      </Row>
+                      {
+                        can(PERMISSIONS.update_booking) ? (
+                          <Row>
+                            <Col className="d-flex" md={{ size: 9, offset: 3 }}>
+                              <LoadingButton
+                                loading={updateCustomerMutation.isLoading}
+                                className="me-1"
+                                color="primary"
+                                type="submit"
+                                disabled={updateCustomerMutation.isLoading}
+                              >
+                                {i18n.t('COMMON.SUBMIT')}
+                              </LoadingButton>
+                            </Col>
+                          </Row>
+                        ) : <></>
+                      }
                     </>
                   )
                 }

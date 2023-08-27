@@ -27,6 +27,7 @@ import PoliciesAndRegulations from '@features/Tour/components/PoliciesAndRegulat
 import Services from '@features/Tour/Departure/components/Services';
 import toasty from '@components/Toasty/Toasty';
 import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
+import { useHistory } from 'react-router-dom';
 
 const schema = yup.object().shape({
   tourTemplateCode: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.TOUR_TEMPLATE') })),
@@ -65,6 +66,7 @@ const schema = yup.object().shape({
 });
 
 const DepartureTourCreatePage = () => {
+  const history = useHistory();
   // Fetch tour template and location data
   const { data: tourTemplates = [] } = useQuery(['toursTemplate'], async () => tourPresenter.getAllToursTemplate());
   const { data: tourLocations = [] } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
@@ -85,7 +87,6 @@ const DepartureTourCreatePage = () => {
 
   const {
     handleSubmit,
-    reset,
     control,
     setValue,
     formState: { errors },
@@ -173,11 +174,8 @@ const DepartureTourCreatePage = () => {
     mutate(dataToAdd);
   };
 
-  const handleReset = () => {
-    setInclusionAndExclusion(stringToEditorState(''));
-    setCancellationTerms(stringToEditorState(''));
-    setPolicyConditionsAndExtraFee(stringToEditorState(''));
-    reset();
+  const goBack = () => {
+    history.goBack();
   };
 
   return (
@@ -212,8 +210,8 @@ const DepartureTourCreatePage = () => {
             setCancellationTerms={setCancellationTerms}
           />
           <div className="d-flex justify-content-end">
-            <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
-              {i18n.t('COMMON.CANCEL')}
+            <Button type="reset" color="danger" className="me-1" outline onClick={goBack}>
+              {i18n.t('COMMON.BACK')}
             </Button>
             <Button type="submit" className="me-1" color="primary" disabled={isLoading}>
               {!isLoading ? i18n.t('DEPARTURE_TOUR.CREATE') : i18n.t('COMMON.LOADING')}

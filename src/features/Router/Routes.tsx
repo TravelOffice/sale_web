@@ -120,7 +120,7 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/apps/bookings/:bookingId/edit',
     exact: true,
-    requiredPermissions: [PERMISSIONS.update_booking],
+    requiredPermissions: [PERMISSIONS.get_bookings],
     component: <BookingDetail />,
   },
   {
