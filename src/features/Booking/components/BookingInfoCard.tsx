@@ -14,6 +14,8 @@ import { useQuery } from '@tanstack/react-query';
 import renderSkeleton from '@components/Skeleton/Skeleton';
 import CanceledBookingInfoCard from '@features/Booking/components/CanceledBookingInfoCard';
 import BookingItemActions from '@features/Booking/components/BookingItemActions';
+import { useAccessControl } from '@hooks/auth';
+import PERMISSIONS from '@utils/PermissionUtils';
 
 export interface EditBookingPageParams {
   bookingId: string,
@@ -30,6 +32,7 @@ const bookingStatusColors: Record<BookingStatus, string> = {
 
 // const color: string = customerLevelColors[row.level! || CustomerLevel.STANDARD];
 export default function BookingInfoCard() {
+  const { can } = useAccessControl();
   const { bookingId } = useParams<EditBookingPageParams>();
   const {
     data: booking,
@@ -46,9 +49,10 @@ export default function BookingInfoCard() {
             <CardHeader className="pb-1">
               <CardTitle tag="h1">{booking?.tourTemplate?.name}</CardTitle>
               {
-                isEditableBooking(booking?.bookingStatus!) ? (
+                can(PERMISSIONS.update_booking)
+                && isEditableBooking(booking?.bookingStatus!) ? (
                   <BookingItemActions booking={booking!} />
-                ) : <></>
+                  ) : <></>
               }
             </CardHeader>
             <CardBody>

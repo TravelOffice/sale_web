@@ -32,7 +32,6 @@ import { tourPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import EstimationCreatePage from '@features/ToursOperation/Estimation/EstimationCreatePage';
 import EstimationUpdatePage from '@features/ToursOperation/Estimation/EstimationUpdatePage';
-import { Supplier } from '@domain/entities/supplier';
 
 export interface EditTourPageParams {
   tourId: string,
@@ -41,13 +40,12 @@ export interface EditTourPageParams {
 export interface EstimationsTableProp {
   isLoading: boolean,
   estimationsGroupByType: Record<string, Estimation[]>,
-  allSuppliers: Supplier[],
 }
 
 export default function EstimationsTable(props: EstimationsTableProp) {
   const queryClient = useQueryClient();
   const { tourId } = useParams<EditTourPageParams>();
-  const { isLoading, estimationsGroupByType, allSuppliers } = props;
+  const { isLoading, estimationsGroupByType } = props;
 
   const [createFormModal, setCreateFormModal] = useState(false);
   const [updateFormData, setUpdateFormModal] = useState(false);
@@ -295,7 +293,6 @@ export default function EstimationsTable(props: EstimationsTableProp) {
         </CardBody>
       </Card>
       <EstimationCreatePage
-        allSuppliers={allSuppliers!}
         createFormModal={createFormModal}
         toggleCreateFormModal={toggleCreatFormModal}
       />

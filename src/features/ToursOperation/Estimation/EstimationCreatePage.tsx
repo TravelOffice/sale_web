@@ -23,15 +23,15 @@ import { CreateEstimationFormData, Estimation } from '@domain/entities/tour/Esti
 import { tourPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import { useParams } from 'react-router-dom';
-import { Supplier, SupplierServiceType } from '@domain/entities/supplier';
+import { SupplierServiceType } from '@domain/entities/supplier';
 import { convertCurrencyToNumber } from '@utils/CurrencyUtils';
 import CurrencyInput from 'react-currency-input-field';
 import { DailyKey, TourPlan, UpdateTourPlanActivityFormData } from '@domain/entities/tour/TourPlan';
+import { useSupplier } from '@hooks/supplier';
 
 interface EstimationCreatePageProps {
   createFormModal: boolean,
   toggleCreateFormModal: () => void,
-  allSuppliers: Supplier[],
   tourPlanDay?: string;
   currentTourPlan?: TourPlan;
   activityId?: string;
@@ -95,9 +95,13 @@ const EstimationCreatePage = (props: EstimationCreatePageProps) => {
   const { tourId } = useParams<CreateEstimationParams>();
 
   const {
-    createFormModal, toggleCreateFormModal, allSuppliers, tourPlanDay = '', currentTourPlan = undefined,
+    createFormModal, toggleCreateFormModal, tourPlanDay = '', currentTourPlan = undefined,
     activityId = '',
   } = props;
+
+  const {
+    data: allSuppliers,
+  } = useSupplier();
 
   const queryClient = useQueryClient();
 

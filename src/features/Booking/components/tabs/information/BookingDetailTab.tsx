@@ -26,6 +26,8 @@ import { generateI18nForBooking, isEditableBooking, updateBookingSchema } from '
 import BookingService from '@features/Booking/components/tabs/information/BookingService';
 import moment from 'moment/moment';
 import { generateUserDisplayName } from '@utils/UserUtils';
+import PERMISSIONS from '@utils/PermissionUtils';
+import { useAccessControl } from '@hooks/auth';
 
 export interface EditBookingTabParams {
   bookingId: string,
@@ -38,6 +40,7 @@ const tourTypeOptions = Object
   ));
 
 export default function BookingDetailTab() {
+  const { can } = useAccessControl();
   const queryClient = useQueryClient();
   const { bookingId } = useParams<EditBookingTabParams>();
   const {
@@ -83,7 +86,7 @@ export default function BookingDetailTab() {
   ] = relatedData;
   const departureTourOptions = useMemo(
     () => departureToursData.data?.map((tour) => ({
-      label: tour.name,
+      label: `${tour.name} (${tour.code})`,
       value: tour.code,
     })),
     [tourTemplateData],
@@ -328,7 +331,8 @@ export default function BookingDetailTab() {
                   isEditable={isEditable}
                 />
                 {
-                  isEditable ? (
+                  can(PERMISSIONS.update_booking)
+                  && isEditable ? (
                     <div className="d-flex justify-content-end">
                       <Button type="reset" color="danger" className="me-1" outline onClick={handleCancel}>
                         {i18n.t('COMMON.CANCEL')}
@@ -344,7 +348,7 @@ export default function BookingDetailTab() {
                         ) : null}
                       </Button>
                     </div>
-                  ) : <></>
+                    ) : <></>
                 }
               </Form>
             </CardBody>

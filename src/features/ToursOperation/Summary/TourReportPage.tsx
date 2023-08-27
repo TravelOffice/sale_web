@@ -357,7 +357,6 @@ export default function TourReportPage() {
         </CardBody>
       </Card>
       <EstimationCreatePage
-        allSuppliers={allSuppliers!}
         createFormModal={createFormModal}
         toggleCreateFormModal={toggleCreatFormModal}
       />

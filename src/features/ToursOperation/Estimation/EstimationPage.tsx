@@ -51,7 +51,6 @@ export default function EstimationPage() {
     <>
       <EstimationsTable
         estimationsGroupByType={estimationsGroupByType}
-        allSuppliers={allSuppliers!}
         isLoading={isLoadingEstimations && isLoadingSuppliers && isLoadingPaymentVouchers}
       />
       <SuppliersTable

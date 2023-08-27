@@ -18,7 +18,7 @@ import '@styles/react/libs/editor/editor.scss';
 import { tourPresenter } from '@adapter/presenters';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toasty from '@components/Toasty/Toasty';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { validateTourSchema } from '@features/Tour/validateSchemas/validateSchema';
 import TourType from '@domain/entities/tour/TourType';
 import PoliciesAndRegulations from '@features/Tour/components/PoliciesAndRegulations';
@@ -32,6 +32,7 @@ export interface DepartureTourEditPageParams {
 }
 
 const DepartureTourEditPage = () => {
+  const history = useHistory();
   const queryClient = useQueryClient();
   // Fetch tour template data
   const { tourId } = useParams<DepartureTourEditPageParams>();
@@ -137,8 +138,8 @@ const DepartureTourEditPage = () => {
     updateDepartureTourMutation.mutate(data);
   };
 
-  const handleReset = () => {
-    reset();
+  const goBack = () => {
+    history.goBack();
   };
 
   return (
@@ -173,8 +174,8 @@ const DepartureTourEditPage = () => {
             setCancellationTerms={setCancellationTerms}
           />
           <div className="d-flex justify-content-end">
-            <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
-              {i18n.t('COMMON.CANCEL')}
+            <Button type="reset" color="danger" className="me-1" outline onClick={goBack}>
+              {i18n.t('COMMON.BACK')}
             </Button>
             <Button type="submit" className="me-1" color="primary">
               {!updateDepartureTourMutation.isLoading ? i18n.t('COMMON.UPDATE') : i18n.t('COMMON.LOADING')}

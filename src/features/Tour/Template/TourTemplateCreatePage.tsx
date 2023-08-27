@@ -8,7 +8,7 @@ import i18n from '@config/i18n';
 import {
   Button, Card, CardBody, CardHeader, CardTitle, Form, Spinner,
 } from 'reactstrap';
-import { CreateTourTemplateFormData } from '@domain/entities/tour';
+import { CreateTourTemplateFormData, TourTemplate } from '@domain/entities/tour';
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
@@ -24,14 +24,15 @@ import { validateTourSchema } from '@features/Tour/validateSchemas/validateSchem
 import PoliciesAndRegulations from '@features/Tour/components/PoliciesAndRegulations';
 import { EditorState } from 'draft-js';
 import Services from '@features/Tour/Template/components/Services';
+import { useHistory } from 'react-router-dom';
 
 const TourTemplateCreatePage = () => {
+  const history = useHistory();
   // Fetch location data
   const { data: tourLocations = [] } = useTourLocations();
 
   const {
     handleSubmit,
-    reset,
     control,
     formState: { errors },
   } = useForm<CreateTourTemplateFormData>({
@@ -70,12 +71,13 @@ const TourTemplateCreatePage = () => {
     mutationFn: (
       formData: CreateTourTemplateFormData,
     ) => tourTemplatePresenter.addTourTemplate(formData),
-    onSuccess: () => {
+    onSuccess: (tourTemplate: TourTemplate) => {
       toasty.show({
         title: i18n.t('COMMON.SUCCESS'),
         type: 'success',
         message: i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE_SUCCESSFULLY'),
       });
+      history.push(`/apps/tours/template/${tourTemplate.code}/edit`);
     },
     onError: (error: Error) => {
       toasty.show({
@@ -90,8 +92,8 @@ const TourTemplateCreatePage = () => {
     mutate(data);
   }, []);
 
-  const handleReset = () => {
-    reset();
+  const goBack = () => {
+    history.goBack();
   };
 
   // Editor State
@@ -134,8 +136,8 @@ const TourTemplateCreatePage = () => {
             setCancellationTerms={setCancellationTerms}
           />
           <div className="d-flex justify-content-end">
-            <Button type="reset" color="danger" className="me-1" outline onClick={handleReset}>
-              {i18n.t('COMMON.CANCEL')}
+            <Button type="reset" color="danger" className="me-1" outline onClick={goBack}>
+              {i18n.t('COMMON.BACK')}
             </Button>
             <Button type="submit" className="me-1" color="primary" disabled={isLoading}>
               {!isLoading ? i18n.t('TOUR_TEMPLATE.CREATE_TOUR_TEMPLATE') : i18n.t('COMMON.LOADING')}

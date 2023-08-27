@@ -4,14 +4,13 @@ import {
 } from 'reactstrap';
 import TourOperationPlanItem from '@features/ToursOperation/TourPlan/components/TourOperationPlanItem';
 import { useParams } from 'react-router-dom';
-import { useDepartureTour, useEstimations, useTourPlan } from '@hooks/tourDeparture';
+import { useDepartureTour, useTourPlan } from '@hooks/tourDeparture';
 import { DailyKey, DailyTourPlanItem } from '@domain/entities/tour/TourPlan';
 import { convertTourPlanDayToMoment, generateI18nForDailyTourPlanKey } from '@utils/TousOperationUtils';
 import i18n from '@config/i18n';
 import CreateTourPlanActivityModal from '@features/ToursOperation/TourPlan/CreateTourPlanActivityModal';
 import EditTourPlanActivityModal from '@features/ToursOperation/TourPlan/EditTourPlanActivityModal';
 import DeleteTourPlanActivityModal from '@features/ToursOperation/TourPlan/DeleteTourPlanActivityModal';
-import { useSupplier } from '@hooks/supplier';
 import { Estimation } from '@domain/entities/tour/Estimation';
 import EstimationCreatePage from '@features/ToursOperation/Estimation/EstimationCreatePage';
 import EstimationUpdatePage from '@features/ToursOperation/Estimation/EstimationUpdatePage';
@@ -28,35 +27,15 @@ export default function ToursOperationPlan() {
   const { tourId } = useParams<{ tourId: string }>();
   const { data: tourPlan } = useTourPlan(tourId);
   const { data: tour } = useDepartureTour(tourId);
-  const {
-    data: allEstimations,
-  } = useEstimations(tourId);
-
-  const {
-    data: allSuppliers,
-  } = useSupplier();
-
-  const estimationsWithSupplier = useMemo(() => {
-    if (!allEstimations || !allSuppliers) return [];
-    return allEstimations.map((estimation: Estimation) => ({
-      ...estimation,
-      supplier: allSuppliers.find((supplier) => supplier.code === estimation.supplierId),
-    }));
-  }, [allEstimations, allSuppliers]);
 
   const tourPlanItems = useMemo(() => {
-    if (!tourPlan || !estimationsWithSupplier) return [];
+    if (!tourPlan) return [];
     return Object.entries(tourPlan).map(([key, value]) => ({
       id: key as DailyKey,
       title: generateI18nForDailyTourPlanKey(key as DailyKey),
-      data: (value.map((item: DailyTourPlanItem) => ({
-        ...item,
-        estimations: estimationsWithSupplier.filter(
-          (est) => item.estimationId && item.estimationId.includes(est.code),
-        ),
-      }))) as DailyTourPlanItem[],
+      data: value as DailyTourPlanItem[],
     })).sort((a, b) => a.id.localeCompare(b.id));
-  }, [tourPlan, estimationsWithSupplier]);
+  }, [tourPlan]);
 
   const onEditActivity = useCallback((day: DailyKey, activity: DailyTourPlanItem) => {
     setSelectedActivity({
@@ -158,7 +137,13 @@ export default function ToursOperationPlan() {
                   <br />
                 </>
               )}
-              <Button className="mt-2" color="primary" onClick={() => setShowCreateActivityModal(true)}>{i18n.t('TOURS_OPERATION.ADD_ACTIVITY')}</Button>
+              <Button
+                className="mt-2"
+                color="primary"
+                onClick={() => setShowCreateActivityModal(true)}
+              >
+                {i18n.t('TOURS_OPERATION.ADD_ACTIVITY')}
+              </Button>
             </CardBody>
           </Card>
         </Col>
@@ -207,35 +192,34 @@ export default function ToursOperationPlan() {
       }
       {
         tour && tourPlan && selectedActivity && (
-        <EstimationCreatePage
-          allSuppliers={allSuppliers!}
-          createFormModal={openCreateEstimationFormModal}
-          toggleCreateFormModal={toggleCreateEstimationFormModal}
-          currentTourPlan={tourPlan}
-          tourPlanDay={selectedActivity.day}
-          activityId={selectedActivity.activity.id}
-        />
+          <EstimationCreatePage
+            createFormModal={openCreateEstimationFormModal}
+            toggleCreateFormModal={toggleCreateEstimationFormModal}
+            currentTourPlan={tourPlan}
+            tourPlanDay={selectedActivity.day}
+            activityId={selectedActivity.activity.id}
+          />
         )
       }
       {
         selectedEstimation && (
-        <EstimationUpdatePage
-          updateFormModal={openUpdateEstimationModal}
-          toggleUpdateFormModal={toggleUpdateEstimationFormModal}
-          updatingEstimation={selectedEstimation}
-        />
+          <EstimationUpdatePage
+            updateFormModal={openUpdateEstimationModal}
+            toggleUpdateFormModal={toggleUpdateEstimationFormModal}
+            updatingEstimation={selectedEstimation}
+          />
         )
       }
       {
         selectedEstimation && selectedActivity && (
-        <EstimationConfirmDeleteModal
-          selectedEstimation={selectedEstimation}
-          toggleConfirmDeleteEstimationModal={toggleConfirmDeleteEstimationModal}
-          openConfirmDeleteEstimationModal={openConfirmDeleteEstimationModal}
-          tourPlanDay={selectedActivity.day}
-          activityId={selectedActivity.activity.id}
-          currentTourPlan={tourPlan}
-        />
+          <EstimationConfirmDeleteModal
+            selectedEstimation={selectedEstimation}
+            toggleConfirmDeleteEstimationModal={toggleConfirmDeleteEstimationModal}
+            openConfirmDeleteEstimationModal={openConfirmDeleteEstimationModal}
+            tourPlanDay={selectedActivity.day}
+            activityId={selectedActivity.activity.id}
+            currentTourPlan={tourPlan}
+          />
         )
       }
     </>

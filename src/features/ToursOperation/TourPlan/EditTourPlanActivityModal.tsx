@@ -41,11 +41,13 @@ const activityOptions = tourPlanActivityTypes.map((activityType) => ({
 
 const schema = yup.object().shape({
   activityType: yup.string().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.ACTIVITY') }))
-    .oneOf(tourPlanActivityTypes, i18n.t('MESSAGE.FIELD_ONE_OF', { field: i18n.t('TOURS_OPERATION.ACTIVITY'), options: tourPlanActivityTypes.map((type) => generateI18nForTourOperation(type)) })),
+    .oneOf(tourPlanActivityTypes, i18n.t('MESSAGE.FIELD_ONE_OF', {
+      field: i18n.t('TOURS_OPERATION.ACTIVITY'),
+      options: tourPlanActivityTypes.map((type) => generateI18nForTourOperation(type)),
+    })),
   startTime: yup.number().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.START_TIME') })),
   endTime: yup.number().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.END_TIME') })),
   description: yup.string().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.DESCRIPTION') })),
-  estimationId: yup.number().required(i18n.t('MESSAGE.REQUIRED_FIELD_MESSAGE', { field: i18n.t('TOURS_OPERATION.TOUR_ESTIMATION') })),
 });
 
 export default function EditTourPlanActivityModal(props: EditTourPlanActivityModalProps) {
@@ -86,7 +88,10 @@ export default function EditTourPlanActivityModal(props: EditTourPlanActivityMod
     },
     onSuccess: (newTourPlan) => {
       toggle();
-      queryClient.setQueryData(['tour-plan', tourId], newTourPlan);
+      queryClient.setQueryData(['tour-plan', tourId], {
+        ...tourPlan,
+        ...newTourPlan,
+      });
     },
     onError: (error: Error) => {
       toasty.show({
@@ -98,8 +103,6 @@ export default function EditTourPlanActivityModal(props: EditTourPlanActivityMod
   });
 
   const onSubmit = useCallback((formData: UpdateTourPlanActivityFormData) => {
-    // Magic code: convert estimationId to string
-    // This code is needed because of the bug of react-hook-form
     mutate(formData);
   }, [tour]);
 
