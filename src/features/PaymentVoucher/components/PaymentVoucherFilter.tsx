@@ -4,12 +4,12 @@ import {
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import Select from 'react-select';
 import i18n from '@config/i18n';
 import { PaymentVoucherStatus } from '@domain/entities/paymentVoucher/PaymentVoucher';
 import Flatpickr from 'react-flatpickr';
 import classNames from 'classnames';
 import moment from 'moment/moment';
+import FormItemSelect from '@components/Form/FormItemSelect';
 
 export interface PaymentVoucherFilterParams {
   code?: string,
@@ -55,22 +55,12 @@ export default function PaymentVoucherFilter(props: PaymentVoucherFilterProps) {
         </Col>
         <Col>
           <Label>{t('PAYMENT_VOUCHER.STATUS')}</Label>
-          <Controller
+          <FormItemSelect
             control={control}
             name="status"
-            render={({ field: { onChange, value, ...rest } }) => (
-              <Select
-                {...rest}
-                options={paymentVoucherStatusOptions}
-                value={{
-                  label: paymentVoucherStatusOptions.find(
-                    (option) => option.value === value,
-                  )?.label,
-                  value,
-                }}
-                onChange={(newValue) => onChange(newValue?.value)}
-              />
-            )}
+            options={paymentVoucherStatusOptions}
+            isClearable
+            errors={{}}
           />
         </Col>
         <Col>

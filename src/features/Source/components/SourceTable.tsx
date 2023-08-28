@@ -13,13 +13,13 @@ export interface SourceTableProps {
 
 function SourceTableSkeleton() {
   return (
-    <Skeleton count={5} />
+    <Skeleton count={5} className="skeleton-custom-style" />
   );
 }
 
 export default function SourceTable(props: SourceTableProps) {
   const { sources, isLoading, onEditSource } = props;
-
+  // return <SourceTableSkeleton />
   if (isLoading) return <SourceTableSkeleton />;
   return (
     <>
@@ -44,7 +44,7 @@ export default function SourceTable(props: SourceTableProps) {
         </tbody>
       </Table>
       {sources.length === 0 && (
-        <div className="d-flex align-items-center justify-content-center py-3">
+        <div className="py-3 d-flex align-items-center justify-content-center">
           {i18n.t('COMMON.NO_DATA')}
         </div>
       )}

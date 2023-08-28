@@ -1184,6 +1184,24 @@
     }
   }
 
+  .dark-form-select *  {
+    color: #b4b7bd;
+  }
+  .dark-form-select > div > div > *  {
+    color: #fff;
+  }
+  .dark-form-select > div  {
+    background-color: #283046;
+    border-color: #404656;
+  }
+  .skeleton-custom-style{
+    background-color: #333;
+      /* color: #444; */
+      --highlight-color: #444;
+      --base-color: #444;
+
+  }
+
   // Added for override
   .was-validated {
     .form-control:invalid,
