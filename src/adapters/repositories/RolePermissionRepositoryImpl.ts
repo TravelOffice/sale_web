@@ -23,4 +23,9 @@ export default class RolePermissionRepositoryImpl implements RolePermissionRepos
     const response = await apiProvider.authorizedRequest.put(`/admin/roles/${name}`, updateRole);
     return response.data;
   }
+
+  deleteRole = async (roleName: string) => {
+    const response = await apiProvider.authorizedRequest.delete(`/admin/roles/${roleName}`);
+    return response.data;
+  }
 }

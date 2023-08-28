@@ -459,7 +459,11 @@
     "TOTAL_USER": "Total {{totalUsers}} users",
     "ADMINISTRATOR_ACCESS": "Administrator Access",
     "ROLE_PERMISSIONS": "Role Permissions",
-    "INPUT_ROLE_NAME": "Enter role name"
+    "INPUT_ROLE_NAME": "Enter role name",
+    "ADD_ROLE_SUCCESSFULLY": "Add role successfully",
+    "UPDATE_ROLE_SUCCESSFULLY": "Update role {{roleName}} successfully",
+    "DELETE_ROLE_CONFIRMATION_MSG": "Are you sure you want to delete role {{roleName}}?",
+    "DELETE_ROLE_SUCCESSFULLY": "Delete role {{roleName}} successfully"
   },
   "MAIL": {
     "CONNECTED_MAILS": "Connected mails",

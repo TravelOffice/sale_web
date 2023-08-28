@@ -106,6 +106,8 @@ import { UploadAvatarFileUseCase } from '@domain/useCases/interfaces/user/Upload
 import UploadAvatarFileUseCaseImpl from '@domain/useCases/user/UpdateAvatarFileUseCaseImpl';
 import { GetPaymentVouchersOfTourUseCase } from '@domain/useCases/interfaces/tour/GetPaymentVouchersOfTourUseCase';
 import GetPaymentVouchersOfTourUseCaseImpl from '@domain/useCases/tour/GetPaymentVouchersOfTourUseCaseImpl';
+import DeleteRoleUseCaseImpl from '@domain/useCases/rolePermission/DeleteRoleUseCaseImpl';
+import { DeleteRoleUseCase } from '@domain/useCases/interfaces/rolePermission/DeleteRoleUseCase';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -207,6 +209,7 @@ interface UseCases {
   getAllPermissionsUseCase: GetAllPermissionsUseCase,
   addRoleUseCase: AddRoleUseCase
   updateRoleUseCase: UpdateRoleUseCase
+  deleteRoleUseCase: DeleteRoleUseCase
   // Mail
   linkMailUseCase: LinkEmailUseCase,
   getMailAccountsUseCase: GetMailAccountsUseCase,
@@ -304,6 +307,7 @@ const useCases: UseCases = {
   getAllPermissionsUseCase: new GetAllPermissionsUseCaseImpl(),
   addRoleUseCase: new AddRoleUseCaseImpl(),
   updateRoleUseCase: new UpdateRoleUseCaseImpl(),
+  deleteRoleUseCase: new DeleteRoleUseCaseImpl(),
   // Mail
   linkMailUseCase: new LinkEmailUseCaseImpl(),
   getMailAccountsUseCase: new GetMailAccountsUseCaseImpl(),
@@ -394,6 +398,7 @@ export const {
   getAllPermissionsUseCase,
   addRoleUseCase,
   updateRoleUseCase,
+  deleteRoleUseCase,
   subscribeNewNotificationUseCase,
   manualAssignChatUseCase,
   linkMailUseCase,
