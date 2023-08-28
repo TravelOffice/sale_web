@@ -3,7 +3,10 @@ import { UpdateAccountFormData, User } from '@domain/entities/User';
 import UserRepository from './interfaces/UserRepository';
 
 export default class UserRepositoryImpl implements UserRepository {
-  getUser = async (id: string) => apiProvider.authorizedRequest.get(`/users/${id}`)
+  getUser = async (id: string) => {
+    const response = await apiProvider.authorizedRequest.get(`/users/${id}`);
+    return response.data;
+  }
 
   getCurrentUser = async () => {
     const response = await apiProvider.authorizedRequest.get('/me');

@@ -44,5 +44,5 @@ export function generateUserDisplayNameOption(user: User, currentUser?: User) {
  */
 export function generateI18nForUser(type: string) {
   const key = `USER.${type}`;
-  return i18n.t(key).toUpperCase();
+  return i18n.t(key);
 }

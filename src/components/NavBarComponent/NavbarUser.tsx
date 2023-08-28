@@ -1,7 +1,6 @@
 import React from 'react';
-import { Sun, Moon } from 'react-feather';
+import { Moon, Sun } from 'react-feather';
 import { NavItem, NavLink } from 'reactstrap';
-import NavbarSearch from '@components/NavBarComponent/NavbarSearch';
 import IntlDropdown from './IntlDropdown';
 import UserDropdown from './UserDropdown';
 import NotificationDropdown from './NotificationDropdown';
@@ -29,7 +28,6 @@ const NavbarUser = (props: NavbarUserProps) => {
           <ThemeToggler />
         </NavLink>
       </NavItem>
-      <NavbarSearch />
       <NotificationDropdown />
       <UserDropdown />
     </ul>

@@ -34,6 +34,7 @@ import ToursOperationDetail from '@features/ToursOperation/ToursOperationDetail'
 import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
 import SourceListPage from '@features/Source/SourceListPage';
 import TourLocationListPage from '@features/TourLocation/TourLocationListPage';
+import UserDetail from '@features/User/UserDetail';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -146,6 +147,12 @@ const Routes: RoutePathConfig[] = [
     exact: true,
     requiredPermissions: [PERMISSIONS.view_all_users],
     component: <UserList />,
+  },
+  {
+    path: '/apps/user/view/:userId',
+    exact: true,
+    requiredPermissions: [PERMISSIONS.view_all_users],
+    component: <UserDetail />,
   },
   {
     path: '/apps/admin/roles',

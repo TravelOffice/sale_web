@@ -434,7 +434,15 @@
     "UPDATE_ACCOUNT_SUCCESSFULLY": "Cập nhật thông tin tài khoản thành công",
     "ACCOUNT_INFORMATION": "Thông tin tài khoản",
     "UPDATED_AT": "Ngày cập nhật gần nhất",
-    "AVATAR": "Ảnh đại diện"
+    "AVATAR": "Ảnh đại diện",
+    "USER_LIST": "Danh sách nguời dùng",
+    "USER_DETAILS": "Chi tiết người dùng",
+    "DEFAULT_ROLES": {
+        "ADMIN": "Quản trị viên",
+        "SALE": "Sale",
+        "OPERATOR": "Điều hành viên",
+        "OPERATOR_MANAGER": "Quản lý điều hành"
+    }
   },
   "ROLE-PERMISSION": {
     "ROLE_LIST_TITLE": "Danh sách Role",
