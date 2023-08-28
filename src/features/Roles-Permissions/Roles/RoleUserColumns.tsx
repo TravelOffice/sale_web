@@ -12,6 +12,7 @@ import { Eye } from 'react-feather';
 import { Link } from 'react-router-dom';
 // ** Reactstrap Imports
 import { Badge } from 'reactstrap';
+import { generateUserDisplayName } from '@utils/UserUtils';
 
 const statusObj = {
   away: 'light-primary',
@@ -64,7 +65,7 @@ export const userColumns: TableColumn<User>[] = [
             <span
               className="fw-bolder"
             >
-              gener
+              {generateUserDisplayName(row)}
             </span>
           </Link>
           <small className="text-truncate text-muted mb-0">{row.email}</small>

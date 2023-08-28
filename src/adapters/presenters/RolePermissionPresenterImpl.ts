@@ -1,6 +1,10 @@
 import { RoleCreateUpdatePayload } from '@domain/entities/RolePermission';
 import {
-  addRoleUseCase, getAllPermissionsUseCase, getAllRolesUseCase, updateRoleUseCase,
+  addRoleUseCase,
+  deleteRoleUseCase,
+  getAllPermissionsUseCase,
+  getAllRolesUseCase,
+  updateRoleUseCase,
 } from '@domain/useCases';
 import { RolePermissionPresenter } from './interfaces/RolePermissionPresenter';
 
@@ -12,4 +16,6 @@ export default class RolePermissionPresenterImpl implements RolePermissionPresen
   addRole = async (payload: RoleCreateUpdatePayload) => addRoleUseCase.invoke(payload);
 
   updateRole = async (payload: RoleCreateUpdatePayload) => updateRoleUseCase.invoke(payload);
+
+  deleteRole = async (roleName: string) => deleteRoleUseCase.invoke(roleName);
 }

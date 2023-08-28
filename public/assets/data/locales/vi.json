@@ -459,7 +459,11 @@
     "TOTAL_USER": "Tổng số  {{totalUsers}} nhân viên",
     "ADMINISTRATOR_ACCESS": "Administrator Access",
     "ROLE_PERMISSIONS": "Role Permissions",
-    "INPUT_ROLE_NAME": "Nhập tên Role"
+    "INPUT_ROLE_NAME": "Nhập tên Role",
+    "ADD_ROLE_SUCCESSFULLY": "Thêm role mới thành công",
+    "UPDATE_ROLE_SUCCESSFULLY": "Cập nhật role {{roleName}} thành công",
+    "DELETE_ROLE_CONFIRMATION_MSG": "Bạn có chắc chắn muốn xóa role {{roleName}} này?",
+    "DELETE_ROLE_SUCCESSFULLY": "Xóa role {{roleName}} thành công"
   },
   "MAIL": {
     "CONNECTED_MAILS": "Email đã liên kết",

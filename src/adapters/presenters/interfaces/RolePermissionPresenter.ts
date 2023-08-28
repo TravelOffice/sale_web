@@ -5,4 +5,5 @@ export interface RolePermissionPresenter {
   getAllPermissions: () => Promise<Array<GroupPermission>>;
   addRole: (role: RoleCreateUpdatePayload) => Promise<Role>;
   updateRole: (role: RoleCreateUpdatePayload) => Promise<Role>;
+  deleteRole: (roleName: string) => Promise<Role>;
 }

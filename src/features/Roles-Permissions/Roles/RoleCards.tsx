@@ -37,6 +37,9 @@ import { rolePermissionActions } from '@redux/slices/rolePermissionSlice';
 import { useAccessControl } from '@hooks/auth';
 import PERMISSIONS from '@utils/PermissionUtils';
 import { generateUserDisplayName } from '@utils/UserUtils';
+import { useMutation } from '@tanstack/react-query';
+import { rolePermissionPresenter } from '@adapter/presenters';
+import toasty from '@components/Toasty/Toasty';
 
 interface RoleData {
   name: string,
@@ -65,6 +68,7 @@ const RoleCards = (props: RoleCardProps) => {
   const openModal = useSelector((state: RootState) => state.rolePermission.openModal);
   const [allPermissions, setAllPermissions] = useState<Array<string>>([]);
   const [modalType, setModalType] = useState(i18n.t('ROLE-PERMISSION.ADD_NEW_ROLE'));
+  const [openConfirmDeleteModal, setOpenConfirmDeleteModal] = useState(false);
   const [checkedPermissions, setCheckedPermissions] = useState<Array<string>>([]);
   const [roleDatas, setRoleDatas] = useState<Array<RoleData>>([]);
   const [selectedRole, setSelectedRole] = useState<RoleData>();
@@ -190,6 +194,36 @@ const RoleCards = (props: RoleCardProps) => {
     reset({ roleName: '' });
   };
 
+  const { mutate: deleteRoleMutate, isLoading: isDeleteLoading } = useMutation({
+    mutationKey: ['deleteRole'],
+    mutationFn: async (
+      roleName: string,
+    ) => rolePermissionPresenter.deleteRole(roleName),
+    onSuccess: () => {
+      toasty.show({
+        type: 'success',
+        title: i18n.t('COMMON.SUCCESS'),
+        message: i18n.t('ROLE-PERMISSION.DELETE_ROLE_SUCCESSFULLY', { roleName: selectedRole?.name }),
+      });
+      dispatch(rolePermissionActions.getAllRoles());
+      setOpenConfirmDeleteModal(false);
+    },
+    onError: (error: Error) => {
+      toasty.show({
+        type: 'error',
+        message: error.message,
+        title: i18n.t('COMMON.ERROR'),
+      });
+      setOpenConfirmDeleteModal(false);
+    },
+  });
+
+  const handleDeleteRole = () => {
+    if (selectedRole) {
+      deleteRoleMutate(selectedRole.name);
+    }
+  };
+
   return (
     <>
       <Row>
@@ -234,6 +268,11 @@ const RoleCards = (props: RoleCardProps) => {
                               to="/"
                               className="text-body me-1"
                               title={i18n.t('ROLE-PERMISSION.DELETE_ROLE')}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                setSelectedRole(item);
+                                setOpenConfirmDeleteModal(true);
+                              }}
                             >
                               <Trash className="font-medium-5" />
                             </Link>
@@ -390,6 +429,32 @@ const RoleCards = (props: RoleCardProps) => {
                   : i18n.t('COMMON.SUBMIT')}
               </Button>
               <Button type="reset" outline onClick={onReset}>
+                {i18n.t('COMMON.DISCARD')}
+              </Button>
+            </Col>
+          </Row>
+        </ModalBody>
+      </Modal>
+      <Modal
+        isOpen={openConfirmDeleteModal}
+        toggle={() => setOpenConfirmDeleteModal(!openConfirmDeleteModal)}
+        className="modal-dialog-centered modal-md"
+      >
+        <ModalHeader className="bg-transparent" toggle={() => setOpenConfirmDeleteModal(!openConfirmDeleteModal)} />
+        <ModalBody className="px-5 pb-5">
+          <div className="text-center mb-1">
+            <h2>
+              {i18n.t('ROLE-PERMISSION.DELETE_ROLE')}
+            </h2>
+          </div>
+          {i18n.t('ROLE-PERMISSION.DELETE_ROLE_CONFIRMATION_MSG', { roleName: selectedRole?.name })}
+          <Row>
+            <Col className="text-center mt-2" xs={12}>
+              <Button type="submit" color="primary" className="me-1" onClick={handleDeleteRole}>
+                {isDeleteLoading ? <RefreshCw className={isDeleteLoading ? 'spin-animated' : ''} size={16} />
+                  : i18n.t('COMMON.SUBMIT')}
+              </Button>
+              <Button type="reset" outline onClick={() => setOpenConfirmDeleteModal(false)}>
                 {i18n.t('COMMON.DISCARD')}
               </Button>
             </Col>
