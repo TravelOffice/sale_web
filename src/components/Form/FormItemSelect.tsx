@@ -6,6 +6,8 @@ import {
 } from 'react-hook-form';
 import FormItemError from '@components/Form/FormItemError';
 import { FormItemProps } from '@components/Form/FormItemProps';
+import { useSelector } from 'react-redux';
+import { RootState } from '@redux/store';
 
 export interface FormItemSelectControllerProps<
   TFieldValues extends FieldValues,
@@ -25,6 +27,11 @@ export default function FormItemSelect<
     errors, options, control, name, placeholder, isClearable,
     selectClassName, onSelected, disabled,
   } = props;
+
+  const skin = useSelector(
+    (state: RootState) => state.layout.skin,
+  );
+
   return (
     <>
       <Controller
@@ -32,11 +39,18 @@ export default function FormItemSelect<
         name={name}
         render={({ field: { value, onChange, ...rest } }) => (
           <Select
-            className={classNames(selectClassName, { 'is-invalid': errors[name] })}
+            className={classNames(selectClassName, { 'is-invalid': errors[name] }, 'dark-form-select')}
             options={options}
             styles={{
               control: (provided) => (errors[name] ? { ...provided, borderColor: '#ea5455 !important' } : provided),
             }}
+            theme={(theme) => ({
+              ...theme,
+              colors: {
+                ...theme.colors,
+                primary25: skin === 'dark' ? '#ff9f43' : theme.colors.primary25,
+              },
+            })}
             placeholder={placeholder}
             value={value ? {
               label: options.find((option) => option.value === value)?.label,

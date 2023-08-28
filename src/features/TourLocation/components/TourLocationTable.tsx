@@ -13,7 +13,7 @@ export interface TourLocationTableProps {
 
 function TourLocationTableSkeleton() {
   return (
-    <Skeleton count={5} />
+    <Skeleton count={5} className="skeleton-custom-style" />
   );
 }
 
@@ -42,7 +42,7 @@ export default function TourLocationTable(props: TourLocationTableProps) {
         </tbody>
       </Table>
       {tourLocations.length === 0 && (
-        <div className="d-flex align-items-center justify-content-center py-3">
+        <div className="py-3 d-flex align-items-center justify-content-center">
           {i18n.t('COMMON.NO_DATA')}
         </div>
       )}

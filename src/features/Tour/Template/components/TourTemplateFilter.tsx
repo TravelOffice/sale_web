@@ -4,9 +4,9 @@ import {
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import Select from 'react-select';
 import i18n from '@config/i18n';
 import TourType from '@domain/entities/tour/TourType';
+import FormItemSelect from '@components/Form/FormItemSelect';
 
 export interface TourTemplateFilterParams {
   name?: string,
@@ -51,20 +51,12 @@ export default function TourTemplateFilter(props: TourTemplateFilterProps) {
         </Col>
         <Col>
           <Label>{t('TOUR_TEMPLATE.TYPE')}</Label>
-          <Controller
+          <FormItemSelect
             control={control}
             name="type"
-            render={({ field: { onChange, value, ...rest } }) => (
-              <Select
-                {...rest}
-                options={tourTypeOptions}
-                value={{
-                  label: tourTypeOptions.find((option) => option.value === value)?.label,
-                  value,
-                }}
-                onChange={(newValue) => onChange(newValue?.value)}
-              />
-            )}
+            options={tourTypeOptions}
+            isClearable
+            errors={{}}
           />
         </Col>
         <Col>

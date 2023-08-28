@@ -9,13 +9,13 @@ import {
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import Select from 'react-select';
 import i18n from '@config/i18n';
 import { RefreshCw } from 'react-feather';
 import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 import TourType from '@domain/entities/tour/TourType';
 import { tourPresenter } from '@adapter/presenters';
 import { useQuery } from '@tanstack/react-query';
+import FormItemSelect from '@components/Form/FormItemSelect';
 
 export interface DepartureTourFilterParams {
   code?: string,
@@ -99,65 +99,36 @@ export default function DepartureTourFilter(props: DepartureTourFilterProps) {
             </Col>
             <Col lg={4}>
               <Label>{t('TOURS_OPERATION.FILTER.OPERATION_STATUS')}</Label>
-              <Controller
+              <FormItemSelect
                 control={control}
                 name="operationStatus"
-                render={({ field: { onChange, value, ...rest } }) => (
-                  <Select
-                    {...rest}
-                    options={tourOperationStatusOptions}
-                    value={{
-                      label: tourOperationStatusOptions
-                        .find((option) => option.value === value)?.label,
-                      value,
-                    }}
-                    onChange={(newValue) => onChange(newValue?.value)}
-                    isClearable
-                  />
-                )}
+                options={tourOperationStatusOptions}
+                isClearable
+                errors={{}}
               />
             </Col>
           </Row>
           <Row>
             <Col lg={4}>
               <Label>{t('TOURS_OPERATION.FILTER.STARTING_LOCATION')}</Label>
-              <Controller
+              <FormItemSelect
                 control={control}
                 name="startingLocation"
-                render={({ field: { onChange, value, ...rest } }) => (
-                  <Select
-                    {...rest}
-                    options={tourLocationOptions}
-                    value={{
-                      label: tourLocationOptions
-                        .find((option) => option.value === value)?.label,
-                      value,
-                    }}
-                    onChange={(newValue) => onChange(newValue?.value)}
-                    isClearable
-                  />
-                )}
+                options={tourLocationOptions}
+                isClearable
+                errors={{}}
               />
             </Col>
             <Col lg={4}>
               <Label>{t('TOURS_OPERATION.FILTER.ENDING_LOCATION')}</Label>
-              <Controller
+              <FormItemSelect
                 control={control}
                 name="endingLocation"
-                render={({ field: { onChange, value, ...rest } }) => (
-                  <Select
-                    {...rest}
-                    options={tourLocationOptions}
-                    value={{
-                      label: tourLocationOptions
-                        .find((option) => option.value === value)?.label,
-                      value,
-                    }}
-                    onChange={(newValue) => onChange(newValue?.value)}
-                    isClearable
-                  />
-                )}
+                options={tourLocationOptions}
+                isClearable
+                errors={{}}
               />
+
             </Col>
           </Row>
         </CardBody>

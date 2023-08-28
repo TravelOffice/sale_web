@@ -9,10 +9,10 @@ import {
 } from 'reactstrap';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm, useWatch } from 'react-hook-form';
-import Select from 'react-select';
 import i18n from '@config/i18n';
 import { BookingStatusEnum } from '@domain/entities/booking/Booking';
 import { RefreshCw } from 'react-feather';
+import FormItemSelect from '@components/Form/FormItemSelect';
 
 export interface BookingFilterParams {
   name?: string,
@@ -77,21 +77,12 @@ export default function BookingFilter(props: BookingFilterProps) {
             </Col>
             <Col>
               <Label>{t('COMMON.STATUS')}</Label>
-              <Controller
+              <FormItemSelect
                 control={control}
                 name="status"
-                render={({ field: { onChange, value, ...rest } }) => (
-                  <Select
-                    {...rest}
-                    options={statusOptions}
-                    value={{
-                      label: statusOptions.find((option) => option.value === value)?.label,
-                      value,
-                    }}
-                    onChange={(newValue) => onChange(newValue?.value)}
-                    isClearable
-                  />
-                )}
+                options={statusOptions}
+                isClearable
+                errors={{}}
               />
             </Col>
           </Row>
