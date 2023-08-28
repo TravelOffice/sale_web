@@ -434,7 +434,15 @@
     "UPDATE_ACCOUNT_SUCCESSFULLY": "Update account successfully",
     "ACCOUNT_INFORMATION": "Account information",
     "UPDATED_AT": "Updated at",
-    "AVATAR": "Avatar"
+    "AVATAR": "Avatar",
+    "USER_LIST": "User list",
+    "USER_DETAILS": "User details",
+    "DEFAULT_ROLES": {
+      "ADMIN": "Admin",
+      "SALE": "Sale",
+      "OPERATOR": "Operator",
+      "OPERATOR_MANAGER": "Operator Manager"
+    }
   },
   "ROLE-PERMISSION": {
     "ROLE_LIST_TITLE": "Roles List",
