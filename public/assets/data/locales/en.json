@@ -864,7 +864,21 @@
     "CANCEL_BOOKING_SUCCESSFULLY": "Cancel booking successfully",
     "PAYMENT_PENDING_SUCCESSFULLY": "Change booking status to [PAYMENT PENDING] successfully",
     "TOTAL_PAX": "Total pax",
-    "DONE_PAYMENT_AT": "Done payment at"
+    "DONE_PAYMENT_AT": "Done payment at",
+    "PASSENGER": {
+      "NAME": "Passenger name",
+      "GENDER": "Gender",
+      "PHONE_NUMBER": "Phone number",
+      "PASSENGER_LIST": "Passenger list",
+      "ADD_PASSENGER": "Add passenger",
+      "ATTACHED_DOCUMENT": "Attached document",
+      "NO_ATTACHED_DOCUMENT": "No attached document",
+      "ACTIONS": "Actions",
+      "EDIT_PASSENGER": "Edit passenger information",
+      "VALIDATE_PHONE_NUMBER": "The entered information must be a phone number",
+      "EDIT_PASSENGER_SUCCESSFULLY": "Successfully updated passenger information for booking {{bookingCode}}",
+      "BOOKING_CODE": "Booking code"
+    }
   },
   "RECEIPT": {
     "CODE": "Code",

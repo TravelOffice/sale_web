@@ -864,7 +864,21 @@
     "CANCEL_BOOKING_SUCCESSFULLY": "Hủy đặt tour thành công",
     "PAYMENT_PENDING_SUCCESSFULLY": "Thay đổi trạng thái đặt tour sang [CHỜ THANH TOÁN] thành công",
     "TOTAL_PAX": "Số lượng",
-    "DONE_PAYMENT_AT": "Thanh toán lúc"
+    "DONE_PAYMENT_AT": "Thanh toán lúc",
+    "PASSENGER": {
+      "NAME": "Tên hành khách",
+      "GENDER": "Giới tính",
+      "PHONE_NUMBER": "Số điện thoại",
+      "PASSENGER_LIST": "Danh sách hành khách",
+      "ADD_PASSENGER": "Thêm hành khách",
+      "ATTACHED_DOCUMENT": "Tài liệu đính kèm",
+      "NO_ATTACHED_DOCUMENT": "Không có tài liệu đính kèm",
+      "ACTIONS": "Hành động",
+      "EDIT_PASSENGER": "Sửa thông tin hành khách",
+      "VALIDATE_PHONE_NUMBER": "Thông tin nhập vào phải là số điện thoại",
+      "EDIT_PASSENGER_SUCCESSFULLY": "Cập nhật thông tin hành khách của booking {{bookingCode}} thành công",
+      "BOOKING_CODE": "Mã đơn hàng"
+    }
   },
   "RECEIPT": {
     "CODE": "Mã",

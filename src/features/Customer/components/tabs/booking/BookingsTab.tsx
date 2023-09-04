@@ -47,7 +47,7 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
               :
               {' '}
               <Link
-                to={`/apps/users/${data.assigneeId}`}
+                to={`/apps/user/view/${data.assigneeId}`}
                 className="user_name text-truncate text-body"
               >
                 <span className="fw-bolder text-primary">
@@ -60,7 +60,7 @@ const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Booking>> =
               :
               {' '}
               <Link
-                to={`/apps/users/${data.creatorId}`}
+                to={`/apps/user/view/${data.creatorId}`}
                 className="user_name text-truncate text-body"
               >
                 <span className="fw-bolder text-primary">

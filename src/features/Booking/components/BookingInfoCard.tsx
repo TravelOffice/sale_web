@@ -184,7 +184,7 @@ export default function BookingInfoCard() {
                       </span>
                       <span className="text-capitalize">
                         <Link
-                          to={`/apps/users/${booking?.assigneeId}`}
+                          to={`/apps/user/view/${booking?.assigneeId}`}
                           className="user_name text-truncate text-body"
                         >
                           <span className="fw-bolder text-primary">
@@ -201,7 +201,7 @@ export default function BookingInfoCard() {
                       </span>
                       <span className="text-capitalize">
                         <Link
-                          to={`/apps/users/${booking?.creatorId}`}
+                          to={`/apps/user/view/${booking?.creatorId}`}
                           className="user_name text-truncate text-body"
                         >
                           <span className="fw-bolder text-primary">

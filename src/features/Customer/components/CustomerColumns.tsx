@@ -72,7 +72,7 @@ const customerColumns: TableColumn<Customer>[] = [
       <div>
         <User size={14} />
         {' '}
-        <Link to={`/apps/users/${customer.creatorId}`} className="user_name text-truncate text-body">
+        <Link to={`/apps/user/view/${customer.creatorId}`} className="user_name text-truncate text-body">
           <span className="fw-bolder text-primary">{customer.creatorName}</span>
         </Link>
         <br />
@@ -93,7 +93,7 @@ const customerColumns: TableColumn<Customer>[] = [
         {
           customer.assigneeId ? (
             <>
-              <Link to={`/apps/users/${customer.assigneeId}`} className="user_name text-truncate text-body">
+              <Link to={`/apps/user/view/${customer.assigneeId}`} className="user_name text-truncate text-body">
                 <span className="fw-bolder text-primary">{customer.assigneeName}</span>
               </Link>
             </>
