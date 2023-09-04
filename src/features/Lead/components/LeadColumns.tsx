@@ -75,7 +75,7 @@ const leadColumns: TableColumn<Lead>[] = [
     name: i18n.t('LEAD.ASSIGNEE'),
     minWidth: '150px',
     cell: (lead: Lead) => (lead.assigneeId ? (
-      <Link to={`/apps/users/${lead.assigneeId}`} className="user_name text-truncate text-body">
+      <Link to={`/apps/user/view/${lead.assigneeId}`} className="user_name text-truncate text-body">
         <span className="fw-bolder text-primary">{lead.assigneeName}</span>
       </Link>
     ) : (

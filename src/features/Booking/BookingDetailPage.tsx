@@ -13,6 +13,7 @@ import BookingInfoCard from '@features/Booking/components/BookingInfoCard';
 import BookingDetailTab from '@features/Booking/components/tabs/information/BookingDetailTab';
 import CustomerDetailTab from '@features/Booking/components/tabs/Customer/CustomerDetailTab';
 import BookingNotes from '@features/Booking/components/tabs/notes/BookingNotes';
+import PassengerTab from '@features/Booking/components/tabs/Passenger/PassengerTab';
 
 export interface Tab {
   id: string,
@@ -34,6 +35,12 @@ export default function BookingDetail() {
       icon: <User size={16} className="me-50" />,
       title: i18n.t('BOOKING.CUSTOMER'),
       pane: <CustomerDetailTab />,
+    },
+    {
+      id: 'passengers',
+      icon: <User size={16} className="me-50" />,
+      title: i18n.t('BOOKING.PASSENGER.PASSENGER_LIST'),
+      pane: <PassengerTab />,
     },
     {
       id: 'notes',

@@ -156,4 +156,29 @@ export default class S3RepositoryImpl implements S3Repository {
       cdn: response.data.cdn,
     } as PresignedUrl;
   }
+
+  uploadPassengerAttachedDocViaPresignedURL = async (file: File) => {
+    // Get pre-sign url by calling api
+    const response = await apiProvider.authorizedRequest.get('/passengers/attached-docs/presigned-url', {
+      queryParams: {
+        fileType: file.type,
+        fileName: file.name,
+      },
+    });
+    const attachmentUrl: string = response.data.cdn;
+    // Upload passenger attached document content to s3
+    await fetch(attachmentUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type,
+      },
+    });
+    // Upload to given url
+    return {
+      key: response.data.key,
+      url: attachmentUrl,
+      cdn: response.data.cdn,
+    } as PresignedUrl;
+  }
 }

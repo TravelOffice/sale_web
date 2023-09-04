@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 // ** Third Party Components
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -44,7 +44,9 @@ import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import { TourTemplate } from '@domain/entities/tour';
 import { Service } from '@domain/entities/booking/Service';
 import { generateUserDisplayName } from '@utils/UserUtils';
+import { Passenger } from '@domain/entities/booking/Passenger';
 import AddingBookingService from './components/AddingBookingService';
+import PassengerList from './components/PassengerList';
 
 const honorificOptions = Object
   .keys(HonorificType)
@@ -76,9 +78,6 @@ const customerSchema = yup.object().shape({
 
 const schema = yup.object().shape({
   customer: customerSchema,
-  departureDate: yup
-    .date()
-    .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.DEPARTURE_DATE') })),
   tourType: yup
     .string()
     .oneOf(tourTypes)
@@ -116,11 +115,15 @@ const initialFormData: AddBookingFormData = {
   sourceId: '',
   // Reference to Service model
   services: [],
+
+  // List of passengers
+  passengers: [],
 };
 
 const BookingCreatePage = () => {
   const history = useHistory();
   const queryClient = useQueryClient();
+  const [passengers, setPassengers] = useState<Array<Passenger>>([]);
   /**
    * Fetch related data for booking, such as tour templates, sales, etc
    * @returns {Object} { isLoading: boolean, relatedData: Array }
@@ -219,7 +222,14 @@ const BookingCreatePage = () => {
    * New booking data filled from form will be sent to server
    * @param data Booking data
    */
-  const onSubmit = (data: AddBookingFormData) => mutate(data);
+  const onSubmit = (data: AddBookingFormData) => {
+    mutate({
+      ...data,
+      // Remove attachment from passengers
+      // eslint-disable-next-line no-unused-vars
+      passengers: passengers.map(({ attachment, ...rest }) => rest as Passenger),
+    });
+  };
 
   //* Cancel button click handler
   const handleCancel = () => {
@@ -244,6 +254,10 @@ const BookingCreatePage = () => {
       ...getValues(),
       services,
     });
+  };
+
+  const handleAddPassengers = (newPassengers: Array<Passenger>) => {
+    setPassengers(newPassengers);
   };
 
   return (
@@ -456,10 +470,7 @@ const BookingCreatePage = () => {
                       name="departureDate"
                       control={control}
                       errors={errors}
-                      placeholder={i18n.t('BOOKING.DEPARTURE_DATE_PLACEHOLDER')}
                     />
-                    {errors.departureDate
-                      && <FormFeedback>{errors.departureDate?.message}</FormFeedback>}
                   </div>
                 </Col>
               </Row>
@@ -492,6 +503,17 @@ const BookingCreatePage = () => {
                     control={control}
                     errors={errors}
                     isEditable
+                  />
+                </Col>
+              </Row>
+              <div className="divider divider-start divider-primary">
+                <div className="divider-text text-primary fw-bolder">{i18n.t('BOOKING.PASSENGER.PASSENGER_LIST')}</div>
+              </div>
+              <Row>
+                <Col>
+                  <PassengerList
+                    passengers={passengers}
+                    handleAddPassengers={handleAddPassengers}
                   />
                 </Col>
               </Row>

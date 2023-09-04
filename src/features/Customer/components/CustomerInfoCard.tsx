@@ -157,7 +157,7 @@ export default function CustomerInfoCard() {
                       </span>
                       <span className="text-capitalize">
                         <Link
-                          to={`/apps/users/${customer?.assigneeId}`}
+                          to={`/apps/user/view/${customer?.assigneeId}`}
                           className="user_name text-truncate text-body"
                         >
                           <span className="fw-bolder text-primary">
@@ -174,7 +174,7 @@ export default function CustomerInfoCard() {
                       </span>
                       <span className="text-capitalize">
                         <Link
-                          to={`/apps/users/${customer?.creatorId}`}
+                          to={`/apps/user/view/${customer?.creatorId}`}
                           className="user_name text-truncate text-body"
                         >
                           <span className="fw-bolder text-primary">

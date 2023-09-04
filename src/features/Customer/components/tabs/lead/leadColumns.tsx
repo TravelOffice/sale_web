@@ -91,7 +91,7 @@ const LeadColumns: TableColumn<Lead>[] = [
           {': '}
           {
             lead.assigneeId ? (
-              <Link to={`/apps/users/${lead.assigneeId}`} className="user_name text-truncate text-body">
+              <Link to={`/apps/user/view/${lead.assigneeId}`} className="user_name text-truncate text-body">
                 <span className="fw-bolder text-primary">{lead.assigneeName}</span>
               </Link>
             ) : (
@@ -103,7 +103,7 @@ const LeadColumns: TableColumn<Lead>[] = [
         <span>
           <strong>{i18n.t('LEAD.CREATOR')}</strong>
           {': '}
-          <Link to={`/apps/users/${lead.creatorId}`} className="user_name text-truncate text-body">
+          <Link to={`/apps/user/view/${lead.creatorId}`} className="user_name text-truncate text-body">
             <span className="fw-bolder text-primary">{lead.creatorName}</span>
           </Link>
         </span>

@@ -4,8 +4,14 @@ import React, {
 } from 'react';
 import {
   Badge,
-  Card, CardHeader, DropdownItem, DropdownMenu, DropdownToggle,
-  TabContent, TabPane, UncontrolledButtonDropdown,
+  Card,
+  CardHeader,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  TabContent,
+  TabPane,
+  UncontrolledButtonDropdown,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import { CSVLink } from 'react-csv';
@@ -17,14 +23,10 @@ import { useAccessControl } from '@hooks/auth';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
 import ToursOperationDetailTabs from '@features/ToursOperation/components/ToursOperationDetailTabs';
 import {
-  Columns,
-  DollarSign,
-  Home,
-  Navigation, ShoppingCart, Users,
+  Columns, DollarSign, Home, Navigation, ShoppingCart, Users,
 } from 'react-feather';
 import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
 import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
-import ToursOperationCustomerListPane from '@features/ToursOperation/components/ToursOperationCustomerListPane';
 import { CustomerWithBookingData } from '@domain/entities/customer/Customer';
 import { Booking } from '@domain/entities/booking/Booking';
 import { generateI18nForCustomer } from '@utils/CustomerUtils';
@@ -34,6 +36,7 @@ import TourOperationStatusBadge from '@features/ToursOperation/components/TourOp
 import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 import { DepartureTour } from '@domain/entities/tour';
 import ToursOperationBookingPane from './components/ToursOperationBookingPane';
+import ToursOperationPassengerListPane from './components/ToursOperationPassengerListPane';
 
 export interface ToursOperationDetailParams {
   tourId: string,
@@ -61,10 +64,10 @@ const tabs: Tab[] = [
     pane: <ToursOperationBookingPane />,
   },
   {
-    id: 'customerList',
+    id: 'passengerList',
     icon: <Users size={16} className="me-50" />,
-    title: i18n.t('TOURS_OPERATION.TOUR_CUSTOMER_LIST'),
-    pane: <ToursOperationCustomerListPane />,
+    title: i18n.t('BOOKING.PASSENGER.PASSENGER_LIST'),
+    pane: <ToursOperationPassengerListPane />,
   },
   {
     id: 'tourEstimation',

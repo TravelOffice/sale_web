@@ -43,6 +43,7 @@ export default function BookingDetailTab() {
   const { can } = useAccessControl();
   const queryClient = useQueryClient();
   const { bookingId } = useParams<EditBookingTabParams>();
+
   const {
     data: booking,
     isLoading,
@@ -169,6 +170,7 @@ export default function BookingDetailTab() {
     () => isEditableBooking(booking?.bookingStatus!),
     [booking],
   );
+
   return (
     <div className="to-table-container">
       <Row>

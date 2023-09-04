@@ -86,7 +86,7 @@ export default function CanceledBookingInfoCard() {
                       </span>
                       <span className="text-capitalize">
                         <Link
-                          to={`/apps/users/${booking?.canceledBy}`}
+                          to={`/apps/user/view/${booking?.canceledBy}`}
                           className="user_name text-truncate text-body"
                         >
                           <span className="fw-bolder text-primary">

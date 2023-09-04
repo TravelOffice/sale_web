@@ -49,7 +49,7 @@ const receiptColumns: TableColumn<Receipt>[] = [
       <div>
         <User size={14} />
         {' '}
-        <Link to={`/apps/users/${receipt.creatorId}`} className="user_name text-truncate text-body">
+        <Link to={`/apps/user/view/${receipt.creatorId}`} className="user_name text-truncate text-body">
           <span className="fw-bolder text-primary">{receipt.creatorName}</span>
         </Link>
         <br />

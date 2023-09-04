@@ -69,7 +69,7 @@ const CustomerExpandableRowComponent: React.FC<ExpanderComponentProps<Customer>>
                 :
                 {' '}
                 <Link
-                  to={`/apps/users/${data.latestBooking.creatorId}`}
+                  to={`/apps/user/view/${data.latestBooking.creatorId}`}
                   className="user_name text-truncate text-body"
                 >
                   <span className="fw-bolder text-primary">{data.latestBooking.creatorName}</span>
@@ -93,7 +93,7 @@ const CustomerExpandableRowComponent: React.FC<ExpanderComponentProps<Customer>>
                 {i18n.t('CUSTOMER.LATEST_SALE')}
                 :
                 {' '}
-                <Link to={`/apps/users/${data.assigneeId}`} className="user_name text-truncate text-body">
+                <Link to={`/apps/user/view/${data.assigneeId}`} className="user_name text-truncate text-body">
                   <span className="fw-bolder text-primary">{data.assigneeName}</span>
                 </Link>
               </li>

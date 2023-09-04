@@ -1,6 +1,7 @@
 import { BookingTourType } from '@domain/entities/booking/Booking';
 import { HonorificType } from '@domain/entities/lead/Lead';
 import { Service } from '@domain/entities/booking/Service';
+import { Passenger } from '@domain/entities/booking/Passenger';
 
 export interface AddBookingFormData {
   // Customer information, new customer will be created in database if not existed
@@ -24,4 +25,6 @@ export interface AddBookingFormData {
   sourceId: string,
   // Reference to Service model
   services: Service[]
+  // Reference to Passenger model
+  passengers: Passenger[]
 }
