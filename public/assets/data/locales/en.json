@@ -92,7 +92,10 @@
     "ADMINISTRATOR": "Administratrator",
     "BEFORE": "before",
     "BUSINESS": "Business",
-    "COMMUNICATION": "Communication"
+    "COMMUNICATION": "Communication",
+    "MARKETPLACE": "Travel Connect",
+    "MARKETPLACE_SIDEBAR": "Travel Connect ↷",
+    "LEAD": "Lead"
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",
@@ -775,7 +778,9 @@
       "NO_ESTIMATION_TO_DISPLAY": "No estimation to display",
       "TOUR_HAS_NOT_BEEN_SET_DURATION_IN_DAYS": "Tour has not been set duration in days",
       "NO_ACTIVITY_TO_DISPLAY": "There are no activities to display"
-    }
+    },
+    "PLAN_OVERVIEW": "Plan overview",
+    "DAY_NIGHT_OVERVIEW": "{{durationInDays}} days {{durationInNights}} nights"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Tour template",
@@ -1006,5 +1011,9 @@
     "DISABLE": "Disable",
     "ADD": "Add location",
     "LIST": "Location list"
+  },
+  "MARKETPLACE": {
+    "MARKETPLACE_INFO_TOOLTIP":"{{modelName}} is available on Travel Connect and has been received {{totalOffers}} offers. Click to view more details.",
+    "MARKETPLACE_INFO_NOT_AVAILABLE": "{{modelName}} is not available on Travel Connect. Click to add tour post."
   }
 }

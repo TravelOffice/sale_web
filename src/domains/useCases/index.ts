@@ -168,6 +168,8 @@ import { TakeCareTourUseCase } from './interfaces/tour/TakeCareTourUseCase';
 import TakeCareTourUseCaseImpl from './tour/TakeCareTourUseCaseImpl';
 import { AssignTourOperator } from './interfaces/tour/AssignTourOperator';
 import AssignTourOperatorImpl from './tour/AssignTourOperatorImpl';
+import { GetLinkedPostOnMarketplaceInfoUseCase } from './interfaces/marketplace/GetLinkedPostOnMarketplaceInfoUseCase';
+import GetLinkedPostOnMarketplaceInfoUseCaseImpl from './marketplace/GetLinkedPostOnMarketplaceInfoUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -268,6 +270,8 @@ interface UseCases {
   updatePaymentVoucherUseCase: UpdatePaymentVoucherUseCase,
   deletePaymentVoucherUseCase: DeletePaymentVoucherUseCase,
   uploadPaymentVoucherFileUseCase: UploadPaymentVoucherFileUseCase,
+  // Marketplace
+  getLinkedPostOnMarketplaceInfoUseCase: GetLinkedPostOnMarketplaceInfoUseCase,
 }
 
 const useCases: UseCases = {
@@ -367,6 +371,8 @@ const useCases: UseCases = {
   updatePaymentVoucherUseCase: new UpdatePaymentVoucherUseCaseImpl(),
   deletePaymentVoucherUseCase: new DeletePaymentVoucherUseCaseImpl(),
   uploadPaymentVoucherFileUseCase: new UploadPaymentVoucherFileUseCaseImpl(),
+  // Marketplace
+  getLinkedPostOnMarketplaceInfoUseCase: new GetLinkedPostOnMarketplaceInfoUseCaseImpl(),
 };
 
 export const {
@@ -458,4 +464,5 @@ export const {
   updatePaymentVoucherUseCase,
   deletePaymentVoucherUseCase,
   uploadPaymentVoucherFileUseCase,
+  getLinkedPostOnMarketplaceInfoUseCase,
 } = useCases;

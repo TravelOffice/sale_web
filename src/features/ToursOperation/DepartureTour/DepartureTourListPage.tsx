@@ -9,9 +9,10 @@ import DepartureTourFilter, {
 import { HandleDataState } from '@redux/slices/others/HandleDataState';
 import { useQueries } from '@tanstack/react-query';
 import { canUserBeOperator, filterDepartureTours, toSearchableContent } from '@utils/TousOperationUtils';
+import moment from 'moment';
 import React, { useMemo, useState } from 'react';
 import { ExpanderComponentProps } from 'react-data-table-component';
-import { Info, User } from 'react-feather';
+import { Calendar, Info, User } from 'react-feather';
 import { Alert, Col, Row } from 'reactstrap';
 
 // Expandable component UI that show detailed data of each departure tour
@@ -19,18 +20,25 @@ type InternalComponentProps = ExpanderComponentProps<ExtendedDepartureTour>;
 const TourDepartureExpandableRowComponent: React.FC<InternalComponentProps> = (
   { data }: InternalComponentProps,
 ) => {
-  console.log(data);
-  // TODO: Implement this component later when the feature is ready
+  const { durationInDays, durationInNights, startDate } = data;
   return (
     <div className="container py-xxl-1">
       <Row>
-        <Col xl="6">
+        <Col xl="4">
           <User size={14} />
           {' '}
           <strong>{i18n.t('TOURS_OPERATION.PASSENGERS')}</strong>
           <ul>
-            <li>{`${5} - ${i18n.t('LEAD.ADULT')} `}</li>
-            <li>{`${1} - ${i18n.t('LEAD.CHILDREN')} `}</li>
+            <li>{`${i18n.t('COMMON.TOTAL')}: ${data.visitorCount}`}</li>
+          </ul>
+        </Col>
+        <Col xl="8">
+          <Calendar size={14} />
+          {' '}
+          <strong>{i18n.t('TOURS_OPERATION.PLAN_OVERVIEW')}</strong>
+          <ul>
+            <li>{`${i18n.t('BOOKING.DEPARTURE_DATE')}: ${moment(startDate).format('DD/MM/YYYY')}`}</li>
+            <li>{i18n.t('TOURS_OPERATION.DAY_NIGHT_OVERVIEW', { durationInDays, durationInNights })}</li>
           </ul>
         </Col>
       </Row>

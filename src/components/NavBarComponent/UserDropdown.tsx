@@ -4,13 +4,20 @@ import { User } from '@domain/entities/User';
 import { RootState } from '@redux/store';
 import Images from '@themes/Images';
 import React from 'react';
-import { MessageSquare, Power, Settings } from 'react-feather';
+import {
+  Mail,
+  MessageSquare,
+  Power,
+  Settings,
+  Share2,
+} from 'react-feather';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
   DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
 import { generateUserDisplayName } from '@utils/UserUtils';
+import { getMarketplacePage } from '@utils/EnvUtils';
 
 const UserDropdown = () => {
   const currentUser = useSelector((state: RootState) => state.auth.currentUser);
@@ -43,6 +50,14 @@ const UserDropdown = () => {
         <DropdownItem tag={Link} to="/apps/chat">
           <MessageSquare size={14} className="me-75" />
           <span className="align-middle">{i18n.t('COMMON.CHAT')}</span>
+        </DropdownItem>
+        <DropdownItem tag={Link} to="/apps/email">
+          <Mail size={14} className="me-75" />
+          <span className="align-middle">{i18n.t('COMMON.EMAIL')}</span>
+        </DropdownItem>
+        <DropdownItem tag={Link} onClick={() => window.open(getMarketplacePage())}>
+          <Share2 size={14} className="me-75" />
+          <span className="align-middle">{i18n.t('COMMON.MARKETPLACE')}</span>
         </DropdownItem>
         <DropdownItem divider />
         <DropdownItem tag={Link} to="/apps/account-settings">

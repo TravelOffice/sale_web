@@ -1,16 +1,17 @@
+import { CancelLeadFormData } from '@domain/entities/lead/CancelLeadFormData';
 import {
   CreateLeadFormData, LeadStatus, UpdateLeadFormData,
 } from '@domain/entities/lead/Lead';
+import { getLinkedPostOnMarketplaceInfoUseCase } from '@domain/useCases';
 import {
   addLeadUseCase, cancelLeadUseCase,
   getAllLeadsUseCase,
-  getLeadsByCustomerUseCase,
   getLeadUseCase,
+  getLeadsByCustomerUseCase,
   getMyLeadUseCase,
   takeLeadUseCase,
   updateLeadUseCase,
 } from '@domain/useCases/lead';
-import { CancelLeadFormData } from '@domain/entities/lead/CancelLeadFormData';
 import { LeadPresenter } from './interfaces/LeadPresenter';
 
 export default class LeadPresenterImpl implements LeadPresenter {
@@ -38,4 +39,8 @@ export default class LeadPresenterImpl implements LeadPresenter {
     leadId: string,
     formData: CancelLeadFormData,
   ) => cancelLeadUseCase.invoke(leadId, formData);
+
+  getLinkedPostOnMarketplaceInfo = async (
+    leadId: string,
+  ) => getLinkedPostOnMarketplaceInfoUseCase.invoke(leadId);
 }

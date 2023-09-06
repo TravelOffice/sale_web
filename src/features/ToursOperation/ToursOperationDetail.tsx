@@ -23,7 +23,12 @@ import { useAccessControl } from '@hooks/auth';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
 import ToursOperationDetailTabs from '@features/ToursOperation/components/ToursOperationDetailTabs';
 import {
-  Columns, DollarSign, Home, Navigation, ShoppingCart, Users,
+  Calendar,
+  Columns,
+  DollarSign,
+  Home,
+  Navigation,
+  Users,
 } from 'react-feather';
 import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
 import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
@@ -59,7 +64,7 @@ const tabs: Tab[] = [
   },
   {
     id: 'bookingList',
-    icon: <ShoppingCart size={16} className="me-50" />,
+    icon: <Calendar size={16} className="me-50" />,
     title: i18n.t('TOURS_OPERATION.TOUR_BOOKING_LIST'),
     pane: <ToursOperationBookingPane />,
   },

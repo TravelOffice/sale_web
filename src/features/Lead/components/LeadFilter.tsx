@@ -34,7 +34,7 @@ const statusOptions = [
 export default function LeadFilter(props: LeadFilterProps) {
   const { onFilter } = props;
   const { t } = useTranslation();
-  const { control, setValue } = useForm<LeadFilterParams>();
+  const { control } = useForm<LeadFilterParams>();
   const values = useWatch({ control });
   const { data: sales = [] } = useAllSales();
   const currentUser = useCurrentUser();
@@ -53,10 +53,6 @@ export default function LeadFilter(props: LeadFilterProps) {
   useEffect(() => {
     onFilter(values);
   }, [values]);
-
-  useEffect(() => {
-    setValue('assignee', currentUser?.username);
-  }, [currentUser]);
 
   return (
     <Form>

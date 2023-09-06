@@ -36,3 +36,7 @@ export const platformTitleDefinitions: { [key in ChatPlatform]: string } = {
 };
 
 export const SUPPORTED_AUDIO_EXTENSIONS = ['.aac'];
+
+export const LEAD_INDEX = 'LEAD';
+
+export const TOUR_TEMPLATE_INDEX = 'TOUR_TEMPLATE';

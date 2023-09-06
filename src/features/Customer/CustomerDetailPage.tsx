@@ -1,5 +1,5 @@
 import React, { ReactNode, useState } from 'react';
-import { List, ShoppingCart, User } from 'react-feather';
+import { Calendar, List, User } from 'react-feather';
 import {
   Breadcrumb, BreadcrumbItem, Col, Row, TabContent, TabPane,
 } from 'reactstrap';
@@ -36,7 +36,7 @@ const tabs: Tab[] = [
   },
   {
     id: 'booking',
-    icon: <ShoppingCart size={16} className="me-50" />,
+    icon: <Calendar size={16} className="me-50" />,
     title: 'Booking',
     pane: <BookingsTab />,
   },
