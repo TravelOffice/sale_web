@@ -27,16 +27,16 @@ import {
 } from 'react-feather';
 import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
 import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
-import { CustomerWithBookingData } from '@domain/entities/customer/Customer';
 import { Booking } from '@domain/entities/booking/Booking';
-import { generateI18nForCustomer } from '@utils/CustomerUtils';
 import TourReportPage from '@features/ToursOperation/Summary/TourReportPage';
 import ToursOperationPlan from '@features/ToursOperation/TourPlan/ToursOperationPlan';
 import TourOperationStatusBadge from '@features/ToursOperation/components/TourOperationStatusBadge';
 import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 import { DepartureTour } from '@domain/entities/tour';
+import { Passenger } from '@domain/entities/booking/Passenger';
+import moment from 'moment';
 import ToursOperationBookingPane from './components/ToursOperationBookingPane';
-import ToursOperationPassengerListPane from './components/ToursOperationPassengerListPane';
+import ToursOperationPassengerListPane from './Passenger/ToursOperationPassengerListPane';
 
 export interface ToursOperationDetailParams {
   tourId: string,
@@ -89,17 +89,12 @@ const tabs: Tab[] = [
   },
 ];
 
-const customerHeaders = [
-  { label: 'code', key: 'code' },
-  { label: i18n.t('CUSTOMER.NAME'), key: 'name' },
-  { label: i18n.t('CUSTOMER.BIRTHDAY'), key: 'birthday' },
-  { label: i18n.t('CUSTOMER.SEX'), key: 'sex' },
-  { label: i18n.t('CUSTOMER.EMAIL'), key: 'email' },
-  { label: i18n.t('CUSTOMER.ADDRESS'), key: 'address' },
-  { label: i18n.t('CUSTOMER.LEVEL'), key: 'level' },
-  { label: i18n.t('CUSTOMER.PHONE'), key: 'primaryPhoneNumber' },
-  { label: i18n.t('CUSTOMER.ASSIGNEE'), key: 'assigneeName' },
-  { label: i18n.t('BOOKING.TOTAL_PAX'), key: 'totalPax' },
+const passengerHeaders = [
+  { label: i18n.t('BOOKING.PASSENGER.NAME'), key: 'name' },
+  { label: i18n.t('BOOKING.PASSENGER.BIRTHDAY'), key: 'birthday' },
+  { label: i18n.t('BOOKING.PASSENGER.PHONE_NUMBER'), key: 'phoneNumber' },
+  { label: i18n.t('BOOKING.PASSENGER.EMAIL'), key: 'email' },
+  { label: i18n.t('BOOKING.PASSENGER.ADDRESS'), key: 'address' },
 ];
 
 const ToursOperationDetail = () => {
@@ -117,16 +112,12 @@ const ToursOperationDetail = () => {
     data: bookings,
   } = useQuery(['bookingsWithCustomer'], async () => tourPresenter.getBookingsByDepartureTour(tourId));
 
-  const customers: CustomerWithBookingData[] = useMemo(() => {
+  const passengers: Passenger[] = useMemo(() => {
     if (!bookings) return [];
-    return bookings.map((booking: Booking) => ({
-      ...booking.customer,
-      sex: generateI18nForCustomer(booking.customer?.sex),
-      assigneeName: booking.assigneeName,
-      notes: booking.notes,
-      services: booking.services,
-      totalPax: booking.services.reduce((total, item) => total + item.quantity, 0),
-    }) as CustomerWithBookingData);
+    return bookings.filter((booking) => booking.passengers)
+      .flatMap((booking: Booking) => (booking.passengers.map(
+        (passenger) => ({ ...passenger, bookingCode: booking.code, birthday: passenger.birthday ? moment(passenger.birthday).format('DD/MM/YYYY') : '' }),
+      )));
   }, [bookings]);
 
   const handleStatusChanged = useCallback((status: TourOperationStatus) => {
@@ -172,7 +163,7 @@ const ToursOperationDetail = () => {
                 <DropdownItem tag="div">{i18n.t('TOURS_OPERATION.PRINT_TOUR_REPORT')}</DropdownItem>
                 <DropdownItem tag="div">{i18n.t('TOURS_OPERATION.PRINT_TOUR_ESTIMATION')}</DropdownItem>
                 <DropdownItem tag="div">
-                  <CSVLink data={customers} headers={customerHeaders} filename={`customers_${departureTour?.name}.csv`}>
+                  <CSVLink data={passengers} headers={passengerHeaders} filename={`passengers_${departureTour?.name}.csv`}>
                     {i18n.t('TOURS_OPERATION.EXPORT_EXCEL_PASSENGERS')}
                   </CSVLink>
                 </DropdownItem>

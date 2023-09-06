@@ -868,6 +868,9 @@
     "PASSENGER": {
       "NAME": "Passenger name",
       "GENDER": "Gender",
+      "BIRTHDAY": "Birthday",
+      "EMAIL": "Email",
+      "ADDRESS": "Address",
       "PHONE_NUMBER": "Phone number",
       "PASSENGER_LIST": "Passenger list",
       "ADD_PASSENGER": "Add passenger",
@@ -876,6 +879,7 @@
       "ACTIONS": "Actions",
       "EDIT_PASSENGER": "Edit passenger information",
       "VALIDATE_PHONE_NUMBER": "The entered information must be a phone number",
+      "VALIDATE_EMAIL": "The entered information must be an email address",
       "EDIT_PASSENGER_SUCCESSFULLY": "Successfully updated passenger information for booking {{bookingCode}}",
       "BOOKING_CODE": "Booking code"
     }

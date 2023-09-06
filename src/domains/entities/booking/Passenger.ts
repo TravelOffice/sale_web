@@ -17,7 +17,7 @@ export interface Passenger {
   email?: string,
   phoneNumber?: string,
   address?: string,
-  birthday?: number,
+  birthday?: string,
   sex?: SexType,
   attachment: FileList,
   attachedDoc: string[],

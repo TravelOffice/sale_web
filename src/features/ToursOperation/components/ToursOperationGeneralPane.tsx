@@ -65,7 +65,7 @@ export default function ToursOperationGeneralPane() {
   ), [estimationsWithSupplier]);
 
   const totalEstExpenditureAfterVAT = useMemo(() => estimationsWithSupplier.reduce(
-    (total, est) => total + est.estimatedPrice * est.estimatedQuantity * (1 - est.vat / 100), 0,
+    (total, est) => total + est.estimatedPrice * est.estimatedQuantity * (1 + est.vat / 100), 0,
   ), [estimationsWithSupplier]);
 
   const totalActualExpenditureBeforeVAT = useMemo(() => estimationsWithSupplier.reduce(
@@ -73,11 +73,11 @@ export default function ToursOperationGeneralPane() {
   ), [estimationsWithSupplier]);
 
   const totalActualExpenditureAfterVAT = useMemo(() => estimationsWithSupplier.reduce(
-    (total, est) => total + est.actualPrice * est.actualQuantity * (1 - est.vat / 100), 0,
+    (total, est) => total + est.actualPrice * est.actualQuantity * (1 + est.vat / 100), 0,
   ), [estimationsWithSupplier]);
 
   const totalActualExpenditureOfTourGuide = useMemo(() => estimationsWithSupplier.reduce(
-    (total, est) => (est.payer === 'TOUR_GUIDE' ? total + est.actualPrice * est.actualQuantity * (1 - est.vat / 100) : total), 0,
+    (total, est) => (est.payer === 'TOUR_GUIDE' ? total + est.actualPrice * est.actualQuantity * (1 + est.vat / 100) : total), 0,
   ), [estimationsWithSupplier]);
 
   return (
@@ -160,7 +160,7 @@ export default function ToursOperationGeneralPane() {
                       const { estimatedPrice, estimatedQuantity, vat } = item;
                       return {
                         beforeVAT: estimatedQuantity * estimatedPrice,
-                        afterVAT: estimatedQuantity * estimatedPrice * (1 - vat / 100),
+                        afterVAT: estimatedQuantity * estimatedPrice * (1 + vat / 100),
                       };
                     },
                   );

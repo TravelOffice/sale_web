@@ -4,17 +4,33 @@ import { Passenger } from '@domain/entities/booking/Passenger';
 import { File } from 'react-feather';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 const passengerPaneColumns: TableColumn<Passenger>[] = [
   {
     name: i18n.t('BOOKING.PASSENGER.NAME'),
-    minWidth: '150px',
+    minWidth: '200px',
     cell: (passenger: Passenger) => passenger.name,
+  },
+  {
+    name: i18n.t('BOOKING.PASSENGER.BIRTHDAY'),
+    minWidth: '150px',
+    cell: (passenger: Passenger) => (passenger.birthday ? moment(passenger.birthday).format('DD/MM/YYYY') : ''),
   },
   {
     name: i18n.t('BOOKING.PASSENGER.PHONE_NUMBER'),
     minWidth: '150px',
     cell: (passenger: Passenger) => passenger?.phoneNumber,
+  },
+  {
+    name: i18n.t('BOOKING.PASSENGER.EMAIL'),
+    minWidth: '150px',
+    cell: (passenger: Passenger) => passenger?.email,
+  },
+  {
+    name: i18n.t('BOOKING.PASSENGER.ADDRESS'),
+    minWidth: '150px',
+    cell: (passenger: Passenger) => passenger?.address,
   },
   {
     name: i18n.t('BOOKING.PASSENGER.ATTACHED_DOCUMENT'),
