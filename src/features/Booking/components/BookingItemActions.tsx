@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown, UncontrolledTooltip,
-} from 'reactstrap';
-import {
-  Check, CreditCard, MoreVertical, X,
-} from 'react-feather';
+import { Button, UncontrolledTooltip } from 'reactstrap';
+import { Check, CreditCard, X } from 'react-feather';
 import i18n from '@config/i18n';
 import { Booking } from '@domain/entities/booking/Booking';
 import ConfirmBookingModal from '@features/Booking/components/ConfirmBookingModal';
@@ -47,7 +42,7 @@ export default function BookingItemActions(props: BookingItemActionsProps) {
         cancelFormModal={cancelFormModal}
         toggleCancelFormModal={toggleCancelFormModal}
       />
-      <div className="d-xxl-none d-flex gap-1">
+      <div className="d-flex gap-1">
         <div>
           <Button className="btn-icon" outline color="success" id="confirmBooking" onClick={() => toggleConfirmFormModal()}>
             <Check size={14} />
@@ -73,22 +68,6 @@ export default function BookingItemActions(props: BookingItemActionsProps) {
           </UncontrolledTooltip>
         </div>
       </div>
-      <UncontrolledDropdown className="d-none d-xxl-block">
-        <DropdownToggle tag="div" className="btn btn-sm">
-          <MoreVertical size={18} className="cursor-pointer" />
-        </DropdownToggle>
-        <DropdownMenu container="body">
-          <DropdownItem tag="div" onClick={() => toggleConfirmFormModal()}>
-            <span className="align-middle">{i18n.t('BOOKING.CONFIRM_BOOKING')}</span>
-          </DropdownItem>
-          <DropdownItem tag="div" onClick={() => togglePaymentPendingFormModal()}>
-            <span className="align-middle">{i18n.t('BOOKING.PAYMENT_PENDING')}</span>
-          </DropdownItem>
-          <DropdownItem tag="div" onClick={() => toggleCancelFormModal()}>
-            <span className="align-middle">{i18n.t('BOOKING.CANCEL_BOOKING')}</span>
-          </DropdownItem>
-        </DropdownMenu>
-      </UncontrolledDropdown>
     </div>
   );
 }

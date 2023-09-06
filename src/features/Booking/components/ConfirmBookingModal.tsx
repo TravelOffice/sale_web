@@ -129,6 +129,35 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
             </Col>
           </Row>
           <Row>
+            <Col lg={6}>
+              <div className="mb-1">
+                <Label className="form-label" for="departureTourId">
+                  {i18n.t('DEPARTURE_TOUR.DEPARTURE_TOUR')}
+                  {' '}
+                  <span className="text-danger">{' *'}</span>
+                </Label>
+                <FormItemSelect
+                  control={control}
+                  name="departureTourId"
+                  errors={errors}
+                  selectClassName="flex-fill"
+                  options={departureTourOptions || []}
+                />
+              </div>
+            </Col>
+            <Col lg={6}>
+              <div className="mb-1">
+                <Label className="form-label">
+                  {i18n.t('DEPARTURE_TOUR.DEPARTURE_DATE')}
+                </Label>
+                <Input
+                  value={selectedDepartureTourId ? moment(selectedDepartureTour?.startDate).format('DD/MM/YYYY') : ''}
+                  disabled
+                />
+              </div>
+            </Col>
+          </Row>
+          <Row>
             {
               booking.departureDate
               && selectedDepartureTourId

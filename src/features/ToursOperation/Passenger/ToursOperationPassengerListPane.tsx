@@ -39,7 +39,7 @@ export default function ToursOperationPassengerListPane() {
         selectableRows={false}
         columns={passengerPaneColumns}
         fetchDataState={fetchBookingsDataState}
-        searchableColumns={['name', 'phoneNumber']}
+        searchableColumns={['name', 'birthday', 'phoneNumber', 'email', 'address', 'bookingCode']}
         sortColumnDefault="phoneNumber"
         data={passengers}
       />

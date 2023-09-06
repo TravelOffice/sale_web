@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import {
   Button,
+  Col,
   Form,
   FormFeedback,
   Input,
@@ -10,6 +11,7 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Row,
   Spinner,
 } from 'reactstrap';
 import i18n from '@config/i18n';
@@ -21,10 +23,15 @@ import { useMutation } from '@tanstack/react-query';
 import toasty from '@components/Toasty/Toasty';
 import { s3Repository } from '@adapter/repositories';
 import { Edit, File, Trash } from 'react-feather';
+import moment from 'moment/moment';
+import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 
 const schema = yup.object().shape({
   name: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.PASSENGER.NAME') })),
-  phoneNumber: yup.string().matches(/^\d{10}$/gm, i18n.t('BOOKING.PASSENGER.VALIDATE_PHONE_NUMBER')),
+  birthday: yup.date().optional(),
+  phoneNumber: yup.string().matches(/^\d{10}$/gm, i18n.t('BOOKING.PASSENGER.VALIDATE_PHONE_NUMBER')).optional(),
+  email: yup.string().email(i18n.t('BOOKING.PASSENGER.VALIDATE_EMAIL')).optional(),
+  address: yup.string().optional(),
 });
 
 const initialFormData: any = {
@@ -195,37 +202,98 @@ export default function PassengerList({ handleAddPassengers, passengers }: Addin
             {action}
           </ModalHeader>
           <ModalBody>
-            <div className="mb-2">
-              <Label className="form-label" for="amount">
-                {i18n.t('BOOKING.PASSENGER.NAME')}
-                {' '}
-                <span className="text-danger">{' *'}</span>
-              </Label>
-              <Controller
-                name="name"
-                control={control}
-                render={({ field }) => (
-                  <Input {...field} id="name" invalid={!!errors.name} />
-                )}
-              />
-              {errors.name
+            <Row>
+              <Col md={6}>
+                <div className="mb-2">
+                  <Label className="form-label" for="name">
+                    {i18n.t('BOOKING.PASSENGER.NAME')}
+                    {' '}
+                    <span className="text-danger">{' *'}</span>
+                  </Label>
+                  <Controller
+                    name="name"
+                    control={control}
+                    render={({ field }) => (
+                      <Input {...field} id="name" invalid={!!errors.name} />
+                    )}
+                  />
+                  {errors.name
                       && <FormFeedback>{errors.name.message}</FormFeedback>}
-            </div>
-            <div className="mb-2">
-              <Label className="form-label" for="amount">
-                {i18n.t('BOOKING.PASSENGER.PHONE_NUMBER')}
-                {' '}
-              </Label>
-              <Controller
-                name="phoneNumber"
-                control={control}
-                render={({ field }) => (
-                  <Input {...field} id="phoneNumber" invalid={!!errors.phoneNumber} />
-                )}
-              />
-              {errors.phoneNumber
+                </div>
+              </Col>
+              <Col md={6}>
+                <div className="mb-2">
+                  <Label className="form-label" for="birthday">
+                    {i18n.t('BOOKING.PASSENGER.BIRTHDAY')}
+                  </Label>
+                  <FormItemDatePicker
+                    name="birthday"
+                    control={control}
+                    errors={errors}
+                    options={{
+                      formatDate: (date) => moment(date).format('DD/MM/YYYY'),
+                    }}
+                  />
+                  {errors.birthday
+                      && <FormFeedback>{errors.birthday.message}</FormFeedback>}
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={6}>
+                <div className="mb-2">
+                  <Label className="form-label" for="phoneNumber">
+                    {i18n.t('BOOKING.PASSENGER.PHONE_NUMBER')}
+                    {' '}
+                  </Label>
+                  <Controller
+                    name="phoneNumber"
+                    control={control}
+                    render={({ field }) => (
+                      <Input {...field} id="phoneNumber" invalid={!!errors.phoneNumber} />
+                    )}
+                  />
+                  {errors.phoneNumber
                       && <FormFeedback>{errors.phoneNumber.message}</FormFeedback>}
-            </div>
+                </div>
+              </Col>
+              <Col md={6}>
+                <div className="mb-2">
+                  <Label className="form-label" for="email">
+                    {i18n.t('BOOKING.PASSENGER.EMAIL')}
+                    {' '}
+                  </Label>
+                  <Controller
+                    name="email"
+                    control={control}
+                    render={({ field }) => (
+                      <Input {...field} id="email" invalid={!!errors.email} />
+                    )}
+                  />
+                  {errors.email
+                      && <FormFeedback>{errors.email.message}</FormFeedback>}
+                </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col md={12}>
+                <div className="mb-2">
+                  <Label className="form-label" for="address">
+                    {i18n.t('BOOKING.PASSENGER.ADDRESS')}
+                    {' '}
+                  </Label>
+                  <Controller
+                    name="address"
+                    control={control}
+                    render={({ field }) => (
+                      <Input {...field} id="address" invalid={!!errors.address} />
+                    )}
+                  />
+                  {errors.address
+                      && <FormFeedback>{errors.address.message}</FormFeedback>}
+                </div>
+              </Col>
+            </Row>
             <div className="mb-2">
               <Label className="form-label" for="attachment">
                 {i18n.t('BOOKING.PASSENGER.ATTACHED_DOCUMENT')}

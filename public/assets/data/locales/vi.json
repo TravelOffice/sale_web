@@ -826,7 +826,7 @@
     "GROUP": "Nhóm",
     "CREATE": "Tạo mới",
     "CREATE_FROM_LEAD": "Tạo booking từ lead",
-    "CUSTOMER_INFORMATION": "Thông tin khách hàng",
+    "CUSTOMER_INFORMATION": "Thông tin người đặt",
     "DEPARTURE_DATE_PLACEHOLDER": "Chọn ngày khởi hành",
     "CREATE_BOOKING_SUCCESSFULLY": "Tạo booking thành công",
     "CREATE_BOOKING_FROM_LEAD": "Tạo booking",
@@ -868,6 +868,9 @@
     "PASSENGER": {
       "NAME": "Tên hành khách",
       "GENDER": "Giới tính",
+      "BIRTHDAY": "Ngày sinh",
+      "EMAIL": "Email",
+      "ADDRESS": "Địa chỉ",
       "PHONE_NUMBER": "Số điện thoại",
       "PASSENGER_LIST": "Danh sách hành khách",
       "ADD_PASSENGER": "Thêm hành khách",
@@ -876,6 +879,7 @@
       "ACTIONS": "Hành động",
       "EDIT_PASSENGER": "Sửa thông tin hành khách",
       "VALIDATE_PHONE_NUMBER": "Thông tin nhập vào phải là số điện thoại",
+      "VALIDATE_EMAIL": "Thông tin nhập vào phải là email",
       "EDIT_PASSENGER_SUCCESSFULLY": "Cập nhật thông tin hành khách của booking {{bookingCode}} thành công",
       "BOOKING_CODE": "Mã đơn hàng"
     }
