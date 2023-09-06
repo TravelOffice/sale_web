@@ -16,6 +16,8 @@ function renderLink(item: MenuLinkItem) {
   if (item.externalLink) {
     return (
       <a href={item.navLink || '/'}>
+        {item.icon}
+        <span className="menu-item text-truncate">{t(item.title)}</span>
         {item.badge && item.badgeText ? (
           <Badge className="ms-auto me-1" color={item.badge} pill>
             {item.badgeText}

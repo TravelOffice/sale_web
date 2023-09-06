@@ -2,6 +2,7 @@ import { MenuItem } from '@domain/entities/MenuLinkItem';
 import React from 'react';
 import {
   Activity,
+  Calendar,
   File,
   FileMinus,
   FilePlus,
@@ -12,8 +13,8 @@ import {
   MessageSquare,
   MoreHorizontal,
   Settings,
+  Share2,
   Shield,
-  ShoppingCart,
   Truck,
   User,
   UserCheck,
@@ -21,6 +22,7 @@ import {
 } from 'react-feather';
 import PERMISSIONS from '@utils/PermissionUtils';
 import i18n from 'i18next';
+import { getMarketplacePage } from '@utils/EnvUtils';
 
 const Navigation: MenuItem[] = [
   {
@@ -61,8 +63,15 @@ const Navigation: MenuItem[] = [
     id: 'bookings',
     title: i18n.t('COMMON.BOOKING'),
     requiredPermissions: [PERMISSIONS.get_bookings],
-    icon: <ShoppingCart size={12} />,
+    icon: <Calendar size={12} />,
     navLink: '/apps/bookings/list',
+  },
+  {
+    id: 'marketplace',
+    title: i18n.t('COMMON.MARKETPLACE_SIDEBAR'),
+    icon: <Share2 size={12} />,
+    externalLink: true,
+    navLink: getMarketplacePage(),
   },
   {
     id: 'customers',

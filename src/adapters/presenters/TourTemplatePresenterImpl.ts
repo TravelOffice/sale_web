@@ -2,6 +2,7 @@ import { CreateTourTemplateFormData, UpdateTourTemplateFormData } from '@domain/
 import {
   addTourTemplateUseCase,
   getAllTourTemplatesUseCase,
+  getLinkedPostOnMarketplaceInfoUseCase,
   getTourTemplateUseCase,
   updateTourTemplateUseCase,
 } from '@domain/useCases';
@@ -22,4 +23,8 @@ export default class TourTemplatePresenterImpl implements TourTemplatePresenter 
     tourTemplateId: string,
     formData: UpdateTourTemplateFormData,
   ) => updateTourTemplateUseCase.invoke(tourTemplateId, formData);
+
+  getLinkedPostOnMarketplaceInfo = async (
+    tourTemplateId: string,
+  ) => getLinkedPostOnMarketplaceInfoUseCase.invoke(tourTemplateId);
 }

@@ -33,7 +33,6 @@ const ActionsCell = ({ paymentVoucher }: {
 
   const onDeletePaymentVoucher: MouseEventHandler = (e) => {
     e.preventDefault();
-    console.log('Delete paymentVoucher', paymentVoucher);
   };
 
   return (

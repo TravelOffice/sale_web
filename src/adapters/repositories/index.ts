@@ -1,44 +1,45 @@
-import UserRepository from '@adapter/repositories/interfaces/UserRepository';
-import UserRepositoryImpl from '@adapter/repositories/UserRepositoryImpl';
-import { FacebookRepository } from '@adapter/repositories/interfaces/FacebookRepository';
-import FacebookPageRepositoryImpl from '@adapter/repositories/FacebookPageRepositoryImpl';
-import { AccountConnectionRepository } from '@adapter/repositories/interfaces/AccountConnectionRepository';
 import AccountConnectionRepositoryImpl from '@adapter/repositories/AccountConnectionRepositoryImpl';
-import { ZaloPageRepository } from '@adapter/repositories/interfaces/ZaloPageRepository';
-import ZaloPageRepositoryImpl from '@adapter/repositories/ZaloPageRepositoryImpl';
-import { NotificationRepository } from '@adapter/repositories/interfaces/NotificationRepository';
-import NotificationRepositoryImpl from '@adapter/repositories/NotificationRepositoryImpl';
-import { MailRepository } from '@adapter/repositories/interfaces/MailRepository';
-import MailRepositoryImpl from '@adapter/repositories/MailRepositoryImpl';
-import { BookingRepository } from '@adapter/repositories/interfaces/BookingRepository';
 import BookingRepositoryImpl from '@adapter/repositories/BookingRepositoryImpl';
-import { CustomerRepository } from '@adapter/repositories/interfaces/CustomerRepository';
+import ChatRepositoryImpl from '@adapter/repositories/ChatRepositoryImpl';
 import CustomerRepositoryImpl from '@adapter/repositories/CustomerRepositoryImpl';
-import { SourceRepository } from '@adapter/repositories/interfaces/SourceRepository';
-import SourceRepositoryImpl from '@adapter/repositories/SourceRepositoryImpl';
-import { ReceiptRepository } from '@adapter/repositories/interfaces/ReceiptRepository';
-import ReceiptRepositoryImpl from '@adapter/repositories/ReceiptRepositoryImpl';
-import { SupplierRepository } from '@adapter/repositories/interfaces/SupplierRepository';
-import SupplierRepositoryImpl from '@adapter/repositories/SupplierRepositoryImpl';
-import { PaymentVoucherRepository } from '@adapter/repositories/interfaces/PaymentVoucherRepository';
+import FacebookPageRepositoryImpl from '@adapter/repositories/FacebookPageRepositoryImpl';
+import LeadRepositoryImpl from '@adapter/repositories/LeadRepositoryImpl';
+import MailRepositoryImpl from '@adapter/repositories/MailRepositoryImpl';
+import NotificationRepositoryImpl from '@adapter/repositories/NotificationRepositoryImpl';
 import PaymentVoucherRepositoryImpl from '@adapter/repositories/PaymentVoucherRepositoryImpl';
-import TourOperationRepositoryImpl from '@adapter/repositories/TourOperationRepositoryImpl';
-import { TourOperationRepository } from '@adapter/repositories/interfaces/TourOperationRepository';
-import { TourLocationRepository } from '@adapter/repositories/interfaces/TourLocationRepository';
+import ReceiptRepositoryImpl from '@adapter/repositories/ReceiptRepositoryImpl';
+import RolePermissionRepositoryImpl from '@adapter/repositories/RolePermissionRepositoryImpl';
+import S3RepositoryImpl from '@adapter/repositories/S3RepositoryImpl';
+import SourceRepositoryImpl from '@adapter/repositories/SourceRepositoryImpl';
+import SupplierRepositoryImpl from '@adapter/repositories/SupplierRepositoryImpl';
 import TourLocationRepositoryImpl from '@adapter/repositories/TourLocationRepositoryImpl';
-import { TourTemplateRepository } from './interfaces/TourTemplateRepository';
-import TourTemplatePresenterImpl from './TourTemplateRepositoryImpl';
-import { ChatRepository } from './interfaces/ChatRepository';
-import ChatRepositoryImpl from './ChatRepositoryImpl';
-import { S3Repository } from './interfaces/S3Repository';
-import S3RepositoryImpl from './S3RepositoryImpl';
-import { LeadRepository } from './interfaces/LeadRepository';
-import LeadRepositoryImpl from './LeadRepositoryImpl';
-import RolePermissionRepository from './interfaces/RolePermissionRepository';
-import RolePermissionRepositoryImpl from './RolePermissionRepositoryImpl';
-// Tour
-import { DepartureTourRepository } from './interfaces/DepartureTourRepository';
-import TourRepositoryImpl from './TourRepositoryImpl';
+import TourOperationRepositoryImpl from '@adapter/repositories/TourOperationRepositoryImpl';
+import TourTemplatePresenterImpl from '@adapter/repositories/TourTemplateRepositoryImpl';
+import UserRepositoryImpl from '@adapter/repositories/UserRepositoryImpl';
+import ZaloPageRepositoryImpl from '@adapter/repositories/ZaloPageRepositoryImpl';
+import { AccountConnectionRepository } from '@adapter/repositories/interfaces/AccountConnectionRepository';
+import { BookingRepository } from '@adapter/repositories/interfaces/BookingRepository';
+import { ChatRepository } from '@adapter/repositories/interfaces/ChatRepository';
+import { CustomerRepository } from '@adapter/repositories/interfaces/CustomerRepository';
+import { FacebookRepository } from '@adapter/repositories/interfaces/FacebookRepository';
+import { LeadRepository } from '@adapter/repositories/interfaces/LeadRepository';
+import { MailRepository } from '@adapter/repositories/interfaces/MailRepository';
+import { NotificationRepository } from '@adapter/repositories/interfaces/NotificationRepository';
+import { PaymentVoucherRepository } from '@adapter/repositories/interfaces/PaymentVoucherRepository';
+import { ReceiptRepository } from '@adapter/repositories/interfaces/ReceiptRepository';
+import RolePermissionRepository from '@adapter/repositories/interfaces/RolePermissionRepository';
+import { S3Repository } from '@adapter/repositories/interfaces/S3Repository';
+import { SourceRepository } from '@adapter/repositories/interfaces/SourceRepository';
+import { SupplierRepository } from '@adapter/repositories/interfaces/SupplierRepository';
+import { TourLocationRepository } from '@adapter/repositories/interfaces/TourLocationRepository';
+import { TourOperationRepository } from '@adapter/repositories/interfaces/TourOperationRepository';
+import { TourTemplateRepository } from '@adapter/repositories/interfaces/TourTemplateRepository';
+import UserRepository from '@adapter/repositories/interfaces/UserRepository';
+import { ZaloPageRepository } from '@adapter/repositories/interfaces/ZaloPageRepository';
+import MarketplaceRepositoryImpl from '@adapter/repositories/MarketplaceRepositoryImpl';
+import TourRepositoryImpl from '@adapter/repositories/TourRepositoryImpl';
+import { DepartureTourRepository } from '@adapter/repositories/interfaces/DepartureTourRepository';
+import { MarketplaceRepository } from '@adapter/repositories/interfaces/MarketplaceRepository';
 
 interface Repositories {
   userRepository: UserRepository,
@@ -61,6 +62,7 @@ interface Repositories {
   paymentVoucherRepository: PaymentVoucherRepository,
   tourOperationRepository: TourOperationRepository,
   tourLocationRepository: TourLocationRepository,
+  marketplaceRepository: MarketplaceRepository,
 }
 
 const repositories: Repositories = {
@@ -84,6 +86,7 @@ const repositories: Repositories = {
   paymentVoucherRepository: new PaymentVoucherRepositoryImpl(),
   tourOperationRepository: new TourOperationRepositoryImpl(),
   tourLocationRepository: new TourLocationRepositoryImpl(),
+  marketplaceRepository: new MarketplaceRepositoryImpl(),
 };
 
 export const {
@@ -107,4 +110,5 @@ export const {
   paymentVoucherRepository,
   tourOperationRepository,
   tourLocationRepository,
+  marketplaceRepository,
 } = repositories;

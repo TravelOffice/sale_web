@@ -3,12 +3,28 @@ import i18n from '@config/i18n';
 import { TableColumn } from 'react-data-table-component';
 import { TourTemplate } from '@domain/entities/tour/TourTemplate';
 import { Link } from 'react-router-dom';
-import { generateEditableUrlForTourTemplate, generateI18nForTourTemplate } from '@utils/TourTemplateUtils';
 import {
-  Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
+  generateEditableUrlForTourTemplate,
+  generateI18nForTourTemplate,
+} from '@utils/TourTemplateUtils';
+import {
+  Badge,
+  Button,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledDropdown,
+  UncontrolledTooltip,
 } from 'reactstrap';
-import { Archive, MoreVertical, Trash2 } from 'react-feather';
+import {
+  Archive, MoreVertical, Share2, Trash2,
+} from 'react-feather';
 import TourType from '@domain/entities/tour/TourType';
+import { useQuery } from '@tanstack/react-query';
+import generateMarketplacePostUrl from '@utils/MarketplaceUtils';
+import { TOUR_TEMPLATE_INDEX } from '@utils/Constants';
+import { tourTemplatePresenter } from '@adapter/presenters';
+import { getMarketplacePage } from '@utils/EnvUtils';
 
 const tourTemplateTypesColors: Record<TourType, string> = {
   INBOUND: 'light-primary',
@@ -62,6 +78,54 @@ const tourTemplateColumns: TableColumn<TourTemplate>[] = [
       tourTemplate: TourTemplate,
     ) => `${tourTemplate.durationInDays}-${i18n.t('TOUR_TEMPLATE.DAY')}
                  ${tourTemplate.durationInNights}-${i18n.t('TOUR_TEMPLATE.NIGHT')}`,
+  },
+  {
+    name: i18n.t('COMMON.MARKETPLACE'),
+    minWidth: '150px',
+    cell: (tourTemplate: TourTemplate) => {
+      // The text `#` is not allowed in the URL, so we need to replace it with `%23`
+      const tourTemplateId = `${TOUR_TEMPLATE_INDEX}%23${tourTemplate.code}`;
+      const { data: linkedPostOnMarketplace } = useQuery({
+        queryKey: ['linkedPostOnMarketplace', tourTemplateId],
+        queryFn: () => tourTemplatePresenter.getLinkedPostOnMarketplaceInfo(tourTemplateId),
+      });
+      const isMarketplaceAvailable = linkedPostOnMarketplace?.isAvailable;
+      const totalOffers = linkedPostOnMarketplace?.totalOffers || 0;
+      const postUrl = generateMarketplacePostUrl(linkedPostOnMarketplace?.postId || '');
+      const openUrl = () => {
+        if (isMarketplaceAvailable) {
+          window.open(postUrl);
+        } else {
+          window.open(getMarketplacePage());
+        }
+      };
+
+      return (
+        <div>
+          <Button
+            outline
+            id={`tour-template-marketplace-info-${tourTemplate.code}`}
+            color={isMarketplaceAvailable ? 'primary' : 'secondary'}
+            size="sm"
+            onClick={openUrl}
+          >
+            <Share2 size={12} />
+          </Button>
+          <UncontrolledTooltip
+            placement="top"
+            target={`tour-template-marketplace-info-${tourTemplate.code}`}
+          >
+            {
+              isMarketplaceAvailable
+                ? i18n.t('MARKETPLACE.MARKETPLACE_INFO_TOOLTIP', {
+                  totalOffers,
+                  modelName: i18n.t('COMMON.TOUR_TEMPLATE'),
+                }) : i18n.t('MARKETPLACE.MARKETPLACE_INFO_NOT_AVAILABLE', { modelName: i18n.t('COMMON.TOUR_TEMPLATE') })
+            }
+          </UncontrolledTooltip>
+        </div>
+      );
+    },
   },
   {
     name: i18n.t('COMMON.ACTIONS'),
