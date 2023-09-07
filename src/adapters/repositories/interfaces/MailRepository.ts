@@ -11,6 +11,7 @@ import { MailServer } from '@domain/entities/mail/MailServer';
 import { AutoLinkEmailRequest } from '@domain/entities/mail/AutoLinkEmailRequest';
 
 export interface MailRepository {
+  getSearchToken: () => Promise<string>
   link: (formData: LinkEmailFormData) => Promise<MailAccount>,
   syncEmail: (mailAccounts: MailAccount[]) => Promise<void>
   getMailAccounts: () => Promise<MailAccount[]>

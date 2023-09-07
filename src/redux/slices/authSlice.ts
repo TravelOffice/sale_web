@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Page } from '@domain/entities/chat/Page';
-import { User, RoleEnum } from '@domain/entities/User';
+import { RoleEnum, User } from '@domain/entities/User';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CognitoUserSession } from 'amazon-cognito-identity-js';
 
@@ -16,6 +16,7 @@ interface AuthState {
   initialized: boolean,
   isAdmin: boolean,
   authStatus: AuthStatus,
+  searchToken?: string,
 }
 
 const initialState: AuthState = {
@@ -60,6 +61,9 @@ const authSlice = createSlice({
     onInitialCompleted: (state) => {
       state.initialized = true;
       state.authStatus = 'loggedIn';
+    },
+    setSearchToken: (state, action: PayloadAction<string>) => {
+      state.searchToken = action.payload;
     },
   },
 });

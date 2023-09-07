@@ -108,6 +108,8 @@ import { GetPaymentVouchersOfTourUseCase } from '@domain/useCases/interfaces/tou
 import GetPaymentVouchersOfTourUseCaseImpl from '@domain/useCases/tour/GetPaymentVouchersOfTourUseCaseImpl';
 import DeleteRoleUseCaseImpl from '@domain/useCases/rolePermission/DeleteRoleUseCaseImpl';
 import { DeleteRoleUseCase } from '@domain/useCases/interfaces/rolePermission/DeleteRoleUseCase';
+import GetSearchTokenUseCaseImpl from '@domain/useCases/mail/GetSearchTokenUseCaseImpl';
+import { GetSearchTokenUseCase } from '@domain/useCases/interfaces/mail/GetSearchTokenUseCase';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -225,6 +227,7 @@ interface UseCases {
   getMailServerUseCase: GetMailServerUseCase,
   autoLinkEmailUseCase: AutoLinkEmailUseCase,
   changeMailboxUseCase: ChangeMailboxUseCase,
+  getSearchTokenUseCase: GetSearchTokenUseCase,
   // Customer
   addCustomerUseCase: AddCustomerUseCase,
   getAllCustomersUseCase: GetAllCustomersUseCase,
@@ -323,6 +326,7 @@ const useCases: UseCases = {
   getMailServerUseCase: new GetMailServerUseCaseImpl(),
   autoLinkEmailUseCase: new AutoLinkEmailUseCaseImpl(),
   changeMailboxUseCase: new ChangeMailboxUseCaseImpl(),
+  getSearchTokenUseCase: new GetSearchTokenUseCaseImpl(),
   // Customer
   addCustomerUseCase: new AddCustomerUseCaseImpl(),
   getAllCustomersUseCase: new GetAllCustomersUseCaseImpl(),
@@ -415,6 +419,7 @@ export const {
   getMailServerUseCase,
   autoLinkEmailUseCase,
   changeMailboxUseCase,
+  getSearchTokenUseCase,
   addCustomerUseCase,
   getAllCustomersUseCase,
   getBookingsOfCustomerUseCase,

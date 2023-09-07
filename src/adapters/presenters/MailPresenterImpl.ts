@@ -1,10 +1,21 @@
 import { MailPresenter } from '@adapter/presenters/interfaces/MailPresenter';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
 import {
-  getMailAccountsUseCase, getMailboxesUseCase, getMailMessagesUseCase,
-  getMailThreadUseCase, linkMailUseCase, sendMailUseCase, uploadMailAttachmentUseCase,
-  syncMailUseCase, searchMailUseCase, draftMailUseCase, deleteMailUseCase, getMailServerUseCase,
-  autoLinkEmailUseCase, changeMailboxUseCase,
+  autoLinkEmailUseCase,
+  changeMailboxUseCase,
+  deleteMailUseCase,
+  draftMailUseCase,
+  getMailAccountsUseCase,
+  getMailboxesUseCase,
+  getMailMessagesUseCase,
+  getMailServerUseCase,
+  getMailThreadUseCase,
+  getSearchTokenUseCase,
+  linkMailUseCase,
+  searchMailUseCase,
+  sendMailUseCase,
+  syncMailUseCase,
+  uploadMailAttachmentUseCase,
 } from '@domain/useCases';
 import { SendMailFormData } from '@domain/entities/mail/SendMailFormData';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
@@ -13,6 +24,8 @@ import { AutoLinkEmailRequest } from '@domain/entities/mail/AutoLinkEmailRequest
 import { ChangeMailboxRequest } from '@domain/entities/mail/ChangeMailboxRequest';
 
 export default class MailPresenterImpl implements MailPresenter {
+  getSearchToken = async () => getSearchTokenUseCase.invoke();
+
   linkMail = async (formData: LinkEmailFormData) => linkMailUseCase.invoke(formData)
 
   getMailAccounts = async () => getMailAccountsUseCase.invoke()
