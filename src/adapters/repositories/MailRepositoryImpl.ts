@@ -1,6 +1,6 @@
 import { MailRepository } from '@adapter/repositories/interfaces/MailRepository';
 import { LinkEmailFormData } from '@domain/entities/formData/LinkEmailFormData';
-import { mailApiProvider, searchProvider } from '@adapter/infrastructures';
+import { mailApiProvider, mailSearchProvider } from '@adapter/infrastructures';
 import { MailAccount } from '@domain/entities/mail/MailAccount';
 import { Mailbox } from '@domain/entities/mail/Mailbox';
 import { MailMessageList } from '@domain/entities/mail/MailMessageList';
@@ -14,6 +14,8 @@ import { AutoLinkEmailRequest } from '@domain/entities/mail/AutoLinkEmailRequest
 
 export default class MailRepositoryImpl implements MailRepository {
   private readonly client = mailApiProvider.authorizedRequest;
+
+  getSearchToken = async () => this.client.get<string>('/search-token')
 
   link = async (formData: LinkEmailFormData) => this.client.post<MailAccount>('/link-email', formData);
 
@@ -38,7 +40,7 @@ export default class MailRepositoryImpl implements MailRepository {
   sendMail = async (sendMailFormData: SendMailFormData) => this.client.post<MailMessage>('/send-email', sendMailFormData);
 
   search = async (indexUid: string, query: string) => {
-    const result = await searchProvider.query(indexUid, query, {
+    const result = await mailSearchProvider.query(indexUid, query, {
       attributesToHighlight: ['*'],
       sort: ['date:desc'],
       attributesToCrop: ['content'],

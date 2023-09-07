@@ -47,7 +47,6 @@ function* getMailAccounts() {
     const mailAccounts: MailAccount[] = yield call(mailPresenter.getMailAccounts);
     yield put(mailActions.onMailAccountsFetched(mailAccounts));
   } catch (error) {
-    console.log(error);
     toasty.show({
       title: i18n.t('COMMON.ERROR'),
       message: i18n.t('MAIL.ERROR_GET_MAIL_ACCOUNTS'),

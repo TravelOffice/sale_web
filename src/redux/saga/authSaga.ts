@@ -1,4 +1,6 @@
-import { accountConnectionPresenter, rolePermissionPresenter, userPresenter } from '@adapter/presenters';
+import {
+  accountConnectionPresenter, mailPresenter, rolePermissionPresenter, userPresenter,
+} from '@adapter/presenters';
 import { Page } from '@domain/entities/chat/Page';
 import { User } from '@domain/entities/User';
 import { authActions, AuthPayload } from '@redux/slices/authSlice';
@@ -21,6 +23,14 @@ import PERMISSIONS from '@utils/PermissionUtils';
 function* getCurrentUser() {
   const currentUser: User = yield call(userPresenter.getCurrentUser);
   yield put(authActions.setCurrentUser(currentUser));
+}
+
+/**
+ * Effect to fetch search token then update to global state
+ */
+function* getSearchToken() {
+  const searchToken: string = yield call(mailPresenter.getSearchToken);
+  yield put(authActions.setSearchToken(searchToken));
 }
 
 /**
@@ -64,6 +74,7 @@ function* fetchUserData() {
 function* attachSession(action: PayloadAction<string>) {
   try {
     localStorage.setItem(ID_TOKEN, action.payload);
+    yield fork(getSearchToken); // Fetch search token in background
     yield call(getCurrentUser);
     yield call(fetchUserData); // Block until user data ready to use
     yield put(authActions.onInitialCompleted());

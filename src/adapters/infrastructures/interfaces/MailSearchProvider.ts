@@ -24,7 +24,7 @@ export interface SearchResults<T> {
   processingTimeMs: number,
 }
 
-export interface SearchProvider {
+export interface MailSearchProvider {
   query: <T = any>(
     indexUid: string,
     q: string,

@@ -12,6 +12,7 @@ import { AutoLinkEmailRequest } from '@domain/entities/mail/AutoLinkEmailRequest
 import { ChangeMailboxRequest } from '@domain/entities/mail/ChangeMailboxRequest';
 
 export interface MailPresenter {
+  getSearchToken: () => Promise<string>
   linkMail: (formData: LinkEmailFormData) => Promise<MailAccount>
   getMailAccounts: () => Promise<MailAccount[]>
   getMailboxes: (mailAccount: string) => Promise<Mailbox[]>

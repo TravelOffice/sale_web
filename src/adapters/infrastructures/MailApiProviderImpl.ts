@@ -6,7 +6,7 @@ import { AxiosResponse } from 'axios';
 import MailApiError from '@adapter/exceptions/MailApiError';
 
 export default class MailApiProviderImpl implements ApiProvider {
-  private baseUrl = process.env.REACT_APP_MAIL_API_ENDPOINT || '';
+  private baseUrl = `${process.env.REACT_APP_LB_BASE_URL}/mail` || '';
 
   private responseMiddleware = (response: AxiosResponse) => {
     const mailApiResponse = response.data as MailApiResponse<any>;
