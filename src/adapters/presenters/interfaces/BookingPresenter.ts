@@ -3,6 +3,7 @@ import { AddBookingFormData } from '@domain/entities/booking/AddBookingFormData'
 import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingFromLeadFormData';
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
 import { CreateNoteFormData, Note } from '@domain/entities/note/Note';
+import { ConfirmBookingFormData } from '@domain/entities/booking/ConfirmBookingFormData';
 
 export interface BookingPresenter {
   getBookings(status?: BookingStatus): Promise<Booking[]>;
@@ -21,7 +22,7 @@ export interface BookingPresenter {
 
   cancelBooking(bookingId: string, reason: string): Promise<Partial<Booking>>;
 
-  confirmBooking(bookingId: string, departureTourId: string): Promise<Partial<Booking>>;
+  confirmBooking(bookingId: string, formData: ConfirmBookingFormData): Promise<Partial<Booking>>;
 
   changeToPaymentPending(bookingId: string, waitingExpiredAt: number): Promise<Partial<Booking>>;
 }

@@ -870,6 +870,8 @@
     "PAYMENT_PENDING_SUCCESSFULLY": "Thay đổi trạng thái đặt tour sang [CHỜ THANH TOÁN] thành công",
     "TOTAL_PAX": "Số lượng",
     "DONE_PAYMENT_AT": "Thanh toán lúc",
+    "DEPARTURE_TOUR": "Tour khởi hành",
+    "TOTAL_PAID": "Tổng tiền đã thanh toán",
     "PASSENGER": {
       "NAME": "Tên hành khách",
       "GENDER": "Giới tính",

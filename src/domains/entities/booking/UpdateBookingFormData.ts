@@ -10,5 +10,6 @@ export type UpdateBookingFormData = Pick<Booking,
 'sourceId' |
 'notes' |
 'services' |
-'passengers'
+'passengers' |
+'totalPaid'
 >;

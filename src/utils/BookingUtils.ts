@@ -132,7 +132,8 @@ export const updateBookingSchema = yup.object().shape({
 });
 
 export const confirmBookingSchema = yup.object().shape({
-  departureTourId: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.DEPARTURE_TOUR_ID') })),
+  departureTourId: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.DEPARTURE_TOUR') })),
+  totalPaid: yup.number().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.TOTAL_PAID') })),
 });
 
 export const paymentPendingSchema = yup.object().shape({
