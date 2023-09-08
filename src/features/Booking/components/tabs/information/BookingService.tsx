@@ -194,7 +194,7 @@ export default function BookingService(props: BookingServiceProps) {
         <Col md={3}>
           {
             isEditable ? (
-              <Button type="button" onClick={addServiceHandler}>
+              <Button type="button" size="sm" color="primary" outline onClick={addServiceHandler}>
                 {i18n.t('DEPARTURE_TOUR.ADD_SERVICE')}
               </Button>
             ) : <></>

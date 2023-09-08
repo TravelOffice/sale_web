@@ -15,6 +15,8 @@ import FormItemSelect from '@components/Form/FormItemSelect';
 import { confirmBookingSchema } from '@utils/BookingUtils';
 import moment from 'moment';
 import { Booking } from '@domain/entities/booking/Booking';
+import { formatVND } from '@utils/CommonUtils';
+import FormItemInput from '@components/Form/FormItemInput';
 
 interface ConfirmBookingModalProps {
   booking: Booking,
@@ -39,7 +41,7 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
   const { mutate, isLoading } = useMutation({
     mutationFn: (
       formValue: ConfirmBookingFormData,
-    ) => bookingPresenter.confirmBooking(bookingId, formValue.departureTourId!),
+    ) => bookingPresenter.confirmBooking(bookingId, formValue),
     onSuccess: (data: Partial<Booking>) => {
       toasty.show({
         title: i18n.t('COMMON.SUCCESS'),
@@ -67,9 +69,6 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
     formState: { errors },
   } = useForm<ConfirmBookingFormData>({
     resolver: yupResolver(confirmBookingSchema),
-    defaultValues: {
-      departureTourId: moment().add(1, 'days').format('DD/MM/YYYY HH:mm'),
-    },
   });
 
   const handleReset = () => {
@@ -94,7 +93,6 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
   return (
     <Modal isOpen={confirmFormModal} toggle={() => toggleConfirmFormModal()} className="modal-dialog-centered">
       <Form onSubmit={handleSubmit(onSubmit)}>
-
         <ModalHeader toggle={() => toggleConfirmFormModal()}>
           {i18n.t('BOOKING.CONFIRM_BOOKING')}
         </ModalHeader>
@@ -129,42 +127,45 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
             </Col>
           </Row>
           <Row>
+            {
+              booking.departureDate
+              && selectedDepartureTourId
+              && selectedDepartureTour?.startDate !== booking.departureDate && (
+                <Label className="text-danger">{i18n.t('BOOKING.MISMATCH_DEPARTURE_DATE')}</Label>
+              )
+            }
+          </Row>
+          <Row>
             <Col lg={6}>
               <div className="mb-1">
-                <Label className="form-label" for="departureTourId">
-                  {i18n.t('DEPARTURE_TOUR.DEPARTURE_TOUR')}
+                <Label className="form-label" for="totalPaid">
+                  {i18n.t('BOOKING.TOTAL_PAID', { currency: 'VND' })}
                   {' '}
                   <span className="text-danger">{' *'}</span>
                 </Label>
-                <FormItemSelect
+                <FormItemInput
+                  name="totalPaid"
                   control={control}
-                  name="departureTourId"
                   errors={errors}
-                  selectClassName="flex-fill"
-                  options={departureTourOptions || []}
+                  inputType="number"
                 />
               </div>
             </Col>
             <Col lg={6}>
               <div className="mb-1">
                 <Label className="form-label">
-                  {i18n.t('DEPARTURE_TOUR.DEPARTURE_DATE')}
+                  {i18n.t('BOOKING.TOTAL_PAYMENT')}
                 </Label>
                 <Input
-                  value={selectedDepartureTourId ? moment(selectedDepartureTour?.startDate).format('DD/MM/YYYY') : ''}
+                  value={formatVND(booking.services ? booking.services.reduce(
+                    (
+                      total, service,
+                    ) => total + service.quantity * service.price * (1 + service.tax / 100), 0,
+                  ) : 0)}
                   disabled
                 />
               </div>
             </Col>
-          </Row>
-          <Row>
-            {
-              booking.departureDate
-              && selectedDepartureTourId
-              && selectedDepartureTour?.startDate !== booking.departureDate ? (
-                <Label className="text-danger">{i18n.t('BOOKING.MISMATCH_DEPARTURE_DATE')}</Label>
-                ) : <></>
-            }
           </Row>
         </ModalBody>
         <ModalFooter>

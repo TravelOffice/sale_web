@@ -133,7 +133,7 @@ export default function PassengerList({ handleAddPassengers, passengers }: Addin
                 {passenger?.attachedDoc ? (
                   passenger?.attachedDoc.map((item: string) => (
                     <a key={item} href={item} target="_blank" rel="noreferrer">
-                      <File size={30} />
+                      <File size={20} />
                     </a>
                   ))
                 ) : (
@@ -146,6 +146,7 @@ export default function PassengerList({ handleAddPassengers, passengers }: Addin
                 <Button
                   type="button"
                   color="primary"
+                  size="sm"
                   onClick={() => {
                     setIsEdit(true);
                     setOpenAddPassengerFormModal(true);
@@ -160,6 +161,7 @@ export default function PassengerList({ handleAddPassengers, passengers }: Addin
                 <Button
                   type="button"
                   color="danger"
+                  size="sm"
                   onClick={() => {
                     const newPassengers = [...passengers];
                     newPassengers.splice(index, 1);
@@ -177,11 +179,14 @@ export default function PassengerList({ handleAddPassengers, passengers }: Addin
       <Button
         type="button"
         color="primary"
+        size="sm"
+        outline
         onClick={() => {
           reset({});
           setAction(i18n.t('BOOKING.PASSENGER.ADD_PASSENGER'));
           setOpenAddPassengerFormModal(true);
         }}
+        outlined
       >
         {i18n.t('BOOKING.PASSENGER.ADD_PASSENGER')}
       </Button>

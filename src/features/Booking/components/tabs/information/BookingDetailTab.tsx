@@ -28,6 +28,7 @@ import moment from 'moment/moment';
 import { generateUserDisplayName } from '@utils/UserUtils';
 import PERMISSIONS from '@utils/PermissionUtils';
 import { useAccessControl } from '@hooks/auth';
+import FormItemInput from '@components/Form/FormItemInput';
 
 export interface EditBookingTabParams {
   bookingId: string,
@@ -332,6 +333,26 @@ export default function BookingDetailTab() {
                   errors={errors}
                   isEditable={isEditable}
                 />
+
+                <div className="divider divider-start divider-primary">
+                  <div className="divider-text text-primary fw-bolder">{i18n.t('BOOKING.PAYMENT_INFO')}</div>
+                </div>
+                <Row>
+                  <Col md={6}>
+                    <div className="mb-1">
+                      <Label className="form-label" for="assigneeId">
+                        {`${i18n.t('BOOKING.TOTAL_PAID')} (VND)`}
+                      </Label>
+                      <FormItemInput
+                        inputType="number"
+                        control={control}
+                        name="totalPaid"
+                        errors={errors}
+                        disabled={!isEditable}
+                      />
+                    </div>
+                  </Col>
+                </Row>
                 {
                   can(PERMISSIONS.update_booking)
                   && isEditable ? (

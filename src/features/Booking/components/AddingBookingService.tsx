@@ -184,7 +184,7 @@ export default function AddingBookingService(props: AddingBookingServiceProps) {
       }
       <Row>
         <Col md={2}>
-          <Button type="button" onClick={addServiceHandler} color="primary">
+          <Button type="button" size="sm" color="primary" outline onClick={addServiceHandler}>
             {i18n.t('DEPARTURE_TOUR.ADD_SERVICE')}
           </Button>
         </Col>

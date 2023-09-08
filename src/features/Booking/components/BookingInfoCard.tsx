@@ -16,6 +16,7 @@ import CanceledBookingInfoCard from '@features/Booking/components/CanceledBookin
 import BookingItemActions from '@features/Booking/components/BookingItemActions';
 import { useAccessControl } from '@hooks/auth';
 import PERMISSIONS from '@utils/PermissionUtils';
+import { formatVND } from '@utils/CommonUtils';
 
 export interface EditBookingPageParams {
   bookingId: string,
@@ -119,11 +120,11 @@ export default function BookingInfoCard() {
                       booking?.doneAt ? (
                         <li className="mb-75">
                           <span className="fw-bolder me-25">
-                            {i18n.t('BOOKING.DONE_PAYMENT_AT')}
+                            {i18n.t('BOOKING.TOTAL_PAID')}
                             :
                           </span>
 
-                          <span>{moment(booking?.departureDate).format('DD/MM/YYYY HH:mm')}</span>
+                          <span>{formatVND(booking.totalPaid || 0)}</span>
                         </li>
                       ) : <></>
                     }

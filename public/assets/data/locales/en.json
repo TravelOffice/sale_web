@@ -842,7 +842,7 @@
     "TAX": "Tax",
     "BEFORE_TAX": "Before tax",
     "AFTER_TAX": "After tax",
-    "TOTAL_PAYMENT": "Total Payment",
+    "TOTAL_PAYMENT": "Total payment",
     "EDIT_BOOKING_SUCCESSFULLY": "Edit booking {{bookingCode}} successfully",
     "NOTE_TITLE": "Note title",
     "NOTE_DESCRIPTION": "Note description",
@@ -870,6 +870,8 @@
     "PAYMENT_PENDING_SUCCESSFULLY": "Change booking status to [PAYMENT PENDING] successfully",
     "TOTAL_PAX": "Total pax",
     "DONE_PAYMENT_AT": "Done payment at",
+    "DEPARTURE_TOUR": "Departure tour",
+    "TOTAL_PAID": "Total paid amount",
     "PASSENGER": {
       "NAME": "Passenger name",
       "GENDER": "Gender",

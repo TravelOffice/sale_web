@@ -16,6 +16,7 @@ import {
   updateBookingUseCase,
 } from '@domain/useCases/booking';
 import { CreateNoteFormData } from '@domain/entities/note/Note';
+import { ConfirmBookingFormData } from '@domain/entities/booking/ConfirmBookingFormData';
 
 export default class BookingPresenterImpl implements BookingPresenter {
   getBookings = async (status?: BookingStatus) => getBookingsUseCase.invoke(status);
@@ -42,8 +43,8 @@ export default class BookingPresenterImpl implements BookingPresenter {
   ) => cancelBookingUseCase.invoke(bookingId, reason);
 
   confirmBooking = async (
-    bookingId: string, departureTourId: string,
-  ) => confirmBookingUseCase.invoke(bookingId, departureTourId);
+    bookingId: string, formData: ConfirmBookingFormData,
+  ) => confirmBookingUseCase.invoke(bookingId, formData);
 
   changeToPaymentPending = async (
     bookingId: string,
