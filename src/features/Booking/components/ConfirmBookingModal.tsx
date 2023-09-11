@@ -12,10 +12,9 @@ import { EditBookingPageParams } from '@features/Booking/components/BookingInfoC
 import { ConfirmBookingFormData } from '@domain/entities/booking/ConfirmBookingFormData';
 import { bookingPresenter, tourPresenter } from '@adapter/presenters';
 import FormItemSelect from '@components/Form/FormItemSelect';
-import { confirmBookingSchema } from '@utils/BookingUtils';
+import { calculatePaymentTotal, confirmBookingSchema } from '@utils/BookingUtils';
 import moment from 'moment';
 import { Booking } from '@domain/entities/booking/Booking';
-import { formatVND } from '@utils/CommonUtils';
 import FormItemInput from '@components/Form/FormItemInput';
 
 interface ConfirmBookingModalProps {
@@ -139,7 +138,7 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
             <Col lg={6}>
               <div className="mb-1">
                 <Label className="form-label" for="totalPaid">
-                  {i18n.t('BOOKING.TOTAL_PAID', { currency: 'VND' })}
+                  {`${i18n.t('BOOKING.TOTAL_PAID')} (VND)`}
                   {' '}
                   <span className="text-danger">{' *'}</span>
                 </Label>
@@ -154,14 +153,13 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
             <Col lg={6}>
               <div className="mb-1">
                 <Label className="form-label">
-                  {i18n.t('BOOKING.TOTAL_PAYMENT')}
+                  {`${i18n.t('BOOKING.TOTAL_PAYMENT')} (VND)`}
                 </Label>
                 <Input
-                  value={formatVND(booking.services ? booking.services.reduce(
-                    (
-                      total, service,
-                    ) => total + service.quantity * service.price * (1 + service.tax / 100), 0,
-                  ) : 0)}
+                  name="totalPayment"
+                  type="number"
+                  control={control}
+                  value={booking.services ? calculatePaymentTotal(booking.services) : 0}
                   disabled
                 />
               </div>

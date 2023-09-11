@@ -78,7 +78,7 @@ export const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Book
                 ))
               }
             </ul>
-          ) : <span>N/A</span>}
+          ) : <p>N/A</p>}
         </Col>
 
         <Col xl="6">
@@ -97,9 +97,8 @@ export const BookingExpandableRowComponent: React.FC<ExpanderComponentProps<Book
 
       <strong>{i18n.t('BOOKING.PAYMENT_INFO')}</strong>
       <ul>
-        {(data.totalPaid !== undefined && data.totalPayment !== undefined)
-          ? <li>{`${i18n.t('BOOKING.PAID')}: ${formatVND(data.totalPaid)} / ${formatVND(calculatePaymentTotal(data.services))}`}</li>
-          : <></>}
+        <li>{`${i18n.t('BOOKING.TOTAL_PAID')}: ${formatVND(data.totalPaid || 0)}`}</li>
+        <li>{`${i18n.t('BOOKING.TOTAL_PAYMENT')}: ${formatVND(calculatePaymentTotal(data.services))}`}</li>
       </ul>
     </div>
   );

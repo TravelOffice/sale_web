@@ -868,6 +868,8 @@
     "CONFIRM_BOOKING_SUCCESSFULLY": "Xác nhận đặt tour thành công",
     "CANCEL_BOOKING_SUCCESSFULLY": "Hủy đặt tour thành công",
     "PAYMENT_PENDING_SUCCESSFULLY": "Thay đổi trạng thái đặt tour sang [CHỜ THANH TOÁN] thành công",
+    "VALIDATE_MIN_VALUE_TOTAL_PAID_MSG": "Tổng tiền đã thanh toán không được nhỏ hơn 0",
+    "VALIDATE_MAX_VALUE_TOTAL_PAID_MSG": "Tổng tiền đã thanh toán không được lớn hơn tổng tiền phải thanh toán",
     "TOTAL_PAX": "Số lượng",
     "DONE_PAYMENT_AT": "Thanh toán lúc",
     "DEPARTURE_TOUR": "Tour khởi hành",

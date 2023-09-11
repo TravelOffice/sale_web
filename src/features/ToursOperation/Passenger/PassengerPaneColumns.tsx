@@ -40,7 +40,7 @@ const passengerPaneColumns: TableColumn<Passenger>[] = [
         return (
           passenger?.attachedDoc.map((item: string) => (
             <a key={item} href={item} target="_blank" rel="noreferrer">
-              <File size={30} />
+              <File size={20} />
             </a>
           ))
         );

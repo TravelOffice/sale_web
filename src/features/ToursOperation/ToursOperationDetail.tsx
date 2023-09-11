@@ -23,14 +23,9 @@ import { useAccessControl } from '@hooks/auth';
 import { RequirePermissions } from '@domain/entities/RequirePermissions';
 import ToursOperationDetailTabs from '@features/ToursOperation/components/ToursOperationDetailTabs';
 import {
-  Calendar,
-  Columns,
-  DollarSign,
-  Home,
-  Navigation,
-  Users,
+  Calendar, Columns, DollarSign, Home, Navigation, Users,
 } from 'react-feather';
-import ToursOperationGeneralPane from '@features/ToursOperation/components/ToursOperationGeneralPane';
+import ToursOperationGeneralPane from '@features/ToursOperation/General/ToursOperationGeneralPane';
 import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
 import { Booking } from '@domain/entities/booking/Booking';
 import TourReportPage from '@features/ToursOperation/Summary/TourReportPage';
@@ -40,7 +35,7 @@ import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
 import { DepartureTour } from '@domain/entities/tour';
 import { Passenger } from '@domain/entities/booking/Passenger';
 import moment from 'moment';
-import ToursOperationBookingPane from './components/ToursOperationBookingPane';
+import ToursOperationBookingPane from './Booking/ToursOperationBookingPane';
 import ToursOperationPassengerListPane from './Passenger/ToursOperationPassengerListPane';
 
 export interface ToursOperationDetailParams {
