@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Col, FormFeedback, InputGroup, InputGroupText, Label, Row,
+  Col, InputGroup, InputGroupText, Label, Row,
 } from 'reactstrap';
 import FormItemSelect from '@components/Form/FormItemSelect';
 import i18n from '@config/i18n';
@@ -233,17 +233,6 @@ const CommonInformation: React.FC<CommonInformationProps> = ({
               />
             </div>
           </div>
-        </div>
-      </Col>
-    </Row>
-    <Row>
-      <Col>
-        <div className="mb-1 form-check form-switch">
-          <FormItemInput control={control} name="isOpen" errors={errors} inputType="switch" />
-          <Label className="form-check-label" for="isOpen">
-            {i18n.t('DEPARTURE_TOUR.OPEN_STATUS')}
-          </Label>
-          {errors.status && <FormFeedback>{errors.status.message}</FormFeedback>}
         </div>
       </Col>
     </Row>

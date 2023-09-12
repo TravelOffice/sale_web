@@ -218,25 +218,13 @@ export default function TourPlanItemActivity(props: TourPlanItemActivityProps) {
                         {': '}
                         {estimation.estimatedQuantity}
                         <br />
-                        {
-                        estimation.vatStatus === 'VAT_INCLUDED' ? (
-                          <span className="fst-italic text-success">
-                            (
-                            {
+                        <span className="fst-italic">
+                          (
+                          {
                               generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
                             }
-                            )
-                          </span>
-                        ) : (
-                          <span className="fst-italic">
-                            (
-                            {
-                              generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
-                            }
-                            )
-                          </span>
-                        )
-                      }
+                          )
+                        </span>
                       </td>
                       <td>
                         {formatCurrency(

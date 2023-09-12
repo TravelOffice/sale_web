@@ -2,7 +2,7 @@ import {
   Button, Col, Form, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner,
 } from 'reactstrap';
 import React, { useMemo } from 'react';
-import { useForm, useWatch } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import i18n from '@config/i18n';
 import toasty from '@components/Toasty/Toasty';
@@ -15,7 +15,6 @@ import FormItemSelect from '@components/Form/FormItemSelect';
 import { confirmBookingSchema } from '@utils/BookingUtils';
 import moment from 'moment';
 import { Booking } from '@domain/entities/booking/Booking';
-import { formatVND } from '@utils/CommonUtils';
 import FormItemInput from '@components/Form/FormItemInput';
 
 interface ConfirmBookingModalProps {
@@ -139,7 +138,7 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
             <Col lg={6}>
               <div className="mb-1">
                 <Label className="form-label" for="totalPaid">
-                  {i18n.t('BOOKING.TOTAL_PAID', { currency: 'VND' })}
+                  {`${i18n.t('BOOKING.TOTAL_PAID')} (VND)`}
                   {' '}
                   <span className="text-danger">{' *'}</span>
                 </Label>
@@ -154,15 +153,12 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
             <Col lg={6}>
               <div className="mb-1">
                 <Label className="form-label">
-                  {i18n.t('BOOKING.TOTAL_PAYMENT')}
+                  {`${i18n.t('BOOKING.TOTAL_PAYMENT')} (VND)`}
                 </Label>
-                <Input
-                  value={formatVND(booking.services ? booking.services.reduce(
-                    (
-                      total, service,
-                    ) => total + service.quantity * service.price * (1 + service.tax / 100), 0,
-                  ) : 0)}
-                  disabled
+                <Controller
+                  name="totalPayment"
+                  control={control}
+                  render={({ field }) => <Input {...field} type="number" disabled />}
                 />
               </div>
             </Col>

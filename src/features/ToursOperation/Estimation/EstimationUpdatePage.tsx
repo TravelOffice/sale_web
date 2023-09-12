@@ -1,9 +1,19 @@
 import {
-  Button, Col, Form, FormFeedback, Label, Modal, ModalBody, ModalFooter, ModalHeader, Row, Spinner,
+  Button,
+  Col,
+  Form,
+  FormFeedback,
+  Label,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalHeader,
+  Row,
+  Spinner,
 } from 'reactstrap';
 import React, { useEffect } from 'react';
 
-import { Controller, useForm, useWatch } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import i18n from '@config/i18n';
 import FormItemInput from '@components/Form/FormItemInput';
 import FormItemSelect from '@components/Form/FormItemSelect';
@@ -26,12 +36,6 @@ interface EstimationEditPageProps {
 const payerOptions = [
   { label: i18n.t('TOURS_OPERATION.ESTIMATION.ORGANIZATION'), value: 'ORGANIZATION' },
   { label: i18n.t('TOURS_OPERATION.ESTIMATION.TOUR_GUIDE'), value: 'TOUR_GUIDE' },
-];
-
-const vatOptions = [
-  { label: i18n.t('TOURS_OPERATION.ESTIMATION.VAT_INCLUDED'), value: 'VAT_INCLUDED' },
-  { label: i18n.t('TOURS_OPERATION.ESTIMATION.VAT_NONE'), value: 'VAT_NONE' },
-  { label: i18n.t('TOURS_OPERATION.ESTIMATION.NO_INVOICE'), value: 'NO_INVOICE' },
 ];
 
 const schema = yup.object().shape({
@@ -81,11 +85,6 @@ const EstimationUpdatePage = (props: EstimationEditPageProps) => {
     defaultValues: {
       ...updatingEstimation,
     },
-  });
-
-  const selectedVatType = useWatch({
-    control,
-    name: 'vatStatus',
   });
 
   useEffect(() => {
@@ -139,7 +138,7 @@ const EstimationUpdatePage = (props: EstimationEditPageProps) => {
           <Form onSubmit={handleSubmit(onSubmit)}>
 
             <ModalHeader toggle={() => toggleUpdateFormModal()}>
-              {i18n.t('TOURS_OPERATION.ESTIMATION.CREATE')}
+              {i18n.t('TOURS_OPERATION.ESTIMATION.EDIT')}
             </ModalHeader>
             <ModalBody>
               <Row>
@@ -204,40 +203,18 @@ const EstimationUpdatePage = (props: EstimationEditPageProps) => {
               <Row>
                 <Col md={6}>
                   <div className="mb-2">
-                    <Label className="form-label" for="vatStatus">
-                      {i18n.t('TOURS_OPERATION.ESTIMATION.VAT_STATUS')}
+                    <Label className="form-label" for="vat">
+                      {i18n.t('TOURS_OPERATION.ESTIMATION.VAT')}
                       {' '}
                       <span className="text-danger">{' *'}</span>
                     </Label>
-                    <FormItemSelect
+                    <FormItemInput
                       control={control}
-                      name="vatStatus"
-                      options={vatOptions}
-                      isClearable
                       errors={errors}
+                      name="vat"
                     />
                   </div>
                 </Col>
-                {
-                  selectedVatType === 'VAT_NONE' ? (
-                    <Col md={6}>
-                      <div className="mb-2">
-                        <Label className="form-label" for="vat">
-                          {i18n.t('TOURS_OPERATION.ESTIMATION.VAT')}
-                          {' '}
-                          <span className="text-danger">{' *'}</span>
-                        </Label>
-                        <FormItemInput
-                          control={control}
-                          errors={errors}
-                          name="vat"
-                        />
-                      </div>
-                    </Col>
-                  ) : <></>
-                }
-              </Row>
-              <Row>
                 <Col md={6}>
                   <div className="mb-2">
                     <Label className="form-label" for="payer">

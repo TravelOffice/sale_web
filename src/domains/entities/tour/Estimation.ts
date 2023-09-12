@@ -1,13 +1,11 @@
 import { Supplier } from '@domain/entities/supplier';
 import { ServiceType } from './Supplier';
 
-export const vatStatuses = [
-  'VAT_NONE',
-  'VAT_INCLUDED',
-  'NO_INVOICE',
-];
-
-export type VatStatus = typeof vatStatuses[number];
+export enum VatStatus {
+  VAT_NONE = 'VAT_NONE',
+  VAT_INCLUDED = 'VAT_INCLUDED',
+  NO_INVOICE = 'NO_INVOICE',
+}
 
 export const payerTypes = [
   'ORGANIZATION',
