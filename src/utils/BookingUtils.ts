@@ -128,12 +128,20 @@ export const updateBookingSchema = yup.object().shape({
   sourceId: yup
     .string()
     .required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.FORM.SOURCE') })),
+  totalPaid: yup
+    .number()
+    .typeError(i18n.t('COMMON.VALIDATE_INPUT_NUMBER_MSG'))
+    .optional()
+    .moreThan(0, i18n.t('BOOKING.VALIDATE_MIN_VALUE_TOTAL_PAID_MSG'))
+    .lessThan(yup.ref('totalPayment'), i18n.t('BOOKING.VALIDATE_MAX_VALUE_TOTAL_PAID_MSG')),
   services: yup.array().of(validateServiceSchema).optional(),
 });
 
 export const confirmBookingSchema = yup.object().shape({
   departureTourId: yup.string().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('DEPARTURE_TOUR.DEPARTURE_TOUR') })),
-  totalPaid: yup.number().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.TOTAL_PAID') })),
+  totalPaid: yup.number().required(i18n.t('COMMON.FIELD_IS_REQUIRED', { field: i18n.t('BOOKING.TOTAL_PAID') }))
+    .moreThan(0, i18n.t('BOOKING.VALIDATE_MIN_VALUE_TOTAL_PAID_MSG'))
+    .lessThan(yup.ref('totalPayment'), i18n.t('BOOKING.VALIDATE_MAX_VALUE_TOTAL_PAID_MSG')),
 });
 
 export const paymentPendingSchema = yup.object().shape({

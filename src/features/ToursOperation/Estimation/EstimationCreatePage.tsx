@@ -19,7 +19,7 @@ import FormItemSelect from '@components/Form/FormItemSelect';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup/dist/yup';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { CreateEstimationFormData, Estimation } from '@domain/entities/tour/Estimation';
+import { CreateEstimationFormData, Estimation, VatStatus } from '@domain/entities/tour/Estimation';
 import { tourPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
 import { useParams } from 'react-router-dom';
@@ -51,12 +51,6 @@ const serviceTypeOptions = [
   { label: i18n.t('TOURS_OPERATION.ESTIMATION.SIGHT_SEEING_TICKET'), value: 'SIGHT_SEEING_TICKET' },
   { label: i18n.t('TOURS_OPERATION.ESTIMATION.FLIGHT_TICKET'), value: 'FLIGHT_TICKET' },
   { label: i18n.t('TOURS_OPERATION.ESTIMATION.OTHER'), value: 'OTHER' },
-];
-
-const vatOptions = [
-  { label: i18n.t('TOURS_OPERATION.ESTIMATION.VAT_INCLUDED'), value: 'VAT_INCLUDED' },
-  { label: i18n.t('TOURS_OPERATION.ESTIMATION.VAT_NONE'), value: 'VAT_NONE' },
-  { label: i18n.t('TOURS_OPERATION.ESTIMATION.NO_INVOICE'), value: 'NO_INVOICE' },
 ];
 
 const schema = yup.object().shape({
@@ -117,7 +111,7 @@ const EstimationCreatePage = (props: EstimationCreatePageProps) => {
       supplierId: undefined,
       estimatedPrice: 1000,
       estimatedQuantity: 1,
-      vatStatus: undefined,
+      vatStatus: VatStatus.VAT_NONE,
       vat: 0,
     },
   });
@@ -125,11 +119,6 @@ const EstimationCreatePage = (props: EstimationCreatePageProps) => {
   const selectedServiceType = useWatch({
     control,
     name: 'serviceType',
-  });
-
-  const selectedVatType = useWatch({
-    control,
-    name: 'vatStatus',
   });
 
   const filteredSuppliers = useMemo(() => {
@@ -320,22 +309,6 @@ const EstimationCreatePage = (props: EstimationCreatePageProps) => {
               <Row>
                 <Col md={6}>
                   <div className="mb-2">
-                    <Label className="form-label" for="vatStatus">
-                      {i18n.t('TOURS_OPERATION.ESTIMATION.VAT_STATUS')}
-                      {' '}
-                      <span className="text-danger">{' *'}</span>
-                    </Label>
-                    <FormItemSelect
-                      control={control}
-                      name="vatStatus"
-                      options={vatOptions}
-                      isClearable
-                      errors={errors}
-                    />
-                  </div>
-                </Col>
-                <Col md={6}>
-                  <div className="mb-2">
                     <Label className="form-label" for="vat">
                       {i18n.t('TOURS_OPERATION.ESTIMATION.VAT')}
                       {' '}
@@ -345,12 +318,9 @@ const EstimationCreatePage = (props: EstimationCreatePageProps) => {
                       control={control}
                       errors={errors}
                       name="vat"
-                      disabled={selectedVatType !== 'VAT_NONE'}
                     />
                   </div>
                 </Col>
-              </Row>
-              <Row>
                 <Col md={6}>
                   <div className="mb-2">
                     <Label className="form-label" for="payer">

@@ -101,7 +101,6 @@ const DepartureTourCreatePage = () => {
       endingLocation: '',
       durationInDays: 0,
       durationInNights: 0,
-      status: TourStatus.ONSALE,
       policiesAndRegulations: {},
     },
   });

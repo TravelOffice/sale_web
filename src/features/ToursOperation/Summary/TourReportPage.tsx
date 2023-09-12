@@ -127,10 +127,10 @@ export default function TourReportPage() {
                       <th style={{ minWidth: 250 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.SUPPLIER')}</th>
                       <th style={{ minWidth: 150 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.SERVICE_NAME')}</th>
                       <th style={{ minWidth: 250 }}>{i18n.t('COMMON.DETAILS')}</th>
-                      <th style={{ minWidth: 250 }}>{i18n.t('COMMON.SUMMARY')}</th>
-                      <th style={{ minWidth: 100 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.TEMPORARY_CALCULATED')}</th>
-                      <th style={{ minWidth: 100 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.TOTAL_VAT')}</th>
-                      <th style={{ minWidth: 150 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.PAYMENT')}</th>
+                      <th style={{ minWidth: 250 }}>{i18n.t('TOURS_OPERATION.ACTUAL_USAGE')}</th>
+                      <th style={{ minWidth: 100 }}>{i18n.t('TOURS_OPERATION.BEFORE_VAT')}</th>
+                      <th style={{ minWidth: 100 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.VAT')}</th>
+                      <th style={{ minWidth: 150 }}>{i18n.t('TOURS_OPERATION.AFTER_VAT')}</th>
                       <th style={{ minWidth: 150 }}>{i18n.t('TOURS_OPERATION.ESTIMATION.PAYER')}</th>
                       <th style={{ minWidth: 250 }}>{i18n.t('COMMON.NOTE')}</th>
                       <th style={{ minWidth: 100 }}>{i18n.t('COMMON.ACTIONS')}</th>
@@ -222,25 +222,13 @@ export default function TourReportPage() {
                                   {': '}
                                   {estimation.estimatedQuantity}
                                   <br />
-                                  {
-                                    estimation.vatStatus === 'VAT_INCLUDED' ? (
-                                      <span className="fst-italic text-success">
-                                        (
-                                        {
-                                          generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
-                                        }
-                                        )
-                                      </span>
-                                    ) : (
-                                      <span className="fst-italic">
-                                        (
-                                        {
-                                          generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
-                                        }
-                                        )
-                                      </span>
+                                  <span className="fst-italic">
+                                    (
+                                    {
+                                        generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
+                                      }
                                     )
-                                  }
+                                  </span>
 
                                 </td>
                                 <td>
@@ -264,25 +252,13 @@ export default function TourReportPage() {
                                   {': '}
                                   {estimation.actualQuantity}
                                   <br />
-                                  {
-                                    estimation.vatStatus === 'VAT_INCLUDED' ? (
-                                      <span className="fst-italic text-success">
-                                        (
-                                        {
-                                          generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
-                                        }
-                                        )
-                                      </span>
-                                    ) : (
-                                      <span className="fst-italic">
-                                        (
-                                        {
-                                          generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
-                                        }
-                                        )
-                                      </span>
+                                  <span className="fst-italic">
+                                    (
+                                    {
+                                        generateI18nForTourOperation(`ESTIMATION.${estimation.vatStatus}`)
+                                      }
                                     )
-                                  }
+                                  </span>
 
                                 </td>
                                 <td>{formatCurrency(calTemporaryPriceEstimation(estimation))}</td>

@@ -7,6 +7,7 @@ import { Estimation } from '@domain/entities/tour/Estimation';
 import { DailyKey } from '@domain/entities/tour/TourPlan';
 import { numberArrayOf } from '@utils/ArrayUtils';
 import TourOperationStatus from '@domain/entities/tour/TourOperationstatus';
+import { Booking } from '@domain/entities/booking/Booking';
 
 export function generateI18nForDepartureTourOperation(type: string) {
   const key = `TOURS_OPERATION.${type}`;
@@ -148,4 +149,16 @@ export function getAllowedOperationStatus(currentStatus: TourOperationStatus) {
 
   // Fallback to empty array, which means no allowed status
   return [];
+}
+
+// Calculate total paid amount of a tour from paid amount of each booking
+export function calculateTotalPaidOfTour(booking: Booking[]): number {
+  return booking.reduce((total, item) => (item.totalPaid ? total + item.totalPaid : total), 0);
+}
+
+// Calculate total payment amount of a tour from payment amount of each booking
+export function calculateTotalPaymentOfTour(booking: Booking[]): number {
+  return booking.reduce((
+    total, item,
+  ) => (item.totalPayment ? total + item.totalPayment : total), 0);
 }

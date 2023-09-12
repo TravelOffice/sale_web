@@ -1,10 +1,21 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import {
-  Button, Card, CardBody, CardHeader, CardTitle, Col, Form, FormFeedback, Label, Row, Spinner,
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  Col,
+  Form,
+  FormFeedback,
+  Input,
+  Label,
+  Row,
+  Spinner,
 } from 'reactstrap';
 import { useParams } from 'react-router-dom';
 import i18n from '@config/i18n';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
   useMutation, useQueries, useQuery, useQueryClient,
@@ -22,7 +33,12 @@ import FormItemSelect from '@components/Form/FormItemSelect';
 import FormItemDatePicker from '@components/Form/FormItemDatePicker';
 import { RoleEnum } from '@domain/entities/User';
 import { BookingTourType, BookingTourTypeEnum } from '@domain/entities/booking/Booking';
-import { generateI18nForBooking, isEditableBooking, updateBookingSchema } from '@utils/BookingUtils';
+import {
+  calculatePaymentTotal,
+  generateI18nForBooking,
+  isEditableBooking,
+  updateBookingSchema,
+} from '@utils/BookingUtils';
 import BookingService from '@features/Booking/components/tabs/information/BookingService';
 import moment from 'moment/moment';
 import { generateUserDisplayName } from '@utils/UserUtils';
@@ -340,7 +356,7 @@ export default function BookingDetailTab() {
                 <Row>
                   <Col md={6}>
                     <div className="mb-1">
-                      <Label className="form-label" for="assigneeId">
+                      <Label className="form-label" for="totalPaid">
                         {`${i18n.t('BOOKING.TOTAL_PAID')} (VND)`}
                       </Label>
                       <FormItemInput
@@ -349,6 +365,23 @@ export default function BookingDetailTab() {
                         name="totalPaid"
                         errors={errors}
                         disabled={!isEditable}
+                      />
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="mb-1">
+                      <Label className="form-label" for="totalPayment">
+                        {`${i18n.t('BOOKING.TOTAL_PAYMENT')} (VND)`}
+                      </Label>
+                      <Controller
+                        name="totalPayment"
+                        control={control}
+                        defaultValue={
+                          booking && booking.services
+                            ? calculatePaymentTotal(booking.services)
+                            : 0
+                        }
+                        render={({ field }) => <Input {...field} type="number" disabled />}
                       />
                     </div>
                   </Col>

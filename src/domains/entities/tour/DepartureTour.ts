@@ -34,7 +34,6 @@ export type CreateDepartureTourFormData = Pick<DepartureTour,
 'durationInNights' |
 'services' |
 'policiesAndRegulations' |
-'status' |
 'isOpen' |
 'operationStatus'
 >;
