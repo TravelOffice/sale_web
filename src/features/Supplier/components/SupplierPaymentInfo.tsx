@@ -95,6 +95,8 @@ const SupplierPaymentInfo: React.FC<PaymentInfoItemProps> = ({
       <Button
         type="button"
         color="primary"
+        size="sm"
+        outline
         onClick={() => append({
           bankName: '', bankBranch: '', accountName: '', accountNumber: '',
         })}

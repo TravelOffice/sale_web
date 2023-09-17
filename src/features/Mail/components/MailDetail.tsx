@@ -2,9 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { MailMessage } from '@domain/entities/mail/MailMessage';
 import { Trans, useTranslation } from 'react-i18next';
 import classNames from 'classnames';
-import {
-  ChevronLeft, Edit2, Folder, Info,
-} from 'react-feather';
+import { ChevronLeft, Folder } from 'react-feather';
 import {
   Card, CardBody, Col, DropdownItem, DropdownMenu, DropdownToggle, Row, UncontrolledDropdown,
 } from 'reactstrap';
@@ -114,33 +112,6 @@ export default function MailDetail(props: MailDetailComponentProps) {
                           )
                         ))
                       }
-                      <DropdownItem
-                        tag="a"
-                        href="/"
-                        onClick={(e) => handleFolderClick(e, 'draft', mail)}
-                        className="d-flex align-items-center"
-                      >
-                        <Edit2 className="me-50" size={18} />
-                        <span>{t('MAIL.DRAFT')}</span>
-                      </DropdownItem>
-                      <DropdownItem
-                        tag="a"
-                        href="/"
-                        onClick={(e) => handleFolderClick(e, 'spam', mail)}
-                        className="d-flex align-items-center"
-                      >
-                        <Info className="me-50" size={18} />
-                        <span>{t('MAIL.SPAM')}</span>
-                      </DropdownItem>
-                      <DropdownItem
-                        tag="a"
-                        href="/"
-                        onClick={(e) => handleFolderClick(e, 'trash', mail)}
-                        className="d-flex align-items-center"
-                      >
-                        <DeleteMailButton mails={[mail]} />
-                        <span>{t('MAIL.DELETE')}</span>
-                      </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
                 </li>

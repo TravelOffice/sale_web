@@ -7,7 +7,7 @@ import { generateEditableUrlForSupplier } from '@utils/SupplierUtils';
 import {
   DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
-import { Archive, MoreVertical, Trash2 } from 'react-feather';
+import { Archive, MoreVertical } from 'react-feather';
 
 const supplierColumns: TableColumn<Supplier>[] = [
   {
@@ -46,17 +46,6 @@ const supplierColumns: TableColumn<Supplier>[] = [
             <DropdownItem tag={Link} className="w-100" to={generateEditableUrlForSupplier(supplier.code)}>
               <Archive size={14} className="me-50" />
               <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
-            </DropdownItem>
-            <DropdownItem
-              tag="a"
-              href="/"
-              className="w-100"
-              onClick={(e) => {
-                e.preventDefault();
-              }}
-            >
-              <Trash2 size={14} className="me-50" />
-              <span className="align-middle">{i18n.t('COMMON.DELETE')}</span>
             </DropdownItem>
           </DropdownMenu>
         </UncontrolledDropdown>

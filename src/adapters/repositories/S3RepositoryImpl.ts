@@ -1,6 +1,6 @@
 import { apiProvider, mailApiProvider } from '@adapter/infrastructures';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { PresignedUrl } from '@domain/entities/chat/PresignedUrl';
+import { PresignedUrl, PresignedUrlTypes } from '@domain/entities/chat/PresignedUrl';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 import { S3Repository } from './interfaces/S3Repository';
 
@@ -180,5 +180,27 @@ export default class S3RepositoryImpl implements S3Repository {
       url: attachmentUrl,
       cdn: response.data.cdn,
     } as PresignedUrl;
+  }
+
+  getPresignedUrl = async (file: File, presignedUrlType: PresignedUrlTypes) => {
+    const response = await apiProvider.authorizedRequest.get('/presigned-urls', {
+      queryParams: {
+        fileType: file.type,
+        fileName: file.name,
+        presignedUrlType,
+      },
+    });
+    return response.data;
+  }
+
+  uploadFileViaPresignedURL = async (file: File, presignedUrl: string) => {
+    await fetch(presignedUrl, {
+      method: 'PUT',
+      body: file,
+      headers: {
+        'Content-Type': file.type,
+      },
+    });
+    return presignedUrl;
   }
 }
