@@ -1,12 +1,13 @@
 import { Conversation } from '@domain/entities/chat/Conversation';
-import { PresignedUrl } from '@domain/entities/chat/PresignedUrl';
+import { PresignedUrl, PresignedUrlTypes } from '@domain/entities/chat/PresignedUrl';
 import { MailAttachment } from '@domain/entities/mail/MailAttachment';
 
 export interface S3Repository {
+  getPresignedUrl: (file: File, presignedUrlType: PresignedUrlTypes) => Promise<PresignedUrl>
+  uploadFileViaPresignedURL: (file: File, presignedUrl: string) => Promise<string>
   uploadChatAttachmentViaPresignedURL: (
     pageId: string, customerId: string, file: File,
   ) => Promise<PresignedUrl>
-
   uploadFileToChatPlatform: (
     sender: string, fileType: string, conversation: Conversation, fileKey: string, fileName: string
   ) => Promise<any>

@@ -49,7 +49,7 @@ export function filterBookings(bookings: Booking[], params: BookingFilterParams)
  */
 export function generateI18nForBooking(type: string) {
   const key = `BOOKING.${type}`;
-  return i18n.t(key).toUpperCase();
+  return i18n.t(key);
 }
 
 /**

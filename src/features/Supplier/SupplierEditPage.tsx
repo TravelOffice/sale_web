@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 
 import { EditorState } from 'draft-js';
-import { Supplier, UpdateSupplierFormData } from '@domain/entities/supplier';
+import { Quote, Supplier, UpdateSupplierFormData } from '@domain/entities/supplier';
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
@@ -44,6 +44,7 @@ const SupplierEditPage = () => {
     note,
     setNote,
   ] = useState(EditorState.createEmpty());
+  const [quotes, setQuotes] = useState<Array<Quote>>([]);
 
   const {
     handleSubmit,
@@ -79,6 +80,10 @@ const SupplierEditPage = () => {
         // using the stringToEditorState function.
         setNote(stringToEditorState(supplier.note));
       }
+      // If quotes exists, set quotes to the quotes state.
+      if (supplier.quotes) {
+        setQuotes(supplier.quotes);
+      }
     }
   }, [supplier]);
 
@@ -93,6 +98,7 @@ const SupplierEditPage = () => {
         title: i18n.t('COMMON.SUCCESS'),
         message: i18n.t('SUPPLIER.EDIT_SUPPLIER_SUCCESSFULLY', { supplierName: updatedSupplier.name }),
       });
+      history.push('/apps/suppliers/list');
     },
     onError: (error: Error) => {
       toasty.show({
@@ -104,11 +110,15 @@ const SupplierEditPage = () => {
   });
 
   const onSubmit = (data: UpdateSupplierFormData) => {
-    mutate(data);
+    mutate({ ...data, quotes });
   };
 
   const goBack = () => {
     history.goBack();
+  };
+
+  const handleChangeQuotes = (newQuotes: Array<Quote>) => {
+    setQuotes(newQuotes);
   };
 
   return (
@@ -120,8 +130,8 @@ const SupplierEditPage = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <SupplierCommonInfo control={control} errors={errors} note={note} setNote={setNote} />
           <SupplierQuote
-            control={control}
-            errors={errors}
+            quotes={quotes}
+            handleChangeQuotes={handleChangeQuotes}
           />
           <SupplierPaymentInfo
             control={control}

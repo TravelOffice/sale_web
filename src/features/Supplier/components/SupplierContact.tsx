@@ -64,7 +64,7 @@ const SupplierContact: React.FC<ContactItemProps> = ({
         </div>
       ))}
 
-      <Button type="button" color="primary" onClick={() => append({ name: '', email: '', phoneNumber: '' })}>
+      <Button type="button" color="primary" size="sm" outline onClick={() => append({ name: '', email: '', phoneNumber: '' })}>
         {i18n.t('SUPPLIER.ADD_CONTACT')}
       </Button>
     </div>

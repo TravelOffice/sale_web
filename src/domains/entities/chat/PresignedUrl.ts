@@ -3,3 +3,7 @@ export interface PresignedUrl {
   url: string,
   cdn: string,
 }
+
+export enum PresignedUrlTypes {
+  SUPPLIER_QUOTE_ATTACHMENT = 'SUPPLIER_QUOTE_ATTACHMENT',
+}

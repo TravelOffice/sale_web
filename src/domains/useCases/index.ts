@@ -110,6 +110,11 @@ import DeleteRoleUseCaseImpl from '@domain/useCases/rolePermission/DeleteRoleUse
 import { DeleteRoleUseCase } from '@domain/useCases/interfaces/rolePermission/DeleteRoleUseCase';
 import GetSearchTokenUseCaseImpl from '@domain/useCases/mail/GetSearchTokenUseCaseImpl';
 import { GetSearchTokenUseCase } from '@domain/useCases/interfaces/mail/GetSearchTokenUseCase';
+import {
+  UploadSupplierQuoteAttachmentUseCase,
+} from '@domain/useCases/interfaces/supplier/UploadSupplierQuoteAttachmentUseCase';
+import UploadSupplierQuoteAttachmentUseCaseImpl
+  from '@domain/useCases/supplier/UploadSupplierQuoteAttachmentUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -263,7 +268,8 @@ interface UseCases {
   getAllSuppliersUseCase: GetAllSuppliersUseCase,
   addSupplierUseCase: AddSupplierUseCase,
   updateSupplierUseCase: UpdateSupplierUseCase,
-  getSupplierUseCase: GetSupplierUseCase
+  getSupplierUseCase: GetSupplierUseCase,
+  uploadSupplierQuoteAttachmentUseCase: UploadSupplierQuoteAttachmentUseCase,
   // Payment Voucher
   getAllPaymentVouchersUseCase: GetAllPaymentVouchersUseCase,
   createPaymentVoucherUseCase: CreatePaymentVoucherUseCase,
@@ -365,6 +371,7 @@ const useCases: UseCases = {
   addSupplierUseCase: new AddSupplierUseCaseImpl(),
   updateSupplierUseCase: new UpdateSupplierUseCaseImpl(),
   getSupplierUseCase: new GetSupplierUseCaseImpl(),
+  uploadSupplierQuoteAttachmentUseCase: new UploadSupplierQuoteAttachmentUseCaseImpl(),
   // PaymentVoucher
   getAllPaymentVouchersUseCase: new GetAllPaymentVouchersUseCaseImpl(),
   createPaymentVoucherUseCase: new CreatePaymentVoucherUseCaseImpl(),
@@ -458,6 +465,7 @@ export const {
   addSupplierUseCase,
   updateSupplierUseCase,
   getSupplierUseCase,
+  uploadSupplierQuoteAttachmentUseCase,
   // Payment Voucher
   getAllPaymentVouchersUseCase,
   createPaymentVoucherUseCase,

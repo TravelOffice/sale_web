@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 
 import { EditorState } from 'draft-js';
-import { CreateSupplierFormData, Supplier } from '@domain/entities/supplier';
+import { CreateSupplierFormData, Quote, Supplier } from '@domain/entities/supplier';
 
 // ** Styles
 import '@styles/react/libs/flatpickr/flatpickr.scss';
@@ -32,6 +32,7 @@ const SupplierCreatePage = () => {
     note,
     setNote,
   ] = useState(EditorState.createEmpty());
+  const [quotes, setQuotes] = useState<Array<Quote>>([]);
 
   const {
     handleSubmit,
@@ -77,11 +78,15 @@ const SupplierCreatePage = () => {
   });
 
   const onSubmit = (data: CreateSupplierFormData) => {
-    createSupplierMutation(data);
+    createSupplierMutation({ ...data, quotes });
   };
 
   const goBack = () => {
     history.goBack();
+  };
+
+  const handleChangeQuotes = (newQuotes: Array<Quote>) => {
+    setQuotes(newQuotes);
   };
 
   return (
@@ -93,8 +98,8 @@ const SupplierCreatePage = () => {
         <Form onSubmit={handleSubmit(onSubmit)}>
           <SupplierCommonInfo control={control} errors={errors} note={note} setNote={setNote} />
           <SupplierQuote
-            control={control}
-            errors={errors}
+            quotes={quotes}
+            handleChangeQuotes={handleChangeQuotes}
           />
           <SupplierPaymentInfo
             control={control}
