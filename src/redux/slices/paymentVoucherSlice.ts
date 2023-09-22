@@ -5,12 +5,16 @@ import { PaymentVoucher } from '@domain/entities/paymentVoucher/PaymentVoucher';
 interface PaymentVoucherState {
   currentPaymentVoucher?: PaymentVoucher,
   openUpdateModal: boolean,
+  openApproveModal: boolean,
   updatePaymentVoucherLoading: boolean,
+  approvePaymentVoucherLoading: boolean,
 }
 
 const initialState: PaymentVoucherState = {
   openUpdateModal: false,
+  openApproveModal: false,
   updatePaymentVoucherLoading: false,
+  approvePaymentVoucherLoading: false,
 };
 
 const paymentVoucherSlice = createSlice({
@@ -19,11 +23,15 @@ const paymentVoucherSlice = createSlice({
   reducers: {
     setSelectedPaymentVoucher: (state, action: PayloadAction<PaymentVoucher>) => {
       state.currentPaymentVoucher = action.payload;
-      state.openUpdateModal = true;
     },
     unSelectPaymentVoucher: (state) => {
-      state.openUpdateModal = false;
       state.currentPaymentVoucher = undefined;
+    },
+    setOpenUpdateModal: (state, action: PayloadAction<boolean>) => {
+      state.openUpdateModal = action.payload;
+    },
+    setOpenApproveModal: (state, action: PayloadAction<boolean>) => {
+      state.openApproveModal = action.payload;
     },
   },
 });

@@ -1003,7 +1003,12 @@
     "ATTACHMENT": "Attachment",
     "TOUR_ID": "Tour ID",
     "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Payment voucher created successfully",
-    "UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Update payment voucher successfully"
+    "UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Update payment voucher successfully",
+    "APPROVE": "Approve",
+    "CONFIRM_APPROVE_PAYMENT_VOUCHER_TITLE": "Approve payment voucher",
+    "CONFIRM_APPROVE_PAYMENT_VOUCHER_MSG": "Are you sure to approve this payment voucher?",
+    "DOWNLOAD_ATTACHMENT": "Download attachment",
+    "APPROVE_PAYMENT_VOUCHER_SUCCESSFULLY_MSG": "Approve payment voucher successfully"
   },
   "SOURCE": {
     "ADD": "Add source",

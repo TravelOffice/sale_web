@@ -1003,7 +1003,12 @@
     "ATTACHMENT": "Đính kèm",
     "TOUR_ID": "Mã tour",
     "CREATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Tạo phiếu chi thành công",
-    "UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Cập nhật phiếu chi thành công"
+    "UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY": "Cập nhật phiếu chi thành công",
+    "APPROVE": "Duyệt",
+    "CONFIRM_APPROVE_PAYMENT_VOUCHER_TITLE": "Duyệt phiếu chi",
+    "CONFIRM_APPROVE_PAYMENT_VOUCHER_MSG": "Bạn có chắc chắn muốn duyệt phiếu chi này?",
+    "DOWNLOAD_ATTACHMENT": "Tải file đính kèm",
+    "APPROVE_PAYMENT_VOUCHER_SUCCESSFULLY_MSG": "Duyệt phiếu chi thành công"
   },
   "SOURCE": {
     "ADD": "Thêm nguồn",

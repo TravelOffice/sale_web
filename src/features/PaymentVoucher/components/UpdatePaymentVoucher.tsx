@@ -71,6 +71,7 @@ const PaymentVoucherUpdatePage = () => {
 
   const toggleUpdateFormModal = () => {
     dispatch(paymentVoucherActions.unSelectPaymentVoucher());
+    dispatch(paymentVoucherActions.setOpenUpdateModal(false));
   };
 
   useEffect(() => {
@@ -132,6 +133,21 @@ const PaymentVoucherUpdatePage = () => {
                     />
                     {errors.amount
                       && <FormFeedback>{errors.amount.message}</FormFeedback>}
+                  </div>
+                </Col>
+                <Col md={7}>
+                  <div className="mb-2">
+                    <Label className="form-label" for="receiverId">
+                      {i18n.t('PAYMENT_VOUCHER.RECEIVER')}
+                      {' '}
+                      <span className="text-danger">{' *'}</span>
+                    </Label>
+                    <FormItemInput
+                      control={control}
+                      errors={errors}
+                      name="receiverId"
+                      disabled
+                    />
                   </div>
                 </Col>
               </Row>
@@ -212,32 +228,6 @@ const PaymentVoucherUpdatePage = () => {
                     name="signGroup"
                   />
                 </div>
-                <Row>
-                  <Col className="mb-2">
-                    <FormItemInput
-                      inputType="checkbox"
-                      control={control}
-                      name="includeTax"
-                      errors={{}}
-                    />
-                    <Label className="form-label" for="includeTax">
-                      &nbsp;
-                      {i18n.t('PAYMENT_VOUCHER.INCLUDE_TAX')}
-                    </Label>
-                  </Col>
-                  <Col className="mb-2">
-                    <FormItemInput
-                      inputType="checkbox"
-                      control={control}
-                      name="quickApproval"
-                      errors={{}}
-                    />
-                    <Label className="form-label" for="quickApproval">
-                      &nbsp;
-                      {i18n.t('PAYMENT_VOUCHER.QUICk_APPROVE')}
-                    </Label>
-                  </Col>
-                </Row>
               </Row>
               <div className="mb-2">
                 <Label className="form-label" for="attachment">

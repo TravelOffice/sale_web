@@ -47,6 +47,7 @@ const PERMISSIONS = {
   update_supplier: 'update_supplier',
   assign_tour_operator: 'assign_tour_operator',
   self_assign_tour_operator: 'self_assign_tour_operator',
+  approve_payment_voucher: 'approve_payment_voucher',
 };
 
 export default PERMISSIONS;

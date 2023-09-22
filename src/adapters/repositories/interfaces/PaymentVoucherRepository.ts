@@ -8,4 +8,6 @@ export interface PaymentVoucherRepository {
   updatePaymentVoucher(paymentVoucher: PaymentVoucher): Promise<PaymentVoucher>
 
   deletePaymentVoucher(id: string): Promise<string>
+
+  approvePaymentVoucher(paymentVoucherCode: string): Promise<PaymentVoucher>
 }

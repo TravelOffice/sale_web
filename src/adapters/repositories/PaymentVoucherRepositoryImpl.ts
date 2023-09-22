@@ -22,4 +22,9 @@ export default class PaymentVoucherRepositoryImpl implements PaymentVoucherRepos
     const response = await apiProvider.authorizedRequest.delete(`payment-vouchers/${id}`);
     return response.data;
   }
+
+  approvePaymentVoucher = async (paymentVoucherCode: string) => {
+    const response = await apiProvider.authorizedRequest.put(`payment-vouchers/${paymentVoucherCode}/approve`);
+    return response.data;
+  }
 }

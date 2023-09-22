@@ -87,6 +87,7 @@ export const useUpdatePaymentVoucherMutation = (onSuccessCallback: () => void) =
       message: i18n.t('PAYMENT_VOUCHER.UPDATE_PAYMENT_VOUCHER_SUCCESSFULLY'),
     });
     dispatch(paymentVoucherActions.unSelectPaymentVoucher);
+    dispatch(paymentVoucherActions.setOpenUpdateModal(false));
     onSuccessCallback();
   };
 
@@ -144,4 +145,8 @@ export function useCurrentPaymentVoucher() {
 
 export function useOpenUpdateModal() {
   return useSelector((state: RootState) => state.paymentVoucher.openUpdateModal);
+}
+
+export function useOpenApproveModal() {
+  return useSelector((state: RootState) => state.paymentVoucher.openApproveModal);
 }

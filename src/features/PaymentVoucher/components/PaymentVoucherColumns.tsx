@@ -4,13 +4,15 @@ import { TableColumn } from 'react-data-table-component';
 import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
-import { Edit, MoreVertical, Trash2 } from 'react-feather';
+import { Edit, MoreVertical } from 'react-feather';
 import { PaymentVoucher, PaymentVoucherStatus } from '@domain/entities/paymentVoucher/PaymentVoucher';
 import moment from 'moment';
 import { formatVND } from '@utils/CommonUtils';
 import { Link } from 'react-router-dom';
 import { paymentVoucherActions } from '@redux/slices/paymentVoucherSlice';
 import { useDispatch } from 'react-redux';
+import PERMISSIONS from '@utils/PermissionUtils';
+import { useAccessControl } from '@hooks/auth';
 
 export const paymentVoucherTypesColors: Record<PaymentVoucherStatus, string> = {
   APPROVED: 'light-success',
@@ -26,13 +28,15 @@ const ActionsCell = ({ paymentVoucher }: {
   paymentVoucher: PaymentVoucher
 }) => {
   const dispatch = useDispatch();
-  const onEditPaymentVoucher: MouseEventHandler = (e) => {
-    e.preventDefault();
+  const { can } = useAccessControl();
+  const onEditPaymentVoucher: MouseEventHandler = () => {
+    dispatch(paymentVoucherActions.setOpenUpdateModal(true));
     dispatch(paymentVoucherActions.setSelectedPaymentVoucher(paymentVoucher));
   };
 
-  const onDeletePaymentVoucher: MouseEventHandler = (e) => {
-    e.preventDefault();
+  const onApprovePaymentVoucher: MouseEventHandler = () => {
+    dispatch(paymentVoucherActions.setOpenApproveModal(true));
+    dispatch(paymentVoucherActions.setSelectedPaymentVoucher(paymentVoucher));
   };
 
   return (
@@ -49,12 +53,17 @@ const ActionsCell = ({ paymentVoucher }: {
                 {i18n.t('COMMON.EDIT')}
               </span>
             </DropdownItem>
-            <DropdownItem className="w-100">
-              <Trash2 size={14} className="me-50" />
-              <span className="align-middle" onClick={onDeletePaymentVoucher}>
-                {i18n.t('COMMON.DELETE')}
-              </span>
-            </DropdownItem>
+            {
+              can(PERMISSIONS.approve_payment_voucher)
+              && (
+                <DropdownItem className="w-100">
+                  <Edit size={14} className="me-50" />
+                  <span className="align-middle" onClick={onApprovePaymentVoucher}>
+                    {i18n.t('PAYMENT_VOUCHER.APPROVE')}
+                  </span>
+                </DropdownItem>
+              )
+            }
           </DropdownMenu>
         </UncontrolledDropdown>
       </div>
