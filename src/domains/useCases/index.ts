@@ -115,6 +115,8 @@ import {
 } from '@domain/useCases/interfaces/supplier/UploadSupplierQuoteAttachmentUseCase';
 import UploadSupplierQuoteAttachmentUseCaseImpl
   from '@domain/useCases/supplier/UploadSupplierQuoteAttachmentUseCaseImpl';
+import { ApprovePaymentVoucherUseCase } from '@domain/useCases/interfaces/paymentVoucher/ApprovePaymentVoucherUseCase';
+import ApprovePaymentVoucherFileUseCaseImpl from '@domain/useCases/paymentVoucher/ApprovePaymentVoucherFileUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -276,6 +278,7 @@ interface UseCases {
   updatePaymentVoucherUseCase: UpdatePaymentVoucherUseCase,
   deletePaymentVoucherUseCase: DeletePaymentVoucherUseCase,
   uploadPaymentVoucherFileUseCase: UploadPaymentVoucherFileUseCase,
+  approvePaymentVoucherUseCase: ApprovePaymentVoucherUseCase,
   // Marketplace
   getLinkedPostOnMarketplaceInfoUseCase: GetLinkedPostOnMarketplaceInfoUseCase,
 }
@@ -378,6 +381,7 @@ const useCases: UseCases = {
   updatePaymentVoucherUseCase: new UpdatePaymentVoucherUseCaseImpl(),
   deletePaymentVoucherUseCase: new DeletePaymentVoucherUseCaseImpl(),
   uploadPaymentVoucherFileUseCase: new UploadPaymentVoucherFileUseCaseImpl(),
+  approvePaymentVoucherUseCase: new ApprovePaymentVoucherFileUseCaseImpl(),
   // Marketplace
   getLinkedPostOnMarketplaceInfoUseCase: new GetLinkedPostOnMarketplaceInfoUseCaseImpl(),
 };
@@ -473,4 +477,5 @@ export const {
   deletePaymentVoucherUseCase,
   uploadPaymentVoucherFileUseCase,
   getLinkedPostOnMarketplaceInfoUseCase,
+  approvePaymentVoucherUseCase,
 } = useCases;

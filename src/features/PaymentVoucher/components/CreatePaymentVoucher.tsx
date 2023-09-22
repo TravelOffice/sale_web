@@ -238,32 +238,6 @@ const PaymentVoucherCreatePage = (props: PaymentVoucherCreatePageProps) => {
                     name="signGroup"
                   />
                 </div>
-                <Row>
-                  <Col className="mb-2">
-                    <FormItemInput
-                      inputType="checkbox"
-                      control={control}
-                      name="includeTax"
-                      errors={{}}
-                    />
-                    <Label className="form-label" for="includeTax">
-                      &nbsp;
-                      {i18n.t('PAYMENT_VOUCHER.INCLUDE_TAX')}
-                    </Label>
-                  </Col>
-                  <Col className="mb-2">
-                    <FormItemInput
-                      inputType="checkbox"
-                      control={control}
-                      name="quickApproval"
-                      errors={{}}
-                    />
-                    <Label className="form-label" for="quickApproval">
-                      &nbsp;
-                      {i18n.t('PAYMENT_VOUCHER.QUICk_APPROVE')}
-                    </Label>
-                  </Col>
-                </Row>
               </Row>
               <div className="mb-2">
                 <Label className="form-label" for="attachment">

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   ButtonProps, Card, CardBody, CardHeader, CardTitle, Col, Row,
 } from 'reactstrap';
@@ -12,9 +12,11 @@ import PaymentVoucherFilter, {
   PaymentVoucherFilterParams,
 } from '@features/PaymentVoucher/components/PaymentVoucherFilter';
 import filterPaymentVouchers from '@utils/PaymentVoucherUtils';
-import { usePaymentVouchers } from '@hooks/paymentVoucher';
+import { useOpenApproveModal, usePaymentVouchers } from '@hooks/paymentVoucher';
 import PaymentVoucherCreatePage from '@features/PaymentVoucher/components/CreatePaymentVoucher';
 import PaymentVoucherUpdatePage from '@features/PaymentVoucher/components/UpdatePaymentVoucher';
+import ApprovePaymentVoucherModal from '@features/PaymentVoucher/components/ApprovePaymentVoucherModal';
+import { Link } from 'react-router-dom';
 
 export default function PaymentVoucherListPage() {
   const [filterParams, setFilterParams] = useState<PaymentVoucherFilterParams>();
@@ -39,6 +41,11 @@ export default function PaymentVoucherListPage() {
       handleOnClick: () => toggleCreateFormModal(),
     },
   ];
+
+  const openApproveModal = useOpenApproveModal();
+  useEffect(() => {
+    refetch();
+  }, [openApproveModal]);
 
   const paymentVouchers = useMemo(() => {
     if (!allPaymentVouchers) return [];
@@ -71,7 +78,9 @@ export default function PaymentVoucherListPage() {
               {i18n.t('PAYMENT_VOUCHER.CREATOR')}
               :
               {' '}
-              <span className="fw-bolder text-primary">{data.creatorName}</span>
+              <Link to={`/apps/user/view/${data.creatorId}`} className="text-truncate text-body">
+                <span className="fw-bolder text-primary">{data.creatorName}</span>
+              </Link>
             </li>
             {
               data.attachment && (
@@ -132,6 +141,7 @@ export default function PaymentVoucherListPage() {
         receiverId={undefined}
       />
       <PaymentVoucherUpdatePage />
+      <ApprovePaymentVoucherModal />
     </div>
   );
 }
