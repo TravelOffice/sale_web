@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-  Route, RouteProps,
-} from 'react-router-dom';
+import { Route, RouteProps } from 'react-router-dom';
 import { useAuthStatus } from '@hooks/auth';
 import { getSSOPage } from '@utils/EnvUtils';
 import FallbackSpinner from '@components/FallbackSpinner/FallbackSpinner';
@@ -32,7 +30,7 @@ export default function AuthRoute(props: RouteProps) {
             return <FallbackSpinner />;
           }
           if (authStatus === 'notLoggedIn') {
-            return <RedirectToExternalUri to={`${SSO_PAGE}?redirect_uri=${window.location.href}`} />;
+            return <RedirectToExternalUri to={`${SSO_PAGE}/sign-in?redirect_uri=${window.location.href}`} />;
           }
           return children;
         }}
