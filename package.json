@@ -59,6 +59,8 @@
         "prop-types": "^15.8.1",
         "rc-input-number": "^8.0.0",
         "react": "^17.0.2",
+        "apexcharts": "^3.29.0",
+        "apexcharts-clevision": "^3.28.3",
         "react-country-flag": "^3.0.2",
         "react-csv": "^2.2.2",
         "react-currency-input-field": "^3.6.11",

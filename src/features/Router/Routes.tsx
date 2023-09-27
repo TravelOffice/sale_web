@@ -22,7 +22,6 @@ import ReceiptListPage from '@features/Receipt/ReceiptListPage';
 import BookingDetail from '@features/Booking/BookingDetailPage';
 import BookingCreateFromLeadPage from '@features/Booking/BookingCreateFromLeadPage';
 import SupplierListPage from '@features/Supplier/SupplierListPage';
-import CommingSoon from '@components/CommingSoon/CommingSoon';
 import ToursOperationMain from '@features/ToursOperation/ToursOperationMain';
 import SupplierCreatePage from '@features/Supplier/SupplierCreatePage';
 import PaymentVoucherListPage from '@features/PaymentVoucher/PaymentVoucherListPage';
@@ -35,17 +34,18 @@ import EstimationPage from '@features/ToursOperation/Estimation/EstimationPage';
 import SourceListPage from '@features/Source/SourceListPage';
 import TourLocationListPage from '@features/TourLocation/TourLocationListPage';
 import UserDetail from '@features/User/UserDetail';
+import Dashboard from '@features/Dashboard/Dashboard';
 
 const Routes: RoutePathConfig[] = [
   {
     path: '/',
     exact: true,
-    component: <NotFound />,
+    component: <Dashboard />,
   },
   {
     path: '/apps/dashboard',
     exact: true,
-    component: <CommingSoon />,
+    component: <Dashboard />,
   },
   {
     path: '/apps/chat',
