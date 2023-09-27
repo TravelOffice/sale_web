@@ -1,6 +1,6 @@
 import { getMarketplacePage } from './EnvUtils';
 
-export default function generateMarketplacePostUrl(postId: string) {
+export default function generateMarketplacePostUrl() {
   const marketplaceUrl = getMarketplacePage();
-  return `${marketplaceUrl}/posts/${postId}`;
+  return `${marketplaceUrl}/posts`;
 }

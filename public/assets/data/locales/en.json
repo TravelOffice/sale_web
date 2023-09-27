@@ -1034,7 +1034,7 @@
     "LIST": "Location list"
   },
   "MARKETPLACE": {
-    "MARKETPLACE_INFO_TOOLTIP":"{{modelName}} is available on Travel Connect and has been received {{totalOffers}} offers. Click to view more details.",
-    "MARKETPLACE_INFO_NOT_AVAILABLE": "{{modelName}} is not available on Travel Connect. Click to add tour post."
+    "MARKETPLACE_INFO_TOOLTIP":"{{modelName}} is available on Travel Connect and has been received total {{totalOffers}} offers. Click to view more details.",
+    "MARKETPLACE_INFO_NOT_AVAILABLE": "{{modelName}} is not available on Travel Connect. Go to Travel Connect and add new tour post."
   }
 }

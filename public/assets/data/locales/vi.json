@@ -1034,7 +1034,7 @@
     "LIST": "Danh sách địa điểm"
   },
   "MARKETPLACE": {
-    "MARKETPLACE_INFO_TOOLTIP": "{{modelName}} đã có trên Travel Connect và đã nhận được {{totalOffers}} yêu cầu ghép đoàn. Nhấn vào đây để xem chi tiết.",
-    "MARKETPLACE_INFO_NOT_AVAILABLE": "{{modelName}} chưa có trên Travel Connect. Nhấn vào để đi tới trang tạo mới."
+    "MARKETPLACE_INFO_TOOLTIP": "{{modelName}} đã có trên Travel Connect và đã nhận được tổng cộng {{totalOffers}} yêu cầu ghép đoàn. Nhấn vào đây để xem chi tiết.",
+    "MARKETPLACE_INFO_NOT_AVAILABLE": "{{modelName}} chưa có trên Travel Connect. Nhấn vào để đi tới Travel Connect và tạo mới bài đăng."
   }
 }
