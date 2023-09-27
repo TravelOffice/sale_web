@@ -102,10 +102,9 @@ const leadColumns: TableColumn<Lead>[] = [
       });
       const isMarketplaceAvailable = linkedPostOnMarketplace?.isAvailable;
       const totalOffers = linkedPostOnMarketplace?.totalOffers || 0;
-      const postUrl = generateMarketplacePostUrl(linkedPostOnMarketplace?.postId || '');
       const openUrl = () => {
         if (isMarketplaceAvailable) {
-          window.open(postUrl);
+          window.open(generateMarketplacePostUrl());
         } else {
           window.open(getMarketplacePage());
         }
