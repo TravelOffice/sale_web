@@ -1036,5 +1036,16 @@
   "MARKETPLACE": {
     "MARKETPLACE_INFO_TOOLTIP": "{{modelName}} đã có trên Travel Connect và đã nhận được tổng cộng {{totalOffers}} yêu cầu ghép đoàn. Nhấn vào đây để xem chi tiết.",
     "MARKETPLACE_INFO_NOT_AVAILABLE": "{{modelName}} chưa có trên Travel Connect. Nhấn vào để đi tới Travel Connect và tạo mới bài đăng."
+  },
+  "DASHBOARD": {
+    "NUMBER_EMPLOYEE_ONLINE": "Số nhân viên hỗ trợ đang online/Tổng số nhân viên",
+    "NUMBER_CHAT_RESPONSE_LESS_2_MINUTES": "Phiên chat phản hồi dưới 2 phút",
+    "NUMBER_CHAT_NOT_RESPONSE_THAN_15_MINUTES": "Phiên chat chưa được phản hồi sau 15 phút",
+    "LEAD_PER_CHAT_SESSION": "Tỉ lệ chuyển đổi Lead từ số phiên chat",
+    "TOP_TOURS_OF_INTEREST": "Top tour được quan tâm",
+    "HIGHEST_PROFIT_TOURS": "Top tour có lợi nhuận cao nhất",
+    "REVENUE": "Doanh thu",
+    "LAST_MONTH": "Tháng trước",
+    "THIS_MONTH": "Tháng này"
   }
 }

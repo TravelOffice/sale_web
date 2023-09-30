@@ -1036,5 +1036,16 @@
   "MARKETPLACE": {
     "MARKETPLACE_INFO_TOOLTIP":"{{modelName}} is available on Travel Connect and has been received total {{totalOffers}} offers. Click to view more details.",
     "MARKETPLACE_INFO_NOT_AVAILABLE": "{{modelName}} is not available on Travel Connect. Go to Travel Connect and add new tour post."
+  },
+  "DASHBOARD": {
+    "NUMBER_EMPLOYEE_ONLINE": "Number of support staff online/total number of staff",
+    "NUMBER_CHAT_RESPONSE_LESS_2_MINUTES": "Number of chat sessions responded in less than 2 minutes",
+    "NUMBER_CHAT_NOT_RESPONSE_THAN_15_MINUTES": "Number of chat sessions not responded in more than 15 minutes",
+    "LEAD_PER_CHAT_SESSION": "Lead Conversion Rate per Total Chat Sessions",
+    "TOP_TOURS_OF_INTEREST": "Top tours of interest",
+    "HIGHEST_PROFIT_TOURS": "Highest profit tours",
+    "REVENUE": "Revenue",
+    "LAST_MONTH": "Last month",
+    "THIS_MONTH": "This month"
   }
 }
