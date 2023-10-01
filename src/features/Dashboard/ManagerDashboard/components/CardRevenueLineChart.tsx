@@ -13,7 +13,7 @@ import { ApexOptions } from 'apexcharts';
 import i18n from 'i18next';
 import { formatVND } from '@utils/CommonUtils';
 
-const CardRevenue = () => {
+const CardRevenueLineChart = () => {
   const options: ApexOptions = {
     chart: {
       toolbar: { show: false },
@@ -128,4 +128,4 @@ const CardRevenue = () => {
     </Card>
   );
 };
-export default CardRevenue;
+export default CardRevenueLineChart;

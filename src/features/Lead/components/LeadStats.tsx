@@ -9,6 +9,7 @@ import {
 import LeadStatsItem from '@features/Lead/components/LeadStatsItem';
 
 export interface LeadStatsProps {
+  title?: string;
   total: number,
   countNew: number,
   countProcessing: number,
@@ -18,12 +19,12 @@ export interface LeadStatsProps {
 
 export default function LeadStats(props: LeadStatsProps) {
   const {
-    total, countNew, countProcessing, countClosed, countCancelled,
+    title, total, countNew, countProcessing, countClosed, countCancelled,
   } = props;
   return (
     <Card className="card-statistics">
       <CardHeader>
-        <CardTitle tag="h4">{i18n.t('COMMON.STATISTICS')}</CardTitle>
+        <CardTitle tag="h4">{title || i18n.t('COMMON.STATISTICS')}</CardTitle>
       </CardHeader>
       <CardBody className="statistics-body">
         <Row>

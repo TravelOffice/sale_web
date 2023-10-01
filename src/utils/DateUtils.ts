@@ -62,3 +62,17 @@ export const isDateInRange = (itemDate: string | number | undefined, range: Date
   // and '[]' includes both start and end dates in the comparison.
   return actualDate.isBetween(startDate, endDate, 'day', '[]');
 };
+
+/**
+ * Format date to string with format 'dd/mm/yyyy'
+ *
+ * @param date - The date to format.
+ * @returns Formatted date string.
+ */
+export const formatVietnameseDate = (date: Date) => {
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  return `${day}/${month}/${year}`;
+};

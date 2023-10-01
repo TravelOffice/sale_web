@@ -96,7 +96,9 @@
     "MARKETPLACE": "Travel Connect",
     "MARKETPLACE_SIDEBAR": "Travel Connect ↷",
     "LEAD": "Lead",
-    "VALIDATE_INPUT_NUMBER_MSG": "Please enter a valid number"
+    "VALIDATE_INPUT_NUMBER_MSG": "Please enter a valid number",
+    "MY_DASHBOARD": "My Dashboard",
+    "MANAGER_DASHBOARD": "Manager Dashboard"
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",
@@ -1046,6 +1048,36 @@
     "HIGHEST_PROFIT_TOURS": "Highest profit tours",
     "REVENUE": "Revenue",
     "LAST_MONTH": "Last month",
-    "THIS_MONTH": "This month"
+    "THIS_MONTH": "This month",
+    "GOAL_REVENUE": "Monthly revenue target for {{month}}",
+    "COMPLETED": "Completed",
+    "REMAINING": "Remaining",
+    "MY_LEADS": "Assigned leads",
+    "MY_LEADS_STATISTIC": "Assigned leads statistics",
+    "CONGRATULATION": "Congratulations, {{name}}!",
+    "YOU_HAVE_DONE": "You have achieved {{completedValue}} KPI for the month of {{month}}",
+    "MY_STATISTICS": "My statistics",
+    "NUMBER_OF_CREATED_LEADS": "Leads created",
+    "NUMBER_OF_CREATED_BOOKINGS": "Bookings created",
+    "NUMBER_OF_SUPPORT_CONVERSATION": "Support conversations",
+    "SUPPORT_TRACKER": "Support tracker",
+    "ASSIGNED_SUPPORT_CONVERSATION": "Assigned support conversations",
+    "UNANSWERED_CONVERSATION_COUNT": "Unanswered conversations",
+    "ONGOING_SUPPORT_CONVERSATION_COUNT": "Ongoing support conversations",
+    "AVERAGE_RESPONSE_TIME": "Average response time",
+    "MINUTES": "Minutes",
+    "ANSWERED_SUPPORT_CONVERSATION": "Answered support conversations",
+    "LAST_7_DAYS_RANGE": "Last 7 days",
+    "LAST_MONTH_RANGE": "Last 1 month",
+    "LAST_YEAR_RANGE": "Last 1 year",
+    "YOUR_TASKS": "Your tasks",
+    "UNCOMPLETED": "Not completed",
+    "MARK_AS_COMPLETED": "Mark as completed",
+    "GO_TO_TASK_MANAGEMENT_PAGE": "Go to task management page",
+    "MY_LEADS_STATISTICS": "My assigned leads statistics",
+    "CUSTOMERS_STATISTICS": "Customer statistics",
+    "NEW_CUSTOMERS": "New customers",
+    "RETURNING_CUSTOMERS": "Returning customers",
+    "REFERRAL_CUSTOMERS": "Marketplace referral customers"
   }
 }

@@ -16,7 +16,12 @@ import {
 import React from 'react';
 import i18n from 'i18next';
 
-const CardInterestingTopTour = () => {
+export interface CardInterestingTopTourProps {
+  startDate: string;
+  endDate: string;
+}
+
+const CardInterestingTopTour = ({ startDate, endDate }: CardInterestingTopTourProps) => {
   const statesArr = [
     {
       avatar: 'https://static.vinwonders.com/2022/05/vinpearl-phu-quoc-co-may-khu-11.jpeg',
@@ -62,7 +67,7 @@ const CardInterestingTopTour = () => {
       <CardHeader>
         <div>
           <CardTitle tag="h4">{i18n.t('DASHBOARD.TOP_TOURS_OF_INTEREST')}</CardTitle>
-          <CardText className="font-small-2">25/09/2023 - 01/10/2023</CardText>
+          <CardText className="font-small-2">{`${startDate} - ${endDate}`}</CardText>
         </div>
         <UncontrolledDropdown className="chart-dropdown">
           <DropdownToggle color="" className="bg-transparent btn-sm border-0 p-50">
