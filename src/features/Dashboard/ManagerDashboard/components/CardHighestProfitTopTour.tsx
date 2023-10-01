@@ -3,20 +3,17 @@ import { MoreVertical } from 'react-feather';
 
 // ** Reactstrap Imports
 import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardText,
-  CardTitle,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  UncontrolledDropdown,
+  Card, CardBody, CardHeader, CardText, CardTitle, DropdownToggle, UncontrolledDropdown,
 } from 'reactstrap';
 import React from 'react';
 import i18n from 'i18next';
 
-const CardHighestProfitTopTour = () => {
+export interface CardHighestProfitTopTourProps {
+  startDate: string;
+  endDate: string
+}
+
+const CardHighestProfitTopTour = ({ startDate, endDate }: CardHighestProfitTopTourProps) => {
   const statesArr = [
     {
       avatar: 'https://static.vinwonders.com/2022/05/vinpearl-phu-quoc-co-may-khu-11.jpeg',
@@ -62,17 +59,17 @@ const CardHighestProfitTopTour = () => {
       <CardHeader>
         <div>
           <CardTitle tag="h4">{i18n.t('DASHBOARD.HIGHEST_PROFIT_TOURS')}</CardTitle>
-          <CardText className="font-small-2">25/09/2023 - 01/10/2023</CardText>
+          <CardText className="font-small-2">{`${startDate} - ${endDate}`}</CardText>
         </div>
         <UncontrolledDropdown className="chart-dropdown">
           <DropdownToggle color="" className="bg-transparent btn-sm border-0 p-50">
             <MoreVertical size={18} className="cursor-pointer" />
           </DropdownToggle>
-          <DropdownMenu end>
-            <DropdownItem className="w-100">Last Week</DropdownItem>
-            <DropdownItem className="w-100">Last Month</DropdownItem>
-            <DropdownItem className="w-100">Last Year</DropdownItem>
-          </DropdownMenu>
+          {/* <DropdownMenu end> */}
+          {/*  <DropdownItem className="w-100">Last Week</DropdownItem> */}
+          {/*  <DropdownItem className="w-100">Last Month</DropdownItem> */}
+          {/*  <DropdownItem className="w-100">Last Year</DropdownItem> */}
+          {/* </DropdownMenu> */}
         </UncontrolledDropdown>
       </CardHeader>
       <CardBody>{renderStates()}</CardBody>

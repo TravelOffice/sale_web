@@ -7,6 +7,7 @@ import {
   FileMinus,
   FilePlus,
   Home,
+  Layout,
   List,
   Mail,
   MapPin,
@@ -15,6 +16,7 @@ import {
   Settings,
   Share2,
   Shield,
+  Sidebar,
   Truck,
   User,
   UserCheck,
@@ -29,7 +31,20 @@ const Navigation: MenuItem[] = [
     id: 'dashboards',
     title: 'Dashboards',
     icon: <Home />,
-    navLink: '/apps/dashboard',
+    children: [
+      {
+        id: 'myDashboard',
+        title: i18n.t('COMMON.MY_DASHBOARD'),
+        icon: <Sidebar size={12} />,
+        navLink: '/apps/dashboards/my-dashboard',
+      },
+      {
+        id: 'managerDashboard',
+        title: i18n.t('COMMON.MANAGER_DASHBOARD'),
+        icon: <Layout size={12} />,
+        navLink: '/apps/dashboards/manager-dashboard',
+      },
+    ],
   },
   {
     header: i18n.t('COMMON.COMMUNICATION'),

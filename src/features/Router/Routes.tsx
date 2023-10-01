@@ -35,15 +35,21 @@ import SourceListPage from '@features/Source/SourceListPage';
 import TourLocationListPage from '@features/TourLocation/TourLocationListPage';
 import UserDetail from '@features/User/UserDetail';
 import ManagerDashboard from '@features/Dashboard/ManagerDashboard/ManagerDashboard';
+import MyDashboard from '@features/Dashboard/MyDashboard/MyDashboard';
 
 const Routes: RoutePathConfig[] = [
   {
     path: '/',
     exact: true,
-    component: <ManagerDashboard />,
+    component: <MyDashboard />,
   },
   {
-    path: '/apps/dashboard',
+    path: '/apps/dashboards/my-dashboard',
+    exact: true,
+    component: <MyDashboard />,
+  },
+  {
+    path: '/apps/dashboards/manager-dashboard',
     exact: true,
     component: <ManagerDashboard />,
   },

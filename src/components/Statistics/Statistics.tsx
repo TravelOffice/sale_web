@@ -7,14 +7,14 @@ import StatisticItem, { StatisticItemProps } from '@components/Statistics/Statis
 
 export interface StatisticProps {
   items: StatisticItemProps[]
+  title?: string
 }
 
-export default function Statistics(props: StatisticProps) {
-  const { items } = props;
+export default function Statistics({ items, title }: StatisticProps) {
   return (
     <Card className="card-statistics">
       <CardHeader>
-        <CardTitle tag="h4">{i18n.t('COMMON.STATISTICS')}</CardTitle>
+        <CardTitle tag="h4">{title || i18n.t('COMMON.STATISTICS')}</CardTitle>
       </CardHeader>
       <CardBody className="statistics-body">
         <Row>
