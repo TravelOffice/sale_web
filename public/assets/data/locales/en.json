@@ -98,7 +98,8 @@
     "LEAD": "Lead",
     "VALIDATE_INPUT_NUMBER_MSG": "Please enter a valid number",
     "MY_DASHBOARD": "My Dashboard",
-    "MANAGER_DASHBOARD": "Manager Dashboard"
+    "MANAGER_DASHBOARD": "Manager Dashboard",
+    "MARKETING_DASHBOARD": "Marketing Dashboard"
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",
