@@ -19,10 +19,10 @@ import {
   UncontrolledDropdown,
 } from 'reactstrap';
 import i18n from 'i18next';
+import { ApexOptions } from 'apexcharts';
+import { Circle } from 'react-feather';
 
 export interface SupportTrackerProps {
-  danger: string;
-  primary: string;
   totalConversationCount: number;
   supportedConversationCount: number;
   unansweredConversationCount: number;
@@ -32,7 +32,7 @@ export interface SupportTrackerProps {
 
 const SupportTracker = (props:SupportTrackerProps) => {
   const {
-    danger, primary, totalConversationCount, supportedConversationCount,
+    totalConversationCount, supportedConversationCount,
     unansweredConversationCount, ongoingSupportConversationCount, avgResponseTime,
   } = props;
 
@@ -51,42 +51,52 @@ const SupportTracker = (props:SupportTrackerProps) => {
     responseTime: 1,
   };
 
-  const options = {
+  const options: ApexOptions = {
+    chart: {
+      sparkline: {
+        enabled: true,
+      },
+      dropShadow: {
+        enabled: true,
+        blur: 3,
+        left: 1,
+        top: 1,
+        opacity: 0.1,
+      },
+    },
+    colors: ['#51e5a8'],
     plotOptions: {
       radialBar: {
-        size: 150,
-        offsetY: 20,
+        offsetY: 10,
         startAngle: -150,
         endAngle: 150,
         hollow: {
-          size: '65%',
+          size: '77%',
         },
         track: {
-          background: '#fff',
-          strokeWidth: '100%',
+          background: '#ebe9f1',
+          strokeWidth: '50%',
         },
         dataLabels: {
           name: {
-            offsetY: -5,
-            fontFamily: 'Montserrat',
-            fontSize: '1rem',
+            show: false,
           },
           value: {
-            offsetY: 15,
+            color: '#5e5873',
             fontFamily: 'Montserrat',
-            fontSize: '1.714rem',
+            fontSize: '2.86rem',
+            fontWeight: '600',
           },
         },
       },
     },
-    colors: [danger],
     fill: {
       type: 'gradient',
       gradient: {
         shade: 'dark',
         type: 'horizontal',
         shadeIntensity: 0.5,
-        gradientToColors: [primary],
+        gradientToColors: ['#28c76f'],
         inverseColors: true,
         opacityFrom: 1,
         opacityTo: 1,
@@ -94,10 +104,16 @@ const SupportTracker = (props:SupportTrackerProps) => {
       },
     },
     stroke: {
-      dashArray: 8,
+      lineCap: 'round',
+    },
+    grid: {
+      padding: {
+        bottom: 30,
+      },
     },
     labels: [i18n.t('DASHBOARD.ANSWERED_SUPPORT_CONVERSATION')],
   };
+
   const series = [parseFloat(
     (supportedConversationCount / totalConversationCount).toFixed(2),
   ) * 100];
@@ -121,34 +137,54 @@ const SupportTracker = (props:SupportTrackerProps) => {
       </CardHeader>
       <CardBody>
         <Row>
-          <Col lg="12" md="12" sm="12" className="d-flex flex-column flex-wrap text-center">
-            <h1 className="font-large-2 fw-bolder mt-2 mb-0">{data.totalTicket}</h1>
-            <CardText>{i18n.t('DASHBOARD.ASSIGNED_SUPPORT_CONVERSATION')}</CardText>
-          </Col>
-        </Row>
-        <Row>
-          <Col lg="12" md="12" sm="12" className="d-flex justify-content-center">
+          <Col lg="6" md="6" sm="12" className="d-flex justify-content-left">
             <Chart options={options} series={series} type="radialBar" height={360} id="support-tracker-card" />
           </Col>
+          <Col lg="6" md="6" sm="12" className="d-flex flex-column justify-content-center">
+            <div>
+              <CardText className="mb-50">
+                <Circle
+                  size={10}
+                  className="text-success"
+                />
+                <span className="fw-bold ms-75">{`${i18n.t('DASHBOARD.ASSIGNED_SUPPORT_CONVERSATION')}: ${totalConversationCount}`}</span>
+              </CardText>
+            </div>
+            <div>
+              <CardText className="mb-50">
+                <Circle
+                  size={10}
+                  className="text-success"
+                />
+                <span className="fw-bold ms-75">
+                  {`${i18n.t('DASHBOARD.UNANSWERED_CONVERSATION_COUNT')}: ${unansweredConversationCount}`}
+                </span>
+              </CardText>
+            </div>
+            <div>
+              <CardText className="mb-50">
+                <Circle
+                  size={10}
+                  className="text-success"
+                />
+                <span className="fw-bold ms-75">
+                  {`${i18n.t('DASHBOARD.ONGOING_SUPPORT_CONVERSATION_COUNT')}: ${ongoingSupportConversationCount}`}
+                </span>
+              </CardText>
+            </div>
+            <div>
+              <CardText className="mb-50">
+                <Circle
+                  size={10}
+                  className="text-success"
+                />
+                <span className="fw-bold ms-75">
+                  {`${i18n.t('DASHBOARD.AVERAGE_RESPONSE_TIME')}: ${avgResponseTime} ${i18n.t('DASHBOARD.MINUTES')}`}
+                </span>
+              </CardText>
+            </div>
+          </Col>
         </Row>
-        <div className="d-flex justify-content-between mt-1">
-          <div className="text-center">
-            <CardText className="mb-50">{i18n.t('DASHBOARD.UNANSWERED_CONVERSATION_COUNT')}</CardText>
-            <span className="font-large-1 fw-bold">{unansweredConversationCount}</span>
-          </div>
-          <div className="text-center">
-            <CardText className="mb-50">{i18n.t('DASHBOARD.ONGOING_SUPPORT_CONVERSATION_COUNT')}</CardText>
-            <span className="font-large-1 fw-bold">{ongoingSupportConversationCount}</span>
-          </div>
-          <div className="text-center">
-            <CardText className="mb-50">{i18n.t('DASHBOARD.AVERAGE_RESPONSE_TIME')}</CardText>
-            <span className="font-large-1 fw-bold">
-              {avgResponseTime}
-              {' '}
-              {i18n.t('DASHBOARD.MINUTES')}
-            </span>
-          </div>
-        </div>
       </CardBody>
     </Card>
   );

@@ -49,8 +49,6 @@ export default function MyDashboard() {
         </Col>
         <Col lg="6" md="6" sm="12">
           <SupportTracker
-            danger="#ea5455"
-            primary="#7367f0"
             totalConversationCount={176}
             supportedConversationCount={120}
             unansweredConversationCount={7}
