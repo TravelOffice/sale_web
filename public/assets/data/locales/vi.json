@@ -98,7 +98,8 @@
     "LEAD": "Lead",
     "VALIDATE_INPUT_NUMBER_MSG": "Giá trị nhập vào phải là số",
     "MY_DASHBOARD": "Dashboard của tôi",
-    "MANAGER_DASHBOARD": "Dashboard quản lý"
+    "MANAGER_DASHBOARD": "Dashboard quản lý",
+    "MARKETING_DASHBOARD": "Dashboard marketing"
   },
   "LEAD": {
     "LEAD_INFO": "Thông tin lead",

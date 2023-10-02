@@ -36,6 +36,7 @@ import TourLocationListPage from '@features/TourLocation/TourLocationListPage';
 import UserDetail from '@features/User/UserDetail';
 import ManagerDashboard from '@features/Dashboard/ManagerDashboard/ManagerDashboard';
 import MyDashboard from '@features/Dashboard/MyDashboard/MyDashboard';
+import MarketingDashboard from '@features/Dashboard/MarketingDashboard/MarketingDashboard';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -52,6 +53,11 @@ const Routes: RoutePathConfig[] = [
     path: '/apps/dashboards/manager-dashboard',
     exact: true,
     component: <ManagerDashboard />,
+  },
+  {
+    path: '/apps/dashboards/marketing-dashboard',
+    exact: true,
+    component: <MarketingDashboard />,
   },
   {
     path: '/apps/chat',
