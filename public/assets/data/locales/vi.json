@@ -1079,6 +1079,12 @@
     "CUSTOMERS_STATISTICS": "Thống kê khách hàng",
     "NEW_CUSTOMERS": "Khách hàng mới",
     "RETURNING_CUSTOMERS": "Khách hàng quay lại",
-    "REFERRAL_CUSTOMERS": "Khách hàng từ marketplace"
+    "REFERRAL_CUSTOMERS": "Khách hàng từ marketplace",
+    "GOAL": "Mục tiêu",
+    "INTERESTED_COUNT": "lượt quan tâm",
+    "MY_ACTIVITIES": "Hoạt động của tôi",
+    "MIN_AGO": "{{minutes}} phút trước",
+    "HOURS_AGO": "{{hours}} giờ trước",
+    "VIEW_DETAIL": "Xem chi tiết"
   }
 }

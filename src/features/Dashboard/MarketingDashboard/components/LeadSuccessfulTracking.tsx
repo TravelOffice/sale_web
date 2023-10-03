@@ -26,7 +26,7 @@ function LeadSuccessfulTracking() {
     },
     plotOptions: {
       bar: {
-        borderRadius: 10,
+        borderRadius: 0,
         dataLabels: {
           position: 'top', // top, center, bottom
         },

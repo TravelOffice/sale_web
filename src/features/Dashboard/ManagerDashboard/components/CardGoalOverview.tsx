@@ -21,6 +21,7 @@ export interface GoalOverviewProps {
 
 const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => {
   const data = {
+    goal: formatVND(goal),
     completed: formatVND(completed),
     inProgress: formatVND(goal - completed),
   };
@@ -54,13 +55,15 @@ const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => 
         },
         dataLabels: {
           name: {
-            show: false,
+            show: true,
+            offsetY: -5,
+            fontFamily: 'Montserrat',
+            fontSize: '1rem',
           },
           value: {
-            color: '#5e5873',
+            offsetY: 15,
             fontFamily: 'Montserrat',
-            fontSize: '2.86rem',
-            fontWeight: '600',
+            fontSize: '1.714rem',
           },
         },
       },
@@ -86,6 +89,7 @@ const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => 
         bottom: 30,
       },
     },
+    labels: ['Đã hoàn thành'],
   };
   const series = [completePercentile];
 
@@ -96,18 +100,40 @@ const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => 
         <HelpCircle size={18} className="text-muted cursor-pointer" />
       </CardHeader>
       <CardBody className="p-0">
-        <Chart options={options} series={series} type="radialBar" height={245} />
+        <Row>
+          <Col lg="6" md="6" sm="12" className="d-flex justify-content-center">
+            <Chart options={options} series={series} type="radialBar" height={325} />
+          </Col>
+          <Col lg="6" md="6" sm="12" className="d-flex flex-column justify-content-center">
+            <div>
+              <CardText className="mb-50">
+                <span className="fw-bold ms-75">
+                  {`${i18n.t('DASHBOARD.GOAL')}: `}
+                  <b>{data.goal}</b>
+                </span>
+              </CardText>
+            </div>
+            <div>
+              <CardText className="mb-50">
+                <span className="fw-bold ms-75">
+                  {`${i18n.t('DASHBOARD.COMPLETED')}: `}
+                  <b>{data.completed}</b>
+                </span>
+              </CardText>
+            </div>
+            <div>
+              <CardText className="mb-50">
+                <span className="fw-bold ms-75">
+                  {`${i18n.t('DASHBOARD.REMAINING')}: `}
+                  <b>
+                    {data.inProgress}
+                  </b>
+                </span>
+              </CardText>
+            </div>
+          </Col>
+        </Row>
       </CardBody>
-      <Row className="border-top text-center mx-0">
-        <Col xs="6" className="border-end py-1">
-          <CardText className="text-muted mb-0">{i18n.t('DASHBOARD.COMPLETED')}</CardText>
-          <h3 className="fw-bolder mb-0">{data.completed}</h3>
-        </Col>
-        <Col xs="6" className="py-1">
-          <CardText className="text-muted mb-0">{i18n.t('DASHBOARD.REMAINING')}</CardText>
-          <h3 className="fw-bolder mb-0">{data.inProgress}</h3>
-        </Col>
-      </Row>
     </Card>
   );
 };

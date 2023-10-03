@@ -1079,6 +1079,12 @@
     "CUSTOMERS_STATISTICS": "Customer statistics",
     "NEW_CUSTOMERS": "New customers",
     "RETURNING_CUSTOMERS": "Returning customers",
-    "REFERRAL_CUSTOMERS": "Marketplace referral customers"
+    "REFERRAL_CUSTOMERS": "Marketplace referral customers",
+    "GOAL": "Goal",
+    "INTERESTED_COUNT": "Interested",
+    "MY_ACTIVITIES": "My activities",
+    "MIN_AGO": "{{minutes}} min ago",
+    "HOURS_AGO": "{{hours}} hours ago",
+    "VIEW_DETAIL": "View detail"
   }
 }
