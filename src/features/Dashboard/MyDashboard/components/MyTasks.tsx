@@ -9,11 +9,13 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
+  Col,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Input,
   Label,
+  Row,
   UncontrolledDropdown,
 } from 'reactstrap';
 import React from 'react';
@@ -77,9 +79,13 @@ const MyTasks = () => {
       </CardHeader>
       <CardBody>
         <div className="business-items">{renderOptions()}</div>
-        <Button color="primary" block>
-          {i18n.t('DASHBOARD.GO_TO_TASK_MANAGEMENT_PAGE')}
-        </Button>
+        <Row>
+          <Col className="offset-3" lg="6" md="6" sm="6">
+            <Button color="primary" block>
+              {i18n.t('DASHBOARD.GO_TO_TASK_MANAGEMENT_PAGE')}
+            </Button>
+          </Col>
+        </Row>
       </CardBody>
     </Card>
   );

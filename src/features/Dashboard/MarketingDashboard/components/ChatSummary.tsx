@@ -30,7 +30,6 @@ function ChatSummary() {
   const options = {
     chart: {
       type: 'bar',
-      height: 350,
     },
     plotOptions: {
       bar: {
@@ -87,7 +86,7 @@ function ChatSummary() {
           options={options as any}
           series={series}
           type="bar"
-          height={245}
+          height={350}
         />
       </CardBody>
     </Card>

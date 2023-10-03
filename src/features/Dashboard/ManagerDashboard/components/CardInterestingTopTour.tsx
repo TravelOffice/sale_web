@@ -54,10 +54,14 @@ const CardInterestingTopTour = ({ startDate, endDate }: CardInterestingTopTourPr
     <div key={state.title} className="browser-states">
       <div className="d-flex">
         <img className="rounded me-1" src={state.avatar} height="50" alt={state.title} />
-        <h6 className="align-self-center mb-0">{state.title}</h6>
-      </div>
-      <div className="d-flex align-items-center">
-        <div className="fw-bolder text-success">{state.value}</div>
+        <div className="my-auto">
+          <h6 className="mb-0">{state.title}</h6>
+          <small>
+            {state.value}
+            {' '}
+            {i18n.t('DASHBOARD.INTERESTED_COUNT')}
+          </small>
+        </div>
       </div>
     </div>
   ));

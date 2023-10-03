@@ -20,7 +20,6 @@ import {
 } from 'reactstrap';
 import i18n from 'i18next';
 import { ApexOptions } from 'apexcharts';
-import { Circle } from 'react-feather';
 
 export interface SupportTrackerProps {
   totalConversationCount: number;
@@ -79,13 +78,15 @@ const SupportTracker = (props:SupportTrackerProps) => {
         },
         dataLabels: {
           name: {
-            show: false,
+            show: true,
+            offsetY: 35,
+            fontFamily: 'Montserrat',
+            fontSize: '1rem',
           },
           value: {
-            color: '#5e5873',
+            offsetY: -5,
             fontFamily: 'Montserrat',
-            fontSize: '2.86rem',
-            fontWeight: '600',
+            fontSize: '1.714rem',
           },
         },
       },
@@ -138,49 +139,37 @@ const SupportTracker = (props:SupportTrackerProps) => {
       <CardBody>
         <Row>
           <Col lg="6" md="6" sm="12" className="d-flex justify-content-left">
-            <Chart options={options} series={series} type="radialBar" height={360} id="support-tracker-card" />
+            <Chart options={options} series={series} type="radialBar" height={325} id="support-tracker-card" />
           </Col>
           <Col lg="6" md="6" sm="12" className="d-flex flex-column justify-content-center">
             <div>
               <CardText className="mb-50">
-                <Circle
-                  size={10}
-                  className="text-success"
-                />
-                <span className="fw-bold ms-75">{`${i18n.t('DASHBOARD.ASSIGNED_SUPPORT_CONVERSATION')}: ${totalConversationCount}`}</span>
+                <b>{totalConversationCount}</b>
+                <span className="fw-bold ms-75">{`${i18n.t('DASHBOARD.ASSIGNED_SUPPORT_CONVERSATION')}`}</span>
               </CardText>
             </div>
             <div>
               <CardText className="mb-50">
-                <Circle
-                  size={10}
-                  className="text-success"
-                />
+                <b>{unansweredConversationCount}</b>
                 <span className="fw-bold ms-75">
-                  {`${i18n.t('DASHBOARD.UNANSWERED_CONVERSATION_COUNT')}: ${unansweredConversationCount}`}
+                  {`${i18n.t('DASHBOARD.UNANSWERED_CONVERSATION_COUNT')}`}
                 </span>
               </CardText>
             </div>
             <div>
               <CardText className="mb-50">
-                <Circle
-                  size={10}
-                  className="text-success"
-                />
+                <b>{ongoingSupportConversationCount}</b>
                 <span className="fw-bold ms-75">
-                  {`${i18n.t('DASHBOARD.ONGOING_SUPPORT_CONVERSATION_COUNT')}: ${ongoingSupportConversationCount}`}
+                  {`${i18n.t('DASHBOARD.ONGOING_SUPPORT_CONVERSATION_COUNT')}`}
                 </span>
               </CardText>
             </div>
             <div>
               <CardText className="mb-50">
-                <Circle
-                  size={10}
-                  className="text-success"
-                />
-                <span className="fw-bold ms-75">
-                  {`${i18n.t('DASHBOARD.AVERAGE_RESPONSE_TIME')}: ${avgResponseTime} ${i18n.t('DASHBOARD.MINUTES')}`}
+                <span className="fw-bold">
+                  {`${i18n.t('DASHBOARD.AVERAGE_RESPONSE_TIME')}: `}
                 </span>
+                <b>{`${avgResponseTime} ${i18n.t('DASHBOARD.MINUTES')}`}</b>
               </CardText>
             </div>
           </Col>

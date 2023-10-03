@@ -12,9 +12,11 @@ import {
   CardBody,
   CardHeader,
   CardTitle,
+  Col,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
+  Row,
   UncontrolledDropdown,
 } from 'reactstrap';
 import { ApexOptions } from 'apexcharts';
@@ -30,7 +32,7 @@ const CardCustomers = () => {
     listData: [
       {
         icon: 'Circle',
-        iconColor: 'text-primary',
+        iconColor: '#7367f0',
         text: i18n.t('DASHBOARD.NEW_CUSTOMERS'),
         result: 690,
       },
@@ -67,7 +69,7 @@ const CardCustomers = () => {
       i18n.t('DASHBOARD.REFERRAL_CUSTOMERS'),
     ],
     dataLabels: {
-      enabled: false,
+      enabled: true,
     },
     legend: { show: false },
     stroke: {
@@ -94,9 +96,8 @@ const CardCustomers = () => {
               [item.iconColor]: item.iconColor,
             })}
           />
-          <span className="fw-bold ms-75">{item.text}</span>
+          <span className="fw-bold ms-75">{`${item.result} ${item.text}`}</span>
         </div>
-        <span>{item.result}</span>
       </div>
     );
   });
@@ -119,8 +120,14 @@ const CardCustomers = () => {
         </UncontrolledDropdown>
       </CardHeader>
       <CardBody>
-        <Chart options={options} series={series} type="pie" height={325} />
-        <div className="pt-25">{renderChartInfo()}</div>
+        <Row>
+          <Col lg="6" md="6" sm="12" className="d-flex justify-content-center">
+            <Chart options={options} series={series} type="pie" height={305} />
+          </Col>
+          <Col lg="6" md="6" sm="12" className="d-flex flex-column justify-content-center">
+            <div className="pt-25">{renderChartInfo()}</div>
+          </Col>
+        </Row>
       </CardBody>
     </Card>
   );

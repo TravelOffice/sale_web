@@ -44,12 +44,6 @@ const Navigation: MenuItem[] = [
         icon: <Layout size={12} />,
         navLink: '/apps/dashboards/manager-dashboard',
       },
-      {
-        id: 'marketingDashboard',
-        title: i18n.t('COMMON.MARKETING_DASHBOARD'),
-        icon: <Layout size={12} />,
-        navLink: '/apps/dashboards/marketing-dashboard',
-      },
     ],
   },
   {

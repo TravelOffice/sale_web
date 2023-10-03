@@ -8,6 +8,7 @@ import CardInterestingTopTour from '@features/Dashboard/ManagerDashboard/compone
 import CardGoalOverview from '@features/Dashboard/ManagerDashboard/components/CardGoalOverview';
 import { formatVietnameseDate } from '@utils/DateUtils';
 import CardCustomers from '@features/Dashboard/ManagerDashboard/components/CardCustomers';
+import ChatSummary from '@features/Dashboard/MarketingDashboard/components/ChatSummary';
 import CardRevenueBarChart from './components/CardRevenueBarChart';
 
 export default function ManagerDashboard() {
@@ -51,6 +52,11 @@ export default function ManagerDashboard() {
       <Row className="match-height">
         <Col lg="12" md="12" sm="12">
           <CardRevenueBarChart direction="ltr" thisMonthRevenue={30000000} lastMonthRevenue={67000000} />
+        </Col>
+      </Row>
+      <Row>
+        <Col lg="12" md="12" sm="12">
+          <ChatSummary />
         </Col>
       </Row>
     </div>
