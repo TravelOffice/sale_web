@@ -31,20 +31,14 @@ const MyTasks = () => {
     },
     {
       id: 'task2',
-      title: 'Kiểm tra thông tin hành khách tour 102',
+      title: 'Kiểm tra thông tin hành khách tour #809',
       badgeColor: 'light-primary',
       status: i18n.t('DASHBOARD.UNCOMPLETED'),
       checked: true,
     },
     {
       id: 'task3',
-      title: 'Chăm sóc khách hàng cũ (xem trong danh sách đính kèm)',
-      badgeColor: 'light-success',
-      status: i18n.t('DASHBOARD.COMPLETED'),
-    },
-    {
-      id: 'task4',
-      title: 'Chuẩn bị thông tin cho buổi họp với đối tác',
+      title: 'Chăm sóc khách hàng cũ (xem danh sách đính kèm)',
       badgeColor: 'light-success',
       status: i18n.t('DASHBOARD.COMPLETED'),
     },
@@ -80,7 +74,7 @@ const MyTasks = () => {
       <CardBody>
         <div className="business-items">{renderOptions()}</div>
         <Row>
-          <Col className="offset-3" lg="6" md="6" sm="6">
+          <Col className="offset-2" lg="8" md="8" sm="8">
             <Button color="primary" block>
               {i18n.t('DASHBOARD.GO_TO_TASK_MANAGEMENT_PAGE')}
             </Button>

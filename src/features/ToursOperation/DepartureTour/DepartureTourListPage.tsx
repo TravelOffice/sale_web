@@ -17,7 +17,7 @@ import { Alert, Col, Row } from 'reactstrap';
 
 // Expandable component UI that show detailed data of each departure tour
 type InternalComponentProps = ExpanderComponentProps<ExtendedDepartureTour>;
-const TourDepartureExpandableRowComponent: React.FC<InternalComponentProps> = (
+export const TourDepartureExpandableRowComponent: React.FC<InternalComponentProps> = (
   { data }: InternalComponentProps,
 ) => {
   const { durationInDays, durationInNights, startDate } = data;
@@ -52,7 +52,7 @@ const TourDepartureExpandableRowComponent: React.FC<InternalComponentProps> = (
  * @param tourLocations Locations fetched from server
  * @returns Location name
  */
-const fromIdToTourLocationName = (id: string, tourLocations: TourLocation[]) => {
+export const fromIdToTourLocationName = (id: string, tourLocations: TourLocation[]) => {
   const tourLocation = tourLocations.find((location) => location.code === id);
   return tourLocation?.name || '';
 };

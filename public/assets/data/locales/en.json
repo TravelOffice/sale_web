@@ -789,7 +789,8 @@
       "NO_ACTIVITY_TO_DISPLAY": "There are no activities to display"
     },
     "PLAN_OVERVIEW": "Plan overview",
-    "DAY_NIGHT_OVERVIEW": "{{durationInDays}} days {{durationInNights}} nights"
+    "DAY_NIGHT_OVERVIEW": "{{durationInDays}} days {{durationInNights}} nights",
+    "TOUR_FILL_RATES": "Tour fill rates"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Tour template",
@@ -1085,6 +1086,11 @@
     "MY_ACTIVITIES": "My activities",
     "MIN_AGO": "{{minutes}} min ago",
     "HOURS_AGO": "{{hours}} hours ago",
-    "VIEW_DETAIL": "View detail"
+    "VIEW_DETAIL": "View detail",
+    "TRAVEL_CONNECT_STATISTIC": "Statistics from Travel Connect",
+    "TOTAL_OFFERS_ON_TRAVEL_CONNECT": "Total offers on Travel Connect",
+    "REVENUE_ON_TRAVEL_CONNECT": "Revenue from Travel Connect",
+    "LIST_OF_LEADS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "List of leads that can be sold on Travel Connect",
+    "LIST_OF_TOURS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "List of tours that can be sold on Travel Connect"
   }
 }
