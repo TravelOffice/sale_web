@@ -122,7 +122,7 @@ const CardCustomers = () => {
       <CardBody>
         <Row>
           <Col lg="6" md="6" sm="12" className="d-flex justify-content-center">
-            <Chart options={options} series={series} type="pie" height={305} />
+            <Chart options={options} series={series} type="pie" height={245} />
           </Col>
           <Col lg="6" md="6" sm="12" className="d-flex flex-column justify-content-center">
             <div className="pt-25">{renderChartInfo()}</div>

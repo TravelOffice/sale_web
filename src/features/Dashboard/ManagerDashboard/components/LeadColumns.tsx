@@ -1,0 +1,130 @@
+import React from 'react';
+import i18n from '@config/i18n';
+import { TableColumn } from 'react-data-table-component';
+import { Lead } from '@domain/entities/lead/Lead';
+import { Link } from 'react-router-dom';
+import { Badge, Button, UncontrolledTooltip } from 'reactstrap';
+import { generateEditableUrlForLead, generateI18nForLead, leadStatusColors } from '@utils/LeadUtils';
+import { ArrowUpRight, Share2 } from 'react-feather';
+import { useQuery } from '@tanstack/react-query';
+import { LEAD_INDEX } from '@utils/Constants';
+import { leadPresenter } from '@adapter/presenters';
+import generateMarketplacePostUrl from '@utils/MarketplaceUtils';
+import { getMarketplacePage } from '@utils/EnvUtils';
+
+function renderTour(lead: Lead) {
+  if (lead.tourTemplateId) {
+    return (
+      <Link to={`/apps/tours/template/${lead.tourTemplateId}/edit`} className="user_name text-body">
+        <span className="text-primary fw-bolder">{lead.tourTemplateName}</span>
+      </Link>
+    );
+  }
+  if (lead.desiredTour) {
+    return (<span>{lead.desiredTour}</span>);
+  }
+  return <></>;
+}
+
+const LeadColumns: TableColumn<Lead>[] = [
+  {
+    name: i18n.t('LEAD.CODE'),
+    minWidth: '100px',
+    cell: (lead: Lead) => {
+      const url = generateEditableUrlForLead(lead);
+      return (
+        <Link to={url} className="user_name text-truncate text-body">
+          <span className="fw-bolder">{lead.code}</span>
+          <ArrowUpRight size={16} />
+        </Link>
+      );
+    },
+  },
+  {
+    name: i18n.t('LEAD.NAME'),
+    minWidth: '150px',
+    cell: (lead: Lead) => (
+      <div className="d-flex justify-content-left align-items-center">
+        <div className="d-flex flex-column">
+          <span className="fw-bolder text-primary">
+            <small
+              className="text-truncate text-muted"
+            >
+              {lead.honorific ? generateI18nForLead(lead.honorific) : ''}
+            </small>
+            {' '}
+            {lead.name}
+          </span>
+        </div>
+      </div>
+    ),
+  },
+  {
+    name: i18n.t('COMMON.STATUS'),
+    minWidth: '150px',
+    cell: (lead: Lead) => (
+      <Badge className="text-capitalize" color={leadStatusColors[lead.leadStatus]} pill>
+        {generateI18nForLead(lead.leadStatus)}
+      </Badge>
+    ),
+  },
+  {
+    name: i18n.t('LEAD.PHONE'),
+    minWidth: '150px',
+    cell: (lead: Lead) => lead.phoneNumber,
+  },
+  {
+    name: i18n.t('LEAD.DESIRED_TOUR'),
+    minWidth: '250px',
+    cell: (lead: Lead) => renderTour(lead),
+  },
+  {
+    name: i18n.t('COMMON.MARKETPLACE'),
+    minWidth: '150px',
+    cell: (lead: Lead) => {
+      // The text `#` is not allowed in the URL, so we need to replace it with `%23`
+      const leadId = `${LEAD_INDEX}%23${lead.code}`;
+      const { data: linkedPostOnMarketplace } = useQuery({
+        queryKey: ['linkedPostOnMarketplace', leadId],
+        queryFn: () => leadPresenter.getLinkedPostOnMarketplaceInfo(leadId),
+      });
+      const isMarketplaceAvailable = linkedPostOnMarketplace?.isAvailable;
+      const totalOffers = linkedPostOnMarketplace?.totalOffers || 0;
+      const openUrl = () => {
+        if (isMarketplaceAvailable) {
+          window.open(generateMarketplacePostUrl());
+        } else {
+          window.open(getMarketplacePage());
+        }
+      };
+
+      return (
+        <div>
+          <Button
+            outline
+            id={`lead-marketplace-info-${lead.code}`}
+            color={isMarketplaceAvailable ? 'primary' : 'secondary'}
+            size="sm"
+            onClick={openUrl}
+          >
+            <Share2 size={12} />
+          </Button>
+          <UncontrolledTooltip
+            placement="top"
+            target={`lead-marketplace-info-${lead.code}`}
+          >
+            {
+              isMarketplaceAvailable
+                ? i18n.t('MARKETPLACE.MARKETPLACE_INFO_TOOLTIP', {
+                  totalOffers,
+                  modelName: i18n.t('COMMON.LEAD'),
+                }) : i18n.t('MARKETPLACE.MARKETPLACE_INFO_NOT_AVAILABLE', { modelName: i18n.t('COMMON.LEAD') })
+            }
+          </UncontrolledTooltip>
+        </div>
+      );
+    },
+  },
+];
+
+export default LeadColumns;

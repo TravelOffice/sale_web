@@ -81,7 +81,7 @@ const SupportTracker = (props:SupportTrackerProps) => {
             show: true,
             offsetY: 35,
             fontFamily: 'Montserrat',
-            fontSize: '1rem',
+            fontSize: '0.8rem',
           },
           value: {
             offsetY: -5,
@@ -139,7 +139,7 @@ const SupportTracker = (props:SupportTrackerProps) => {
       <CardBody>
         <Row>
           <Col lg="6" md="6" sm="12" className="d-flex justify-content-left">
-            <Chart options={options} series={series} type="radialBar" height={325} id="support-tracker-card" />
+            <Chart options={options} series={series} type="radialBar" height={255} id="support-tracker-card" />
           </Col>
           <Col lg="6" md="6" sm="12" className="d-flex flex-column justify-content-center">
             <div>
