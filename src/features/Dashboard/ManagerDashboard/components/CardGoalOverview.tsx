@@ -102,7 +102,7 @@ const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => 
       <CardBody className="p-0">
         <Row>
           <Col lg="6" md="6" sm="12" className="d-flex justify-content-center">
-            <Chart options={options} series={series} type="radialBar" height={325} />
+            <Chart options={options} series={series} type="radialBar" height={255} />
           </Col>
           <Col lg="6" md="6" sm="12" className="d-flex flex-column justify-content-center">
             <div>

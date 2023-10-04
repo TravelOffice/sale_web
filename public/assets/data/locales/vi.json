@@ -789,7 +789,8 @@
       "NO_ACTIVITY_TO_DISPLAY": "Không có hoạt động để hiển thị"
     },
     "PLAN_OVERVIEW": "Lịch trình tổng quan",
-    "DAY_NIGHT_OVERVIEW": "{{durationInDays}} ngày {{durationInNights}} đêm"
+    "DAY_NIGHT_OVERVIEW": "{{durationInDays}} ngày {{durationInNights}} đêm",
+    "TOUR_FILL_RATES": "Tỉ lệ lấp đầy"
   },
   "BOOKING": {
     "TOUR_TEMPLATE": "Chuyến đi mẫu",
@@ -1085,6 +1086,11 @@
     "MY_ACTIVITIES": "Hoạt động của tôi",
     "MIN_AGO": "{{minutes}} phút trước",
     "HOURS_AGO": "{{hours}} giờ trước",
-    "VIEW_DETAIL": "Xem chi tiết"
+    "VIEW_DETAIL": "Xem chi tiết",
+    "TRAVEL_CONNECT_STATISTIC": "Thống kê từ Travel Connect",
+    "TOTAL_OFFERS_ON_TRAVEL_CONNECT": "Tổng số yêu cầu ghép đoàn",
+    "REVENUE_ON_TRAVEL_CONNECT": "Doanh thu từ Travel Connect",
+    "LIST_OF_LEADS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "Danh sách Lead có thể đưa lên Travel Connect",
+    "LIST_OF_TOURS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "Danh sách Tour có thể đưa lên Travel Connect"
   }
 }
