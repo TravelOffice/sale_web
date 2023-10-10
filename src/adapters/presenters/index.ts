@@ -30,6 +30,8 @@ import { RolePermissionPresenter } from './interfaces/RolePermissionPresenter';
 import RolePermissionPresenterImpl from './RolePermissionPresenterImpl';
 import { ReceiptPresenter } from './interfaces/ReceiptPresenter';
 import ReceiptPresenterImpl from './ReceiptPresenterImpl';
+import { MarketplaceStatisticPresenter } from './interfaces/MarketplaceStatisticPresenter';
+import MarketplaceStatisticPresenterImpl from './MarketplaceStatisticImpl';
 
 interface Presenters {
   userPresenter: UserPresenter,
@@ -48,6 +50,7 @@ interface Presenters {
   supplierPresenter: SupplierPresenter,
   paymentVoucherPresenter: PaymentVoucherPresenter,
   tourLocationPresenter: TourLocationPresenter,
+  marketplaceStatisticPresenter: MarketplaceStatisticPresenter
 }
 
 const presenters: Presenters = {
@@ -67,6 +70,7 @@ const presenters: Presenters = {
   supplierPresenter: new SupplierPresenterImpl(),
   paymentVoucherPresenter: new PaymentVoucherPresenterImpl(),
   tourLocationPresenter: new TourLocationPresenterImpl(),
+  marketplaceStatisticPresenter: new MarketplaceStatisticPresenterImpl(),
 };
 
 export const {
@@ -86,4 +90,5 @@ export const {
   supplierPresenter,
   paymentVoucherPresenter,
   tourLocationPresenter,
+  marketplaceStatisticPresenter,
 } = presenters;

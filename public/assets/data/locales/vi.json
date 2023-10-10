@@ -1091,6 +1091,16 @@
     "TOTAL_OFFERS_ON_TRAVEL_CONNECT": "Tổng số yêu cầu ghép đoàn",
     "REVENUE_ON_TRAVEL_CONNECT": "Doanh thu từ Travel Connect",
     "LIST_OF_LEADS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "Danh sách Lead có thể đưa lên Travel Connect",
-    "LIST_OF_TOURS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "Danh sách Tour có thể đưa lên Travel Connect"
+    "LIST_OF_TOURS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "Danh sách Tour có thể đưa lên Travel Connect",
+    "TOTAL_POSTS": "Tổng số bài Post",
+    "TOTAL_SENT_OFFERS_REVENUE": "Doanh thu Offer đã gửi",
+    "TOTAL_RECEIVED_OFFERS_REVENUE": "Doanh thu Offer đã nhận",
+    "TOTAL_OFFERS": "Tổng số Offer",
+    "TOTAL_RECEIVED_OFFERS": "Tổng số Offer đã nhận",
+    "TOTAL_SENT_OFFERS": "Tổng số Offer đã gửi",
+    "TOTAL_SUCCESS_OFFERS": "Tổng số Offer thành công",
+    "TOTAL_SUCCESS_SENT_OFFERS": "Tổng số Offer đã gửi thành công",
+    "TOTAL_SUCCESS_RECEIVED_OFFERS": "Tổng số Offer đã nhận thành công",
+    "OFFER_STATISTICAL": "Thông kê về Offer từ Travel Connect"
   }
 }
