@@ -14,9 +14,11 @@ import {
   getBookingsUseCase,
   getBookingUseCase,
   updateBookingUseCase,
+  updateCustomerOfBookingUseCase,
 } from '@domain/useCases/booking';
 import { CreateNoteFormData } from '@domain/entities/note/Note';
 import { ConfirmBookingFormData } from '@domain/entities/booking/ConfirmBookingFormData';
+import { Customer, UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 
 export default class BookingPresenterImpl implements BookingPresenter {
   getBookings = async (status?: BookingStatus) => getBookingsUseCase.invoke(status);
@@ -54,5 +56,10 @@ export default class BookingPresenterImpl implements BookingPresenter {
   addNoteToBooking = async (
     bookingId: string,
     formData: CreateNoteFormData,
-  ) => addBookingNoteUseCase.invoke(bookingId, formData)
+  ) => addBookingNoteUseCase.invoke(bookingId, formData);
+
+  updateCustomerOfBooking = async (
+    bookingId: string,
+    customer: UpdateCustomerFormData,
+  ): Promise<Customer> => updateCustomerOfBookingUseCase.invoke(bookingId, customer);
 }

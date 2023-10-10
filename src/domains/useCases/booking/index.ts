@@ -20,6 +20,8 @@ import { GetBookingsOfCustomerUseCase } from '@domain/useCases/interfaces/custom
 import GetBookingsOfCustomerUseCaseImpl from '@domain/useCases/customer/GetBookingsOfCustomerUseCaseImpl';
 import { ChangeToPaymentPendingUseCase } from '@domain/useCases/booking/interfaces/ChangeToPaymentPendingUseCase';
 import ChangeToPaymentPendingUseCaseImpl from '@domain/useCases/booking/ChangeToPaymentPendingUseCaseImpl';
+import { UpdateCustomerOfBookingUseCase } from '@domain/useCases/booking/interfaces/UpdateCustomerOfBookingUseCase';
+import UpdateCustomerOfBookingUseCaseImpl from '@domain/useCases/booking/UpdateCustomerOfBookingUseCaseImpl';
 
 interface UseCases {
   addBookingUseCase: AddBookingUseCase,
@@ -33,6 +35,7 @@ interface UseCases {
   cancelBookingUseCase: CancelBookingUseCase,
   changeToPaymentPendingUseCase: ChangeToPaymentPendingUseCase,
   getBookingsOfCustomerUseCase: GetBookingsOfCustomerUseCase,
+  updateCustomerOfBookingUseCase: UpdateCustomerOfBookingUseCase,
 }
 
 const useCases: UseCases = {
@@ -47,6 +50,7 @@ const useCases: UseCases = {
   cancelBookingUseCase: new CancelBookingUseCaseImpl(),
   changeToPaymentPendingUseCase: new ChangeToPaymentPendingUseCaseImpl(),
   getBookingsOfCustomerUseCase: new GetBookingsOfCustomerUseCaseImpl(),
+  updateCustomerOfBookingUseCase: new UpdateCustomerOfBookingUseCaseImpl(),
 };
 
 export const {
@@ -61,4 +65,5 @@ export const {
   cancelBookingUseCase,
   changeToPaymentPendingUseCase,
   getBookingsOfCustomerUseCase,
+  updateCustomerOfBookingUseCase,
 } = useCases;
