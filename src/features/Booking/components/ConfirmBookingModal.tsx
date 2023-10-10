@@ -68,6 +68,9 @@ const ConfirmBookingModal = (props: ConfirmBookingModalProps) => {
     formState: { errors },
   } = useForm<ConfirmBookingFormData>({
     resolver: yupResolver(confirmBookingSchema),
+    defaultValues: {
+      totalPayment: booking.totalPayment,
+    },
   });
 
   const handleReset = () => {

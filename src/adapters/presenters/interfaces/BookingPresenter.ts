@@ -4,6 +4,7 @@ import { AddBookingFromLeadFormData } from '@domain/entities/booking/AddBookingF
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
 import { CreateNoteFormData, Note } from '@domain/entities/note/Note';
 import { ConfirmBookingFormData } from '@domain/entities/booking/ConfirmBookingFormData';
+import { Customer, UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 
 export interface BookingPresenter {
   getBookings(status?: BookingStatus): Promise<Booking[]>;
@@ -25,4 +26,6 @@ export interface BookingPresenter {
   confirmBooking(bookingId: string, formData: ConfirmBookingFormData): Promise<Partial<Booking>>;
 
   changeToPaymentPending(bookingId: string, waitingExpiredAt: number): Promise<Partial<Booking>>;
+
+  updateCustomerOfBooking(bookingId: string, customer: UpdateCustomerFormData): Promise<Customer>;
 }

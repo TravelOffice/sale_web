@@ -6,6 +6,7 @@ import { Booking, BookingStatus } from '@domain/entities/booking/Booking';
 import { UpdateBookingFormData } from '@domain/entities/booking/UpdateBookingFormData';
 import { CreateNoteFormData } from '@domain/entities/note/Note';
 import { ConfirmBookingFormData } from '@domain/entities/booking/ConfirmBookingFormData';
+import { Customer, UpdateCustomerFormData } from '@domain/entities/customer/Customer';
 
 export default class BookingRepositoryImpl implements BookingRepository {
   /**
@@ -117,6 +118,14 @@ export default class BookingRepositoryImpl implements BookingRepository {
     waitingExpiredAt: number,
   ): Promise<Booking> => {
     const response = await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/payment-pending`, { waitingExpiredAt });
+    return response.data;
+  }
+
+  updateCustomerOfBooking = async (
+    bookingId: string,
+    customer: Partial<UpdateCustomerFormData>,
+  ): Promise<Customer> => {
+    const response = await apiProvider.authorizedRequest.put(`/bookings/${bookingId}/customers`, customer);
     return response.data;
   }
 }

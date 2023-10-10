@@ -44,7 +44,13 @@ export default function BookingItemActions(props: BookingItemActionsProps) {
       />
       <div className="d-flex gap-1">
         <div>
-          <Button className="btn-icon" outline color="success" id="confirmBooking" onClick={() => toggleConfirmFormModal()}>
+          <Button
+            className="btn-icon"
+            outline
+            color="success"
+            id="confirmBooking"
+            onClick={() => toggleConfirmFormModal()}
+          >
             <Check size={14} />
           </Button>
           <UncontrolledTooltip placement="bottom" target="confirmBooking">
