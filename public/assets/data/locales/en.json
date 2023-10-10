@@ -1091,6 +1091,16 @@
     "TOTAL_OFFERS_ON_TRAVEL_CONNECT": "Total offers on Travel Connect",
     "REVENUE_ON_TRAVEL_CONNECT": "Revenue from Travel Connect",
     "LIST_OF_LEADS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "List of leads that can be sold on Travel Connect",
-    "LIST_OF_TOURS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "List of tours that can be sold on Travel Connect"
+    "LIST_OF_TOURS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "List of tours that can be sold on Travel Connect",
+    "TOTAL_POSTS": "Total posts",
+    "TOTAL_SENT_OFFERS_REVENUE": "Total sent offers revenue",
+    "TOTAL_RECEIVED_OFFERS_REVENUE": "Total received offers revenue",
+    "TOTAL_OFFERS": "Total offers",
+    "TOTAL_RECEIVED_OFFERS": "Total received offers",
+    "TOTAL_SENT_OFFERS": "Total sent offers",
+    "TOTAL_SUCCESS_OFFERS": "Total success offers",
+    "TOTAL_SUCCESS_SENT_OFFERS": "Total success sent offers",
+    "TOTAL_SUCCESS_RECEIVED_OFFERS": "Total success received offers",
+    "OFFER_STATISTICAL": "Offer statistical from Travel Connect"
   }
 }

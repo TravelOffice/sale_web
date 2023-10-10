@@ -177,6 +177,10 @@ import { AssignTourOperator } from './interfaces/tour/AssignTourOperator';
 import AssignTourOperatorImpl from './tour/AssignTourOperatorImpl';
 import { GetLinkedPostOnMarketplaceInfoUseCase } from './interfaces/marketplace/GetLinkedPostOnMarketplaceInfoUseCase';
 import GetLinkedPostOnMarketplaceInfoUseCaseImpl from './marketplace/GetLinkedPostOnMarketplaceInfoUseCaseImpl';
+import { GetMarketplaceStatisticUseCase } from './interfaces/statistic/GetMarketplaceStatisticUseCase';
+import { GetOrganizationStatisticUseCase } from './interfaces/statistic/GetOrganizationStatisticUseCase';
+import GetOrganizationStatisticUseCaseImpl from './statistic/GetOrganizationStatisticUseCaseImpl';
+import GetMarketplaceStatisticUseCaseImpl from './statistic/GetMarketplaceStatisticUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -281,6 +285,9 @@ interface UseCases {
   approvePaymentVoucherUseCase: ApprovePaymentVoucherUseCase,
   // Marketplace
   getLinkedPostOnMarketplaceInfoUseCase: GetLinkedPostOnMarketplaceInfoUseCase,
+  // Statistic
+  getMarketplaceStatisticUseCase: GetMarketplaceStatisticUseCase,
+  getOrganizationStatisticUseCase: GetOrganizationStatisticUseCase,
 }
 
 const useCases: UseCases = {
@@ -384,6 +391,9 @@ const useCases: UseCases = {
   approvePaymentVoucherUseCase: new ApprovePaymentVoucherFileUseCaseImpl(),
   // Marketplace
   getLinkedPostOnMarketplaceInfoUseCase: new GetLinkedPostOnMarketplaceInfoUseCaseImpl(),
+  // Statistic
+  getMarketplaceStatisticUseCase: new GetMarketplaceStatisticUseCaseImpl(),
+  getOrganizationStatisticUseCase: new GetOrganizationStatisticUseCaseImpl(),
 };
 
 export const {
@@ -478,4 +488,6 @@ export const {
   uploadPaymentVoucherFileUseCase,
   getLinkedPostOnMarketplaceInfoUseCase,
   approvePaymentVoucherUseCase,
+  getMarketplaceStatisticUseCase,
+  getOrganizationStatisticUseCase,
 } = useCases;
