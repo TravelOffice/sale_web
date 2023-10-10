@@ -99,7 +99,9 @@
     "VALIDATE_INPUT_NUMBER_MSG": "Please enter a valid number",
     "MY_DASHBOARD": "My Dashboard",
     "MANAGER_DASHBOARD": "Manager Dashboard",
-    "MARKETING_DASHBOARD": "Marketing Dashboard"
+    "MARKETING_DASHBOARD": "Marketing Dashboard",
+    "THERE_ARE_NO_DATA_TO_DISPLAY": "There are no data to display",
+    "SOMETHING_WENT_WRONG_MESSAGE": "Oops! Something went wrong. Please try again later."
   },
   "LEAD": {
     "LEAD_INFO": "Lead information",
@@ -610,6 +612,7 @@
     "SELECT_TOUR_TYPE": "Select tour type"
   },
   "DEPARTURE_TOUR": {
+    "CODE": "Code",
     "DEPARTURE_TOUR": "Departure tour",
     "CREATE": "Create new Departure Tour",
     "EDIT": "Update Departure Tour",
@@ -634,7 +637,8 @@
     "SELECT_TOUR_TEMPLATE": "Select tour template",
     "START_DATE": "Start date",
     "CODE_OP": "Code/Operation Status",
-    "START_DATE_RANGE": "Departure date range"
+    "START_DATE_RANGE": "Departure date range",
+    "FILLING_RATIO": "Filling ratio"
   },
   "TOURS_OPERATION": {
     "NAV": {
@@ -1047,8 +1051,12 @@
     "NUMBER_CHAT_NOT_RESPONSE_THAN_15_MINUTES": "Number of chat sessions not responded in more than 15 minutes",
     "LEAD_PER_CHAT_SESSION": "Lead Conversion Rate per Total Chat Sessions",
     "TOP_TOURS_OF_INTEREST": "Top tours of interest",
-    "HIGHEST_PROFIT_TOURS": "Highest profit tours",
+    "TOP_PROFICIENCY_TOURS": "Top proficiency tours",
+    "TOP_FAVORITE_LOCATIONS": "Top favorite locations",
+    "NUMBER_OF_LEADS_ARE_INTERESTED_IN_THIS_LOCATION": "Leads are interested in this location",
     "REVENUE": "Revenue",
+    "COST": "Cost",
+    "PROFICIENCY": "Proficiency",
     "LAST_MONTH": "Last month",
     "THIS_MONTH": "This month",
     "GOAL_REVENUE": "Monthly revenue target for {{month}}",
@@ -1083,6 +1091,7 @@
     "REFERRAL_CUSTOMERS": "Marketplace referral customers",
     "GOAL": "Goal",
     "INTERESTED_COUNT": "Interested",
+    "BOOKINGS_WERE_CREATED_FROM_THIS_TEMPLATE": "Bookings were created from this template",
     "MY_ACTIVITIES": "My activities",
     "MIN_AGO": "{{minutes}} min ago",
     "HOURS_AGO": "{{hours}} hours ago",

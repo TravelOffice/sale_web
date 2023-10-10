@@ -117,6 +117,10 @@ import UploadSupplierQuoteAttachmentUseCaseImpl
   from '@domain/useCases/supplier/UploadSupplierQuoteAttachmentUseCaseImpl';
 import { ApprovePaymentVoucherUseCase } from '@domain/useCases/interfaces/paymentVoucher/ApprovePaymentVoucherUseCase';
 import ApprovePaymentVoucherFileUseCaseImpl from '@domain/useCases/paymentVoucher/ApprovePaymentVoucherFileUseCaseImpl';
+import { GetTravelStatisticUseCase } from '@domain/useCases/interfaces/statistic/GetTravelStatisticUseCase';
+import GetTravelStatisticUseCaseImpl from '@domain/useCases/statistic/GetTravelStatisticUseCaseImpl';
+import { GetSaleStatisticUseCase } from '@domain/useCases/interfaces/statistic/GetSaleStatisticUseCase';
+import GetSaleStatisticUseCaseImpl from '@domain/useCases/statistic/GetSaleStatisticUseCaseImpl';
 import AdminGetPlatformConversationsUseCaseImpl from './chat/AdminGetPlatformConversationsUseCaseImpl';
 import GetMessagesUseCaseImpl from './chat/GetMessagesUseCaseImpl';
 import GetPlatformConversationsUseCaseImpl from './chat/GetPlatformConversationsUseCaseImpl';
@@ -181,6 +185,12 @@ import { GetMarketplaceStatisticUseCase } from './interfaces/statistic/GetMarket
 import { GetOrganizationStatisticUseCase } from './interfaces/statistic/GetOrganizationStatisticUseCase';
 import GetOrganizationStatisticUseCaseImpl from './statistic/GetOrganizationStatisticUseCaseImpl';
 import GetMarketplaceStatisticUseCaseImpl from './statistic/GetMarketplaceStatisticUseCaseImpl';
+import { GetTravelRevenueUseCase } from './interfaces/statistic/GetTravelRevenueUseCase';
+import { GetTravelConversionRatioUseCase } from './interfaces/statistic/GetTravelConversionRatioUseCase';
+import { GetTravelProfitUseCase } from './interfaces/statistic/GetTravelProfitUseCase';
+import GetTravelRevenueUseCaseImpl from './statistic/GetTravelRevenueUseCaseImpl';
+import GetTravelConversionRatioUseCaseImpl from './statistic/GetTravelConversionRatioUseCaseImpl';
+import GetTravelProfitUseCaseImpl from './statistic/GetTravelProfitUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -288,6 +298,11 @@ interface UseCases {
   // Statistic
   getMarketplaceStatisticUseCase: GetMarketplaceStatisticUseCase,
   getOrganizationStatisticUseCase: GetOrganizationStatisticUseCase,
+  getTravelRevenueUseCase: GetTravelRevenueUseCase,
+  getTravelConversionRatioUseCase: GetTravelConversionRatioUseCase,
+  getTravelProfitUseCase: GetTravelProfitUseCase,
+  getTravelStatisticUseCase: GetTravelStatisticUseCase,
+  getSaleStatisticUseCase: GetSaleStatisticUseCase
 }
 
 const useCases: UseCases = {
@@ -394,6 +409,11 @@ const useCases: UseCases = {
   // Statistic
   getMarketplaceStatisticUseCase: new GetMarketplaceStatisticUseCaseImpl(),
   getOrganizationStatisticUseCase: new GetOrganizationStatisticUseCaseImpl(),
+  getTravelRevenueUseCase: new GetTravelRevenueUseCaseImpl(),
+  getTravelConversionRatioUseCase: new GetTravelConversionRatioUseCaseImpl(),
+  getTravelProfitUseCase: new GetTravelProfitUseCaseImpl(),
+  getTravelStatisticUseCase: new GetTravelStatisticUseCaseImpl(),
+  getSaleStatisticUseCase: new GetSaleStatisticUseCaseImpl(),
 };
 
 export const {
@@ -490,4 +510,10 @@ export const {
   approvePaymentVoucherUseCase,
   getMarketplaceStatisticUseCase,
   getOrganizationStatisticUseCase,
+  // Statistic
+  getTravelRevenueUseCase,
+  getTravelProfitUseCase,
+  getTravelConversionRatioUseCase,
+  getTravelStatisticUseCase,
+  getSaleStatisticUseCase,
 } = useCases;

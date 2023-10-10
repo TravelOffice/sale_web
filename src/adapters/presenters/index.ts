@@ -32,6 +32,8 @@ import { ReceiptPresenter } from './interfaces/ReceiptPresenter';
 import ReceiptPresenterImpl from './ReceiptPresenterImpl';
 import { MarketplaceStatisticPresenter } from './interfaces/MarketplaceStatisticPresenter';
 import MarketplaceStatisticPresenterImpl from './MarketplaceStatisticImpl';
+import { TravelStatisticPresenter } from './interfaces/TravelStatisticPresenter';
+import TravelStatisticPresenterImpl from './TravelStatisticPresenterImpl';
 
 interface Presenters {
   userPresenter: UserPresenter,
@@ -50,7 +52,8 @@ interface Presenters {
   supplierPresenter: SupplierPresenter,
   paymentVoucherPresenter: PaymentVoucherPresenter,
   tourLocationPresenter: TourLocationPresenter,
-  marketplaceStatisticPresenter: MarketplaceStatisticPresenter
+  marketplaceStatisticPresenter: MarketplaceStatisticPresenter,
+  travelStatisticPresenter: TravelStatisticPresenter,
 }
 
 const presenters: Presenters = {
@@ -71,6 +74,7 @@ const presenters: Presenters = {
   paymentVoucherPresenter: new PaymentVoucherPresenterImpl(),
   tourLocationPresenter: new TourLocationPresenterImpl(),
   marketplaceStatisticPresenter: new MarketplaceStatisticPresenterImpl(),
+  travelStatisticPresenter: new TravelStatisticPresenterImpl(),
 };
 
 export const {
@@ -91,4 +95,5 @@ export const {
   paymentVoucherPresenter,
   tourLocationPresenter,
   marketplaceStatisticPresenter,
+  travelStatisticPresenter,
 } = presenters;

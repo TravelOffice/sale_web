@@ -1,4 +1,4 @@
-import { MarketplaceStatistic, OrganizationStatistic } from '@domain/entities/statistic';
+import { MarketplaceStatistic, OrganizationStatistic } from '@domain/entities/statistic/MarketplaceStatistic';
 
 export interface MarketplaceStatisticPresenter {
   getStatistic: () => Promise<MarketplaceStatistic>;
