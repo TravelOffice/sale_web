@@ -304,6 +304,9 @@ $sizes-per: (
 .cursor-default {
   cursor: default;
 }
+.cursor-default-important {
+  cursor: default !important;
+}
 .cursor-progress {
   cursor: progress;
 }

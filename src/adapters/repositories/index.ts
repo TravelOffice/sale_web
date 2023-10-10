@@ -40,6 +40,8 @@ import MarketplaceRepositoryImpl from '@adapter/repositories/MarketplaceReposito
 import TourRepositoryImpl from '@adapter/repositories/TourRepositoryImpl';
 import { DepartureTourRepository } from '@adapter/repositories/interfaces/DepartureTourRepository';
 import { MarketplaceRepository } from '@adapter/repositories/interfaces/MarketplaceRepository';
+import { MarketplaceStatisticRepository } from '@adapter/repositories/interfaces/MarketplaceStatisticRepository';
+import MarketplaceStatisticRepositoryImpl from '@adapter/repositories/MarketplaceStatisticRepositoryImpl';
 
 interface Repositories {
   userRepository: UserRepository,
@@ -63,6 +65,7 @@ interface Repositories {
   tourOperationRepository: TourOperationRepository,
   tourLocationRepository: TourLocationRepository,
   marketplaceRepository: MarketplaceRepository,
+  marketplaceStatisticRepository: MarketplaceStatisticRepository,
 }
 
 const repositories: Repositories = {
@@ -87,6 +90,7 @@ const repositories: Repositories = {
   tourOperationRepository: new TourOperationRepositoryImpl(),
   tourLocationRepository: new TourLocationRepositoryImpl(),
   marketplaceRepository: new MarketplaceRepositoryImpl(),
+  marketplaceStatisticRepository: new MarketplaceStatisticRepositoryImpl(),
 };
 
 export const {
@@ -111,4 +115,5 @@ export const {
   tourOperationRepository,
   tourLocationRepository,
   marketplaceRepository,
+  marketplaceStatisticRepository,
 } = repositories;
