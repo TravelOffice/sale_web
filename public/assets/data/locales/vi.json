@@ -99,7 +99,9 @@
     "VALIDATE_INPUT_NUMBER_MSG": "Giá trị nhập vào phải là số",
     "MY_DASHBOARD": "Dashboard của tôi",
     "MANAGER_DASHBOARD": "Dashboard quản lý",
-    "MARKETING_DASHBOARD": "Dashboard marketing"
+    "MARKETING_DASHBOARD": "Dashboard marketing",
+    "THERE_ARE_NO_DATA_TO_DISPLAY" : "Không có dữ liệu để hiển thị",
+    "SOMETHING_WENT_WRONG_MESSAGE": "Đã có lỗi xảy ra. Vui lòng thử lại sau!"
   },
   "LEAD": {
     "LEAD_INFO": "Thông tin lead",
@@ -610,6 +612,7 @@
     "SELECT_TOUR_TYPE": "Chọn loại tour"
   },
   "DEPARTURE_TOUR": {
+    "CODE": "Mã",
     "DEPARTURE_TOUR": "Tour khởi hành",
     "CREATE": "Tạo tour khởi hành mới",
     "EDIT": "Cập nhật tour khởi hành",
@@ -634,7 +637,8 @@
     "SELECT_TOUR_TEMPLATE": "Chọn tour mẫu",
     "START_DATE": "Ngày khởi hành",
     "CODE_OP": "Mã/Trạng thái điều hành",
-    "START_DATE_RANGE": "Ngày khởi hành"
+    "START_DATE_RANGE": "Ngày khởi hành",
+    "FILLING_RATIO": "Tỉ lệ lấp đầy"
   },
   "TOURS_OPERATION": {
     "NAV": {
@@ -1047,8 +1051,12 @@
     "NUMBER_CHAT_NOT_RESPONSE_THAN_15_MINUTES": "Phiên chat chưa được phản hồi sau 15 phút",
     "LEAD_PER_CHAT_SESSION": "Tỉ lệ chuyển đổi Lead từ số phiên chat",
     "TOP_TOURS_OF_INTEREST": "Top tour được quan tâm nhiều nhất",
-    "HIGHEST_PROFIT_TOURS": "Top tour có lợi nhuận cao nhất",
+    "TOP_PROFICIENCY_TOURS": "Top tour hiệu quả nhất",
+    "TOP_FAVORITE_LOCATIONS": "Top địa điểm được quan tâm nhiều nhất",
+    "NUMBER_OF_LEADS_ARE_INTERESTED_IN_THIS_LOCATION": "Lead đã quan tâm đến địa điểm này",
     "REVENUE": "Doanh thu",
+    "COST": "Chi phí",
+    "PROFICIENCY": "Hiệu quả",
     "LAST_MONTH": "Tháng trước",
     "THIS_MONTH": "Tháng này",
     "GOAL_REVENUE": "Mục tiêu doanh thu tháng {{month}}",
@@ -1083,6 +1091,7 @@
     "REFERRAL_CUSTOMERS": "Khách hàng từ marketplace",
     "GOAL": "Mục tiêu",
     "INTERESTED_COUNT": "lượt quan tâm",
+    "BOOKINGS_WERE_CREATED_FROM_THIS_TEMPLATE": "Booking được tạo từ tour mẫu này",
     "MY_ACTIVITIES": "Hoạt động của tôi",
     "MIN_AGO": "{{minutes}} phút trước",
     "HOURS_AGO": "{{hours}} giờ trước",
@@ -1093,14 +1102,14 @@
     "LIST_OF_LEADS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "Danh sách Lead có thể đưa lên Travel Connect",
     "LIST_OF_TOURS_CAN_BE_SOLD_ON_TRAVEL_CONNECT": "Danh sách Tour có thể đưa lên Travel Connect",
     "TOTAL_POSTS": "Tổng số bài Post",
-    "TOTAL_SENT_OFFERS_REVENUE": "Doanh thu Offer đã gửi",
-    "TOTAL_RECEIVED_OFFERS_REVENUE": "Doanh thu Offer đã nhận",
+    "TOTAL_SENT_OFFERS_REVENUE": "Doanh thu từ các Offer gửi đi",
+    "TOTAL_RECEIVED_OFFERS_REVENUE": "Doanh thu từ các Offer nhận được",
     "TOTAL_OFFERS": "Tổng số Offer",
     "TOTAL_RECEIVED_OFFERS": "Tổng số Offer đã nhận",
     "TOTAL_SENT_OFFERS": "Tổng số Offer đã gửi",
     "TOTAL_SUCCESS_OFFERS": "Tổng số Offer thành công",
     "TOTAL_SUCCESS_SENT_OFFERS": "Tổng số Offer đã gửi thành công",
     "TOTAL_SUCCESS_RECEIVED_OFFERS": "Tổng số Offer đã nhận thành công",
-    "OFFER_STATISTICAL": "Thông kê về Offer từ Travel Connect"
+    "OFFER_STATISTICAL": "Thống kê về Offer từ Travel Connect"
   }
 }

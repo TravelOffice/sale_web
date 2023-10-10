@@ -6,11 +6,41 @@ import Statistics from '@components/Statistics/Statistics';
 import { MessageSquare, TrendingUp, User } from 'react-feather';
 import i18n from '@config/i18n';
 import MyTasks from '@features/Dashboard/MyDashboard/components/MyTasks';
+import { useQuery } from '@tanstack/react-query';
+import {
+  MetricNameEnum,
+  TotalBookingMetricResponse,
+  TotalLeadMetricResponse,
+} from '@domain/entities/statistic/TravelStatistic';
+import { travelStatisticPresenter } from '@adapter/presenters';
+import { useCurrentUser } from '@hooks/auth';
 import CardCongratulations from './components/CardCongratulations';
 
 export default function MyDashboard() {
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
+  const currentUser = useCurrentUser();
+  if (!currentUser) return null;
+  const { username } = currentUser;
+  const {
+    data: totalLeadOfSale,
+  } = useQuery(
+    [MetricNameEnum.TOTAL_LEAD_OF_SALE],
+    async () => travelStatisticPresenter.getSaleStatistic(
+      username,
+      MetricNameEnum.TOTAL_LEAD_OF_SALE,
+    ),
+  );
+
+  const {
+    data: totalBookingOfSale,
+  } = useQuery(
+    [MetricNameEnum.TOTAL_BOOKING_OF_SALE],
+    async () => travelStatisticPresenter.getSaleStatistic(
+      username,
+      MetricNameEnum.TOTAL_BOOKING_OF_SALE,
+    ),
+  );
 
   return (
     <div className="to-table-container">
@@ -24,13 +54,13 @@ export default function MyDashboard() {
             items={[{
               color: 'light-info',
               icon: <User size={24} />,
-              title: '876',
+              title: totalLeadOfSale ? (totalLeadOfSale as TotalLeadMetricResponse).totalLead.toString() : '0',
               subtitle: i18n.t('DASHBOARD.NUMBER_OF_CREATED_LEADS'),
             },
             {
               color: 'light-success',
               icon: <TrendingUp size={24} />,
-              title: '657',
+              title: totalBookingOfSale ? (totalBookingOfSale as TotalBookingMetricResponse).totalBooking.toString() : '0',
               subtitle: i18n.t('DASHBOARD.NUMBER_OF_CREATED_BOOKINGS'),
             },
             {

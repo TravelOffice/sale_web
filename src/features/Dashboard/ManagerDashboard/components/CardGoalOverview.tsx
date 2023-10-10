@@ -20,10 +20,11 @@ export interface GoalOverviewProps {
 }
 
 const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => {
+  const surplusInProgress = goal - completed;
   const data = {
     goal: formatVND(goal),
     completed: formatVND(completed),
-    inProgress: formatVND(goal - completed),
+    inProgress: formatVND(Math.abs(surplusInProgress)),
   };
   const completePercentile = parseFloat(((completed / goal) * 100).toFixed(2));
 
@@ -126,7 +127,7 @@ const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => 
                 <span className="fw-bold ms-75">
                   {`${i18n.t('DASHBOARD.REMAINING')}: `}
                   <b>
-                    {data.inProgress}
+                    {surplusInProgress > 0 ? data.inProgress : `+${data.inProgress}`}
                   </b>
                 </span>
               </CardText>

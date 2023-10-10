@@ -4,14 +4,10 @@ import * as Icon from 'react-feather';
 import i18n from 'i18next';
 
 import { marketplaceStatisticPresenter } from '@adapter/presenters';
-import { OrganizationStatistic } from '@domain/entities/statistic';
+import { OrganizationStatistic } from '@domain/entities/statistic/MarketplaceStatistic';
 import CardTransactions, { CardTransaction } from '@features/Dashboard/components/CardTransactions';
 import { Col, Row } from 'reactstrap';
-
-const formatter = new Intl.NumberFormat('it-IT', {
-  style: 'currency',
-  currency: 'VND',
-});
+import { formatVND } from '@utils/CommonUtils';
 
 const CardMarketplace = () => {
   const [orgStatistic, setOrgStatistic] = useState<OrganizationStatistic>();
@@ -28,33 +24,21 @@ const CardMarketplace = () => {
 
   const firstSection: CardTransaction[] = [
     {
-      title: i18n.t('DASHBOARD.TOTAL_OFFERS_ON_TRAVEL_CONNECT'),
-      color: 'light-success',
-      amount: 876,
-      Icon: Icon.Pocket,
-    },
-    {
       title: i18n.t('DASHBOARD.TOTAL_POSTS'),
       color: 'light-success',
       amount: orgStatistic?.totalPosts,
       Icon: Icon.Pocket,
     },
     {
-      title: i18n.t('DASHBOARD.REVENUE_ON_TRAVEL_CONNECT'),
-      color: 'light-success',
-      amount: formatter.format(657000000),
-      Icon: Icon.DollarSign,
-    },
-    {
       title: i18n.t('DASHBOARD.TOTAL_SENT_OFFERS_REVENUE'),
       color: 'light-success',
-      amount: formatter.format(orgStatistic?.totalSentOffersRevenue ?? 0),
+      amount: formatVND(orgStatistic?.totalSentOffersRevenue ?? 0),
       Icon: Icon.DollarSign,
     },
     {
       title: i18n.t('DASHBOARD.TOTAL_RECEIVED_OFFERS_REVENUE'),
       color: 'light-success',
-      amount: formatter.format(orgStatistic?.totalReceivedOffersRevenue ?? 0),
+      amount: formatVND(orgStatistic?.totalReceivedOffersRevenue ?? 0),
       Icon: Icon.DollarSign,
     },
     {
@@ -63,13 +47,6 @@ const CardMarketplace = () => {
   ];
 
   const secondSection: CardTransaction[] = [
-    {
-      title: i18n.t('DASHBOARD.TOTAL_OFFERS'),
-      color: 'light-warning',
-      amount: orgStatistic?.totalOffers,
-      Icon: Icon.CreditCard,
-      textColorClass: 'text-warning',
-    },
     {
       title: i18n.t('DASHBOARD.TOTAL_RECEIVED_OFFERS'),
       color: 'light-warning',
@@ -81,13 +58,6 @@ const CardMarketplace = () => {
       title: i18n.t('DASHBOARD.TOTAL_SENT_OFFERS'),
       color: 'light-warning',
       amount: orgStatistic?.totalSentOffers,
-      Icon: Icon.CreditCard,
-      textColorClass: 'text-warning',
-    },
-    {
-      title: i18n.t('DASHBOARD.TOTAL_SUCCESS_OFFERS'),
-      color: 'light-warning',
-      amount: orgStatistic?.totalSuccessOffers,
       Icon: Icon.CreditCard,
       textColorClass: 'text-warning',
     },
