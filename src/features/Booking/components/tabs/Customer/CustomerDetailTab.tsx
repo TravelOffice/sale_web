@@ -9,7 +9,7 @@ import LoadingButton from '@components/LoadingButton/LoadingButton';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { bookingPresenter, customerPresenter } from '@adapter/presenters';
+import { bookingPresenter } from '@adapter/presenters';
 import { honorificOptions } from '@utils/LeadUtils';
 import toasty from '@components/Toasty/Toasty';
 import { UpdateCustomerFormData } from '@domain/entities/customer/Customer';
@@ -55,7 +55,7 @@ export default function CustomerDetailTab() {
     mutationKey: ['updateCustomer'],
     mutationFn: async (
       formData: UpdateCustomerFormData,
-    ) => customerPresenter.updateCustomer(booking?.customerId!, formData),
+    ) => bookingPresenter.updateCustomerOfBooking(bookingId, formData),
     onSuccess: (newCustomer) => {
       queryClient.setQueryData(['bookings', bookingId], {
         ...booking,
