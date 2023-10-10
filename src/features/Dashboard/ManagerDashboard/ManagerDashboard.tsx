@@ -1,23 +1,60 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import StatsHorizontal from '@components/Widgets/Stats/StatsHorizontal';
 import i18n from '@config/i18n';
-import CardCustomers from '@features/Dashboard/ManagerDashboard/components/CardCustomers';
-import CardGoalOverview from '@features/Dashboard/ManagerDashboard/components/CardGoalOverview';
-import CardHighestProfitTopTour from '@features/Dashboard/ManagerDashboard/components/CardHighestProfitTopTour';
-import CardInterestingTopTour from '@features/Dashboard/ManagerDashboard/components/CardInterestingTopTour';
+import CardTopFavoriteTour from '@features/Dashboard/ManagerDashboard/components/CardTopFavoriteTour';
 import CardMarketplaceOverview from '@features/Dashboard/ManagerDashboard/components/CardMarketplace';
 import ChatSummary from '@features/Dashboard/MarketingDashboard/components/ChatSummary';
-import { formatVietnameseDate } from '@utils/DateUtils';
 import { Award, MessageSquare, User } from 'react-feather';
 import { Col, Row } from 'reactstrap';
+import { travelStatisticPresenter } from '@adapter/presenters';
+import CardTopFavoriteLocation from '@features/Dashboard/ManagerDashboard/components/CardTopFavoriteLocation';
+import CardTopProficiencyTour from '@features/Dashboard/ManagerDashboard/components/CardTopProficiencyTour';
+import CardGoalOverview from '@features/Dashboard/ManagerDashboard/components/CardGoalOverview';
+import moment from 'moment';
+import { useQuery } from '@tanstack/react-query';
+import { MetricNameEnum, TravelRevenueStatistic } from '@domain/entities/statistic/TravelStatistic';
+import CardCustomers from './components/CardCustomers';
 import CardRevenueBarChart from './components/CardRevenueBarChart';
 
 export default function ManagerDashboard() {
-  const currentDate = new Date();
-  const currentDateStr = formatVietnameseDate(currentDate);
-  const currentMonth = currentDate.getMonth() + 1;
-  const topTourStartDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-  const topTourStartDateStr = formatVietnameseDate(topTourStartDate);
+  // Get current date
+  const currentDate = moment();
+  const currentMonth = moment().month();
+
+  // Get start and end of previous month
+  const previousMonthStart = moment(currentDate).subtract(1, 'months').startOf('month').valueOf();
+  const previousMonthEnd = moment(currentDate).subtract(1, 'months').endOf('month').valueOf();
+
+  // Get start and end of current month
+  const currentMonthStart = currentDate.startOf('month').valueOf();
+  const currentMonthEnd = currentDate.endOf('month').valueOf();
+
+  const {
+    data: previousMonthRevenue,
+  } = useQuery(
+    [MetricNameEnum.TOTAL_REVENUE_OF_TENANT],
+    async () => travelStatisticPresenter.getTravelStatistic(
+      MetricNameEnum.TOTAL_REVENUE_OF_TENANT,
+      previousMonthStart.toString(),
+      previousMonthEnd.toString(),
+    ),
+  );
+
+  const {
+    data: currentMonthRevenue,
+  } = useQuery(
+    [MetricNameEnum.TOTAL_REVENUE_OF_TENANT],
+    async () => travelStatisticPresenter.getTravelStatistic(
+      MetricNameEnum.TOTAL_REVENUE_OF_TENANT,
+      currentMonthStart.toString(),
+      currentMonthEnd.toString(),
+    ),
+  );
+
+  useEffect(() => {
+    console.log('currentMonthRevenue: ', currentMonthRevenue);
+    console.log('previousMonthRevenue: ', previousMonthRevenue);
+  }, [currentMonthRevenue, previousMonthRevenue]);
 
   return (
     <div className="to-table-container">
@@ -55,12 +92,15 @@ export default function ManagerDashboard() {
           />
         </Col>
       </Row>
-      <Row>
-        <Col lg="6" md="6" sm="6">
-          <CardInterestingTopTour startDate={topTourStartDateStr} endDate={currentDateStr} />
+      <Row className="match-height">
+        <Col lg="4" md="4" sm="4">
+          <CardTopFavoriteTour />
         </Col>
-        <Col lg="6" md="6" sm="6">
-          <CardHighestProfitTopTour startDate={topTourStartDateStr} endDate={currentDateStr} />
+        <Col lg="4" md="4" sm="4">
+          <CardTopProficiencyTour />
+        </Col>
+        <Col lg="4" md="4" sm="4">
+          <CardTopFavoriteLocation />
         </Col>
       </Row>
       <Row className="match-height">
@@ -68,15 +108,22 @@ export default function ManagerDashboard() {
           <CardCustomers />
         </Col>
         <Col lg="6" md="6" sm="12">
-          <CardGoalOverview goal={97000000} completed={30000000} month={currentMonth} />
+          <CardGoalOverview
+            goal={97000000}
+            completed={previousMonthRevenue
+              ? (previousMonthRevenue as TravelRevenueStatistic).totalRevenue : 0}
+            month={currentMonth}
+          />
         </Col>
       </Row>
       <Row className="match-height">
         <Col lg="12" md="12" sm="12">
           <CardRevenueBarChart
             direction="ltr"
-            thisMonthRevenue={30000000}
-            lastMonthRevenue={67000000}
+            thisMonthRevenue={currentMonthRevenue
+              ? (currentMonthRevenue as TravelRevenueStatistic).totalRevenue : 0}
+            lastMonthRevenue={previousMonthRevenue
+              ? (previousMonthRevenue as TravelRevenueStatistic).totalRevenue : 0}
           />
         </Col>
       </Row>

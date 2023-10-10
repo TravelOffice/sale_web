@@ -42,6 +42,8 @@ import { DepartureTourRepository } from '@adapter/repositories/interfaces/Depart
 import { MarketplaceRepository } from '@adapter/repositories/interfaces/MarketplaceRepository';
 import { MarketplaceStatisticRepository } from '@adapter/repositories/interfaces/MarketplaceStatisticRepository';
 import MarketplaceStatisticRepositoryImpl from '@adapter/repositories/MarketplaceStatisticRepositoryImpl';
+import { TravelStatisticRepository } from './interfaces/TravelStatisticRepository';
+import TravelStatisticRepositoryImpl from './TravelStatisticRepositoryImpl';
 
 interface Repositories {
   userRepository: UserRepository,
@@ -66,6 +68,7 @@ interface Repositories {
   tourLocationRepository: TourLocationRepository,
   marketplaceRepository: MarketplaceRepository,
   marketplaceStatisticRepository: MarketplaceStatisticRepository,
+  travelStatisticRepository: TravelStatisticRepository,
 }
 
 const repositories: Repositories = {
@@ -91,6 +94,7 @@ const repositories: Repositories = {
   tourLocationRepository: new TourLocationRepositoryImpl(),
   marketplaceRepository: new MarketplaceRepositoryImpl(),
   marketplaceStatisticRepository: new MarketplaceStatisticRepositoryImpl(),
+  travelStatisticRepository: new TravelStatisticRepositoryImpl(),
 };
 
 export const {
@@ -116,4 +120,5 @@ export const {
   tourLocationRepository,
   marketplaceRepository,
   marketplaceStatisticRepository,
+  travelStatisticRepository,
 } = repositories;
