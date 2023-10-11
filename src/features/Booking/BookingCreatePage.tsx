@@ -104,6 +104,7 @@ const initialFormData: AddBookingFormData = {
   },
   // Reference to TourTemplate model, each TourTemplate is identified by pk+sk pair
   tourTemplateId: '',
+  tourTemplateName: '',
   // One kind of ['shared', 'group', 'solo']
   tourType: BookingTourTypeEnum.SOLO,
   // Expected begin date of trip
@@ -124,6 +125,7 @@ const BookingCreatePage = () => {
   const history = useHistory();
   const queryClient = useQueryClient();
   const [passengers, setPassengers] = useState<Array<Passenger>>([]);
+  const [selectedTourTemplate, setSelectedTourTemplate] = useState<TourTemplate>();
   /**
    * Fetch related data for booking, such as tour templates, sales, etc
    * @returns {Object} { isLoading: boolean, relatedData: Array }
@@ -225,6 +227,7 @@ const BookingCreatePage = () => {
   const onSubmit = (data: AddBookingFormData) => {
     mutate({
       ...data,
+      tourTemplateName: selectedTourTemplate?.name || '',
       // Remove attachment from passengers
       // eslint-disable-next-line no-unused-vars
       passengers: passengers.map(({ attachment, ...rest }) => rest as Passenger),
@@ -237,12 +240,13 @@ const BookingCreatePage = () => {
   };
 
   const handleTourTemplateChange = (tourTemplateId: string) => {
-    const selectedTourTemplate = tourTemplateData.data?.find(
-      (tourTemplate) => tourTemplate.code === tourTemplateId,
+    const tourTemplate = tourTemplateData.data?.find(
+      (template) => template.code === tourTemplateId,
     ) as TourTemplate;
+    setSelectedTourTemplate(tourTemplate);
 
     // Init booking services from services of tour template
-    const services = selectedTourTemplate.services.map((service) => ({
+    const services = tourTemplate.services.map((service) => ({
       serviceName: service.name,
       quantity: 1,
       price: service.price,
