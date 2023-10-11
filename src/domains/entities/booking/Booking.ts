@@ -51,6 +51,7 @@ export interface Booking {
   services: Service[],
   passengers: Passenger[],
   tourTemplateId?: string,
+  tourTemplateName?: string,
   departureDate?: string,
   departureTourId?: string,
   departureTourName?: string,
