@@ -1,21 +1,41 @@
 import React, { useMemo, useState } from 'react';
 import {
-  Button, Card, CardBody, CardHeader, CardTitle,
+  Badge,
+  ButtonProps,
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+  UncontrolledButtonDropdown,
 } from 'reactstrap';
 import i18n from '@config/i18n';
-import { Plus } from 'react-feather';
+import { Edit, MoreVertical } from 'react-feather';
 import TourLocationFilter, { TourLocationFilterParams } from '@features/TourLocation/components/TourLocationFilter';
 import { useTourLocations } from '@hooks/tourLocation';
-import TourLocationTable from '@features/TourLocation/components/TourLocationTable';
 import { TourLocation } from '@domain/entities/tour/TourLocation';
 import AddTourLocationModal from '@features/TourLocation/AddTourLocationModal';
 import UpdateTourLocationModal from '@features/TourLocation/UpdateTourLocationModal';
+import Table from '@components/Table/Table';
+import { TableColumn } from 'react-data-table-component';
+import { HandleDataState } from '@redux/slices/others/HandleDataState';
 
 export default function TourLocationListPage() {
   const [filterParams, setFilterParams] = useState<Partial<TourLocationFilterParams>>();
   const [selectedTourLocation, setSelectedTourLocation] = useState<TourLocation>();
   const [showAddTourLocationModal, setShowAddTourLocationModal] = useState(false);
-  const { data: tourLocations = [], isLoading } = useTourLocations();
+  const {
+    data: tourLocations = [], refetch, isFetched, isFetching, isError,
+  } = useTourLocations();
+
+  const fetchSourcesDataState: HandleDataState = useMemo(() => {
+    if (isFetching) return 'loading';
+    if (isFetched) return 'finished';
+    if (isError) return 'error';
+    return 'init';
+  }, [isFetching, isFetched, isError]);
 
   const filteredTourLocations = useMemo(() => tourLocations.filter((tourLocation) => {
     if (!filterParams) return true;
@@ -25,6 +45,57 @@ export default function TourLocationListPage() {
       && !tourLocation.name.toLowerCase().includes(filterParams.name.toLowerCase())
     );
   }), [tourLocations, filterParams]);
+
+  const additionalActionButtons: Array<ButtonProps> = useMemo(() => [
+    {
+      name: i18n.t('COMMON.ADD'),
+      handleOnClick: () => {
+        setShowAddTourLocationModal(!showAddTourLocationModal);
+      },
+    },
+  ], []);
+
+  const locationTableColumns: TableColumn<TourLocation>[] = [
+    {
+      name: i18n.t('TOUR_LOCATION.CODE'),
+      sortable: true,
+      sortField: 'code',
+      cell: (location: TourLocation) => location.code,
+    },
+    {
+      name: i18n.t('TOUR_LOCATION.NAME'),
+      sortable: true,
+      sortField: 'name',
+      cell: (location: TourLocation) => location.name,
+    },
+    {
+      name: i18n.t('TOUR_LOCATION.STATUS'),
+      cell: (location: TourLocation) => (
+        <Badge color={location.status === 'ENABLE' ? 'light-success' : 'light-danger'} pill>
+          {i18n.t(`TOUR_LOCATION.${location.status}`)}
+        </Badge>
+      ),
+    },
+    {
+      name: i18n.t('COMMON.ACTIONS'),
+      cell: (location: TourLocation) => (
+        <>
+          <UncontrolledButtonDropdown>
+            <DropdownToggle className="icon-btn hide-arrow" color="transparent" size="sm" caret>
+              <MoreVertical size={15} />
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem tag="div" onClick={() => setSelectedTourLocation(location)}>
+                <Edit className="me-50" size={15} />
+                {' '}
+                <span className="align-middle">{i18n.t('COMMON.EDIT')}</span>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledButtonDropdown>
+        </>
+      ),
+    },
+  ];
 
   return (
     <div className="to-table-container">
@@ -42,17 +113,15 @@ export default function TourLocationListPage() {
           <CardTitle tag="h4">{i18n.t('TOUR_LOCATION.LIST')}</CardTitle>
         </CardHeader>
         <CardBody>
-          <div className="d-flex justify-content-end mb-1">
-            <Button type="button" color="primary" onClick={() => setShowAddTourLocationModal(!showAddTourLocationModal)}>
-              <Plus size={16} />
-              {' '}
-              {i18n.t('COMMON.ADD')}
-            </Button>
-          </div>
-          <TourLocationTable
-            tourLocations={filteredTourLocations}
-            isLoading={isLoading}
-            onEditTourLocation={setSelectedTourLocation}
+          <Table<TourLocation>
+            selectableRows={false}
+            columns={locationTableColumns}
+            fetchDataState={fetchSourcesDataState}
+            searchableColumns={[]}
+            sortColumnDefault="code"
+            onRefresh={refetch}
+            data={filteredTourLocations || []}
+            extraButtons={additionalActionButtons}
           />
         </CardBody>
       </Card>

@@ -45,6 +45,7 @@ import { generateUserDisplayName } from '@utils/UserUtils';
 import PERMISSIONS from '@utils/PermissionUtils';
 import { useAccessControl } from '@hooks/auth';
 import FormItemInput from '@components/Form/FormItemInput';
+import { TourTemplate } from '@domain/entities/tour';
 
 export interface EditBookingTabParams {
   bookingId: string,
@@ -60,6 +61,7 @@ export default function BookingDetailTab() {
   const { can } = useAccessControl();
   const queryClient = useQueryClient();
   const { bookingId } = useParams<EditBookingTabParams>();
+  const [selectedTourTemplate, setSelectedTourTemplate] = React.useState<TourTemplate>();
 
   const {
     data: booking,
@@ -176,7 +178,7 @@ export default function BookingDetailTab() {
   );
 
   const handleOnSubmit = useCallback((formData: UpdateBookingFormData) => {
-    updateBookingMutation.mutate(formData);
+    updateBookingMutation.mutate({ ...formData, tourTemplateName: selectedTourTemplate?.name || '' });
   }, []);
 
   const handleCancel = () => {
@@ -187,6 +189,13 @@ export default function BookingDetailTab() {
     () => isEditableBooking(booking?.bookingStatus!),
     [booking],
   );
+
+  const handleTourTemplateChange = (tourTemplateId: string) => {
+    const tourTemplate = tourTemplateData.data?.find(
+      (template) => template.code === tourTemplateId,
+    ) as TourTemplate;
+    setSelectedTourTemplate(tourTemplate);
+  };
 
   return (
     <div className="to-table-container">
@@ -236,7 +245,9 @@ export default function BookingDetailTab() {
                               errors={errors}
                               selectClassName="flex-fill"
                               options={tourTemplateOptions || []}
-                              disabled={!isEditable}
+                              onSelected={(
+                                tourTemplateId,
+                              ) => handleTourTemplateChange(tourTemplateId)}
                             />
                           </div>
                         </Col>
