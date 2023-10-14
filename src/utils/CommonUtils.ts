@@ -59,3 +59,21 @@ export const htmlToString = (html: string) => (html || '').replace(/<\/?[^>]+(>|
  * @param num number
  */
 export const formatVND = (num: number) => num.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+
+/* eslint-disable */
+export const parseJwt = (token: string) => {
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  const jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+};
+
+export const getTenantFromToken = (token: string) => {
+  if (!token) return '';
+  const decoded = parseJwt(token);
+  const usename: string = decoded?.['cognito:username'];
+  return usename.split('#')[0];
+};

@@ -13,13 +13,21 @@ import CardGoalOverview from '@features/Dashboard/ManagerDashboard/components/Ca
 import moment from 'moment';
 import { useQuery } from '@tanstack/react-query';
 import { MetricNameEnum, TravelRevenueStatistic } from '@domain/entities/statistic/TravelStatistic';
-import CardCustomers from './components/CardCustomers';
+import { RootState } from '@redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { userActions } from '@redux/slices/userSlice';
 import CardRevenueBarChart from './components/CardRevenueBarChart';
+import CardConversionRatio from './components/CardConversionRatio';
 
 export default function ManagerDashboard() {
+  const dispatch = useDispatch();
+
+  // Get users
+  const users = useSelector((state: RootState) => state.user.allUsers);
+
   // Get current date
   const currentDate = moment();
-  const currentMonth = moment().month();
+  const currentMonthStr = moment().format('MMM');
 
   // Get start and end of previous month
   const previousMonthStart = moment(currentDate).subtract(1, 'months').startOf('month').valueOf();
@@ -29,10 +37,18 @@ export default function ManagerDashboard() {
   const currentMonthStart = currentDate.startOf('month').valueOf();
   const currentMonthEnd = currentDate.endOf('month').valueOf();
 
-  const {
-    data: previousMonthRevenue,
-  } = useQuery(
-    [MetricNameEnum.TOTAL_REVENUE_OF_TENANT],
+  useEffect(() => {
+    const { getAllUsers } = userActions;
+    dispatch(getAllUsers());
+  }, []);
+
+  const onlineUsersCount = users.reduce((cur, next) => {
+    if (next.status === 'online') return cur + 1;
+    return cur;
+  }, 0);
+
+  const { data: previousMonthRevenue } = useQuery(
+    [`PREVIOUS_MONTH_${MetricNameEnum.TOTAL_REVENUE_OF_TENANT}`],
     async () => travelStatisticPresenter.getTravelStatistic(
       MetricNameEnum.TOTAL_REVENUE_OF_TENANT,
       previousMonthStart.toString(),
@@ -40,10 +56,8 @@ export default function ManagerDashboard() {
     ),
   );
 
-  const {
-    data: currentMonthRevenue,
-  } = useQuery(
-    [MetricNameEnum.TOTAL_REVENUE_OF_TENANT],
+  const { data: currentMonthRevenue } = useQuery(
+    [`CURRENT_MONTH_${MetricNameEnum.TOTAL_REVENUE_OF_TENANT}`],
     async () => travelStatisticPresenter.getTravelStatistic(
       MetricNameEnum.TOTAL_REVENUE_OF_TENANT,
       currentMonthStart.toString(),
@@ -51,10 +65,21 @@ export default function ManagerDashboard() {
     ),
   );
 
-  useEffect(() => {
-    console.log('currentMonthRevenue: ', currentMonthRevenue);
-    console.log('previousMonthRevenue: ', previousMonthRevenue);
-  }, [currentMonthRevenue, previousMonthRevenue]);
+  const { data: previousMonthProfit } = useQuery(
+    [`PREVIOUS_MONTH_${MetricNameEnum.TOTAL_PROFIT_OF_TENANT}`],
+    async () => travelStatisticPresenter.getTravelProfit(
+      previousMonthStart.toString(),
+      previousMonthEnd.toString(),
+    ),
+  );
+
+  const { data: currentMonthProfit } = useQuery(
+    [`CURRENT_MONTH_${MetricNameEnum.TOTAL_PROFIT_OF_TENANT}`],
+    async () => travelStatisticPresenter.getTravelProfit(
+      currentMonthStart.toString(),
+      currentMonthEnd.toString(),
+    ),
+  );
 
   return (
     <div className="to-table-container">
@@ -63,7 +88,7 @@ export default function ManagerDashboard() {
           <StatsHorizontal
             icon={<User size={21} />}
             color="info"
-            stats="13/16"
+            stats={`${onlineUsersCount}/${users.length}`}
             statTitle={`${i18n.t('DASHBOARD.NUMBER_EMPLOYEE_ONLINE')}`}
           />
         </Col>
@@ -105,25 +130,48 @@ export default function ManagerDashboard() {
       </Row>
       <Row className="match-height">
         <Col lg="6" md="6" sm="12">
-          <CardCustomers />
+          <CardConversionRatio
+            monthStr={currentMonthStr}
+            startTime={currentMonthStart.toString()}
+            endTime={currentMonthEnd.toString()}
+          />
+          {/* <CardCustomers /> */}
         </Col>
         <Col lg="6" md="6" sm="12">
           <CardGoalOverview
+            monthStr={currentMonthStr}
             goal={97000000}
-            completed={previousMonthRevenue
-              ? (previousMonthRevenue as TravelRevenueStatistic).totalRevenue : 0}
-            month={currentMonth}
+            completed={
+              previousMonthRevenue
+                ? (previousMonthRevenue as TravelRevenueStatistic).totalRevenue
+                : 0
+            }
           />
         </Col>
       </Row>
       <Row className="match-height">
-        <Col lg="12" md="12" sm="12">
+        <Col lg="6" md="12" sm="12">
           <CardRevenueBarChart
+            title={i18n.t('DASHBOARD.REVENUE')}
+            colors={['#ff9f43']}
             direction="ltr"
-            thisMonthRevenue={currentMonthRevenue
-              ? (currentMonthRevenue as TravelRevenueStatistic).totalRevenue : 0}
-            lastMonthRevenue={previousMonthRevenue
-              ? (previousMonthRevenue as TravelRevenueStatistic).totalRevenue : 0}
+            thisMonthRevenue={
+              currentMonthRevenue ? (currentMonthRevenue as TravelRevenueStatistic).totalRevenue : 0
+            }
+            lastMonthRevenue={
+              previousMonthRevenue
+                ? (previousMonthRevenue as TravelRevenueStatistic).totalRevenue
+                : 0
+            }
+          />
+        </Col>
+        <Col lg="6" md="12" sm="12">
+          <CardRevenueBarChart
+            title={i18n.t('DASHBOARD.PROFIT')}
+            colors={['#28C76F']}
+            direction="ltr"
+            thisMonthRevenue={currentMonthProfit?.totalProfit ?? 0}
+            lastMonthRevenue={previousMonthProfit?.totalProfit ?? 0}
           />
         </Col>
       </Row>

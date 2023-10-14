@@ -42,9 +42,11 @@ const CardTopFavoriteTour = () => {
         {`${i18n.t('DASHBOARD.COST')}: ${formatVND(tour.cost)}`}
       </small>
       <br />
-      <small>
-        {`${i18n.t('DASHBOARD.PROFICIENCY')}: ${formatVND(tour.proficiency)}`}
-      </small>
+      {tour.proficiency && (
+        <small>
+          {`${i18n.t('DASHBOARD.PROFICIENCY')}: ${formatVND(tour.proficiency)}`}
+        </small>
+      )}
     </li>
   ));
 
