@@ -7,7 +7,14 @@ export default class UpdateCurrentUserUseCaseImpl implements UpdateCurrentUserUs
     formData: UpdateAccountFormData,
   ) : Promise<User> => {
     const {
-      email, phoneNumber, firstName, lastName, address, birthday, sex, attachment,
+      email, phoneNumber,
+      firstName,
+      lastName,
+      address,
+      birthday,
+      sex,
+      attachment,
+      status,
     } = formData;
     let { avatar } = formData;
     if (attachment[0]) {
@@ -23,6 +30,7 @@ export default class UpdateCurrentUserUseCaseImpl implements UpdateCurrentUserUs
       birthday,
       sex,
       avatar,
+      status,
     } as UpdateAccountFormData);
   }
 }

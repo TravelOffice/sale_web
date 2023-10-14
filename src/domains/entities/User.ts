@@ -83,7 +83,8 @@ export type UpdateAccountFormData = Pick<User,
 'address' |
 'sex' |
 'birthday' |
-'avatar'
+'avatar' |
+'status'
 > & {
   attachment: FileList
 };
