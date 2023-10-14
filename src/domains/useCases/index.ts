@@ -191,6 +191,10 @@ import { GetTravelProfitUseCase } from './interfaces/statistic/GetTravelProfitUs
 import GetTravelRevenueUseCaseImpl from './statistic/GetTravelRevenueUseCaseImpl';
 import GetTravelConversionRatioUseCaseImpl from './statistic/GetTravelConversionRatioUseCaseImpl';
 import GetTravelProfitUseCaseImpl from './statistic/GetTravelProfitUseCaseImpl';
+import { SetKpiUseCase } from './interfaces/setting/SetKpiUseCase';
+import SetKpiUseCaseImpl from './setting/SetKpiUseCaseImpl';
+import { GetKpiUseCase } from './interfaces/setting/GetKpiUseCase';
+import GetKpiUseCaseImpl from './setting/GetKpiUseCaseImpl';
 
 interface UseCases {
   // Chat
@@ -302,7 +306,10 @@ interface UseCases {
   getTravelConversionRatioUseCase: GetTravelConversionRatioUseCase,
   getTravelProfitUseCase: GetTravelProfitUseCase,
   getTravelStatisticUseCase: GetTravelStatisticUseCase,
-  getSaleStatisticUseCase: GetSaleStatisticUseCase
+  getSaleStatisticUseCase: GetSaleStatisticUseCase,
+  // Setting
+  setKpiUseCase: SetKpiUseCase,
+  getKpiUseCase: GetKpiUseCase,
 }
 
 const useCases: UseCases = {
@@ -414,6 +421,9 @@ const useCases: UseCases = {
   getTravelProfitUseCase: new GetTravelProfitUseCaseImpl(),
   getTravelStatisticUseCase: new GetTravelStatisticUseCaseImpl(),
   getSaleStatisticUseCase: new GetSaleStatisticUseCaseImpl(),
+  // Setting
+  setKpiUseCase: new SetKpiUseCaseImpl(),
+  getKpiUseCase: new GetKpiUseCaseImpl(),
 };
 
 export const {
@@ -516,4 +526,7 @@ export const {
   getTravelConversionRatioUseCase,
   getTravelStatisticUseCase,
   getSaleStatisticUseCase,
+  // Setting
+  setKpiUseCase,
+  getKpiUseCase,
 } = useCases;

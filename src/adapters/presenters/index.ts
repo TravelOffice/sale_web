@@ -34,6 +34,8 @@ import { MarketplaceStatisticPresenter } from './interfaces/MarketplaceStatistic
 import MarketplaceStatisticPresenterImpl from './MarketplaceStatisticImpl';
 import { TravelStatisticPresenter } from './interfaces/TravelStatisticPresenter';
 import TravelStatisticPresenterImpl from './TravelStatisticPresenterImpl';
+import { SettingPresenter } from './interfaces/SettingPresenter';
+import SettingPresenterImpl from './SettingPresenterImpl';
 
 interface Presenters {
   userPresenter: UserPresenter,
@@ -54,6 +56,7 @@ interface Presenters {
   tourLocationPresenter: TourLocationPresenter,
   marketplaceStatisticPresenter: MarketplaceStatisticPresenter,
   travelStatisticPresenter: TravelStatisticPresenter,
+  settingPresenter: SettingPresenter,
 }
 
 const presenters: Presenters = {
@@ -75,6 +78,7 @@ const presenters: Presenters = {
   tourLocationPresenter: new TourLocationPresenterImpl(),
   marketplaceStatisticPresenter: new MarketplaceStatisticPresenterImpl(),
   travelStatisticPresenter: new TravelStatisticPresenterImpl(),
+  settingPresenter: new SettingPresenterImpl(),
 };
 
 export const {
@@ -96,4 +100,5 @@ export const {
   tourLocationPresenter,
   marketplaceStatisticPresenter,
   travelStatisticPresenter,
+  settingPresenter,
 } = presenters;

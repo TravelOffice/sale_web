@@ -1115,5 +1115,25 @@
     "OFFER_STATISTICAL": "Offer statistical from Travel Connect",
     "THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT": "This features is currently under development",
     "REVENUE_GENERATED": "Revenue generated"
+  },
+  "KPI_PAGE": {
+    "PAGE_TITLE": "KPI Setup",
+    "ORG_KPI_REVENUE": "Total revenue",
+    "ORG_KPI_PROFIT": "Total profit",
+    "ORG_KPI_L_GROW": "Lead growing",
+    "ORG_KPI_T_FILL": "Tour filling ratio",
+    "ORG_KPI_SALE_BY_TOUR": "Sale by tour",
+    "KPI_Metric": "KPI Metric",
+    "VALUE_FIELD": "Target value",
+    "TIME_RANGE_FIELD": "Time range",
+    "KPI_TYPE_FIELD": "KPI type",
+    "KPI_PERIOD_TYPE_W": "Week",
+    "KPI_PERIOD_TYPE_M": "Month",
+    "KPI_PERIOD_TYPE_Q": "Quarter",
+    "KPI_PERIOD_TYPE_Y": "Year",
+    "DESCRIPTION_FIELD": "Description",
+    "SETUP_ACTION": "Submit",
+    "REQUIRED_ERROR_MESSAGE": "This field is required",
+    "CREATE_SUCCESS_MESSAGE": "Setup successfully"
   }
 }

@@ -1115,5 +1115,25 @@
     "OFFER_STATISTICAL": "Thống kê về Offer từ Travel Connect",
     "THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT": "Tính năng đang được phát triển",
     "REVENUE_GENERATED": "Doanh thu mang về"
+  },
+  "KPI_PAGE": {
+    "PAGE_TITLE": "Thiết lập KPI",
+    "ORG_KPI_REVENUE": "Tổng doanh thu",
+    "ORG_KPI_PROFIT": "Tổng lợi nhuận",
+    "ORG_KPI_L_GROW": "Phát triển Lead",
+    "ORG_KPI_T_FILL": "Tỉ lệ lấp đầy Tour khởi hành",
+    "ORG_KPI_SALE_BY_TOUR": "Sale theo sản phẩm",
+    "KPI_Metric": "KPI Metric",
+    "VALUE_FIELD": "Mục tiêu",
+    "TIME_RANGE_FIELD": "Khoảng thời gian",
+    "KPI_TYPE_FIELD": "Loại KPI",
+    "KPI_PERIOD_TYPE_W": "Tuần",
+    "KPI_PERIOD_TYPE_M": "Tháng",
+    "KPI_PERIOD_TYPE_Q": "Quý",
+    "KPI_PERIOD_TYPE_Y": "Năm",
+    "DESCRIPTION_FIELD": "Mô tả",
+    "SETUP_ACTION": "Thiết lập",
+    "REQUIRED_ERROR_MESSAGE": "Trường này là bắt buộc",
+    "CREATE_SUCCESS_MESSAGE": "Thiết lập thành công"
   }
 }
