@@ -37,6 +37,7 @@ import UserDetail from '@features/User/UserDetail';
 import ManagerDashboard from '@features/Dashboard/ManagerDashboard/ManagerDashboard';
 import MyDashboard from '@features/Dashboard/MyDashboard/MyDashboard';
 import MarketingDashboard from '@features/Dashboard/MarketingDashboard/MarketingDashboard';
+import KpiSetup from '@features/KpiSetup/KpiSetup';
 
 const Routes: RoutePathConfig[] = [
   {
@@ -244,6 +245,10 @@ const Routes: RoutePathConfig[] = [
   {
     path: '/admin/tour-locations',
     component: <TourLocationListPage />,
+  },
+  {
+    path: '/admin/kpi-setup',
+    component: <KpiSetup />,
   },
   {
     path: '*',

@@ -44,6 +44,8 @@ import { MarketplaceStatisticRepository } from '@adapter/repositories/interfaces
 import MarketplaceStatisticRepositoryImpl from '@adapter/repositories/MarketplaceStatisticRepositoryImpl';
 import { TravelStatisticRepository } from './interfaces/TravelStatisticRepository';
 import TravelStatisticRepositoryImpl from './TravelStatisticRepositoryImpl';
+import SettingRepository from './interfaces/SettingRepository';
+import SettingRepositoryImpl from './SettingRepositoryImpl';
 
 interface Repositories {
   userRepository: UserRepository,
@@ -69,6 +71,7 @@ interface Repositories {
   marketplaceRepository: MarketplaceRepository,
   marketplaceStatisticRepository: MarketplaceStatisticRepository,
   travelStatisticRepository: TravelStatisticRepository,
+  settingRepository: SettingRepository,
 }
 
 const repositories: Repositories = {
@@ -95,6 +98,7 @@ const repositories: Repositories = {
   marketplaceRepository: new MarketplaceRepositoryImpl(),
   marketplaceStatisticRepository: new MarketplaceStatisticRepositoryImpl(),
   travelStatisticRepository: new TravelStatisticRepositoryImpl(),
+  settingRepository: new SettingRepositoryImpl(),
 };
 
 export const {
@@ -121,4 +125,5 @@ export const {
   marketplaceRepository,
   marketplaceStatisticRepository,
   travelStatisticRepository,
+  settingRepository,
 } = repositories;
