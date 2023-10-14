@@ -16,10 +16,10 @@ import i18n from 'i18next';
 export interface GoalOverviewProps {
   goal: number;
   completed: number;
-  month: number;
+  monthStr: string;
 }
 
-const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => {
+const CardGoalOverview = ({ goal, completed = 0, monthStr }: GoalOverviewProps) => {
   const surplusInProgress = goal - completed;
   const data = {
     goal: formatVND(goal),
@@ -97,8 +97,8 @@ const CardGoalOverview = ({ goal, completed = 0, month }: GoalOverviewProps) => 
   return (
     <Card>
       <CardHeader>
-        <CardTitle tag="h4">{i18n.t('DASHBOARD.GOAL_REVENUE', { month })}</CardTitle>
-        <HelpCircle size={18} className="text-muted cursor-pointer" />
+        <CardTitle tag="h4">{i18n.t('DASHBOARD.GOAL_REVENUE', { month: monthStr })}</CardTitle>
+        <HelpCircle size={18} className="cursor-pointer text-muted" />
       </CardHeader>
       <CardBody className="p-0">
         <Row>

@@ -53,11 +53,17 @@ const Routes: RoutePathConfig[] = [
     path: '/apps/dashboards/manager-dashboard',
     exact: true,
     component: <ManagerDashboard />,
+    requiredPermissions: {
+      any: [PERMISSIONS.view_manager_dashboard],
+    },
   },
   {
     path: '/apps/dashboards/marketing-dashboard',
     exact: true,
     component: <MarketingDashboard />,
+    requiredPermissions: {
+      any: [PERMISSIONS.view_marketing_dashboard],
+    },
   },
   {
     path: '/apps/chat',

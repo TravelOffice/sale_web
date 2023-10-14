@@ -1,26 +1,19 @@
 // ** React Imports
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import * as Icon from 'react-feather';
 import i18n from 'i18next';
 
 import { marketplaceStatisticPresenter } from '@adapter/presenters';
-import { OrganizationStatistic } from '@domain/entities/statistic/MarketplaceStatistic';
 import CardTransactions, { CardTransaction } from '@features/Dashboard/components/CardTransactions';
 import { Col, Row } from 'reactstrap';
-import { formatVND } from '@utils/CommonUtils';
+import { formatVND, getTenantFromToken } from '@utils/CommonUtils';
+import { useQuery } from '@tanstack/react-query';
+import { useIdToken } from '@hooks/auth';
 
 const CardMarketplace = () => {
-  const [orgStatistic, setOrgStatistic] = useState<OrganizationStatistic>();
-
-  useEffect(() => {
-    marketplaceStatisticPresenter.getStatistic();
-    marketplaceStatisticPresenter
-      .getStatisticByOrg('pys')
-      .then((res) => {
-        setOrgStatistic(res);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+  const token = useIdToken() || '';
+  const tenant = getTenantFromToken(token);
+  const { data: orgStatistic } = useQuery(['orgStatistic'], async () => marketplaceStatisticPresenter.getStatisticByOrg(tenant));
 
   const firstSection: CardTransaction[] = [
     {
