@@ -11,12 +11,16 @@ import { ApexOptions } from 'apexcharts';
 import { formatVND } from '@utils/CommonUtils';
 
 export interface CardRevenueBarChartProps {
+  title?: string;
+  colors?: string[],
   direction: 'rtl' | 'ltr',
   lastMonthRevenue: number,
   thisMonthRevenue: number,
 }
 
 const CardRevenueBarChart = ({
+  title,
+  colors,
   direction,
   lastMonthRevenue,
   thisMonthRevenue,
@@ -36,7 +40,7 @@ const CardRevenueBarChart = ({
         borderRadius: 0,
       },
     },
-    colors: ['#ff9f43'],
+    colors: colors || ['#ff9f43'],
     grid: {
       xaxis: {
         lines: {
@@ -45,7 +49,7 @@ const CardRevenueBarChart = ({
       },
     },
     dataLabels: {
-      enabled: true,
+      enabled: false,
       formatter(val: number): string {
         return formatVND(val);
       },
@@ -74,13 +78,13 @@ const CardRevenueBarChart = ({
     <Card>
       <CardHeader className="d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start">
         <div>
-          <CardSubtitle className="text-muted mb-25">{i18n.t('DASHBOARD.REVENUE')}</CardSubtitle>
+          <CardSubtitle className="text-muted mb-25">{title}</CardSubtitle>
           <CardTitle className="fw-bolder" tag="h4">
             <div className="d-flex justify-content-start mb-3">
               <div className="me-2">
                 <CardText className="mb-50">{i18n.t('DASHBOARD.THIS_MONTH')}</CardText>
                 <h3 className="fw-bolder">
-                  <span className="text-primary">{formatVND(thisMonthRevenue)}</span>
+                  <span style={{ color: colors ? colors[0] : '#ff9f43' }}>{formatVND(thisMonthRevenue)}</span>
                 </h3>
               </div>
               <div>

@@ -48,6 +48,8 @@ const PERMISSIONS = {
   assign_tour_operator: 'assign_tour_operator',
   self_assign_tour_operator: 'self_assign_tour_operator',
   approve_payment_voucher: 'approve_payment_voucher',
+  view_manager_dashboard: 'view_manager_dashboard',
+  view_marketing_dashboard: 'view_marketing_dashboard',
 };
 
 export default PERMISSIONS;

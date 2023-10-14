@@ -1055,6 +1055,8 @@
     "TOP_FAVORITE_LOCATIONS": "Top favorite locations",
     "NUMBER_OF_LEADS_ARE_INTERESTED_IN_THIS_LOCATION": "Leads are interested in this location",
     "REVENUE": "Revenue",
+    "PROFIT": "Profit",
+    "CONVERSATIONS_RATIO_TITLE": "Monthly conversation ratio for {{month}}",
     "COST": "Cost",
     "PROFICIENCY": "Proficiency",
     "LAST_MONTH": "Last month",
