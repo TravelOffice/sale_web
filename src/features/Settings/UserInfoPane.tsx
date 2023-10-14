@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect } from 'react';
 import {
-  Button, Card, CardBody, CardHeader, CardTitle, Col, Form, Label, Row, Spinner,
+  Button, Card, CardBody, CardHeader, CardTitle, Col, Form, Input, Label, Row, Spinner,
 } from 'reactstrap';
 import i18n from '@config/i18n';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { userPresenter } from '@adapter/presenters';
 import toasty from '@components/Toasty/Toasty';
-import { UpdateAccountFormData, User } from '@domain/entities/User';
+import { UpdateAccountFormData, User, UserStatusEnum } from '@domain/entities/User';
 import UserInfoCard from '@features/Settings/components/UserInfoCard';
 import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import renderSkeleton from '@components/Skeleton/Skeleton';
 import FormItemInput from '@components/Form/FormItemInput';
@@ -33,6 +33,7 @@ export const updateAccountSchema = yup.object().shape({
   address: yup.string(),
   sex: yup.string(),
   birthday: yup.date(),
+  status: yup.string().oneOf(Object.values(UserStatusEnum)),
 });
 
 export const sexOptions = [
@@ -222,6 +223,83 @@ export default function UserInfoPane() {
                           errors={errors}
                           placeholder={i18n.t('USER.ADDRESS')}
                           inputType="text"
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="mb-1">
+                      <Label sm="3" for="address">
+                        {i18n.t('CHAT_USER_SETTING.STATUS_TITLE')}
+                      </Label>
+                      <Col sm="7">
+                        <Controller
+                          control={control}
+                          name="status"
+                          render={({ field }) => (
+                            <div className="demo-inline-spacing">
+                              <ul className="list-unstyled user-status">
+                                <li className="pb-1">
+                                  <div className="form-check form-check-success">
+                                    <Input
+                                      {...field}
+                                      type="radio"
+                                      label="Online"
+                                      id="user-online"
+                                      value={UserStatusEnum.online}
+                                      checked={field.value === UserStatusEnum.online}
+                                    />
+                                    <Label className="form-check-label" for="user-online">
+                                      {i18n.t('CHAT_USER_SETTING.STATUS_ONLINE')}
+                                    </Label>
+                                  </div>
+                                </li>
+                                <li className="pb-1">
+                                  <div className="form-check form-check-danger">
+                                    <Input
+                                      {...field}
+                                      type="radio"
+                                      id="user-busy"
+                                      label="Do Not Disturb"
+                                      value={UserStatusEnum.busy}
+                                      checked={field.value === UserStatusEnum.busy}
+                                    />
+                                    <Label className="form-check-label" for="user-busy">
+                                      {i18n.t('CHAT_USER_SETTING.STATUS_BUSY')}
+                                    </Label>
+                                  </div>
+                                </li>
+                                <li className="pb-1">
+                                  <div className="form-check form-check-warning">
+                                    <Input
+                                      {...field}
+                                      type="radio"
+                                      label="Away"
+                                      id="user-away"
+                                      value={UserStatusEnum.away}
+                                      checked={field.value === 'away'}
+                                    />
+                                    <Label className="form-check-label" for="user-away">
+                                      {i18n.t('CHAT_USER_SETTING.STATUS_AWAY')}
+                                    </Label>
+                                  </div>
+                                </li>
+                                <li className="pb-1">
+                                  <div className="form-check form-check-secondary">
+                                    <Input
+                                      {...field}
+                                      type="radio"
+                                      label="Offline"
+                                      id="user-offline"
+                                      value={UserStatusEnum.offline}
+                                      checked={field.value === UserStatusEnum.offline}
+                                    />
+                                    <Label className="form-check-label" for="user-offline">
+                                      {i18n.t('CHAT_USER_SETTING.STATUS_OFFLINE')}
+                                    </Label>
+                                  </div>
+                                </li>
+                              </ul>
+                            </div>
+                          )}
                         />
                       </Col>
                     </Row>

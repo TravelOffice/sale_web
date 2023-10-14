@@ -1,15 +1,11 @@
 import Avatar from '@components/Avatar/Avatar';
 import i18n from '@config/i18n';
-import { User } from '@domain/entities/User';
+import { User, UserStatusEnum } from '@domain/entities/User';
 import { RootState } from '@redux/store';
 import Images from '@themes/Images';
 import React from 'react';
 import {
-  Mail,
-  MessageSquare,
-  Power,
-  Settings,
-  Share2,
+  Mail, MessageSquare, Power, Settings, Share2,
 } from 'react-feather';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -30,7 +26,7 @@ const UserDropdown = () => {
           img={user.avatar || Images.defaultAvatar}
           imgHeight="40"
           imgWidth="40"
-          status="online"
+          status={currentUser?.status || UserStatusEnum.online}
         />
       );
     }
