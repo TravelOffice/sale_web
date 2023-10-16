@@ -5,7 +5,7 @@ import { Calendar } from 'react-feather';
 import {
   Card, CardBody, CardHeader, CardTitle,
 } from 'reactstrap';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import i18n from 'i18next';
 import Flatpickr from 'react-flatpickr';
 import { Vietnamese } from 'flatpickr/dist/l10n/vn';
@@ -29,6 +29,10 @@ const CardTopFavoriteLocation = () => {
       selectedEndTime.toString(),
     ),
   );
+
+  useEffect(() => {
+    refetch();
+  }, [selectedStartTime, selectedEndTime]);
 
   const renderStates = () => (topFavoriteLocations as FavouriteLocation[]).map((location) => (
     <li className="mb-1" style={{ listStyleType: 'none' }} key={location.locationId}>
@@ -59,9 +63,10 @@ const CardTopFavoriteLocation = () => {
               dateFormat: 'd-m-Y',
             }}
             onChange={(selectedDates) => {
-              setSelectedStartTime(selectedDates[0].getTime());
-              setSelectedEndTime(selectedDates[1].getTime());
-              refetch();
+              if (selectedDates[0] && selectedDates[1]) {
+                setSelectedStartTime(selectedDates[0].getTime());
+                setSelectedEndTime(selectedDates[1].getTime());
+              }
             }}
           />
         </div>
