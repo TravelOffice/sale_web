@@ -5,7 +5,9 @@ import { Award } from 'react-feather';
 import Avatar from '@components/Avatar/Avatar';
 
 // ** Reactstrap Imports
-import { Card, CardBody, CardText } from 'reactstrap';
+import {
+  Card, CardBody, CardText, Col, Row,
+} from 'reactstrap';
 
 // ** Images
 import decorationLeft from '@assets/images/elements/decore-left.png';
@@ -39,6 +41,12 @@ const CardCongratulations = ({ month, completedValue }: CardCongratulationsProps
           </CardText>
         </div>
       </CardBody>
+      {/* Remove this line block when the feature is ready */}
+      <Row>
+        <Col lg="12" md="12" sm="12">
+          {i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
+        </Col>
+      </Row>
     </Card>
   );
 };

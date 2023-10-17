@@ -5,6 +5,7 @@ import {
   ProficiencyTour,
   TotalBookingMetricResponse,
   TotalLeadMetricResponse,
+  TotalRevenueMetricResponse,
   TourFillingRatio,
   TravelConversionStatistic,
   TravelProfitStatistic,
@@ -38,6 +39,7 @@ export interface TravelStatisticPresenter {
     endTime?: string,
   ) => Promise<
   TotalLeadMetricResponse |
-  TotalBookingMetricResponse
+  TotalBookingMetricResponse |
+  TotalRevenueMetricResponse
   >
 }

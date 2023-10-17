@@ -1,8 +1,9 @@
 import React from 'react';
 import {
-  Card, CardBody, CardHeader, CardTitle,
+  Card, CardBody, CardHeader, CardTitle, Col, Row,
 } from 'reactstrap';
 import Chart from 'react-apexcharts';
+import i18n from 'i18next';
 
 export function getPreviousDay(date: Date, time: number) {
   const previous = new Date(date.getTime());
@@ -88,6 +89,12 @@ function ChatSummary() {
           type="bar"
           height={350}
         />
+        {/* Remove the below code block when the feature is ready */}
+        <Row>
+          <Col lg="12" md="12" sm="12">
+            {i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
+          </Col>
+        </Row>
       </CardBody>
     </Card>
   );

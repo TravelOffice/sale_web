@@ -81,6 +81,12 @@ const MyTasks = () => {
           </Col>
         </Row>
       </CardBody>
+      {/* Remove the below code block when the feature is ready */}
+      <Row>
+        <Col lg="12" md="12" sm="12">
+          {i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
+        </Col>
+      </Row>
     </Card>
   );
 };

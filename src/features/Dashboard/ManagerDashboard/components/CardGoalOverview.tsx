@@ -134,6 +134,12 @@ const CardGoalOverview = ({ goal, completed = 0, monthStr }: GoalOverviewProps) 
             </div>
           </Col>
         </Row>
+        {/* Remove this line block when the feature is ready */}
+        <Row>
+          <Col lg="12" md="12" sm="12">
+            {i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
+          </Col>
+        </Row>
       </CardBody>
     </Card>
   );

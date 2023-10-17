@@ -1056,7 +1056,7 @@
     "NUMBER_OF_LEADS_ARE_INTERESTED_IN_THIS_LOCATION": "Leads are interested in this location",
     "REVENUE": "Revenue",
     "PROFIT": "Profit",
-    "CONVERSATIONS_RATIO_TITLE": "Monthly conversation ratio for {{month}}",
+    "CONVERSATIONS_RATIO_TITLE": "Monthly conversation ratio from Lead to Booking for {{month}}",
     "COST": "Cost",
     "PROFICIENCY": "Proficiency",
     "LAST_MONTH": "Last month",
@@ -1112,6 +1112,8 @@
     "TOTAL_SUCCESS_OFFERS": "Total success offers",
     "TOTAL_SUCCESS_SENT_OFFERS": "Total success sent offers",
     "TOTAL_SUCCESS_RECEIVED_OFFERS": "Total success received offers",
-    "OFFER_STATISTICAL": "Offer statistical from Travel Connect"
+    "OFFER_STATISTICAL": "Offer statistical from Travel Connect",
+    "THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT": "This features is currently under development",
+    "REVENUE_GENERATED": "Revenue generated"
   }
 }
