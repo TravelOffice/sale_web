@@ -27,7 +27,7 @@ export default function ManagerDashboard() {
 
   // Get current date
   const currentDate = moment();
-  const currentMonthStr = moment().format('MMM');
+  const currentMonthStr = moment().format('MMMM');
 
   // Get start and end of previous month
   const previousMonthStart = moment(currentDate).subtract(1, 'months').startOf('month').valueOf();
@@ -89,7 +89,7 @@ export default function ManagerDashboard() {
             icon={<User size={21} />}
             color="info"
             stats={`${onlineUsersCount}/${users.length}`}
-            statTitle={`${i18n.t('DASHBOARD.NUMBER_EMPLOYEE_ONLINE')}`}
+            statTitle={i18n.t('DASHBOARD.NUMBER_EMPLOYEE_ONLINE')}
           />
         </Col>
         <Col lg="3" md="6" sm="6">
@@ -98,6 +98,8 @@ export default function ManagerDashboard() {
             color="warning"
             stats="16"
             statTitle={i18n.t('DASHBOARD.NUMBER_CHAT_RESPONSE_LESS_2_MINUTES')}
+            /* Remove this line block when the feature is ready */
+            subTitle={i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
           />
         </Col>
         <Col lg="3" md="6" sm="6">
@@ -106,6 +108,8 @@ export default function ManagerDashboard() {
             color="danger"
             stats="3"
             statTitle={i18n.t('DASHBOARD.NUMBER_CHAT_NOT_RESPONSE_THAN_15_MINUTES')}
+            /* Remove this line block when the feature is ready */
+            subTitle={i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
           />
         </Col>
         <Col lg="3" md="6" sm="6">
@@ -114,6 +118,8 @@ export default function ManagerDashboard() {
             color="success"
             stats="76%"
             statTitle={i18n.t('DASHBOARD.LEAD_PER_CHAT_SESSION')}
+            /* Remove this line block when the feature is ready */
+            subTitle={i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
           />
         </Col>
       </Row>

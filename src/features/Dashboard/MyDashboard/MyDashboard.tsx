@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, Row } from 'reactstrap';
 import SupportTracker from '@features/Dashboard/MyDashboard/components/SupportTracker';
 import MyLead from '@features/Dashboard/MyDashboard/components/MyLead';
 import Statistics from '@components/Statistics/Statistics';
-import { MessageSquare, TrendingUp, User } from 'react-feather';
+import { DollarSign, TrendingUp, User } from 'react-feather';
 import i18n from '@config/i18n';
 import MyTasks from '@features/Dashboard/MyDashboard/components/MyTasks';
 import { useQuery } from '@tanstack/react-query';
@@ -11,9 +11,11 @@ import {
   MetricNameEnum,
   TotalBookingMetricResponse,
   TotalLeadMetricResponse,
+  TotalRevenueMetricResponse,
 } from '@domain/entities/statistic/TravelStatistic';
 import { travelStatisticPresenter } from '@adapter/presenters';
 import { useCurrentUser } from '@hooks/auth';
+import { formatVND } from '@utils/CommonUtils';
 import CardCongratulations from './components/CardCongratulations';
 
 export default function MyDashboard() {
@@ -42,6 +44,24 @@ export default function MyDashboard() {
     ),
   );
 
+  const {
+    data: totalRevenueOfSale,
+  } = useQuery(
+    [MetricNameEnum.TOTAL_REVENUE_OF_SALE],
+    async () => travelStatisticPresenter.getSaleStatistic(
+      username,
+      MetricNameEnum.TOTAL_REVENUE_OF_SALE,
+    ),
+  );
+
+  const [totalRevenue, setTotalRevenue] = React.useState<string>(formatVND(0));
+  useEffect(() => {
+    const saleStat = totalRevenueOfSale as TotalRevenueMetricResponse;
+    if (saleStat && saleStat.totalRevenue) {
+      setTotalRevenue(formatVND((totalRevenueOfSale as TotalRevenueMetricResponse).totalRevenue));
+    }
+  }, [totalRevenueOfSale]);
+
   return (
     <div className="to-table-container">
       <Row className="match-height">
@@ -65,9 +85,9 @@ export default function MyDashboard() {
             },
             {
               color: 'light-primary',
-              icon: <MessageSquare size={24} />,
-              title: '1289',
-              subtitle: i18n.t('DASHBOARD.NUMBER_OF_SUPPORT_CONVERSATION'),
+              icon: <DollarSign size={24} />,
+              title: totalRevenue,
+              subtitle: `${i18n.t('DASHBOARD.REVENUE_GENERATED')}`,
             },
             ]}
           />

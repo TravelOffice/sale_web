@@ -1055,7 +1055,7 @@
     "TOP_FAVORITE_LOCATIONS": "Top địa điểm được quan tâm nhiều nhất",
     "NUMBER_OF_LEADS_ARE_INTERESTED_IN_THIS_LOCATION": "Lead đã quan tâm đến địa điểm này",
     "REVENUE": "Doanh thu",
-    "CONVERSATIONS_RATIO_TITLE": "Tỉ lệ chuyển đổi {{month}}",
+    "CONVERSATIONS_RATIO_TITLE": "Tỉ lệ chuyển đổi từ Lead thành Booking trong {{month}}",
     "PROFIT": "Lợi nhuận",
     "COST": "Chi phí",
     "PROFICIENCY": "Hiệu quả",
@@ -1112,6 +1112,8 @@
     "TOTAL_SUCCESS_OFFERS": "Tổng số Offer thành công",
     "TOTAL_SUCCESS_SENT_OFFERS": "Tổng số Offer đã gửi thành công",
     "TOTAL_SUCCESS_RECEIVED_OFFERS": "Tổng số Offer đã nhận thành công",
-    "OFFER_STATISTICAL": "Thống kê về Offer từ Travel Connect"
+    "OFFER_STATISTICAL": "Thống kê về Offer từ Travel Connect",
+    "THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT": "Tính năng đang được phát triển",
+    "REVENUE_GENERATED": "Doanh thu mang về"
   }
 }

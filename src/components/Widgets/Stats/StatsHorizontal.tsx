@@ -3,7 +3,9 @@ import React, { ReactNode } from 'react';
 import classnames from 'classnames';
 
 // ** Reactstrap Imports
-import { Card, CardBody } from 'reactstrap';
+import {
+  Card, CardBody, Col, Row,
+} from 'reactstrap';
 
 export interface StatsHorizontalProps {
   icon?: ReactNode,
@@ -11,6 +13,7 @@ export interface StatsHorizontalProps {
   stats?: string,
   renderStats?: ReactNode,
   statTitle?: string,
+  subTitle?: string,
   className?: string,
   statsMargin?: 'mb-0' | 'mb-25' | 'mb-50' | 'mb-75' | 'mb-1' | 'mb-2' | 'mb-3' | 'mb-4' | 'mb-5'
 }
@@ -24,6 +27,7 @@ const StatsHorizontal = (props: StatsHorizontalProps) => {
     statTitle,
     className,
     statsMargin,
+    subTitle,
   } = props;
   const bgColor = `bg-light-${color}`;
   return (
@@ -49,6 +53,13 @@ const StatsHorizontal = (props: StatsHorizontalProps) => {
           </div>
         </div>
       </CardBody>
+      {subTitle && (
+        <Row>
+          <Col lg="12" md="12" sm="12">
+            {subTitle}
+          </Col>
+        </Row>
+      )}
     </Card>
   );
 };

@@ -122,7 +122,9 @@ const SupportTracker = (props:SupportTrackerProps) => {
   return (
     <Card>
       <CardHeader className="pb-0">
-        <CardTitle tag="h4">{data.title}</CardTitle>
+        <CardTitle tag="h4">
+          {data.title}
+        </CardTitle>
         <UncontrolledDropdown className="chart-dropdown">
           <DropdownToggle color="" className="bg-transparent btn-sm border-0 p-50">
             {i18n.t('DASHBOARD.LAST_7_DAYS_RANGE')}
@@ -175,6 +177,12 @@ const SupportTracker = (props:SupportTrackerProps) => {
           </Col>
         </Row>
       </CardBody>
+      {/* Remove the below code block when the feature is ready */}
+      <Row>
+        <Col lg="12" md="12" sm="12">
+          {i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
+        </Col>
+      </Row>
     </Card>
   );
 };

@@ -3,6 +3,7 @@ import {
   MetricNameEnum,
   TotalBookingMetricResponse,
   TotalLeadMetricResponse,
+  TotalRevenueMetricResponse,
 } from '@domain/entities/statistic/TravelStatistic';
 import { GetSaleStatisticUseCase } from '@domain/useCases/interfaces/statistic/GetSaleStatisticUseCase';
 
@@ -18,5 +19,5 @@ implements GetSaleStatisticUseCase {
     metricName,
     startTime,
     endTime,
-  ) as Promise<TotalLeadMetricResponse | TotalBookingMetricResponse>;
+  ) as Promise<TotalLeadMetricResponse | TotalBookingMetricResponse | TotalRevenueMetricResponse>;
 }

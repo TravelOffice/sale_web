@@ -2,6 +2,7 @@ import {
   MetricNameEnum,
   TotalBookingMetricResponse,
   TotalLeadMetricResponse,
+  TotalRevenueMetricResponse,
 } from '@domain/entities/statistic/TravelStatistic';
 
 export interface GetSaleStatisticUseCase {
@@ -10,5 +11,5 @@ export interface GetSaleStatisticUseCase {
     metricName: MetricNameEnum,
     startTime?: string,
     endTime?: string
-  ) => Promise<TotalBookingMetricResponse | TotalLeadMetricResponse>;
+  ) => Promise<TotalBookingMetricResponse | TotalLeadMetricResponse | TotalRevenueMetricResponse>;
 }
