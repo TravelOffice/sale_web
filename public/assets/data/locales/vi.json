@@ -1133,6 +1133,7 @@
     "KPI_PERIOD_TYPE_Y": "Năm",
     "DESCRIPTION_FIELD": "Mô tả",
     "SETUP_ACTION": "Thiết lập",
+    "UPDATE_ACTION": "Cập nhật",
     "REQUIRED_ERROR_MESSAGE": "Trường này là bắt buộc",
     "CREATE_SUCCESS_MESSAGE": "Thiết lập thành công"
   }
