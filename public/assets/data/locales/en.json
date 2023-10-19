@@ -1133,6 +1133,7 @@
     "KPI_PERIOD_TYPE_Y": "Year",
     "DESCRIPTION_FIELD": "Description",
     "SETUP_ACTION": "Submit",
+    "UPDATE_ACTION": "Update",
     "REQUIRED_ERROR_MESSAGE": "This field is required",
     "CREATE_SUCCESS_MESSAGE": "Setup successfully"
   }

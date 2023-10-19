@@ -24,6 +24,7 @@ import toasty from '@components/Toasty/Toasty';
 import i18n from '@config/i18n';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { settingPresenter } from '@adapter/presenters';
+import FormItemSelect from '@components/Form/FormItemSelect';
 
 const kpiMetricOptions = [
   {
@@ -200,30 +201,23 @@ function KpiSetup() {
             </Col>
             <Col lg={3} md={6}>
               <Label>{i18n.t('KPI_PAGE.KPI_TYPE_FIELD')}</Label>
-              <Controller
+              <FormItemSelect
                 control={control}
                 name="kpiPeriodType"
-                render={({ field }) => (
-                  <Input {...field} type="select" disabled={kpiData?.kv != null}>
-                    {kpiTypeOptions.map((option) => (
-                      <option value={option.value}>{option.label}</option>
-                    ))}
-                  </Input>
-                )}
+                errors={errors}
+                selectClassName="flex-fill"
+                options={kpiTypeOptions}
+                disabled={kpiData?.kv != null}
               />
             </Col>
             <Col lg={3} md={6}>
               <Label>{i18n.t('KPI_PAGE.KPI_Metric')}</Label>
-              <Controller
+              <FormItemSelect
                 control={control}
                 name="kpiMetric"
-                render={({ field }) => (
-                  <Input {...field} type="select">
-                    {kpiMetricOptions.map((option) => (
-                      <option value={option.value}>{option.label}</option>
-                    ))}
-                  </Input>
-                )}
+                errors={errors}
+                selectClassName="flex-fill"
+                options={kpiMetricOptions}
               />
             </Col>
             <Col lg={3} md={6}>
@@ -244,7 +238,7 @@ function KpiSetup() {
           <Row className="mt-1" style={{ float: 'right' }}>
             <Col>
               <Button type="submit" className="btn-icon" outline color="primary" disabled={isFetching || isMutating}>
-                {i18n.t('KPI_PAGE.SETUP_ACTION')}
+                {i18n.t(kpiData?.kv != null ? 'KPI_PAGE.UPDATE_ACTION' : 'KPI_PAGE.SETUP_ACTION')}
               </Button>
             </Col>
           </Row>
