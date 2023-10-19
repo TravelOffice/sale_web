@@ -99,7 +99,7 @@ function KpiSetup() {
     data: kpiData,
     isLoading: isFetching,
   } = useQuery(
-    ['kpiData', metricField, periodField],
+    ['KpiSetup_kpiData', metricField, periodField],
     async () => {
       if (periodField.length < 2) return {};
       const period = {

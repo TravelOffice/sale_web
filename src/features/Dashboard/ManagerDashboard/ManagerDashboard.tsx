@@ -6,7 +6,7 @@ import CardMarketplaceOverview from '@features/Dashboard/ManagerDashboard/compon
 import ChatSummary from '@features/Dashboard/MarketingDashboard/components/ChatSummary';
 import { Award, MessageSquare, User } from 'react-feather';
 import { Col, Row } from 'reactstrap';
-import { travelStatisticPresenter } from '@adapter/presenters';
+import { settingPresenter, travelStatisticPresenter } from '@adapter/presenters';
 import CardTopFavoriteLocation from '@features/Dashboard/ManagerDashboard/components/CardTopFavoriteLocation';
 import CardTopProficiencyTour from '@features/Dashboard/ManagerDashboard/components/CardTopProficiencyTour';
 import CardGoalOverview from '@features/Dashboard/ManagerDashboard/components/CardGoalOverview';
@@ -16,6 +16,7 @@ import { MetricNameEnum, TravelRevenueStatistic } from '@domain/entities/statist
 import { RootState } from '@redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '@redux/slices/userSlice';
+import { OrgKpiMetricEnum } from '@domain/entities/setting/Kpi';
 import CardRevenueBarChart from './components/CardRevenueBarChart';
 import CardConversionRatio from './components/CardConversionRatio';
 
@@ -79,6 +80,19 @@ export default function ManagerDashboard() {
       currentMonthStart.toString(),
       currentMonthEnd.toString(),
     ),
+  );
+
+  const {
+    data: kpiData,
+  } = useQuery(
+    ['ManagerDashboard_kpiData', currentMonthStart, currentMonthEnd],
+    async () => {
+      const period = {
+        start: currentMonthStart,
+        end: currentMonthEnd,
+      };
+      return settingPresenter.getKpi(OrgKpiMetricEnum.ORG_KPI_REVENUE, period);
+    },
   );
 
   return (
@@ -146,10 +160,10 @@ export default function ManagerDashboard() {
         <Col lg="6" md="6" sm="12">
           <CardGoalOverview
             monthStr={currentMonthStr}
-            goal={97000000}
+            goal={kpiData?.kv ?? 0}
             completed={
-              previousMonthRevenue
-                ? (previousMonthRevenue as TravelRevenueStatistic).totalRevenue
+              currentMonthRevenue
+                ? (currentMonthRevenue as TravelRevenueStatistic).totalRevenue
                 : 0
             }
           />
