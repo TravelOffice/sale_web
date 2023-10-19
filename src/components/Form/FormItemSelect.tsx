@@ -6,8 +6,6 @@ import {
 } from 'react-hook-form';
 import FormItemError from '@components/Form/FormItemError';
 import { FormItemProps } from '@components/Form/FormItemProps';
-import { useSelector } from 'react-redux';
-import { RootState } from '@redux/store';
 
 export interface FormItemSelectControllerProps<
   TFieldValues extends FieldValues,
@@ -28,9 +26,25 @@ export default function FormItemSelect<
     selectClassName, onSelected, disabled,
   } = props;
 
-  const skin = useSelector(
-    (state: RootState) => state.layout.skin,
-  );
+  /* eslint-disable */
+  const colourStyles = {
+    control: (styles: any) => ({ ...styles, backgroundColor: 'white' }),
+    option: (styles: any, { data, isDisabled, isFocused, isSelected }: any) => {
+      return {
+        ...styles,
+        backgroundColor: isDisabled
+          ? undefined
+          : isFocused
+          ? '#ff9f4350'
+          : undefined,
+        color: isDisabled
+          ? '#ccc'
+          : data.color,
+        cursor: isDisabled ? 'not-allowed' : 'default',
+      };
+    },
+  };
+  /* eslint-enable */
 
   return (
     <>
@@ -41,14 +55,13 @@ export default function FormItemSelect<
           <Select
             className={classNames(selectClassName, { 'is-invalid': errors[name] }, 'dark-form-select')}
             options={options}
-            styles={{
-              control: (provided) => (errors[name] ? { ...provided, borderColor: '#ea5455 !important' } : provided),
-            }}
+            styles={colourStyles}
             theme={(theme) => ({
               ...theme,
               colors: {
                 ...theme.colors,
-                primary25: skin === 'dark' ? '#ff9f43' : theme.colors.primary25,
+                primary25: '#ff9f43',
+                primary: '#ff9f43',
               },
             })}
             placeholder={placeholder}
