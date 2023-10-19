@@ -26,7 +26,7 @@ const CardGoalOverview = ({ goal, completed = 0, monthStr }: GoalOverviewProps) 
     completed: formatVND(completed),
     inProgress: formatVND(Math.abs(surplusInProgress)),
   };
-  const completePercentile = parseFloat(((completed / goal) * 100).toFixed(2));
+  const completePercentile = goal ? parseFloat(((completed / goal) * 100).toFixed(2)) : 0;
 
   const options: ApexOptions = {
     chart: {
@@ -132,12 +132,6 @@ const CardGoalOverview = ({ goal, completed = 0, monthStr }: GoalOverviewProps) 
                 </span>
               </CardText>
             </div>
-          </Col>
-        </Row>
-        {/* Remove this line block when the feature is ready */}
-        <Row>
-          <Col lg="12" md="12" sm="12">
-            {i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
           </Col>
         </Row>
       </CardBody>
