@@ -39,6 +39,8 @@ export interface Lead {
   description?: string,
   numberOfAdultPassengers: number,
   numberOfChildrenPassengers: number,
+  readonly conversationId: string,
+  readonly sessionId : string,
 
   // Manage
   leadStatus: LeadStatus,
@@ -70,7 +72,9 @@ export type CreateLeadFormData = Pick<Lead,
 'departure' |
 'startDate' |
 'type' |
-'tourType'
+'tourType' |
+'conversationId' |
+'sessionId'
 >;
 
 export type UpdateLeadFormData = CreateLeadFormData;

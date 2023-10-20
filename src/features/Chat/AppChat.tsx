@@ -13,6 +13,7 @@ import '@styles/base/pages/app-chat.scss';
 import classnames from 'classnames';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import AddLeadSidebar from '@features/Chat/AddLeadSidebar';
 import ChatLog from './ChatLog';
 import Sidebar from './SidebarLeft';
 import UserProfileSidebar from './UserProfileSidebar';
@@ -28,6 +29,7 @@ const AppChat = () => {
   );
   const [sidebar, setSidebar] = useState(false);
   const [userSidebarRight, setUserSidebarRight] = useState(false);
+  const [openLeadSidebarRight, setOpenLeadSidebarRight] = useState(false);
   const [userSidebarLeft, setUserSidebarLeft] = useState(false);
   const [isLoadByParams, setIsLoadByParams] = useState(false);
   const sections: ConversationSection[] = useConversationSections();
@@ -40,6 +42,8 @@ const AppChat = () => {
   const handleSidebar = () => setSidebar(!sidebar);
   const handleUserSidebarLeft = () => setUserSidebarLeft(!userSidebarLeft);
   const handleUserSidebarRight = () => setUserSidebarRight(!userSidebarRight);
+  // Handle event when click on add lead button
+  const handleAddLeadSidebarRight = () => setOpenLeadSidebarRight(!openLeadSidebarRight);
   const handleOverlayClick = () => {
     setSidebar(false);
     setUserSidebarRight(false);
@@ -101,7 +105,7 @@ const AppChat = () => {
           <div className="content-body">
             <div
               className={classnames('body-content-overlay', {
-                show: userSidebarRight || sidebar || userSidebarLeft,
+                show: userSidebarRight || sidebar || userSidebarLeft || openLeadSidebarRight,
               })}
               onClick={handleOverlayClick}
             />
@@ -112,6 +116,7 @@ const AppChat = () => {
               userSidebarLeft={userSidebarLeft}
               selectedConversation={conversation}
               handleUserSidebarRight={handleUserSidebarRight}
+              handleAddLeadSidebarRight={handleAddLeadSidebarRight}
               onSendMessage={onSendMessage}
               onSendAttachmentMessage={onSendAttachmentMessage}
               onLoadMore={onLoadMore}
@@ -122,6 +127,11 @@ const AppChat = () => {
               conversation={conversation}
               userSidebarRight={userSidebarRight}
               handleUserSidebarRight={handleUserSidebarRight}
+            />
+            <AddLeadSidebar
+              conversation={conversation}
+              openAddLeadSidebar={openLeadSidebarRight}
+              toggleAddLeadSidebarRight={handleAddLeadSidebarRight}
             />
           </div>
         </div>
