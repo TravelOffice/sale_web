@@ -42,6 +42,8 @@ export default function CreateLeadPage() {
     description: '',
     tourType: '',
     address: customer?.address ?? '',
+    conversationId: '',
+    sessionId: '',
   };
   const {
     control,

@@ -23,9 +23,7 @@ import {
 import { RootState } from '@redux/store';
 import { Message, MessageData } from '@domain/entities/chat/Message';
 import { Conversation } from '@domain/entities/chat/Conversation';
-import {
-  getImageSources, sortMessages,
-} from '@utils/ChatUtils';
+import { getImageSources, sortMessages } from '@utils/ChatUtils';
 import Spinner from '@components/Spinner/Spinner';
 import SendMessageType from '@domain/entities/chat/AttachmentMessageType';
 import AttachmentMessagePreview from '@components/Chat/AttachmentMessagePreview';
@@ -132,6 +130,7 @@ export interface ChatLogProps {
   onLoadMore: () => void,
   loadingMore: boolean,
   firstLoad: boolean,
+  handleAddLeadSidebarRight: () => void,
 }
 
 export interface MessageGroup {
@@ -161,6 +160,7 @@ const ChatLog = (props: ChatLogProps) => {
   const {
     handleUserSidebarRight, handleSidebar, userSidebarLeft, selectedConversation,
     messages, onSendMessage, fetching, onLoadMore, loadingMore, firstLoad, onSendAttachmentMessage,
+    handleAddLeadSidebarRight,
   } = props;
   const customerId = selectedConversation?.id;
   const contact = selectedConversation?.contact;
@@ -227,6 +227,9 @@ const ChatLog = (props: ChatLogProps) => {
   const handleAvatarClicked = () => {
     handleUserSidebarRight();
   };
+
+  // handle event button add lead clicked
+  const handleAddLeadClicked = () => handleAddLeadSidebarRight();
 
   // On mobile screen open left sidebar on Start Conversation Click
   const handleStartConversation = () => {
@@ -353,17 +356,27 @@ const ChatLog = (props: ChatLogProps) => {
                       href="/"
                       onClick={(e) => {
                         e.preventDefault();
-                        handleAvatarClicked();
+                        handleAddLeadClicked();
                       }}
                     >
-                      {i18n.t('CHAT.VIEW_CONTACT')}
+                      {i18n.t('LEAD.ADD_LEAD')}
                     </DropdownItem>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      {i18n.t('CHAT.MUTE_NOTIFICATIONS')}
-                    </DropdownItem>
-                    <DropdownItem href="/" onClick={(e) => e.preventDefault()}>
-                      {i18n.t('CHAT.CLEAR_CHAT_MESSAGES')}
-                    </DropdownItem>
+                    {/* TODO: Uncomment the below code when features is ready */}
+                    {/* <DropdownItem */}
+                    {/*  href="/" */}
+                    {/*  onClick={(e) => { */}
+                    {/*    e.preventDefault(); */}
+                    {/*    handleAvatarClicked(); */}
+                    {/*  }} */}
+                    {/* > */}
+                    {/*  {i18n.t('CHAT.VIEW_CONTACT')} */}
+                    {/* </DropdownItem> */}
+                    {/* <DropdownItem href="/" onClick={(e) => e.preventDefault()}> */}
+                    {/*  {i18n.t('CHAT.MUTE_NOTIFICATIONS')} */}
+                    {/* </DropdownItem> */}
+                    {/* <DropdownItem href="/" onClick={(e) => e.preventDefault()}> */}
+                    {/*  {i18n.t('CHAT.CLEAR_CHAT_MESSAGES')} */}
+                    {/* </DropdownItem> */}
                   </DropdownMenu>
                 </UncontrolledDropdown>
               </div>
