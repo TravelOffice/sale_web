@@ -19,7 +19,6 @@ import { useMutation } from '@tanstack/react-query';
 import CommonInformation from '@features/Tour/Template/components/CommonInformation';
 import toasty from '@components/Toasty/Toasty';
 import TourType from '@domain/entities/tour/TourType';
-import { useTourLocations } from '@hooks/tourLocation';
 import { validateTourSchema } from '@features/Tour/validateSchemas/validateSchema';
 import PoliciesAndRegulations from '@features/Tour/components/PoliciesAndRegulations';
 import { EditorState } from 'draft-js';
@@ -28,12 +27,12 @@ import { useHistory } from 'react-router-dom';
 
 const TourTemplateCreatePage = () => {
   const history = useHistory();
-  // Fetch location data
-  const { data: tourLocations = [] } = useTourLocations();
 
   const {
     handleSubmit,
     control,
+    getValues,
+    reset,
     formState: { errors },
   } = useForm<CreateTourTemplateFormData>({
     resolver: yupResolver(validateTourSchema),
@@ -121,7 +120,8 @@ const TourTemplateCreatePage = () => {
           <CommonInformation
             control={control}
             errors={errors}
-            toursLocation={tourLocations}
+            reset={reset}
+            getValues={getValues}
           />
           <Services control={control} errors={errors} />
           {/* Policies, Regulations and Tour Plan */}
