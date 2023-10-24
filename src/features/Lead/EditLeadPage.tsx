@@ -27,7 +27,7 @@ import { useForm } from 'react-hook-form';
 import { LeadStatus, UpdateLeadFormData } from '@domain/entities/lead/Lead';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { leadPresenter } from '@adapter/presenters';
+import { leadPresenter, sourcePresenter, tourLocationPresenter } from '@adapter/presenters';
 import { useAllSaleOptions } from '@hooks/users';
 import {
   generateI18nForLead,
@@ -43,6 +43,9 @@ import { useTourTemplateOptions } from '@hooks/tourTemplate';
 import { useTourLocationOptions } from '@hooks/tourLocation';
 import { useSourceOptions } from '@hooks/source';
 import CancelLeadModal from '@features/Lead/components/CancelLeadModal';
+import { CreateSourceFormData, Source } from '@domain/entities/source/Source';
+import FormItemCreatableSelect from '@components/Form/FormItemCreatableSelect';
+import { CreateTourLocationFormData, TourLocation } from '@domain/entities/tour';
 
 export interface EditLeadPageParams {
   leadId: string,
@@ -90,6 +93,7 @@ export default function EditLeadPage() {
     handleSubmit,
     formState: { errors },
     reset,
+    getValues,
   } = useForm<UpdateLeadFormData>({ resolver: yupResolver(updateLeadSchema) });
 
   useEffect(() => {
@@ -112,6 +116,37 @@ export default function EditLeadPage() {
         type: 'error',
         message: error.message,
         title: i18n.t('COMMON.ERROR'),
+      });
+    },
+  });
+
+  const { mutateAsync: createSourceMutate, isLoading: isCreateSourceLoading } = useMutation({
+    mutationFn: (formData: CreateSourceFormData) => sourcePresenter.create(formData),
+    onSuccess: (newSource) => {
+      reset({
+        ...getValues(),
+        sourceId: newSource.code,
+      });
+      queryClient.setQueryData(['sources'], (sources: Source[] | undefined) => {
+        if (!sources) return [];
+        return sources.concat(newSource);
+      });
+    },
+  });
+
+  const {
+    mutateAsync: createTourLocationMutate,
+    isLoading: isCreateLocationLoading,
+  } = useMutation({
+    mutationFn: (formData: CreateTourLocationFormData) => tourLocationPresenter.create(formData),
+    onSuccess: (newTourLocation) => {
+      reset({
+        ...getValues(),
+        departure: newTourLocation.code,
+      });
+      queryClient.setQueryData(['tourLocations'], (currentTourLocations: TourLocation[] | undefined) => {
+        if (!currentTourLocations) return [];
+        return currentTourLocations.concat(newTourLocation);
       });
     },
   });
@@ -293,13 +328,17 @@ export default function EditLeadPage() {
                           <span className="text-danger">*</span>
                         </Label>
                         <Col sm="9">
-                          <FormItemSelect
-                            control={control}
+                          <FormItemCreatableSelect
                             name="departure"
-                            errors={errors}
-                            placeholder={i18n.t('LEAD.DEPARTURE')}
-                            disabled={!editable}
                             options={departureOptions}
+                            control={control}
+                            errors={errors}
+                            isLoading={isCreateLocationLoading}
+                            isDisabled={isCreateLocationLoading}
+                            onCreateOption={(inputValue) => createTourLocationMutate({
+                              name: inputValue,
+                              status: 'ENABLE',
+                            })}
                           />
                         </Col>
                       </Row>
@@ -361,13 +400,18 @@ export default function EditLeadPage() {
                           <span className="text-danger">*</span>
                         </Label>
                         <Col sm="9">
-                          <FormItemSelect
-                            control={control}
+                          <FormItemCreatableSelect
                             name="sourceId"
+                            options={
+                              sourceOptions
+                            }
+                            control={control}
                             errors={errors}
-                            placeholder={i18n.t('LEAD.SOURCE')}
-                            disabled={!editable}
-                            options={sourceOptions}
+                            isLoading={isCreateSourceLoading}
+                            isDisabled={isCreateSourceLoading}
+                            onCreateOption={(inputValue) => createSourceMutate({
+                              name: inputValue,
+                            })}
                           />
                         </Col>
                       </Row>

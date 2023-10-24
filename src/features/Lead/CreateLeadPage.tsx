@@ -7,7 +7,7 @@ import { Link, useHistory, useParams } from 'react-router-dom';
 import { createLeadSchema, honorificOptions, typeOptions } from '@utils/LeadUtils';
 import { CreateLeadFormData, Lead } from '@domain/entities/lead/Lead';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { customerPresenter, leadPresenter } from '@adapter/presenters';
+import { customerPresenter, leadPresenter, sourcePresenter } from '@adapter/presenters';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import FormItemSelect from '@components/Form/FormItemSelect';
@@ -21,6 +21,8 @@ import { useTourTemplateOptions } from '@hooks/tourTemplate';
 import { useTourLocationOptions } from '@hooks/tourLocation';
 import { useSourceOptions } from '@hooks/source';
 import { EditCustomerTabParams } from '@features/Customer/components/tabs/information/CustomerDetailTab';
+import FormItemCreatableSelect from '@components/Form/FormItemCreatableSelect';
+import { CreateSourceFormData, Source } from '@domain/entities/source/Source';
 
 export default function CreateLeadPage() {
   const { customerId } = useParams<EditCustomerTabParams>();
@@ -49,6 +51,8 @@ export default function CreateLeadPage() {
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
+    reset,
   } = useForm<CreateLeadFormData>({ resolver: yupResolver(createLeadSchema), defaultValues });
 
   const saleOptions = useAllSaleOptions();
@@ -78,6 +82,16 @@ export default function CreateLeadPage() {
         type: 'error',
         message: error.message,
         title: i18n.t('COMMON.ERROR'),
+      });
+    },
+  });
+
+  const { mutateAsync: createSourceMutate, isLoading: isCreateSourceLoading } = useMutation({
+    mutationFn: (formData: CreateSourceFormData) => sourcePresenter.create(formData),
+    onSuccess: (newSource) => {
+      queryClient.setQueryData(['sources'], (sources: Source[] | undefined) => {
+        if (!sources) return [];
+        return sources.concat(newSource);
       });
     },
   });
@@ -301,12 +315,21 @@ export default function CreateLeadPage() {
                     <span className="text-danger">*</span>
                   </Label>
                   <Col sm="9">
-                    <FormItemSelect
-                      control={control}
+                    <FormItemCreatableSelect
                       name="sourceId"
+                      options={
+                        sourceOptions
+                      }
+                      control={control}
                       errors={errors}
-                      placeholder={i18n.t('LEAD.SOURCE')}
-                      options={sourceOptions}
+                      isLoading={isCreateSourceLoading}
+                      isDisabled={isCreateSourceLoading}
+                      onCreateOption={(inputValue) => createSourceMutate({
+                        name: inputValue,
+                      }).then((data) => reset({
+                        ...getValues(),
+                        sourceId: data.code,
+                      }))}
                     />
                   </Col>
                 </Row>

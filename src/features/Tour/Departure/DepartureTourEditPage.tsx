@@ -36,9 +36,6 @@ const DepartureTourEditPage = () => {
   const queryClient = useQueryClient();
   // Fetch tour template data
   const { tourId } = useParams<DepartureTourEditPageParams>();
-  // Fetch location data
-  const { data: toursLocationData } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
-  const toursLocation = useMemo(() => toursLocationData || [], [toursLocationData]);
 
   const { data: tourTemplatesData = [] } = useQuery(['toursTemplate'], async () => tourPresenter.getAllToursTemplate());
   const tourTemplates = useMemo(() => tourTemplatesData || [], [tourTemplatesData]);
@@ -67,6 +64,7 @@ const DepartureTourEditPage = () => {
     reset,
     control,
     formState: { errors },
+    getValues,
   } = useForm<UpdateDepartureTourFormData>({
     resolver: yupResolver(validateTourSchema),
     defaultValues: {
@@ -153,7 +151,8 @@ const DepartureTourEditPage = () => {
           <CommonInformation
             control={control}
             errors={errors}
-            toursLocation={toursLocation}
+            getValues={getValues}
+            reset={reset}
             toursTemplate={tourTemplates}
             isDisabled
           />

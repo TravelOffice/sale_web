@@ -69,7 +69,6 @@ const DepartureTourCreatePage = () => {
   const history = useHistory();
   // Fetch tour template and location data
   const { data: tourTemplates = [] } = useQuery(['toursTemplate'], async () => tourPresenter.getAllToursTemplate());
-  const { data: tourLocations = [] } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
 
   // Editor State
   const [
@@ -89,6 +88,8 @@ const DepartureTourCreatePage = () => {
     handleSubmit,
     control,
     setValue,
+    getValues,
+    reset,
     formState: { errors },
   } = useForm<CreateDepartureTourFormData>({
     resolver: yupResolver(schema),
@@ -188,7 +189,8 @@ const DepartureTourCreatePage = () => {
           <CommonInformation
             control={control}
             errors={errors}
-            toursLocation={tourLocations}
+            reset={reset}
+            getValues={getValues}
             toursTemplate={tourTemplates}
             onToursTemplateChange={handleToursTemplateChange}
           />
