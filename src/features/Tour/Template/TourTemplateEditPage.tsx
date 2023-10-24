@@ -1,5 +1,5 @@
 // ** React Imports
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // ** Third Party Components
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -15,7 +15,7 @@ import { UpdateTourTemplateFormData } from '@domain/entities/tour';
 import '@styles/react/libs/flatpickr/flatpickr.scss';
 import '@styles/react/libs/input-number/input-number.scss';
 import '@styles/react/libs/editor/editor.scss';
-import { tourPresenter, tourTemplatePresenter } from '@adapter/presenters';
+import { tourTemplatePresenter } from '@adapter/presenters';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import CommonInformation from '@features/Tour/Template/components/CommonInformation';
 import toasty from '@components/Toasty/Toasty';
@@ -41,10 +41,6 @@ const TourTemplateEditPage = () => {
     async () => tourTemplatePresenter.getTourTemplate(tourTemplateId),
   );
 
-  // Fetch location data
-  const { data: toursLocationData } = useQuery(['toursLocation'], async () => tourPresenter.getAllToursLocation());
-  const toursLocation = useMemo(() => toursLocationData || [], [toursLocationData]);
-
   // Editor State
   const [
     inclusionAndExclusion,
@@ -63,6 +59,7 @@ const TourTemplateEditPage = () => {
     handleSubmit,
     reset,
     control,
+    getValues,
     formState: { errors },
   } = useForm<UpdateTourTemplateFormData>({
     resolver: yupResolver(validateTourSchema),
@@ -147,8 +144,9 @@ const TourTemplateEditPage = () => {
           {/* Common Information */}
           <CommonInformation
             control={control}
+            getValues={getValues}
+            reset={reset}
             errors={errors}
-            toursLocation={toursLocation}
           />
           {/* Additional Services */}
           <Services
