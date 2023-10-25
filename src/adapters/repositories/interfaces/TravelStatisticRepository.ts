@@ -1,4 +1,6 @@
 import {
+  ChatSessionStatus,
+  GetSessionByResponseTimeCondition,
   MetricNameEnum,
   TotalBookingMetricResponse,
   TotalLeadMetricResponse,
@@ -20,4 +22,22 @@ export interface TravelStatisticRepository {
   TotalBookingMetricResponse |
   TotalLeadMetricResponse
   >;
+
+  getTotalSessionByResponseTimeOfOrg: (
+    conditionType: GetSessionByResponseTimeCondition,
+    comparasionTime: number,
+  ) => Promise<number>;
+
+  getTotalSessionOfUser: (
+    userId: string,
+  ) => Promise<number>;
+
+  getTotalSessionByStatusOfUser: (
+    userId: string,
+    status: ChatSessionStatus
+  ) => Promise<number>;
+
+  getAverageResponseTimeOfUser: (
+    userId: string,
+  ) => Promise<number>;
 }

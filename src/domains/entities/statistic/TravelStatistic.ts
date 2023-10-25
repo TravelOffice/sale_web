@@ -69,5 +69,29 @@ export enum MetricNameEnum {
   CONVERSION_RATIO_OF_SALE = 'conversionRatioOfSale',
 }
 
+export enum SessionMetric {
+  TOTAL = 'total',
+  TOTAL_BY_CONVERSATION = 'totalByConversation',
+  TOTAL_BY_DURATION = 'totalByDuration',
+  TOTAL_BY_STATUS = 'totalByStatus',
+  AVERAGE_RESPONSE_TIME = 'averageResponseTime',
+  TOTAL_RESPONSE_TIME_BY_CONDITION = 'totalResponseTimeByCondition',
+}
+
+export enum ChatSessionStatus {
+  OPEN = 'OPEN', // Waiting for a sale to reply
+  ACTIVE = 'ACTIVE', // Sale is replying to the customer
+  CLOSED = 'CLOSED', // Sale has closed the session
+}
+
+export type SessionStatistic = {
+  total: number;
+};
+
+export enum GetSessionByResponseTimeCondition {
+  GREATER_THAN_OR_EQUAL = 'greaterThanOrEqual',
+  LESS_THAN_OR_EQUAL = 'lessThanOrEqual',
+}
+
 export interface TravelStatistic extends
   TravelRevenueStatistic, TravelProfitStatistic, TravelConversionStatistic, FavouriteLocation {}

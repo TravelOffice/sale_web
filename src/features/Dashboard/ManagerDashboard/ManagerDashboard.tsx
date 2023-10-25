@@ -12,11 +12,16 @@ import CardTopProficiencyTour from '@features/Dashboard/ManagerDashboard/compone
 import CardGoalOverview from '@features/Dashboard/ManagerDashboard/components/CardGoalOverview';
 import moment from 'moment';
 import { useQuery } from '@tanstack/react-query';
-import { MetricNameEnum, TravelRevenueStatistic } from '@domain/entities/statistic/TravelStatistic';
+import {
+  GetSessionByResponseTimeCondition,
+  MetricNameEnum,
+  TravelRevenueStatistic,
+} from '@domain/entities/statistic/TravelStatistic';
 import { RootState } from '@redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '@redux/slices/userSlice';
 import { OrgKpiMetricEnum } from '@domain/entities/setting/Kpi';
+import { travelStatisticRepository } from '@adapter/repositories';
 import CardRevenueBarChart from './components/CardRevenueBarChart';
 import CardConversionRatio from './components/CardConversionRatio';
 
@@ -95,6 +100,26 @@ export default function ManagerDashboard() {
     },
   );
 
+  const {
+    data: sessionLessThanOrEqual5MinutesOfOrg,
+  } = useQuery(
+    ['sessionLessThanOrEqual5MinutesOfOrg'],
+    async () => travelStatisticRepository.getTotalSessionByResponseTimeOfOrg(
+      GetSessionByResponseTimeCondition.LESS_THAN_OR_EQUAL,
+      300,
+    ),
+  );
+
+  const {
+    data: sessionGreaterThanOrEqual15MinutesOfOrg,
+  } = useQuery(
+    ['sessionGreaterThanOrEqual15MinutesOfOrg'],
+    async () => travelStatisticRepository.getTotalSessionByResponseTimeOfOrg(
+      GetSessionByResponseTimeCondition.GREATER_THAN_OR_EQUAL,
+      900,
+    ),
+  );
+
   return (
     <div className="to-table-container">
       <Row className="match-height">
@@ -110,20 +135,16 @@ export default function ManagerDashboard() {
           <StatsHorizontal
             icon={<MessageSquare size={21} />}
             color="warning"
-            stats="16"
-            statTitle={i18n.t('DASHBOARD.NUMBER_CHAT_RESPONSE_LESS_2_MINUTES')}
-            /* Remove this line block when the feature is ready */
-            subTitle={i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
+            stats={`${sessionLessThanOrEqual5MinutesOfOrg || 0}`}
+            statTitle={i18n.t('DASHBOARD.NUMBER_CHAT_RESPONSE_LESS_5_MINUTES')}
           />
         </Col>
         <Col lg="3" md="6" sm="6">
           <StatsHorizontal
             icon={<MessageSquare size={21} />}
             color="danger"
-            stats="3"
+            stats={`${sessionGreaterThanOrEqual15MinutesOfOrg || 0}`}
             statTitle={i18n.t('DASHBOARD.NUMBER_CHAT_NOT_RESPONSE_THAN_15_MINUTES')}
-            /* Remove this line block when the feature is ready */
-            subTitle={i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
           />
         </Col>
         <Col lg="3" md="6" sm="6">

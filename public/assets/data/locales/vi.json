@@ -1047,7 +1047,7 @@
   },
   "DASHBOARD": {
     "NUMBER_EMPLOYEE_ONLINE": "Số nhân viên hỗ trợ đang online/Tổng số nhân viên",
-    "NUMBER_CHAT_RESPONSE_LESS_2_MINUTES": "Phiên chat phản hồi dưới 2 phút",
+    "NUMBER_CHAT_RESPONSE_LESS_5_MINUTES": "Phiên chat phản hồi dưới 5 phút",
     "NUMBER_CHAT_NOT_RESPONSE_THAN_15_MINUTES": "Phiên chat chưa được phản hồi sau 15 phút",
     "LEAD_PER_CHAT_SESSION": "Tỉ lệ chuyển đổi Lead từ số phiên chat",
     "TOP_TOURS_OF_INTEREST": "Top tour được quan tâm nhiều nhất",
@@ -1071,7 +1071,7 @@
     "MY_STATISTICS": "Thống kê của tôi",
     "NUMBER_OF_CREATED_LEADS": "Leads đã tạo",
     "NUMBER_OF_CREATED_BOOKINGS": "Booking đã tạo",
-    "NUMBER_OF_SUPPORT_CONVERSATION": "Cuộc hội thoại đã hỗ trợ",
+    "NUMBER_OF_SUPPORT_SESSION": "Phiên hội thoại đã hỗ trợ",
     "SUPPORT_TRACKER": "Số liệu hỗ trợ",
     "ASSIGNED_SUPPORT_CONVERSATION": "Cuộc hội thoại được phân công",
     "UNANSWERED_CONVERSATION_COUNT": "Cuộc hội thoại chưa trả lời",
