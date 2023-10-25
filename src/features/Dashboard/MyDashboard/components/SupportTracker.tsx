@@ -6,20 +6,32 @@ import Chart from 'react-apexcharts';
 
 // ** Reactstrap Imports
 import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardText,
-  CardTitle,
-  Col,
-  DropdownItem,
-  DropdownMenu,
-  DropdownToggle,
-  Row,
-  UncontrolledDropdown,
+  Card, CardBody, CardHeader, CardText, CardTitle, Col, Row,
 } from 'reactstrap';
 import i18n from 'i18next';
 import { ApexOptions } from 'apexcharts';
+import { convertDurationInSecondsToMinutes } from '@utils/CommonUtils';
+
+export const supportTrackerDurationEnum = {
+  LAST_7_DAYS: 'LAST_7_DAYS',
+  LAST_MONTH: 'LAST_MONTH',
+};
+
+export interface SupportTrackerDuration {
+  value: string;
+  label: string;
+}
+
+export const supportTrackerDurationFilter: SupportTrackerDuration[] = [
+  {
+    value: supportTrackerDurationEnum.LAST_7_DAYS,
+    label: i18n.t('DASHBOARD.LAST_7_DAYS_RANGE'),
+  },
+  {
+    value: supportTrackerDurationEnum.LAST_MONTH,
+    label: i18n.t('DASHBOARD.LAST_MONTH_RANGE'),
+  },
+];
 
 export interface SupportTrackerProps {
   totalConversationCount: number;
@@ -34,21 +46,6 @@ const SupportTracker = (props:SupportTrackerProps) => {
     totalConversationCount, supportedConversationCount,
     unansweredConversationCount, ongoingSupportConversationCount, avgResponseTime,
   } = props;
-
-  const rangeFilter = [
-    i18n.t('DASHBOARD.LAST_7_DAYS_RANGE'),
-    i18n.t('DASHBOARD.LAST_MONTH_RANGE'),
-    i18n.t('DASHBOARD.LAST_YEAR_RANGE'),
-  ];
-
-  const data = {
-    title: i18n.t('DASHBOARD.SUPPORT_TRACKER'),
-    last_days: ['Last 28 Days', 'Last Month', 'Last Year'],
-    totalTicket: 163,
-    newTicket: 29,
-    openTicket: 63,
-    responseTime: 1,
-  };
 
   const options: ApexOptions = {
     chart: {
@@ -123,20 +120,8 @@ const SupportTracker = (props:SupportTrackerProps) => {
     <Card>
       <CardHeader className="pb-0">
         <CardTitle tag="h4">
-          {data.title}
+          {i18n.t('DASHBOARD.SUPPORT_TRACKER')}
         </CardTitle>
-        <UncontrolledDropdown className="chart-dropdown">
-          <DropdownToggle color="" className="bg-transparent btn-sm border-0 p-50">
-            {i18n.t('DASHBOARD.LAST_7_DAYS_RANGE')}
-          </DropdownToggle>
-          <DropdownMenu end>
-            {rangeFilter.map((item) => (
-              <DropdownItem className="w-100" key={item}>
-                {item}
-              </DropdownItem>
-            ))}
-          </DropdownMenu>
-        </UncontrolledDropdown>
       </CardHeader>
       <CardBody>
         <Row>
@@ -171,18 +156,12 @@ const SupportTracker = (props:SupportTrackerProps) => {
                 <span className="fw-bold">
                   {`${i18n.t('DASHBOARD.AVERAGE_RESPONSE_TIME')}: `}
                 </span>
-                <b>{`${avgResponseTime} ${i18n.t('DASHBOARD.MINUTES')}`}</b>
+                <b>{`${convertDurationInSecondsToMinutes(avgResponseTime)}`}</b>
               </CardText>
             </div>
           </Col>
         </Row>
       </CardBody>
-      {/* Remove the below code block when the feature is ready */}
-      <Row>
-        <Col lg="12" md="12" sm="12">
-          {i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
-        </Col>
-      </Row>
     </Card>
   );
 };

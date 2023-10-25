@@ -77,3 +77,9 @@ export const getTenantFromToken = (token: string) => {
   const usename: string = decoded?.['cognito:username'];
   return usename.split('#')[0];
 };
+
+export const convertDurationInSecondsToMinutes = (duration: number) => {
+  const minutes = Math.floor(duration / 60);
+  const seconds = duration % 60;
+  return `${minutes}m ${seconds}s`;
+}

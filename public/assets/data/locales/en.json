@@ -1047,7 +1047,7 @@
   },
   "DASHBOARD": {
     "NUMBER_EMPLOYEE_ONLINE": "Number of support staff online/total number of staff",
-    "NUMBER_CHAT_RESPONSE_LESS_2_MINUTES": "Number of chat sessions responded in less than 2 minutes",
+    "NUMBER_CHAT_RESPONSE_LESS_5_MINUTES": "Number of chat sessions responded in less than 5 minutes",
     "NUMBER_CHAT_NOT_RESPONSE_THAN_15_MINUTES": "Number of chat sessions not responded in more than 15 minutes",
     "LEAD_PER_CHAT_SESSION": "Lead Conversion Rate per Total Chat Sessions",
     "TOP_TOURS_OF_INTEREST": "Top tours of interest",
@@ -1071,7 +1071,7 @@
     "MY_STATISTICS": "My statistics",
     "NUMBER_OF_CREATED_LEADS": "Leads created",
     "NUMBER_OF_CREATED_BOOKINGS": "Bookings created",
-    "NUMBER_OF_SUPPORT_CONVERSATION": "Support conversations",
+    "NUMBER_OF_SUPPORT_SESSION": "Support sessions",
     "SUPPORT_TRACKER": "Support tracker",
     "ASSIGNED_SUPPORT_CONVERSATION": "Assigned support conversations",
     "UNANSWERED_CONVERSATION_COUNT": "Unanswered conversations",

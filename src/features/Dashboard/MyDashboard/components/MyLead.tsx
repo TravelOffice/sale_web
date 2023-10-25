@@ -51,7 +51,7 @@ export default function MyLead() {
     },
   ];
 
-  const countData = useMemo(() => countLeadData(allLeads), [allLeads]);
+  const countData = useMemo(() => countLeadData(leads), [leads]);
   return (
     <div className="to-table-container">
       <LeadStats

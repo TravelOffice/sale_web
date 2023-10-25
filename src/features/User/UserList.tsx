@@ -16,7 +16,7 @@ const UserList = () => {
   const allUsers = useSelector((state: RootState) => state.user.allUsers);
   return (
     <div className="to-table-container">
-      <Row>
+      <Row className="match-height">
         <Col lg="3" sm="6">
           <StatsHorizontal
             color="primary"
