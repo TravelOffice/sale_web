@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Card, CardBody, CardHeader, CardTitle, Col, Row,
+  Card, CardBody, CardHeader, CardTitle,
 } from 'reactstrap';
 import Chart from 'react-apexcharts';
-import i18n from 'i18next';
+import { useQuery } from '@tanstack/react-query';
+import { travelStatisticRepository } from '@adapter/repositories';
+import { Calendar } from 'react-feather';
+import Flatpickr from 'react-flatpickr';
+import { Vietnamese } from 'flatpickr/dist/l10n/vn';
+import { ConversationPlatformStatistic } from '@domain/entities/statistic/TravelStatistic';
 
 export function getPreviousDay(date: Date, time: number) {
   const previous = new Date(date.getTime());
@@ -12,22 +17,67 @@ export function getPreviousDay(date: Date, time: number) {
 }
 
 function ChatSummary() {
-  const date = new Date(Date.now());
+  const defaultEndTime = Date.now();
+  const defaultStartTime = defaultEndTime - 7 * 24 * 60 * 60 * 1000;
+  const [selectedStartTime, setSelectedStartTime] = useState<number>(defaultStartTime);
+  const [selectedEndTime, setSelectedEndTime] = useState<number>(defaultEndTime);
+  const [xLabel, setXLabel] = useState<Array<string>>([]);
+  const [series, setSeries] = useState<Array<any>>([]);
 
-  const series = [
-    {
-      name: 'Facebook',
-      data: [76, 85, 101, 98, 87, 105, 91, 114, 94],
-    },
-    {
-      name: 'Zalo',
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66],
-    },
-    {
-      name: 'Telegram',
-      data: [35, 41, 36, 26, 45, 48, 52, 53, 41],
-    },
-  ];
+  const {
+    data,
+    refetch,
+  } = useQuery(
+    ['conversationPlatformStatistic'],
+    async () => travelStatisticRepository.getConversationPlatformStatistic(
+      selectedStartTime.toString(),
+      (selectedEndTime + 24 * 60 * 60 * 1000).toString(),
+    ),
+  );
+
+  useEffect(() => {
+    refetch();
+  }, [selectedEndTime, selectedStartTime]);
+
+  useEffect(() => {
+    let mergedDate: Array<string> = [];
+    const dataSeries: Array<any> = [];
+    if (data !== undefined && Array.isArray(data)) {
+      data.forEach((obj) => {
+        const dates = obj.date;
+        mergedDate = mergedDate.concat(dates);
+      });
+
+      // Sort date
+      mergedDate.sort((a, b) => new Date(a).getMilliseconds() - new Date(b).getMilliseconds());
+      // Remove duplicate date
+      mergedDate = Array.from(new Set(mergedDate));
+      setXLabel(mergedDate);
+
+      // Merge data
+      // if date not exist, set value to 0
+      data.forEach((obj) => {
+        const dates = obj.date;
+        const dataSeriesItem: ConversationPlatformStatistic = {
+          name: obj.name,
+          data: [],
+          date: [],
+        };
+        mergedDate.forEach((dateItem) => {
+          const index = dates.indexOf(dateItem);
+          if (index !== -1) {
+            dataSeriesItem.data.push(obj.data[index]);
+          } else {
+            dataSeriesItem.data.push(0);
+          }
+          dataSeriesItem.date.push(dateItem);
+        });
+        dataSeries.push(dataSeriesItem);
+      });
+      setSeries(dataSeries);
+    }
+  }, [data]);
+
   const options = {
     chart: {
       type: 'bar',
@@ -48,17 +98,7 @@ function ChatSummary() {
       colors: ['transparent'],
     },
     xaxis: {
-      categories: [
-        getPreviousDay(date, 8).toLocaleDateString('en-GB'),
-        getPreviousDay(date, 7).toLocaleDateString('en-GB'),
-        getPreviousDay(date, 6).toLocaleDateString('en-GB'),
-        getPreviousDay(date, 5).toLocaleDateString('en-GB'),
-        getPreviousDay(date, 4).toLocaleDateString('en-GB'),
-        getPreviousDay(date, 3).toLocaleDateString('en-GB'),
-        getPreviousDay(date, 2).toLocaleDateString('en-GB'),
-        getPreviousDay(date, 1).toLocaleDateString('en-GB'),
-        getPreviousDay(date, 0).toLocaleDateString('en-GB'),
-      ],
+      categories: xLabel,
     },
     yaxis: {
       title: {
@@ -81,6 +121,25 @@ function ChatSummary() {
     <Card>
       <CardHeader>
         <CardTitle tag="h4">Tổng số cuộc chat trên các kênh</CardTitle>
+        <div className="d-flex align-items-center">
+          <Calendar size={17} />
+          <Flatpickr
+            className="form-control flat-picker bg-transparent border-0 shadow-none"
+            options={{
+              mode: 'range',
+              // eslint-disable-next-line no-mixed-operators
+              defaultDate: [defaultStartTime, defaultEndTime],
+              locale: Vietnamese,
+              dateFormat: 'd-m-Y',
+            }}
+            onChange={(selectedDates) => {
+              if (selectedDates[0] && selectedDates[1]) {
+                setSelectedStartTime(selectedDates[0].getTime());
+                setSelectedEndTime(selectedDates[1].getTime());
+              }
+            }}
+          />
+        </div>
       </CardHeader>
       <CardBody className="p-0">
         <Chart
@@ -89,12 +148,6 @@ function ChatSummary() {
           type="bar"
           height={350}
         />
-        {/* Remove the below code block when the feature is ready */}
-        <Row>
-          <Col lg="12" md="12" sm="12">
-            {i18n.t('DASHBOARD.THIS_FEATURES_IS_CURRENTLY_UNDER_DEVELOPMENT')}
-          </Col>
-        </Row>
       </CardBody>
     </Card>
   );
