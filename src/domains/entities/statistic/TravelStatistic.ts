@@ -84,9 +84,11 @@ export enum ChatSessionStatus {
   CLOSED = 'CLOSED', // Sale has closed the session
 }
 
-export type SessionStatistic = {
-  total: number;
-};
+export interface ConversationPlatformStatistic {
+  name: string;
+  data: Array<number>;
+  date: Array<string>;
+}
 
 export enum GetSessionByResponseTimeCondition {
   GREATER_THAN_OR_EQUAL = 'greaterThanOrEqual',
