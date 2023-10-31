@@ -84,4 +84,18 @@ export default class TravelStatisticRepositoryImpl implements TravelStatisticRep
     const response = await apiProvider.authorizedRequest.get(reqUrl);
     return response.data.average_duration;
   }
+
+  getConversationPlatformStatistic = async (
+    startTime?: string,
+    endTime?: string,
+  ) => {
+    const reqUrl = '/statistic/tenant/conversation-platforms';
+    const response = await apiProvider.authorizedRequest.get(reqUrl, {
+      queryParams: {
+        startTime,
+        endTime,
+      },
+    });
+    return response.data;
+  }
 }
