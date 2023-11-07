@@ -19,7 +19,7 @@ export default class S3RepositoryImpl implements S3Repository {
         fileName: file.name,
       },
     });
-    const attachmentUrl: string = response.data.url;
+    const attachmentUrl: string = response.data.cdn;
 
     // Upload to given url
     await fetch(attachmentUrl, {
