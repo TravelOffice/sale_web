@@ -57,7 +57,7 @@ export default function AccountConnection() {
               <FacebookLogin
                 appId={process.env.REACT_APP_FACEBOOK_APP_ID || ''}
                 autoLoad={false}
-                scope="pages_messaging"
+                scope="pages_messaging pages_show_list"
                 callback={onFacebookConnected}
                 render={(renderProps) => (
                   <Button outline className="btn-icon" onClick={() => renderProps.onClick()}>
